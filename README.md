@@ -50,12 +50,9 @@ python scripts/predict.py --input query --output Combinedquery_adhesion_predict.
    pre-commit install
    ```
 
-## Usage
+# Author
 
-Place your FASTA files (with extensions `.faa`, `.pep`, `.pep.fa`, or `.fasta`) inside the \`input/\` directory.
+Jason Stajich, jason.stajich<at>ucr.edu 
 
-To run the prediction:
+Code was developed with support from opencode.ai, co-pilot and various code models for setting up classifier framework
 
-\`\`\`bash
-python adhesion_pred.py
-\`\`\`
