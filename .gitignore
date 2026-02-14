@@ -1,0 +1,26 @@
+# Virtual environment
+.venv/
+env/
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.pyc
+*.pyo
+
+# Build artifacts
+dist/
+build/
+*.egg-info/
+
+# Logs
+*.log
+
+# Input/Output data (explicitly ignore, as requested for 'input' in the script logic)
+input/
+output/
+
+# Misc
+.DS_Store
+
+# Pre-commit cache
+.pre-commit-cache
