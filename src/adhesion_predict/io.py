@@ -1,5 +1,6 @@
 """Input/output functions for handling FASTA files."""
 
+import gzip
 import sys
 from pathlib import Path
 
@@ -29,8 +30,8 @@ def find_fasta_files(input_dir):
     """
     input_path = Path(input_dir)
     fasta_files = []
-    extensions = [".faa", ".pep", ".pep.fa", ".fasta"]
-    gzip_extensions = [".faa.gz", ".pep.gz", ".pep.fa.gz", ".fasta.gz"]
+    extensions = [".aa", ".faa", ".pep", ".fa", ".fasta"]
+    gzip_extensions = [".aa.gz", ".faa.gz", ".pep.gz", ".fa.gz", ".fasta.gz"]
 
     for ext in extensions + gzip_extensions:
         fasta_files.extend(input_path.glob(f"**/*{ext}"))
@@ -51,7 +52,13 @@ def process_fasta_file(file_path):
     print(f"Processing file: {file_path}")
     sequences = []
     try:
-        for seq_record in SeqIO.parse(file_path, "fasta"):
+        if file_path.suffix == ".gz":
+            print(f"Reading gzipped file: {file_path}")
+            handle = gzip.open(file_path, "rt", encoding="utf-8")
+        else:
+            handle = open(file_path, encoding="utf-8")
+
+        for seq_record in SeqIO.parse(handle, "fasta"):
             sequence = str(seq_record.seq)
             sequence = clean_sequence(sequence)
             sequences.append({"id": seq_record.id, "sequence": sequence})
@@ -74,13 +81,18 @@ def load_sequences_from_dir(input_dir):
     input_path = Path(input_dir)
     sequences = []
 
-    extensions = [".faa", ".pep", ".pep.fa", ".fasta"]
-    gzip_extensions = [".faa.gz", ".pep.gz", ".pep.fa.gz", ".fasta.gz"]
+    extensions = [".aa", ".faa", ".pep", ".fa", ".fasta"]
+    gzip_extensions = [".aa.gz", ".faa.gz", ".pep.gz", ".fa.gz", ".fasta.gz"]
 
     for ext in extensions + gzip_extensions:
         for fasta_file in input_path.glob(f"**/*{ext}"):
             fasta_file = fasta_file.resolve()
-            for seq_record in SeqIO.parse(fasta_file, "fasta"):
+            if fasta_file.suffix == ".gz":
+                print(f"Reading gzipped file: {fasta_file}")
+                handle = gzip.open(fasta_file, "rt", encoding="utf-8")
+            else:
+                handle = open(fasta_file, encoding="utf-8")
+            for seq_record in SeqIO.parse(handle, "fasta"):
                 sequence = str(seq_record.seq)
                 sequence = clean_sequence(sequence)
                 sequences.append(
