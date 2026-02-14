@@ -59,7 +59,5 @@ def get_esm_embeddings(sequences, model_name="esm2_t6_8M_UR50D", batch_size=8, d
 
 ESM2_MODEL_CHOICES = [
     "esm2_t6_8M_UR50D",
-    "esm2_t6_35M_UR50D",
-    "esm2_t6_150M_UR50D",
     "esm2_t12_35M_UR50D",
 ]
