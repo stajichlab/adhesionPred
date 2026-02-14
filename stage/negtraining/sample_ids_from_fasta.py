@@ -12,11 +12,11 @@ import glob
 import os
 import random
 import sys
-from typing import Dict, Iterable, List
+from collections.abc import Iterable
 
 
-def read_ignored_ids(tab_files: Iterable[str], column_index: int) -> Dict[str, bool]:
-    ignored_ids: Dict[str, bool] = {}
+def read_ignored_ids(tab_files: Iterable[str], column_index: int) -> dict[str, bool]:
+    ignored_ids: dict[str, bool] = {}
     for tab_file in tab_files:
         try:
             with open(tab_file, encoding="utf-8") as handle:
@@ -39,8 +39,8 @@ def read_ignored_ids(tab_files: Iterable[str], column_index: int) -> Dict[str, b
     return ignored_ids
 
 
-def read_fasta_ids(fasta_file: str) -> List[str]:
-    ids: List[str] = []
+def read_fasta_ids(fasta_file: str) -> list[str]:
+    ids: list[str] = []
     seen = set()
     with open(fasta_file, encoding="utf-8") as handle:
         for line in handle:
@@ -54,12 +54,12 @@ def read_fasta_ids(fasta_file: str) -> List[str]:
     return ids
 
 
-def find_files(input_dir: str, pattern: str) -> List[str]:
+def find_files(input_dir: str, pattern: str) -> list[str]:
     search_pattern = os.path.join(input_dir, "**", pattern)
     return sorted(glob.glob(search_pattern, recursive=True))
 
 
-def write_sampled_ids(output_dir: str, fasta_file: str, sampled_ids: List[str]) -> str:
+def write_sampled_ids(output_dir: str, fasta_file: str, sampled_ids: list[str]) -> str:
     base = os.path.basename(fasta_file)
     if base.endswith(".fasta"):
         base = base[: -len(".fasta")]
@@ -105,8 +105,8 @@ def main() -> int:
     parser.add_argument(
         "--num-ids",
         type=int,
-        default=100,
-        help="Number of IDs to sample per FASTA file (default: 100)",
+        default=500,
+        help="Number of IDs to sample per FASTA file (default: 500)",
     )
     parser.add_argument(
         "--seed",

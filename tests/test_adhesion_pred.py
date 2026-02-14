@@ -1,7 +1,7 @@
 import tempfile
 from pathlib import Path
 
-from adhesion_pred import find_fasta_files, process_fasta_file
+from adhesion_predict.io import find_fasta_files, process_fasta_file
 
 
 class TestFindFastaFiles:

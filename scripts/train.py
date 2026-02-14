@@ -6,16 +6,16 @@ import sys
 from pathlib import Path
 
 import numpy as np
-from adhesionPredict.config import (
+from adhesion_predict.config import (
     DEFAULT_MODEL,
     DEFAULT_TEST_SIZE,
     MODELS_DIR,
     NEGATIVE_DIR,
     POSITIVE_DIR,
 )
-from adhesionPredict.embeddings import ESM2_MODEL_CHOICES, get_esm_embeddings
-from adhesionPredict.io import load_sequences_from_dir
-from adhesionPredict.model import save_model, train_classifier
+from adhesion_predict.embeddings import ESM2_MODEL_CHOICES, get_esm_embeddings
+from adhesion_predict.io import load_sequences_from_dir
+from adhesion_predict.model import save_model, train_classifier
 
 
 def prepare_data(positive_dir, negative_dir):

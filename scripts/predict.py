@@ -5,10 +5,10 @@ import argparse
 import sys
 from pathlib import Path
 
-from adhesionPredict.config import DEFAULT_MODEL, INPUT_DIR, MODELS_DIR
-from adhesionPredict.embeddings import ESM2_MODEL_CHOICES, get_esm_embeddings
-from adhesionPredict.io import find_fasta_files, process_fasta_file
-from adhesionPredict.model import load_model, predict, predict_proba
+from adhesion_predict.config import DEFAULT_MODEL, INPUT_DIR, MODELS_DIR
+from adhesion_predict.embeddings import ESM2_MODEL_CHOICES, get_esm_embeddings
+from adhesion_predict.io import find_fasta_files, process_fasta_file
+from adhesion_predict.model import load_model, predict, predict_proba
 
 
 def main(input_path, model_path, output_file, model_name):
