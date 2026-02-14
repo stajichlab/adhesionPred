@@ -3,11 +3,12 @@
 from pathlib import Path
 
 PROJECT_ROOT = Path(__file__).parent.parent.parent
-DATA_DIR = PROJECT_ROOT / "data"
-MODELS_DIR = PROJECT_ROOT / "models"
-INPUT_DIR = DATA_DIR / "input"
-POSITIVE_DIR = Path.cwd() / "data" / "positive"
-NEGATIVE_DIR = Path.cwd() / "data" / "negative"
+# MODELS_DIR = PROJECT_ROOT / "models"
+DATA_DIR = Path.cwd() / "data"
+MODELS_DIR = Path.cwd() / "models"
+
+POSITIVE_DIR = DATA_DIR / "positive"
+NEGATIVE_DIR = DATA_DIR / "negative"
 
 DEFAULT_MODEL = "esm2_t6_8M_UR50D"
 DEFAULT_TEST_SIZE = 0.2
