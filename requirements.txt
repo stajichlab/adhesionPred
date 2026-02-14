@@ -1,3 +1,4 @@
 biopython==1.81
+pytest
 ruff
 pre-commit

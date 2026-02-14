@@ -1,5 +1,6 @@
 import sys
 from pathlib import Path
+
 from Bio import SeqIO  # Assuming Biopython is installed
 
 
@@ -41,8 +42,7 @@ def main(input_dir="input"):
 
     if not fasta_files:
         print(
-            f"No FASTA files found in '{input_dir}' with extensions: "
-            ".faa, .pep, .pep.fa, .fasta"
+            f"No FASTA files found in '{input_dir}' with extensions: " ".faa, .pep, .pep.fa, .fasta"
         )
         return
 
