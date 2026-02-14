@@ -3,7 +3,7 @@ requires = ["setuptools>=61.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "adhesionpredict"
+name = "adhesion_predict"
 version = "0.1.0"
 description = "A bioinformatics package for predicting adhesion proteins using ESM-2 embeddings"
 readme = "README.md"
@@ -15,6 +15,7 @@ dependencies = [
     "fair-esm",
     "scikit-learn",
     "tqdm",
+    "torchvision",
 ]
 
 [project.optional-dependencies]

@@ -1,8 +1,10 @@
-biopython==1.81
+biopython
+torchvision
 pytest
 ruff
 pre-commit
 torch
 esm
 scikit-learn
+scipy
 tqdm
