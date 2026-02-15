@@ -90,8 +90,8 @@ def cli():
     parser.add_argument(
         "--model",
         type=Path,
-        default=MODELS_DIR / "adhesion_model.pkl",
-        help="Path to trained model",
+        default=None,
+        help="Path to trained model (defaults to a name based on --model-name)",
     )
     parser.add_argument(
         "--model-name",
@@ -101,6 +101,9 @@ def cli():
     )
 
     args = parser.parse_args()
+
+    if args.model is None:
+        args.model = MODELS_DIR / f"adhesion_model_{args.model_name}.pkl"
 
     if not args.model.exists():
         print(f"Error: Model file not found at {args.model}")
