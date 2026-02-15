@@ -5,13 +5,13 @@ import argparse
 import sys
 from pathlib import Path
 
-from adhesion_predict.config import DEFAULT_MODEL, INPUT_DIR, MODELS_DIR
+from adhesion_predict.config import DEFAULT_MODEL, MODELS_DIR
 from adhesion_predict.embeddings import ESM2_MODEL_CHOICES, get_esm_embeddings
 from adhesion_predict.io import find_fasta_files, process_fasta_file
 from adhesion_predict.model import load_model, predict, predict_proba
 
 
-def main(input_path, model_path, output_file, model_name):
+def main(input_path, model_path, output_file, model_name, silent=False, show_all=False):
     """Run prediction on input sequences.
 
     Args:
@@ -19,6 +19,8 @@ def main(input_path, model_path, output_file, model_name):
         model_path: Path to trained model.
         output_file: Optional output CSV file path.
         model_name: ESM-2 model variant to use.
+        silent: Suppress per-sequence output to stdout.
+        show_all: Show all predictions, not just adhesion proteins.
     """
     print("=" * 50)
     print("Adhesion Protein Prediction")
@@ -70,28 +72,37 @@ def main(input_path, model_path, output_file, model_name):
     results = []
     for i, seq_id in enumerate(seq_ids):
         pred_label = "Adhesion" if predictions[i] == 1 else "Non-adhesion"
-        prob_adhesion = probabilities[i][1]
-        results.append(
-            {
-                "id": seq_id,
-                "prediction": pred_label,
-                "probability_adhesion": prob_adhesion,
-            }
-        )
+        if show_all or pred_label == "Adhesion":
+            # only print adhesion predictions by default, but can show all if requested
+            prob_adhesion = probabilities[i][1]
+            results.append(
+                {
+                    "id": seq_id,
+                    "prediction": pred_label,
+                    "probability_adhesion": prob_adhesion,
+                }
+            )
 
-    print("\nResults:")
-    print("-" * 50)
-    for result in results:
-        print(f"{result['id']}: {result['prediction']} (p={result['probability_adhesion']:.3f})")
+    if not silent:
+        print("\nResults:")
+        print("-" * 50)
+        for result in results:
+            print(
+                f"{result['id']}: {result['prediction']} (p={result['probability_adhesion']:.3f})"
+            )
 
-    if output_file:
-        print(f"\nSaving results to {output_file}...")
-        with open(output_file, "w") as f:
-            f.write("id,prediction,probability_adhesion\n")
-            for result in results:
-                f.write(
-                    f"{result['id']},{result['prediction']},{result['probability_adhesion']:.4f}\n"
-                )
+    if output_file is None:
+        output_dir = Path.cwd()
+        if input_path.is_dir():
+            output_file = output_dir / f"{input_path.name}.adhesion_predict.csv"
+        else:
+            output_file = output_dir / f"{input_path.stem}.adhesion_predict.csv"
+
+    print(f"\nSaving results to {output_file}...")
+    with open(output_file, "w") as f:
+        f.write("id,prediction,probability_adhesion\n")
+        for result in results:
+            f.write(f"{result['id']},{result['prediction']},{result['probability_adhesion']:.4f}\n")
 
     print("=" * 50)
     print("Prediction complete!")
@@ -103,20 +114,23 @@ if __name__ == "__main__":
     parser.add_argument(
         "--input",
         type=Path,
-        default=INPUT_DIR,
+        default=None,
         help="Input FASTA file or directory with FASTA files",
     )
     parser.add_argument(
         "--model",
         type=Path,
-        default=MODELS_DIR / "adhesion_model.pkl",
-        help="Path to trained model",
+        default=None,
+        help="Path to trained model (defaults to a name based on --model-name)",
     )
     parser.add_argument(
         "--output",
         type=Path,
         default=None,
-        help="Output CSV file for predictions",
+        help=(
+            "Output CSV file for predictions (defaults to a name based on input, "
+            "written to the current working directory)"
+        ),
     )
     parser.add_argument(
         "--model-name",
@@ -124,12 +138,32 @@ if __name__ == "__main__":
         choices=ESM2_MODEL_CHOICES,
         help="ESM-2 model variant (must match training)",
     )
+    parser.add_argument(
+        "--silent",
+        action="store_true",
+        help="Suppress per-sequence scores on stdout",
+    )
+    parser.add_argument(
+        "--show-all",
+        action="store_true",
+        help="Show all predictions (default: False)",
+    )
 
     args = parser.parse_args()
+
+    if args.model is None:
+        args.model = MODELS_DIR / f"adhesion_model_{args.model_name}.pkl"
 
     if not args.model.exists():
         print(f"Error: Model file not found at {args.model}")
         print("Run training first: python scripts/train.py")
         sys.exit(1)
 
-    main(args.input, args.model, args.output, args.model_name)
+    main(
+        args.input,
+        args.model,
+        args.output,
+        args.model_name,
+        silent=args.silent,
+        show_all=args.show_all,
+    )
