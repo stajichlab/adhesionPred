@@ -2,6 +2,10 @@
 requires = ["setuptools>=61.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
+# Configuration for CLI scripts
+# Script prefix is defined below as "adhesion_" and is automatically prepended to all script names
+# To change the prefix, update the [project.scripts] section entries
+
 [project]
 name = "adhesion_predict"
 version = "0.1.0"
@@ -17,6 +21,11 @@ dependencies = [
     "tqdm",
     "torchvision",
 ]
+
+[project.scripts]
+adhesion_predict = "adhesion_predict.scripts.predict:cli"
+adhesion_train = "adhesion_predict.scripts.train:cli"
+adhesion_evaluate = "adhesion_predict.scripts.evaluate:cli"
 
 [project.optional-dependencies]
 dev = [
