@@ -91,8 +91,8 @@ if __name__ == "__main__":
     parser.add_argument(
         "--output",
         type=Path,
-        default=MODELS_DIR / "adhesion_model.pkl",
-        help="Output path for trained model",
+        default=None,
+        help="Output path for trained model (defaults to a name based on --model)",
     )
     parser.add_argument(
         "--model",
@@ -108,6 +108,9 @@ if __name__ == "__main__":
     )
 
     args = parser.parse_args()
+
+    if args.output is None:
+        args.output = MODELS_DIR / f"adhesion_model_{args.model}.pkl"
 
     args.output.parent.mkdir(parents=True, exist_ok=True)
 
