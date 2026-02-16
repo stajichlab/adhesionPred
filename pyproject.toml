@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools>=61.0", "wheel"]
+requires = ["setuptools>=61.0", "wheel", "setuptools-scm"]
 build-backend = "setuptools.build_meta"
 
 # Configuration for CLI scripts
@@ -19,6 +19,7 @@ dependencies = [
     "scikit-learn",
     "tqdm",
     "torchvision",
+    "importlib-metadata; python_version<'3.8'",
 ]
 license = { file = "LICENSE" }
 dynamic = ["version"]
@@ -49,6 +50,8 @@ line-length = 100
 select = ["E", "F", "W", "I", "N", "UP", "B", "C4"]
 ignore = ["E501", "N803", "N806", "N999"]
 
-[tool.versioningit.vcs]
-method = "git"
-default-tag = "0.1.0"
+[tool.setuptools_scm]
+# Use git tags for versioning
+# Will create versions like: 1.2.3 (if on tag) or 1.2.3.dev4+g1234567 (if after tag)
+version_scheme = "release-branch-semver"
+local_scheme = "dirty-tag"
