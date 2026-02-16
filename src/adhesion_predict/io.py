@@ -10,15 +10,15 @@ from Bio import SeqIO
 
 
 def clean_sequence(sequence):
-    """Clean protein sequence by replacing invalid amino acids.
+    """Clean protein sequence by replacing invalid amino acids and removing stop codons.
 
     Args:
         sequence: Protein sequence string.
 
     Returns:
-        Cleaned sequence with 'J' replaced by 'L'.
+        Cleaned sequence with 'J' replaced by 'L' and '*' characters removed.
     """
-    return sequence.replace("J", "L").replace("j", "L")
+    return sequence.replace("J", "L").replace("j", "L").replace("*", "")
 
 
 def find_fasta_files(input_dir):
