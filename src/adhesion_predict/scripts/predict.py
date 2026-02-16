@@ -7,11 +7,13 @@ from pathlib import Path
 
 from adhesion_predict.config import DEFAULT_MODEL, MODELS_DIR
 from adhesion_predict.embeddings import ESM2_MODEL_CHOICES, get_esm_embeddings
-from adhesion_predict.io import find_fasta_files, process_fasta_file
+from adhesion_predict.io import find_fasta_files, process_fasta_file, process_fasta_files_parallel
 from adhesion_predict.model import load_model, predict, predict_proba
 
 
-def main(input_path, model_path, output_file, model_name, silent=False, show_all=False):
+def main(
+    input_path, model_path, output_file, model_name, silent=False, show_all=False, max_workers=None
+):
     """Run prediction on input sequences.
 
     Args:
@@ -21,6 +23,7 @@ def main(input_path, model_path, output_file, model_name, silent=False, show_all
         model_name: ESM-2 model variant to use.
         silent: Suppress per-sequence output to stdout.
         show_all: Show all predictions, not just adhesion proteins.
+        max_workers: Maximum number of workers for parallel file processing.
     """
     print("=" * 50)
     print("Adhesion Protein Prediction")
@@ -47,9 +50,14 @@ def main(input_path, model_path, output_file, model_name, silent=False, show_all
 
     print(f"Found {len(fasta_files)} FASTA file(s)")
 
-    all_sequences = []
-    for fasta_file in fasta_files:
-        sequences = process_fasta_file(fasta_file)
+    # Use parallel processing for multiple files, sequential for single files
+    if len(fasta_files) > 1:
+        print("Using parallel processing for multiple files...")
+        all_sequences = process_fasta_files_parallel(fasta_files, max_workers=max_workers)
+    else:
+        print("Processing single file...")
+        all_sequences = []
+        sequences = process_fasta_file(fasta_files[0])
         all_sequences.extend(sequences)
 
     if not all_sequences:
@@ -149,8 +157,18 @@ def cli():
         action="store_true",
         help="Show all predictions (default: False)",
     )
+    parser.add_argument(
+        "--max-workers",
+        type=int,
+        default=None,
+        help="Maximum number of workers for parallel file processing (defaults to CPU count)",
+    )
 
     args = parser.parse_args()
+
+    if args.input is None:
+        parser.print_help()
+        sys.exit(1)
 
     if args.model is None:
         args.model = MODELS_DIR / f"adhesion_model_{args.model_name}.pkl"
@@ -167,6 +185,7 @@ def cli():
         args.model_name,
         silent=args.silent,
         show_all=args.show_all,
+        max_workers=args.max_workers,
     )
 
 

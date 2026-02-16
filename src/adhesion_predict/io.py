@@ -1,7 +1,9 @@
 """Input/output functions for handling FASTA files."""
 
 import gzip
+import multiprocessing as mp
 import sys
+from concurrent.futures import ProcessPoolExecutor, as_completed
 from pathlib import Path
 
 from Bio import SeqIO
@@ -38,6 +40,57 @@ def find_fasta_files(input_dir):
         fasta_files.extend(input_path.glob(f"**/*{ext.upper()}"))
 
     return fasta_files
+
+
+def process_fasta_files_parallel(fasta_files, max_workers=None):
+    """Process multiple FASTA files in parallel.
+
+    Args:
+        fasta_files: List of Path objects for FASTA files.
+        max_workers: Maximum number of worker processes. If None, uses CPU count.
+
+    Returns:
+        List of all sequences from all files.
+    """
+    if not fasta_files:
+        return []
+
+    # Single file doesn't benefit from parallel processing
+    if len(fasta_files) == 1:
+        return process_fasta_file(fasta_files[0])
+
+    if max_workers is None:
+        max_workers = min(len(fasta_files), mp.cpu_count())
+
+    print(f"Processing {len(fasta_files)} files using {max_workers} workers...")
+
+    all_sequences = []
+    try:
+        with ProcessPoolExecutor(max_workers=max_workers) as executor:
+            # Submit all file processing tasks
+            future_to_file = {
+                executor.submit(process_fasta_file, fasta_file): fasta_file
+                for fasta_file in fasta_files
+            }
+
+            # Collect results as they complete
+            for future in as_completed(future_to_file):
+                fasta_file = future_to_file[future]
+                try:
+                    sequences = future.result()
+                    all_sequences.extend(sequences)
+                except Exception as e:
+                    print(f"Error processing {fasta_file}: {e}", file=sys.stderr)
+
+    except Exception as e:
+        print(f"Error in parallel processing, falling back to sequential: {e}", file=sys.stderr)
+        # Fallback to sequential processing
+        for fasta_file in fasta_files:
+            sequences = process_fasta_file(fasta_file)
+            all_sequences.extend(sequences)
+
+    print(f"Parallel processing completed. Total sequences: {len(all_sequences)}")
+    return all_sequences
 
 
 def process_fasta_file(file_path):
