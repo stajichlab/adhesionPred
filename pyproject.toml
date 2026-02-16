@@ -8,7 +8,6 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "adhesion_predict"
-version = "0.1.0"
 description = "A bioinformatics package for predicting adhesion proteins using ESM-2 embeddings"
 readme = "README.md"
 requires-python = ">=3.9"
@@ -21,6 +20,7 @@ dependencies = [
     "tqdm",
     "torchvision",
 ]
+dynamic = ["version"]
 
 [project.scripts]
 adhesion_predict = "adhesion_predict.scripts.predict:cli"
@@ -47,3 +47,7 @@ line-length = 100
 [tool.ruff.lint]
 select = ["E", "F", "W", "I", "N", "UP", "B", "C4"]
 ignore = ["E501", "N803", "N806", "N999"]
+
+[tool.versioningit.vcs]
+method = "git"
+default-tag = "0.1.0"

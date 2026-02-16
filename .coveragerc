@@ -1,0 +1,17 @@
+[path]
+source =
+    src/adhesion_predict
+
+[run]
+omit =
+    **/__init__.py
+    **/_[^_]*.py
+    tests/*.py
+    exception.py
+
+[report]
+omit =
+    **/__init__.py
+    **/_[^_]*.py
+    tests/*.py
+    exception.py
