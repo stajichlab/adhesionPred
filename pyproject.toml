@@ -20,6 +20,7 @@ dependencies = [
     "tqdm",
     "torchvision",
 ]
+license = { file = "LICENSE" }
 dynamic = ["version"]
 
 [project.scripts]
