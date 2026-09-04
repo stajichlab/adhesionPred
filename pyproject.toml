@@ -21,6 +21,9 @@ dependencies = [
     "torchvision",
     "importlib-metadata; python_version<'3.8'",
     "scikit-posthocs>=0.7",
+    "pandas",
+    "scipy",
+    "statsmodels",
 ]
 license = { file = "LICENSE" }
 dynamic = ["version"]
