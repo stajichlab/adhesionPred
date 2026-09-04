@@ -26,42 +26,76 @@ phylogeny-aware re-analysis.
 
 ## Inputs
 
-- `results/*.adhesion_predict.csv` (5,805 files) — columns `id,prediction,probability_adhesion`,
+- `results/*.adhesion_predict.csv` (**5,803 files** — confirmed by
+  `ls results/*.adhesion_predict.csv | wc -l`; the earlier count of 5,805
+  included `names.txt` and the `models/` symlink present in that directory,
+  not actual result files) — columns `id,prediction,probability_adhesion`,
   already filtered to "Adhesion" calls only (default `predict.py` behavior).
 - `/bigdata/stajichlab/shared/projects/Fungi_5k/samples.csv` (5,813 rows) — columns
   `ASMID,SPECIESIN,STRAIN,BIOPROJECT,NCBI_TAXONID,BUSCO_LINEAGE,PHYLUM,SUBPHYLUM,
   CLASS,SUBCLASS,ORDER,FAMILY,GENUS,SPECIES,LOCUSTAG`.
 - `/bigdata/stajichlab/shared/projects/Fungi_5k/input/*.proteins.fa.fai` (5,813 files) —
-  used only for line counts (= total protein count per proteome), not sequence content.
+  used both for line counts (= total protein count per proteome) and, per the
+  revised join logic below, as the join anchor itself.
+- Provenance: results were generated with `esm2_t12_35M_UR50D` (per
+  `run_fungi5k*.sh`); the minimum observed `probability_adhesion` is 0.5027,
+  consistent with the model's internal 0.5 decision threshold. Since
+  `predict.py` writes only "Adhesion" calls by default, **no threshold
+  sweep is possible from these files** — `adhesion_fraction` is fixed to
+  whatever the model's built-in 0.5 cutoff calls positive. This is stated
+  as a permanent limitation in the report, not something this analysis can
+  probe further without rerunning prediction with `--show-all`.
 
-## Join logic (the crux of this design)
+## Join logic (the crux of this design) — revised
 
 Result filenames are derived from `species_strain` (e.g.
 `Absidia_glauca_CBS_101.48_substr._RVII-324_met-.adhesion_predict.csv`), which
 does **not** match `samples.csv` directly (`samples.csv` keys on `ASMID` and
-`LOCUSTAG`, not this display name). The reliable join key is the **LOCUSTAG
-prefix embedded in every protein ID**, e.g. `F07B100A_000481-T1` → prefix
-`F07B100A`, which equals `samples.csv`'s `LOCUSTAG` column exactly.
+`LOCUSTAG`, not this display name).
 
-Procedure per result file:
-1. Read the first data row's `id` field; split on `_`, take token 0 as the
-   candidate LOCUSTAG.
-2. Look up that LOCUSTAG in a `samples.csv`-derived dict to get taxonomy +
+The original design proposed extracting the LOCUSTAG from the *result* CSV's
+first data row. The Opus-reviewed, verified approach is **more reliable and
+also doubles as a QC check**, so it replaces that:
+
+1. **Primary join key: filename stem → `.fai` → LOCUSTAG.** Result filename
+   stems match `input/*.proteins.fa` basenames exactly, 5,803/5,803 (verified
+   by set-diff). Take the *first* protein ID in that species'
+   `<stem>.proteins.fa.fai`, split on `_`, take token 0 as the LOCUSTAG. This
+   was verified to succeed for all 5,813 `.fai` files with zero exceptions —
+   i.e. it is the input side of the join, independent of whatever is (or
+   isn't) in the result CSV.
+2. Look up that LOCUSTAG in the `samples.csv`-derived dict to get taxonomy +
    `ASMID`.
-3. If the result file has **zero** adhesion calls (0 data rows, i.e. no
-   proteins predicted positive), fall back to matching by filename stem
-   against the `.proteins.fa` basenames in the shared input dir to still
-   recover a LOCUSTAG (via that file's own header prefixes) — necessary
-   because such files carry no `id` to extract from. This is expected to be
-   a small number of species.
-4. Get total protein count for that species: `wc -l` equivalent (line count)
-   of the matching `<same-basename>.proteins.fa.fai` in the shared input dir.
-5. Any species where step 2 or 4 fails is written to
-   `tables/unmatched_species.csv` with a reason column, and excluded from
-   downstream stats/figures — not silently dropped.
+3. Get total protein count for that species: line count of the same `.fai`
+   file used in step 1.
+4. **QC cross-check (catches mismatched annotation sets):** also read the
+   result CSV's own first data row and extract its LOCUSTAG prefix the same
+   way. If it disagrees with the `.fai`-derived LOCUSTAG, the species is
+   **not** silently joined — it's written to `tables/mismatched_locustag.csv`
+   with both prefixes, for manual diagnosis, and excluded from stats. This is
+   a real, observed case, not a hypothetical: `Neohortaea_acidophila_CBS_113389`
+   has result IDs that are NCBI `XP_…` accessions while its `.fai` starts
+   `F009D8E7_000001-T1` — its results appear to come from a different
+   protein annotation than the one used for the proteome-size denominator,
+   which would silently corrupt its `adhesion_fraction` if joined naively.
+5. **The "zero adhesion calls" fallback in the original design is removed —
+   it was dead code.** Verified across all 5,803 result files: none are
+   header-only (minimum call count is 1, median 113, max 1,148), so every
+   result file has at least one data row to read for step 4's cross-check.
+6. Any species where step 2 or 3 fails (no LOCUSTAG match, or no `.fai`) is
+   written to `tables/unmatched_species.csv` with a reason column.
+7. **Reverse reconciliation (missing from the original design):** also
+   diff `samples.csv` LOCUSTAGs against the set of successfully-joined
+   LOCUSTAGs to find species with **no result file at all**. There are
+   confirmed to be exactly **10 such species, all in genus *Colletotrichum***
+   (samples.csv has 101 *Colletotrichum* total — a genus/family drill-down
+   there would silently under-count by 10 without this check). Written to
+   `tables/missing_results.csv`.
 
-Reconciliation check: `matched_count + unmatched_count` must equal 5,805
-(the number of result files present), and a manual spot-check of 3 known
+Reconciliation check: `matched_count + unmatched_count (step 6) +
+mismatched_count (step 4) = 5,803` (result files present), **and**
+`matched_count + missing_count (step 7) = ` the count of samples.csv rows
+whose LOCUSTAG appears in any `.fai` file. A manual spot-check of 3 known
 species' LOCUSTAG joins against `samples.csv` is done before trusting the
 full table.
 
@@ -80,8 +114,18 @@ mean_adhesion_prob, median_adhesion_prob
   has header only).
 - `adhesion_fraction` = `adhesion_count / total_proteins`.
 - `mean_adhesion_prob` / `median_adhesion_prob` computed over the
-  `probability_adhesion` column of adhesion-called proteins only (undefined/NaN
-  when `adhesion_count == 0`, not treated as zero).
+  `probability_adhesion` column of adhesion-called proteins only. (No species
+  has `adhesion_count == 0` in practice — verified, min is 1 — so this is not
+  expected to produce NaN, but the column is still not treated as zero if it
+  ever does.)
+
+**Blank taxonomy handling.** `samples.csv` has real gaps: PHYLUM 1 blank,
+CLASS 27, ORDER 66, GENUS 147, FAMILY 176, and **SUBCLASS 2,786 blank**
+(more than half the rows — SUBCLASS is dropped from all aggregation/figures
+entirely, kept in the master table only for reference). For every other
+rank, a blank value means that species is **excluded from that rank's
+grouping** (not pooled into a fake `""`/`"unknown"` group) — it still
+appears normally in coarser ranks that aren't blank for it.
 
 ## Dependencies
 
@@ -93,10 +137,18 @@ mean_adhesion_prob, median_adhesion_prob
 
 ## Taxonomic aggregation & statistics
 
-Primary ranks: **phylum → class → order**. Family/genus reserved as an
-ad hoc drill-down into whichever order(s) look most interesting after the
-primary pass (not run uniformly across every family/genus up front — that
-would produce hundreds of near-empty groups).
+Primary ranks: **phylum → class → order**. Family/genus drill-down is
+**pre-registered, not chosen post-hoc**: after the primary pass, drill down
+into the top 3 orders by epsilon-squared effect size (not by p-value, given
+the sample-size issue below), and label that section of the report
+explicitly as "exploratory / hypothesis-generating" rather than confirmatory.
+
+Phylum representation is **wildly unbalanced** (Ascomycota 4,057,
+Basidiomycota 1,294, ... down to phyla with N=1, e.g. Sanchytriomycota,
+Cryptomycota). At n≈5,800, Kruskal-Wallis will read as significant on
+essentially any real-world clade difference, however small — **epsilon-
+squared effect size is the headline statistic, p-values are secondary and
+always reported alongside it, never alone.**
 
 Per rank, per group:
 - N species, median + IQR of `adhesion_fraction`, median + IQR of
@@ -108,7 +160,7 @@ Per rank, per group:
   `adhesion_fraction` and `adhesion_count`.
 - Where Kruskal-Wallis is significant (p < 0.05): Dunn's post-hoc pairwise
   comparisons, Benjamini-Hochberg corrected, plus epsilon-squared effect
-  size for the omnibus test.
+  size for the omnibus test (reported regardless of significance).
 - Output: `tables/stats_by_phylum.csv`, `tables/stats_by_class.csv`,
   `tables/stats_by_order.csv`, each with group summary + omnibus test result;
   pairwise post-hoc results in a companion `*_posthoc.csv` per rank.
@@ -167,19 +219,28 @@ where applicable (these are static PNG/SVG for a Markdown report, so theme
 handling applies loosely — light-mode print-friendly is the target).
 
 1. **Ordered box/violin of `adhesion_fraction` by phylum** (all matched
-   species), groups ordered by median descending.
+   species), groups ordered by median descending. **Every group is
+   annotated with its N** (e.g. "Ascomycota (n=4,057)"), and any group with
+   N < 5 is rendered in grey/desaturated rather than full color, so the
+   reader can't mistake a 1-species phylum for a real distribution — sample
+   size is the main confound here, so it has to be visible in the figure
+   itself, not just in a table the reader may not open.
 2. **Ordered box/violin of `adhesion_fraction` by order**, restricted to
-   the top ~20 orders by species count (to stay legible), ordered by median.
+   the top ~20 orders by species count (to stay legible), ordered by median,
+   same N-annotation/greying convention as (1).
 3. **Scatter: `total_proteins` vs `adhesion_count`**, colored by phylum,
    with a diagonal reference line for "expected count under the
    kingdom-wide median fraction" — the key plot for visually separating
    "just has a bigger genome" from real compositional enrichment.
-4. **Ranked summary heatmap**: rows = phylum (or top orders), columns =
-   {median fraction, median count, median probability}, values
-   normalized/colored per column for at-a-glance comparison.
+4. **Ranked summary table (not a heatmap)**: phylum (or top orders) ×
+   {median fraction, N, median count, median probability}, sorted by median
+   fraction. A per-column min-max-normalized heatmap over only ~9 phyla
+   was considered and rejected — with that few rows, min-max scaling
+   visually inflates trivial differences into apparent hot/cold extremes,
+   which would mislead more than a plain sorted table.
 5. **Distribution of `mean_adhesion_prob` by phylum** — secondary signal:
    even at similar fractions, is one clade's adhesion calls more
-   confidently positive?
+   confidently positive? Same N-annotation/greying convention as (1).
 
 Figures saved to `analysis/kingdom_survey/figures/*.png` (and `.svg` for
 anything destined for print).
@@ -205,7 +266,16 @@ anything destined for print).
    proteins in very divergent lineages (e.g. early-diverging fungi) whose
    domains don't resemble the training set — flag phyla with unusually low
    fractions as a training-bias hypothesis to test, not just a biological
-   conclusion.
+   conclusion; (d) taxonomic sampling is wildly unbalanced (phylum N ranges
+   from 4,057 down to 1) — at this sample size Kruskal-Wallis reads as
+   significant on almost any real difference, so p-values are reported
+   alongside epsilon-squared effect sizes, never alone, and single-species
+   or near-empty groups are visually flagged rather than presented as if
+   comparable to well-sampled ones; (e) `adhesion_fraction` is defined
+   entirely by the model's fixed internal 0.5 probability threshold —
+   results files contain only positive calls, so no threshold sensitivity
+   analysis is possible from existing data; a different cutoff could shift
+   which clades look "enriched."
 5. Pointer to the follow-up: imposing phylogeny (from `nf_phyling` output or
    known taxonomy-as-tree) for a phylogenetically-corrected re-analysis.
 
@@ -219,6 +289,8 @@ analysis/kingdom_survey/
   tables/
     species_adhesion_summary.csv
     unmatched_species.csv
+    missing_results.csv
+    mismatched_locustag.csv
     stats_by_phylum.csv (+ _posthoc.csv)
     stats_by_class.csv (+ _posthoc.csv)
     stats_by_order.csv (+ _posthoc.csv)
@@ -235,9 +307,30 @@ analysis/kingdom_survey/
 
 ## Verification plan
 
-- Reconciliation: matched + unmatched species counts sum to 5,805.
-- Manual spot-check of 3 known species' taxonomy joins against `samples.csv`.
+- Reconciliation: matched + unmatched + mismatched species counts sum to
+  5,803 (result files present); matched + missing-results counts reconcile
+  against the samples.csv-side LOCUSTAG set (expect 10 missing, all
+  *Colletotrichum*, confirmed during design review).
+- Manual spot-check of 3 known species' taxonomy joins against `samples.csv`,
+  plus confirmation that `Neohortaea_acidophila_CBS_113389` lands in
+  `mismatched_locustag.csv` rather than being silently joined.
 - Sanity bounds: `adhesion_fraction` ∈ [0, 1] for every row; no negative
-  counts; `mean_adhesion_prob` ∈ [0, 1] or NaN.
-- Visual sanity check: figures render without errors and axis ranges/labels
-  are sane before finalizing the report.
+  counts; `mean_adhesion_prob` ∈ [0, 1].
+- Visual sanity check: figures render without errors, N-annotations and
+  small-N greying are visibly correct, and axis ranges/labels are sane
+  before finalizing the report.
+
+## Design review
+
+Reviewed by an independent Opus pass against the actual data before
+implementation (2026-09-04). Findings incorporated above: corrected file
+count (5,803, not 5,805), reverse reconciliation catching 10 missing
+*Colletotrichum* species, a mismatched-annotation case
+(`Neohortaea_acidophila_CBS_113389`) requiring a dedicated QC check rather
+than silent exclusion, removal of dead-code fallback logic (verified no
+result file is header-only), a stronger primary join key
+(`.fai`-anchored instead of result-CSV-anchored), blank-taxonomy handling
+including dropping SUBCLASS, replacing a misleading small-N heatmap with a
+sorted table, N-annotation/greying on all group figures, pre-registering
+the family/genus drill-down rule, and two additional caveats (sampling
+imbalance, threshold fixed at 0.5 with no sweep possible).
