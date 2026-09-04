@@ -79,11 +79,17 @@ def kruskal_wallis_by_rank(df: pd.DataFrame, rank_col: str, value_col: str) -> d
 
 
 def dunn_posthoc(df: pd.DataFrame, rank_col: str, value_col: str) -> pd.DataFrame:
-    """Dunn's post-hoc pairwise comparisons (BH-corrected) among N>=MIN_GROUP_N groups."""
+    """Dunn's post-hoc pairwise comparisons (BH-corrected) among N>=MIN_GROUP_N groups.
+
+    Returns an empty DataFrame when fewer than 2 groups meet MIN_GROUP_N —
+    no post-hoc comparison is possible in that case.
+    """
     sub = df[df[rank_col].notna()].copy()
     counts = sub[rank_col].value_counts()
     eligible = counts[counts >= MIN_GROUP_N].index
     sub = sub[sub[rank_col].isin(eligible)]
+    if len(eligible) < 2:
+        return pd.DataFrame()
     return sp.posthoc_dunn(sub, val_col=value_col, group_col=rank_col, p_adjust="fdr_bh")
 
 
@@ -125,7 +131,15 @@ def mixedlm_by_rank(df: pd.DataFrame, rank_col: str, value_col: str = "adhesion_
     """
     sub = df[df[rank_col].notna() & df["genus"].notna()].copy()
     if sub[rank_col].nunique() < 2 or sub["genus"].nunique() < 2:
-        return {"rank": rank_col, "value_col": value_col, "converged": False}
+        return {
+            "rank": rank_col,
+            "value_col": value_col,
+            "converged": False,
+            "genus_variance": None,
+            "residual_variance": None,
+            "llf": None,
+            "summary": "did not converge: fewer than 2 groups at this rank or fewer than 2 genera",
+        }
 
     model = smf.mixedlm(f"{value_col} ~ C({rank_col})", sub, groups=sub["genus"])
     fit = model.fit(reml=False)

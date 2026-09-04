@@ -99,3 +99,32 @@ def test_mixedlm_by_rank_runs():
     result = mixedlm_by_rank(df, "phylum", "adhesion_fraction")
     assert result["converged"] is True
     assert "genus_variance" in result
+
+
+def test_dunn_posthoc_returns_empty_when_fewer_than_two_groups_eligible():
+    df = _sample_df()
+    single_group = df[df["phylum"] == "PhylumX"]
+    posthoc = dunn_posthoc(single_group, "phylum", "adhesion_fraction")
+    assert isinstance(posthoc, pd.DataFrame)
+    assert posthoc.empty
+
+
+def test_mixedlm_by_rank_degenerate_input_returns_uniform_keys():
+    df = _sample_df()
+    single_rank_value = df[df["phylum"] == "PhylumX"]
+    result = mixedlm_by_rank(single_rank_value, "phylum", "adhesion_fraction")
+    expected_keys = {
+        "rank",
+        "value_col",
+        "converged",
+        "genus_variance",
+        "residual_variance",
+        "llf",
+        "summary",
+    }
+    assert set(result) == expected_keys
+    assert result["converged"] is False
+    assert result["genus_variance"] is None
+    assert result["residual_variance"] is None
+    assert result["llf"] is None
+    assert isinstance(result["summary"], str)
