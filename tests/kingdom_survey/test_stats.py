@@ -101,6 +101,20 @@ def test_mixedlm_by_rank_runs():
     assert "genus_variance" in result
 
 
+def test_mixedlm_by_rank_handles_class_reserved_keyword():
+    """Regression test: rank_col="class" is a Python/patsy reserved keyword.
+
+    mixedlm_by_rank interpolates rank_col into a patsy formula string
+    (C(rank_col)); without Q(...) quoting, patsy tries to parse the bare
+    token "class" as Python code and raises a SyntaxError. This must run
+    without raising for the real "class" taxonomic rank.
+    """
+    df = _sample_df()
+    result = mixedlm_by_rank(df, "class", "adhesion_fraction")
+    assert "converged" in result
+    assert result["converged"] in (True, False)
+
+
 def test_dunn_posthoc_returns_empty_when_fewer_than_two_groups_eligible():
     df = _sample_df()
     single_group = df[df["phylum"] == "PhylumX"]
