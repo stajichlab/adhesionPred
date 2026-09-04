@@ -141,7 +141,10 @@ def mixedlm_by_rank(df: pd.DataFrame, rank_col: str, value_col: str = "adhesion_
             "summary": "did not converge: fewer than 2 groups at this rank or fewer than 2 genera",
         }
 
-    model = smf.mixedlm(f"{value_col} ~ C({rank_col})", sub, groups=sub["genus"])
+    # Q(...) quoting is required: rank_col may be "class", a Python reserved
+    # word, which breaks patsy's formula parser when interpolated bare into
+    # C(...) (patsy parses the C(...) argument as a Python expression).
+    model = smf.mixedlm(f"{value_col} ~ C(Q('{rank_col}'))", sub, groups=sub["genus"])
     fit = model.fit(reml=False)
     return {
         "rank": rank_col,
