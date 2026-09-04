@@ -83,6 +83,14 @@ mean_adhesion_prob, median_adhesion_prob
   `probability_adhesion` column of adhesion-called proteins only (undefined/NaN
   when `adhesion_count == 0`, not treated as zero).
 
+## Dependencies
+
+- `statsmodels` — already present in the environment (0.14.4), used for the
+  mixed-effects model.
+- `scikit-posthocs` — **not currently installed**; needed for Dunn's
+  post-hoc test. Add to `pyproject.toml` before implementation.
+- `scipy` for Kruskal-Wallis (already a project dependency).
+
 ## Taxonomic aggregation & statistics
 
 Primary ranks: **phylum → class → order**. Family/genus reserved as an
@@ -104,6 +112,52 @@ Per rank, per group:
 - Output: `tables/stats_by_phylum.csv`, `tables/stats_by_class.csv`,
   `tables/stats_by_order.csv`, each with group summary + omnibus test result;
   pairwise post-hoc results in a companion `*_posthoc.csv` per rank.
+
+## Taxonomy-based pseudo-phylogenetic correction
+
+Taxonomy is a nested proxy tree (phylum ⊃ class ⊃ order ⊃ family ⊃ genus),
+just without branch lengths. Treating all species as independent samples in
+the naive tests above inflates significance whenever a clade is
+oversampled (e.g. one genus with 40 sequenced species dominating an order's
+median). Two corrections are run alongside the naive tests, not instead of
+them, and the report explicitly compares all three:
+
+1. **Genus-averaged (clade-collapsed) tests.** Before running
+   Kruskal-Wallis/Dunn's at phylum/class/order, first collapse to one row
+   per genus (mean `adhesion_fraction`, mean `adhesion_count`, mean
+   `mean_adhesion_prob` across that genus's species), then run the same
+   tests on genus-level means. This removes the dominant pseudoreplication
+   source (many congeneric species) with no new dependencies. Output:
+   `tables/stats_by_phylum_genus_avg.csv` (and class/order equivalents),
+   same shape as the naive tables.
+2. **Nested mixed-effects model (stretch, still in scope per user request).**
+   Fit `statsmodels.formula.api.mixedlm("adhesion_fraction ~ C(<rank>)", data,
+   groups=data["genus"])` for each of phylum/class/order as the fixed effect,
+   with **genus as a single random intercept**. This is a pragmatic
+   simplification: `MixedLM` doesn't cleanly support 3-4 levels of nested
+   random effects (order/family/genus all nested under a phylum fixed
+   effect) without heavy variance-component (`vc_formula`) machinery: genus
+   is chosen as the one random-effects level because it's the finest
+   per-species grouping and captures the largest share of non-independence.
+   Report the fixed-effect Wald test p-value and the estimated genus
+   variance component (how much of the residual variance is "shared
+   ancestry within genus" vs. residual noise). Requires adding
+   `statsmodels` as a dependency if not already present. Output:
+   `tables/mixedlm_by_phylum.csv`, `_by_class.csv`, `_by_order.csv` with
+   fixed-effect estimate, p-value, and genus variance component per rank.
+   New dependency check: confirm `statsmodels` is available in the project
+   environment before implementation; if not, add it to `pyproject.toml`.
+3. **Reporting the comparison.** For each rank, the report shows naive vs.
+   genus-averaged vs. mixed-model results side by side. Where they largely
+   agree, that's a more trustworthy signal. Where the naive test is
+   significant but the genus-averaged/mixed-model result is not, that's
+   flagged explicitly as "likely an oversampling artifact, not a genuine
+   clade effect" rather than silently favoring one number.
+4. **Remaining limitation, still stated in the caveats section:** this
+   corrects for oversampling within genus but does not use real branch
+   lengths or account for uneven divergence times between clades (a true
+   phylogenetic comparative method would) — that remains the scope of the
+   future tree-based follow-up.
 
 ## Figures
 
@@ -139,8 +193,11 @@ anything destined for print).
 3. Full per-rank breakdown (remaining figures + links to full stats tables).
 4. **Explicit caveats section**: (a) species within a genus/family are not
    statistically independent — shared ancestry inflates apparent
-   significance for closely related, over-sampled clades; Kruskal-Wallis
-   here treats them as i.i.d., which this pass does not correct for; (b)
+   significance for closely related, over-sampled clades. This pass
+   partially corrects for it via genus-averaging and a genus-random-effect
+   mixed model (see "Taxonomy-based pseudo-phylogenetic correction" above),
+   but neither uses real branch lengths or divergence times, so residual
+   non-independence beyond the genus level remains uncorrected; (b)
    proteome annotation completeness/quality varies by genome and could
    confound raw counts (mitigated somewhat by using fraction, not just raw
    count); (c) classifier was trained on a small positive set (FLO/ALS1-like
@@ -165,6 +222,12 @@ analysis/kingdom_survey/
     stats_by_phylum.csv (+ _posthoc.csv)
     stats_by_class.csv (+ _posthoc.csv)
     stats_by_order.csv (+ _posthoc.csv)
+    stats_by_phylum_genus_avg.csv (+ _posthoc.csv)
+    stats_by_class_genus_avg.csv (+ _posthoc.csv)
+    stats_by_order_genus_avg.csv (+ _posthoc.csv)
+    mixedlm_by_phylum.csv
+    mixedlm_by_class.csv
+    mixedlm_by_order.csv
   figures/
     *.png, *.svg
   REPORT.md
