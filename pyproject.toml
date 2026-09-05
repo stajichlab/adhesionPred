@@ -55,3 +55,10 @@ ignore = ["E501", "N803", "N806", "N999"]
 # Will create versions like: 1.2.3 (if on tag) or 1.2.3.dev4+g1234567 (if after tag)
 version_scheme = "release-branch-semver"
 local_scheme = "dirty-tag"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+# Include models directory and all files within it
+"adhesion_predict" = ["models/*"]
