@@ -114,4 +114,6 @@ def top_domain_table(
     if result.empty:
         return result
     frequent = result[result["adhesion_count"] >= MIN_ADHESION_COUNT_FOR_ENRICHMENT]
-    return frequent.sort_values("enrichment_ratio", ascending=False).head(top_n)
+    return frequent.sort_values(
+        ["enrichment_ratio", "adhesion_count"], ascending=False, kind="mergesort"
+    ).head(top_n)

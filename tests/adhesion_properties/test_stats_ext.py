@@ -44,3 +44,23 @@ def test_mannwhitney_within_clade_excludes_small_n_clades():
     background = _clade_df(["PhylumSmall"] * 10, list(range(100, 110)))
     result = mannwhitney_within_clade(adhesion, background, "phylum", "length")
     assert result.empty
+
+
+def test_mannwhitney_within_clade_empty_result_has_expected_columns():
+    """No clade is eligible for testing (both below MIN_GROUP_N) -> result
+    must be an empty-but-well-formed DataFrame, not a bare pd.DataFrame(),
+    so downstream to_csv()/read_csv() round-trips without an EmptyDataError."""
+    adhesion = _clade_df(["PhylumSmall"] * 2, [100, 110])
+    background = _clade_df(["PhylumSmall"] * 2, [90, 95])
+    result = mannwhitney_within_clade(adhesion, background, "phylum", "length")
+    assert result.empty
+    assert list(result.columns) == [
+        "phylum",
+        "n_adhesion",
+        "n_background",
+        "median_adhesion",
+        "median_background",
+        "u_stat",
+        "p_value",
+        "p_value_bh",
+    ]

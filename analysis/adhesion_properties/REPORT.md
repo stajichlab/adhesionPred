@@ -77,17 +77,17 @@ Blastocladiomycota         938           938        27.333661          19.499717
 ## Top enriched Pfam domains among adhesion proteins
 
 ```
-      domain_id  adhesion_count  adhesion_rate  background_count  background_rate  enrichment_ratio
-             3D               6       0.000008                 0              0.0               inf
- Apolipoprotein               9       0.000012                 0              0.0               inf
-Cu-binding_MopE               6       0.000008                 0              0.0               inf
- Pericardin_rpt               5       0.000007                 0              0.0               inf
-Lustrin_cystein               9       0.000012                 0              0.0               inf
-   Cupredoxin_1              27       0.000036                 0              0.0               inf
-     Curlin_rpt               6       0.000008                 0              0.0               inf
-       Lectin_C              13       0.000017                 0              0.0               inf
-   LbR_Ice_bind              12       0.000016                 0              0.0               inf
-    Laminin_G_2               5       0.000007                 0              0.0               inf
+ domain_id  adhesion_count  adhesion_rate  background_count  background_rate  enrichment_ratio
+ Flocculin            1493       0.001991                 0              0.0               inf
+      Hyr1             586       0.000782                 0              0.0               inf
+    Msg2_C             198       0.000264                 0              0.0               inf
+   Kazal_1              97       0.000129                 0              0.0               inf
+Cadherin_4              94       0.000125                 0              0.0               inf
+   DUF5077              81       0.000108                 0              0.0               inf
+   DUF3246              57       0.000076                 0              0.0               inf
+    FIT1_2              53       0.000071                 0              0.0               inf
+  Cornifin              52       0.000069                 0              0.0               inf
+     DUF11              51       0.000068                 0              0.0               inf
 ```
 
 ![Top enriched Pfam domains](figures/top_domains_pfam.png)
@@ -125,25 +125,35 @@ proteins), since Ser/Thr residues are the attachment sites for the
 O-mannosylation that decorates these surface proteins.
 
 Length shows no such uniform pattern (`tables/clade_phylum_length_mannwhitney.csv`):
-in the two best-powered phyla, adhesion proteins are actually *shorter* than
+of the 9 phyla tested, 6 remain significant after BH correction. In the two
+best-powered phyla, adhesion proteins are actually *shorter* than
 background (Ascomycota: median 345 vs. 400 aa, n=555,861 each, p_bh≈0;
 Basidiomycota: 310 vs. 362 aa, n=135,340 each, p_bh≈0), as are Mucoromycota
-(302 vs. 322 aa, p_bh≈4.6e-32) and Zoopagomycota (338 vs. 357 aa, p_bh≈0.0082),
-while Chytridiomycota goes the other way (432 vs. 364 aa, p_bh≈5.3e-116) and
-Blastocladiomycota, Cryptomycota, and Microsporidia show no significant
-difference after correction (p_bh=0.61, 0.47, 0.19 respectively). So unlike
-Ser/Thr/Pro content, length is not a lineage-independent signature of the
-adhesion-predicted set.
+(302 vs. 322 aa, p_bh≈1.04e-31) and Zoopagomycota (338 vs. 357 aa, p_bh≈0.0082),
+while two phyla go the other way — adhesion proteins *longer* than
+background — Chytridiomycota (432 vs. 364 aa, n=14,817 each, p_bh≈5.3e-116)
+and, at much lower power, Sanchytriomycota (445.5 vs. 323 aa, n=28 each,
+p_bh≈0.0449, the weakest of the six significant results). The remaining 3
+phyla — Blastocladiomycota,
+Cryptomycota, and Microsporidia — show no significant difference after
+correction (p_bh=0.61, 0.47, 0.19 respectively). So unlike Ser/Thr/Pro
+content, length is not a lineage-independent signature of the
+adhesion-predicted set, and its direction is not even consistent in sign
+across the phyla where it is significant.
 
-Visually, neither `figures/scatter_length_vs_probability.png` nor
-`figures/scatter_pct_ser_thr_pro_vs_probability.png` shows a discernible trend:
-in both plots the classifier's predicted probability spans its full 0.5-1.0
-range densely at essentially every length and every Ser/Thr/Pro percentage,
-with no visible upward or downward slope in the point cloud — model confidence
-does not appear to track either feature. `figures/scatter_species_mean_length_vs_fraction.png`
-is similarly a diffuse cloud centered around 400-500 aa mean length and a
-1-2% species adhesion fraction, with no visible trend as mean length
-increases toward 1000-1400 aa.
+`figures/scatter_length_vs_probability.png` and
+`figures/scatter_pct_ser_thr_pro_vs_probability.png` are heavily overplotted
+at n=749,697 points each (drawn at alpha=0.3, s=10) and cannot reliably show
+a density trend by eye at this scale — the dense region of the point cloud
+saturates into a solid block regardless of whether an underlying trend
+exists. We do not claim "no relationship" from these plots; assessing
+whether model confidence tracks length or Ser/Thr/Pro content would require
+a binned-median or hexbin view, which is left for a follow-up (see Follow-up
+section). `figures/scatter_species_mean_length_vs_fraction.png` is plotted
+at the species level (one point per species, not per protein) and so is not
+subject to the same overplotting problem; it is a diffuse cloud centered
+around 400-500 aa mean length and a 1-2% species adhesion fraction, with no
+visible trend as mean length increases toward 1000-1400 aa.
 
 Domain/topology presence also diverges sharply from length in how consistent
 it is across phyla: adhesion proteins carry a signal peptide far more often
@@ -157,20 +167,35 @@ of the adhesion set carries no recognized Pfam domain at all, consistent with
 many fungal adhesins being fast-evolving, repeat-rich, poorly conserved
 sequences that escape standard domain databases.
 
-Among proteins that *do* have a domain hit, the specific families point at a
-coherent cell-surface/carbohydrate-interaction narrative rather than a random
-grab-bag. In `tables/top_domains_pfam.csv`, the top Pfam hits among
-adhesion-predicted proteins include Lectin_C (13 adhesion hits, 0 background)
-and two laminin domains, Laminin_G_2 and Laminin_EGF (5 and 14 adhesion hits,
-0 background) — all three are extracellular carbohydrate/glycoprotein-binding
-modules of the kind found in cell-adhesion proteins — alongside Kazal_1 (97
-adhesion hits, the single highest count in the table, 0 background) and
-DUF11 (51 hits), a domain of unknown function repeatedly reported in fungal
-cell-wall/adhesin-like proteins. In `tables/top_domains_cazy.csv`, the most
+Among proteins that *do* have a domain hit, `tables/top_domains_pfam.csv`
+shows the most frequent Pfam domains among adhesion-predicted proteins that
+have zero occurrences in the size-matched background sample: 826 distinct
+Pfam domains met the ≥5-adhesion-hit threshold for inclusion in this table,
+of which 95 have `background_count=0` (an infinite, tie-classed enrichment
+ratio); ties are broken by adhesion-hit count (`domains.py`'s
+`top_domain_table`, sorted on `["enrichment_ratio", "adhesion_count"]` with a
+stable mergesort), so the table is deterministic and reproducible but the
+particular 20 domains shown are the most *frequent* background-absent
+domains, not necessarily the most *biologically distinctive* ones among the
+full set of 95. With that framing, the top hits are Flocculin (1,493
+adhesion hits, 0 background) — a domain named for and found in the
+fungal flocculin/FLO-family adhesins that this whole analysis is built
+around — and Hyr1 (586 hits), a domain associated with the *Candida*
+Hyr1/Iff GPI-anchored cell-wall protein family, both consistent with the
+adhesin narrative; also present are Cadherin_4 (94 hits) and Ig_3 (32
+hits), both cell-adhesion-associated repeat domains, Msg2_C (198 hits, the
+C-terminal domain of *Pneumocystis* major surface glycoprotein, a surface
+adhesin family in another fungal lineage), and several domains of unknown
+function (DUF5077, DUF3246, DUF11, DUF4573, DUF6209, DUF642) that recur in
+this kind of screen without a resolvable functional annotation. In
+`tables/top_domains_cazy.csv`, the most
 enriched families by finite ratio are AA1_3 (12,493 adhesion hits vs. only 2
 background, ratio≈6246.5) and AA1_1 (9,279 vs. 5, ratio≈1855.8) — both
-"Auxiliary Activity family 1" multicopper-oxidase/laccase domains implicated
-in fungal cell-wall remodeling and melanization — plus a cluster of
+"Auxiliary Activity family 1" multicopper-oxidase/laccase domains, an enzyme
+family sometimes discussed in the context of fungal cell-wall remodeling and
+melanization, though see Caveat 7 below on why an enrichment of this
+magnitude should not be treated as settled functional evidence — plus a
+cluster of
 carbohydrate-binding modules (CBM29, CBM6, CBM43, CBM24, CBM63, CBM20) that
 have no catalytic activity of their own but mediate binding to cell-wall or
 extracellular polysaccharides, exactly the kind of adhesive function this
@@ -223,6 +248,42 @@ MEROPS chart is not "every bar tied at the cap."
    tables are BH-corrected *within* each (rank, feature) combination, not
    jointly across every feature/rank combination in this report — a
    stricter joint correction would raise the significance bar further.
+6. **Prediction-set circularity**: the "adhesion" set analyzed throughout
+   this report is model-*predicted*, not experimentally validated — it is
+   the output of a classifier trained on ESM-2 protein embeddings, which
+   themselves encode amino acid composition. So the headline finding that
+   "adhesion-predicted proteins are Ser/Thr/Pro-rich" partly reflects the
+   classifier's own decision function reading back a composition signal
+   correlated with its training set (FLO11/ALS-family sequences), not
+   necessarily an independent biological discovery about a held-out
+   ground truth. Treat this analysis as characterizing what the model
+   learned to call "adhesion-like," not as an independent confirmation
+   that these proteins are adhesins.
+7. **CAZy AA1 (laccase) enrichment is a red flag, not just supporting
+   evidence** — summed across the AA1/AA1_1/AA1_2/AA1_3 subfamily entries
+   in `tables/top_domains_cazy.csv`, 52,697 adhesion-predicted proteins
+   carry an AA1-family domain versus only 33 in the size-matched
+   background (a ratio of roughly 1,597-fold; see the table for
+   per-subfamily counts). Laccases (multicopper oxidases) are secreted
+   **enzymes**, the opposite of the non-enzymatic surface-adhesin category
+   this analysis is targeting per the design spec. An enrichment of this
+   magnitude is at least as consistent with a systematic classifier
+   false-positive mode (e.g. shared secretion-signal or compositional
+   features between laccases and true adhesins driving spurious positive
+   calls) or an artifact of the training-set composition as it is with
+   "laccases are adhesive" — it should not be presented as settled
+   functional evidence without this caveat.
+8. **P-values at this sample size are not effect sizes**: several
+   Mann-Whitney tables compare hundreds of thousands of proteins per group
+   (e.g. n=555,861 for Ascomycota) — at this scale, p≈0 is close to
+   inevitable even for practically negligible effects. Readers should
+   judge practical magnitude from the reported medians (already shown in
+   each table) and, where available, the `epsilon_squared` column already
+   computed in the `*_omnibus_*.csv` files (e.g.
+   `clade_phylum_length_omnibus_adhesion.csv` reports
+   `epsilon_squared`≈0.0067 for the phylum effect on length — a negligible
+   clade effect despite p≈0 in the pairwise tests) rather than treating a
+   tiny p-value alone as evidence of a large or important effect.
 
 ## Follow-up
 

@@ -67,8 +67,21 @@ def mannwhitney_within_clade(
             }
         )
 
+    if not rows:
+        return pd.DataFrame(
+            columns=[
+                rank_col,
+                "n_adhesion",
+                "n_background",
+                "median_adhesion",
+                "median_background",
+                "u_stat",
+                "p_value",
+                "p_value_bh",
+            ]
+        )
+
     result = pd.DataFrame(rows)
-    if not result.empty:
-        _, corrected, _, _ = multipletests(result["p_value"], method="fdr_bh")
-        result["p_value_bh"] = corrected
+    _, corrected, _, _ = multipletests(result["p_value"], method="fdr_bh")
+    result["p_value_bh"] = corrected
     return result
