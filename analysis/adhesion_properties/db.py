@@ -5,6 +5,7 @@ function here filters against a caller-supplied protein-id list
 (registered as a temp view) rather than scanning a full table.
 """
 
+import os
 from collections.abc import Iterable
 from pathlib import Path
 
@@ -15,10 +16,24 @@ FUNCTION_DB_PATH = Path("/bigdata/stajichlab/shared/projects/Fungi_5k/functional
 
 _ALLOWED_DOMAIN_TABLES = {"pfam", "cazy_overview", "merops", "signalp", "tmhmm", "targetp"}
 
+# DuckDB auto-detects a memory_limit from total system RAM (e.g. 6.1 GiB on
+# a node with hundreds of GB total), which is unaware of tighter per-job
+# cgroup memory caps (e.g. an 8GB SLURM allocation) and can OOM-kill the
+# process when scanning/joining against the large gene_proteins table. Cap
+# it explicitly so DuckDB spills to disk instead of exceeding the cgroup.
+_DUCKDB_MEMORY_LIMIT = "2GB"
+
 
 def connect(db_path: Path = FUNCTION_DB_PATH) -> "duckdb.DuckDBPyConnection":
     """Open a read-only connection to the functional annotation database."""
-    return duckdb.connect(str(db_path), read_only=True)
+    con = duckdb.connect(str(db_path), read_only=True)
+    con.execute(f"PRAGMA memory_limit='{_DUCKDB_MEMORY_LIMIT}'")
+    scratch = os.environ.get("SCRATCH")
+    if scratch:
+        temp_dir = Path(scratch) / "duckdb_tmp"
+        temp_dir.mkdir(parents=True, exist_ok=True)
+        con.execute(f"PRAGMA temp_directory='{temp_dir}'")
+    return con
 
 
 def fetch_lengths(con, protein_ids: Iterable[str]) -> pd.DataFrame:
