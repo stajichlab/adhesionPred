@@ -27,3 +27,9 @@ output/
 
 # Pre-commit cache
 .pre-commit-cache
+
+analysis/kingdom_survey/tables/*.csv
+analysis/kingdom_survey/figures/*.png
+analysis/kingdom_survey/figures/*.svg
+!analysis/kingdom_survey/tables/.gitkeep
+!analysis/kingdom_survey/figures/.gitkeep

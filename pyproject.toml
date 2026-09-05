@@ -20,6 +20,12 @@ dependencies = [
     "tqdm",
     "torchvision",
     "importlib-metadata; python_version<'3.8'",
+    "scikit-posthocs>=0.7",
+    "pandas",
+    "scipy",
+    "statsmodels",
+    "matplotlib>=3.9",
+    "seaborn>=0.13",
 ]
 license = { file = "LICENSE" }
 dynamic = ["version"]
