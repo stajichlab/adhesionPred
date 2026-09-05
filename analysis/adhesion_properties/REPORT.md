@@ -6,6 +6,14 @@
 - 749697 background (non-adhesion) proteins sampled 1:1 per species
   for comparison (seed=42, reproducible).
 
+**Regenerating this report:** `protein_universe.csv` and `protein_domain_flags.csv`
+(read by this script) are not tracked in git — they are large
+(~163MB/~78MB), fully reproducible per-protein intermediate tables.
+Regenerate them first with `01_build_protein_universe.py` and
+`02_query_functional_domains.py` (and `03_compute_sequence_properties.py`
+/ `04_aggregate_and_test.py` for the other inputs this script and its
+upstream tables depend on) before re-running this script.
+
 ## Domain/topology presence: adhesion vs. background
 
 ```
