@@ -11,6 +11,7 @@ from figures import (  # noqa: E402
     boxplot_by_rank,
     probability_boxplot_by_rank,
     scatter_proteome_vs_adhesion,
+    scatter_proteome_vs_adhesion_by_phylum,
 )
 
 TABLES_DIR = Path(__file__).resolve().parent / "tables"
@@ -37,6 +38,9 @@ def main() -> None:
         title="Adhesion fraction by order (top 20 by species count)",
     )
     scatter_proteome_vs_adhesion(df, FIGURES_DIR / "scatter_proteome_vs_adhesion.png")
+    scatter_proteome_vs_adhesion_by_phylum(
+        df, FIGURES_DIR / "scatter_proteome_vs_adhesion_by_phylum.png"
+    )
     probability_boxplot_by_rank(df, "phylum", FIGURES_DIR / "box_prob_by_phylum.png")
     probability_boxplot_by_rank(
         df,

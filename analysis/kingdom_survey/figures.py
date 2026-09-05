@@ -10,11 +10,20 @@ palette (see .superpowers dataviz skill, references/palette.md):
 - Full-N groups use categorical slot 1 (blue); small-N groups use the
   muted axis/label gray, so "insufficient sample size" reads as a
   de-emphasized/warning-like state rather than just another hue.
-- The scatter plot's phylum coloring uses the fixed 8-slot categorical
-  order (assigned deterministically, never cycled/re-ordered per call);
-  a scatter plot is an "all-pairs" context under the skill's validator,
-  so any phylum beyond the first 8 folds into the muted gray "Other"
-  bucket rather than reusing/cycling hues.
+- The overview scatter plot is an "all-pairs" context (every point can
+  sit next to every other) — per the palette's own validation notes,
+  only the first THREE categorical slots clear the colorblind-safety
+  and contrast floors together in an all-pairs layout; a naive 8-slot
+  assignment (the previous approach) puts pairs on screen that fail
+  those floors, which is why the plot read as visually muddy. So the
+  scatter highlights only the 3 largest phyla by species count (the
+  ones that dominate the point cloud and where "which phylum is this"
+  matters most) and folds every other phylum into the muted gray
+  "Other" bucket, plotted underneath so the 3 highlighted colors stay
+  legible on top. Full 9-way phylum identity is instead shown via
+  `scatter_proteome_vs_adhesion_by_phylum`'s small-multiples facet grid
+  — one panel per phylum, a single consistent color, identity
+  established spatially (by panel) rather than by hue.
 """
 
 from pathlib import Path
@@ -91,28 +100,48 @@ def boxplot_by_rank(
     plt.close(fig)
 
 
-def _phylum_color_map(phyla: list) -> dict:
-    """Deterministic, fixed-order categorical color assignment.
+# Only the first 3 categorical slots clear the colorblind-safety and
+# contrast floors together in an "all-pairs" layout (see palette.md);
+# past 3, fold to "Other" or facet instead of cycling more hues in.
+_ALL_PAIRS_SAFE_SLOTS = 3
+_SCATTER_ALPHA = 0.8
 
-    A scatter plot is an "all-pairs" context (every point can sit next to
-    every other), so only the palette's first 8 validated categorical
-    slots are used; any phylum beyond that folds into a shared muted-gray
-    "Other" bucket instead of cycling colors.
+
+def _phylum_color_map(phylum_counts: "pd.Series") -> dict:
+    """Deterministic categorical color assignment, capped for an all-pairs
+    scatter: only the _ALL_PAIRS_SAFE_SLOTS largest-by-count phyla get a
+    distinct hue (in count-descending order); everything else shares the
+    muted "Other" gray. `phylum_counts` is a phylum -> species-count
+    Series computed once from the full dataset, so the assignment doesn't
+    repaint if a caller later filters a subset.
+
+    Returns an ordered dict with "Other" phyla first and highlighted
+    phyla last, so passing `hue_order=list(color_map)` to seaborn draws
+    the muted background first and the highlighted colors on top —
+    keeping them legible instead of buried under denser gray clusters.
     """
-    ordered_phyla = sorted(phyla)
-    color_map = {}
-    for i, p in enumerate(ordered_phyla):
-        color_map[p] = _CATEGORICAL_ORDER[i] if i < len(_CATEGORICAL_ORDER) else _OTHER_COLOR
+    ranked = phylum_counts.sort_values(ascending=False)
+    highlighted = list(ranked.index[:_ALL_PAIRS_SAFE_SLOTS])
+    other = list(ranked.index[_ALL_PAIRS_SAFE_SLOTS:])
+
+    color_map = dict.fromkeys(sorted(other), _OTHER_COLOR)
+    for i, p in enumerate(highlighted):
+        color_map[p] = _CATEGORICAL_ORDER[i]
     return color_map
 
 
 def scatter_proteome_vs_adhesion(df: pd.DataFrame, out_path: Path) -> None:
     """Scatter of total_proteins vs adhesion_count, colored by phylum, with a
     reference line for 'expected count under the kingdom-wide median
-    fraction' — separates genome-size effects from real enrichment."""
+    fraction' — separates genome-size effects from real enrichment.
+
+    Only the 3 largest phyla by species count get a distinct color (the
+    all-pairs-safe cap); the rest are muted gray "Other", plotted first
+    so the highlighted colors stay legible on top.
+    """
     sub = df[df["phylum"].notna()].copy()
     kingdom_median_fraction = sub["adhesion_fraction"].median()
-    color_map = _phylum_color_map(sub["phylum"].unique())
+    color_map = _phylum_color_map(sub["phylum"].value_counts())
 
     fig, ax = plt.subplots(figsize=(9, 7))
     sns.scatterplot(
@@ -120,8 +149,9 @@ def scatter_proteome_vs_adhesion(df: pd.DataFrame, out_path: Path) -> None:
         x="total_proteins",
         y="adhesion_count",
         hue="phylum",
+        hue_order=list(color_map),
         palette=color_map,
-        alpha=0.6,
+        alpha=_SCATTER_ALPHA,
         s=20,
         ax=ax,
         legend="brief",
@@ -138,6 +168,62 @@ def scatter_proteome_vs_adhesion(df: pd.DataFrame, out_path: Path) -> None:
     ax.set_xlabel("Total proteins in proteome")
     ax.set_ylabel("Adhesion-called proteins")
     ax.legend(bbox_to_anchor=(1.02, 1), loc="upper left", fontsize=8)
+    fig.tight_layout()
+    fig.savefig(out_path, dpi=150)
+    plt.close(fig)
+
+
+def scatter_proteome_vs_adhesion_by_phylum(
+    df: pd.DataFrame, out_path: Path, ncols: int = 3, nrows: int = 3
+) -> None:
+    """Small-multiples version of scatter_proteome_vs_adhesion: one panel
+    per phylum (up to ncols*nrows, ranked by species count), each with its
+    own independent x/y scale so a phylum with a much smaller/larger
+    proteome-size range isn't squashed by another phylum's scale. Every
+    panel uses the same single color (identity is established by the
+    panel title, not by hue) and repeats the kingdom-median reference
+    line so each phylum's position relative to the kingdom-wide
+    expectation is directly comparable across panels.
+    """
+    sub = df[df["phylum"].notna()].copy()
+    kingdom_median_fraction = sub["adhesion_fraction"].median()
+    counts = sub["phylum"].value_counts()
+    panels = list(counts.sort_values(ascending=False).index[: ncols * nrows])
+
+    fig, axes = plt.subplots(nrows, ncols, figsize=(4.2 * ncols, 3.6 * nrows))
+    axes = axes.flatten()
+
+    for i, ax in enumerate(axes):
+        if i >= len(panels):
+            ax.set_visible(False)
+            continue
+        phylum = panels[i]
+        pdata = sub[sub["phylum"] == phylum]
+        ax.scatter(
+            pdata["total_proteins"],
+            pdata["adhesion_count"],
+            color=_FULL_COLOR,
+            alpha=_SCATTER_ALPHA,
+            s=20,
+        )
+        x_range = [pdata["total_proteins"].min(), pdata["total_proteins"].max()]
+        ax.plot(
+            x_range,
+            [x * kingdom_median_fraction for x in x_range],
+            color="black",
+            linestyle="--",
+            linewidth=1,
+        )
+        ax.set_title(f"{phylum} (n={counts[phylum]})", fontsize=10)
+        ax.tick_params(labelsize=8)
+
+    fig.supxlabel("Total proteins in proteome")
+    fig.supylabel("Adhesion-called proteins")
+    fig.suptitle(
+        f"Proteome size vs. adhesion count by phylum (dashed line = kingdom "
+        f"median fraction {kingdom_median_fraction:.4f})",
+        fontsize=11,
+    )
     fig.tight_layout()
     fig.savefig(out_path, dpi=150)
     plt.close(fig)

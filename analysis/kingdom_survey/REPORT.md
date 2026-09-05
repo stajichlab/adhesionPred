@@ -43,6 +43,15 @@ figure itself.
 
 ![Proteome size vs adhesion count](figures/scatter_proteome_vs_adhesion.png)
 
+The scatter above highlights only the 3 largest phyla by species count
+(Ascomycota, Basidiomycota, Zoopagomycota) in distinct colors, with every
+other phylum folded into muted gray "Other" — a dense, overlapping
+all-pairs scatter cannot safely distinguish more than 3 categorical
+colors at once (see `figures.py`'s module docstring), so showing all 9
+phyla's own point clouds is left to the small-multiples version below.
+
+![Proteome size vs adhesion count by phylum](figures/scatter_proteome_vs_adhesion_by_phylum.png)
+
 ## By phylum
 
 Naive per-species test: H=1.59e+03, p=0, epsilon-squared=0.274, n_groups=7.
