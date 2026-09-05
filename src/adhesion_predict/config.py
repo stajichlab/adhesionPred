@@ -3,9 +3,33 @@
 from pathlib import Path
 
 PROJECT_ROOT = Path(__file__).parent.parent.parent
-# MODELS_DIR = PROJECT_ROOT / "models"
+
+
+# Model directory search hierarchy
+def get_models_dir():
+    """
+    Get models directory with search hierarchy:
+    1. Current working directory: ./models
+    2. System installation: site-packages/adhesion_predict/models
+    """
+    # First priority: current directory
+    current_dir_models = Path.cwd() / "models"
+    if current_dir_models.exists():
+        return current_dir_models
+
+    # Second priority: system installation directory
+    # Look for adhesion_predict package in site-packages
+    package_root = Path(__file__).parent
+    system_models = package_root / "models"
+    if system_models.exists():
+        return system_models
+
+    # Fallback: return current directory (will be created if needed)
+    return current_dir_models
+
+
 DATA_DIR = Path.cwd() / "data"
-MODELS_DIR = Path.cwd() / "models"
+MODELS_DIR = get_models_dir()
 
 POSITIVE_DIR = DATA_DIR / "positive"
 NEGATIVE_DIR = DATA_DIR / "negative"
