@@ -1,0 +1,10 @@
+phylum,n,median,iqr,small_n
+Microsporidia,65,471.0,424.0,False
+Sanchytriomycota,28,445.5,366.5,False
+Chytridiomycota,14817,432.0,487.0,False
+Blastocladiomycota,938,410.0,329.5,False
+Ascomycota,555861,345.0,342.0,False
+Zoopagomycota,18647,338.0,321.0,False
+Basidiomycota,135340,310.0,299.0,False
+Cryptomycota,40,303.0,346.5,False
+Mucoromycota,23786,302.0,438.75,False
