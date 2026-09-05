@@ -66,7 +66,10 @@ def kruskal_wallis_by_rank(df: pd.DataFrame, rank_col: str, value_col: str) -> d
     h_stat, p_value = kruskal(*samples)
     n_total = sum(len(s) for s in samples)
     k = len(samples)
-    epsilon_sq = (h_stat - k + 1) / (n_total - k) if n_total > k else float("nan")
+    # True epsilon-squared (Kruskal-Wallis effect size): H / (n_total - 1).
+    # (Note: (H - k + 1) / (n_total - k) is eta-squared-from-H, a related
+    # but distinct statistic — not epsilon-squared.)
+    epsilon_sq = h_stat / (n_total - 1) if n_total > 1 else float("nan")
     return {
         "rank": rank_col,
         "value_col": value_col,
@@ -130,6 +133,9 @@ def mixedlm_by_rank(df: pd.DataFrame, rank_col: str, value_col: str = "adhesion_
     true phylogenetic comparative method (equal "branch lengths").
     """
     sub = df[df[rank_col].notna() & df["genus"].notna()].copy()
+    counts = sub[rank_col].value_counts()
+    eligible_groups = counts[counts >= MIN_GROUP_N].index
+    sub = sub[sub[rank_col].isin(eligible_groups)]
     if sub[rank_col].nunique() < 2 or sub["genus"].nunique() < 2:
         return {
             "rank": rank_col,

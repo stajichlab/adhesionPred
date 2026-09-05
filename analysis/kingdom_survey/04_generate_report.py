@@ -33,6 +33,37 @@ def main() -> None:
     order_omnibus = pd.read_csv(TABLES / "stats_by_order_omnibus.csv").iloc[0]
     phylum_omnibus_genus = pd.read_csv(TABLES / "stats_by_phylum_genus_avg_omnibus.csv").iloc[0]
 
+    mixedlm_rows = {}
+    for rank in ("phylum", "class", "order"):
+        mixedlm_rows[rank] = pd.read_csv(TABLES / f"mixedlm_by_{rank}.csv").iloc[0]
+
+    def _mixedlm_section(rank: str) -> str:
+        row = mixedlm_rows[rank]
+        if not bool(row["converged"]):
+            return (
+                f"- **{rank}**: model did not converge "
+                f"(see `tables/mixedlm_by_{rank}_summary.txt` for details)."
+            )
+        genus_var = float(row["genus_variance"])
+        resid_var = float(row["residual_variance"])
+        ratio = genus_var / resid_var if resid_var else float("nan")
+        if ratio >= 1:
+            interp = (
+                f"genus variance is ~{ratio:.2g}x the residual variance for {rank}, "
+                "indicating substantial non-independence within genus"
+            )
+        else:
+            interp = (
+                f"genus variance is ~{ratio:.2g}x the residual variance for {rank} "
+                "(smaller than the residual, but still a non-negligible share of the "
+                "total variance, so some non-independence within genus remains)"
+            )
+        return (
+            f"- **{rank}**: converged. Genus variance component = {genus_var:.3g}, "
+            f"residual variance component = {resid_var:.3g} ({interp}). "
+            f"Full model summary: `tables/mixedlm_by_{rank}_summary.txt`."
+        )
+
     report = f"""# Kingdom-wide Fungal Adhesion Protein Survey
 
 ## Scope
@@ -52,15 +83,15 @@ Chytridiomycota 0.0164, n=41 genera; Microsporidia 0.0023, n=6 genera), so
 it is not simply an artifact of repeated intra-genus sampling. The phylum
 omnibus Kruskal-Wallis test is highly significant either way (naive:
 H=1.59e+03, p≈0, epsilon-squared=0.274, n_groups=7; genus-averaged:
-H=478, p=5.44e-100, epsilon-squared=0.362) — the genus-averaged effect
+H=478, p=5.44e-100, epsilon-squared=0.365) — the genus-averaged effect
 size is, if anything, larger, arguing against oversampling as the driver
 of the phylum-level signal. At the order level the separation is sharper:
 Neocallimastigales (n=8 species) has the single highest median
 `adhesion_fraction` (0.0387) and stays on top after genus-averaging
 (0.0417, n=5 genera), and the order-level omnibus effect size exceeds the
-phylum-level one in both the naive view (H=3.55e+03, epsilon-squared=0.632,
+phylum-level one in both the naive view (H=3.55e+03, epsilon-squared=0.637,
 n_groups=84) and the genus-averaged view (H=765, p=2.28e-126,
-epsilon-squared=0.699, n_groups=55). The bottom of the order ranking
+epsilon-squared=0.714, n_groups=55). The bottom of the order ranking
 diverges between the two methods, however: naively, Malasseziales has the
 lowest median `adhesion_fraction` among well-powered orders (0.0027,
 n=20 species), but under genus-averaging its species collapse into too
@@ -90,16 +121,34 @@ epsilon-squared={phylum_omnibus_genus['epsilon_squared']:.3g}.
 
 ![Mean adhesion probability by phylum](figures/box_prob_by_phylum.png)
 
-## By order (top 20 by species count)
+## By order (all orders; figures below show top 20 by species count)
 
 Naive per-species test: H={order_omnibus['h_stat']:.3g}, p={order_omnibus['p_value']:.3g}, \
 epsilon-squared={order_omnibus['epsilon_squared']:.3g}, n_groups={int(order_omnibus['n_groups'])}.
 
 {ranked_summary_table(order_summary, "order")}
 
+† = small-N (n < MIN_GROUP_N), descriptive only, excluded from formal tests.
+
 ![Adhesion fraction by order](figures/box_fraction_by_order.png)
 
 ![Mean adhesion probability by order](figures/box_prob_by_order.png)
+
+## Pseudo-phylogenetic correction (mixed model)
+
+A third view alongside naive per-species and genus-averaged tests: a
+linear mixed model of `adhesion_fraction ~ C(rank)` with genus as a
+random intercept, fit on the same MIN_GROUP_N-filtered species subset as
+the other two views (see `stats.py`'s `mixedlm_by_rank`). This
+approximates a phylogenetic correction using genus membership as a proxy
+for shared ancestry (no real branch lengths). For each rank:
+
+{_mixedlm_section("phylum")}
+{_mixedlm_section("class")}
+{_mixedlm_section("order")}
+
+Full model output (coefficients, standard errors, z-values) for each rank
+is in `tables/mixedlm_by_{{phylum,class,order}}_summary.txt`.
 
 ## Family/genus drill-down
 
@@ -129,10 +178,11 @@ well-powered orders (n≥5, not flagged `small_n`) by median
   with *Dactylella* (n=1, median 0.0243) and *Drechslerella* (n=3, median
   0.0191) lower — i.e. the nematode-trapping genera *Dactylellina* and
   *Arthrobotrys* anchor the high end of this order.
-- **Dothideales** (32 species across 5 families) is dominated by a single
+- **Dothideales** (32 species across 4 named families, plus 1 species with
+  no family-level taxonomy assigned) is dominated by a single
   family/genus: *Aureobasidium* (family Saccotheciaceae) contributes 26
   of the 32 species with median 0.0223, well above the order's other
-  families/genera (Dothioraceae n=2 median 0.0194; Dothideaceae n=1
+  named families/genera (Dothioraceae n=2 median 0.0194; Dothideaceae n=1
   median 0.0181; Zalariaceae/*Zalaria* n=2 median 0.0158) — so Dothideales'
   elevated order-level median is largely a single-genus (*Aureobasidium*)
   signal, not a broad order-wide pattern.
@@ -156,8 +206,11 @@ well-powered orders (n≥5, not flagged `small_n`) by median
    thousands down to 1); Kruskal-Wallis reads as significant on almost
    any real difference at this scale, so epsilon-squared effect size is
    the headline statistic here, not the p-value alone. Groups with
-   N < {5} are shown for reference but excluded from formal tests and
-   visually greyed out in figures.
+   N < {5} are excluded from formal statistical tests and are colored
+   distinctly from well-sampled groups in the code, though for the
+   smallest groups (n=1) a boxplot has no visible fill area to show that
+   color on — see the note under Headline findings for the specific case
+   observed in this run.
 5. **`adhesion_fraction` is fixed to the model's internal 0.5 probability
    threshold.** Results files contain only positive calls, so no
    threshold-sensitivity analysis is possible from existing data — a

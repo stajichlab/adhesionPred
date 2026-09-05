@@ -160,9 +160,14 @@ def probability_boxplot_by_rank(
 
 def ranked_summary_table(summary_df: pd.DataFrame, rank_col: str) -> str:
     """Render a sorted markdown table (replaces a min-max-normalized heatmap,
-    which would visually inflate trivial differences over ~9 phyla)."""
+    which would visually inflate trivial differences over ~9 phyla).
+
+    Small-N groups (small_n is True, i.e. n < MIN_GROUP_N) are marked with
+    a dagger on the group name so the table itself flags "descriptive
+    only, excluded from formal tests" without needing an extra column.
+    """
     cols = [rank_col, "n_species", "median_fraction", "median_count", "median_prob"]
-    sorted_df = summary_df.sort_values("median_fraction", ascending=False)[cols]
+    sorted_df = summary_df.sort_values("median_fraction", ascending=False)[cols + ["small_n"]]
     header = "| " + " | ".join(cols) + " |"
     sep = "| " + " | ".join("---" for _ in cols) + " |"
     lines = [header, sep]
@@ -170,6 +175,9 @@ def ranked_summary_table(summary_df: pd.DataFrame, rank_col: str) -> str:
         values = []
         for c in cols:
             v = row[c]
-            values.append(f"{v:.4f}" if isinstance(v, float) else str(v))
+            if c == rank_col and row["small_n"]:
+                values.append(f"{v} †")
+            else:
+                values.append(f"{v:.4f}" if isinstance(v, float) else str(v))
         lines.append("| " + " | ".join(values) + " |")
     return "\n".join(lines)
