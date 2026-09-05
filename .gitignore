@@ -33,3 +33,9 @@ analysis/kingdom_survey/figures/*.png
 analysis/kingdom_survey/figures/*.svg
 !analysis/kingdom_survey/tables/.gitkeep
 !analysis/kingdom_survey/figures/.gitkeep
+
+analysis/adhesion_properties/tables/*.csv
+analysis/adhesion_properties/figures/*.png
+analysis/adhesion_properties/figures/*.svg
+!analysis/adhesion_properties/tables/.gitkeep
+!analysis/adhesion_properties/figures/.gitkeep
