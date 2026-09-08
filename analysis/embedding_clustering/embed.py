@@ -15,6 +15,15 @@ package meaning for `import esm` (EvolutionaryScale's ESM-C SDK, vs.
 AttributeError if this module is ever imported in the wrong interpreter.
 ESM-C extraction lives entirely in its own self-contained CLI script
 (a separate task), not here.
+
+IMPORT NOTE: `adhesion_predict.embeddings` (which pulls in `fair-esm`) is
+imported lazily, inside extract_esm2_classifier_embeddings, rather than at
+module level. This lets the ESM-C extraction script import this module's
+version-agnostic bookkeeping functions (read_protein_universe_adhesion_ids,
+save_embeddings_chunk, load_all_embedding_chunks) under `.venv_esmc`
+(Python 3.11), where `adhesion_predict` is not installed and `import esm`
+resolves to the unrelated ESM-C SDK package -- without ever needing
+adhesion_predict.embeddings to actually load there.
 """
 
 import sys
@@ -22,10 +31,6 @@ from pathlib import Path
 
 import numpy as np
 import pandas as pd
-
-_REPO_ROOT = Path(__file__).resolve().parents[2]
-sys.path.insert(0, str(_REPO_ROOT / "src"))
-from adhesion_predict.embeddings import get_esm_embeddings  # noqa: E402
 
 
 def read_protein_universe_adhesion_ids(universe_csv_path: Path) -> list[str]:
@@ -39,6 +44,10 @@ def extract_esm2_classifier_embeddings(sequences: list) -> tuple[np.ndarray, lis
     classifier was trained/predicts on: esm2_t12_35M_UR50D, layer 6,
     mean-pooled. `sequences` is a list of {"id", "sequence"} dicts,
     matching get_esm_embeddings' expected input shape."""
+    _repo_root = Path(__file__).resolve().parents[2]
+    sys.path.insert(0, str(_repo_root / "src"))
+    from adhesion_predict.embeddings import get_esm_embeddings
+
     return get_esm_embeddings(sequences, model_name="esm2_t12_35M_UR50D")
 
 
