@@ -57,6 +57,24 @@ _CATEGORICAL_ORDER = [
     "#4a3aa7",  # 7 violet
     "#e34948",  # 8 red
 ]
+# tab20 indices 14/15 are matplotlib's built-in gray pair -- visually
+# indistinguishable from _OTHER_COLOR/_NOISE_COLOR above. Skipped so a
+# tab20-fallback cluster color never collides with the "other clusters"
+# bucket or the noise color (a real collision found in whole-branch review).
+_TAB20_GRAY_INDICES = {14, 15}
+
+
+def _tab20_fallback_color(slot: int):
+    """0-indexed fallback slot -> a tab20 color, skipping the gray pair."""
+    tab20 = plt.get_cmap("tab20")
+    idx = 0
+    seen = 0
+    while True:
+        if (idx % 20) not in _TAB20_GRAY_INDICES:
+            if seen == slot:
+                return tab20(idx % 20)
+            seen += 1
+        idx += 1
 
 
 def umap_scatter_by_cluster(
@@ -85,9 +103,12 @@ def umap_scatter_by_cluster(
     top_labels = ranked[:MAX_DISTINCT_CLUSTERS]
     overflow_labels = ranked[MAX_DISTINCT_CLUSTERS:]
 
-    tab20 = plt.get_cmap("tab20")
     for i, label in enumerate(sorted(top_labels, key=lambda label: sizes[label], reverse=True)):
-        color = _CATEGORICAL_ORDER[i] if i < len(_CATEGORICAL_ORDER) else tab20(i % 20)
+        color = (
+            _CATEGORICAL_ORDER[i]
+            if i < len(_CATEGORICAL_ORDER)
+            else _tab20_fallback_color(i - len(_CATEGORICAL_ORDER))
+        )
         mask = cluster_labels == label
         ax.scatter(
             umap_coords[mask, 0],
@@ -106,7 +127,11 @@ def umap_scatter_by_cluster(
             s=3,
             alpha=0.3,
             color=_OTHER_COLOR,
-            label=f"other clusters (n={len(overflow_labels)})",
+            # Explicitly distinguish cluster count from protein count here --
+            # every other legend entry's "n=" is a protein count, so a bare
+            # "(n={len(overflow_labels)})" (a cluster count) reads as a
+            # protein count by comparison (found in whole-branch review).
+            label=f"other clusters ({len(overflow_labels)} clusters, n={int(overflow_mask.sum())} proteins)",
             zorder=1,
         )
 
@@ -149,7 +174,7 @@ def umap_scatter_by_feature(
             color = (
                 _CATEGORICAL_ORDER[i]
                 if i < len(_CATEGORICAL_ORDER)
-                else plt.get_cmap("tab20")(i % 20)
+                else _tab20_fallback_color(i - len(_CATEGORICAL_ORDER))
             )
             mask = feature_values == value
             ax.scatter(

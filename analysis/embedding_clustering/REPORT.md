@@ -11,6 +11,23 @@ by Tasks 3/4/6's real ESM2-classifier-space and ESM-C 300M embedding
 extraction + `sklearn.cluster.HDBSCAN` clustering), joined against
 `analysis/adhesion_properties/tables/{protein_sequence_properties,protein_domain_flags}.csv`.
 
+**Why the two spaces cover slightly different protein counts (749,680 vs.
+749,697):** the shipped classifier's own embedding function
+(`src/adhesion_predict/embeddings.py`'s `get_esm_embeddings`) silently
+drops an entire batch of sequences if any single sequence in it fails to
+tokenize. The real ESM2-classifier extraction run lost 176 proteins to
+this; 159 were pure batch-collateral-damage and were recovered by
+re-running them in isolation (`analysis/embedding_clustering/recover_missing_esm2_embeddings.py`,
+committed alongside this report) at `batch_size=1`, same model, same
+mathematical result. The remaining 17 genuinely contain `J` or `*`
+characters that are not in ESM-2's tokenizer alphabet at all -- these
+cannot be embedded in ESM2-classifier space by any batching choice, a
+real and permanent limitation of that embedding space (not a bug). ESM-C
+300M's tokenizer handles a broader character set and embedded all
+749,697 proteins with zero missing. `get_esm_embeddings` itself is
+deliberately left unmodified, as it is pre-existing production code for
+the shipped classifier, out of scope for this analysis to alter.
+
 ## Per-space cluster summary
 
 Each cluster's N, median length, median Ser/Thr/Pro%, mean hydrophobicity,
@@ -86,6 +103,21 @@ confirming or ruling out AA1-specific concentration.
 
 ## Figures
 
+**Note on what these figures show:** the UMAP 2D projection in every
+figure below is computed from the *raw* embeddings (480-dim for
+ESM2-classifier, 960-dim for ESM-C 300M), while HDBSCAN clustering
+(the colors in the "Clusters" figures) was run on a 15-component PCA
+reduction of those same embeddings (see Caveat 7). The cluster labels
+painted onto each UMAP projection therefore come from a different
+(lower-dimensional) representation than the 2D layout itself -- points
+that look close in a UMAP plot are not guaranteed to have been "close"
+in the space HDBSCAN actually clustered on, and vice versa. This is a
+reasonable and common choice (UMAP on the full embedding preserves more
+of the original structure for visualization) but is worth keeping in
+mind, particularly for the ESM-C 300M cluster figure, whose visual
+fragmentation partly reflects this space/space mismatch, not only the
+real 512-cluster/86%-noise HDBSCAN result itself.
+
 ### ESM2-classifier space
 
 ![Clusters (ESM2-classifier)](figures/umap_cluster_esm2_classifier.png)
@@ -137,8 +169,12 @@ row shows 100% `has_signal_peptide` and 0% `has_tm_helix` (both verified
 directly against `cluster_summary_esmc300m.csv`) -- a small but distinctive
 shared cluster across both embedding spaces, consistent with a
 secreted/GPI-anchored protein architecture (median Ser/Thr/Pro% 44.4%,
-also elevated relative to the ~28-30% seen in the larger clusters). The
-AA1/CAZy concentration check (via the `has_cazy` proxy) is essentially
+also elevated relative to the ~28-30% seen in the larger clusters). As with
+every cluster reported here, this specific small-cluster signal has not
+been checked for sequence redundancy across genomes (Caveat 9) or run
+through a `min_cluster_size` sensitivity sweep (Caveat 8) -- it is a
+concrete, checkable candidate for follow-up, not a validated finding on its
+own. The AA1/CAZy concentration check (via the `has_cazy` proxy) is essentially
 uniform in ESM2-classifier space (20.7% in the dominant cluster, close to
 the dataset's 19.9% baseline; std across clusters only 0.108) but sharply
 bimodal in ESM-C 300M space (74.5% of clusters at exactly 0% `has_cazy`,
@@ -193,20 +229,43 @@ space compresses away.
    scaling at 50 PCA dimensions on ~750K points was projected to take 9-11
    hours per embedding space; 15 dimensions brought each run into a
    several-hour range (actual: ~2.5h reduce+cluster per space, plus UMAP).
-8. **ESM2-classifier space's clustering result is borderline-degenerate
-   for the scientific purpose of finding structural sub-types**, even
+8. **Neither space's clustering result has been checked for sensitivity to
+   `min_cluster_size`** (HDBSCAN's density threshold), and both results
+   should be read with that in mind, not just the more obviously skewed
+   one. ESM2-classifier space's clustering result is borderline-degenerate
+   for the scientific purpose of finding structural sub-types, even
    though it technically passes this project's literal "not everything in
-   one cluster" completion bar. With 94.5% of all proteins in one dominant
+   one cluster" completion bar: with 94.5% of all proteins in one dominant
    cluster and only 5.5% in noise (no meaningful second population beyond
    one 53-protein cluster), this space provides very little discriminative
-   signal on its own for distinguishing adhesin sub-architectures. A
-   `min_cluster_size` sensitivity sweep (varying HDBSCAN's `min_cluster_size`
-   to check whether the one-dominant-cluster result is an artifact of the
-   default value or a robust feature of this embedding space) was
-   recommended during this project (Task 6/7/8) but was **not performed**
-   -- it is out of scope for the tasks completed here and is deferred as a
-   future follow-up. This should not be read as having ruled out a
-   different clustering structure at other `min_cluster_size` values.
+   signal on its own for distinguishing adhesin sub-architectures. But
+   ESM-C 300M's result is *also* a single-parameter-setting outcome (86.1%
+   noise, 512 clusters, largest cluster only 0.55% of the data, all at the
+   same default `min_cluster_size=50`) that has not been swept either --
+   language above like "real internal structure" and "real cluster-level
+   CAZy-domain concentration" describes what the current parameter choice
+   shows, not a result confirmed robust to that choice. A `min_cluster_size`
+   sensitivity sweep for BOTH spaces (checking whether either result is an
+   artifact of the default value or a robust feature of that embedding
+   space) was recommended during this project (Task 6/7/8) but was **not
+   performed** for either space -- it is out of scope for the tasks
+   completed here and is deferred as a future follow-up. This should not
+   be read as having ruled out a different clustering structure at other
+   `min_cluster_size` values, for either embedding space.
+9. **Proteins in this set were not de-duplicated for sequence redundancy
+   across genomes.** The 749,697 proteins come from roughly a thousand
+   fungal genomes, so a substantial fraction of any given cluster may be
+   orthologs or close paralogs of each other rather than independent
+   examples of a shared structural architecture. No identity-threshold
+   clustering (e.g. CD-HIT) was applied before HDBSCAN clustering. Some of
+   the exact 0.0000/1.0000 domain-flag fractions seen in the ESM-C 300M
+   per-cluster summary table above are at least as consistent with "one
+   ortholog group, sampled repeatedly across genomes" as with "one
+   distinct structural architecture" -- this is a real, unaddressed
+   confound for reading ESM-C 300M's 512 clusters as 512 candidate
+   sub-architectures, and should be checked (e.g. by inspecting whether a
+   cluster's members cluster taxonomically too) before drawing that
+   conclusion for any specific cluster.
 
 ## Regenerating this report
 
@@ -215,9 +274,13 @@ space compresses away.
 committed directly (small, derived summary tables). The large per-protein
 intermediates they are computed from (`tables/cluster_labels_*.csv`, the
 embedding `.npy` chunks under `tables/esm2_classifier/` and
-`tables/esmc300m/`) are not tracked in git -- they are fully reproducible
-from Tasks 3/4/6 given the same real data source. Regenerate them with
-`01_extract_embeddings_esm2_classifier.py`, `02_extract_embeddings_esmc300m.py`,
-`03_cluster_esm2_classifier.py`, `04_cluster_esmc300m.py`, then
-`05_validate_and_compare.py` and `06_make_figures.py`, before re-running
-this script.
+`tables/esmc300m/`) are not tracked in git -- they are reproducible from
+the same real data source. Regenerate them with
+`01_extract_embeddings_esm2_classifier.py` (chunks 0-149 -- see the note
+in Scope above: this alone will NOT reproduce the full 749,680-protein
+ESM2-classifier set, since Task 3's real run silently dropped 176
+proteins; also run `recover_missing_esm2_embeddings.py` afterward to
+produce chunk_00150 and recover 159 of those 176),
+`02_extract_embeddings_esmc300m.py`, `03_cluster_esm2_classifier.py`,
+`04_cluster_esmc300m.py`, then `05_validate_and_compare.py` and
+`06_make_figures.py`, before re-running this script.

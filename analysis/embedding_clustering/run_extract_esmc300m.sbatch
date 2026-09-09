@@ -1,4 +1,20 @@
 #!/bin/bash -l
+# REQUIRED SETUP (one-time, before submitting this job): this script runs
+# under a separate Python 3.11+ virtualenv, `.venv_esmc/`, NOT the main
+# project's Python 3.9 environment -- the `esm` PyPI package (needed for
+# ESM Cambrian) requires Python >=3.10 in every published version, and
+# `import esm` means a different package in each environment (fair-esm in
+# the main env, EvolutionaryScale's ESM-C SDK in .venv_esmc), so the two
+# must never be mixed. If `.venv_esmc/` does not exist yet, create it:
+#     uv venv --python 3.11 .venv_esmc
+#     uv pip install --python .venv_esmc/bin/python esm torch httpx
+# (`httpx` is an undeclared transitive dependency of `esm.sdk` -- it
+# surfaces as a plain ModuleNotFoundError on first import if omitted.)
+# See analysis/embedding_clustering/00_feasibility_check.py and
+# .superpowers/sdd/2026-09-04-embedding-clustering/task-1-report.md (the
+# latter is a local development artifact, not tracked in git) for the full
+# feasibility investigation behind this requirement.
+#
 # Partition/account: `-p exfab -A exfab --gres=gpu:ada6000:1` (node gpu12,
 # 2x ada6000) from the START -- this is the hard-won lesson carried
 # forward from Task 3 (ESM2-classifier extraction), which burned through

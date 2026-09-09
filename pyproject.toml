@@ -26,6 +26,7 @@ dependencies = [
     "statsmodels",
     "matplotlib>=3.9",
     "seaborn>=0.13",
+    "umap-learn",
 ]
 license = { file = "LICENSE" }
 dynamic = ["version"]
