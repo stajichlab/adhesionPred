@@ -12,7 +12,7 @@ description = "A bioinformatics package for predicting adhesion proteins using E
 readme = "README.md"
 requires-python = ">=3.9"
 dependencies = [
-    "biopython>=1.81",
+    "biopython>=1.85",
     "numpy>=1.20",
     "torch",
     "fair-esm",
