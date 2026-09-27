@@ -13,12 +13,14 @@ This will run with pytorch on CPUs but will be much faster if on a GPU system wi
 I have built a set of FLO, ALS1 related proteins from Saccharomyces and Candida for starters. This seems to have some reasonable power.
 
 ```
-python scripts/training.py --positive training/positive --negative training/negative
+adhesion_train --positive data/positive --negative data/negative
 ```
 
 ### Application 
 
-You can run on a single file at a time and produce a report for each query file
+You can run on a single file at a time and produce a report for each query file.
+Note: FungiDB raw-file downloads now require a login (HTTP 401 as of 2026-09); fetch
+proteomes from NCBI Datasets or UniProt, or download from FungiDB while logged in.
 ```
 mkdir -p query
 pushd query
@@ -28,14 +30,14 @@ curl -O https://fungidb.org/a/service/raw-files/release-68/Spombe972h/fasta/data
 popd
 for qorg in $(ls query/*.fasta)
 do
-   python scripts/predict.py --input $qorg --output $(basename $qorg .fasta).adhesion_predict.csv
+   adhesion_predict --input $qorg --output $(basename $qorg .fasta).adhesion_predict.csv
 done
 ```
 
 You can run on a single folder and all results will be combined in a single file. It will look for all .fasta, .fa, .pep, .aa with or without .gz extensions.
 
 ```
-python scripts/predict.py --input query --output Combinedquery_adhesion_predict.csv
+adhesion_predict --input query --output Combinedquery_adhesion_predict.csv
 ```
 
 ## Development Setup
@@ -49,6 +51,10 @@ python scripts/predict.py --input query --output Combinedquery_adhesion_predict.
    ```bash
    pre-commit install
    ```
+
+Training writes a JSON model card next to the model (`adhesion_model_<esm>.json`) that records the
+ESM model, layer, pooling and training data; `adhesion_predict` refuses to run a model with
+mismatched `--model-name`. See `docs/model-review/` for the current model review and validation plan.
 
 # Author
 

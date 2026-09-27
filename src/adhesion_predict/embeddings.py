@@ -8,6 +8,15 @@ from tqdm import tqdm
 # Global model cache to avoid reloading models
 _MODEL_CACHE = {}
 
+# Layer the shipped models were trained on; see get_esm_embeddings.
+DEFAULT_REPR_LAYER = 6
+# ESM-2 context is 1024 tokens including BOS and EOS.
+MAX_RESIDUES = 1022
+POOLING = "residue_mean"
+# Residue characters the ESM-2 alphabet accepts; anything else becomes 'X'.
+ESM_RESIDUES = set("ACDEFGHIKLMNPQRSTVWYXBUZO")
+STRIP_CHARS = "*-."
+
 
 def get_cached_model(model_name, device=None):
     """Get cached ESM-2 model or load and cache if not present.
@@ -72,23 +81,76 @@ def get_optimal_batch_size(device, model_name):
         return 4
 
 
-def get_esm_embeddings(sequences, model_name="esm2_t6_8M_UR50D", batch_size=None, device=None):
+def sanitize_sequence(sequence):
+    """Make a protein sequence safe for the ESM-2 tokenizer.
+
+    Upper-cases, drops stop/gap characters ('*', '-', '.') and maps any other
+    character outside ESM-2's residue alphabet (e.g. 'J') to 'X', so that no
+    sequence can make a batch fail to tokenize.
+    """
+    seq = sequence.upper()
+    for ch in STRIP_CHARS:
+        seq = seq.replace(ch, "")
+    return "".join(ch if ch in ESM_RESIDUES else "X" for ch in seq)
+
+
+def _embed_batch(model, alphabet, batch_converter, batch, repr_layer, device):
+    """Embed one batch of (id, sequence) pairs; mean over residue tokens only.
+
+    BOS, EOS and padding positions are excluded from the mean, so a sequence's
+    embedding does not depend on the other sequences in its batch.
+    """
+    _, _, tokens = batch_converter(batch)
+    tokens = tokens.to(device)
+    with torch.no_grad():
+        results = model(tokens, repr_layers=[repr_layer], return_contacts=False)
+    reps = results["representations"][repr_layer]
+    mask = (
+        (tokens != alphabet.padding_idx)
+        & (tokens != alphabet.cls_idx)
+        & (tokens != alphabet.eos_idx)
+    ).unsqueeze(-1)
+    pooled = (reps * mask).sum(dim=1) / mask.sum(dim=1).clamp(min=1)
+    return pooled.float().cpu().numpy()
+
+
+def get_esm_embeddings(
+    sequences,
+    model_name="esm2_t6_8M_UR50D",
+    batch_size=None,
+    device=None,
+    repr_layer=DEFAULT_REPR_LAYER,
+    return_indices=False,
+):
     """Extract ESM-2 embeddings for protein sequences.
+
+    Sequences are sanitized (see sanitize_sequence), truncated to MAX_RESIDUES,
+    batched in length order, and mean-pooled over residue tokens only. Results
+    are returned in input order. A batch that fails is retried one sequence at
+    a time; a sequence that still fails is skipped with a warning, so callers
+    that need labels must align them by the returned ids or indices.
 
     Args:
         sequences: List of sequence dictionaries with 'id' and 'sequence' keys.
         model_name: ESM-2 model variant to use.
         batch_size: Number of sequences to process at once. If None, will auto-optimize.
         device: torch device (cuda or cpu).
+        repr_layer: Transformer layer whose representations are pooled. Defaults to 6,
+            the layer the shipped models were trained on (the final layer of the 6-layer
+            model, the middle layer of the 12-layer model).
+        return_indices: If True, also return the input positions of the embedded sequences.
 
     Returns:
-        Tuple of (embeddings array, sequence ids).
+        Tuple of (embeddings array, sequence ids), plus the list of input indices
+        when return_indices is True.
     """
     if device is None:
         device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
     # Use cached model loading
     model, alphabet = get_cached_model(model_name, device)
+    if not 0 < repr_layer <= model.num_layers:
+        raise ValueError(f"repr_layer={repr_layer} but {model_name} has {model.num_layers} layers")
 
     # Auto-optimize batch size if not provided
     if batch_size is None:
@@ -98,33 +160,40 @@ def get_esm_embeddings(sequences, model_name="esm2_t6_8M_UR50D", batch_size=None
 
     batch_converter = alphabet.get_batch_converter()
 
-    embeddings = []
-    seq_ids = []
+    cleaned = [sanitize_sequence(seq["sequence"])[:MAX_RESIDUES] for seq in sequences]
+    # Length-sorted batching minimizes padding; results are put back in input order.
+    order = sorted(range(len(sequences)), key=lambda k: len(cleaned[k]))
+    pooled = {}
 
     print(f"Extracting embeddings for {len(sequences)} sequences...")
-    for i in tqdm(range(0, len(sequences), batch_size)):
-        batch_seqs = sequences[i : i + batch_size]
-        batch_data = [(seq["id"], seq["sequence"][:1022]) for seq in batch_seqs]
-
+    for i in tqdm(range(0, len(order), batch_size)):
+        idx = order[i : i + batch_size]
+        batch = [(str(k), cleaned[k]) for k in idx]
         try:
-            batch_labels, batch_strs, batch_tokens = batch_converter(batch_data)
-            batch_tokens = batch_tokens.to(device)
-
-            with torch.no_grad():
-                results = model(batch_tokens, repr_layers=[6], return_contacts=False)
-
-            token_representations = results["representations"][6]
-            sequence_representations = token_representations.mean(dim=1)
-
-            for j in range(len(batch_seqs)):
-                embeddings.append(sequence_representations[j].cpu().numpy())
-                seq_ids.append(batch_seqs[j]["id"])
-
+            for k, vec in zip(
+                idx, _embed_batch(model, alphabet, batch_converter, batch, repr_layer, device)
+            ):
+                pooled[k] = vec
         except Exception as e:
-            print(f"Warning: Failed to process batch starting at {i}: {e}")
-            continue
+            print(f"Warning: batch failed ({e}); retrying its {len(idx)} sequences one at a time")
+            for k in idx:
+                try:
+                    pooled[k] = _embed_batch(
+                        model, alphabet, batch_converter, [(str(k), cleaned[k])], repr_layer, device
+                    )[0]
+                except Exception as e2:
+                    print(f"Warning: skipping sequence {sequences[k]['id']}: {e2}")
 
-    return np.array(embeddings), seq_ids
+    kept = sorted(pooled)
+    if len(kept) < len(sequences):
+        print(
+            f"Warning: {len(sequences) - len(kept)} of {len(sequences)} sequences were not embedded"
+        )
+    embeddings = np.array([pooled[k] for k in kept])
+    seq_ids = [sequences[k]["id"] for k in kept]
+    if return_indices:
+        return embeddings, seq_ids, kept
+    return embeddings, seq_ids
 
 
 ESM2_MODEL_CHOICES = [

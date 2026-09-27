@@ -36,13 +36,15 @@ def main(positive_dir, negative_dir, model_path, model_name):
     classifier = load_model(model_path)
 
     print(f"Extracting embeddings using {model_name}...")
-    embeddings, seq_ids = get_esm_embeddings(all_sequences, model_name=model_name)
+    embeddings, seq_ids, kept = get_esm_embeddings(
+        all_sequences, model_name=model_name, return_indices=True
+    )
 
     if len(embeddings) == 0:
         print("Error: No embeddings extracted")
         sys.exit(1)
 
-    labels = np.array([seq["label"] for seq in all_sequences[: len(embeddings)]])
+    labels = np.array([all_sequences[k]["label"] for k in kept])
 
     predictions = predict(classifier, embeddings)
     probabilities = predict_proba(classifier, embeddings)

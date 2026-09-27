@@ -21,6 +21,13 @@ def clean_sequence(sequence):
     return sequence.replace("J", "L").replace("j", "L").replace("*", "")
 
 
+def _open_fasta(file_path):
+    """Open a plain or gzipped FASTA file for text reading."""
+    if Path(file_path).suffix == ".gz":
+        return gzip.open(file_path, "rt", encoding="utf-8")
+    return open(file_path, encoding="utf-8")
+
+
 def find_fasta_files(input_dir):
     """Finds all FASTA files in the input directory.
 
@@ -39,7 +46,11 @@ def find_fasta_files(input_dir):
         fasta_files.extend(input_path.glob(f"**/*{ext}"))
         fasta_files.extend(input_path.glob(f"**/*{ext.upper()}"))
 
-    return fasta_files
+    # On case-insensitive filesystems both globs match the same file.
+    unique = {}
+    for path in fasta_files:
+        unique.setdefault(path.resolve(), path)
+    return sorted(unique.values())
 
 
 def process_fasta_files_parallel(fasta_files, max_workers=None):
@@ -107,14 +118,11 @@ def process_fasta_file(file_path):
     try:
         if file_path.suffix == ".gz":
             print(f"Reading gzipped file: {file_path}")
-            handle = gzip.open(file_path, "rt", encoding="utf-8")
-        else:
-            handle = open(file_path, encoding="utf-8")
-
-        for seq_record in SeqIO.parse(handle, "fasta"):
-            sequence = str(seq_record.seq)
-            sequence = clean_sequence(sequence)
-            sequences.append({"id": seq_record.id, "sequence": sequence})
+        with _open_fasta(file_path) as handle:
+            for seq_record in SeqIO.parse(handle, "fasta"):
+                sequence = str(seq_record.seq)
+                sequence = clean_sequence(sequence)
+                sequences.append({"id": seq_record.id, "sequence": sequence})
         print(f"  Found {len(sequences)} sequences.")
     except Exception as e:
         print(f"Error reading {file_path}: {e}", file=sys.stderr)
@@ -142,17 +150,15 @@ def load_sequences_from_dir(input_dir):
             fasta_file = fasta_file.resolve()
             if fasta_file.suffix == ".gz":
                 print(f"Reading gzipped file: {fasta_file}")
-                handle = gzip.open(fasta_file, "rt", encoding="utf-8")
-            else:
-                handle = open(fasta_file, encoding="utf-8")
-            for seq_record in SeqIO.parse(handle, "fasta"):
-                sequence = str(seq_record.seq)
-                sequence = clean_sequence(sequence)
-                sequences.append(
-                    {
-                        "id": seq_record.id,
-                        "sequence": sequence,
-                    }
-                )
+            with _open_fasta(fasta_file) as handle:
+                for seq_record in SeqIO.parse(handle, "fasta"):
+                    sequence = str(seq_record.seq)
+                    sequence = clean_sequence(sequence)
+                    sequences.append(
+                        {
+                            "id": seq_record.id,
+                            "sequence": sequence,
+                        }
+                    )
 
     return sequences

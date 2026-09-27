@@ -2,13 +2,25 @@
 """Prediction script for classifying adhesion proteins."""
 
 import argparse
+import csv
 import sys
 from pathlib import Path
 
 from adhesion_predict.config import DEFAULT_MODEL, MODELS_DIR
 from adhesion_predict.embeddings import ESM2_MODEL_CHOICES, get_esm_embeddings
 from adhesion_predict.io import find_fasta_files, process_fasta_file, process_fasta_files_parallel
-from adhesion_predict.model import load_model, predict, predict_proba
+from adhesion_predict.model import load_model, load_model_card, predict, predict_proba
+
+
+def write_results(results, output_file):
+    """Write prediction rows as CSV (ids containing commas or quotes are quoted)."""
+    with open(output_file, "w", newline="") as f:
+        writer = csv.writer(f, lineterminator="\n")
+        writer.writerow(["id", "prediction", "probability_adhesion"])
+        for result in results:
+            writer.writerow(
+                [result["id"], result["prediction"], f"{result['probability_adhesion']:.4f}"]
+            )
 
 
 def main(
@@ -31,6 +43,15 @@ def main(
 
     print(f"Loading model from {model_path}...")
     classifier = load_model(model_path)
+    card = load_model_card(model_path)
+    if card is None:
+        print("  No model card found; assuming the model was trained with --model-name embeddings")
+    elif card.get("esm_model") != model_name:
+        print(
+            f"Error: model was trained on {card.get('esm_model')} embeddings, "
+            f"but --model-name is {model_name}"
+        )
+        sys.exit(1)
 
     # Handle both file and directory inputs
     input_path = Path(input_path)
@@ -107,10 +128,7 @@ def main(
             output_file = output_dir / f"{input_path.stem}.adhesion_predict.csv"
 
     print(f"\nSaving results to {output_file}...")
-    with open(output_file, "w") as f:
-        f.write("id,prediction,probability_adhesion\n")
-        for result in results:
-            f.write(f"{result['id']},{result['prediction']},{result['probability_adhesion']:.4f}\n")
+    write_results(results, output_file)
 
     print("=" * 50)
     print("Prediction complete!")
