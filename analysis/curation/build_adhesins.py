@@ -114,6 +114,7 @@ def main():
     for path, source in [
         (CUR / "literature_seeds.tsv", "literature"),
         (CUR / "hard_negative_seeds.tsv", "hard_neg"),
+        (CUR / "eurotiomycetes_seeds.tsv", "eurotiomycetes"),
     ]:
         log(f"Resolving {path.name}...")
         for s in read_seeds(path):
@@ -151,6 +152,7 @@ def main():
                 ),
                 uniprot_query=s["uniprot_query"],
                 n_query_hits=str(len(hits)),
+                moonlighting=s.get("moonlighting", ""),
             )
             row.setdefault("evidence_codes", "literature")
             out[u["Entry"]] = row
@@ -223,6 +225,7 @@ def main():
         "gpi_anchor",
         "surface",
         "pfam",
+        "moonlighting",
         "uniprot_query",
         "n_query_hits",
     ]

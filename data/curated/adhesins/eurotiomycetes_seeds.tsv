@@ -1,0 +1,42 @@
+# Onygenales + Eurotiales (Eurotiomycetes) adhesion / surface-protein candidate seeds.
+# DRAFT, literature survey 2026-09-27. Built to close the coverage gap recorded in
+# docs/model-review/STATUS.md: A. fumigatus had 7 labeled proteins of 895 surface proteins,
+# and Onygenales had ZERO.
+#
+# PROVENANCE: PubMed (searched 2026-09-27) + UniProtKB REST. Every row traces to a PMID or a
+# database record. Accessions were resolved by query, not guessed; where a protein could not
+# be resolved the uniprot_query is blank and evidence_summary says so.
+#
+# EVIDENCE LEVELS
+#   adhesins        E1 direct experimental adhesion/binding evidence (deletion or binding assay)
+#                   E2 family membership, or weaker (phenotype only, antibody blocking, no deletion)
+#                   E3 computational / domain only
+#   hard negatives  N1 characterized non-adhesive function
+#                   N2 adhesin-like architecture, no adhesion evidence
+#
+# NOTE ON MOONLIGHTING: several Onygenales "adhesins" are cytoplasmic proteins found on the
+# cell surface (Hsp60, enolase). They mediate host binding but are NOT secreted-pathway
+# surface proteins and will not be in a signal-peptide-defined stage-1 population. They are
+# marked moonlighting=yes and should be held OUT of stage-2 training, not used as positives.
+gene	uniprot_query	species	order	family	class	evidence_level	moonlighting	pmids	evidence_summary
+SOWgp58	accession:Q8NK60	Coccidioides immitis	Onygenales	SOWgp proline-rich tandem repeat	adhesin	E1	no	12065484;17513466	Spherule outer wall glycoprotein; rSOWgp binds laminin>fibronectin>collagen IV; targeted deletion reduces ECM binding and virulence; 4-6 copies of a 41-47 aa Pro/Asp-rich repeat, size varies by isolate
+SOWgp66	accession:Q8NK61	Coccidioides immitis	Onygenales	SOWgp proline-rich tandem repeat	adhesin	E2	no	12065484	Larger SOWgp allele (375 aa, 5 repeats); same family as Q8NK60, isolate-level repeat-number variation
+SOWgp82	accession:Q96V71	Coccidioides posadasii	Onygenales	SOWgp proline-rich tandem repeat	adhesin	E2	no	12065484	422 aa allele with 6 tandem repeats; family member of the E1 adhesin
+Ag2/PRA	accession:A0A0E1RVD3	Coccidioides immitis	Onygenales	proline-rich antigen	adhesin	E3	no	15489350	Proline-rich GPI-anchored cell-surface antigen, major vaccine/diagnostic antigen; adhesion NOT directly demonstrated - listed as surface protein candidate, needs binding assay
+BAD1	accession:A4D962	Blastomyces dermatitidis	Onygenales	BAD1 tandem repeat (EGF-like)	adhesin	E1	no	12023375;15585870	Surface adhesin and virulence factor; binds macrophage CR3 and CD14; knockout attenuated; also released in soluble form and suppresses TNF-alpha
+HSP60	accession:P50142	Histoplasma capsulatum	Onygenales	chaperonin (moonlighting)	adhesin	E1	YES	12496435	Surface-localized Hsp60 is the ligand for macrophage CD11b/CD18 (CR3); rHsp60 blocks yeast attachment. Mitochondrial chaperonin moonlighting on the surface - no signal peptide, so out of scope for a secretion-defined stage 1
+YPS3		Histoplasma capsulatum	Onygenales	Yps3 (BAD1-related)	adhesin	E2	no	15821128	Yeast-phase-specific cell wall protein, also released; binds chitin and re-associates with the cell surface. UNRESOLVED in UniProt - searches on gene YPS3 and taxonomy 5037 returned nothing; add the locus tag when known
+CBP1	accession:O42720	Histoplasma capsulatum	Onygenales	calcium-binding protein	hard_negative	N1	no	-	Secreted calcium-binding virulence factor, not an adhesin; a secreted-protein negative for Onygenales
+gp43	accession:Q9HDL9	Paracoccidioides brasiliensis	Onygenales	glucanase-like (GH)	adhesin	E2	no	16698299;10962270	Binds laminin and fibronectin; anti-gp43 blocks adhesion to Vero cells. Annotated as a glucan 1,3-beta-glucosidase, so enzyme-and-adhesin - a useful test of the enzyme-implies-non-adhesin rule used in surface.tsv
+CTS1	accession:Q1E3R8	Coccidioides immitis	Onygenales	GH18 chitinase	hard_negative	N1	no	-	Endochitinase 1 / complement-fixation antigen; immunodominant diagnostic antigen but an enzyme, not an adhesin. Good hard negative: highly antigenic AND non-adhesive
+CalA	accession:Q4WXJ1	Aspergillus fumigatus	Eurotiales	thaumatin-like invasin	adhesin	E1	no	27841851	Surface CalA binds host integrin alpha5beta1 and mediates epithelial/endothelial invasion; deletion attenuates virulence; anti-CalA antibody protects mice. 177 aa, no GPI - the architecture the current model cannot see
+CspA	accession:Q4WXC4	Aspergillus fumigatus	Eurotiales	repeat-rich GPI cell wall protein	adhesin	E2	no	20656913	Repeat-rich GPI-anchored CWP; deletion reduces conidial adhesion, but the primary phenotype is cell-wall integrity. Repeat number varies between isolates and is used for strain typing
+rodA	accession:P41746	Aspergillus fumigatus	Eurotiales	class I hydrophobin	adhesin	E2	no	9742203	RodA forms the conidial rodlet layer; mediates attachment to hydrophobic surfaces and masks conidia from immune recognition. Attachment is a surface-property effect, not receptor-ligand binding - class differs from GPI adhesins
+rodB	accession:E9QT94	Aspergillus fumigatus	Eurotiales	class I hydrophobin	adhesin	E3	no	-	Second class I hydrophobin; no independent adhesion evidence found
+Mp1p	accession:B6QUR1	Talaromyces marneffei	Eurotiales	Mp1p mannoprotein (LBD)	hard_negative	N1	no	28111099	Abundant secreted cell-wall mannoprotein and virulence factor, but the mechanism is sequestration of arachidonic acid via a hydrophobic LBD2 cavity - immune evasion, NOT adhesion. Strong hard negative: abundant surface mannoprotein with a demonstrated non-adhesive mechanism
+cfmA	accession:Q4WLB9	Aspergillus fumigatus	Eurotiales	CFEM GPI protein	hard_negative	N2	no	24361821	GPI-anchored CFEM hemophore; the CfmA-C triple deletion affects cell-wall stability but NOT virulence, biofilm or heme uptake. CFEM is the clade-spanning family, so an experimentally non-adhesive CFEM member is a valuable negative
+cfmC	accession:Q4WNE1	Aspergillus fumigatus	Eurotiales	CFEM GPI protein	hard_negative	N2	no	24361821	As cfmA; triple-deletion phenotype limited to cell-wall stability
+gel1	accession:P0C7S9	Aspergillus fumigatus	Eurotiales	GH72 glucanosyltransferase	hard_negative	N1	no	-	GPI-anchored beta-1,3-glucanosyltransferase; cell-wall biosynthetic enzyme. Onygenales/Eurotiales counterpart of the S. cerevisiae Gas1 negative
+ecm33	accession:Q4WNS8	Aspergillus fumigatus	Eurotiales	Ecm33/Sps2 GPI protein	hard_negative	N1	no	20656913	GPI cell-wall protein; deletion affects conidial cell-wall integrity. Interacts genetically with cspA but is itself a structural/integrity protein
+abr2	accession:E9RBR0	Aspergillus fumigatus	Eurotiales	AA1 laccase	hard_negative	N1	no	-	Conidial pigment biosynthesis laccase. AA1 is the family the shipped model over-calls kingdom-wide, so an explicit Eurotiales AA1 negative is important
+aspf2	accession:D3W9Z7	Aspergillus fumigatus	Eurotiales	Asp f 2 allergen	hard_negative	N2	no	-	Major allergen and secreted surface-associated protein; binds plasminogen/complement regulators in some reports but is not an established adhesin. Flagged for review, also relevant to the planned allergen category (#19)
