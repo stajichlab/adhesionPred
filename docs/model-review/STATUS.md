@@ -1,5 +1,8 @@
 # Where the tools stand — 2026-09-27
 
+*Updated after the Onygenales/Eurotiales curation (§7). The label gap is partly closed;
+the measurement it enabled is the important part.*
+
 Short answer to "what can this predict today, and how well in Onygenales and *Aspergillus*":
 **stage 1 works broadly, stage 2 works only in Saccharomycotina, and in Eurotiomycetes
 (*Aspergillus* + Onygenales) the tool is effectively unvalidated.** Numbers below.
@@ -105,3 +108,54 @@ Until step 1 exists, any *Coccidioides* or *Aspergillus* adhesin call from this 
 labelled explicitly as **a hypothesis with unknown error rate**.
 
 *Reproduce the tables here with `analysis/model_review/clade_status_report.py`.*
+
+
+---
+
+## 7. After curating Onygenales + Eurotiales (added 2026-09-27)
+
+`data/curated/adhesins/eurotiomycetes_seeds.tsv` adds 21 literature-curated rows (10
+Onygenales, 11 Eurotiales). Trainable Eurotiomycetes labels went **7 → 22** (8 adhesin,
+14 non-adhesin). Onygenales went from zero labels to seven.
+
+**These clades can now be measured at all** — that is the main gain. The measurement:
+
+| training set | ROC | PR |
+|---|---|---|
+| Saccharomycotina only, applied to the 22 Eurotiomycetes labels | 0.732 | 0.763 |
+| + the Eurotiomycetes labels themselves (leave-one-out) | 0.670 | 0.760 |
+
+**Adding the labels did not help.** With 22 labels against 145 from Saccharomycotina, they
+are swamped, and leave-one-out on a 22-protein set is noisy. But the per-protein result shows
+something more specific than "not enough data":
+
+| found (p > 0.9) | missed (p ≈ 0.000) |
+|---|---|
+| BAD1 (Blastomyces, tandem repeat) | **rodA** (hydrophobin, ~16 kDa, Cys-rich) |
+| SOWgp58/66/82 (Coccidioides, Pro-rich tandem repeat) | **CalA** (177 aa thaumatin-like invasin) |
+| CspA (A. fumigatus, repeat-rich CWP) | **gp43** (Paracoccidioides, glucanase that binds laminin) |
+
+5 of 8 adhesins are recovered and 13 of 14 hard negatives are correctly rejected (Cbp1 at
+0.475 is the one near-miss). The three failures are **three different mechanism classes**,
+none of which resembles FLO/ALS: a hydrophobin that works by surface hydrophobicity, a small
+receptor-binding invasin, and a moonlighting enzyme.
+
+**The conclusion is architectural, not quantitative.** The model finds repeat-rich surface
+adhesins in *any* clade — SOWgp and BAD1 score ~1.0 despite being Onygenales, because they
+look like what it was trained on. It is blind to hydrophobins, small invasins and
+moonlighting enzymes *regardless of clade or training data*. More labels of the same
+architecture will not fix that.
+
+So the ranked gaps in §5 change: **#3 (the architectural blind spot) is now the binding
+constraint, not #1 (labels)**. Concretely:
+- Adhesion by surface hydrophobicity (hydrophobins, repellents) is a different physical
+  mechanism and probably needs its own model, not more training data.
+- Small receptor-binding invasins (CalA) may be unreachable from sequence alone without
+  structure.
+- Moonlighting adhesins (gp43, Hsp60) violate the stage-1 premise entirely: Hsp60 has no
+  signal peptide, and gp43 is an annotated enzyme. Both are excluded by construction from a
+  secretion-defined surface population, which is a design decision worth revisiting.
+
+A reasonable next step is to split "adhesin" by **mechanism class** — repeat-rich
+GPI/cell-wall adhesins, hydrophobin-type, receptor-binding invasins, moonlighting — and model
+the first class well rather than pretending one classifier covers all four.
