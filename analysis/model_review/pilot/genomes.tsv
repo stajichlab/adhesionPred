@@ -1,0 +1,6 @@
+Scer_S288C	data/S288C_orf_trans_all.fasta.gz
+Calb_SC5314	/bigdata/stajichlab/shared/projects/Fungi_5k/input/Candida_albicans_SC5314.proteins.fa
+Ngla_ATCC2001	/bigdata/stajichlab/shared/projects/Fungi_5k/input/Nakaseomyces_glabratus_ATCC_2001.proteins.fa
+Caur_B11220	/bigdata/stajichlab/shared/projects/Fungi_5k/input/Candida_auris_B11220.proteins.fa
+Spom_972h	/bigdata/stajichlab/shared/projects/Fungi_5k/input/Schizosaccharomyces_pombe_972h-.proteins.fa
+Afum_Af293	/bigdata/stajichlab/shared/projects/Fungi_5k/input/Aspergillus_fumigatus_Af293.proteins.fa
