@@ -1,5 +1,15 @@
 # *Batrachochytrium* surface/adhesion factor investigations
 
+> **Curation decision (2026-09-27, JS): CBM18 is OFF the table as an adhesion candidate.**
+> The chitin-binding rationale does not support adhesion to keratinized amphibian skin, and
+> there is no functional evidence. Section 1 is kept as the record of why — it is a negative
+> result about the classifier's behaviour, not a lead. Do not enter CBM18 proteins in any
+> adhesin table. The open question for CBM18 is self-masking / cell-wall biology, which is a
+> different project.
+>
+> **VWD (section 2) remains an open lead**, now being followed up in the separate
+> `Bsal_VWD` repository.
+
 ## 1. Is the CBM18 expansion what the classifier calls "adhesion"?
 
 *2026-09-27. Section 1 prompted by the question of whether CBM18 genes relate to adhesion or to immune

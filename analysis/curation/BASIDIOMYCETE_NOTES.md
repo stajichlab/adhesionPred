@@ -1,5 +1,14 @@
 # Basidiomycete yeast adhesion and biofilm: what is actually known
 
+> **Curation decision (2026-09-27, JS): CPL1-like (PF21671) is NOT yet an adhesin family.**
+> Cfl1 itself has adhesion evidence (PMID 22737071), but its paralog Cpl1 is a secreted
+> immune effector with no adhesion role (PMID 35896747) — so family membership demonstrably
+> does not imply adhesion here. Before PF21671 is used as an adhesin-family label, the family
+> needs its own cataloging: how many members per genome, what their domain architecture and
+> composition look like, which have any phenotype, and whether the family splits into
+> adhesive and non-adhesive clades. Until then the 1,640 Basidiomycota members are a
+> **candidate pool**, not positives. Treat `adhesin_candidate_family` rows accordingly.
+
 Literature survey, 2026-09-27. Companion to `data/curated/biofilm/basidiomycete_seeds.tsv`.
 Written against the coverage gap flagged in `data/curated/biofilm/README.md`: 179 of 207
 biofilm rows are *Candida albicans*, and the only curated basidiomycete adhesin was Cfl1,

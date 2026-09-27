@@ -209,6 +209,43 @@ Basidiomycota**, so "leave-genome-out" here means across six well-studied yeasts
 *A. fumigatus*, not across the fungal kingdom. And the labels themselves are a draft that
 has not had expert review.
 
+### 4.6 Does the language model find anything HMMs cannot? Yes (2026-09-27)
+
+The question that decides whether a PLM earns its place at all: if a Pfam rule matches it,
+the cheaper and more interpretable method should win. Script:
+`analysis/model_review/esm_vs_hmm.py`. Homology-grouped CV, 75 curated adhesins vs 63
+curated non-adhesins.
+
+| features | ROC-AUC | PR-AUC | ROC on domain-blind subset | PR on domain-blind subset |
+|---|---|---|---|---|
+| HMM rule (carries a known adhesin-family Pfam) | 0.857 | 0.829 | 0.410 | 0.115 |
+| all Pfam domains (one-hot, the generous baseline) | 0.928 | 0.946 | 0.763 | 0.246 |
+| **ESM C 300M** | **0.977** | **0.983** | **0.879** | **0.716** |
+| ESM C + Pfam | 0.979 | 0.986 | 0.877 | 0.723 |
+
+The "domain-blind subset" is the 66 proteins carrying **no** adhesin-family domain (9
+adhesins, 57 non-adhesins) — where HMMs have nothing to go on by construction.
+
+Three results:
+1. **A pure HMM rule recovers only 73% of curated adhesins** (55/75) at 93% precision. It
+   misses 20 outright, including Hwp1, Hwp2, Eap1, Scf1, Aga1, Aga2, and the *S. pombe*
+   gsf2/pfl proteins. High precision, and a hard ceiling on recall.
+2. **On exactly those proteins, ESM is ~3x better than the best domain baseline**
+   (PR-AUC 0.716 vs 0.246). Of the 9 domain-blind adhesins, ESM scores 7 above 0.5, median
+   0.693, against a median of 0.001 for curated non-adhesins.
+3. **Pfam adds essentially nothing on top of ESM** (0.986 vs 0.983). The embedding already
+   encodes what the domain annotation encodes, plus whatever lets it rank the domain-blind
+   cases.
+
+**So yes — this is moving in the direction of cataloguing beyond HMMs.** The honest framing
+is that the PLM is not replacing domain annotation, it is extending it into the
+low-complexity, repeat-rich, poorly-annotated fraction of the surface proteome where fungal
+adhesins disproportionately live. That is also precisely the fraction where we have the
+least ground truth, so the claim needs independent validation before it is leaned on.
+
+**Caveat:** only 9 adhesins in the domain-blind subset. The direction is clear, the effect
+size is not well estimated.
+
 ### 4.5 Adhesin families are clade-specific, and so is the model (2026-09-27)
 
 Two independent lines of evidence say a single kingdom-wide adhesin model is the wrong
@@ -223,7 +260,10 @@ read every row against it, not in absolute terms.
 | Flocculin (PF00624) | **330** | 0 | 0 | 0 | 0 | 0 |
 | Candida_ALS_N (PF11766) | **313** | 0 | 0 | 6 | 0 | 0 |
 | Hyr1 (PF11765) | **639** | 10 | 6 | 4 | 0 | 0 |
-| Flo11 (PF10528) | 529 | 1,136 | 9 | 8 | 0 | 0 |
+| **Flo11 (PF10182)** | **213** | **0** | 2 | 5 | 0 | 0 |
+| GLEYA (PF10528) | 529 | 1,136 | 9 | 8 | 0 | 0 |
+| Flocculin_t3 (PF13928) | **788** | **0** | 0 | 16 | 0 | 0 |
+| DIPSY (PF11763) | 0 | 0 | **8** | 0 | 0 | 0 |
 | Candida_ALS (PF05792) | 262 | 230 | 0 | 3 | 0 | 0 |
 | PA14 (PF07691) | 289 | 3,043 | 2 | 675 | 7 | 7 |
 | **CPL1-like (PF21671)** | **0** | **0** | **0** | **1,640** | **0** | **0** |
@@ -233,13 +273,19 @@ read every row against it, not in absolute terms.
 | VWD (PF00094) | 0 | 0 | 0 | 0 | 0 | **22** |
 | *AMP-binding (control)* | *1,441* | *46,441* | *123* | *9,614* | *1,234* | *443* |
 
-The FLO/ALS/Hyr1 families the current model is trained on are **Saccharomycotina-specific**:
-Flocculin and Candida_ALS_N are literally absent everywhere else, and Hyr1 is ~1,000x rarer
-in Pezizomycotina after normalization. Basidiomycota instead have CPL1-like (1,640 proteins,
-**zero** in any Ascomycota) and hydrophobins; Chytridiomycota have VWD and CBM18. Two
-families do span clades at comparable normalized frequency — **CFEM** (all three major
-clades) and **PA14** (Pezizomycotina + Basidiomycota) — and those are the only plausible
-foundations for anything clade-transcending.
+> **Correction (applied after first commit):** an earlier version of this table labelled
+> PF10528 as "Flo11". PF10528 is **GLEYA**; the Flo11 domain is **PF10182**. The corrected
+> rows are above, and the correction *strengthens* the conclusion: real Flo11 is absent from
+> Pezizomycotina (0, not 1,136), as is Flocculin_t3. GLEYA is the family that actually spans
+> Saccharomycotina and Pezizomycotina.
+
+The FLO/ALS/Hyr1/Flo11 families the current model is trained on are
+**Saccharomycotina-specific**: Flocculin, Flocculin_t3, Candida_ALS_N and Flo11 are all
+absent from Pezizomycotina, and Hyr1 is ~1,000x rarer there after normalization. DIPSY is
+Taphrinomycotina-only (the *S. pombe* pfl adhesins). Basidiomycota instead have CPL1-like (1,640 proteins,
+**zero** in any Ascomycota) and hydrophobins; Chytridiomycota have VWD and CBM18. Three families do span clades at comparable normalized frequency — **CFEM** (all three major
+clades), **PA14** (Pezizomycotina + Basidiomycota) and **GLEYA** (Saccharomycotina +
+Pezizomycotina) — and those are the only plausible foundations for anything clade-transcending.
 
 **Transfer test.** Using the curated labels and ESM C 300M embeddings:
 
