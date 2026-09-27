@@ -1,0 +1,19 @@
+# Manual reclassifications applied after automatic rules (documented judgment calls; expert to confirm).
+accession	gene	cls	evidence_level	note
+Q59Y31	YWP1	surface_other_adhesion_phenotype	-	Anti-adhesive: ywp1 mutants are more adherent (PMID 15870471); GO 'involved_in' does not encode direction
+Q5AXD9	msbA	surface_other_adhesion_phenotype	-	A. nidulans Msb2 mucin sensor; GO qualifier acts_upstream_of_or_within (signaling, not adhesive itself)
+Q5ACL7	PGA1	adhesin	E2	Small (132 aa) GPI protein; adhesion/biofilm mutant phenotype only
+A0A1D8PJ68		adhesin	E2	Uncharacterized; single IMP host-adhesion annotation (PMID 29726301)
+Q4WL79	bglH	hard_negative	N1	PA14-containing beta-glucosidase (enzyme)
+Q4WU49	bglI	hard_negative	N1	PA14-containing beta-glucosidase (enzyme)
+Q4WLY1	bglJ	hard_negative	N1	PA14-containing beta-glucosidase (enzyme)
+Q4WA69	bglK	hard_negative	N1	PA14-containing beta-glucosidase (enzyme)
+Q4WG20		adhesin	E3	PA14-only, A. fumigatus; likely glycosidase - check
+Q4WLX2		adhesin	E3	PA14-only, A. fumigatus - check
+Q9P6J6		adhesin	E3	PA14-only, S. pombe - check
+Q05164	HPF1	adhesin	E3	Hyr1 domain but characterized as haze-protective mannoprotein; no adhesion evidence; shipped-model false positive
+P40442	CSS1	adhesin	E3	Hyr1 domain, no adhesion evidence; shipped-model false positive
+Q12140	BSC1	adhesin	E3	Flo11 domain, no adhesion evidence; shipped-model false positive
+P0CI66		adhesin	E3	198-aa subtelomeric flocculin-repeat ORF (likely pseudogene fragment)
+P0CI67		adhesin	E3	198-aa subtelomeric flocculin-repeat ORF (likely pseudogene fragment)
+Q6B2U8	TDA8	adhesin	E3	126-aa PA14 fragment ORF

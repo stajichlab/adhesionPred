@@ -1,0 +1,13 @@
+# Adhesins/host-binding surface proteins from the literature that lack GO experimental adhesion annotations.
+# uniprot_query is a UniProtKB query; the best reviewed hit (else first hit) is used. Verify accessions in review.
+gene	uniprot_query	family	class	evidence_level	pmids	evidence_summary
+BAD1	accession:A4D962	BAD1 tandem-repeat adhesin	adhesin	E1	12023375;15585870	Blastomyces adhesin; knockout attenuated; binds CR3/CD14 on macrophages; UniProt name WI-1 adhesin
+CalA	accession:Q4WXJ1	thaumatin-like invasin	adhesin	E1	27841851	Surface CalA binds integrin a5b1; deletion reduces invasion and virulence; Afu3g09690 locus assignment from memory - verify
+CspA	accession:Q4WXC4	repeat-rich GPI cell wall protein	adhesin	E2	20656913	Deletion reduces conidial adhesion; primary role cell-wall integrity (review); Afu3g08990 locus assignment from memory - verify
+CFL1		Cfl1 (Basidiomycota adhesin)	adhesin	E1	22737071;23798436	Znf2 target; regulates adhesion and biofilm; first Basidiomycota adhesin; UniProt accession unresolved - add CNAG locus
+gp43	accession:Q9HDL9	gp43 (glucanase-like, laminin binding)	adhesin	E2	16698299;10962270	Binds laminin/fibronectin; antibody blocks adhesion to Vero cells; no deletion
+Msg	accession:O74670	Msg superfamily	adhesin	E2	32363390;32561915	Major surface glycoprotein complex implicated in adhesion; antigenic variation family
+MAD1	gene:MAD1 AND taxonomy_id:5530	Mad1	adhesin	E1	17337634	Metarhizium adhesin to insect cuticle; deletion reduces adhesion and virulence
+MAD2	gene:MAD2 AND taxonomy_id:5530	Mad2	adhesin	E1	17337634	Metarhizium adhesin enabling attachment to plant surfaces
+CpALS7	gene:ALS7 AND taxonomy_id:5480	Als	adhesin	E1	29378793	C. parapsilosis Als7 deletion reduces ECM binding under shear
+ALS4112	gene:ALS4112 AND taxonomy_id:498019	Als	adhesin	E1	39455573	C. auris Als4112; redundancy in aggregation and adhesion

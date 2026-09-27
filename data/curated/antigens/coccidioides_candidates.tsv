@@ -1,0 +1,1070 @@
+accession	gene	protein_name	genome	candidate_score	known_iedb_antigen	iedb_assays	antigen_homolog	antigen_homolog_pident	conserved_both_species	human_homolog	human_homolog_pident	adhesion_status	length	signal_peptide	gpi_anchor	ec	pfam	needs_review
+A0A0E1RUX2		1,3-beta-glucanosyltransferase (EC 2.4.1.-)	Coccidioides immitis RS	8	no		B0XVI5	37.9	yes			non_adhesin_putative	473	yes	yes	2.4.1.-	PF03198	yes
+A0ACG8CY53		Pepsin A (EC 3.4.23.1)	Coccidioides posadasii C735 delta SOWgp	8	no		C4YMJ3	36.6	yes			non_adhesin_putative	500	yes	yes	3.4.23.1	PF00026	yes
+A0ACG8D155		Crh-like protein (EC 3.2.-.-)	Coccidioides posadasii C735 delta SOWgp	8	no		B0XNL0	45.7	yes			non_adhesin_putative	417	yes	yes	3.2.-.-	PF00722	yes
+A0ACG8D3W8		1,3-beta-glucanosyltransferase (EC 2.4.1.-)	Coccidioides posadasii C735 delta SOWgp	8	no		B0XVI5	37.9	yes			non_adhesin_putative	473	yes	yes	2.4.1.-	PF03198	yes
+A0ACG8D4B0		CFEM domain-containing protein	Coccidioides posadasii C735 delta SOWgp	8	no		A0A0E1RVD3	99.4	yes			unknown	194	yes	yes		PF05730;PF04886	yes
+A0ACG8DAS1	GEL1	1,3-beta-glucanosyltransferase (EC 2.4.1.-)	Coccidioides posadasii C735 delta SOWgp	8	no		B0XVI5	41.1	yes			non_adhesin_putative	447	yes	yes	2.4.1.-	PF03198	yes
+A0ACG8DJ96		CFEM domain-containing protein	Coccidioides posadasii C735 delta SOWgp	8	no		A0A0E1RVD3	71.3	yes			unknown	124	yes	yes		PF05730	yes
+D3Y2S3		1,3-beta-glucanosyltransferase (EC 2.4.1.-)	Coccidioides posadasii C735 delta SOWgp	8	no		B0XVI5	37.9	yes			non_adhesin_putative	473	yes	yes	2.4.1.-	PF03198	yes
+J3K2M4		Proline rich antigen 2	Coccidioides immitis RS	8	no		A0A0E1RVD3	72.1	yes			unknown	124	yes	yes		PF05730	yes
+J3KGG0		1,3-beta-glucanosyltransferase (EC 2.4.1.-)	Coccidioides immitis RS	8	no		B0XVI5	41.1	yes			non_adhesin_putative	447	yes	yes	2.4.1.-	PF03198	yes
+J3KIF5		Crh-like protein (EC 3.2.-.-)	Coccidioides immitis RS	8	no		B0XNL0	45.7	yes			non_adhesin_putative	416	yes	yes	3.2.-.-	PF00722	yes
+J3KLS4		Pepsin A (EC 3.4.23.1)	Coccidioides immitis RS	8	no		C4YMJ3	36.6	yes			non_adhesin_putative	500	yes	yes	3.4.23.1	PF00026	yes
+A0A0D8JW77		alpha-1,2-Mannosidase (EC 3.2.1.-)	Coccidioides immitis RS	7	no		A0ACG8D5E0	33.8	yes			non_adhesin_putative	581	yes	no	3.2.1.-	PF01532	yes
+A0A0E1RUJ7		Subtilisin-like protease (EC 3.4.-.-)	Coccidioides immitis RS	7	no		P28296	46.2	yes			non_adhesin_putative	410	yes	no	3.4.-.-	PF05922;PF00082	yes
+A0A0E1RUV4		Subtilisin-like protease (EC 3.4.-.-)	Coccidioides immitis RS	7	no		P28296	38.3	yes			non_adhesin_putative	417	yes	no	3.4.-.-	PF05922;PF00082	yes
+A0A0E1RVD3		Proline-rich antigen	Coccidioides immitis RS	7	yes	T6/B1			yes			unknown	194	yes	yes		PF05730	yes
+A0A0E1RVM1		Subtilisin-like protease (EC 3.4.-.-)	Coccidioides immitis RS	7	no		P28296	42.7	yes			non_adhesin_putative	400	yes	no	3.4.-.-	PF05922;PF00082	yes
+A0A0E1RYX4		Subtilisin-like protease (EC 3.4.-.-)	Coccidioides immitis RS	7	no		P28296	40.4	yes			non_adhesin_putative	400	yes	no	3.4.-.-	PF05922;PF00082	yes
+A0ACG8CWC8	SUB4	Subtilisin-like protease (EC 3.4.-.-)	Coccidioides posadasii C735 delta SOWgp	7	no		P28296	45.1	yes			non_adhesin_putative	397	yes	no	3.4.-.-	PF05922;PF00082	yes
+A0ACG8D0U2	GAS1	1,3-beta-glucanosyltransferase (EC 2.4.1.-)	Coccidioides posadasii C735 delta SOWgp	7	no		B0XVI5	54.2	yes			non_adhesin_putative	528	no	yes	2.4.1.-	PF03198;PF07983	yes
+A0ACG8D0W9		Subtilisin-like protease (EC 3.4.-.-)	Coccidioides posadasii C735 delta SOWgp	7	no		P28296	40.4	yes			non_adhesin_putative	400	yes	no	3.4.-.-	PF05922;PF00082	yes
+A0ACG8D1Y6	SUB7	Subtilisin-like protease (EC 3.4.-.-)	Coccidioides posadasii C735 delta SOWgp	7	no		P28296	41.1	yes			non_adhesin_putative	398	yes	no	3.4.-.-	PF05922;PF00082	yes
+A0ACG8D2U7		Subtilisin-like protease (EC 3.4.-.-)	Coccidioides posadasii C735 delta SOWgp	7	no		P28296	44.7	yes			non_adhesin_putative	406	yes	no	3.4.-.-	PF05922;PF00082	yes
+A0ACG8D3G6		Subtilisin-like protease (EC 3.4.-.-)	Coccidioides posadasii C735 delta SOWgp	7	no		P28296	39.8	yes			non_adhesin_putative	407	yes	no	3.4.-.-	PF05922;PF00082	yes
+A0ACG8D4W3		Subtilisin-like protease (EC 3.4.-.-)	Coccidioides posadasii C735 delta SOWgp	7	no		B0Y473	37.9	yes			non_adhesin_putative	394	yes	no	3.4.-.-	PF05922;PF00082	yes
+A0ACG8D5U3		Subtilisin-like protease (EC 3.4.-.-)	Coccidioides posadasii C735 delta SOWgp	7	no		P28296	47.1	yes			non_adhesin_putative	410	yes	no	3.4.-.-	PF05922;PF00082	yes
+A0ACG8D7D5	CRF2	Glycosidase crf2	Coccidioides posadasii C735 delta SOWgp	7	no		B0XNL0	30.6	yes			non_adhesin_putative	438	yes	no		PF00722	yes
+A0ACG8DD61		endo-1,3(4)-beta-glucanase (EC 3.2.1.6)	Coccidioides posadasii C735 delta SOWgp	7	no		A0ACG8DLJ2	43.2	yes			non_adhesin_putative	313	yes	no	3.2.1.6	PF26113	yes
+A0ACG8DEF7	SUB8	Subtilisin-like protease (EC 3.4.-.-)	Coccidioides posadasii C735 delta SOWgp	7	no		B0Y473	72.9	yes			non_adhesin_putative	497	yes	no	3.4.-.-	PF05922;PF00082	yes
+A0ACG8DEQ7	MEP5_2	Extracellular metalloproteinase (EC 3.4.24.-) (Fungalysin)	Coccidioides posadasii C735 delta SOWgp	7	no		P46075	68.7	yes			non_adhesin_putative	629	yes	no	3.4.24.-	PF07504;PF02128	yes
+A0ACG8DFS1	SUB9	Subtilisin-like protease (EC 3.4.-.-)	Coccidioides posadasii C735 delta SOWgp	7	no		P28296	41.5	yes			non_adhesin_putative	399	yes	no	3.4.-.-	PF05922;PF00082	yes
+A0ACG8DGL8		Subtilisin-like protease (EC 3.4.-.-)	Coccidioides posadasii C735 delta SOWgp	7	no		P28296	42.7	yes			non_adhesin_putative	400	yes	no	3.4.-.-	PF05922;PF00082	yes
+A0ACG8DH12	ALP1	Subtilisin-like protease (EC 3.4.-.-)	Coccidioides posadasii C735 delta SOWgp	7	no		P28296	47.0	yes			non_adhesin_putative	407	yes	no	3.4.-.-	PF05922;PF00082	yes
+A0ACG8DHP1	SUB5_1	Subtilisin-like protease (EC 3.4.-.-)	Coccidioides posadasii C735 delta SOWgp	7	no		P28296	43.6	yes			non_adhesin_putative	400	yes	no	3.4.-.-	PF05922;PF00082	yes
+A0ACG8DHR6	MEP9	Extracellular metalloproteinase (EC 3.4.24.-) (Fungalysin)	Coccidioides posadasii C735 delta SOWgp	7	no		P46075	71.5	yes			non_adhesin_putative	639	yes	no	3.4.24.-	PF07504;PF02128	yes
+A0ACG8DHU5	SUB5_2	Subtilisin-like protease (EC 3.4.-.-)	Coccidioides posadasii C735 delta SOWgp	7	no		P28296	44.8	yes			non_adhesin_putative	398	yes	no	3.4.-.-	PF05922;PF00082	yes
+A0ACG8DHW0		chitinase (EC 3.2.1.14)	Coccidioides posadasii C735 delta SOWgp	7	no		B0XNL0	50.0	yes			non_adhesin_putative	366	yes	no	3.2.1.14	PF00722	yes
+A0ACG8DJZ3		alpha-1,2-Mannosidase (EC 3.2.1.-)	Coccidioides posadasii C735 delta SOWgp	7	no		A0ACG8D5E0	33.8	yes			non_adhesin_putative	581	yes	no	3.2.1.-	PF01532	yes
+D1M7K8		1,3-beta-glucanosyltransferase (EC 2.4.1.-)	Coccidioides posadasii C735 delta SOWgp	7	no		B0XVI5	54.2	yes			non_adhesin_putative	528	no	yes	2.4.1.-	PF03198;PF07983	yes
+E9CXX8		Mannosyl-oligosaccharide alpha-1,2-mannosidase (EC 3.2.1.113) (Class I alpha-mannosidase) (Man(9)-alpha-mannosidase)	Coccidioides posadasii C735 delta SOWgp	7	no		A0ACG8D5E0	100.0	yes			non_adhesin_putative	519	yes	no	3.2.1.113	PF01532	yes
+J3K102		Extracellular metalloproteinase (EC 3.4.24.-) (Fungalysin)	Coccidioides immitis RS	7	no		P46075	71.4	yes			non_adhesin_putative	639	yes	no	3.4.24.-	PF07504;PF02128	yes
+J3K166		Subtilisin-like protease (EC 3.4.-.-)	Coccidioides immitis RS	7	no		P28296	43.1	yes			non_adhesin_putative	400	yes	no	3.4.-.-	PF05922;PF00082	yes
+J3K1M3		Subtilisin-like protease (EC 3.4.-.-)	Coccidioides immitis RS	7	no		P28296	45.0	yes			non_adhesin_putative	398	yes	no	3.4.-.-	PF05922;PF00082	yes
+J3K216		chitinase (EC 3.2.1.14)	Coccidioides immitis RS	7	no		B0XNL0	50.0	yes			non_adhesin_putative	366	yes	no	3.2.1.14	PF00722	yes
+J3K323		Subtilisin-like protease (EC 3.4.-.-)	Coccidioides immitis RS	7	no		P28296	45.2	yes			non_adhesin_putative	406	yes	no	3.4.-.-	PF05922;PF00082	yes
+J3K578		Lysophospholipase (EC 3.1.1.5)	Coccidioides immitis RS	7	no		A0ACG8D7X4	97.6	yes			non_adhesin_putative	629	yes	no	3.1.1.5	PF01735	yes
+J3K7C9		Extracellular metalloproteinase (EC 3.4.24.-) (Fungalysin)	Coccidioides immitis RS	7	no		P46075	68.9	yes			non_adhesin_putative	629	yes	no	3.4.24.-	PF07504;PF02128	yes
+J3K8F0		endo-1,3(4)-beta-glucanase (EC 3.2.1.6)	Coccidioides immitis RS	7	no		A0ACG8DLJ2	44.8	yes			non_adhesin_putative	326	yes	no	3.2.1.6	PF26113	yes
+J3K9H0		Subtilisin-like protease (EC 3.4.-.-)	Coccidioides immitis RS	7	no		P28296	41.5	yes			non_adhesin_putative	399	yes	no	3.4.-.-	PF05922;PF00082	yes
+J3KB31		alpha-1,2-Mannosidase (EC 3.2.1.-)	Coccidioides immitis RS	7	no		A0ACG8D5E0	97.8	yes			non_adhesin_putative	519	yes	no	3.2.1.-	PF01532	yes
+J3KC10		Subtilisin-like protease (EC 3.4.-.-)	Coccidioides immitis RS	7	no		B0Y473	37.1	yes			non_adhesin_putative	394	yes	no	3.4.-.-	PF05922;PF00082	yes
+J3KCJ8		Subtilisin-like protease (EC 3.4.-.-)	Coccidioides immitis RS	7	no		P28296	45.3	yes			non_adhesin_putative	428	yes	no	3.4.-.-	PF05922;PF00082	yes
+J3KDS1		Cell wall glucanase	Coccidioides immitis RS	7	no		B0XNL0	30.6	yes			non_adhesin_putative	438	yes	no		PF00722	yes
+J3KFU8		Subtilisin-like protease (EC 3.4.-.-)	Coccidioides immitis RS	7	no		P28296	45.1	yes			non_adhesin_putative	405	yes	no	3.4.-.-	PF05922;PF00082	yes
+J3KJ41		Subtilisin-like protease (EC 3.4.-.-)	Coccidioides immitis RS	7	no		P28296	41.1	yes			non_adhesin_putative	398	yes	no	3.4.-.-	PF05922;PF00082	yes
+J3KJV1		1,3-beta-glucanosyltransferase (EC 2.4.1.-)	Coccidioides immitis RS	7	no		B0XVI5	54.0	yes			non_adhesin_putative	527	no	yes	2.4.1.-	PF03198;PF07983	yes
+J3KMA8		Subtilisin-like protease (EC 3.4.-.-)	Coccidioides immitis RS	7	no		P28296	42.6	yes			non_adhesin_putative	399	yes	no	3.4.-.-	PF05922;PF00082	yes
+A0ACG8CXZ4	SUB11	Subtilisin-like protease (EC 3.4.-.-)	Coccidioides posadasii C735 delta SOWgp	6	no		P28296	42.8	yes			non_adhesin_putative	461	no	no	3.4.-.-	PF05922;PF00082	yes
+A0ACG8D5E0	MNS1B	alpha-1,2-Mannosidase (EC 3.2.1.-)	Coccidioides posadasii C735 delta SOWgp	6	yes	T10/B0			yes			non_adhesin_putative	519	yes	no	3.2.1.-	PF01532	yes
+A0ACG8D7X4	PLB1	Lysophospholipase (EC 3.1.1.5)	Coccidioides posadasii C735 delta SOWgp	6	yes	T6/B0			yes			non_adhesin_putative	646	yes	no	3.1.1.5	PF01735	yes
+J3K8N2		Subtilisin-like protease (EC 3.4.-.-)	Coccidioides immitis RS	6	no		B0Y473	72.7	yes			non_adhesin_putative	580	no	no	3.4.-.-	PF05922;PF00082	yes
+J3KBG5		1,3-beta-glucanosyltransferase (EC 2.4.1.-)	Coccidioides immitis RS	6	no		B0XVI5	34.5	no			non_adhesin_putative	443	yes	yes	2.4.1.-	PF03198	yes
+A0A0D8JW45		Carboxypeptidase (EC 3.4.16.-)	Coccidioides immitis RS	5	no				yes			non_adhesin_putative	651	yes	yes	3.4.16.-	PF00450	yes
+A0A0E1RWF0		Copper acquisition factor BIM1-like domain-containing protein	Coccidioides immitis RS	5	no				yes			unknown	209	yes	yes		PF20238	yes
+A0A0E1RXY9		Cell wall protein PhiA	Coccidioides immitis RS	5	no		B0Y004	57.8	no			unknown	187	yes	no		PF30672	yes
+A0A0E1RZE7		Chitinase 3	Coccidioides immitis RS	5	no				yes			unknown	260	yes	yes		PF05730	yes
+A0A0E1RZY1		Expression library immunization antigen 1	Coccidioides immitis RS	5	no				yes			unknown	224	yes	yes		PF20238	yes
+A0A0E1S2D3		CFEM domain-containing protein	Coccidioides immitis RS	5	no				yes			unknown	181	yes	yes		PF05730	yes
+A0ACG8CY50		CFEM domain-containing protein	Coccidioides posadasii C735 delta SOWgp	5	no				yes			unknown	264	yes	yes		PF05730	yes
+A0ACG8D2E3		CFEM domain-containing protein	Coccidioides posadasii C735 delta SOWgp	5	no				yes			unknown	163	yes	yes		PF05730	yes
+A0ACG8D3X6		CFEM domain-containing protein	Coccidioides posadasii C735 delta SOWgp	5	no				yes			unknown	331	yes	yes		PF05730	yes
+A0ACG8D401		Post-GPI attachment to proteins factor 3	Coccidioides posadasii C735 delta SOWgp	5	no				yes			unknown	335	yes	yes		PF04080	yes
+A0ACG8D684		Pepsin A (EC 3.4.23.1)	Coccidioides posadasii C735 delta SOWgp	5	no				yes			non_adhesin_putative	494	yes	yes	3.4.23.1	PF00026	yes
+A0ACG8D908		Putative peptidase domain-containing protein	Coccidioides posadasii C735 delta SOWgp	5	no		D3W9Z7	50.8	no			unknown	275	yes	no		PF13933	yes
+A0ACG8DAH1		Copper acquisition factor BIM1-like domain-containing protein	Coccidioides posadasii C735 delta SOWgp	5	no				yes			unknown	209	yes	yes		PF20238	yes
+A0ACG8DAW2		Carboxypeptidase (EC 3.4.16.-)	Coccidioides posadasii C735 delta SOWgp	5	no				yes			non_adhesin_putative	598	yes	yes	3.4.16.-	PF00450	yes
+A0ACG8DB62	CTS2	Chitinase (EC 3.2.1.14)	Coccidioides posadasii C735 delta SOWgp	5	no				yes			non_adhesin_putative	855	yes	yes	3.2.1.14	PF00704	yes
+A0ACG8DCC9		Carboxypeptidase (EC 3.4.16.-)	Coccidioides posadasii C735 delta SOWgp	5	no				yes			non_adhesin_putative	651	yes	yes	3.4.16.-	PF00450	yes
+A0ACG8DE82		Copper acquisition factor BIM1-like domain-containing protein	Coccidioides posadasii C735 delta SOWgp	5	no				yes			unknown	247	yes	yes		PF20238	yes
+A0ACG8DF26	SMP3	Mannosyltransferase (EC 2.4.1.-)	Coccidioides posadasii C735 delta SOWgp	5	no				yes			non_adhesin_putative	552	yes	yes	2.4.1.-	PF03901	yes
+A0ACG8DFG3		CFEM domain-containing protein	Coccidioides posadasii C735 delta SOWgp	5	no				yes			unknown	181	yes	yes		PF05730	yes
+A0ACG8DGY5		Copper acquisition factor BIM1-like domain-containing protein	Coccidioides posadasii C735 delta SOWgp	5	no				yes			unknown	224	yes	yes		PF20238	yes
+J3K242		alpha-1,2-Mannosidase (EC 3.2.1.-)	Coccidioides immitis RS	5	no		A0ACG8D5E0	32.1	no			non_adhesin_putative	605	yes	no	3.2.1.-	PF01532	yes
+J3K7M9		Mannosyltransferase (EC 2.4.1.-)	Coccidioides immitis RS	5	no				yes			non_adhesin_putative	592	yes	yes	2.4.1.-	PF03901	yes
+J3K8T4		Copper acquisition factor BIM1-like domain-containing protein	Coccidioides immitis RS	5	no				yes			unknown	247	yes	yes		PF20238	yes
+J3KBK0		Post-GPI attachment to proteins factor 3	Coccidioides immitis RS	5	no				yes			unknown	335	yes	yes		PF04080	yes
+J3KCV9		Pepsin A (EC 3.4.23.1)	Coccidioides immitis RS	5	no				yes			non_adhesin_putative	494	yes	yes	3.4.23.1	PF00026	yes
+J3KEC7		endo-1,3(4)-beta-glucanase (EC 3.2.1.6)	Coccidioides immitis RS	5	no		A0ACG8DLJ2	98.2	no			non_adhesin_putative	495	yes	no	3.2.1.6	PF26113	yes
+J3KGG9		Carboxypeptidase (EC 3.4.16.-)	Coccidioides immitis RS	5	no				yes			non_adhesin_putative	563	yes	yes	3.4.16.-	PF00450	yes
+J3KHJ4		CFEM domain-containing protein	Coccidioides immitis RS	5	no				yes			unknown	163	yes	yes		PF05730	yes
+J3KHS1		CFEM domain-containing protein	Coccidioides immitis RS	5	no				yes			unknown	331	yes	yes		PF05730	yes
+Q1EAR5	CTS2	Endochitinase 2 (EC 3.2.1.14)	Coccidioides immitis RS	5	no				yes			non_adhesin_putative	895	yes	yes	3.2.1.14	PF00704	yes
+A0A0D8JRT1		thiol oxidase (EC 1.8.3.2)	Coccidioides immitis RS	4	no				yes			non_adhesin_putative	587	yes	no	1.8.3.2	PF04137	yes
+A0A0D8JSN5		Agmatinase	Coccidioides immitis RS	4	no				yes			non_adhesin_putative	355	yes	no		PF00491	yes
+A0A0D8JSN9		Uncharacterized protein	Coccidioides immitis RS	4	no				yes			unknown	90	yes	no			yes
+A0A0D8JSV9		Uncharacterized protein	Coccidioides immitis RS	4	no				yes			unknown	520	yes	no			yes
+A0A0D8JTH5		Chaperonin GroES	Coccidioides immitis RS	4	no				yes			unknown	152	yes	no			yes
+A0A0D8JTQ5		FUN14 family protein	Coccidioides immitis RS	4	no				yes			unknown	155	yes	no		PF04930	yes
+A0A0D8JTR5		Agmatinase, variant	Coccidioides immitis RS	4	no				yes			non_adhesin_putative	383	yes	no		PF00491	yes
+A0A0D8JU73		GPI anchored protein	Coccidioides immitis RS	4	no				yes			unknown	445	yes	no			yes
+A0A0D8JUZ5		Secretory phospholipase A2	Coccidioides immitis RS	4	no				yes			unknown	169	yes	no		PF09056	yes
+A0A0D8JV06		Uncharacterized protein	Coccidioides immitis RS	4	no				yes			unknown	621	yes	no		PF26335;PF00144	yes
+A0A0D8JV53		Uncharacterized protein	Coccidioides immitis RS	4	no				yes			unknown	105	yes	no			yes
+A0A0D8JV79		Recyclin-1	Coccidioides immitis RS	4	no				yes			unknown	214	yes	no		PF00188	yes
+A0A0D8JVF0		Uncharacterized protein	Coccidioides immitis RS	4	no				yes			unknown	245	yes	no			yes
+A0A0D8JVL9		FAD-dependent oxidoreductase	Coccidioides immitis RS	4	no				yes			unknown	458	yes	no		PF01593	yes
+A0A0D8JVQ3		FAD-binding PCMH-type domain-containing protein	Coccidioides immitis RS	4	no				yes			non_adhesin_putative	494	yes	no		PF01565	yes
+A0A0D8JW08		Arylsulfatase (AS) (EC 3.1.6.1) (Aryl-sulfate sulphohydrolase)	Coccidioides immitis RS	4	no				yes			non_adhesin_putative	584	yes	no	3.1.6.1	PF00884	yes
+A0A0D8JWG3		Peptidase A1 domain-containing protein	Coccidioides immitis RS	4	no				yes			unknown	557	yes	no		PF00026	yes
+A0A0D8JWI5		Alkaline phosphatase	Coccidioides immitis RS	4	no				yes			unknown	627	yes	no		PF09423;PF16655	yes
+A0A0D8JXH2		Alpha pheromone	Coccidioides immitis RS	4	no				yes			unknown	55	yes	no			yes
+A0A0D8JXR3		Ribonuclease T(2) (EC 4.6.1.19)	Coccidioides immitis RS	4	no				yes			non_adhesin_putative	411	yes	no	4.6.1.19	PF00445;PF25488	yes
+A0A0E1RUG5		Arylsulfotransferase	Coccidioides immitis RS	4	no				yes			non_adhesin_putative	508	yes	no		PF14269	yes
+A0A0E1RUJ3		Uncharacterized protein	Coccidioides immitis RS	4	no				yes			unknown	608	yes	no			yes
+A0A0E1RUK5		Cyanovirin-N domain-containing protein	Coccidioides immitis RS	4	no				yes			unknown	123	yes	no		PF08881	yes
+A0A0E1RUM0		Secretory pathway protein	Coccidioides immitis RS	4	no				yes			unknown	199	yes	no		PF27909;PF30624	yes
+A0A0E1RUQ9		Uncharacterized protein	Coccidioides immitis RS	4	no				yes			unknown	571	yes	no		PF22974;PF23865	yes
+A0A0E1RUT4		Peptidyl-prolyl cis-trans isomerase (PPIase) (EC 5.2.1.8)	Coccidioides immitis RS	4	no		Q9Y7F6	57.4	yes	P23284	67.6	non_adhesin_putative	206	yes	no	5.2.1.8	PF00160	yes
+A0A0E1RV08		Peptide hydrolase (EC 3.4.-.-)	Coccidioides immitis RS	4	no				yes			non_adhesin_putative	503	yes	no	3.4.-.-	PF02225;PF04389	yes
+A0A0E1RV37		FAD-binding PCMH-type domain-containing protein	Coccidioides immitis RS	4	no				yes			non_adhesin_putative	526	yes	no		PF01565	yes
+A0A0E1RV45		Secreted protein	Coccidioides immitis RS	4	no				yes			unknown	116	yes	no		PF21691	yes
+A0A0E1RV46		Uncharacterized protein	Coccidioides immitis RS	4	no				yes			unknown	389	yes	no			yes
+A0A0E1RV79		Protein disulfide-isomerase	Coccidioides immitis RS	4	no				yes			unknown	723	yes	no		PF00085	yes
+A0A0E1RVC9		Uncharacterized protein	Coccidioides immitis RS	4	no				yes			unknown	385	yes	no			yes
+A0A0E1RVH6		Extracellular metalloprotease 1	Coccidioides immitis RS	4	no				yes			non_adhesin_putative	276	yes	no		PF05572	yes
+A0A0E1RVK7		NIMA-interacting protein TinC	Coccidioides immitis RS	4	no				yes			unknown	979	yes	no		PF07217	yes
+A0A0E1RVL4		Peptide hydrolase (EC 3.4.-.-)	Coccidioides immitis RS	4	no				yes			non_adhesin_putative	401	yes	no	3.4.-.-	PF04389	yes
+A0A0E1RVQ8		Uncharacterized protein	Coccidioides immitis RS	4	no				yes			unknown	284	yes	no			yes
+A0A0E1RVV5		Methyltransferase domain-containing protein	Coccidioides immitis RS	4	no				yes			unknown	320	yes	no		PF13383	yes
+A0A0E1RVX3		Uncharacterized protein	Coccidioides immitis RS	4	no				yes			unknown	244	yes	no		PF10333	yes
+A0A0E1RVX6		Peptidase S9 prolyl oligopeptidase catalytic domain-containing protein	Coccidioides immitis RS	4	no				yes			unknown	900	yes	no			yes
+A0A0E1RW29		Altered inheritance of mitochondria protein 6	Coccidioides immitis RS	4	no				yes			unknown	318	yes	no		PF30387	yes
+A0A0E1RW36		Extracellular membrane protein CFEM domain-containing protein	Coccidioides immitis RS	4	no				yes			unknown	668	yes	no			yes
+A0A0E1RWB1		Uncharacterized protein	Coccidioides immitis RS	4	no				yes			unknown	325	yes	no			yes
+A0A0E1RWF4		alpha-1,2-Mannosidase (EC 3.2.1.-)	Coccidioides immitis RS	4	no				yes			non_adhesin_putative	1103	yes	no	3.2.1.-	PF01532	yes
+A0A0E1RWG7		Carboxylic ester hydrolase (EC 3.1.1.-)	Coccidioides immitis RS	4	no				yes			non_adhesin_putative	503	yes	no	3.1.1.-	PF00135	yes
+A0A0E1RWM3		Uncharacterized protein	Coccidioides immitis RS	4	no				yes			unknown	372	yes	no			yes
+A0A0E1RWM6		Ubiquitin-protein ligase Sel1/Ubx2	Coccidioides immitis RS	4	no				yes			non_adhesin_putative	894	yes	no		PF08238	yes
+A0A0E1RWM9		DUF7137 domain-containing protein	Coccidioides immitis RS	4	no				yes			unknown	278	yes	no		PF23585	yes
+A0A0E1RWN7		AB hydrolase-1 domain-containing protein	Coccidioides immitis RS	4	no				yes			unknown	376	yes	no		PF12697	yes
+A0A0E1RWV1		Hydrophobin	Coccidioides immitis RS	4	no				yes			unknown	131	yes	no		PF01185	yes
+A0A0E1RWZ6		Magnesium transporter	Coccidioides immitis RS	4	no				yes			unknown	117	yes	no		PF10270	yes
+A0A0E1RWZ7		Neutral protease 2 (EC 3.4.24.39) (Deuterolysin)	Coccidioides immitis RS	4	no				yes			non_adhesin_putative	357	yes	no	3.4.24.39	PF02102	yes
+A0A0E1RX19		Deoxyribonuclease NucA/NucB domain-containing protein	Coccidioides immitis RS	4	no				yes			unknown	241	yes	no		PF14040	yes
+A0A0E1RX44		Cellobiose dehydrogenase	Coccidioides immitis RS	4	no				yes			unknown	421	yes	no		PF16010	yes
+A0A0E1RX46		Peptide hydrolase (EC 3.4.-.-)	Coccidioides immitis RS	4	no				yes			non_adhesin_putative	396	yes	no	3.4.-.-	PF04389	yes
+A0A0E1RX57		Dipeptidyl-peptidase IV (EC 3.4.14.5)	Coccidioides immitis RS	4	no				yes			non_adhesin_putative	777	yes	no	3.4.14.5	PF00930;PF00326	yes
+A0A0E1RXE0		Beta-hexosaminidase (EC 3.2.1.52)	Coccidioides immitis RS	4	no				yes			non_adhesin_putative	595	yes	no	3.2.1.52	PF00728;PF14845	yes
+A0A0E1RXE4		Secreted protein	Coccidioides immitis RS	4	no				yes			unknown	207	yes	no		PF07510	yes
+A0A0E1RXF7		PBP domain-containing protein	Coccidioides immitis RS	4	no				yes			unknown	305	yes	no		PF12849	yes
+A0A0E1RXJ6		Uncharacterized protein	Coccidioides immitis RS	4	no				yes			unknown	328	yes	no		PF20138	yes
+A0A0E1RXK3		Malate dehydrogenase	Coccidioides immitis RS	4	no				yes			unknown	248	yes	no		PF11937	yes
+A0A0E1RXM6		SUN domain-containing protein	Coccidioides immitis RS	4	no				yes			non_adhesin_putative	427	yes	no		PF03856;PF28790	yes
+A0A0E1RXP4		SCP domain-containing protein	Coccidioides immitis RS	4	no				yes			unknown	307	yes	no		PF00188	yes
+A0A0E1RXQ3		glucan 1,3-beta-glucosidase (EC 3.2.1.58) (Exo-1,3-beta-glucanase)	Coccidioides immitis RS	4	no				yes			non_adhesin_putative	306	yes	no	3.2.1.58	PF29664	yes
+A0A0E1RXR8		Stress response protein (Ish1)	Coccidioides immitis RS	4	no				yes			unknown	506	yes	no		PF10281	yes
+A0A0E1RXV7		Protein transporter Sec39	Coccidioides immitis RS	4	no				yes			unknown	955	yes	no		PF08314	yes
+A0A0E1RXW2		Uncharacterized protein	Coccidioides immitis RS	4	no				yes			unknown	102	yes	no			yes
+A0A0E1RY16		Amidase domain-containing protein	Coccidioides immitis RS	4	no				yes			unknown	579	yes	no		PF01425	yes
+A0A0E1RY32		Pepsin A (EC 3.4.23.1)	Coccidioides immitis RS	4	no				yes			non_adhesin_putative	432	yes	no	3.4.23.1	PF00026	yes
+A0A0E1RYB7		Uncharacterized protein	Coccidioides immitis RS	4	no				yes			unknown	321	yes	no		PF13668	yes
+A0A0E1RYE0		Stress response RCI peptide	Coccidioides immitis RS	4	no				yes			unknown	178	yes	no		PF01679	yes
+A0A0E1RYG2		Niemann-Pick C type protein family	Coccidioides immitis RS	4	no				yes			unknown	1271	yes	no		PF22314;PF16414;PF12349	yes
+A0A0E1RYH5		protein disulfide-isomerase (EC 5.3.4.1)	Coccidioides immitis RS	4	no				yes			non_adhesin_putative	527	yes	no	5.3.4.1	PF24541;PF00085	yes
+A0A0E1RYI1		DUF8765 domain-containing protein	Coccidioides immitis RS	4	no				yes			unknown	599	yes	no		PF30967	yes
+A0A0E1RYJ4		Glucoamylase (EC 3.2.1.3) (1,4-alpha-D-glucan glucohydrolase) (Glucan 1,4-alpha-glucosidase)	Coccidioides immitis RS	4	no				yes			non_adhesin_putative	619	yes	no	3.2.1.3	PF00686;PF00723	yes
+A0A0E1RYP5		Riboflavin aldehyde-forming enzyme	Coccidioides immitis RS	4	no				yes			unknown	280	yes	no			yes
+A0A0E1RYR0		Prenylcysteine lyase	Coccidioides immitis RS	4	no				yes			non_adhesin_putative	550	yes	no		PF13450;PF07156	yes
+A0A0E1RYU1		Glucosidase 2 subunit beta	Coccidioides immitis RS	4	no				yes			non_adhesin_putative	563	yes	no		PF12999;PF13015	yes
+A0A0E1RYU8		DNA repair protein	Coccidioides immitis RS	4	no				yes			unknown	285	yes	no		PF05347;PF28561	yes
+A0A0E1RYZ3		WD40 repeat-containing protein	Coccidioides immitis RS	4	no				yes			unknown	293	yes	no		PF17660	yes
+A0A0E1RYZ6		M6 family metalloprotease domain-containing protein	Coccidioides immitis RS	4	no				yes			non_adhesin_putative	692	yes	no		PF30933;PF30934	yes
+A0A0E1RYZ7		Cell surface protein Mas1	Coccidioides immitis RS	4	no				yes			unknown	293	yes	no		PF11327	yes
+A0A0E1RZ06		Uncharacterized protein	Coccidioides immitis RS	4	no				yes			unknown	139	yes	no			yes
+A0A0E1RZ49		Vacuolar protein sorting/targeting protein 10 (Carboxypeptidase Y receptor) (Sortilin VPS10) (Vacuolar carboxypeptidase 	Coccidioides immitis RS	4	no				yes			unknown	1488	yes	no		PF15902;PF15901	yes
+A0A0E1RZ74		Carboxypeptidase (EC 3.4.16.-)	Coccidioides immitis RS	4	no				yes			non_adhesin_putative	539	yes	no	3.4.16.-	PF05388;PF00450	yes
+A0A0E1RZF2		Uncharacterized protein	Coccidioides immitis RS	4	no				yes			unknown	257	yes	no			yes
+A0A0E1RZX0		ML-like domain-containing protein	Coccidioides immitis RS	4	no				yes			unknown	759	yes	no		PF06011;PF14558	yes
+A0A0E1RZX7		Uncharacterized protein	Coccidioides immitis RS	4	no				yes			unknown	315	yes	no			yes
+A0A0E1RZZ1		Mannan endo-1,6-alpha-mannosidase (EC 3.2.1.101)	Coccidioides immitis RS	4	no				yes			non_adhesin_putative	459	yes	no	3.2.1.101	PF03663	yes
+A0A0E1RZZ7		IgE-binding protein	Coccidioides immitis RS	4	no				yes			unknown	197	yes	no		PF30672	yes
+A0A0E1S024		Uncharacterized protein	Coccidioides immitis RS	4	no				yes			unknown	303	yes	no		PF11712	yes
+A0A0E1S091		Uncharacterized protein	Coccidioides immitis RS	4	no				yes			unknown	575	yes	no			yes
+A0A0E1S0N0		FAD/FMN-containing protein	Coccidioides immitis RS	4	no				yes			non_adhesin_putative	566	yes	no		PF08031;PF01565	yes
+A0A0E1S0W8		Secreted protein	Coccidioides immitis RS	4	no				yes			unknown	276	yes	no		PF14273	yes
+A0A0E1S1Q7		Mid2 domain-containing protein	Coccidioides immitis RS	4	no				yes			unknown	272	yes	no			yes
+A0A0E1S1Y6		AA11 lytic polysaccharide monooxygenase C-terminal domain-containing protein	Coccidioides immitis RS	4	no				yes			unknown	408	yes	no		PF30553	yes
+A0A0E1S264		superoxide dismutase (EC 1.15.1.1)	Coccidioides immitis RS	4	no				yes			non_adhesin_putative	248	yes	no	1.15.1.1		yes
+A0A0E1S2M7		Glucanase	Coccidioides immitis RS	4	no				yes			unknown	888	yes	no		PF12708	yes
+A0A0E1S2Z1		Mid2 domain-containing protein	Coccidioides immitis RS	4	no				yes			unknown	255	yes	no		PF04478	yes
+A0A0E1S306		GPI anchored serine-rich protein	Coccidioides immitis RS	4	no				yes			unknown	212	yes	no			yes
+A0A0E1S357		GPI anchored cell wall protein	Coccidioides immitis RS	4	no				yes			unknown	152	yes	no			yes
+A0A0E1S385		FAS1 domain-containing protein	Coccidioides immitis RS	4	no				yes			unknown	249	yes	no			yes
+A0A0E1S5J5		Cytochrome P450 oxidoreductase	Coccidioides immitis RS	4	no				yes			non_adhesin_putative	523	yes	no		PF00067	yes
+A0A0E1S5Q4		Store-operated calcium entry-associated regulatory factor (Transmembrane protein 66)	Coccidioides immitis RS	4	no				yes			unknown	288	yes	no		PF06682	yes
+A0ACG8CVX1	RIM9	Regulator of ime2	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	611	yes	no		PF06687	yes
+A0ACG8CW56		FAD-binding PCMH-type domain-containing protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			non_adhesin_putative	514	yes	no		PF08031;PF01565	yes
+A0ACG8CW84		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	222	yes	no			yes
+A0ACG8CWC3		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	450	yes	no		PF08309	yes
+A0ACG8CWD9		Carbonic anhydrase (EC 4.2.1.1)	Coccidioides posadasii C735 delta SOWgp	4	no				yes			non_adhesin_putative	464	yes	no	4.2.1.1	PF00194	yes
+A0ACG8CWJ3		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	220	yes	no		PF28404	yes
+A0ACG8CWS4		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	466	yes	no			yes
+A0ACG8CWX6	SUN1	Secreted beta-glucosidase sun1	Coccidioides posadasii C735 delta SOWgp	4	no				yes			non_adhesin_putative	427	yes	no		PF03856;PF28790	yes
+A0ACG8CX08		L-type lectin-like domain-containing protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	337	yes	no		PF03388	yes
+A0ACG8CX32		PBP domain-containing protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	305	yes	no		PF12849	yes
+A0ACG8CX74		ARB-07466-like C-terminal domain-containing protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	269	yes	no		PF26571	yes
+A0ACG8CX88		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	559	yes	no			yes
+A0ACG8CXB5		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	349	yes	no			yes
+A0ACG8CXC4		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	328	yes	no		PF20138	yes
+A0ACG8CXD6		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	502	yes	no			yes
+A0ACG8CXE3		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	263	yes	no			yes
+A0ACG8CXE6		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	402	yes	no		PF02535	yes
+A0ACG8CXG6		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			non_adhesin_putative	533	yes	no		PF00067	yes
+A0ACG8CXI0		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	257	yes	no			yes
+A0ACG8CXI1		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	325	yes	no			yes
+A0ACG8CXK3		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	367	yes	no			yes
+A0ACG8CXL0		Carboxypeptidase (EC 3.4.16.-)	Coccidioides posadasii C735 delta SOWgp	4	no				yes			non_adhesin_putative	621	yes	no	3.4.16.-	PF00450	yes
+A0ACG8CXM3		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	480	yes	no		PF03348	yes
+A0ACG8CXS1		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	293	yes	no			yes
+A0ACG8CXS4	RNY1	Ribonuclease T(2) (EC 4.6.1.19)	Coccidioides posadasii C735 delta SOWgp	4	no				yes			non_adhesin_putative	411	yes	no	4.6.1.19	PF00445;PF25488	yes
+A0ACG8CXW1	HEX1_1	Beta-hexosaminidase (EC 3.2.1.52)	Coccidioides posadasii C735 delta SOWgp	4	no				yes			non_adhesin_putative	595	yes	no	3.2.1.52	PF00728;PF14845	yes
+A0ACG8CXX4		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	476	yes	no		PF00328	yes
+A0ACG8CXX7		NAD(P)-binding domain-containing protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	277	yes	no		PF13460	yes
+A0ACG8CXY5		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	276	yes	no		PF14273	yes
+A0ACG8CY58		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			non_adhesin_putative	543	yes	no		PF05577	yes
+A0ACG8CY60		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	429	yes	no			yes
+A0ACG8CY93		Store-operated calcium entry-associated regulatory factor (Transmembrane protein 66)	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	288	yes	no		PF06682	yes
+A0ACG8CYA7		Carboxypeptidase (EC 3.4.16.-)	Coccidioides posadasii C735 delta SOWgp	4	no				yes			non_adhesin_putative	539	yes	no	3.4.16.-	PF05388;PF00450	yes
+A0ACG8CYH1		tripeptidyl-peptidase II (EC 3.4.14.10)	Coccidioides posadasii C735 delta SOWgp	4	no				yes			non_adhesin_putative	584	yes	no	3.4.14.10	PF00082;PF09286	yes
+A0ACG8CYH3		phosphatidylserine decarboxylase (EC 4.1.1.65)	Coccidioides posadasii C735 delta SOWgp	4	no				yes			non_adhesin_putative	336	yes	no	4.1.1.65	PF02666	yes
+A0ACG8CYN8		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	220	yes	no		PF28404	yes
+A0ACG8CYX6		glucan endo-1,3-beta-D-glucosidase (EC 3.2.1.39)	Coccidioides posadasii C735 delta SOWgp	4	no				yes			non_adhesin_putative	884	yes	no	3.2.1.39	PF17652;PF03639	yes
+A0ACG8CYY5		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			non_adhesin_putative	524	yes	no		PF00067	yes
+A0ACG8CYY6		Tetratricopeptide repeat and J domain-containing co-chaperone DNJ1	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	525	yes	no		PF00226;PF13432	yes
+A0ACG8CZ05		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	201	yes	no		PF12824	yes
+A0ACG8CZ10		Carboxypeptidase (EC 3.4.16.-)	Coccidioides posadasii C735 delta SOWgp	4	no				yes			non_adhesin_putative	524	yes	no	3.4.16.-	PF00450	yes
+A0ACG8CZ33		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	382	yes	no		PF11327	yes
+A0ACG8CZ41		FAD-binding PCMH-type domain-containing protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			non_adhesin_putative	566	yes	no		PF08031;PF01565	yes
+A0ACG8CZ58		Cell wall synthesis protein KRE9/Knh1-like N-terminal domain-containing protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	222	yes	no		PF10342	yes
+A0ACG8CZ62		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	522	yes	no			yes
+A0ACG8CZ84		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	316	yes	no			yes
+A0ACG8CZ87	TOS1	glucan endo-1,3-beta-D-glucosidase (EC 3.2.1.39)	Coccidioides posadasii C735 delta SOWgp	4	no				yes			non_adhesin_putative	431	yes	no	3.2.1.39	PF10287;PF10290	yes
+A0ACG8CZ97		glycerophosphodiester phosphodiesterase (EC 3.1.4.46)	Coccidioides posadasii C735 delta SOWgp	4	no				yes			non_adhesin_putative	415	yes	no	3.1.4.46	PF03009	yes
+A0ACG8CZA4		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	424	yes	no		PF16010;PF03188	yes
+A0ACG8CZB3	YOS9	Endoplasmic reticulum lectin (Protein OS-9 homolog)	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	511	yes	no		PF07915	yes
+A0ACG8CZB6		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	183	yes	no		PF04681	yes
+A0ACG8CZE0	ERO1_1	thiol oxidase (EC 1.8.3.2)	Coccidioides posadasii C735 delta SOWgp	4	no				yes			non_adhesin_putative	587	yes	no	1.8.3.2	PF04137	yes
+A0ACG8CZE2	VPS10	Vacuolar protein sorting/targeting protein 10 (Carboxypeptidase Y receptor) (Sortilin VPS10) (Vacuolar carboxypeptidase 	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	1488	yes	no		PF15902;PF15901	yes
+A0ACG8CZE4		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	139	yes	no			yes
+A0ACG8CZG1		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	124	yes	no			yes
+A0ACG8CZL9		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	498	yes	no		PF01476;PF30480	yes
+A0ACG8CZN5		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	700	yes	no		PF23658;PF03572	yes
+A0ACG8CZN6		Chorismate mutase domain-containing protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			non_adhesin_putative	164	yes	no		PF01817	yes
+A0ACG8CZP7		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	692	yes	no		PF30933;PF30934	yes
+A0ACG8CZR4		Prenylcysteine lyase domain-containing protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			non_adhesin_putative	550	yes	no		PF13450;PF07156	yes
+A0ACG8CZS5		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	113	yes	no			yes
+A0ACG8CZY6		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	303	yes	no		PF11712	yes
+A0ACG8CZZ8		WSC domain-containing protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	267	yes	no		PF01822	yes
+A0ACG8D018		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	588	yes	no		PF22974;PF23865	yes
+A0ACG8D072		Beta-lactamase-related domain-containing protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	542	yes	no		PF00144	yes
+A0ACG8D095		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	307	yes	no		PF05347;PF28561	yes
+A0ACG8D0E4		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	260	yes	no			yes
+A0ACG8D0H5		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	602	yes	no		PF10348;PF10355	yes
+A0ACG8D0K8		beta-glucosidase (EC 3.2.1.21)	Coccidioides posadasii C735 delta SOWgp	4	no				yes			non_adhesin_putative	872	yes	no	3.2.1.21	PF14310;PF00933;PF01915	yes
+A0ACG8D0M1		Deoxyribonuclease NucA/NucB domain-containing protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	759	yes	no		PF14040	yes
+A0ACG8D0M3		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			non_adhesin_putative	1488	yes	no		PF18404;PF18400;PF18401;PF18402;PF18403;PF06427	yes
+A0ACG8D0T4		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	718	yes	no		PF02225;PF04389;PF04253	yes
+A0ACG8D0U4		SSD domain-containing protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	1271	yes	no		PF22314;PF16414;PF12349	yes
+A0ACG8D0X2		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	105	yes	no			yes
+A0ACG8D0Y1		Cell wall synthesis protein KRE9/Knh1-like N-terminal domain-containing protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	207	yes	no		PF10342	yes
+A0ACG8D114		CLU5d N-terminal domain-containing protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	373	yes	no		PF30466	yes
+A0ACG8D1F4		Amine oxidase (EC 1.4.3.-)	Coccidioides posadasii C735 delta SOWgp	4	no				yes			non_adhesin_putative	804	yes	no	1.4.3.-	PF01179;PF02727;PF09248	yes
+A0ACG8D1P9		DUF8765 domain-containing protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	599	yes	no		PF30967	yes
+A0ACG8D1T3		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	154	yes	no		PF04681	yes
+A0ACG8D1X4		Glucoamylase (EC 3.2.1.3) (1,4-alpha-D-glucan glucohydrolase) (Glucan 1,4-alpha-glucosidase)	Coccidioides posadasii C735 delta SOWgp	4	no				yes			non_adhesin_putative	617	yes	no	3.2.1.3	PF00686;PF00723	yes
+A0ACG8D1X5		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	419	yes	no			yes
+A0ACG8D220		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			non_adhesin_putative	397	yes	no		PF00491	yes
+A0ACG8D255	NAG2	Beta-hexosaminidase (EC 3.2.1.52)	Coccidioides posadasii C735 delta SOWgp	4	no				yes			non_adhesin_putative	585	yes	no	3.2.1.52	PF00728;PF14845	yes
+A0ACG8D260		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	146	yes	no		PF07249	yes
+A0ACG8D2B6	ECM14	Inactive metallocarboxypeptidase ECM14 (Inactive metallocarboxypeptidase ecm14)	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	582	yes	no		PF00246	yes
+A0ACG8D2C8		Peptidase M14 domain-containing protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			non_adhesin_putative	417	yes	no		PF00246;PF02244	yes
+A0ACG8D2I3		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	897	yes	no			yes
+A0ACG8D2K1		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	184	yes	no			yes
+A0ACG8D2K4		ML-like domain-containing protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	709	yes	no		PF06011;PF14558	yes
+A0ACG8D2K6	GPI16	Subunit of the glycosylphosphatidylinositol transamidase complex-like protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	597	yes	no		PF04113	yes
+A0ACG8D2M5		Asl1-like glycosyl hydrolase catalytic domain-containing protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	255	yes	no		PF11790	yes
+A0ACG8D2P1		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	178	yes	no		PF01679	yes
+A0ACG8D2T2	OST1	Dolichyl-diphosphooligosaccharide--protein glycosyltransferase subunit 1	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	499	yes	no		PF04597	yes
+A0ACG8D2T7	MEP5_1	Neutral protease 2 (EC 3.4.24.39) (Deuterolysin)	Coccidioides posadasii C735 delta SOWgp	4	no				yes			non_adhesin_putative	356	yes	no	3.4.24.39	PF02102	yes
+A0ACG8D312		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	131	yes	no			yes
+A0ACG8D315		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	263	yes	no		PF10342;PF05390	yes
+A0ACG8D327		alkaline phosphatase (EC 3.1.3.1)	Coccidioides posadasii C735 delta SOWgp	4	no				yes			non_adhesin_putative	661	yes	no	3.1.3.1	PF00245;PF26732	yes
+A0ACG8D379		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	321	yes	no		PF13668	yes
+A0ACG8D3B6		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	157	yes	no			yes
+A0ACG8D3F3		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	423	yes	no			yes
+A0ACG8D3K5		Rhamnogalacturonase A/B/Epimerase-like pectate lyase domain-containing protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	888	yes	no		PF12708	yes
+A0ACG8D3N3		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	760	yes	no		PF24681	yes
+A0ACG8D3P4		Autophagy-related protein 27	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	311	yes	no		PF09451	yes
+A0ACG8D3R7	HRD3	ERAD-associated protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	875	yes	no		PF08238	yes
+A0ACG8D3T8		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	668	yes	no		PF00149;PF21953	yes
+A0ACG8D3T9		Endo-chitosanase (EC 3.2.1.132)	Coccidioides posadasii C735 delta SOWgp	4	no				yes			non_adhesin_putative	247	yes	no	3.2.1.132	PF07335	yes
+A0ACG8D3V3		AB hydrolase-1 domain-containing protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	376	yes	no		PF12697	yes
+A0ACG8D3W4		Apple domain-containing protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	377	yes	no		PF00024;PF14295	yes
+A0ACG8D465	HSP10_2	10 kDa heat shock protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	152	yes	no			yes
+A0ACG8D485		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	218	yes	no			yes
+A0ACG8D4B6		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	382	yes	no			yes
+A0ACG8D4E2		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	196	yes	no			yes
+A0ACG8D4E8		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	237	yes	no			yes
+A0ACG8D4F1	LHS1	Lumenal Hsp70 protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	1019	yes	no		PF00012;PF27508	yes
+A0ACG8D4F7		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	663	yes	no			yes
+A0ACG8D4H8		Agglutinin-like protein middle domain-containing protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	642	yes	no		PF30910	yes
+A0ACG8D4I6		Apple domain-containing protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	407	yes	no		PF00024;PF08277	yes
+A0ACG8D4M1		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	233	yes	no			yes
+A0ACG8D4Q9	SED4	Subtilisin-like protease (EC 3.4.-.-)	Coccidioides posadasii C735 delta SOWgp	4	no				yes			non_adhesin_putative	599	yes	no	3.4.-.-	PF00082;PF09286	yes
+A0ACG8D4W7		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	856	yes	no		PF17168;PF16335	yes
+A0ACG8D521		beta-glucosidase (EC 3.2.1.21)	Coccidioides posadasii C735 delta SOWgp	4	no				yes			non_adhesin_putative	858	yes	no	3.2.1.21	PF14310;PF00933;PF01915	yes
+A0ACG8D5E9	MRL1_1	Cation-independent mannose-6-phosphate receptor CI-MPR, variant 2	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	338	yes	no		PF02157	yes
+A0ACG8D5I7		Mid2 domain-containing protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	255	yes	no		PF04478	yes
+A0ACG8D5L0		Secreted beta-glucosidase SUN1-like domian domain-containing protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	474	yes	no		PF03856	yes
+A0ACG8D5V9		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	212	yes	no			yes
+A0ACG8D5W5		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	298	yes	no			yes
+A0ACG8D5X9		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	323	yes	no			yes
+A0ACG8D5Z2		Sec39 domain-containing protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	958	yes	no		PF08314	yes
+A0ACG8D607		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	390	yes	no		PF12454	yes
+A0ACG8D636		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	278	yes	no			yes
+A0ACG8D640		Carboxypeptidase (EC 3.4.16.-)	Coccidioides posadasii C735 delta SOWgp	4	no				yes			non_adhesin_putative	555	yes	no	3.4.16.-	PF00450	yes
+A0ACG8D671	ERP1	Emp24p/erv25p- protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	228	yes	no		PF01105	yes
+A0ACG8D677	MRL1_1	Cation-independent mannose-6-phosphate receptor CI-MPR	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	374	yes	no		PF02157	yes
+A0ACG8D689		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	506	yes	no		PF10281	yes
+A0ACG8D6C9		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	328	yes	no			yes
+A0ACG8D6E3		Carboxypeptidase (EC 3.4.16.-)	Coccidioides posadasii C735 delta SOWgp	4	no				yes			non_adhesin_putative	545	yes	no	3.4.16.-	PF00450	yes
+A0ACG8D6H4		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	293	yes	no		PF17660	yes
+A0ACG8D6J8		Cupin type-1 domain-containing protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	407	yes	no		PF00190	yes
+A0ACG8D6K1		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	163	yes	no			yes
+A0ACG8D6U0		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	55	yes	no			yes
+A0ACG8D6Z8		VanZ-LLP1 domain-containing protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	220	yes	no		PF04892	yes
+A0ACG8D706		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	178	yes	no			yes
+A0ACG8D712		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	346	yes	no			yes
+A0ACG8D722		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	169	yes	no		PF09056	yes
+A0ACG8D725		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	288	yes	no		PF11327	yes
+A0ACG8D752		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	627	yes	no		PF09423;PF16655	yes
+A0ACG8D773		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	421	yes	no		PF16010	yes
+A0ACG8D784		CFEM domain-containing protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	691	yes	no		PF05730	yes
+A0ACG8D795		Cell wall synthesis protein KRE9/Knh1-like N-terminal domain-containing protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	216	yes	no		PF10342	yes
+A0ACG8D7B4		Amine oxidase domain-containing protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	458	yes	no		PF01593	yes
+A0ACG8D7E0		FAD-binding PCMH-type domain-containing protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			non_adhesin_putative	529	yes	no		PF01565	yes
+A0ACG8D7J0		Phytase-like domain-containing protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	524	yes	no		PF13449	yes
+A0ACG8D7K4		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	1227	yes	no		PF12768;PF20842;PF20843	yes
+A0ACG8D7P5		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	190	yes	no			yes
+A0ACG8D7P8		RING-type domain-containing protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	561	yes	no		PF13639	yes
+A0ACG8D7S7		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	462	yes	no		PF13450	yes
+A0ACG8D7T3		Cell wall synthesis protein KRE9/Knh1-like N-terminal domain-containing protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	222	yes	no		PF10342	yes
+A0ACG8D7U2	MNL1	alpha-1,2-Mannosidase (EC 3.2.1.-)	Coccidioides posadasii C735 delta SOWgp	4	no				yes			non_adhesin_putative	1103	yes	no	3.2.1.-	PF01532	yes
+A0ACG8D7V5		Acyltransferase 3 domain-containing protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	468	yes	no		PF01757	yes
+A0ACG8D7X2		DUF7137 domain-containing protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	273	yes	no		PF23585	yes
+A0ACG8D7Y7		Thioredoxin domain-containing protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	723	yes	no		PF00085	yes
+A0ACG8D809		GH16 domain-containing protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	354	yes	no		PF00722	yes
+A0ACG8D870		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	232	yes	no		PF11937	yes
+A0ACG8D8B4		Peptide hydrolase (EC 3.4.-.-)	Coccidioides posadasii C735 delta SOWgp	4	no				yes			non_adhesin_putative	376	yes	no	3.4.-.-	PF04389	yes
+A0ACG8D8D1		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	622	yes	no		PF26335;PF00144	yes
+A0ACG8D8D4		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	463	yes	no		PF13668	yes
+A0ACG8D8I7		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	147	yes	no			yes
+A0ACG8D8I8	DPP4	Dipeptidyl-peptidase IV (EC 3.4.14.5)	Coccidioides posadasii C735 delta SOWgp	4	no				yes			non_adhesin_putative	777	yes	no	3.4.14.5	PF00930;PF00326	yes
+A0ACG8D8K1		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	976	yes	no		PF07217	yes
+A0ACG8D8K4		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	494	yes	no		PF02535	yes
+A0ACG8D8L2		Ribophorin II C-terminal domain-containing protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	289	yes	no		PF25147	yes
+A0ACG8D8P1		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	152	yes	no			yes
+A0ACG8D8S4		ABC transporter domain-containing protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	1098	yes	no		PF01061;PF19055;PF00005	yes
+A0ACG8D8T7		FAD linked oxidase N-terminal domain-containing protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			non_adhesin_putative	494	yes	no		PF01565	yes
+A0ACG8D8W7		MSB2-like C-terminal domain-containing protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	751	yes	no		PF27810	yes
+A0ACG8D911		DUF7732 domain-containing protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	298	yes	no		PF24866	yes
+A0ACG8D932		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			non_adhesin_putative	603	yes	no		PF00149;PF21953	yes
+A0ACG8D936		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	214	yes	no		PF28404	yes
+A0ACG8D972	NPC2	Phosphatidylglycerol/phosphatidylinositol transfer protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	174	yes	no		PF02221	yes
+A0ACG8D984	MEP1	Low affinity high capacity ammonium permease	Coccidioides posadasii C735 delta SOWgp	4	no				yes			non_adhesin_putative	276	yes	no		PF05572	yes
+A0ACG8D9U7		alpha,alpha-trehalase (EC 3.2.1.28) (Alpha,alpha-trehalase) (Alpha,alpha-trehalose glucohydrolase)	Coccidioides posadasii C735 delta SOWgp	4	no				yes			non_adhesin_putative	1073	yes	no	3.2.1.28	PF03633;PF03632;PF03636	yes
+A0ACG8D9X2		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	199	yes	no		PF21203	yes
+A0ACG8D9X8	ROT1	Protein ROT1	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	251	yes	no		PF10681	yes
+A0ACG8DA17		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	361	yes	no			yes
+A0ACG8DA28	PEP3	Pepsin A (EC 3.4.23.1)	Coccidioides posadasii C735 delta SOWgp	4	no				yes			non_adhesin_putative	432	yes	no	3.4.23.1	PF00026	yes
+A0ACG8DA31		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	776	yes	no		PF00141;PF01822	yes
+A0ACG8DA72		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	325	yes	no			yes
+A0ACG8DAA9		Probable beta-glucosidase btgE (EC 3.2.1.21) (Beta-D-glucoside glucohydrolase btgE) (Cellobiase btgE) (Gentiobiase btgE)	Coccidioides posadasii C735 delta SOWgp	4	no				yes			non_adhesin_putative	537	yes	no	3.2.1.21	PF29664;PF28457	yes
+A0ACG8DAB2		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	524	yes	no		PF01169	yes
+A0ACG8DAD5		Carboxylic ester hydrolase (EC 3.1.1.-)	Coccidioides posadasii C735 delta SOWgp	4	no				yes			non_adhesin_putative	577	yes	no	3.1.1.-	PF00135	yes
+A0ACG8DAK0		Amidase domain-containing protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	576	yes	no		PF01425	yes
+A0ACG8DAS5		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	416	yes	no		PF02535	yes
+A0ACG8DAT9		Peptide hydrolase (EC 3.4.-.-)	Coccidioides posadasii C735 delta SOWgp	4	no				yes			non_adhesin_putative	401	yes	no	3.4.-.-	PF04389	yes
+A0ACG8DAV3		Subtilisin-like protease (EC 3.4.-.-)	Coccidioides posadasii C735 delta SOWgp	4	no				yes			non_adhesin_putative	598	yes	no	3.4.-.-	PF00082;PF09286	yes
+A0ACG8DAX7		Ubiquitin 3 binding protein But2 C-terminal domain-containing protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	202	yes	no		PF09792	yes
+A0ACG8DAY8		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	231	yes	no			yes
+A0ACG8DAZ5		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	90	yes	no			yes
+A0ACG8DB19		NodB homology domain-containing protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			non_adhesin_putative	411	yes	no		PF01522	yes
+A0ACG8DB46		DUF8768 domain-containing protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	234	yes	no		PF30970	yes
+A0ACG8DB87		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			non_adhesin_putative	383	yes	no		PF00491	yes
+A0ACG8DBA3		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	945	yes	no		PF12456;PF02383	yes
+A0ACG8DBG0		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	124	yes	no			yes
+A0ACG8DBI1		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	315	yes	no			yes
+A0ACG8DBI8		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	284	yes	no			yes
+A0ACG8DBJ9		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	500	yes	no		PF10348;PF10355	yes
+A0ACG8DBM5	DCW1_1	Mannan endo-1,6-alpha-mannosidase (EC 3.2.1.101)	Coccidioides posadasii C735 delta SOWgp	4	no				yes			non_adhesin_putative	446	yes	no	3.2.1.101	PF03663	yes
+A0ACG8DBM8		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	114	yes	no			yes
+A0ACG8DBM9		GH16 domain-containing protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	469	yes	no			yes
+A0ACG8DBP4		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	99	yes	no			yes
+A0ACG8DBQ4		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			non_adhesin_putative	229	yes	no		PF01083	yes
+A0ACG8DBS4		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	792	yes	no		PF07217	yes
+A0ACG8DBU9		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	117	yes	no		PF10270	yes
+A0ACG8DBY4		FAS1 domain-containing protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	443	yes	no		PF02469	yes
+A0ACG8DBZ4		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	92	yes	no		PF28987	yes
+A0ACG8DC37	MEP4	Neutral protease 2 (EC 3.4.24.39) (Deuterolysin)	Coccidioides posadasii C735 delta SOWgp	4	no				yes			non_adhesin_putative	360	yes	no	3.4.24.39	PF02102	yes
+A0ACG8DC63		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no		A0ABP2EYB6	79.4	yes	A0ACI8ULB1	49.4	unknown	561	yes	no		PF00262	yes
+A0ACG8DC72		SCP domain-containing protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	306	yes	no		PF00188	yes
+A0ACG8DCA1		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	117	yes	no			yes
+A0ACG8DCC2	MEP7	Neutral protease 2 (EC 3.4.24.39) (Deuterolysin)	Coccidioides posadasii C735 delta SOWgp	4	no				yes			non_adhesin_putative	358	yes	no	3.4.24.39	PF02102	yes
+A0ACG8DCE1		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	269	yes	no			yes
+A0ACG8DCH7		ML-like domain-containing protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	759	yes	no		PF06011;PF14558	yes
+A0ACG8DCJ2	LAP1_1	Peptide hydrolase (EC 3.4.-.-)	Coccidioides posadasii C735 delta SOWgp	4	no				yes			non_adhesin_putative	368	yes	no	3.4.-.-	PF04389	yes
+A0ACG8DCM2		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	229	yes	no			yes
+A0ACG8DCP4		Arylsulfatase (AS) (EC 3.1.6.1) (Aryl-sulfate sulphohydrolase)	Coccidioides posadasii C735 delta SOWgp	4	no				yes			non_adhesin_putative	584	yes	no	3.1.6.1	PF00884	yes
+A0ACG8DCY7		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	222	yes	no			yes
+A0ACG8DD14		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	214	yes	no			yes
+A0ACG8DD32		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	431	yes	no		PF22903	yes
+A0ACG8DD59	OCH1	Membrane-bound alpha-1,6- mannosyltransferase Initiation-specific	Coccidioides posadasii C735 delta SOWgp	4	no				yes			non_adhesin_putative	357	yes	no		PF04488	yes
+A0ACG8DD64		GOLD domain-containing protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	210	yes	no		PF01105	yes
+A0ACG8DD89		Peptidase A1 domain-containing protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	557	yes	no		PF00026	yes
+A0ACG8DD94		SUN domain-containing protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	856	yes	no		PF07738	yes
+A0ACG8DD95	MEP3	Neutral protease 2 (EC 3.4.24.39) (Deuterolysin)	Coccidioides posadasii C735 delta SOWgp	4	no				yes			non_adhesin_putative	354	yes	no	3.4.24.39	PF02102	yes
+A0ACG8DD96		DUF1996 domain-containing protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	466	yes	no		PF09362	yes
+A0ACG8DDF8		LicD/FKTN/FKRP nucleotidyltransferase domain-containing protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	287	yes	no		PF04991	yes
+A0ACG8DDG1		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	245	yes	no		PF11937	yes
+A0ACG8DDI3		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	549	yes	no			yes
+A0ACG8DDN5		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	294	yes	no			yes
+A0ACG8DDP9	WBP1	Dolichyl-diphosphooligosaccharide--protein glycosyltransferase subunit WBP1 (Oligosaccharyl transferase subunit WBP1)	Coccidioides posadasii C735 delta SOWgp	4	no				yes			non_adhesin_putative	466	yes	no		PF23358;PF03345	yes
+A0ACG8DDR4	DPP5	Dipeptidyl-peptidase V	Coccidioides posadasii C735 delta SOWgp	4	no				yes			non_adhesin_putative	723	yes	no		PF00326	yes
+A0ACG8DDT9	PHA2	prephenate dehydratase (EC 4.2.1.51)	Coccidioides posadasii C735 delta SOWgp	4	no				yes			non_adhesin_putative	337	yes	no	4.2.1.51	PF00800	yes
+A0ACG8DDU5		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	244	yes	no		PF10333	yes
+A0ACG8DDV3		Serine protease (EC 3.4.21.-)	Coccidioides posadasii C735 delta SOWgp	4	no				yes			non_adhesin_putative	346	yes	no	3.4.21.-	PF00089	yes
+A0ACG8DDW0		Hydrophobin	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	131	yes	no		PF01185	yes
+A0ACG8DDX6		DUF8763 domain-containing protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	1577	yes	no		PF30930	yes
+A0ACG8DDY5		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	162	yes	no			yes
+A0ACG8DE46		WSC domain-containing protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	290	yes	no		PF01822	yes
+A0ACG8DEA6	LCL2	Long chronological lifespan protein 2	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	122	yes	no		PF28115	yes
+A0ACG8DEC3	BGL2	glucan 1,3-beta-glucosidase (EC 3.2.1.58) (Exo-1,3-beta-glucanase)	Coccidioides posadasii C735 delta SOWgp	4	no				yes			non_adhesin_putative	306	yes	no	3.2.1.58	PF29664	yes
+A0ACG8DEI7		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	318	yes	no		PF30387	yes
+A0ACG8DEL3		superoxide dismutase (EC 1.15.1.1)	Coccidioides posadasii C735 delta SOWgp	4	no				yes			non_adhesin_putative	248	yes	no	1.15.1.1		yes
+A0ACG8DEM9		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	445	yes	no			yes
+A0ACG8DEQ5	LAP1_2	Peptide hydrolase (EC 3.4.-.-)	Coccidioides posadasii C735 delta SOWgp	4	no				yes			non_adhesin_putative	388	yes	no	3.4.-.-	PF04389	yes
+A0ACG8DET0		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	154	yes	no			yes
+A0ACG8DF07		Methyltransferase domain-containing protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	320	yes	no		PF13383	yes
+A0ACG8DF28		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	102	yes	no			yes
+A0ACG8DF42		FAD-binding PCMH-type domain-containing protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			non_adhesin_putative	592	yes	no		PF08031;PF01565	yes
+A0ACG8DF45		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	155	yes	no		PF04930	yes
+A0ACG8DF50		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	399	yes	no			yes
+A0ACG8DF66		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			non_adhesin_putative	554	yes	no		PF05577	yes
+A0ACG8DF75		Deoxyribonuclease NucA/NucB domain-containing protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	241	yes	no		PF14040	yes
+A0ACG8DF81		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	463	yes	no		PF13450	yes
+A0ACG8DFD4		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	455	yes	no		PF13668	yes
+A0ACG8DFF7		CREG-like beta-barrel domain-containing protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	284	yes	no		PF13883	yes
+A0ACG8DFH8		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	266	yes	no		PF03896	yes
+A0ACG8DFI1		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	364	yes	no			yes
+A0ACG8DFM5		Sphingomyelinase D (EC 3.1.4.41)	Coccidioides posadasii C735 delta SOWgp	4	no				yes			non_adhesin_putative	303	yes	no	3.1.4.41	PF27711	yes
+A0ACG8DFP5		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	230	yes	no		PF28404	yes
+A0ACG8DFR9	MEP2	Neutral protease 2 (EC 3.4.24.39) (Deuterolysin)	Coccidioides posadasii C735 delta SOWgp	4	no				yes			non_adhesin_putative	353	yes	no	3.4.24.39	PF02102	yes
+A0ACG8DFT4	PPN1	Endopolyphosphatase (EC 3.6.1.10)	Coccidioides posadasii C735 delta SOWgp	4	no				yes			non_adhesin_putative	680	yes	no	3.6.1.10	PF00149	yes
+A0ACG8DFV9		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	477	yes	no			yes
+A0ACG8DG04		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	250	yes	no			yes
+A0ACG8DG20	KEX1	Pheromone-processing carboxypeptidase KEX1 (EC 3.4.16.6) (Carboxypeptidase D) (Pheromone-processing carboxypeptidase kex	Coccidioides posadasii C735 delta SOWgp	4	no				yes			non_adhesin_putative	641	yes	no	3.4.16.6	PF00450	yes
+A0ACG8DG51		Chitinase (EC 3.2.1.14)	Coccidioides posadasii C735 delta SOWgp	4	no				yes			non_adhesin_putative	352	yes	no	3.2.1.14	PF00704	yes
+A0ACG8DG90	MEP8	Neutral protease 2 (EC 3.4.24.39) (Deuterolysin)	Coccidioides posadasii C735 delta SOWgp	4	no				yes			non_adhesin_putative	354	yes	no	3.4.24.39	PF02102	yes
+A0ACG8DGD1		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	167	yes	no			yes
+A0ACG8DGD6		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	627	yes	no			yes
+A0ACG8DGF0		DUF7728 domain-containing protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	351	yes	no		PF24854	yes
+A0ACG8DGH8	PDI1	Protein disulfide-isomerase (EC 5.3.4.1)	Coccidioides posadasii C735 delta SOWgp	4	no				yes			non_adhesin_putative	523	yes	no	5.3.4.1	PF00085;PF13848	yes
+A0ACG8DGI7	OST3	Oligosaccharyl transferase subunit ost3/OST6	Coccidioides posadasii C735 delta SOWgp	4	no				yes			non_adhesin_putative	329	yes	no		PF04756	yes
+A0ACG8DGL1		J domain-containing protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	397	yes	no		PF00226	yes
+A0ACG8DGM1		Tyrosinase copper-binding domain-containing protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	411	yes	no		PF00264	yes
+A0ACG8DGN9		Carboxylic ester hydrolase (EC 3.1.1.-)	Coccidioides posadasii C735 delta SOWgp	4	no				yes			non_adhesin_putative	489	yes	no	3.1.1.-	PF00135	yes
+A0ACG8DGS7	DCW1_2	Mannan endo-1,6-alpha-mannosidase (EC 3.2.1.101)	Coccidioides posadasii C735 delta SOWgp	4	no				yes			non_adhesin_putative	459	yes	no	3.2.1.101	PF03663	yes
+A0ACG8DGT0		SCP domain-containing protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	214	yes	no		PF00188	yes
+A0ACG8DGT8		Glycosyl transferase CAP10 domain-containing protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	877	yes	no		PF05686	yes
+A0ACG8DGV9		ER membrane protein complex subunit 1	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	946	yes	no		PF25293;PF07774	yes
+A0ACG8DGW4		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			non_adhesin_putative	455	yes	no		PF03583	yes
+A0ACG8DGW6		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	245	yes	no			yes
+A0ACG8DGW8		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	380	yes	no			yes
+A0ACG8DGZ3		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			non_adhesin_putative	419	yes	no		PF14269	yes
+A0ACG8DH15		DSC E3 ubiquitin ligase complex subunit A (EC 2.3.2.27) (Defective for SREBP cleavage protein A) (RING-type E3 ubiquitin	Coccidioides posadasii C735 delta SOWgp	4	no				yes			non_adhesin_putative	812	yes	no	2.3.2.27	PF11145;PF13639	yes
+A0ACG8DH19		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	397	yes	no			yes
+A0ACG8DH62		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	478	yes	no		PF00328	yes
+A0ACG8DHB8		AA11 lytic polysaccharide monooxygenase C-terminal domain-containing protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	408	yes	no		PF30553	yes
+A0ACG8DHE8		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	197	yes	no		PF30672	yes
+A0ACG8DHJ1	CWH41	Mannosyl-oligosaccharide glucosidase (EC 3.2.1.106) (Glucosidase I)	Coccidioides posadasii C735 delta SOWgp	4	no				yes			non_adhesin_putative	818	yes	no	3.2.1.106	PF03200;PF16923	yes
+A0ACG8DHK8		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	389	yes	no			yes
+A0ACG8DHM7	ERV25	Vesicle coat component	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	222	yes	no		PF01105	yes
+A0ACG8DHT7		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	165	yes	no			yes
+A0ACG8DHU0		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	897	yes	no			yes
+A0ACG8DHV2	ADE4	Amidophosphoribosyltransferase (ATase) (EC 2.4.2.14) (Glutamine phosphoribosylpyrophosphate amidotransferase)	Coccidioides posadasii C735 delta SOWgp	4	no				yes			non_adhesin_putative	580	yes	no	2.4.2.14	PF13537;PF00156	yes
+A0ACG8DI18		tRNA hydrolase-like thioredoxin-like domain-containing protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	271	yes	no		PF26958	yes
+A0ACG8DI25		FAD-binding FR-type domain-containing protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			non_adhesin_putative	778	yes	no		PF01794;PF08030	yes
+A0ACG8DI43		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	116	yes	no		PF21691	yes
+A0ACG8DI57		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	550	yes	no		PF06824	yes
+A0ACG8DI62		Sphingomyelinase D (EC 3.1.4.41)	Coccidioides posadasii C735 delta SOWgp	4	no				yes			non_adhesin_putative	342	yes	no	3.1.4.41	PF27711	yes
+A0ACG8DIC2		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	575	yes	no			yes
+A0ACG8DID1		EF-hand domain-containing protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	199	yes	no		PF27909;PF30624	yes
+A0ACG8DIG7		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	269	yes	no			yes
+A0ACG8DIH0		GmrSD restriction endonucleases C-terminal domain-containing protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	207	yes	no		PF07510	yes
+A0ACG8DIH9		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	566	yes	no		PF22974;PF23865	yes
+A0ACG8DII3	CPR2_1	Peptidyl-prolyl cis-trans isomerase (PPIase) (EC 5.2.1.8)	Coccidioides posadasii C735 delta SOWgp	4	no		Q9Y7F6	57.4	yes	P23284	67.6	non_adhesin_putative	221	yes	no	5.2.1.8	PF00160	yes
+A0ACG8DIK1	MEP6	Neutral protease 2 (EC 3.4.24.39) (Deuterolysin)	Coccidioides posadasii C735 delta SOWgp	4	no				yes			non_adhesin_putative	355	yes	no	3.4.24.39	PF02102	yes
+A0ACG8DIN3		L-type lectin-like domain-containing protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	422	yes	no		PF03388	yes
+A0ACG8DIN9		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	264	yes	no		PF07947	yes
+A0ACG8DIR6		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	449	yes	no		PF26146	yes
+A0ACG8DJ03		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	534	yes	no		PF06814;PF21902	yes
+A0ACG8DJ79		Glycosyl transferase CAP10 domain-containing protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			non_adhesin_putative	965	yes	no		PF05686	yes
+A0ACG8DJB9		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	236	yes	no			yes
+A0ACG8DJG2		Tyrosinase copper-binding domain-containing protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			non_adhesin_putative	663	yes	no		PF00264;PF18132	yes
+A0ACG8DJJ0	LAP2	Peptide hydrolase (EC 3.4.-.-)	Coccidioides posadasii C735 delta SOWgp	4	no				yes			non_adhesin_putative	503	yes	no	3.4.-.-	PF02225;PF04389	yes
+A0ACG8DJL8		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	185	yes	no			yes
+A0ACG8DJT1		DUF7580 domain-containing protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	585	yes	no		PF24476	yes
+A0ACG8DJT8		protein disulfide-isomerase (EC 5.3.4.1)	Coccidioides posadasii C735 delta SOWgp	4	no				yes			non_adhesin_putative	535	yes	no	5.3.4.1	PF24541;PF00085	yes
+A0ACG8DJW7		DUF7707 domain-containing protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	191	yes	no		PF24808	yes
+A0ACG8DK34		Cyanovirin-N domain-containing protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	123	yes	no		PF08881	yes
+A0ACG8DKE0		Protein BIG1	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	287	yes	no		PF20520;PF27676	yes
+A0ACG8DKG8	CPR2_1	Peptidyl-prolyl cis-trans isomerase (PPIase) (EC 5.2.1.8)	Coccidioides posadasii C735 delta SOWgp	4	no		Q9Y7F6	57.4	yes	P23284	67.6	non_adhesin_putative	206	yes	no	5.2.1.8	PF00160	yes
+A0ACG8DLI6		Vacoular membrane protein SCY-4732-like transmembrane segment domain-containing protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	361	yes	no		PF28230	yes
+A0ACG8DN78		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	299	yes	no			yes
+A7XUU4		Beta-hexosaminidase (EC 3.2.1.52)	Coccidioides posadasii C735 delta SOWgp	4	no				yes			non_adhesin_putative	603	yes	no	3.2.1.52	PF00728;PF14845	yes
+D1MGT5		Protein disulfide-isomerase (EC 5.3.4.1)	Coccidioides posadasii C735 delta SOWgp	4	no				yes			non_adhesin_putative	523	yes	no	5.3.4.1	PF00085;PF13848	yes
+D3Y2S4		Cell wall protein ECM33	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	390	yes	no		PF12454	yes
+E9CS37	KEX1	Pheromone-processing carboxypeptidase KEX1 (EC 3.4.16.6) (Carboxypeptidase D)	Coccidioides posadasii C735 delta SOWgp	4	no				yes			non_adhesin_putative	641	yes	no	3.4.16.6	PF00450	yes
+E9CX44	CSA	Heat-stable 19 kDa antigen (Coccidioides-specific antigen) (CS antigen) (CS-AG) (Precipitin antigen) (TP-AG)	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	146	yes	no		PF07249	yes
+E9D2Q2		Wall-associated proteinase (EC 3.4.21.-)	Coccidioides posadasii C735 delta SOWgp	4	no				yes			non_adhesin_putative	309	yes	no	3.4.21.-		yes
+E9DBV9	LAP1	Leucine aminopeptidase 1 (EC 3.4.11.-) (Leucyl aminopeptidase 1) (LAP1)	Coccidioides posadasii C735 delta SOWgp	4	no				yes			non_adhesin_putative	388	yes	no	3.4.11.-	PF04389	yes
+E9DD69	ECM14	Inactive metallocarboxypeptidase ECM14	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	582	yes	no		PF00246	yes
+E9DFH0	HEX1	Beta-hexosaminidase 1 (EC 3.2.1.52) (Beta-GlcNAcase 1) (Beta-N-acetylhexosaminidase 1) (N-acetyl-beta-glucosaminidase 1)	Coccidioides posadasii C735 delta SOWgp	4	no				yes			non_adhesin_putative	595	yes	no	3.2.1.52	PF00728;PF14845	yes
+E9DG92		Probable carboxypeptidase CPSG_08841 (EC 3.4.17.-) (Peptidase M20 domain-containing protein CPSG_08841)	Coccidioides posadasii C735 delta SOWgp	4	no				yes			non_adhesin_putative	452	yes	no	3.4.17.-	PF07687;PF01546	yes
+J0HFL7		MSB2-like C-terminal domain-containing protein	Coccidioides immitis RS	4	no				yes			unknown	751	yes	no		PF27810	yes
+J3K0E4		Serine/threonine-protein (EC 2.7.11.1)	Coccidioides immitis RS	4	no				yes			non_adhesin_putative	1184	yes	no	2.7.11.1	PF00069;PF06479	yes
+J3K0I5		Carboxypeptidase (EC 3.4.16.-)	Coccidioides immitis RS	4	no				yes			non_adhesin_putative	511	yes	no	3.4.16.-	PF00450	yes
+J3K0S7		Uncharacterized protein	Coccidioides immitis RS	4	no				yes			unknown	165	yes	no			yes
+J3K0T6		Neutral protease 2 (EC 3.4.24.39) (Deuterolysin)	Coccidioides immitis RS	4	no				yes			non_adhesin_putative	354	yes	no	3.4.24.39	PF02102	yes
+J3K0W1		Uncharacterized protein	Coccidioides immitis RS	4	no				yes			unknown	444	yes	no			yes
+J3K0W6		Amidophosphoribosyltransferase (ATase) (EC 2.4.2.14) (Glutamine phosphoribosylpyrophosphate amidotransferase)	Coccidioides immitis RS	4	no				yes			non_adhesin_putative	580	yes	no	2.4.2.14	PF13537;PF00156	yes
+J3K0Z9		Mannosyl-oligosaccharide glucosidase (EC 3.2.1.106) (Glucosidase I)	Coccidioides immitis RS	4	no				yes			non_adhesin_putative	818	yes	no	3.2.1.106	PF03200;PF16923	yes
+J3K158		Uncharacterized protein	Coccidioides immitis RS	4	no				yes			unknown	167	yes	no			yes
+J3K1C4		Uncharacterized protein	Coccidioides immitis RS	4	no				yes			unknown	380	yes	no			yes
+J3K1C9		FRE family ferric-chelate reductase	Coccidioides immitis RS	4	no				yes			non_adhesin_putative	778	yes	no		PF01794;PF08030	yes
+J3K1F9		DSC E3 ubiquitin ligase complex subunit A (EC 2.3.2.27) (Defective for SREBP cleavage protein A) (RING-type E3 ubiquitin	Coccidioides immitis RS	4	no				yes			non_adhesin_putative	812	yes	no	2.3.2.27	PF11145;PF13639	yes
+J3K1K2		tRNA hydrolase-like thioredoxin-like domain-containing protein	Coccidioides immitis RS	4	no				yes			unknown	271	yes	no		PF26958	yes
+J3K1N0		Endoplasmic reticulum vesicle protein 25	Coccidioides immitis RS	4	no				yes			unknown	222	yes	no		PF01105	yes
+J3K1Q8		Histidine acid phosphatase	Coccidioides immitis RS	4	no				yes			unknown	478	yes	no		PF00328	yes
+J3K243		Integral membrane protein	Coccidioides immitis RS	4	no				yes			unknown	534	yes	no		PF06814;PF21902	yes
+J3K2D5		Lectin family integral membrane protein	Coccidioides immitis RS	4	no				yes			unknown	422	yes	no		PF03388	yes
+J3K2E0		DUF1237 domain-containing protein	Coccidioides immitis RS	4	no				yes			unknown	550	yes	no		PF06824	yes
+J3K2E4		YhhN domain-containing protein	Coccidioides immitis RS	4	no				yes			unknown	264	yes	no		PF07947	yes
+J3K2H7		Uncharacterized protein	Coccidioides immitis RS	4	no				yes			unknown	214	yes	no			yes
+J3K2N9		Sphingomyelinase D (EC 3.1.4.41)	Coccidioides immitis RS	4	no				yes			non_adhesin_putative	342	yes	no	3.1.4.41	PF27711	yes
+J3K2T1		Uncharacterized protein	Coccidioides immitis RS	4	no				yes			unknown	218	yes	no			yes
+J3K346		Endo-chitosanase (EC 3.2.1.132)	Coccidioides immitis RS	4	no				yes			non_adhesin_putative	247	yes	no	3.2.1.132	PF07335	yes
+J3K384		Apple domain-containing protein	Coccidioides immitis RS	4	no				yes			unknown	424	yes	no		PF00024;PF08277	yes
+J3K388		Apple domain-containing protein	Coccidioides immitis RS	4	no				yes			unknown	377	yes	no		PF00024;PF14295	yes
+J3K3I9		DUF7707 domain-containing protein	Coccidioides immitis RS	4	no				yes			unknown	191	yes	no		PF24808	yes
+J3K3K2		DUF7580 domain-containing protein	Coccidioides immitis RS	4	no				yes			unknown	585	yes	no		PF24476	yes
+J3K3L1		Vacoular membrane protein SCY-4732-like transmembrane segment domain-containing protein	Coccidioides immitis RS	4	no				yes			unknown	361	yes	no		PF28230	yes
+J3K3N3		Protein BIG1	Coccidioides immitis RS	4	no				yes			unknown	287	yes	no		PF20520;PF27676	yes
+J3K3P9		Tyrosinase	Coccidioides immitis RS	4	no				yes			non_adhesin_putative	658	yes	no		PF00264;PF18132	yes
+J3K3Y2		Phytase-like domain-containing protein	Coccidioides immitis RS	4	no				yes			unknown	524	yes	no		PF13449	yes
+J3K3Z5		DUF7732 domain-containing protein	Coccidioides immitis RS	4	no				yes			unknown	303	yes	no		PF24866	yes
+J3K454		GH16 domain-containing protein	Coccidioides immitis RS	4	no				yes			unknown	354	yes	no		PF00722	yes
+J3K489		WSC domain-containing protein	Coccidioides immitis RS	4	no				yes			unknown	757	yes	no		PF00141;PF01822	yes
+J3K490		Prp 6 CRoW domain-containing protein	Coccidioides immitis RS	4	no				yes			unknown	214	yes	no		PF28404	yes
+J3K4A3		RING finger domain-containing protein	Coccidioides immitis RS	4	no				yes			unknown	560	yes	no		PF13639	yes
+J3K4L1		ABC transporter	Coccidioides immitis RS	4	no				yes			unknown	1098	yes	no		PF01061;PF19055;PF00005	yes
+J3K4N2		Amine oxidase	Coccidioides immitis RS	4	no				yes			unknown	462	yes	no		PF13450	yes
+J3K4R5		Acyltransferase 3 domain-containing protein	Coccidioides immitis RS	4	no				yes			unknown	464	yes	no		PF01757	yes
+J3K4V7		Rds1	Coccidioides immitis RS	4	no				yes			unknown	463	yes	no		PF13668	yes
+J3K511		Phosphatidylglycerol/phosphatidylinositol transfer protein	Coccidioides immitis RS	4	no				yes			unknown	174	yes	no		PF02221	yes
+J3K571		Oligosaccharyltransferase subunit ribophorin II	Coccidioides immitis RS	4	no				yes			unknown	289	yes	no		PF25147	yes
+J3K5A1		ZIP zinc/iron transporter	Coccidioides immitis RS	4	no				yes			unknown	500	yes	no		PF02535	yes
+J3K5A4		Ubiquitin 3 binding protein But2 C-terminal domain-containing protein	Coccidioides immitis RS	4	no				yes			unknown	202	yes	no		PF09792	yes
+J3K5J6		alpha,alpha-trehalase (EC 3.2.1.28) (Alpha,alpha-trehalase) (Alpha,alpha-trehalose glucohydrolase)	Coccidioides immitis RS	4	no				yes			non_adhesin_putative	1050	yes	no	3.2.1.28	PF03633;PF03632;PF03636	yes
+J3K5J8		Ser/Thr protein phosphatase	Coccidioides immitis RS	4	no				yes			non_adhesin_putative	603	yes	no		PF00149;PF21953	yes
+J3K5N9		ER membrane protein complex subunit 10	Coccidioides immitis RS	4	no				yes			unknown	199	yes	no		PF21203	yes
+J3K5Y3		Peptide hydrolase (EC 3.4.-.-)	Coccidioides immitis RS	4	no				yes			non_adhesin_putative	368	yes	no	3.4.-.-	PF04389	yes
+J3K6C3		Uncharacterized protein	Coccidioides immitis RS	4	no				yes			unknown	361	yes	no			yes
+J3K6E2		Mannan endo-1,6-alpha-mannosidase (EC 3.2.1.101)	Coccidioides immitis RS	4	no				yes			non_adhesin_putative	446	yes	no	3.2.1.101	PF03663	yes
+J3K6X5		Fasciclin domain-containing protein	Coccidioides immitis RS	4	no				yes			unknown	426	yes	no		PF02469	yes
+J3K6Z6		CREG-like beta-barrel domain-containing protein	Coccidioides immitis RS	4	no				yes			unknown	284	yes	no		PF13883	yes
+J3K729		Uncharacterized protein	Coccidioides immitis RS	4	no				yes			unknown	222	yes	no			yes
+J3K759		Integral membrane protein	Coccidioides immitis RS	4	no				yes			unknown	500	yes	no		PF10348;PF10355	yes
+J3K794		Sad1/UNC domain-containing protein	Coccidioides immitis RS	4	no				yes			unknown	857	yes	no		PF07738	yes
+J3K7G5		DUF7728 domain-containing protein	Coccidioides immitis RS	4	no				yes			unknown	351	yes	no		PF24854	yes
+J3K7T3		FAD binding domain-containing protein	Coccidioides immitis RS	4	no				yes			non_adhesin_putative	592	yes	no		PF08031;PF01565	yes
+J3K7T9		Uncharacterized protein	Coccidioides immitis RS	4	no				yes			unknown	154	yes	no			yes
+J3K812		prephenate dehydratase (EC 4.2.1.51)	Coccidioides immitis RS	4	no				yes			non_adhesin_putative	337	yes	no	4.2.1.51	PF00800	yes
+J3K844		Sphingomyelinase D (SMase D) (EC 3.1.4.41)	Coccidioides immitis RS	4	no				yes			non_adhesin_putative	303	yes	no	3.1.4.41	PF27711	yes
+J3K876		WSC domain-containing protein	Coccidioides immitis RS	4	no				yes			unknown	466	yes	no		PF09362	yes
+J3K8C6		Emp24/gp25L/p24 family protein	Coccidioides immitis RS	4	no				yes			unknown	210	yes	no		PF01105	yes
+J3K8G1		DUF8763 domain-containing protein	Coccidioides immitis RS	4	no				yes			unknown	1577	yes	no		PF30930	yes
+J3K8G7		Serine peptidase, family S28	Coccidioides immitis RS	4	no				yes			non_adhesin_putative	554	yes	no		PF05577	yes
+J3K8J5		Integral membrane protein	Coccidioides immitis RS	4	no				yes			unknown	162	yes	no			yes
+J3K8J8		Uncharacterized protein	Coccidioides immitis RS	4	no				yes			unknown	431	yes	no		PF22903	yes
+J3K8K8		Long chronological lifespan protein 2	Coccidioides immitis RS	4	no				yes			unknown	122	yes	no		PF28115	yes
+J3K8M5		Secretory lipase	Coccidioides immitis RS	4	no				yes			non_adhesin_putative	455	yes	no		PF03583	yes
+J3K8N9		ER membrane protein complex subunit 1	Coccidioides immitis RS	4	no				yes			unknown	946	yes	no		PF25293;PF07774	yes
+J3K8P0		Neutral protease 2 (EC 3.4.24.39) (Deuterolysin)	Coccidioides immitis RS	4	no				yes			non_adhesin_putative	354	yes	no	3.4.24.39	PF02102	yes
+J3K8Q3		Glycosyl transferase CAP10 domain-containing protein	Coccidioides immitis RS	4	no				yes			unknown	893	yes	no		PF05686	yes
+J3K8Q6		WSC domain-containing protein	Coccidioides immitis RS	4	no				yes			unknown	290	yes	no		PF01822	yes
+J3K8R6		Dolichyl-diphosphooligosaccharide--protein glycosyltransferase subunit WBP1 (Oligosaccharyl transferase subunit WBP1)	Coccidioides immitis RS	4	no				yes			unknown	466	yes	no		PF23358;PF03345	yes
+J3K8T3		Peptide hydrolase (EC 3.4.-.-)	Coccidioides immitis RS	4	no				yes			non_adhesin_putative	388	yes	no	3.4.-.-	PF04389	yes
+J3K8W1		Alpha-1,6-mannosyltransferase subunit	Coccidioides immitis RS	4	no				yes			non_adhesin_putative	357	yes	no		PF04488	yes
+J3K8W8		Dipeptidyl-peptidase V	Coccidioides immitis RS	4	no				yes			non_adhesin_putative	723	yes	no		PF00326	yes
+J3K912		Endoglucanase	Coccidioides immitis RS	4	no				yes			unknown	214	yes	no			yes
+J3K933		Mannosylphosphate transferase	Coccidioides immitis RS	4	no				yes			non_adhesin_putative	287	yes	no		PF04991	yes
+J3K947		Serine protease (EC 3.4.21.-)	Coccidioides immitis RS	4	no				yes			non_adhesin_putative	346	yes	no	3.4.21.-	PF00089	yes
+J3K9C3		Uncharacterized protein	Coccidioides immitis RS	4	no				yes			unknown	294	yes	no			yes
+J3K9D0		Uncharacterized protein	Coccidioides immitis RS	4	no				yes			unknown	117	yes	no			yes
+J3K9D7		Endopolyphosphatase (EC 3.6.1.10)	Coccidioides immitis RS	4	no				yes			non_adhesin_putative	681	yes	no	3.6.1.10	PF00149	yes
+J3K9F6		Uncharacterized protein	Coccidioides immitis RS	4	no				yes			unknown	397	yes	no			yes
+J3K9G5		Integral membrane protein	Coccidioides immitis RS	4	no				yes			unknown	477	yes	no			yes
+J3K9J1		Uncharacterized protein	Coccidioides immitis RS	4	no				yes			unknown	357	yes	no			yes
+J3K9J3		Uncharacterized protein	Coccidioides immitis RS	4	no				yes			unknown	250	yes	no			yes
+J3K9K6		FAD dependent oxidoreductase	Coccidioides immitis RS	4	no				yes			unknown	463	yes	no		PF13450	yes
+J3K9M9		PLC-like phosphodiesterase	Coccidioides immitis RS	4	no				yes			unknown	449	yes	no		PF26146	yes
+J3K9T0		Pheromone-processing carboxypeptidase KEX1 (EC 3.4.16.6) (Carboxypeptidase D) (Pheromone-processing carboxypeptidase kex	Coccidioides immitis RS	4	no				yes			non_adhesin_putative	641	yes	no	3.4.16.6	PF00450	yes
+J3K9W4		Protein disulfide-isomerase (EC 5.3.4.1)	Coccidioides immitis RS	4	no				yes			non_adhesin_putative	523	yes	no	5.3.4.1	PF00085;PF13848	yes
+J3K9Z8		Stress response protein Rds1	Coccidioides immitis RS	4	no				yes			unknown	455	yes	no		PF13668	yes
+J3KA01		Extracellular triacylglycerol lipase	Coccidioides immitis RS	4	no				yes			non_adhesin_putative	407	yes	no		PF01764	yes
+J3KA06		DnaJ domain-containing protein	Coccidioides immitis RS	4	no				yes			unknown	393	yes	no		PF00226	yes
+J3KA20		Prp 4 CRoW domain-containing protein	Coccidioides immitis RS	4	no				yes			unknown	231	yes	no		PF28404	yes
+J3KA29		Tyrosinase	Coccidioides immitis RS	4	no				yes			unknown	411	yes	no		PF00264	yes
+J3KA40		Peptidase	Coccidioides immitis RS	4	no				yes			non_adhesin_putative	452	yes	no		PF07687;PF01546	yes
+J3KA41		Translocon-associated protein	Coccidioides immitis RS	4	no				yes			unknown	266	yes	no		PF03896	yes
+J3KA56		Chitinase (EC 3.2.1.14)	Coccidioides immitis RS	4	no				yes			non_adhesin_putative	352	yes	no	3.2.1.14	PF00704	yes
+J3KA57		Neutral protease 2 (EC 3.4.24.39) (Deuterolysin)	Coccidioides immitis RS	4	no				yes			non_adhesin_putative	353	yes	no	3.4.24.39	PF02102	yes
+J3KAD1		Kelch repeat protein	Coccidioides immitis RS	4	no				yes			unknown	760	yes	no		PF24681	yes
+J3KAD3		Agglutinin-like protein middle domain-containing protein	Coccidioides immitis RS	4	no				yes			unknown	568	yes	no		PF30910	yes
+J3KAG5		Extracellular serine-rich protein	Coccidioides immitis RS	4	no				yes			unknown	229	yes	no			yes
+J3KAJ2		Hydrophobin	Coccidioides immitis RS	4	no				yes			unknown	94	yes	no		PF28987	yes
+J3KAJ5		SacI domain-containing protein	Coccidioides immitis RS	4	no				yes			unknown	945	yes	no		PF12456;PF02383	yes
+J3KAS9		Polysaccharide lyase	Coccidioides immitis RS	4	no				yes			unknown	233	yes	no			yes
+J3KAV2		Ubiquitin 3 binding protein But2 C-terminal domain-containing protein	Coccidioides immitis RS	4	no				yes			unknown	196	yes	no			yes
+J3KAW4		Autophagy-related protein 27	Coccidioides immitis RS	4	no				yes			unknown	311	yes	no		PF09451	yes
+J3KAX4		Hypoxia up-regulated 1	Coccidioides immitis RS	4	no				yes			unknown	1018	yes	no		PF00012;PF27508	yes
+J3KB22		Ser/Thr protein phosphatase	Coccidioides immitis RS	4	no				yes			unknown	668	yes	no		PF00149;PF21953	yes
+J3KB77		SUN domain-containing protein (Adg3)	Coccidioides immitis RS	4	no				yes			unknown	472	yes	no		PF03856	yes
+J3KBF9		Extracellular serine-threonine rich protein	Coccidioides immitis RS	4	no				yes			unknown	682	yes	no		PF05730	yes
+J3KBX5		Pepsin A (EC 3.4.23.1)	Coccidioides immitis RS	4	no		A0ACG8D5J2	100.0	yes	A0ACI8VBV2	45.4	non_adhesin_putative	399	yes	no	3.4.23.1	PF00026	yes
+J3KC33		Glutaminase	Coccidioides immitis RS	4	no				yes			unknown	856	yes	no		PF17168;PF16335	yes
+J3KC46		VanZ domain-containing protein	Coccidioides immitis RS	4	no				yes			unknown	220	yes	no		PF04892	yes
+J3KC60		Uncharacterized protein	Coccidioides immitis RS	4	no				yes			unknown	323	yes	no			yes
+J3KC63		GPI anchored protein	Coccidioides immitis RS	4	no				yes			unknown	198	yes	no			yes
+J3KCB7		Subtilisin-like protease (EC 3.4.-.-)	Coccidioides immitis RS	4	no				yes			non_adhesin_putative	599	yes	no	3.4.-.-	PF00082;PF09286	yes
+J3KCB8		beta-glucosidase (EC 3.2.1.21)	Coccidioides immitis RS	4	no				yes			non_adhesin_putative	858	yes	no	3.2.1.21	PF14310;PF00933;PF01915	yes
+J3KCB9		Vacuolar sorting receptor	Coccidioides immitis RS	4	no				yes			unknown	374	yes	no		PF02157	yes
+J3KCJ3		Uncharacterized protein	Coccidioides immitis RS	4	no				yes			unknown	298	yes	no			yes
+J3KCK1		Uncharacterized protein	Coccidioides immitis RS	4	no				yes			unknown	147	yes	no			yes
+J3KCP7		Endosomal cargo receptor	Coccidioides immitis RS	4	no				yes			unknown	228	yes	no		PF01105	yes
+J3KCQ3		Uncharacterized protein	Coccidioides immitis RS	4	no				yes			unknown	151	yes	no			yes
+J3KCQ7		Carboxypeptidase (EC 3.4.16.-)	Coccidioides immitis RS	4	no				yes			non_adhesin_putative	545	yes	no	3.4.16.-	PF00450	yes
+J3KCT2		Oxalate decarboxylase family bicupin	Coccidioides immitis RS	4	no				yes			unknown	407	yes	no		PF00190	yes
+J3KCU0		GPI-anchored cell wall organization protein Ecm33	Coccidioides immitis RS	4	no				yes			unknown	390	yes	no		PF12454	yes
+J3KD87		Extracellular matrix protein	Coccidioides immitis RS	4	no				yes			unknown	222	yes	no		PF10342	yes
+J3KDF9		Carboxypeptidase (EC 3.4.16.-)	Coccidioides immitis RS	4	no				yes			non_adhesin_putative	555	yes	no	3.4.16.-	PF00450	yes
+J3KDG6		Uncharacterized protein	Coccidioides immitis RS	4	no				yes			unknown	190	yes	no			yes
+J3KDJ5		Uncharacterized protein	Coccidioides immitis RS	4	no				yes			unknown	350	yes	no			yes
+J3KDU4		GPI anchored serine-threonine rich protein	Coccidioides immitis RS	4	no				yes			unknown	216	yes	no		PF10342	yes
+J3KDV1		Spherule outer wall glycoprotein	Coccidioides immitis RS	4	no				yes			unknown	324	yes	no			yes
+J3KDX9		Malate dehydrogenase	Coccidioides immitis RS	4	no				yes			unknown	232	yes	no		PF11937	yes
+J3KDY4		Cellular morphogenesis protein	Coccidioides immitis RS	4	no				yes			unknown	1227	yes	no		PF12768;PF20842;PF20843	yes
+J3KE22		Mid2 domain-containing protein	Coccidioides immitis RS	4	no				yes			unknown	299	yes	no			yes
+J3KE71		Extracellular membrane protein CFEM domain-containing protein	Coccidioides immitis RS	4	no				yes			unknown	185	yes	no			yes
+J3KEB1		Capsular associated protein	Coccidioides immitis RS	4	no				yes			non_adhesin_putative	965	yes	no		PF05686	yes
+J3KEJ3		Cytochrome P450	Coccidioides immitis RS	4	no				yes			non_adhesin_putative	533	yes	no		PF00067	yes
+J3KEL8		Uncharacterized protein	Coccidioides immitis RS	4	no				yes			unknown	512	yes	no			yes
+J3KEN0		Extracelular serine carboxypeptidase	Coccidioides immitis RS	4	no				yes			non_adhesin_putative	541	yes	no		PF05577	yes
+J3KEN5		glucan endo-1,3-beta-D-glucosidase (EC 3.2.1.39)	Coccidioides immitis RS	4	no				yes			non_adhesin_putative	878	yes	no	3.2.1.39	PF17652;PF03639	yes
+J3KES3		Secreted protein	Coccidioides immitis RS	4	no				yes			unknown	263	yes	no			yes
+J3KES8		Membrane protein TMS1	Coccidioides immitis RS	4	no				yes			unknown	480	yes	no		PF03348	yes
+J3KEU7		Extracellular serine-rich protein	Coccidioides immitis RS	4	no				yes			unknown	367	yes	no			yes
+J3KEU9		Carboxypeptidase (EC 3.4.16.-)	Coccidioides immitis RS	4	no				yes			non_adhesin_putative	621	yes	no	3.4.16.-	PF00450	yes
+J3KF76		Uncharacterized protein	Coccidioides immitis RS	4	no				yes			unknown	325	yes	no			yes
+J3KFG1		Lectin family integral membrane protein	Coccidioides immitis RS	4	no				yes			unknown	337	yes	no		PF03388	yes
+J3KFH2		ZIP metal ion transporter	Coccidioides immitis RS	4	no				yes			unknown	402	yes	no		PF02535	yes
+J3KFH5		Uncharacterized protein	Coccidioides immitis RS	4	no				yes			unknown	559	yes	no			yes
+J3KFI7		Uncharacterized protein	Coccidioides immitis RS	4	no				yes			unknown	429	yes	no			yes
+J3KFM5		Integral membrane protein	Coccidioides immitis RS	4	no				yes			unknown	466	yes	no			yes
+J3KFN9		ARB-07466-like C-terminal domain-containing protein	Coccidioides immitis RS	4	no				yes			unknown	269	yes	no		PF26571	yes
+J3KFP7		Regulatory P domain-containing protein	Coccidioides immitis RS	4	no				yes			unknown	450	yes	no		PF08309	yes
+J3KFT1		Peptidase A1 domain-containing protein	Coccidioides immitis RS	4	no				yes			unknown	378	yes	no			yes
+J3KFV1		Prp 5 CRoW domain-containing protein	Coccidioides immitis RS	4	no				yes			unknown	220	yes	no		PF28404	yes
+J3KFW9		Carbonic anhydrase (EC 4.2.1.1)	Coccidioides immitis RS	4	no				yes			non_adhesin_putative	452	yes	no	4.2.1.1	PF00194	yes
+J3KFX7		FAD-dependent oxygenase	Coccidioides immitis RS	4	no				yes			non_adhesin_putative	514	yes	no		PF08031;PF01565	yes
+J3KFZ6		Uncharacterized protein	Coccidioides immitis RS	4	no				yes			unknown	222	yes	no			yes
+J3KG15		Regulator of ime2	Coccidioides immitis RS	4	no				yes			unknown	615	yes	no		PF06687	yes
+J3KGB6		Carboxylic ester hydrolase (EC 3.1.1.-)	Coccidioides immitis RS	4	no				yes			non_adhesin_putative	580	yes	no	3.1.1.-	PF00135	yes
+J3KGC9		Imidazoleglycerol-phosphate dehydratase	Coccidioides immitis RS	4	no				yes			unknown	416	yes	no		PF02535	yes
+J3KGD2		Uncharacterized protein	Coccidioides immitis RS	4	no				yes			unknown	124	yes	no			yes
+J3KGE9		tripeptidyl-peptidase II (EC 3.4.14.10)	Coccidioides immitis RS	4	no				yes			non_adhesin_putative	609	yes	no	3.4.14.10	PF00082;PF09286	yes
+J3KGL3		Endo-1,3(4)-beta-glucanase	Coccidioides immitis RS	4	no				yes			unknown	469	yes	no			yes
+J3KGQ4		DUF8768 domain-containing protein	Coccidioides immitis RS	4	no				yes			unknown	228	yes	no		PF30970	yes
+J3KGQ5		HET-C domain-containing protein HetC	Coccidioides immitis RS	4	no				yes			unknown	794	yes	no		PF07217	yes
+J3KGT6		Uncharacterized protein	Coccidioides immitis RS	4	no				yes			unknown	135	yes	no			yes
+J3KGT9		Transmembrane protein	Coccidioides immitis RS	4	no				yes			unknown	269	yes	no			yes
+J3KGV0		Uncharacterized protein	Coccidioides immitis RS	4	no				yes			unknown	524	yes	no		PF01169	yes
+J3KH55		Neutral protease 2 (EC 3.4.24.39) (Deuterolysin)	Coccidioides immitis RS	4	no				yes			non_adhesin_putative	360	yes	no	3.4.24.39	PF02102	yes
+J3KH56		Uncharacterized protein	Coccidioides immitis RS	4	no				yes			unknown	99	yes	no			yes
+J3KH70		Acetylxylan esterase	Coccidioides immitis RS	4	no				yes			non_adhesin_putative	229	yes	no		PF01083	yes
+J3KH78		Carbohydrate-binding domain-containing protein	Coccidioides immitis RS	4	no				yes			unknown	231	yes	no			yes
+J3KHD0		Calnexin	Coccidioides immitis RS	4	no		A0ABP2EYB6	79.7	yes	A0A7P0Z4D6	51.4	unknown	561	yes	no		PF00262	yes
+J3KHG7		Extracellular serine-rich protein	Coccidioides immitis RS	4	no				yes			unknown	237	yes	no			yes
+J3KHP1		alkaline phosphatase (EC 3.1.3.1)	Coccidioides immitis RS	4	no				yes			non_adhesin_putative	661	yes	no	3.1.3.1	PF00245;PF26732	yes
+J3KHR3		Agmatinase	Coccidioides immitis RS	4	no				yes			non_adhesin_putative	396	yes	no		PF00491	yes
+J3KHT8		Inactive metallocarboxypeptidase ECM14 (Inactive metallocarboxypeptidase ecm14)	Coccidioides immitis RS	4	no				yes			non_adhesin_putative	582	yes	no		PF00246	yes
+J3KI23		Clock-controlled protein 6	Coccidioides immitis RS	4	no				yes			unknown	157	yes	no			yes
+J3KI39		Uncharacterized protein	Coccidioides immitis RS	4	no				yes			unknown	264	yes	no		PF10342;PF05390	yes
+J3KI51		Uncharacterized protein	Coccidioides immitis RS	4	no				yes			unknown	131	yes	no			yes
+J3KI54		ML-like domain-containing protein	Coccidioides immitis RS	4	no				yes			unknown	709	yes	no		PF06011;PF14558	yes
+J3KI89		Dolichyl-diphosphooligosaccharide--protein glycosyltransferase subunit 1	Coccidioides immitis RS	4	no				yes			unknown	504	yes	no		PF04597	yes
+J3KIC8		Uncharacterized protein	Coccidioides immitis RS	4	no				yes			unknown	419	yes	no			yes
+J3KIF6		Beta-hexosaminidase (EC 3.2.1.52)	Coccidioides immitis RS	4	no				yes			non_adhesin_putative	603	yes	no	3.2.1.52	PF00728;PF14845	yes
+J3KIG3		Asl1-like glycosyl hydrolase catalytic domain-containing protein	Coccidioides immitis RS	4	no				yes			unknown	255	yes	no		PF11790	yes
+J3KIL3		Integral membrane protein	Coccidioides immitis RS	4	no				yes			unknown	897	yes	no			yes
+J3KIT4		Cell wall synthesis protein KRE9/Knh1-like N-terminal domain-containing protein	Coccidioides immitis RS	4	no				yes			unknown	207	yes	no		PF10342	yes
+J3KIX1		BYS1 domain-containing protein	Coccidioides immitis RS	4	no				yes			unknown	154	yes	no		PF04681	yes
+J3KIZ9		GPI transamidase component Gpi16	Coccidioides immitis RS	4	no				yes			unknown	597	yes	no		PF04113	yes
+J3KJ16		Cell surface protein	Coccidioides immitis RS	4	no				yes			unknown	184	yes	no			yes
+J3KJ17		beta-glucosidase (EC 3.2.1.21)	Coccidioides immitis RS	4	no				yes			non_adhesin_putative	872	yes	no	3.2.1.21	PF14310;PF00933;PF01915	yes
+J3KJ43		Secreted carboxypeptidase McpA	Coccidioides immitis RS	4	no				yes			non_adhesin_putative	417	yes	no		PF00246;PF02244	yes
+J3KJ80		Glutamate carboxypeptidase II	Coccidioides immitis RS	4	no				yes			non_adhesin_putative	718	yes	no		PF02225;PF04389;PF04253	yes
+J3KJB2		Mid2 domain-containing protein	Coccidioides immitis RS	4	no				yes			unknown	260	yes	no			yes
+J3KJC2		Disintegrin and metalloproteinase domain-containing protein B	Coccidioides immitis RS	4	no				yes			non_adhesin_putative	802	yes	no		PF00200;PF13574	yes
+J3KJQ0		Amine oxidase (EC 1.4.3.-)	Coccidioides immitis RS	4	no				yes			non_adhesin_putative	804	yes	no	1.4.3.-	PF01179;PF02727;PF09248	yes
+J3KJR2		GPI anchored protein	Coccidioides immitis RS	4	no				yes			unknown	588	yes	no		PF22974;PF23865	yes
+J3KJR9		Integral membrane protein	Coccidioides immitis RS	4	no				yes			unknown	602	yes	no		PF10348;PF10355	yes
+J3KJY0		Cell wall integrity and stress response component	Coccidioides immitis RS	4	no				yes			unknown	267	yes	no		PF01822	yes
+J3KK11		Chitin-binding type-1 domain-containing protein	Coccidioides immitis RS	4	no				yes			unknown	554	yes	no		PF30480	yes
+J3KK19		Uncharacterized protein	Coccidioides immitis RS	4	no				yes			unknown	113	yes	no			yes
+J3KK26		CLU5d N-terminal domain-containing protein	Coccidioides immitis RS	4	no				yes			unknown	379	yes	no		PF30466	yes
+J3KK35		UDP-glucose:glycoprotein glucosyltransferase	Coccidioides immitis RS	4	no				yes			non_adhesin_putative	1489	yes	no		PF18404;PF18400;PF18401;PF18402;PF18403;PF06427	yes
+J3KK38		Beta-lactamase-related domain-containing protein	Coccidioides immitis RS	4	no				yes			unknown	542	yes	no		PF00144	yes
+J3KK83		GPI anchored cell wall protein	Coccidioides immitis RS	4	no				yes			unknown	183	yes	no		PF04681	yes
+J3KKD7		Chorismate mutase domain-containing protein	Coccidioides immitis RS	4	no				yes			non_adhesin_putative	164	yes	no		PF01817	yes
+J3KKK3		Uncharacterized protein	Coccidioides immitis RS	4	no				yes			unknown	700	yes	no		PF23658;PF03572	yes
+J3KKK9		Prp 8 CRoW domain-containing protein	Coccidioides immitis RS	4	no				yes			unknown	738	yes	no		PF14040	yes
+J3KKL4		Uncharacterized protein	Coccidioides immitis RS	4	no				yes			unknown	124	yes	no			yes
+J3KKM2		Tetratricopeptide repeat and J domain-containing co-chaperone DNJ1	Coccidioides immitis RS	4	no				yes			unknown	525	yes	no		PF00226;PF13432	yes
+J3KKN4		60S ribosomal protein L20	Coccidioides immitis RS	4	no				yes			unknown	201	yes	no		PF12824	yes
+J3KKS6		Uncharacterized protein	Coccidioides immitis RS	4	no				yes			unknown	316	yes	no			yes
+J3KKU4		tripeptidyl-peptidase II (EC 3.4.14.10)	Coccidioides immitis RS	4	no				yes			non_adhesin_putative	584	yes	no	3.4.14.10	PF00082;PF09286	yes
+J3KKW5		Cell wall synthesis protein KRE9/Knh1-like N-terminal domain-containing protein	Coccidioides immitis RS	4	no				yes			unknown	222	yes	no		PF10342	yes
+J3KKZ2		glucan endo-1,3-beta-D-glucosidase (EC 3.2.1.39)	Coccidioides immitis RS	4	no				yes			non_adhesin_putative	431	yes	no	3.2.1.39	PF10287;PF10290	yes
+J3KL11		Uncharacterized protein	Coccidioides immitis RS	4	no				yes			unknown	341	yes	no		PF11327	yes
+J3KL16		Carboxypeptidase (EC 3.4.16.-)	Coccidioides immitis RS	4	no				yes			non_adhesin_putative	524	yes	no	3.4.16.-	PF00450	yes
+J3KLE7		glycerophosphodiester phosphodiesterase (EC 3.1.4.46)	Coccidioides immitis RS	4	no				yes			non_adhesin_putative	415	yes	no	3.1.4.46	PF03009	yes
+J3KLH7		phosphatidylserine decarboxylase (EC 4.1.1.65)	Coccidioides immitis RS	4	no				yes			non_adhesin_putative	336	yes	no	4.1.1.65	PF02666	yes
+J3KLH8		Proline-rich antigen 3	Coccidioides immitis RS	4	no				yes			unknown	220	yes	no		PF28404	yes
+J3KLN0		NAD(P)-binding domain-containing protein	Coccidioides immitis RS	4	no				yes			unknown	277	yes	no		PF13460	yes
+J3KLS1		Acid phosphatase	Coccidioides immitis RS	4	no				yes			unknown	476	yes	no		PF00328	yes
+J3KM59		Cellobiose dehydrogenase	Coccidioides immitis RS	4	no				yes			unknown	424	yes	no		PF16010;PF03188	yes
+J3KM60		LysM domain-containing protein	Coccidioides immitis RS	4	no				yes			unknown	325	yes	no			yes
+J3KM77		Uncharacterized protein	Coccidioides immitis RS	4	no				yes			unknown	522	yes	no			yes
+P0CB51	CTS1	Endochitinase 1 (EC 3.2.1.14) (CiX1) (Complement-fixation antigen) (CF-AG) (CF-antigen)	Coccidioides posadasii C735 delta SOWgp	4	no				yes			non_adhesin_putative	427	yes	no	3.2.1.14	PF00704	yes
+Q1DHE5	NPR3	Nitrogen permease regulator 3 (Required for meiotic nuclear division protein 11)	Coccidioides immitis RS	4	no				yes			unknown	766	yes	no		PF24064;PF03666	yes
+Q1DK59		Wall-associated proteinase (EC 3.4.21.-)	Coccidioides immitis RS	4	no				yes			non_adhesin_putative	309	yes	no	3.4.21.-		yes
+Q1DNE5	ROT1	Protein ROT1	Coccidioides immitis RS	4	no				yes			unknown	251	yes	no		PF10681	yes
+Q1E3R8	CTS1	Endochitinase 1 (EC 3.2.1.14) (Complement-fixation antigen) (CF-AG) (CF-antigen)	Coccidioides immitis RS	4	no				yes			non_adhesin_putative	427	yes	no	3.2.1.14	PF00704	yes
+Q1E8D2	CSA	Heat-stable 19 kDa antigen (CS-AG)	Coccidioides immitis RS	4	no				yes			unknown	146	yes	no		PF07249	yes
+Q1HE05		Calnexin	Coccidioides posadasii C735 delta SOWgp	4	no		A0ABP2EYB6	79.4	yes	A0ACI8ULB1	49.4	unknown	561	yes	no		PF00262	yes
+Q307Q6		superoxide dismutase (EC 1.15.1.1)	Coccidioides posadasii C735 delta SOWgp	4	no				yes			non_adhesin_putative	248	yes	no	1.15.1.1		yes
+Q308S2		DUF7707 domain-containing protein	Coccidioides posadasii C735 delta SOWgp	4	no				yes			unknown	191	yes	no		PF24808	yes
+A0A0D8JRS6		Dipeptidyl-peptidase V	Coccidioides immitis RS	3	no				yes			non_adhesin_putative	724	no	no		PF00326	yes
+A0A0D8JSV6		thiol oxidase (EC 1.8.3.2)	Coccidioides immitis RS	3	no				yes			non_adhesin_putative	492	no	no	1.8.3.2	PF04137	yes
+A0A0D8JT64		Long-chain acyl-CoA synthetase	Coccidioides immitis RS	3	no				yes			unknown	260	no	no		PF09430	yes
+A0A0E1RVK6		Probable beta-glucosidase btgE (EC 3.2.1.21) (Beta-D-glucoside glucohydrolase btgE) (Cellobiase btgE) (Gentiobiase btgE)	Coccidioides immitis RS	3	no				yes			non_adhesin_putative	489	no	no	3.2.1.21	PF29664;PF28457	yes
+A0ACG8CWQ7		Chitinase (EC 3.2.1.14)	Coccidioides posadasii C735 delta SOWgp	3	no				yes			non_adhesin_putative	502	no	no	3.2.1.14	PF00704;PF01476	yes
+A0ACG8CXL2		Maintenance of telomere capping protein 6	Coccidioides posadasii C735 delta SOWgp	3	no				yes			unknown	620	no	no		PF25506	yes
+A0ACG8CXN3		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	3	no				yes			non_adhesin_putative	675	no	no		PF02872;PF00149	yes
+A0ACG8CYR5	ERO1_1	thiol oxidase (EC 1.8.3.2)	Coccidioides posadasii C735 delta SOWgp	3	no				yes			non_adhesin_putative	492	no	no	1.8.3.2	PF04137	yes
+A0ACG8CYZ5		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	3	no				yes			unknown	123	no	no		PF09435	yes
+A0ACG8CZX1		Dipeptidyl-peptidase V	Coccidioides posadasii C735 delta SOWgp	3	no				yes			non_adhesin_putative	724	no	no		PF00326	yes
+A0ACG8CZZ4		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	3	no				yes			unknown	587	no	no		PF13855	yes
+A0ACG8D033		adenosine deaminase (EC 3.5.4.4)	Coccidioides posadasii C735 delta SOWgp	3	no				yes			non_adhesin_putative	578	no	no	3.5.4.4	PF00962	yes
+A0ACG8D0H9	GPI18	GPI mannosyltransferase 2 (EC 2.4.1.-)	Coccidioides posadasii C735 delta SOWgp	3	no				no			non_adhesin_putative	439	yes	yes	2.4.1.-	PF04188	yes
+A0ACG8D1Y2		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	3	no				yes			unknown	516	no	no		PF04163	yes
+A0ACG8D2H0		Disintegrin and metalloproteinase domain-containing protein B	Coccidioides posadasii C735 delta SOWgp	3	no				yes			non_adhesin_putative	657	no	no		PF00200;PF13574	yes
+A0ACG8D573		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	3	no				yes			non_adhesin_putative	570	no	no		PF01522	yes
+A0ACG8D5J2	PEP2	Pepsin A (EC 3.4.23.1)	Coccidioides posadasii C735 delta SOWgp	3	yes	T19/B0			yes	A0ACI8VBV2	45.4	non_adhesin_putative	399	yes	no	3.4.23.1	PF00026	yes
+A0ACG8D6E1		ML-like domain-containing protein	Coccidioides posadasii C735 delta SOWgp	3	no				yes			unknown	1184	no	no		PF06011	yes
+A0ACG8D6N6	CECR1	adenosine deaminase (EC 3.5.4.4)	Coccidioides posadasii C735 delta SOWgp	3	no				yes			non_adhesin_putative	565	no	no	3.5.4.4	PF00962	yes
+A0ACG8D6T5		FAS1 domain-containing protein	Coccidioides posadasii C735 delta SOWgp	3	no				yes			unknown	243	no	no			yes
+A0ACG8D718		Glucosidase 2 subunit beta	Coccidioides posadasii C735 delta SOWgp	3	no				yes			unknown	630	no	no		PF12999;PF13015	yes
+A0ACG8D859	CTS1_3	Chitinase (EC 3.2.1.14)	Coccidioides posadasii C735 delta SOWgp	3	no				yes			non_adhesin_putative	440	no	no	3.2.1.14	PF00704	yes
+A0ACG8DB44		Chitin-binding type-1 domain-containing protein	Coccidioides posadasii C735 delta SOWgp	3	no				yes			unknown	648	no	no		PF00187;PF07250;PF09118	yes
+A0ACG8DBK0		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	3	no				yes			unknown	292	no	no		PF03227	yes
+A0ACG8DC77		L-dopachrome isomerase (EC 5.3.2.1) (EC 5.3.3.12) (L-dopachrome tautomerase) (Phenylpyruvate tautomerase)	Coccidioides posadasii C735 delta SOWgp	3	no				yes			non_adhesin_putative	323	no	no	5.3.2.1; 5.3.3.12	PF01187	yes
+A0ACG8DD29		Ca3427-like PBP 2 domain-containing protein	Coccidioides posadasii C735 delta SOWgp	3	no				yes			unknown	331	no	no		PF22384	yes
+A0ACG8DEI9		ER membrane protein complex subunit 7 beta-sandwich domain-containing protein	Coccidioides posadasii C735 delta SOWgp	3	no				yes			unknown	260	no	no		PF09430	yes
+A0ACG8DFT6		RlpA-like protein double-psi beta-barrel domain-containing protein	Coccidioides posadasii C735 delta SOWgp	3	no				yes			unknown	255	no	no		PF03330	yes
+A0ACG8DG83	IRE1	Serine/threonine-protein (EC 2.7.11.1)	Coccidioides posadasii C735 delta SOWgp	3	no				yes			non_adhesin_putative	969	no	no	2.7.11.1	PF00069;PF06479	yes
+A0ACG8DGB9		Carboxypeptidase (EC 3.4.16.-)	Coccidioides posadasii C735 delta SOWgp	3	no				yes			non_adhesin_putative	496	no	no	3.4.16.-	PF00450	yes
+A0ACG8DGK9		Fungal lipase-type domain-containing protein	Coccidioides posadasii C735 delta SOWgp	3	no				yes			non_adhesin_putative	407	no	no		PF01764	yes
+A0ACG8DHK5		Transmembrane 9 superfamily member	Coccidioides posadasii C735 delta SOWgp	3	no				yes			unknown	721	no	no		PF02990	yes
+A0ACG8DHX4	NPR3	Nitrogen permease regulator 3 (Required for meiotic nuclear division protein 11)	Coccidioides posadasii C735 delta SOWgp	3	no				yes			unknown	766	no	no		PF24064;PF03666	yes
+A0ACG8DI19		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	3	no				yes			non_adhesin_putative	555	no	no		PF05577	yes
+A0ACG8DID6		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	3	no				yes			unknown	1428	no	no			yes
+A0ACG8DK30		CFEM domain-containing protein	Coccidioides posadasii C735 delta SOWgp	3	no				yes			unknown	445	no	no		PF05730	yes
+J3K0K0		Riboflavin aldehyde-forming enzyme	Coccidioides immitis RS	3	no				yes			unknown	255	no	no		PF03330	yes
+J3K124		Transmembrane 9 superfamily member	Coccidioides immitis RS	3	no				yes			unknown	721	no	no		PF02990	yes
+J3K1H3		Proline-rich antigen 7	Coccidioides immitis RS	3	no				yes			unknown	445	no	no		PF05730	yes
+J3K256		Peptidase S8/S53 domain-containing protein	Coccidioides immitis RS	3	no				yes			unknown	1345	no	no			yes
+J3K2J7		Serine peptidase, family S28	Coccidioides immitis RS	3	no				yes			non_adhesin_putative	555	no	no		PF05577	yes
+J3K2Z9		Chitin deacetylase	Coccidioides immitis RS	3	no				yes			non_adhesin_putative	577	no	no		PF01522	yes
+J3K6N4		Neutral protease 2 (EC 3.4.24.39) (Deuterolysin)	Coccidioides immitis RS	3	no				yes			non_adhesin_putative	402	no	no	3.4.24.39	PF02102	yes
+J3K8E9		Ca3427-like PBP 2 domain-containing protein	Coccidioides immitis RS	3	no				yes			unknown	331	no	no		PF22384	yes
+J3K9X9		Oligosaccharyl transferase subunit	Coccidioides immitis RS	3	no				yes			non_adhesin_putative	329	no	no		PF04756	yes
+J3KAE7		Neutral protease 2 (EC 3.4.24.39) (Deuterolysin)	Coccidioides immitis RS	3	no				yes			non_adhesin_putative	390	no	no	3.4.24.39	PF02102	yes
+J3KAG9		L-dopachrome isomerase (EC 5.3.2.1) (EC 5.3.3.12) (L-dopachrome tautomerase) (Phenylpyruvate tautomerase)	Coccidioides immitis RS	3	no				yes			non_adhesin_putative	323	no	no	5.3.2.1; 5.3.3.12	PF01187	yes
+J3KC69		Chitinase (EC 3.2.1.14)	Coccidioides immitis RS	3	no				yes			non_adhesin_putative	484	no	no	3.2.1.14	PF00704	yes
+J3KD93		adenosine deaminase (EC 3.5.4.4)	Coccidioides immitis RS	3	no				yes			non_adhesin_putative	562	no	no	3.5.4.4	PF00962	yes
+J3KDI7		Integral membrane protein	Coccidioides immitis RS	3	no				yes			unknown	1184	no	no		PF06011	yes
+J3KF07		Maintenance of telomere capping protein 6	Coccidioides immitis RS	3	no				yes			unknown	620	no	no		PF25506	yes
+J3KF63		Chitinase (EC 3.2.1.14)	Coccidioides immitis RS	3	no				yes			non_adhesin_putative	502	no	no	3.2.1.14	PF00704;PF01476	yes
+J3KGP3		Gamma interferon inducible lysosomal thiol reductase	Coccidioides immitis RS	3	no				yes			unknown	292	no	no		PF03227	yes
+J3KGS8		Polysaccharide deacetylase	Coccidioides immitis RS	3	no				yes			non_adhesin_putative	411	no	no		PF01522	yes
+J3KGT2		Glyoxal oxidase	Coccidioides immitis RS	3	no				yes			unknown	648	no	no		PF00187;PF07250;PF09118	yes
+J3KIY5		Nuclear membrane fusion protein Kar5	Coccidioides immitis RS	3	no				yes			unknown	516	no	no			yes
+J3KJN4		adenosine deaminase (EC 3.5.4.4)	Coccidioides immitis RS	3	no				yes			non_adhesin_putative	570	no	no	3.5.4.4	PF00962	yes
+J3KK20		Leucine Rich Repeat domain-containing protein	Coccidioides immitis RS	3	no				yes			unknown	538	no	no		PF13855	yes
+J3KKU6		Endoplasmic reticulum lectin (Protein OS-9 homolog)	Coccidioides immitis RS	3	no				yes			unknown	533	no	no		PF07915	yes
+J3KLP5		Uncharacterized protein	Coccidioides immitis RS	3	no				yes			unknown	123	no	no		PF09435	yes
+J3KMA0		5'-nucleotidase	Coccidioides immitis RS	3	no				yes			non_adhesin_putative	675	no	no		PF02872;PF00149	yes
+A0A0D8JRN8		Secreted protein	Coccidioides immitis RS	2	no				no			unknown	78	yes	no			yes
+A0A0D8JSH9		Uncharacterized protein	Coccidioides immitis RS	2	no				no			unknown	128	yes	no			yes
+A0A0D8JSL3		Uncharacterized protein	Coccidioides immitis RS	2	no				no			unknown	116	yes	no			yes
+A0A0D8JSW1		Uncharacterized protein	Coccidioides immitis RS	2	no				no			unknown	208	yes	no			yes
+A0A0D8JT69		Uncharacterized protein	Coccidioides immitis RS	2	no				no			unknown	224	yes	no			yes
+A0A0D8JT96		Secreted protein	Coccidioides immitis RS	2	no				no			unknown	107	yes	no			yes
+A0A0D8JTC8		Uncharacterized protein	Coccidioides immitis RS	2	no				no			unknown	165	yes	no			yes
+A0A0D8JTN9		Secreted protein	Coccidioides immitis RS	2	no				no			unknown	74	yes	no			yes
+A0A0D8JU09		Uncharacterized protein	Coccidioides immitis RS	2	no				no			unknown	146	yes	no			yes
+A0A0D8JU41		Protein kinase domain-containing protein	Coccidioides immitis RS	2	no				no			unknown	125	yes	no			yes
+A0A0D8JU85		Multicopper oxidase	Coccidioides immitis RS	2	no				no			non_adhesin_putative	636	yes	no		PF00394;PF07731;PF07732	yes
+A0A0D8JUH4		Uncharacterized protein	Coccidioides immitis RS	2	no				no			unknown	58	yes	no			yes
+A0A0D8JUK9		Extracellular membrane protein CFEM domain-containing protein	Coccidioides immitis RS	2	no				no			unknown	269	yes	no			yes
+A0A0D8JUM0		Secreted protein	Coccidioides immitis RS	2	no				no			unknown	138	yes	no			yes
+A0A0D8JUP2		Secreted protein	Coccidioides immitis RS	2	no				no			unknown	111	yes	no			yes
+A0A0D8JUR4		Uncharacterized protein	Coccidioides immitis RS	2	no				no			unknown	138	yes	no			yes
+A0A0D8JUS0		Uncharacterized protein	Coccidioides immitis RS	2	no				no			unknown	102	yes	no			yes
+A0A0D8JUW0		Uncharacterized protein	Coccidioides immitis RS	2	no				no			unknown	304	yes	no			yes
+A0A0D8JUX7		Uncharacterized protein	Coccidioides immitis RS	2	no				no			unknown	120	yes	no			yes
+A0A0D8JV07		Uncharacterized protein	Coccidioides immitis RS	2	no				no			unknown	143	yes	no			yes
+A0A0D8JV13		Uncharacterized protein	Coccidioides immitis RS	2	no				no			unknown	231	yes	no			yes
+A0A0D8JV54		Uncharacterized protein	Coccidioides immitis RS	2	no				no			unknown	128	yes	no			yes
+A0A0D8JV59		Uncharacterized protein	Coccidioides immitis RS	2	no				no			unknown	93	yes	no			yes
+A0A0D8JV70		Uncharacterized protein	Coccidioides immitis RS	2	no				no			unknown	137	yes	no			yes
+A0A0D8JVG6		Uncharacterized protein	Coccidioides immitis RS	2	no				no			unknown	179	yes	no			yes
+A0A0D8JVK9		Increased rDNA silencing protein 4	Coccidioides immitis RS	2	no				no			unknown	152	yes	no			yes
+A0A0D8JVL2		Uncharacterized protein	Coccidioides immitis RS	2	no				no			unknown	57	yes	no			yes
+A0A0D8JWE9		Uncharacterized protein	Coccidioides immitis RS	2	no				no			unknown	140	yes	no			yes
+A0A0D8JWK7		Pre-RNA splicing factor Srp2, variant	Coccidioides immitis RS	2	no				no			unknown	399	yes	no		PF00076	yes
+A0A0D8JWQ4		Uncharacterized protein	Coccidioides immitis RS	2	no				no			unknown	74	yes	no		PF10906	yes
+A0A0D8JWZ6		Uncharacterized protein	Coccidioides immitis RS	2	no				no			unknown	190	yes	no			yes
+A0A0D8JX79		Uncharacterized protein	Coccidioides immitis RS	2	no				no			unknown	292	yes	no			yes
+A0A0D8JXM7		Uncharacterized protein	Coccidioides immitis RS	2	no				no			unknown	122	yes	no			yes
+A0A0E1RV06		Alpha-1,2-mannosidase	Coccidioides immitis RS	2	no				no			unknown	799	yes	no		PF07971;PF17678	yes
+A0A0E1RV62		Uncharacterized protein	Coccidioides immitis RS	2	no				no			unknown	186	yes	no			yes
+A0A0E1RVG0		Trehalose-phosphatase	Coccidioides immitis RS	2	no				no			unknown	882	yes	no		PF00982;PF02358	yes
+A0A0E1RVW9		GPI transamidase component PIG-S	Coccidioides immitis RS	2	no				no			unknown	389	yes	no			yes
+A0A0E1RW15		Uncharacterized protein	Coccidioides immitis RS	2	no				no			unknown	129	yes	no			yes
+A0A0E1RWR7		Uncharacterized protein	Coccidioides immitis RS	2	no				no			unknown	76	yes	no			yes
+A0A0E1RXK4		Uncharacterized protein	Coccidioides immitis RS	2	no				no			unknown	168	yes	no			yes
+A0A0E1RXP7		Mid2 domain-containing protein	Coccidioides immitis RS	2	no				no			unknown	276	yes	no			yes
+A0A0E1RXR9		Uncharacterized protein	Coccidioides immitis RS	2	no				no			unknown	481	yes	no			yes
+A0A0E1RXW6		Uncharacterized protein	Coccidioides immitis RS	2	no				no			unknown	55	yes	no			yes
+A0A0E1RY13		Uncharacterized protein	Coccidioides immitis RS	2	no				no			unknown	151	yes	no			yes
+A0A0E1RYT1		Uncharacterized protein	Coccidioides immitis RS	2	no				no			unknown	305	yes	no		PF04885	yes
+A0A0E1RYV8		DUF7492 domain-containing protein	Coccidioides immitis RS	2	no				no			unknown	418	yes	no		PF24320	yes
+A0A0E1RZ63		Alkaline phosphatase	Coccidioides immitis RS	2	no				no			unknown	623	yes	no		PF09423;PF16655	yes
+A0A0E1RZ82		Inhibitor I9 domain-containing protein	Coccidioides immitis RS	2	no				no			unknown	100	yes	no			yes
+A0A0E1RZE3		Secreted protein	Coccidioides immitis RS	2	no				no			unknown	124	yes	no			yes
+A0A0E1RZK4		Uncharacterized protein	Coccidioides immitis RS	2	no				no			unknown	133	yes	no			yes
+A0A0E1RZS5		Uncharacterized protein	Coccidioides immitis RS	2	no				no			unknown	97	yes	no			yes
+A0A0E1RZY4		Uncharacterized protein	Coccidioides immitis RS	2	no				no			unknown	407	yes	no			yes
+A0A0E1S070		Uncharacterized protein	Coccidioides immitis RS	2	no				no			unknown	133	yes	no			yes
+A0A0E1S0Z7		DUF7907 domain-containing protein	Coccidioides immitis RS	2	no				no			unknown	151	yes	no		PF25484	yes
+A0A0E1S1E9		Extracellular serine-rich protein	Coccidioides immitis RS	2	no				no			unknown	261	yes	no			yes
+A0A0E1S1T5		F-box domain-containing protein	Coccidioides immitis RS	2	no				no			unknown	369	yes	no			yes
+A0A0E1S3L1		Secreted protein	Coccidioides immitis RS	2	no				no			unknown	119	yes	no			yes
+A0A0E1S4T6		Uncharacterized protein	Coccidioides immitis RS	2	no				no			unknown	216	yes	no			yes
+A0ACG8CWA1		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	2	no				no			unknown	504	yes	no			yes
+A0ACG8CWG0		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	2	no				no			unknown	255	yes	no		PF12351	yes
+A0ACG8CWJ7		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	2	no				no			unknown	66	yes	no			yes
+A0ACG8CWX1	BST1_1	GPI inositol deacylase	Coccidioides posadasii C735 delta SOWgp	2	no				no			unknown	324	yes	no		PF25140	yes
+A0ACG8CXR4		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	2	no				no			unknown	66	yes	no			yes
+A0ACG8CXS9	CTS1_1	Chitinase (EC 3.2.1.14)	Coccidioides posadasii C735 delta SOWgp	2	no				no			non_adhesin_putative	229	yes	no	3.2.1.14	PF00704	yes
+A0ACG8CYQ5		FAD-binding PCMH-type domain-containing protein	Coccidioides posadasii C735 delta SOWgp	2	no				no			non_adhesin_putative	496	yes	no		PF01565	yes
+A0ACG8CYS5		Vacuolar sorting protein Vps3844 C-terminal domain-containing protein	Coccidioides posadasii C735 delta SOWgp	2	no				no			unknown	428	yes	no		PF12955	yes
+A0ACG8CZ04		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	2	no				no			unknown	71	yes	no			yes
+A0ACG8CZM7		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	2	no				no			unknown	314	yes	no		PF02535	yes
+A0ACG8CZV7		Glycoside hydrolase family 17 domain-containing protein	Coccidioides posadasii C735 delta SOWgp	2	no				no			non_adhesin_putative	296	yes	no		PF29664	yes
+A0ACG8CZW6		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	2	no				no			unknown	100	yes	no			yes
+A0ACG8D063		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	2	no				no			unknown	235	yes	no			yes
+A0ACG8D081		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	2	no				no			unknown	49	yes	no			yes
+A0ACG8D0S1		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	2	no				no			unknown	296	yes	no			yes
+A0ACG8D0V2		DUF7371 domain-containing protein	Coccidioides posadasii C735 delta SOWgp	2	no				no			unknown	329	yes	no		PF24086	yes
+A0ACG8D1L9		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	2	no				no			unknown	72	yes	no			yes
+A0ACG8D2D1		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	2	no				no			unknown	89	yes	no			yes
+A0ACG8D2J1		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	2	no				no			unknown	444	yes	no			yes
+A0ACG8D2X8		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	2	no				no			unknown	104	yes	no			yes
+A0ACG8D3B5		Major facilitator superfamily (MFS) profile domain-containing protein	Coccidioides posadasii C735 delta SOWgp	2	no				no			unknown	547	yes	no		PF07690	yes
+A0ACG8D3N2	GPI8	Glycosylphosphatidylinositol anchor biosynthesis	Coccidioides posadasii C735 delta SOWgp	2	no				yes	A6NEM5	58.3	unknown	403	yes	yes		PF01650	yes
+A0ACG8D423		Phosphatidate phosphatase APP1 catalytic domain-containing protein	Coccidioides posadasii C735 delta SOWgp	2	no				no			unknown	498	yes	no		PF09949	yes
+A0ACG8D541		1,3-beta-glucanosyltransferase (EC 2.4.1.-)	Coccidioides posadasii C735 delta SOWgp	2	no				no			non_adhesin_putative	353	no	yes	2.4.1.-	PF03198	yes
+A0ACG8D5B5		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	2	no				no			non_adhesin_putative	430	yes	no		PF01263	yes
+A0ACG8D5L8		Ferric oxidoreductase domain-containing protein	Coccidioides posadasii C735 delta SOWgp	2	no				no			unknown	273	yes	no		PF01794	yes
+A0ACG8D612		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	2	no				no			unknown	186	yes	no			yes
+A0ACG8D6R6		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	2	no				no			unknown	266	yes	no			yes
+A0ACG8D6T6		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	2	no				no			unknown	162	yes	no		PF06127	yes
+A0ACG8D6U2		Major facilitator superfamily (MFS) profile domain-containing protein	Coccidioides posadasii C735 delta SOWgp	2	no				no			unknown	487	yes	no		PF07690	yes
+A0ACG8D739		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	2	no				no			unknown	262	yes	no			yes
+A0ACG8D766		Wax synthase domain-containing protein	Coccidioides posadasii C735 delta SOWgp	2	no				no			non_adhesin_putative	255	yes	no		PF13813	yes
+A0ACG8D787		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	2	no				no			unknown	309	yes	no			yes
+A0ACG8D7U0		DUF7907 domain-containing protein	Coccidioides posadasii C735 delta SOWgp	2	no				no			unknown	160	yes	no		PF25484	yes
+A0ACG8D7U9		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	2	no				no			unknown	86	yes	no			yes
+A0ACG8D8P5		alpha-1,3-glucan synthase (EC 2.4.1.183)	Coccidioides posadasii C735 delta SOWgp	2	no				no			non_adhesin_putative	1546	yes	no	2.4.1.183	PF00128;PF26122;PF26108;PF08323;PF00534;PF26114;PF26111	yes
+A0ACG8D976		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	2	no				no			unknown	531	yes	no			yes
+A0ACG8D9D3		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	2	no				no			unknown	99	yes	no			yes
+A0ACG8D9Q4		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	2	no				no			unknown	117	yes	no			yes
+A0ACG8DA92		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	2	no				no			unknown	345	yes	no			yes
+A0ACG8DAJ3		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	2	no				no			unknown	105	yes	no			yes
+A0ACG8DBM1		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	2	no				no			non_adhesin_putative	507	yes	no		PF00067	yes
+A0ACG8DBS1		Amidase domain-containing protein	Coccidioides posadasii C735 delta SOWgp	2	no				no			unknown	550	yes	no		PF01425	yes
+A0ACG8DC57		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	2	no				no			unknown	255	yes	no			yes
+A0ACG8DCF7		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	2	no				no			unknown	111	yes	no			yes
+A0ACG8DCF8		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	2	no				no			unknown	90	yes	no			yes
+A0ACG8DCR2		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	2	no				no			unknown	288	yes	no			yes
+A0ACG8DD66		Rhodopsin domain-containing protein	Coccidioides posadasii C735 delta SOWgp	2	no				no			unknown	592	yes	no		PF20684;PF09184	yes
+A0ACG8DD83		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	2	no				no			non_adhesin_putative	370	yes	no		PF00450	yes
+A0ACG8DDH4		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	2	no				no			unknown	482	yes	no		PF00501;PF13193	yes
+A0ACG8DE65		Cell wall synthesis protein KRE9/Knh1-like N-terminal domain-containing protein	Coccidioides posadasii C735 delta SOWgp	2	no				no			unknown	194	yes	no		PF10342	yes
+A0ACG8DF10		HNH nuclease domain-containing protein	Coccidioides posadasii C735 delta SOWgp	2	no				no			unknown	274	yes	no		PF13391	yes
+A0ACG8DFS5		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	2	no				no			unknown	793	yes	no		PF05653	yes
+A0ACG8DFU5		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	2	no				no			unknown	131	yes	no			yes
+A0ACG8DFZ5		Peptidase M14 domain-containing protein	Coccidioides posadasii C735 delta SOWgp	2	no				no			non_adhesin_putative	319	yes	no		PF00246;PF02244	yes
+A0ACG8DG32		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	2	no				no			unknown	114	yes	no			yes
+A0ACG8DG92		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	2	no				no			unknown	240	yes	no		PF14273	yes
+A0ACG8DGB6		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	2	no				no			unknown	238	yes	no		PF10311	yes
+A0ACG8DGY3		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	2	no				no			unknown	67	yes	no			yes
+A0ACG8DHC4		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	2	no				no			unknown	330	yes	no		PF14610	yes
+A0ACG8DHW9		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	2	no				no			unknown	368	yes	no			yes
+A0ACG8DI00		Biotrophy-associated secreted protein 2 conserved domain-containing protein	Coccidioides posadasii C735 delta SOWgp	2	no				no			unknown	242	yes	no		PF28293	yes
+A0ACG8DI31		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	2	no				no			unknown	169	yes	no		PF17056	yes
+A0ACG8DI81		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	2	no				no			unknown	1203	yes	no			yes
+A0ACG8DI86	SIN4_1	Mediator of RNA polymerase II transcription subunit 16 (Mediator complex subunit 16)	Coccidioides posadasii C735 delta SOWgp	2	no				no			unknown	908	yes	no		PF20719;PF11635	yes
+A0ACG8DIX1		PHD-type domain-containing protein	Coccidioides posadasii C735 delta SOWgp	2	no				no			unknown	531	yes	no		PF00628	yes
+A0ACG8DJU8		Chitinase (EC 3.2.1.14)	Coccidioides posadasii C735 delta SOWgp	2	no				no			non_adhesin_putative	1761	yes	no	3.2.1.14	PF00187;PF00704	yes
+A0ACG8DLD2		Uncharacterized protein	Coccidioides posadasii C735 delta SOWgp	2	no				no			unknown	123	yes	no			yes
+A0ACG8DLY4		Xylanolytic transcriptional activator regulatory domain-containing protein	Coccidioides posadasii C735 delta SOWgp	2	no				no			unknown	589	yes	no		PF04082	yes
+A0ACG8DNG5		DUF7729 domain-containing protein	Coccidioides posadasii C735 delta SOWgp	2	no				no			unknown	387	yes	no		PF24855	yes
+J3K014		Uncharacterized protein	Coccidioides immitis RS	2	no				no			unknown	120	yes	no			yes
+J3K092		Uncharacterized protein	Coccidioides immitis RS	2	no				no			unknown	210	yes	no			yes
+J3K0G7		Variable surface lipoprotein	Coccidioides immitis RS	2	no				no			unknown	393	yes	no			yes
+J3K0H2		Altered inheritance of mitochondria protein 9, mitochondrial (Found in mitochondrial proteome protein 29)	Coccidioides immitis RS	2	no				no			unknown	550	yes	no		PF01636	yes
+J3K0T1		Uncharacterized protein	Coccidioides immitis RS	2	no				no			unknown	275	yes	no			yes
+J3K1E8		Uncharacterized protein	Coccidioides immitis RS	2	no				no			unknown	118	yes	no			yes
+J3K1I6		Cyanovirin-N domain-containing protein	Coccidioides immitis RS	2	no				no			unknown	129	yes	no		PF08881	yes
+J3K1V1		Killer toxin Kp4 domain-containing protein	Coccidioides immitis RS	2	no				no			unknown	97	yes	no			yes
+J3K1V4		Alpha-1,3-mannosyltransferase	Coccidioides immitis RS	2	no				no			unknown	146	yes	no			yes
+J3K3N2		Uncharacterized protein	Coccidioides immitis RS	2	no				no			unknown	1378	yes	no		PF12796	yes
+J3K3P2		Secreted protein	Coccidioides immitis RS	2	no				no			unknown	201	yes	no			yes
+J3K486		Uncharacterized protein	Coccidioides immitis RS	2	no				no			unknown	477	yes	no			yes
+J3K4B9		Uncharacterized protein	Coccidioides immitis RS	2	no				no			unknown	135	yes	no			yes
+J3K4E0		Uncharacterized protein	Coccidioides immitis RS	2	no				no			unknown	105	yes	no			yes
+J3K4R0		Small nucleolar ribonucleoprotein complex subunit	Coccidioides immitis RS	2	no				no			unknown	1025	yes	no		PF00400	yes
+J3K4S0		Uncharacterized protein	Coccidioides immitis RS	2	no				no			unknown	166	yes	no			yes
+J3K516		alpha-1,3-glucan synthase (EC 2.4.1.183)	Coccidioides immitis RS	2	no				no			non_adhesin_putative	2223	yes	no	2.4.1.183	PF26127;PF00128;PF26122;PF26108;PF08323;PF00534;PF26775;PF26114;PF26111	yes
+J3K695		Uncharacterized protein	Coccidioides immitis RS	2	no				no			unknown	238	yes	no			yes
+J3K6I5		Uncharacterized protein	Coccidioides immitis RS	2	no				no			unknown	145	yes	no			yes
+J3K741		Uncharacterized protein	Coccidioides immitis RS	2	no				no			unknown	145	yes	no			yes
+J3K7M3		Uncharacterized protein	Coccidioides immitis RS	2	no				no			unknown	325	yes	no		PF00023;PF12796	yes
+J3K826		Acid phosphatase	Coccidioides immitis RS	2	no				no			unknown	478	yes	no		PF00328	yes
+J3K9D9		Uncharacterized protein	Coccidioides immitis RS	2	no				no			unknown	177	yes	no			yes
+J3K9E6		Luciferase domain-containing protein	Coccidioides immitis RS	2	no				no			unknown	362	yes	no		PF17648	yes
+J3K9M1		Glycan binding domain-containing protein	Coccidioides immitis RS	2	no				no			unknown	407	yes	no		PF18647	yes
+J3KAG2		Endoglucanase	Coccidioides immitis RS	2	no				no			unknown	325	yes	no			yes
+J3KAW9		Uncharacterized protein	Coccidioides immitis RS	2	no				no			unknown	93	yes	no			yes
+J3KB36		GPI-anchor transamidase	Coccidioides immitis RS	2	no				yes	A6NEM5	58.7	unknown	403	yes	yes		PF01650	yes
+J3KBJ3		Secreted protein	Coccidioides immitis RS	2	no				no			unknown	113	yes	no			yes
+J3KBK4		DUF8794 domain-containing protein	Coccidioides immitis RS	2	no				no			unknown	156	yes	no		PF31055	yes
+J3KBR1		Uncharacterized protein	Coccidioides immitis RS	2	no				no			unknown	109	yes	no			yes
+J3KBZ7		Sugar porter (SP) family MFS transporter	Coccidioides immitis RS	2	no				no			unknown	490	yes	no		PF00083	yes
+J3KC25		Ferric-chelate reductase	Coccidioides immitis RS	2	no				no			non_adhesin_putative	618	yes	no		PF08022;PF01794;PF08030	yes
+J3KCI1		Kelch repeat protein	Coccidioides immitis RS	2	no				no			unknown	668	yes	no		PF24681	yes
+J3KCM4		Uncharacterized protein	Coccidioides immitis RS	2	no				no			unknown	132	yes	no			yes
+J3KCY6		Serine-threonine rich protein	Coccidioides immitis RS	2	no				no			unknown	424	yes	no			yes
+J3KDQ5		Alpha-amylase AmyA	Coccidioides immitis RS	2	no				no			unknown	582	yes	no		PF09260;PF00128	yes
+J3KDU9		Mannosylphosphorylation protein	Coccidioides immitis RS	2	no				no			unknown	278	yes	no		PF04991	yes
+J3KDW7		Xylanolytic transcriptional activator regulatory domain-containing protein	Coccidioides immitis RS	2	no				no			unknown	826	yes	no		PF04082	yes
+J3KDX1		Secreted protein	Coccidioides immitis RS	2	no				no			unknown	150	yes	no			yes
+J3KE84		DUF7729 domain-containing protein	Coccidioides immitis RS	2	no				no			unknown	307	yes	no		PF24855	yes
+J3KEK4		Serine/threonine protein kinase	Coccidioides immitis RS	2	no				no			non_adhesin_putative	343	yes	no		PF00069	yes
+J3KEL7		Uncharacterized protein	Coccidioides immitis RS	2	no				no			unknown	199	yes	no			yes
+J3KEW9		6-phosphogluconolactonase	Coccidioides immitis RS	2	no				no			unknown	392	yes	no		PF10282	yes
+J3KF21		Uncharacterized protein	Coccidioides immitis RS	2	no				no			unknown	146	yes	no			yes
+J3KFZ2		Phosphoglycerate mutase	Coccidioides immitis RS	2	no				no			unknown	346	yes	no		PF00300	yes
+J3KG76		Uncharacterized protein	Coccidioides immitis RS	2	no				no			unknown	336	yes	no			yes
+J3KG88		Uncharacterized protein	Coccidioides immitis RS	2	no				no			unknown	153	yes	no			yes
+J3KGB4		Secreted protein	Coccidioides immitis RS	2	no				no			unknown	179	yes	no			yes
+J3KGE5		Secreted protein	Coccidioides immitis RS	2	no				no			unknown	125	yes	no			yes
+J3KGH2		Uncharacterized protein	Coccidioides immitis RS	2	no				no			unknown	501	yes	no		PF28210;PF28209	yes
+J3KGI6		DUF8794 domain-containing protein	Coccidioides immitis RS	2	no				no			unknown	149	yes	no		PF31055	yes
+J3KGP0		Uncharacterized protein	Coccidioides immitis RS	2	no				no			unknown	118	yes	no			yes
+J3KGV4		Vacuolar protein sorting-associated protein 62	Coccidioides immitis RS	2	no				no			unknown	363	yes	no		PF06101	yes
+J3KIJ1		Uncharacterized protein	Coccidioides immitis RS	2	no				no			unknown	203	yes	no			yes
+J3KIJ2		Secreted protein	Coccidioides immitis RS	2	no				no			unknown	148	yes	no			yes
+J3KIL5		Secreted protein	Coccidioides immitis RS	2	no				no			unknown	118	yes	no			yes
+J3KIQ1		Secreted protein	Coccidioides immitis RS	2	no				no			unknown	111	yes	no			yes
+J3KJE1		Uncharacterized protein	Coccidioides immitis RS	2	no				no			unknown	1447	yes	no			yes
+J3KJW5		Secreted protein	Coccidioides immitis RS	2	no				no			unknown	84	yes	no			yes
+J3KK10		RING-type E3 ubiquitin transferase (EC 2.3.2.27)	Coccidioides immitis RS	2	no				no			non_adhesin_putative	860	yes	no	2.3.2.27	PF02225;PF13639	yes
+J3KK45		Acetamidase	Coccidioides immitis RS	2	no				no			non_adhesin_putative	588	yes	no		PF01425	yes
+J3KK86		Uncharacterized protein	Coccidioides immitis RS	2	no				no			unknown	106	yes	no			yes
+J3KKD6		Transmembrane protein	Coccidioides immitis RS	2	no				no			unknown	482	yes	no			yes
+J3KL98		Secreted protein	Coccidioides immitis RS	2	no				no			unknown	122	yes	no			yes
+J3KLA7		Arabinan endo-1,5-alpha-L-arabinosidase (EC 3.2.1.99)	Coccidioides immitis RS	2	no				no			non_adhesin_putative	354	yes	no	3.2.1.99	PF04616	yes
+J3KLH6		Uncharacterized protein	Coccidioides immitis RS	2	no				no			unknown	109	yes	no			yes
+J3KLQ1		Integral membrane protein	Coccidioides immitis RS	2	no				no			unknown	142	yes	no			yes
+J3KLU5		FAD-binding PCMH-type domain-containing protein	Coccidioides immitis RS	2	no				no			non_adhesin_putative	538	yes	no		PF01565	yes
+J3KLX0		Uncharacterized protein	Coccidioides immitis RS	2	no				no			unknown	67	yes	no			yes
+J3KM64		AB hydrolase-1 domain-containing protein	Coccidioides immitis RS	2	no				no			unknown	319	yes	no		PF00561	yes
+J3KMA3		Chitobiosyldiphosphodolichol beta-mannosyltransferase (EC 2.4.1.142)	Coccidioides immitis RS	2	no				no			non_adhesin_putative	462	yes	no	2.4.1.142	PF13692;PF13579	yes
+A0A0D8JUT1		Protein kish	Coccidioides immitis RS	1	no				yes	Q8TBQ9	66.1	non_adhesin_putative	72	yes	no		PF06842	yes
+A0A0E1RUK7		Signal peptidase complex catalytic subunit SEC11 (EC 3.4.21.89)	Coccidioides immitis RS	1	no				yes	A0ACI8R3S4	42.0	non_adhesin_putative	175	yes	no	3.4.21.89		yes
+A0A0E1RYD7		peptidylprolyl isomerase (EC 5.2.1.8)	Coccidioides immitis RS	1	no				yes	P26885	47.3	non_adhesin_putative	131	yes	no	5.2.1.8	PF00254	yes
+A0A0E1S135		Transmembrane 9 superfamily member	Coccidioides immitis RS	1	no				yes	Q99805	40.0	unknown	652	yes	no		PF02990	yes
+A0ACG8CXI8		Transmembrane 9 superfamily member	Coccidioides posadasii C735 delta SOWgp	1	no				yes	Q99805	40.0	unknown	652	yes	no		PF02990	yes
+A0ACG8D0X7	SUB2_1	Suppressor of the cold-sensitive snRNP biogenesis mutant brr1-1	Coccidioides posadasii C735 delta SOWgp	1	no				no			unknown	90	no	no		PF00082	yes
+A0ACG8D225		peptidylprolyl isomerase (EC 5.2.1.8)	Coccidioides posadasii C735 delta SOWgp	1	no				yes	P26885	47.3	non_adhesin_putative	131	yes	no	5.2.1.8	PF00254	yes
+A0ACG8D2T5	KAR2	Endoplasmic reticulum chaperone BiP (EC 3.6.4.10) (Immunoglobulin heavy chain-binding protein homolog)	Coccidioides posadasii C735 delta SOWgp	1	no				yes	P11021	68.3	non_adhesin_putative	675	yes	no	3.6.4.10	PF00012	yes
+A0ACG8D2X2	SCJ1	DnaJ- protein scj1	Coccidioides posadasii C735 delta SOWgp	1	no				yes	A0ACI8VH22	41.3	unknown	413	yes	no		PF00226;PF01556;PF00684	yes
+A0ACG8D3L0		Barwin domain-containing protein	Coccidioides posadasii C735 delta SOWgp	1	no				no			unknown	76	no	no		PF00967	yes
+A0ACG8D3U3	KEX2	Subtilisin-like protease (EC 3.4.-.-)	Coccidioides posadasii C735 delta SOWgp	1	no				yes	P09958	42.4	non_adhesin_putative	874	yes	no	3.4.-.-	PF01483;PF00082	yes
+A0ACG8D7W2		Subtilisin-like protease (EC 3.4.-.-)	Coccidioides posadasii C735 delta SOWgp	1	no				no			non_adhesin_putative	479	no	no	3.4.-.-	PF00082	yes
+A0ACG8D843		WSC domain-containing protein	Coccidioides posadasii C735 delta SOWgp	1	no				no			unknown	841	no	no		PF07250;PF09118;PF01822	yes
+A0ACG8D9M8	FPR2	peptidylprolyl isomerase (EC 5.2.1.8)	Coccidioides posadasii C735 delta SOWgp	1	no				yes	P26885	49.2	non_adhesin_putative	144	yes	no	5.2.1.8	PF00254	yes
+A0ACG8DE66		Subtilisin-like protease (EC 3.4.-.-)	Coccidioides posadasii C735 delta SOWgp	1	no				no			non_adhesin_putative	387	no	no	3.4.-.-	PF00082	yes
+A0ACG8DFE9	EMP24	P24 complex component	Coccidioides posadasii C735 delta SOWgp	1	no				yes	F5GX39	40.5	unknown	203	yes	no		PF01105	yes
+A0ACG8DFG4		Protein kish	Coccidioides posadasii C735 delta SOWgp	1	no				yes	Q8TBQ9	66.1	unknown	72	yes	no		PF06842	yes
+A0ACG8DHE4		Dipeptidase (EC 3.4.13.19)	Coccidioides posadasii C735 delta SOWgp	1	no				yes	P16444	45.5	non_adhesin_putative	444	yes	no	3.4.13.19	PF01244	yes
+A0ACG8DHU1		Signal peptidase complex catalytic subunit SEC11 (EC 3.4.21.89)	Coccidioides posadasii C735 delta SOWgp	1	no				yes	A0ACI8R3S4	42.0	non_adhesin_putative	179	yes	no	3.4.21.89		yes
+A0ACG8DJD8		protein disulfide-isomerase (EC 5.3.4.1)	Coccidioides posadasii C735 delta SOWgp	1	no				yes	Q8NBS9	41.0	non_adhesin_putative	370	yes	no	5.3.4.1	PF07749;PF00085	yes
+E9D269		Putative dipeptidase CPSG_03667 (EC 3.4.13.19)	Coccidioides posadasii C735 delta SOWgp	1	no				yes	P16444	45.5	non_adhesin_putative	444	yes	no	3.4.13.19	PF01244	yes
+J3K1P3		Dipeptidase (EC 3.4.13.19)	Coccidioides immitis RS	1	no				yes	P16444	45.8	non_adhesin_putative	441	yes	no	3.4.13.19	PF01244	yes
+J3K1X9		protein disulfide-isomerase (EC 5.3.4.1)	Coccidioides immitis RS	1	no				yes	Q8NBS9	41.0	non_adhesin_putative	370	yes	no	5.3.4.1	PF07749;PF00085	yes
+J3K4R8		peptidylprolyl isomerase (EC 5.2.1.8)	Coccidioides immitis RS	1	no				yes	P26885	49.2	non_adhesin_putative	144	yes	no	5.2.1.8	PF00254	yes
+J3K7Y8		Cell wall synthesis protein KRE9/Knh1-like N-terminal domain-containing protein	Coccidioides immitis RS	1	no				no			unknown	276	no	no		PF10342	yes
+J3K878		Protease	Coccidioides immitis RS	1	no				no			non_adhesin_putative	325	no	no		PF00082	yes
+J3K8E7		Glucan 1,4-alpha-glucosidase (EC 3.2.1.3)	Coccidioides immitis RS	1	no				yes	Q14697	43.0	non_adhesin_putative	962	yes	no	3.2.1.3	PF13802;PF01055;PF21365	yes
+J3K9D6		Endosomal cargo receptor	Coccidioides immitis RS	1	no				yes	F5GX39	40.5	unknown	203	yes	no		PF01105	yes
+J3KAE4		RlpA-like protein double-psi beta-barrel domain-containing protein	Coccidioides immitis RS	1	no				no			unknown	151	no	no			yes
+J3KDN3		Subtilisin-like protease (EC 3.4.-.-)	Coccidioides immitis RS	1	no				no			non_adhesin_putative	208	no	no	3.4.-.-	PF00082	yes
+J3KHD8		Subtilisin-like protease (EC 3.4.-.-)	Coccidioides immitis RS	1	no				yes	P09958	42.2	non_adhesin_putative	879	yes	no	3.4.-.-	PF01483;PF00082	yes
+J3KHY0		DnaJ domain-containing protein	Coccidioides immitis RS	1	no				yes	A0ACI8VH22	41.3	unknown	413	yes	no		PF00226;PF01556;PF00684	yes
+J3KIQ8		Endoplasmic reticulum chaperone BiP (EC 3.6.4.10) (Immunoglobulin heavy chain-binding protein homolog)	Coccidioides immitis RS	1	no				yes	P11021	68.3	non_adhesin_putative	675	yes	no	3.6.4.10	PF00012	yes
+A0ACG8D9P8		Palmitoyl-protein thioesterase 1 (EC 3.1.2.22) (Palmitoyl-protein hydrolase 1)	Coccidioides posadasii C735 delta SOWgp	0	no				yes	P50897	45.6	non_adhesin_putative	326	no	no	3.1.2.22	PF02089	yes
+A0ACG8DE24		Glucan 1,4-alpha-glucosidase (EC 3.2.1.3)	Coccidioides posadasii C735 delta SOWgp	0	no				yes	Q14697	43.0	non_adhesin_putative	935	no	no	3.2.1.3	PF13802;PF01055;PF21365	yes
+J3KGA3		Palmitoyl-protein thioesterase 1 (EC 3.1.2.22) (Palmitoyl-protein hydrolase 1)	Coccidioides immitis RS	0	no				yes	P50897	45.6	non_adhesin_putative	326	no	no	3.1.2.22	PF02089	yes
+A0ACG8D693		Major facilitator superfamily (MFS) profile domain-containing protein	Coccidioides posadasii C735 delta SOWgp	-1	no				no	A6NL68	44.0	unknown	138	yes	no		PF00083	yes
+J3K9H3		Secreted carboxypeptidase McpA	Coccidioides immitis RS	-1	no				no	A0ACI8VMF7	40.4	non_adhesin_putative	420	yes	no		PF00246;PF02244	yes
