@@ -11,3 +11,6 @@ MAD1	gene:MAD1 AND taxonomy_id:5530	Mad1	adhesin	E1	17337634	Metarhizium adhesin
 MAD2	gene:MAD2 AND taxonomy_id:5530	Mad2	adhesin	E1	17337634	Metarhizium adhesin enabling attachment to plant surfaces
 CpALS7	gene:ALS7 AND taxonomy_id:5480	Als	adhesin	E1	29378793	C. parapsilosis Als7 deletion reduces ECM binding under shear
 ALS4112	gene:ALS4112 AND taxonomy_id:498019	Als	adhesin	E1	39455573	C. auris Als4112; redundancy in aggregation and adhesion
+Rep1	accession:Q99109	repellent (Basidiomycota)	adhesin	E1	17159213	Ustilago rep1 deletion abolishes attachment to hydrophobic Teflon and surface hydrophobicity; secreted repellent peptides, distinct mechanism class from GPI adhesins
+MPG1	accession:P52751	class I hydrophobin	adhesin	E2	9742203	Magnaporthe/Pyricularia class I hydrophobin; rodlet layer mediates conidial attachment to hydrophobic host surface; primary role also in appressorium development
+MHP1	accession:G4MWK2	class II hydrophobin	adhesin	E3	9742203	Class II hydrophobin of Pyricularia; surface-active, attachment role less direct than MPG1 - check

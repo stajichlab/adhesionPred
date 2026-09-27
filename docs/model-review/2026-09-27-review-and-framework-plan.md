@@ -22,7 +22,11 @@ Experiments are reproducible with `analysis/model_review/run.sh`.*
    but **precision is ≈12%**: the other calls are GPI cell-wall mannoproteins (SED1, TIR4, DAN1/4, CCW12…),
    mucin-like sensors (MSB2, HKR1, WSC2–4) and dubious ORFs. It also calls 12/20 curated hard negatives.
    **The model detects Ser/Thr-rich fungal cell-surface glycoproteins, of which adhesins are a subset** (§4.3).
-3. **The main limitation is the label definition, not the embedding model.** The next gain
+3. **The main limitation is the label definition, not the embedding model — now demonstrated.**
+   A stage-2 proof of concept (§4.4) separates 75 curated adhesins from 63 curated
+   non-adhesive surface proteins at PR-AUC 0.94 across held-out genomes, using ESM C 300M
+   embeddings. Architecture alone reaches only 0.70, so the signal is real and the PLM earns
+   its place. The shipped model's low precision is a labelling failure, not a representation one. The next gain
    comes from (a) curating positives across more adhesin families and lineages, (b) adding
    *hard negatives* (non-adhesive GPI/cell-wall, mucin-like and secreted Ser/Thr-rich proteins),
    and (c) evaluating at proteome scale against curated reference inventories.
@@ -157,6 +161,48 @@ fungal Ser/Thr-rich, O-mannosylated cell-surface glycoproteins, of which adhesin
 survey's `adhesion_fraction` is therefore better read as a "surface glycoprotein fraction" until the model is
 retrained with hard negatives. Correcting the pooling (C1) changes individual calls but does not fix this.
 
+### 4.4 Stage-2 proof of concept: adhesins vs other surface glycoproteins (2026-09-27)
+
+The central question of this review is whether the *hard* discrimination is learnable at
+all. Using the curated labels (§7, `data/curated/surface/surface.tsv`) and ESM C 300M
+embeddings of those same proteins, `analysis/model_review/stage2_proof_of_concept.py`
+answers it. Groups for CV are MMseqs2 30%-identity clusters, so no protein family spans a
+fold; leave-genome-out additionally holds out a whole species.
+
+**Hard version — 75 curated adhesins vs 63 curated non-adhesins** (Sed1, Gas1, Cwp1/2, Msb2,
+Hkr1, Pir/Tir family and the rest of §7.2, i.e. exactly the proteins the shipped model
+false-positives on):
+
+| features | homology-grouped PR-AUC | leave-genome-out PR-AUC | P@k (leave-genome-out) |
+|---|---|---|---|
+| **ESM C 300M, full-length mean** | **0.981** | **0.939** | **0.91** |
+| ESM C 300M, full + N-terminal | 0.980 | 0.955 | 0.91 |
+| ESM C 300M, N-terminal only | 0.972 | 0.943 | 0.85 |
+| AA composition + length | 0.939 | 0.907 | 0.87 |
+| architecture only (GPI, signal peptide, length) | 0.702 | 0.743 | 0.80 |
+
+Easier version, adding the 1,257 enzyme-annotated `non_adhesin_putative` proteins as
+negatives: ESM C full-length reaches PR-AUC 0.976 (homology-grouped) / 0.951
+(leave-genome-out) at 92–93% precision among its top-ranked 75.
+
+**What this changes.**
+1. **Stage 2 is learnable.** The shipped model's ~12% precision is a *label* problem, not a
+   representation problem. With the right negatives, the same class of model separates
+   adhesins from their look-alikes across held-out genomes.
+2. **The PLM earns its place here, unlike in stage 1.** Architecture alone (GPI + signal
+   peptide + length) gets PR-AUC 0.70, so the signal is not simply "GPI-anchored and long".
+   ESM C beats amino-acid composition by a real margin (0.94 vs 0.91 leave-genome-out),
+   the opposite of the saturated stage-1 benchmark in §4.1 where composition matched the PLM.
+3. **75 positives are already enough to get started.** More curation will still help most,
+   but this no longer blocks a usable v2 model.
+
+**Caveats.** n=138 in the hard test, so the confidence intervals are wide and small
+differences between the top rows are not meaningful. Negatives are mostly *S. cerevisiae*
+and *C. albicans*. There are **no adhesin labels for Coccidioides, chytrids or most
+Basidiomycota**, so "leave-genome-out" here means across six well-studied yeasts and
+*A. fumigatus*, not across the fungal kingdom. And the labels themselves are a draft that
+has not had expert review.
+
 ## 5. Why the model over-calls: diagnosis
 
 1. **Negatives are random proteins**, so the easiest decision boundary is secreted +
@@ -276,16 +322,33 @@ Scores from both stages are kept, so kingdom-wide analyses can use either level.
 
 ## 9. Compute plan (HPCC vs. NRP Nautilus)
 
-### 9.1 Sizing
-- Fungi_5k: 5,813 proteomes, ~10k proteins each, so **~55–60M proteins**.
-- Measured on HPCC (ada6000, t12_35M, current padded batching): ~78 proteins/s for ESM-2 alone (~47/s including the DuckDB length fetch).
-  ESM C 300M is ~8× the parameters. With length-sorted token-budget batching and bf16,
-  expect roughly 100–300 proteins/s per A100/L40-class GPU (**benchmark on the pilot**, next section).
-  So on the order of **60–150 GPU-hours** for one full pass: a few days on 8 concurrent GPUs.
-- Storage: 58M × 960-d float16 ≈ **110 GB** (ESM C 300M), or ≈ 70 GB at 640-d (ESM-2 150M). Store as
-  per-proteome parquet/npz shards in `s3://stajichlab/adhesionPred/embeddings/<model>/<ASMID>.npz`.
-- Everything downstream (training, CV, re-scoring 58M proteins with a linear model) is CPU work and runs
-  in minutes to hours on HPCC.
+### 9.1 Sizing — **measured**, not estimated (pilot run 2026-09-27, HPCC `short_gpu` gpu09, RTX 6000 Ada)
+
+`analysis/model_review/pilot/` embedded all six reference proteomes with three models
+(length-sorted token-budget batching, bf16, residue-only mean pooling, sliding windows for
+long proteins plus a separate N-terminal embedding). Raw numbers: `pilot/throughput.jsonl`.
+
+| model | proteins/s | residues/s | peak GPU mem | dim | projected GPU-hours for Fungi_5k (~58M proteins) |
+|---|---|---|---|---|---|
+| **ESM C 300M** | **100** | 48,800 | 5.5 GB | 960 | **~162** |
+| ESM-2 150M | 60 | 29,500 | 9.8 GB | 640 | ~267 |
+| ESM-2 650M | 35 | 17,000 | 13.6 GB | 1280 | ~462 |
+
+Mean GPU utilization during the run was **91%** (NRP requires >40%), so the batching
+strategy is already efficient enough for the cluster's policy.
+
+**ESM C 300M is the clear choice**: fastest, smallest memory footprint, open licence, and
+the literature puts it near ESM-2 650M in representation quality (Vieira et al. 2025).
+At 162 GPU-hours, the full kingdom re-screen is ~20 hours of wall time across 8 concurrent
+NRP GPUs, or a few days on 2-3. This is a one-time cost: embeddings are then reused for
+every retrain.
+
+- Storage: 58M x 960-d float16 = **~110 GB** for the full-length pooled embeddings, doubled
+  if the N-terminal embeddings are kept too (they are small and worth keeping).
+- Everything downstream (training, CV, re-scoring 58M proteins with a linear model) is CPU
+  work: minutes to hours on HPCC.
+- For comparison, the original screen ran the shipped classifier on CPU across a SLURM array
+  (`run_fungi5k*.sh`), which is why it took days.
 
 ### 9.2 Where to run what
 | Work | Where | Why |
