@@ -22,7 +22,13 @@ Experiments are reproducible with `analysis/model_review/run.sh`.*
    but **precision is ≈12%**: the other calls are GPI cell-wall mannoproteins (SED1, TIR4, DAN1/4, CCW12…),
    mucin-like sensors (MSB2, HKR1, WSC2–4) and dubious ORFs. It also calls 12/20 curated hard negatives.
    **The model detects Ser/Thr-rich fungal cell-surface glycoproteins, of which adhesins are a subset** (§4.3).
-3. **The main limitation is the label definition, not the embedding model — now demonstrated.**
+3. **Adhesin families are clade-specific, so "one fungal adhesin model" is the wrong target (§4.5).**
+   The FLO/ALS/Hyr1 families behind the current model are Saccharomycotina-specific (Flocculin:
+   330 proteins there, **0** in every other subphylum). Basidiomycota use CPL1-like (1,640
+   proteins, 0 in any Ascomycota); chytrids use VWD and CBM18. A model trained on one clade and
+   tested on another collapses to ROC 0.60 while a size-matched within-clade model reaches 0.94.
+   Plan for a general stage 1 and **clade-specific stage 2** models.
+4. **The main limitation is the label definition, not the embedding model — now demonstrated.**
    A stage-2 proof of concept (§4.4) separates 75 curated adhesins from 63 curated
    non-adhesive surface proteins at PR-AUC 0.94 across held-out genomes, using ESM C 300M
    embeddings. Architecture alone reaches only 0.70, so the signal is real and the PLM earns
@@ -34,12 +40,12 @@ Experiments are reproducible with `analysis/model_review/run.sh`.*
    (ESM C 300M/600M or ESM-2 150M/650M), pooled correctly and windowed to cover full-length
    adhesins, plus explicit architecture features (signal peptide, GPI, Ser/Thr, repeats),
    is the right next model. Fine-tuning becomes a decision gate once a hard benchmark exists (§8).
-4. **Several code bugs affect reproducibility.** Padding tokens are included in the mean-pool,
+5. **Several code bugs affect reproducibility.** Padding tokens are included in the mean-pool,
    so results depend on batch composition. Failed batches silently shift labels. A mid-network
    layer is hard-coded for the 12-layer model. Sequences are truncated at 1,022 aa, which drops
    the C-terminus of 57% of positives. Only positive calls are written, so thresholds cannot be
    revisited. Details in §3.
-5. **Compute:** embed every Fungi_5k proteome **once** with the chosen PLM on GPUs, store the
+6. **Compute:** embed every Fungi_5k proteome **once** with the chosen PLM on GPUs, store the
    embeddings in S3, and then do all classifier training, CV and re-scoring on CPU. NRP Nautilus
    is the right place for the bulk embedding run (sharded GPU Jobs driven by Nextflow, following the
    `nf_funannotate1` k8s pattern). HPCC is the right place for pilots, the `function.duckdb`
@@ -202,6 +208,73 @@ and *C. albicans*. There are **no adhesin labels for Coccidioides, chytrids or m
 Basidiomycota**, so "leave-genome-out" here means across six well-studied yeasts and
 *A. fumigatus*, not across the fungal kingdom. And the labels themselves are a draft that
 has not had expert review.
+
+### 4.5 Adhesin families are clade-specific, and so is the model (2026-09-27)
+
+Two independent lines of evidence say a single kingdom-wide adhesin model is the wrong
+target. Script: `analysis/model_review/stage2_clade_transfer.py`.
+
+**Pfam census.** UniProt protein counts per subphylum for the families that define known
+adhesins. AMP-binding is a housekeeping control for how deeply each clade is sequenced;
+read every row against it, not in absolute terms.
+
+| family | Saccharomycotina | Pezizomycotina | Taphrinomycotina | Basidiomycota | Mucoromycota | Chytridiomycota |
+|---|---|---|---|---|---|---|
+| Flocculin (PF00624) | **330** | 0 | 0 | 0 | 0 | 0 |
+| Candida_ALS_N (PF11766) | **313** | 0 | 0 | 6 | 0 | 0 |
+| Hyr1 (PF11765) | **639** | 10 | 6 | 4 | 0 | 0 |
+| Flo11 (PF10528) | 529 | 1,136 | 9 | 8 | 0 | 0 |
+| Candida_ALS (PF05792) | 262 | 230 | 0 | 3 | 0 | 0 |
+| PA14 (PF07691) | 289 | 3,043 | 2 | 675 | 7 | 7 |
+| **CPL1-like (PF21671)** | **0** | **0** | **0** | **1,640** | **0** | **0** |
+| CFEM (PF05730) | 369 | 11,592 | 25 | 1,615 | 1 | 5 |
+| Hydrophobin_1 (PF01185) | 0 | 1,061 | 0 | **4,340** | 0 | 21 |
+| Chitin_bind_1/CBM18 (PF00187) | 33 | 4,745 | 7 | 131 | 9 | **86** |
+| VWD (PF00094) | 0 | 0 | 0 | 0 | 0 | **22** |
+| *AMP-binding (control)* | *1,441* | *46,441* | *123* | *9,614* | *1,234* | *443* |
+
+The FLO/ALS/Hyr1 families the current model is trained on are **Saccharomycotina-specific**:
+Flocculin and Candida_ALS_N are literally absent everywhere else, and Hyr1 is ~1,000x rarer
+in Pezizomycotina after normalization. Basidiomycota instead have CPL1-like (1,640 proteins,
+**zero** in any Ascomycota) and hydrophobins; Chytridiomycota have VWD and CBM18. Two
+families do span clades at comparable normalized frequency — **CFEM** (all three major
+clades) and **PA14** (Pezizomycotina + Basidiomycota) — and those are the only plausible
+foundations for anything clade-transcending.
+
+**Transfer test.** Using the curated labels and ESM C 300M embeddings:
+
+| test | ROC-AUC | PR-AUC |
+|---|---|---|
+| leave-one-genome-out *within* Saccharomycotina (*C. albicans*, *N. glabratus*, S288C) | 0.948–1.000 | 0.830–1.000 |
+| **leave-one-CLADE-out, Saccharomycotina held out** | **0.598** | **0.557** |
+| size-matched control: same 13 pos + 5 neg, drawn from *within* Saccharomycotina | **0.940** (5–95%: 0.908–0.972) | 0.906 |
+
+The cross-clade training set is tiny, so the control in row 3 is the one that matters: a
+training set of *identical size* drawn from within the clade reaches 0.940, and **0 of 200
+resamples scored as low as the cross-clade 0.598**. The collapse is about clade, not about
+sample size.
+
+**Caveats.** Pezizomycotina has only 2 positives and 5 negatives here, so its 0.900 is
+meaningless. Taphrinomycotina has no negatives at all, so it cannot be scored and its 11
+positives enter the cross-clade training set unbalanced — "clade" and "negative composition"
+are therefore not fully separable in test B. The control in C is what carries the argument.
+Basidiomycota and Chytridiomycota have **no labels at all**, so neither appears here.
+
+**What this changes.** The plan in §8 should be **clade-aware**, not one kingdom-wide stage-2
+model:
+1. **Saccharomycotina** — labels exist, the model works (PR-AUC 0.94–0.98). Ship this first,
+   scoped honestly to the clade it was trained on.
+2. **Pezizomycotina** — Flo11, PA14, CFEM and CBM18 dominate; needs its own positives. The
+   filamentous adhesins already seeded (Mad1/2, MPG1, CspA) are the starting point.
+3. **Basidiomycota** — needs a CPL1-like-centred label set; see
+   `analysis/curation/BASIDIOMYCETE_NOTES.md`. Expect near-zero recall from any
+   Saccharomycotina-trained model, since the composition is inverted (Cfl1 family: 199–409 aa,
+   5–10% Cys, secreted, not GPI; vs Als: 1,155–1,260 aa, ~1% Cys, GPI-anchored).
+4. **Chytridiomycota** — no labels; VWD and CBM18 are leads only (`analysis/chytrid_batrach/`).
+
+Stage 1 (surface glycoprotein) may still generalize, since signal peptides, GPI anchors and
+Ser/Thr enrichment are universal. That split — **general stage 1, clade-specific stage 2** —
+is the design the evidence supports.
 
 ## 5. Why the model over-calls: diagnosis
 
