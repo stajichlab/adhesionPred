@@ -22,30 +22,31 @@ Experiments are reproducible with `analysis/model_review/run.sh`.*
    but **precision is ≈12%**: the other calls are GPI cell-wall mannoproteins (SED1, TIR4, DAN1/4, CCW12…),
    mucin-like sensors (MSB2, HKR1, WSC2–4) and dubious ORFs. It also calls 12/20 curated hard negatives.
    **The model detects Ser/Thr-rich fungal cell-surface glycoproteins, of which adhesins are a subset** (§4.3).
-3. **Adhesin families are clade-specific, so "one fungal adhesin model" is the wrong target (§4.5).**
+3. **The classifier is a tandem-repeat detector, and the limit is the label, not the model (§4.7).**
+   Every adhesin it misses has zero tandem repeats (median repeat coverage 1.000 for found vs
+   0.000 for missed, p=0.0037). "Adhesin" spans avidity-mediated binding (many weak sites on
+   repeats — blatant in sequence, PR-AUC 0.98, transfers across clades) and affinity-mediated
+   binding (one folded interface — almost no sequence signal, scores ~0.000). **Do not buy a
+   bigger model**: ESM C + Pfam is no better than ESM C alone. Split the label by mechanism,
+   predict interpretable properties, and use structure only for the globular class (§8).
+4. **Adhesin families are clade-specific, so "one fungal adhesin model" is the wrong target (§4.5).**
    The FLO/ALS/Hyr1 families behind the current model are Saccharomycotina-specific (Flocculin:
    330 proteins there, **0** in every other subphylum). Basidiomycota use CPL1-like (1,640
    proteins, 0 in any Ascomycota); chytrids use VWD and CBM18. A model trained on one clade and
    tested on another collapses to ROC 0.60 while a size-matched within-clade model reaches 0.94.
    Plan for a general stage 1 and **clade-specific stage 2** models.
-4. **The main limitation is the label definition, not the embedding model — now demonstrated.**
-   A stage-2 proof of concept (§4.4) separates 75 curated adhesins from 63 curated
-   non-adhesive surface proteins at PR-AUC 0.94 across held-out genomes, using ESM C 300M
-   embeddings. Architecture alone reaches only 0.70, so the signal is real and the PLM earns
-   its place. The shipped model's low precision is a labelling failure, not a representation one. The next gain
-   comes from (a) curating positives across more adhesin families and lineages, (b) adding
-   *hard negatives* (non-adhesive GPI/cell-wall, mucin-like and secreted Ser/Thr-rich proteins),
-   and (c) evaluating at proteome scale against curated reference inventories.
-   **Fine-tuning a PLM is not warranted yet.** Frozen embeddings from a stronger model
-   (ESM C 300M/600M or ESM-2 150M/650M), pooled correctly and windowed to cover full-length
-   adhesins, plus explicit architecture features (signal peptide, GPI, Ser/Thr, repeats),
-   is the right next model. Fine-tuning becomes a decision gate once a hard benchmark exists (§8).
-5. **Several code bugs affect reproducibility.** Padding tokens are included in the mean-pool,
+5. **Stage 2 is learnable where the mechanism is visible (§4.4).** 75 curated adhesins vs 63
+   curated non-adhesive surface proteins separate at PR-AUC 0.94 across held-out genomes with
+   ESM C 300M; architecture alone (GPI + signal peptide + length) reaches only 0.70, so the
+   signal is real and the PLM earns its place. Read together with item 3, this holds *within
+   the avidity class*. **Fine-tuning is not warranted**: frozen embeddings plus explicit
+   properties are the right next model, and fine-tuning is a decision gate for later (§8.3).
+6. **Several code bugs affect reproducibility.** Padding tokens are included in the mean-pool,
    so results depend on batch composition. Failed batches silently shift labels. A mid-network
    layer is hard-coded for the 12-layer model. Sequences are truncated at 1,022 aa, which drops
    the C-terminus of 57% of positives. Only positive calls are written, so thresholds cannot be
    revisited. Details in §3.
-6. **Compute:** embed every Fungi_5k proteome **once** with the chosen PLM on GPUs, store the
+7. **Compute:** embed every Fungi_5k proteome **once** with the chosen PLM on GPUs, store the
    embeddings in S3, and then do all classifier training, CV and re-scoring on CPU. NRP Nautilus
    is the right place for the bulk embedding run (sharded GPU Jobs driven by Nextflow, following the
    `nf_funannotate1` k8s pattern). HPCC is the right place for pilots, the `function.duckdb`
@@ -91,7 +92,8 @@ Length: positives have median length 715–1,414 aa (by source file), negatives 
 
 ## 4. Experiments run for this review
 
-All on CPU (M-series Mac) with ESM-2 t6_8M. Scripts: `analysis/model_review/`.
+§4.1–4.3 are on CPU (M-series Mac) with ESM-2 t6_8M; §4.4–4.7 use ESM C 300M embeddings
+computed on HPCC GPUs. Scripts: `analysis/model_review/`.
 Classifier for all rows: `StandardScaler → LogisticRegression(C=1)`. Metrics are pooled
 out-of-fold predictions. "fpr" and "recall" are at p>0.5.
 
@@ -209,43 +211,6 @@ Basidiomycota**, so "leave-genome-out" here means across six well-studied yeasts
 *A. fumigatus*, not across the fungal kingdom. And the labels themselves are a draft that
 has not had expert review.
 
-### 4.6 Does the language model find anything HMMs cannot? Yes (2026-09-27)
-
-The question that decides whether a PLM earns its place at all: if a Pfam rule matches it,
-the cheaper and more interpretable method should win. Script:
-`analysis/model_review/esm_vs_hmm.py`. Homology-grouped CV, 75 curated adhesins vs 63
-curated non-adhesins.
-
-| features | ROC-AUC | PR-AUC | ROC on domain-blind subset | PR on domain-blind subset |
-|---|---|---|---|---|
-| HMM rule (carries a known adhesin-family Pfam) | 0.857 | 0.829 | 0.410 | 0.115 |
-| all Pfam domains (one-hot, the generous baseline) | 0.928 | 0.946 | 0.763 | 0.246 |
-| **ESM C 300M** | **0.977** | **0.983** | **0.879** | **0.716** |
-| ESM C + Pfam | 0.979 | 0.986 | 0.877 | 0.723 |
-
-The "domain-blind subset" is the 66 proteins carrying **no** adhesin-family domain (9
-adhesins, 57 non-adhesins) — where HMMs have nothing to go on by construction.
-
-Three results:
-1. **A pure HMM rule recovers only 73% of curated adhesins** (55/75) at 93% precision. It
-   misses 20 outright, including Hwp1, Hwp2, Eap1, Scf1, Aga1, Aga2, and the *S. pombe*
-   gsf2/pfl proteins. High precision, and a hard ceiling on recall.
-2. **On exactly those proteins, ESM is ~3x better than the best domain baseline**
-   (PR-AUC 0.716 vs 0.246). Of the 9 domain-blind adhesins, ESM scores 7 above 0.5, median
-   0.693, against a median of 0.001 for curated non-adhesins.
-3. **Pfam adds essentially nothing on top of ESM** (0.986 vs 0.983). The embedding already
-   encodes what the domain annotation encodes, plus whatever lets it rank the domain-blind
-   cases.
-
-**So yes — this is moving in the direction of cataloguing beyond HMMs.** The honest framing
-is that the PLM is not replacing domain annotation, it is extending it into the
-low-complexity, repeat-rich, poorly-annotated fraction of the surface proteome where fungal
-adhesins disproportionately live. That is also precisely the fraction where we have the
-least ground truth, so the claim needs independent validation before it is leaned on.
-
-**Caveat:** only 9 adhesins in the domain-blind subset. The direction is clear, the effect
-size is not well estimated.
-
 ### 4.5 Adhesin families are clade-specific, and so is the model (2026-09-27)
 
 Two independent lines of evidence say a single kingdom-wide adhesin model is the wrong
@@ -321,6 +286,84 @@ model:
 Stage 1 (surface glycoprotein) may still generalize, since signal peptides, GPI anchors and
 Ser/Thr enrichment are universal. That split — **general stage 1, clade-specific stage 2** —
 is the design the evidence supports.
+
+### 4.6 Does the language model find anything HMMs cannot? Yes (2026-09-27)
+
+The question that decides whether a PLM earns its place at all: if a Pfam rule matches it,
+the cheaper and more interpretable method should win. Script:
+`analysis/model_review/esm_vs_hmm.py`. Homology-grouped CV, 75 curated adhesins vs 63
+curated non-adhesins.
+
+| features | ROC-AUC | PR-AUC | ROC on domain-blind subset | PR on domain-blind subset |
+|---|---|---|---|---|
+| HMM rule (carries a known adhesin-family Pfam) | 0.857 | 0.829 | 0.410 | 0.115 |
+| all Pfam domains (one-hot, the generous baseline) | 0.928 | 0.946 | 0.763 | 0.246 |
+| **ESM C 300M** | **0.977** | **0.983** | **0.879** | **0.716** |
+| ESM C + Pfam | 0.979 | 0.986 | 0.877 | 0.723 |
+
+The "domain-blind subset" is the 66 proteins carrying **no** adhesin-family domain (9
+adhesins, 57 non-adhesins) — where HMMs have nothing to go on by construction.
+
+Three results:
+1. **A pure HMM rule recovers only 73% of curated adhesins** (55/75) at 93% precision. It
+   misses 20 outright, including Hwp1, Hwp2, Eap1, Scf1, Aga1, Aga2, and the *S. pombe*
+   gsf2/pfl proteins. High precision, and a hard ceiling on recall.
+2. **On exactly those proteins, ESM is ~3x better than the best domain baseline**
+   (PR-AUC 0.716 vs 0.246). Of the 9 domain-blind adhesins, ESM scores 7 above 0.5, median
+   0.693, against a median of 0.001 for curated non-adhesins.
+3. **Pfam adds essentially nothing on top of ESM** (0.986 vs 0.983). The embedding already
+   encodes what the domain annotation encodes, plus whatever lets it rank the domain-blind
+   cases.
+
+**So yes — this is moving in the direction of cataloguing beyond HMMs.** The honest framing
+is that the PLM is not replacing domain annotation, it is extending it into the
+low-complexity, repeat-rich, poorly-annotated fraction of the surface proteome where fungal
+adhesins disproportionately live. That is also precisely the fraction where we have the
+least ground truth, so the claim needs independent validation before it is leaned on.
+
+**Caveat:** only 9 adhesins in the domain-blind subset. The direction is clear, the effect
+size is not well estimated.
+
+### 4.7 What the model actually detects: tandem repeats (2026-09-27)
+
+The Eurotiomycetes labels (§7.3) exposed a consistent failure pattern: BAD1, SOWgp and CspA
+are found, while rodA, CalA and gp43 are missed entirely. Testing whether that tracks repeat
+content rather than clade or training composition — out-of-fold scores under homology-grouped
+CV, correlated against sequence properties of the 95 curated adhesins. Script:
+`analysis/model_review/what_the_model_detects.py`.
+
+| property | Spearman rho | p |
+|---|---|---|
+| **8-mer repeat coverage** | **+0.302** | **0.003** |
+| low-complexity fraction (top-3 aa) | +0.140 | 0.18 |
+| length | +0.085 | 0.41 |
+
+| | n | median repeat coverage |
+|---|---|---|
+| **found** (p>0.5) | 85 | **1.000** |
+| **missed** (p<0.5) | 10 | **0.000** |
+
+Mann-Whitney, found > missed: repeat coverage p=0.0037, low-complexity p=0.047, length p=0.044.
+
+**Every adhesin the model misses has zero tandem repeats**: rodA (159 aa hydrophobin), CalA
+(177 aa invasin), gp43 (416 aa moonlighting glucanase), PGA1 (132 aa), SAG1, and two PA14
+proteins.
+
+So the classifier is, functionally, a **tandem-repeat surface protein detector**. That is a
+sharper and less flattering description than "surface glycoprotein detector" (§4.3), and it
+supersedes it.
+
+**This locates the limit in the label, not the model.** "Adhesin" spans at least two
+physically distinct mechanisms:
+
+| mechanism | how it binds | sequence signal | model performance |
+|---|---|---|---|
+| **avidity-mediated** | many weak sites on tandem repeats; strength from multivalency | blatant (repeat periodicity) | PR-AUC 0.98, transfers across clades — SOWgp and BAD1 score ~1.0 despite being Onygenales |
+| **affinity-mediated** | one folded domain, one high-affinity interface | very weak — "this fold has a binding site" is not a sequence feature | ~0.000 |
+
+Two lines of evidence say model capacity is not the constraint: ESM C + Pfam is no better than
+ESM C alone (0.986 vs 0.983, §4.6), and within the repeat-rich class performance is already
+0.98. Scaling parameters will not manufacture a signal that is not in the sequence.
 
 ## 5. Why the model over-calls: diagnosis
 
@@ -401,10 +444,78 @@ Experimentally characterized, non-adhesive proteins that share the adhesin archi
   (currently enriched among the calls).
 - Orthologs of the above across the reference proteomes (via OrthoFinder or MMseqs2 reciprocal hits).
 
-## 8. Models: what to use and when to fine-tune
+### 7.3 Onygenales and Eurotiales (curated 2026-09-27)
 
-**Recommendation: frozen PLM embeddings + multi-block features + a small, calibrated classifier.
-No PLM fine-tuning until tiers T2–T5 show a ceiling.**
+`data/curated/adhesins/eurotiomycetes_seeds.tsv` — 21 rows, 10 Onygenales and 11 Eurotiales,
+12 adhesins (4 at E1) and 9 hard negatives, all with PMIDs and resolved accessions. Trainable
+Eurotiomycetes labels went 7 → 22; Onygenales went from zero to seven.
+
+Adhesins: SOWgp (three size alleles differing in tandem-repeat number; rSOWgp binds
+laminin/fibronectin/collagen IV and deletion cuts virulence), BAD1, CalA, CspA, rodA/rodB,
+gp43, Ag2/PRA (E3 — surface antigen, adhesion not directly shown).
+
+Hard negatives are the scarcer and more valuable half, and were chosen to be genuinely hard:
+Mp1p (abundant *Talaromyces* surface mannoprotein whose demonstrated mechanism is
+arachidonic-acid sequestration), cfmA/cfmC (CFEM GPI proteins whose triple deletion affects
+only cell-wall stability — and CFEM is the clade-spanning family), CTS1 (immunodominant
+*Coccidioides* antigen, but an enzyme), gel1, ecm33, abr2 laccase, Cbp1.
+
+**Result: the added labels did not improve prediction** (ROC 0.732 → 0.670 leave-one-out),
+but they made the clades measurable for the first time, and the per-protein pattern is what
+led to §4.7. Three pipeline bugs surfaced: `surface.tsv` was silently dropping curated
+proteins from non-reference isolates; moonlighting proteins (Hsp60) were entering training as
+positives despite having no secretion signal; and E3 domain-only guesses were being trained
+on. All three are fixed. Full detail in `docs/model-review/STATUS.md` §7.
+
+## 8. Models: what to use, and what not to buy
+
+**Conclusion from §4.4–4.7: do not buy a bigger model, and do not reach for structure first.
+Split the label by adhesion mechanism.** The evidence is that ESM already saturates the
+mechanism it can see, and is structurally blind to the others.
+
+### 8.0 Predict mechanisms and properties, not "adhesin"
+
+"Adhesin" is an outcome (the cell sticks to something), not a molecular feature, and the
+classifier has quietly reduced it to "has tandem repeats" (§4.7). The design that follows
+from the evidence is to predict **interpretable properties**, each mapping to a mechanism,
+and treat "adhesin" as an inference over that profile:
+
+| property | mechanism it indicates | predictable from sequence? | status here |
+|---|---|---|---|
+| tandem repeat content / periodicity | avidity-mediated adhesion | yes, and already discriminative (p=0.003) | **works now** |
+| GPI anchor + cell-wall retention | surface display | yes (NetGPI/PredGPI) | available, not yet used directly |
+| beta-aggregation / amyloid propensity | Als-type amyloid-mediated adhesion, a documented mechanism | yes (TANGO/Waltz-style) | **unexploited — the clearest gap** |
+| hydrophobin Cys pattern | surface-hydrophobicity attachment (rodA, Rep1 repellents) | yes, trivially (PF01185) | a solved problem currently misfiled as a model failure |
+| surface charge distribution | cation-mediated adhesion (*C. auris* Scf1) | partly | not attempted |
+| folded binding interface | affinity-mediated receptor binding (CalA) | **no** | needs structure (§8.1) |
+
+The gain is honesty as much as accuracy: a per-mechanism output states *why* a protein is
+called, instead of one opaque score that silently means "has repeats".
+
+### 8.1 Where structure genuinely helps — and why it is complementary, not a replacement
+
+Structure is the right tool for the **affinity-mediated** class specifically: exposed binding
+interfaces, fold recognition, electrostatic patches. It is not a general fix.
+
+The useful asymmetry: **AlphaFold/ESMFold are weakest on the repeat-rich, disordered regions
+that define FLO/ALS** — exactly where sequence already works — and strongest on compact
+globular domains, exactly where sequence fails. The two approaches are complementary by
+construction, so the question is not sequence *or* structure but which class each is applied to.
+
+Not a starting point, though: folding thousands of candidates is expensive, and without the
+mechanism split there is no principled way to choose which proteins warrant it. Do the split
+first, then fold the globular candidates.
+
+### 8.2 Orthogonal signal both HMMs and PLMs ignore
+
+Adhesins sit disproportionately in subtelomeric, repeat-rich, copy-number-variable regions.
+This is the same two-speed genome architecture documented for *Batrachochytrium* virulence
+factors (Wacker et al. 2023; see `analysis/chytrid_batrach/`). **Genomic context — subtelomeric
+position, TE proximity, copy-number variation between isolates — is information no
+sequence-only model uses.** It is cheap to compute from existing assemblies and is worth
+testing as a feature.
+
+### 8.3 Frozen embeddings, and the fine-tuning gate (unchanged)
 
 **Two-stage framing (suggested by the S288C result).** The current model is already good at stage 1.
 - **Stage 1: cell-surface glycoprotein** (signal peptide + GPI or S/T-rich mucin-like, O-mannosylated).
@@ -496,16 +607,22 @@ every retrain.
 
 ## 10. Roadmap
 
+Revised 2026-09-27 after §4.7. The change from the original plan: **P1 is no longer "curate
+more adhesins" but "split the label by mechanism"**, because the Eurotiomycetes curation
+showed more labels of the same architecture do not help.
+
 | Phase | Deliverable | Compute |
 |---|---|---|
-| P0 fixes (1–2 d) | C1–C6 fixed; deterministic embeddings; all scores written; model bundle with card; tests | laptop |
-| P1 curation (1–3 wk) | `data/curated/adhesins.tsv` (≥10 families, E1–E3), hard negatives, reference inventories for T5 genomes | literature + scripts |
-| P2 benchmark | T0–T6 harness in `src/adhesion_predict/evaluation/`; baselines: AA-comp, HMM/domain rules, ESM-2 8M/35M, ESM C 300M | HPCC CPU + exfab GPU pilot |
-| P3 model v2 | multi-block frozen-PLM classifier, calibrated, thresholds per T5 | HPCC CPU |
-| P4 kingdom re-screen | NRP Nextflow embedding of Fungi_5k to S3; re-score; re-run kingdom_survey/properties with all-score files and threshold sweeps | NRP GPU + HPCC CPU |
-| P5 (gated) | LoRA fine-tuning experiment if T2/T4 plateau | NRP / HPCC GPU |
+| P0 fixes | C1–C6 fixed; deterministic embeddings; model card; tests | laptop — **done**, PR #18 |
+| P1 **mechanism split** | annotate every curated adhesin with its mechanism class (avidity / affinity / hydrophobin / moonlighting); ship the avidity-class model, scoped and named honestly | laptop |
+| P1b property predictors | beta-aggregation/amyloid propensity, GPI, repeat periodicity, hydrophobin Cys pattern, surface charge — as explicit features, not one opaque score | laptop / HPCC CPU |
+| P2 benchmark | T0–T6 harness, reported **per mechanism class and per clade**, never as one pooled number | HPCC CPU |
+| P3 structure, selectively | fold the globular (affinity-class) candidates only; test whether binding-interface features recover CalA-type invasins | HPCC / NRP GPU |
+| P3b genomic context | subtelomeric position, TE proximity, copy-number variation as features (§8.2) | HPCC CPU |
+| P4 kingdom re-screen | NRP Nextflow embedding of Fungi_5k to S3; re-score; re-run the surveys with all-score files | NRP GPU + HPCC CPU |
+| P5 (gated) | fine-tuning only if a mechanism-specific model plateaus with adequate labels | NRP / HPCC GPU |
 
-Tracking: GitHub issues on `stajichlab/adhesionPred` (see the list at the end of this document once filed).
+Tracking: GitHub issues on `stajichlab/adhesionPred` (§12).
 
 ## 11. Sources
 
@@ -575,4 +692,10 @@ Tracking: GitHub issues on `stajichlab/adhesionPred` (see the list at the end of
 - `analysis/model_review/run.sh`: end-to-end reproduction (downloads S288C from SGD, MMseqs2 clustering, embeddings, CV, proteome check)
 - `analysis/model_review/01_embed_esm2_8M.py`: legacy vs. masked pooling embeddings
 - `analysis/model_review/02_cv_and_proteome_eval.py`: CV schemes × feature sets; S288C adhesin and hard-negative panel
+- `analysis/model_review/stage2_proof_of_concept.py`: stage-2 separability (§4.4)
+- `analysis/model_review/stage2_clade_transfer.py`: clade-specificity and the size-matched control (§4.5)
+- `analysis/model_review/esm_vs_hmm.py`: PLM vs domain-annotation baselines (§4.6)
+- `analysis/model_review/what_the_model_detects.py`: repeat-content analysis (§4.7)
+- `analysis/model_review/clade_status_report.py`: per-clade status tables (STATUS.md)
+- `analysis/model_review/pilot/`: measured PLM throughput on HPCC GPUs (§9.1)
 - `analysis/model_review/cv_results.tsv`, `s288c_scores.tsv`, `results.txt`: outputs quoted above

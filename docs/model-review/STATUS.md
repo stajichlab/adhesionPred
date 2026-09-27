@@ -156,6 +156,9 @@ constraint, not #1 (labels)**. Concretely:
   signal peptide, and gp43 is an annotated enzyme. Both are excluded by construction from a
   secretion-defined surface population, which is a design decision worth revisiting.
 
-A reasonable next step is to split "adhesin" by **mechanism class** — repeat-rich
+**Followed up in §4.7 of the review**: the split is driven by tandem-repeat content
+(repeat coverage 1.000 for found adhesins vs 0.000 for missed, p=0.0037), so the classifier is
+functionally a tandem-repeat surface protein detector. The design consequences are in §8 of
+the review. A reasonable next step is to split "adhesin" by **mechanism class** — repeat-rich
 GPI/cell-wall adhesins, hydrophobin-type, receptor-binding invasins, moonlighting — and model
 the first class well rather than pretending one classifier covers all four.
