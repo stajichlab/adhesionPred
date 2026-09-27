@@ -1,0 +1,24 @@
+species	protein_id	architecture	cbm18_copies	length	signal_peptide	called_adhesion	probability	pfam_domains
+Bd_JAM81	F2ADAE73_003388-T1	CBM18+chitin_deacetylase	2	1197	True	True	0.9964	Chitin_bind_1;Polysacc_deac_1
+Bd_JAM81	F2ADAE73_003063-T1	CBM18+chitin_deacetylase	2	507	True	False		Polysacc_deac_1;Chitin_bind_1
+Bd_JAM81	F2ADAE73_005150-T1	CBM18+chitin_deacetylase	2	507	True	False		Polysacc_deac_1;Chitin_bind_1
+Bd_JAM81	F2ADAE73_001501-T1	CBM18+chitin_deacetylase	4	470	True	False		Polysacc_deac_1;Chitin_bind_1
+Bd_JAM81	F2ADAE73_001538-T1	CBM18+chitin_deacetylase	3	377	True	False		Chitin_bind_1;Polysacc_deac_1
+Bd_JAM81	F2ADAE73_004551-T1	CBM18+tyrosinase	6	766	True	False		Tyrosinase;Chitin_bind_1
+Bd_JAM81	F2ADAE73_006104-T1	CBM18_only	5	1033	True	True	0.9974	Chitin_bind_1
+Bd_JAM81	F2ADAE73_000259-T1	CBM18_only	4	623	True	True	0.8626	Chitin_bind_1
+Bd_JAM81	F2ADAE73_000256-T1	CBM18_only	2	535	False	True	0.8973	Chitin_bind_1
+Bd_JAM81	F2ADAE73_000232-T1	CBM18_only	5	487	False	True	0.8285	Chitin_bind_1
+Bsal_AMFP13	F61BA062_012174-T1	CBM18+chitin_deacetylase	4	506	True	True	0.5488	Chitin_bind_1;Polysacc_deac_1
+Bsal_AMFP13	F61BA062_000384-T1	CBM18+chitin_deacetylase	3	425	False	False		Chitin_bind_1;Polysacc_deac_1
+Bsal_AMFP13	F61BA062_002551-T1	CBM18+chitin_deacetylase	2	412	True	False		Chitin_bind_1;Polysacc_deac_1
+Bsal_AMFP13	F61BA062_002671-T1	CBM18+chitin_deacetylase	2	398	True	False		Polysacc_deac_1;Chitin_bind_1
+Bsal_AMFP13	F61BA062_002546-T1	CBM18+chitin_deacetylase	2	398	True	False		Polysacc_deac_1;Chitin_bind_1
+Bsal_AMFP13	F61BA062_002674-T1	CBM18+chitin_deacetylase	2	398	True	False		Chitin_bind_1;Polysacc_deac_1
+Bsal_AMFP13	F61BA062_016093-T1	CBM18+chitin_deacetylase	2	357	False	False		Polysacc_deac_1;Chitin_bind_1
+Bsal_AMFP13	F61BA062_010143-T1	CBM18+tyrosinase	5	760	False	False		Chitin_bind_1;Tyrosinase
+Bsal_AMFP13	F61BA062_008915-T1	CBM18_only	1	399	True	True	0.8818	Chitin_bind_1
+Bsal_AMFP13	F61BA062_001957-T1	CBM18_only	3	362	False	True	0.8398	Chitin_bind_1
+Bsal_AMFP13	F61BA062_004490-T1	CBM18_only	2	308	False	True	0.9540	Chitin_bind_1
+Bsal_AMFP13	F61BA062_003245-T1	CBM18_only	2	161	True	False		Chitin_bind_1
+Bsal_AMFP13	F61BA062_003243-T1	CBM18_only	2	161	True	False		Chitin_bind_1
