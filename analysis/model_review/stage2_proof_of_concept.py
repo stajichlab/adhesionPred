@@ -46,12 +46,17 @@ def aa_features(seq):
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
-    ap.add_argument("--embeddings", required=True, help="npz from embed_pilot.py (ids, full, nterm)")
+    ap.add_argument(
+        "--embeddings", required=True, help="npz from embed_pilot.py (ids, full, nterm)"
+    )
     ap.add_argument("--clusters", required=True, help="MMseqs2 easy-cluster *_cluster.tsv")
     ap.add_argument("--fasta", help="FASTA of the same proteins (for aa_comp features)")
-    ap.add_argument("--curated-negatives-only", action="store_true",
-                    help="use only the 63 curated non-adhesins, excluding enzyme-annotated "
-                         "proposals (the harder and more honest test)")
+    ap.add_argument(
+        "--curated-negatives-only",
+        action="store_true",
+        help="use only the 63 curated non-adhesins, excluding enzyme-annotated "
+        "proposals (the harder and more honest test)",
+    )
     args = ap.parse_args()
 
     labels = {}
@@ -90,24 +95,40 @@ def main():
     keep = [a for a in labels if a in idx]
     y = np.array([labels[a] for a in keep])
     rows = np.array([idx[a] for a in keep])
-    groups = np.array([hash(clusters.get(a, a)) for a in keep])
+    # A stable integer per cluster: Python's hash() is randomized per process, which would
+    # make the fold assignment (and therefore the scores) differ between runs.
+    cluster_id = {c: i for i, c in enumerate(sorted({clusters.get(a, a) for a in keep}))}
+    groups = np.array([cluster_id[clusters.get(a, a)] for a in keep])
     genomes = np.array([meta[a]["genome"] for a in keep])
 
     X = {
         "esmc_full": d["full"][rows].astype(np.float32),
         "esmc_nterm": d["nterm"][rows].astype(np.float32),
         "esmc_both": np.hstack([d["full"][rows], d["nterm"][rows]]).astype(np.float32),
-        "arch": np.array([[meta[a]["gpi_anchor"] == "yes", meta[a]["signal_peptide"] == "yes",
-                           np.log10(max(int(meta[a]["length"]), 1))] for a in keep], dtype=np.float32),
+        "arch": np.array(
+            [
+                [
+                    meta[a]["gpi_anchor"] == "yes",
+                    meta[a]["signal_peptide"] == "yes",
+                    np.log10(max(int(meta[a]["length"]), 1)),
+                ]
+                for a in keep
+            ],
+            dtype=np.float32,
+        ),
     }
     if seqs:
         X["aa_comp"] = np.array([aa_features(seqs.get(a, "")) for a in keep], dtype=np.float32)
 
-    print(f"{y.sum()} adhesins vs {(y == 0).sum()} non-adhesins, "
-          f"{len(set(groups))} homology clusters, {len(set(genomes))} genomes\n")
+    print(
+        f"{y.sum()} adhesins vs {(y == 0).sum()} non-adhesins, "
+        f"{len(set(groups))} homology clusters, {len(set(genomes))} genomes\n"
+    )
 
     def clf():
-        return make_pipeline(StandardScaler(), LogisticRegression(max_iter=5000, class_weight="balanced"))
+        return make_pipeline(
+            StandardScaler(), LogisticRegression(max_iter=5000, class_weight="balanced")
+        )
 
     def evaluate(Xf, splits):
         p = np.full(len(y), np.nan)
@@ -118,8 +139,12 @@ def main():
         ok = ~np.isnan(p)
         order = np.argsort(-p[ok])
         top = y[ok][order][: int(y[ok].sum())]
-        return (roc_auc_score(y[ok], p[ok]), average_precision_score(y[ok], p[ok]),
-                top.sum() / max(y[ok].sum(), 1), ok.sum())
+        return (
+            roc_auc_score(y[ok], p[ok]),
+            average_precision_score(y[ok], p[ok]),
+            top.sum() / max(y[ok].sum(), 1),
+            ok.sum(),
+        )
 
     cv = list(StratifiedGroupKFold(5, shuffle=True, random_state=0).split(y, y, groups))
     lgo = [(np.where(genomes != g)[0], np.where(genomes == g)[0]) for g in sorted(set(genomes))]

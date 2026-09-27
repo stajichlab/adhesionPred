@@ -111,8 +111,10 @@ def embed_genome(model, proteins, nterm, token_budget, device):
     def run(batch):
         nonlocal dim, sums, counts
         try:
-            with torch.no_grad(), torch.autocast(device.type, dtype=torch.bfloat16,
-                                                 enabled=device.type == "cuda"):
+            with (
+                torch.no_grad(),
+                torch.autocast(device.type, dtype=torch.bfloat16, enabled=device.type == "cuda"),
+            ):
                 s, k = model.residue_sums([c[2] for c in batch])
         except torch.cuda.OutOfMemoryError:
             torch.cuda.empty_cache()
@@ -163,7 +165,9 @@ def main():
                 torch.cuda.synchronize()
                 torch.cuda.reset_peak_memory_stats()
             t1 = time.time()
-            full, nterm, n_batches = embed_genome(model, proteins, args.nterm, args.token_budget, device)
+            full, nterm, n_batches = embed_genome(
+                model, proteins, args.nterm, args.token_budget, device
+            )
             if device.type == "cuda":
                 torch.cuda.synchronize()
             secs = time.time() - t1
@@ -175,14 +179,20 @@ def main():
                 nterm=nterm,
             )
             stats = {
-                "model": model_name, "genome": name, "gpu": gpu, "proteins": len(proteins),
-                "residues": int(sum(len(p[1]) for p in proteins)), "seconds": round(secs, 1),
+                "model": model_name,
+                "genome": name,
+                "gpu": gpu,
+                "proteins": len(proteins),
+                "residues": int(sum(len(p[1]) for p in proteins)),
+                "seconds": round(secs, 1),
                 "proteins_per_s": round(len(proteins) / secs, 1),
                 "residues_per_s": round(sum(len(p[1]) for p in proteins) / secs),
-                "batches": n_batches, "token_budget": args.token_budget,
+                "batches": n_batches,
+                "token_budget": args.token_budget,
                 "model_load_s": round(load_s, 1),
                 "peak_mem_gb": round(torch.cuda.max_memory_allocated() / 1e9, 2)
-                if device.type == "cuda" else None,
+                if device.type == "cuda"
+                else None,
             }
             print(json.dumps(stats), flush=True)
             with open(args.out / "throughput.jsonl", "a") as f:

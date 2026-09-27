@@ -75,6 +75,15 @@ def main() -> None:
 > used the pre-fix embedding code, which could silently drop whole batches containing unusual
 > characters. See `docs/model-review/2026-09-27-review-and-framework-plan.md` and GitHub issues #7-#17.
 
+> **Interpretation caveat (added 2026-09-27, model review).** The classifier behind these calls
+> (`esm2_t12_35M`, p>0.5) behaves mainly as a detector of Ser/Thr-rich fungal cell-surface
+> glycoproteins, of which adhesins are a subset. On *S. cerevisiae* S288C the equivalent 8M model
+> recovers 8/9 known adhesins at ~12% precision, and it calls GPI cell-wall mannoproteins and
+> mucin-like sensors. Read "adhesion" counts and fractions here as *surface glycoprotein*
+> counts until the model is retrained with curated positives and hard negatives. The screen also
+> used the pre-fix embedding code, which could silently drop whole batches containing unusual
+> characters. See `docs/model-review/2026-09-27-review-and-framework-plan.md` and GitHub issues #7-#17.
+
 ## Scope
 
 - {n_matched} species successfully joined to taxonomy and proteome-size data.
