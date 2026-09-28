@@ -48,6 +48,16 @@ This document tracks contributions made by AI agents to the Adhesion Protein Pre
 #### Backward Compatibility
 All optimizations maintain full backward compatibility with the existing API. No breaking changes to user interfaces or function signatures.
 
+## Model Review and Framework Plan (September 2026)
+
+### Agent: Claude Code (claude-opus-5-5)
+**Task:** Review code and model, test cross-validation schemes, assess need for curation / PLM fine-tuning, plan HPCC and NRP compute.
+
+- Report: `docs/model-review/2026-09-27-review-and-framework-plan.md` (findings, validation tiers T0-T6, curation targets, compute plan, sources)
+- Reproducible experiments: `analysis/model_review/` (`run.sh`)
+- Key findings: CV saturated (AA composition alone ROC-AUC 0.995 leave-family-out); on S288C the shipped model has ~12% adhesin precision and behaves as a cell-surface glycoprotein detector; mean-pool includes padding (batch-dependent)
+- Tracking: GitHub issues #7-#17
+
 ---
 
 *This file tracks AI agent contributions to maintain transparency about automated code improvements.*

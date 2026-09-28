@@ -44,3 +44,10 @@ analysis/embedding_clustering/tables/*
 analysis/embedding_clustering/figures/*
 !analysis/embedding_clustering/tables/.gitkeep
 !analysis/embedding_clustering/figures/.gitkeep
+
+analysis/model_review/pilot/.venv/
+analysis/model_review/pilot/out/
+analysis/model_review/pilot/data/
+analysis/model_review/pilot/logs/
+analysis/cocci_antigens/*.m8
+analysis/cocci_repeats/repeat_profile_*.tsv

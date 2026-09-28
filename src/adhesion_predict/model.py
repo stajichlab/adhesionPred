@@ -1,7 +1,9 @@
 """Model training and prediction functions."""
 
+import json
 import pickle
 import sys
+from pathlib import Path
 
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import cross_val_score, train_test_split
@@ -56,6 +58,28 @@ def save_model(classifier, output_path):
     with open(output_path, "wb") as f:
         pickle.dump(classifier, f)
     print(f"Model saved to {output_path}")
+
+
+def model_card_path(model_path):
+    """Path of the JSON model card stored next to a model file."""
+    return Path(model_path).with_suffix(".json")
+
+
+def save_model_card(model_path, card):
+    """Write the model card (embedding settings, data summary) next to the model."""
+    path = model_card_path(model_path)
+    with open(path, "w") as f:
+        json.dump(card, f, indent=2, sort_keys=True)
+    print(f"Model card saved to {path}")
+
+
+def load_model_card(model_path):
+    """Return the model card for a model, or None for models saved without one."""
+    path = model_card_path(model_path)
+    if not path.exists():
+        return None
+    with open(path) as f:
+        return json.load(f)
 
 
 def load_model(model_path):

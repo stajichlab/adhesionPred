@@ -1,0 +1,32 @@
+# Surface/secreted proteins that share adhesin architecture (signal peptide, GPI, Ser/Thr-rich, glycosylated)
+# but have characterized non-adhesive functions. Many are "absence of adhesion evidence", so class is putative.
+gene	uniprot_query	family	class	evidence_level	pmids	evidence_summary
+GAS1	gene:GAS1 AND taxonomy_id:559292	GH72 glucanosyltransferase	hard_negative	N1		Cell-wall remodeling enzyme
+CRH1	gene:CRH1 AND taxonomy_id:559292	GH16 transglycosylase	hard_negative	N1		Chitin-glucan crosslinking
+CWP1	gene:CWP1 AND taxonomy_id:559292	cell wall mannoprotein	hard_negative	N1		Structural cell wall protein
+CWP2	gene:CWP2 AND taxonomy_id:559292	cell wall mannoprotein	hard_negative	N1		Structural cell wall protein
+SED1	gene:SED1 AND taxonomy_id:559292	cell wall mannoprotein	hard_negative	N2		Stationary-phase cell wall protein; top false positive of shipped model
+TIR1	gene:TIR1 AND taxonomy_id:559292	Srp1/Tip1 (DAN/TIR)	hard_negative	N2		Anaerobic cell wall mannoprotein
+TIR3	gene:TIR3 AND taxonomy_id:559292	Srp1/Tip1 (DAN/TIR)	hard_negative	N2		Anaerobic cell wall mannoprotein
+TIR4	gene:TIR4 AND taxonomy_id:559292	Srp1/Tip1 (DAN/TIR)	hard_negative	N2		Anaerobic cell wall mannoprotein; false positive of shipped model
+DAN1	gene:DAN1 AND taxonomy_id:559292	Srp1/Tip1 (DAN/TIR)	hard_negative	N2		Anaerobic cell wall mannoprotein
+DAN4	gene:DAN4 AND taxonomy_id:559292	Ser/Thr-rich GPI protein	hard_negative	N2		Anaerobic cell wall protein; false positive of shipped model
+ECM33	gene:ECM33 AND taxonomy_id:559292	Ecm33/Sps2	hard_negative	N1		Cell wall integrity
+YPS1	gene:YPS1 AND taxonomy_id:559292	yapsin aspartyl protease	hard_negative	N1		GPI aspartyl protease
+EXG1	gene:EXG1 AND taxonomy_id:559292	GH5 exo-glucanase	hard_negative	N1		Secreted glucanase
+MSB2	gene:MSB2 AND taxonomy_id:559292	mucin sensor	hard_negative	N1		Signaling mucin (filamentous growth MAPK)
+HKR1	gene:HKR1 AND taxonomy_id:559292	mucin sensor	hard_negative	N1		Signaling mucin (HOG pathway)
+WSC1	gene:SLG1 AND taxonomy_id:559292	Wsc sensor	hard_negative	N1		Cell wall integrity sensor
+WSC2	gene:WSC2 AND taxonomy_id:559292	Wsc sensor	hard_negative	N1		Cell wall integrity sensor
+MID2	gene:MID2 AND taxonomy_id:559292	Mid2 sensor	hard_negative	N1		Cell wall integrity sensor
+PIR1	gene:PIR1 AND taxonomy_id:559292	Pir	hard_negative	N1		Covalently linked cell wall protein
+CIS3	gene:CIS3 AND taxonomy_id:559292	Pir	hard_negative	N1		Covalently linked cell wall protein
+HSP150	gene:HSP150 AND taxonomy_id:559292	Pir	hard_negative	N1		Covalently linked cell wall protein
+FIT1	gene:FIT1 AND taxonomy_id:559292	Fit siderophore	hard_negative	N1		Siderophore-iron retention in cell wall
+EGT2	gene:EGT2 AND taxonomy_id:559292	GPI cell wall protein	hard_negative	N2		Cell separation
+SUN4	gene:SUN4 AND taxonomy_id:559292	SUN glucosidase	hard_negative	N1		Cell septation glucosidase
+CTS1	gene:CTS1 AND taxonomy_id:559292	GH18 chitinase	hard_negative	N1		Secreted chitinase (cell separation)
+UTR2	gene:UTR2 AND taxonomy_id:559292	GH16 transglycosylase	hard_negative	N1		Chitin-glucan crosslinking
+KRE9	gene:KRE9 AND taxonomy_id:559292	glucan synthesis	hard_negative	N1		Beta-1,6-glucan synthesis
+FET3	gene:FET3 AND taxonomy_id:559292	AA1 multicopper oxidase	hard_negative	N1		Ferroxidase; AA1 family over-called genome-wide
+ABR1	gene:abr1 AND taxonomy_id:330879	AA1 laccase	hard_negative	N1		Conidial pigment laccase; AA1 family over-called genome-wide

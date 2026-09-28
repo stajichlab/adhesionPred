@@ -1,0 +1,10 @@
+** WARNING: connection is not using a post-quantum key exchange algorithm.
+** This session may be vulnerable to "store now, decrypt later" attacks.
+** The server may need to be upgraded. See https://openssh.com/pq.html
+Input cocci_anchors.fa does not exist
+srun: error: r26: task 0: Exited with exit code 1
+
+anchor - reference hits:
+sort: cannot read: anchors_RS.m8: No such file or directory
+awk: cmd. line:1: {printf
+awk: cmd. line:1:        ^ unexpected newline or end of string

@@ -12,9 +12,8 @@ def extract_sequence_features(sequence):
     Returns:
         List of features (20 amino acid frequencies + normalized length).
     """
-    seq = sequence.upper()
+    seq = sequence.upper().replace("J", "L")  # Treat J as L for simplicity
     length = len(seq)
-    seq.replace("J", "L")  # Treat J as L for simplicity
     if length == 0:
         return [0] * 21
 
