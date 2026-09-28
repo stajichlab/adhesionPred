@@ -120,10 +120,19 @@ Neither is identified; both are single-family leads worth a targeted look.
   Cpos3700, carries two paralogs), copy number 3.7–4.8 — itself copy-number-polymorphic, the
   same pattern SOWgp shows. Its repeat unit (`CEPHGDHWHCPPGVPEPTTPPP...`, ~4–5 copies) carries
   **2 Cys + 3 His per 34 aa repeat** — a distinct chemistry from SOWgp/BAD1's plain Pro/Cys
-  composition. **Not yet identified against Pfam**: an EBI HMMER web-API lookup was attempted
-  and failed (405, wrong request format for that endpoint) rather than returning a genuine
-  no-hit, so whether this is a named domain family or an uncharacterized fungal-specific repeat
-  is still an open question, not a checked negative.
+  composition. Initially reported here as "not yet identified against Pfam" (an EBI HMMER
+  web-API lookup failed with a 405, not a genuine no-hit) — **corrected 2026-09-28, same day**:
+  checking UniProt directly (`J3KGH2`, the user's find) shows this is now Pfam-covered.
+  UniProt/InterPro currently call **PF28210 "DUF8375"** (aa 47–131, N-terminal, one copy) followed
+  by **PF28209 "Histidine triad hairpin domain"** (7 tandem copies at 137–157, 196–213, 267–281,
+  301–315, 335–349, 404–418, 438–452) — both very recent Pfam accessions, added after whatever
+  Pfam build the earlier HMMER attempt would have hit, which is the actual reason it looked
+  unidentified. AlphaFold's model (mean pLDDT 58.9) is consistent with substantial disorder
+  overall, but not uniformly: the DUF8375 region is moderately confident (mean pLDDT 70.7,
+  aa 47–131) while the repeat array (aa 121–460, mean pLDDT 61.5) and both termini (~30–33) are
+  lower-confidence. So "mostly disordered" is directionally right but not a formless blob — it
+  has a real, now-named domain architecture: one DUF8375 domain followed by a tandem array of
+  histidine-triad hairpin repeats.
 
 ## 5. Limitations
 
