@@ -1,257 +1,309 @@
-# *Coccidioides* surface antigens: specificity, pangenome variability, and what the ML tools can and cannot do
+# *Coccidioides* surface antigens: specificity, spherule expression, and pangenome variability
 
-**Report, 2026-09-27.** Stajich lab, UC Riverside. Analysis by Claude Code (Opus 5) with
-J. Stajich. All numbers are reproducible from `analysis/cocci_antigens/` and
-`analysis/model_review/`; every claim traces to a script, a database record, or a PMID.
+**Working report — 2026-09-27.** Stajich lab, UC Riverside.
+Analysis: Claude Code (Opus 5) with J. Stajich.
 
-**Status: internal working report. Provisional, not peer-reviewed, no wet-lab validation.**
-
----
-
-## 1. Summary
-
-Working from the 488-proteome *Coccidioides* pangenome, three results stand out.
-
-1. **The PRA family splits on specificity.** SOWgp and PRA3 have **no detectable homolog** in
-   *Histoplasma*, *Blastomyces*, *Paracoccidioides* or *Aspergillus fumigatus*. Ag2/PRA and
-   PRA2 both have clear orthologs in all three dimorphic confounders (55–70% identity, full
-   query coverage). So does the complement-fixation antigen in clinical use. This predicts
-   that Ag2/PRA-based and CF-based assays cross-react and that **SOWgp and PRA3 are the
-   species-specific markers** in this set.
-2. **SOWgp is not universal.** It is present in **92.0%** of 488 proteomes, with copy-number
-   variation (mean 1.09, CV 0.26). Every other anchor is at 98–99.8% and strictly single-copy.
-   For a diagnostic aiming at complete sensitivity this is a real liability, and it is
-   invisible unless you look across the pangenome.
-3. **Each anchor has a distinct and diagnostically meaningful profile** (§3). PRA3 is the only
-   one that is simultaneously near-universal, single-copy and specific.
-4. **Spherule expression validates SOWgp emphatically but does not generalise.** SOWgp goes
-   from 13 TPM in mycelia to 15,000 TPM in 48 h spherules (log2FC +10.05, top percentile of the
-   genome), while Ag2/PRA, PRA2 and PRA3 are all *down*-regulated in spherules. Intersecting
-   specificity with spherule induction yields **40 uncharacterized candidates** with the SOWgp
-   profile (§3.7).
-
-A fourth result is methodological and matters for how this work is presented: **the machine
-learning tools contributed the search space, not the discrimination.** The specificity signal
-came from orthology and cross-genome comparison, not from the language model — which scores
-Ag2/PRA at 0.000 and is blind to this entire protein class (§5).
+> **Status: internal working report, shared for comment. Provisional. No experimental
+> validation of anything below. Every number is reproducible from `analysis/cocci_antigens/`;
+> every claim traces to a script, a database record, or a PMID. Please read §7 (limitations)
+> before using any candidate list.**
 
 ---
 
-## 2. Background and goals
+## 1. Executive summary
 
-The goal set by the PI: *"find antigenic candidate proteins in Coccidioides to build on SOWgp
-and PRA1/PRA3 to see if additional candidates exist"*, and *"test if these proteins/genes are
-variable in terms of sequence or presence/absence in the pangenome"*.
+Working from the **488-proteome *Coccidioides* pangenome**, plus spherule/mycelium RNA-seq and
+cross-genome comparison against the fungi that confound coccidioidomycosis serology:
 
-An earlier ranking of 1,069 surface proteins (`data/curated/antigens/coccidioides_candidates.tsv`)
-was superseded because an independent review found it unusable for this purpose:
+1. **The PRA/SOWgp panel splits cleanly on species specificity.** SOWgp and PRA3 have **no
+   detectable homolog** in *Histoplasma*, *Blastomyces*, *Paracoccidioides* or *Aspergillus
+   fumigatus*. Ag2/PRA, PRA2 and the complement-fixation antigen all have clear orthologs in
+   the dimorphic confounders (55–70% identity, full-length). This predicts that Ag2/PRA-based
+   and CF-based assays cross-react, and identifies **SOWgp and PRA3 as the species-specific
+   markers** in this panel.
+2. **SOWgp is not universal.** It is present in **92.0%** of 488 proteomes, and copy-variable
+   (mean 1.09, CV 0.26). Every other anchor is at 98–99.8% and strictly single-copy. For an
+   assay aiming at complete sensitivity this is a real liability, invisible without a pangenome.
+3. **Spherule-phase expression validates SOWgp spectacularly but does not generalise.** SOWgp
+   goes from 13 TPM in mycelia to **15,000 TPM** at spherule 48 h (log2FC **+10.05**, top
+   percentile of the genome). But Ag2/PRA, PRA2 and PRA3 are all *down*-regulated in spherules.
+   Spherule induction is therefore a **labelled axis, not a universal antigenicity filter** —
+   using it naively would have demoted PRA3, the best specificity candidate in the panel.
+4. **14 Tier-1 candidates** satisfy all four criteria simultaneously (secreted, universal,
+   *Coccidioides*-specific, spherule-induced), and **45 Tier-2** satisfy the first three (§5).
+   None is characterized. All are hypotheses.
+5. **Methodological, and important for how this is written up:** the discriminating signal came
+   from **comparative genomics, not machine learning**. The protein language model scores
+   Ag2/PRA at 0.000 and is blind to this protein class (§6).
+
+---
+
+## 2. Goals and what preceded this
+
+Goals set by the PI: *find antigenic candidates in* Coccidioides *building on SOWgp and
+PRA1/PRA3*, and *test whether those genes vary in sequence or presence/absence across the
+pangenome*.
+
+An earlier ranking of 1,069 surface proteins was **superseded** after independent review found
+four defects. Recorded here because they are instructive:
 
 | defect | consequence |
 |---|---|
-| The *C. posadasii* reference was strain **C735 ΔSOWgp — a SOWgp deletion strain** | the protein the whole exercise builds on was deleted from half the reference data, and SOWgp was absent from the ranking entirely |
+| The *C. posadasii* reference used was strain **C735 ΔSOWgp — a SOWgp deletion strain** | the protein the exercise was built on was deleted from half the reference data; SOWgp was absent from the ranking entirely |
 | No fungal cross-reactivity term (human only) | the top of the list was pan-fungal conserved — Gel1 glucanosyltransferases, pepsins, subtilisins, chitinases — i.e. maximally cross-reactive |
 | 63% of rows tied at one integer score | no usable ranking |
-| Known antigens not used as controls | the complement-fixation antigen in clinical use ranked 4/8, tied with 678 others |
+| Known antigens not used as controls | the CF antigen in clinical use ranked 4/8, tied with 678 others |
+
+The rebuild scores the **pangenome**, adds a fungal cross-reactivity penalty, is continuous,
+deduplicates by orthogroup, and is held to an acceptance test that prints `NOT CALIBRATED`
+when known antigens are missed.
 
 ---
 
-## 3. Findings
+## 3. Data and methods
 
-### 3.1 Anchor profiles across 488 proteomes
+| input | source |
+|---|---|
+| 488-proteome pangenome, 15,857 orthogroups | `shared/projects/Coccidioides/PopGenomics/2025_All_Cocci/Pangenome` (OrthoFinder `Cocci_496_OG2_5_5`) |
+| scoring universe | *C. immitis* RS (FungiDB), 9,139 proteins assigned to orthogroups → **8,542 orthogroup representatives** |
+| confounder proteomes | `Fungi_5k/input`: *Histoplasma capsulatum* G186AR, *Blastomyces dermatitidis* ER-3, *Paracoccidioides brasiliensis* Pb18, *Aspergillus fumigatus* Af293 |
+| human proteome | UniProt UP000005640 |
+| secretion / domains | Fungi_5k `function.duckdb` (SignalP, TMHMM, Pfam), joined via an MMseqs2 id map |
+| spherule expression | `jstajich/projects/Coccidioides_UCSD_SpheruleMycelium`, *C. immitis* RS, kallisto TPM, 2 replicates each of mycelia / spherule 48 h / spherule 8 d |
+| anchors | UniProt Q8NK60, Q8NK61, Q96V71 (SOWgp); Q12295, A0A0E1RVD3 (Ag2/PRA); Q6K1L8 (PRA2); Q2TVJ9 (PRA3); Q1E3R8, P0CB51 (CF antigen) |
 
-| protein | locus (*C. immitis* RS) | prevalence | copy no. (mean, CV) | max identity to a confounder | interpretation |
-|---|---|---|---|---|---|
-| **PRA3** | CIMG_02492 | 98.0% | 1.00, 0.00 | **0%** | near-universal, single-copy, specific — **the cleanest profile** |
-| **SOWgp** | CIMG_04613 | **92.0%** | 1.09, **0.26** | **0%** | specific, but **absent from 8% of isolates** and copy-variable |
-| Ag2/PRA | CIMG_09696 | 98.8% | 1.00, 0.00 | 60% | universal and single-copy, but **cross-reactive** |
-| PRA2 | CIMG_09560 | 98.8% | 1.00, 0.00 | 69% | as Ag2/PRA |
-| CF antigen (CiX1 / CTS1) | CIMG_02795 | 99.8% | 1.00, 0.04 | 64% | the clinical antigen: universal, **cross-reactive** |
+**Score.** Two axes, deliberately kept separate:
+- *antigenicity* = 2.5·prevalence + 2.0·(homology to curated IEDB fungal antigens)
+- *specificity* = −3.0·(max % identity to a confounder) − 0.5·(breadth of confounders) − 1.5·(human homology)
 
-### 3.2 The cross-reactivity result is orthology, not artifact
+Copy-number variability is **reported, not scored** — it answers the pangenome question but is
+a liability for a diagnostic.
+
+---
+
+## 4. Findings
+
+### 4.1 Anchor profiles across 488 proteomes
+
+| protein | locus (*C. immitis* RS) | prevalence | copy no. (mean, CV) | max ident. to confounder | signal peptide | interpretation |
+|---|---|---|---|---|---|---|
+| **PRA3** | CIMG_02492 | 98.0% | 1.00, 0.00 | **0%** | yes | near-universal, single-copy, specific — **cleanest profile** |
+| **SOWgp** | CIMG_04613 | **92.0%** | 1.09, **0.26** | **0%** | *not annotated* | specific, but **absent from 8% of isolates**, copy-variable |
+| Ag2/PRA | CIMG_09696 | 98.8% | 1.00, 0.00 | 60% | yes | universal, single-copy, but **cross-reactive** |
+| PRA2 | CIMG_09560 | 98.8% | 1.00, 0.00 | 69% | yes | as Ag2/PRA |
+| CF antigen (CiX1/CTS1) | CIMG_02795 | 99.8% | 1.00, 0.04 | 64% | yes | the clinical antigen: universal but **cross-reactive** |
+
+### 4.2 Cross-reactivity is orthology, not artifact
 
 Ag2/PRA and PRA2 hit the **same three genes** in all three dimorphic confounders —
 *Histoplasma* `FBAD1291_004826`, *Blastomyces* `F00FD2C2_005998`, *Paracoccidioides*
-`FD6225C6_004143` — at 55–70% identity with **full query coverage (qcov = 1.000)**. Full-length
-alignment at that identity across three genera is orthology, not the low-complexity
-compositional matching that proline-rich proteins are prone to. PRA2 additionally hits
-*A. fumigatus*.
+`FD6225C6_004143` — at 55–70% identity with **full query coverage (qcov = 1.000)**.
+Full-length alignment at that identity across three genera is orthology, not the
+low-complexity compositional matching that proline-rich proteins are prone to. PRA2
+additionally hits *A. fumigatus*. SOWgp and PRA3 return **no hit at all** in any confounder.
 
-SOWgp and PRA3 return **no hit at all** in any of the four confounder proteomes.
+> **Testable prediction.** Sera from histoplasmosis, blastomycosis and paracoccidioidomycosis
+> patients should react with Ag2/PRA and with the CF antigen, and should **not** react with
+> SOWgp or PRA3. This is a direct wet-lab experiment with an unambiguous outcome.
 
-**This is a testable prediction**: sera from histoplasmosis, blastomycosis and
-paracoccidioidomycosis patients should react with Ag2/PRA and with the CF antigen, and should
-not react with SOWgp or PRA3.
+Context: across all 8,542 orthogroups, only **22%** have no detectable confounder homolog and
+**28%** are ≥70% identical to one. Specificity is genuinely scarce.
 
-### 3.3 Pangenome structure
-
-8,542 orthogroups with a *C. immitis* RS representative, across 488 proteomes:
+### 4.3 Pangenome structure
 
 | compartment | orthogroups | fraction |
 |---|---|---|
-| core (≥99% of proteomes) | 5,657 | 66.2% |
+| core (≥99% of 488 proteomes) | 5,657 | 66.2% |
 | soft-core (95–99%) | 1,305 | 15.3% |
 | shell (15–95%) | 841 | 9.8% |
 | cloud (<15%) | 739 | 8.7% |
 
-**1,580 orthogroups are accessory** (<95%), and **286 have copy-number CV > 0.3**. So there is
-ample variable gene content, and the anchors sit in it: SOWgp is the only anchor outside the
-soft-core.
+**1,580 orthogroups are accessory** (<95%); **286 have copy-number CV > 0.3**. SOWgp is the
+only anchor outside the soft-core.
 
-### 3.4 Sequence variability at the SOWgp locus
+### 4.4 Sequence variability at the SOWgp locus
 
-The three known SOWgp alleles (58, 66 and 82 kDa; UniProt Q8NK60, Q8NK61, Q96V71) all map to
-the **single locus** CIMG_04613 at **96.0%, 85.3% and 74.4%** identity with full coverage.
-That descending identity is the published tandem-repeat-number difference (4, 5 and 6 copies
-of a 41–47 aa Pro/Asp-rich repeat; Hung et al. 2002) showing up directly in the alignment.
+The three known SOWgp alleles (58, 66, 82 kDa; Q8NK60/Q8NK61/Q96V71) all map to the **single
+locus** CIMG_04613 at **96.0%, 85.3% and 74.4%** identity with full coverage. That descending
+identity is the published tandem-repeat-number difference (4, 5 and 6 copies of a 41–47 aa
+Pro/Asp-rich repeat; Hung et al. 2002) appearing directly in the alignment.
 
-**Caveat, and it is a serious one for this specific locus**: the prevalence and copy-number
-figures above come from an assembly-derived orthogroup table, and tandem arrays are exactly
-what short-read assemblies collapse or fragment. SOWgp's 92% prevalence and CV 0.26 must be
-confirmed from **read depth** over the locus before being relied on. An absence call from a
-fragmented assembly is usually a gap, not a deletion.
+> **Warning specific to this locus.** Prevalence and copy number here come from an
+> assembly-derived orthogroup table, and tandem arrays are exactly what short-read assemblies
+> collapse or fragment. **SOWgp's 92% prevalence and CV 0.26 must be confirmed from read depth**
+> (402 *Coccidioides* WGS runs are in SRA) before being relied on. An absence call from a
+> fragmented assembly is usually a gap, not a deletion.
 
-### 3.5 A 595-orthogroup candidate shortlist — and its honest limitation
-
-`analysis/cocci_antigens/shortlist_specific_universal.tsv`: orthogroups present in ≥95% of 488
-proteomes with **no detectable homolog** in any of the four confounders or in human. 595
-orthogroups, **557 of them single-copy**, 38 additionally copy-number variable.
-
-For context, across all 8,542 orthogroups only **22% have no detectable confounder homolog**
-and **28% are ≥70% identical** to one. Specificity is genuinely scarce.
-
-**The limitation: zero of the 595 have an IEDB antigen homolog.** That is not a coincidence,
-it is structural. The antigenicity axis measures homology to curated IEDB antigens, which are
-dominated by other fungi — so *by construction* it penalises exactly the species-specific
-proteins we are looking for. SOWgp and PRA3 themselves sit at the 75th–80th percentile on it.
-
-**The shortlist is therefore specific but immunologically uncharacterized.** Specificity is
-doing all the work; antigenicity is not yet evidenced.
-
-### 3.6 Spherule-phase expression — tested, and it does not do what was expected
-
-The lab's own RNA-seq (`jstajich/projects/Coccidioides_UCSD_SpheruleMycelium`, *C. immitis* RS,
-kallisto TPM, 2 replicates each of mycelia / spherule 48 h / spherule 8 d) joined to **all
-8,542** ranked orthogroups by gene ID.
+### 4.5 Spherule-phase expression
 
 | protein | mycelia TPM | spherule 48 h | spherule 8 d | log2FC (48 h) | percentile |
 |---|---|---|---|---|---|
 | **SOWgp** | 13.1 | **15,000.4** | 4,839.2 | **+10.05** | **100th** |
-| CF antigen (CiX1) | 2.1 | 8.9 | 9.1 | +1.68 | 79th |
+| CF antigen | 2.1 | 8.9 | 9.1 | +1.68 | 79th |
 | Ag2/PRA | 2,330.3 | 694.0 | 564.3 | **−1.75** | 4th |
 | PRA3 | 24.2 | 5.5 | 3.7 | **−1.96** | 4th |
 | PRA2 | 207.6 | 15.0 | 9.9 | **−3.71** | 1st |
 
-**SOWgp is spectacularly confirmed**: essentially off in mycelia and among the most abundant
-transcripts in the 48 h spherule — a ~1,000-fold induction, at the very top of the genome. The
-48 h > 8 d ordering matches the published "elevated during early spherule development"
-(Hung et al. 2002). This is independent validation that the data and the ID join are correct.
+SOWgp is essentially off in mycelia and among the most abundant transcripts in the 48 h
+spherule — ~1,000-fold induction, top of the genome. The 48 h > 8 d ordering matches the
+published "elevated during early spherule development" (Hung et al. 2002), which is independent
+evidence the dataset and the ID join are correct.
 
-**But the PRA family goes the other way.** Ag2/PRA, PRA2 and PRA3 are all *mycelia*-high and
-down-regulated in spherules in this dataset. Ag2/PRA is abundant (2,330 TPM) — but in the
-wrong phase.
+> **Warning.** The PRA family goes the *other* way: Ag2/PRA, PRA2 and PRA3 are all mycelia-high
+> and down in spherules here. **Spherule induction is not a general antigenicity filter for this
+> protein set.** Applied naively it promotes SOWgp and demotes PRA3 — the best specificity
+> candidate in the panel. It identifies one class (parasitic-phase surface antigens of the
+> SOWgp type) and is reported as a labelled axis, never folded into a single score.
 
-**Consequence, and it is a warning rather than a win:** spherule induction is *not* a general
-antigenicity filter for this protein set. Applied naively it would have promoted SOWgp and
-**demoted PRA3, the best specificity candidate in the panel**. It identifies one specific
-class — parasitic-phase surface antigens of the SOWgp type — and should be used as a labelled
-axis, not folded into a single score. This is the same mistake as v1's merged score, and the
-report avoids repeating it.
+---
 
-### 3.7 The intersected shortlist: 40 candidates
+## 5. Candidate lists
 
-Requiring **all four** criteria — ≥95% prevalence across 488 proteomes, no confounder homolog,
-no human homolog, and spherule-48 h induction (log2FC > 1, TPM > 50) — gives **40 orthogroups**
-(`shortlist_spherule_induced.tsv`). Top by spherule abundance:
+### 5.1 A correction worth recording
 
-| protein | mycelia | spherule 48 h | log2FC | prevalence |
+A first shortlist of 40 (specific + universal + spherule-induced) turned out on annotation to
+contain **zero proteins with a predicted signal peptide** and 36 of 40 with no Pfam domain at
+all. The filter had never required secretion. **Those 40 are not serodiagnostic candidates** —
+they may be interesting spherule biology, but a serodiagnostic antigen must be secreted or
+surface-exposed. The file is retained as `shortlist_spherule_induced.tsv` with this caveat.
+The lists below add the secretion requirement.
+
+### 5.2 Tier 1 — secreted + universal + *Coccidioides*-specific + spherule-induced (n = 14)
+
+`analysis/cocci_antigens/TIER1_candidates.tsv`
+
+| protein | len | TM | mycelia TPM | spherule 48 h | log2FC | prevalence | Pfam |
+|---|---|---|---|---|---|---|---|
+| CIMG_00143 | 124 | no | 12.3 | 40.7 | +1.65 | 0.97 | — |
+| CIMG_02078 | 124 | no | 10.5 | 22.2 | +1.01 | 1.00 | — |
+| CIMG_09680 | 385 | yes | 8.8 | 19.3 | +1.05 | 0.99 | — |
+| CIMG_10280 | 628 | yes | 7.2 | 19.3 | +1.30 | 0.98 | — |
+| CIMG_09000 | 199 | yes | 6.9 | 17.8 | +1.24 | 1.00 | — |
+| CIMG_00211 | 149 | no | 4.6 | 16.7 | +1.66 | 0.99 | — |
+| CIMG_09828 | 377 | no | 2.9 | 14.3 | +1.97 | 0.99 | PAN_1; PAN_4 |
+| CIMG_06630 | 431 | no | 3.0 | 14.2 | +1.93 | 0.99 | DA_C |
+| CIMG_10135 | 444 | no | 3.1 | 13.2 | +1.81 | 0.98 | — |
+| CIMG_02158 | 316 | no | 4.0 | 11.3 | +1.29 | 0.96 | — |
+| CIMG_02073 | 759 | no | 1.5 | 8.0 | +1.85 | 1.00 | DNase_NucA_NucB |
+| CIMG_05465 | 466 | yes | 1.7 | 7.0 | +1.56 | 1.00 | — |
+| CIMG_02833 | 522 | no | 1.5 | 4.1 | +1.03 | 1.00 | — |
+| CIMG_09495 | 214 | no | 1.1 | 3.4 | +1.07 | 0.99 | — |
+
+> **Warning: these are modestly expressed.** The highest is 40.7 TPM against SOWgp's 15,000.
+> None has the abundance profile that makes SOWgp a good serological target. Ten of fourteen
+> have no Pfam domain, so function is unknown. `PAN_1/PAN_4` (CIMG_09828) is a
+> protein-interaction/adhesion module and is the most interesting on architecture alone.
+
+### 5.3 Tier 2 — secreted + universal + *Coccidioides*-specific (n = 45)
+
+`analysis/cocci_antigens/TIER2_candidates.tsv`. Superset of Tier 1 without the expression
+requirement. Use this if spherule-stage expression is not a requirement, e.g. for antigens
+detectable in mycelial-phase laboratory exposure.
+
+### 5.4 Acceptance test — the ranking is only partly calibrated
+
+| anchor | combined percentile | antigenicity | specificity | verdict |
 |---|---|---|---|---|
-| CIMG_06250 | 3.8 | 691.9 | +7.18 | 1.00 |
-| CIMG_03452 | 48.3 | 647.6 | +3.72 | 0.99 |
-| CIMG_04662 | 0.5 | 480.2 | **+8.32** | 0.99 |
-| CIMG_01584 | 8.6 | 454.5 | +5.56 | 1.00 |
-| CIMG_05599 | 2.9 | 257.6 | +6.04 | 1.00 |
-| CIMG_06249 | 14.1 | 257.5 | +4.10 | 1.00 |
+| PRA3 | 6.1% | 75.0% | 6.0% | PASS |
+| Ag2/PRA | 7.2% | 0.0% | 50.0% | PASS |
+| SOWgp | 7.3% | 79.7% | 7.3% | PASS |
+| PRA2 | 10.7% | 0.5% | 71.7% | FAIL (just outside) |
+| CF antigen | 56.1% | 17.9% | 63.4% | PASS as a *negative* specificity control |
 
-These have the SOWgp *profile* — near-silent in mycelia, strongly induced in early spherules,
-universal across isolates, no homolog in the confounding fungi — without being SOWgp.
-**CIMG_06249 and CIMG_06250 are adjacent**, suggesting a locus worth looking at directly.
-
-SOWgp itself is excluded only by the prevalence filter (92%, see §3.1).
-
-**None of these 40 has been characterized.** They are a hypothesis set with a defined and
-unusually specific profile, not validated antigens.
+**3/4 *Coccidioides*-specific anchors in the top decile.** The script prints `NOT CALIBRATED`
+whenever that is not 4/4, and that warning is left switched on. Four usable controls is thin.
 
 ---
 
-## 4. What would make this decisive
+## 6. What the ML tools contributed — and did not
 
-In priority order:
+This work doubled as a test of whether a protein language model helps in a search like this.
 
-1. ~~Spherule-phase expression~~ — **done** (§3.6–3.7), using the lab's own RS RNA-seq. It
-   validated SOWgp emphatically and produced a 40-candidate intersected shortlist, but it did
-   *not* generalise to the PRA family. Worth extending to *C. posadasii* and to the 249 SRA
-   runs for replication, and to endospore stage — SOWgp is reportedly depleted on endospores
-   (Hung et al. 2007), which is an immune-evasion angle this dataset cannot address.
-2. **Characterize the 40.** Domain/signal-peptide annotation, structure, and whether any are
-   already in the IEDB or proteomics data. This is cheap and immediately informative.
-3. **Read-depth confirmation of SOWgp prevalence and copy number** (402 *Coccidioides* WGS runs
-   in SRA), which is immune to assembly fragmentation and annotation heterogeneity.
-4. **B-cell epitope surface accessibility**, scored separately from T-cell evidence — a
-   serodiagnostic needs antibody epitopes.
-5. **Serological test of the cross-reactivity prediction** in §3.2, which is a direct wet-lab
-   experiment with an unambiguous outcome.
-
----
-
-## 5. What the ML tools contributed — and did not
-
-This project set out partly to test whether a protein language model is useful in a search
-like this. On this evidence:
-
-- **The language model did not find these antigens.** It scores Ag2/PRA at **0.000** and is
-  documented (`docs/model-review/`, §4.7) to be functionally a *tandem-repeat surface protein
+- **The language model did not find these antigens.** It scores Ag2/PRA at **0.000**. It is
+  documented (`docs/model-review/` §4.7) to be functionally a *tandem-repeat surface protein
   detector*: every adhesin it misses has zero tandem repeats, and it is blind to short,
-  cysteine-rich, non-GPI proteins — which is what most of this candidate space looks like.
-- **Where it does earn its place** is on proteins with no domain annotation: PR-AUC 0.716 vs
-  0.246 for the best domain-based baseline on the domain-blind subset (§4.6). That is a real
-  capability, but it is orthogonal to the specificity question that drove these findings.
-- **The discriminating signal here came from comparative genomics**, not ML: orthology against
-  confounder proteomes, and prevalence/copy number across a 488-proteome pangenome.
+  cysteine-rich, non-GPI proteins — which is most of this candidate space.
+- **Where it does earn its place** is on proteins lacking domain annotation: PR-AUC 0.716 vs
+  0.246 for the best domain-based baseline on the domain-blind subset. Real, but orthogonal to
+  the specificity question that drove these findings.
+- **The discriminating signal came from comparative genomics**: orthology against confounder
+  proteomes, prevalence across 488 proteomes, and phase-specific expression.
 
-The honest framing for any write-up: **ML narrowed and organized the search space; cross-genome
-comparison produced the result.** Presenting the language model as the discovery engine would
-misstate what happened.
+> **For any write-up:** ML narrowed and organised the search space; cross-genome comparison
+> produced the result. Presenting the language model as the discovery engine would misstate
+> what happened.
 
 ---
 
-## 6. Limitations
+## 7. Limitations — please read before using any list
 
-1. **Four usable positive controls.** The ranking's acceptance test passes 3/4, and the script
-   prints `NOT CALIBRATED` whenever it is not 4/4. That warning is left switched on deliberately.
-2. **Assembly-derived counts** for prevalence and copy number (§3.4).
-3. **One reference for the universe.** Proteins absent from *C. immitis* RS are not scored,
-   so *C. posadasii*-specific antigens are systematically missed. A second pass anchored on
-   the Silveira proteome would close this.
-4. **Cross-reactivity was assessed against four confounder genomes**, one strain each. Broader
+1. **Annotation coverage is incomplete.** Only **5,817 of 9,139** reference proteins (64%) map
+   into the Fungi_5k annotation, so signal-peptide status is *unknown*, not negative, for 36%.
+2. **The secreted set is almost certainly under-called.** Only **371 of ~9,910** RS proteins
+   (~4%) carry a SignalP annotation, well below the ~10% typical for a fungal proteome.
+   Tier 1/2 are therefore **conservative and incomplete**.
+3. **SOWgp itself has no Fungi_5k match**, so it would be *excluded* by the secretion filter
+   that defines Tier 1/2 — a direct demonstration of limitation 1. The absence of a known
+   surface antigen from the filtered lists shows the filter misses real antigens.
+4. **Assembly-derived prevalence and copy number** (§4.4), unconfirmed by read depth.
+5. **One reference genome defines the universe** (*C. immitis* RS). *C. posadasii*-specific
+   antigens are systematically missed. A second pass anchored on the Silveira proteome would
+   close this.
+6. **Cross-reactivity assessed against four confounder genomes, one strain each.** Broader
    sampling, especially within *Histoplasma*, would firm up the specificity calls.
-5. **No experimental validation of anything in this report.**
+7. **Expression is one experiment, one strain, *C. immitis* RS, n = 2 per condition.** No
+   statistical testing was applied; log2FC is a descriptive ratio of replicate means.
+8. **The endospore stage is not covered.** SOWgp is reportedly depleted on endospores (Hung et
+   al. 2007) — an immune-evasion angle this dataset cannot address.
+9. **No experimental validation of anything in this report.**
 
 ---
 
-## 7. Sources and provenance
+## 8. Recommended next steps
 
-**Data**
-- *Coccidioides* pangenome: `/bigdata/stajichlab/shared/projects/Coccidioides/PopGenomics/2025_All_Cocci/Pangenome` — 493 input proteomes, OrthoFinder result `Cocci_496_OG2_5_5`, 15,857 orthogroups
-- Confounder proteomes from `Fungi_5k/input`: *Histoplasma capsulatum* G186AR, *Blastomyces dermatitidis* ER-3, *Paracoccidioides brasiliensis* Pb18, *Aspergillus fumigatus* Af293
-- Human proteome UP000005640 (UniProt); IEDB Query API for curated fungal antigens
-- Anchors from UniProt: Q8NK60, Q8NK61, Q96V71 (SOWgp); Q12295, A0A0E1RVD3 (Ag2/PRA); Q6K1L8 (PRA2); Q2TVJ9 (PRA3); Q1E3R8, P0CB51 (CF antigen)
+1. **Serological test of the §4.2 prediction** — cross-reactivity of Ag2/PRA and CF antigen vs
+   specificity of SOWgp/PRA3, using heterologous patient sera. Direct, unambiguous, and the
+   highest-value experiment here.
+2. **Read-depth confirmation of SOWgp prevalence and copy number** across the 402 SRA WGS runs
+   — resolves limitation 4 and tests whether the 8% absence is real or assembly artifact.
+3. **Repair the secretion annotation**: run SignalP 6.0 and NetGPI directly over the RS and
+   Silveira proteomes rather than relying on partial Fungi_5k coverage. This is cheap and
+   directly widens Tiers 1–2.
+4. **Extend to *C. posadasii*** — second reference universe, and replicate the expression
+   analysis.
+5. ***C. posadasii* host-outcome phenotypes.** If strain-level variation in infection outcome
+   is available, the accessory/copy-variable gene set (§4.3: 1,580 accessory orthogroups, 286
+   copy-variable) can be tested for association with outcome. That would convert a descriptive
+   pangenome into a hypothesis-generating genotype–phenotype screen, and it is the most
+   promising route to *functional* significance for any of these candidates. Worth scoping
+   what phenotype data exists and how many strains overlap the 488 proteomes.
+6. **Characterize Tier 1** — structure prediction and B-cell epitope accessibility for the ten
+   with no Pfam domain.
+
+---
+
+## 9. Files
+
+All under `analysis/cocci_antigens/`:
+
+| file | contents |
+|---|---|
+| `TIER1_candidates.tsv` | 14 secreted + universal + specific + spherule-induced |
+| `TIER2_candidates.tsv` | 45 secreted + universal + specific |
+| `cocci_antigen_ranking.tsv` | all 9,139 proteins / 8,542 orthogroup representatives, full evidence columns |
+| `shortlist_specific_universal.tsv` | 595 universal + specific (no secretion filter) |
+| `shortlist_spherule_induced.tsv` | the superseded 40 — **see §5.1** |
+| `candidates_annotated.tsv` | domain/secretion annotation of the 40 |
+| `NOTES.md` | method detail and the v1 → v2 defect list |
+| `01`–`06_*.py/.sh` | pipeline, numbered in run order |
+
+## 10. Sources
 
 **Literature**
-- Hung CY, Yu JJ, Seshan KR, Reichard U, Cole GT. 2002. A parasitic phase-specific adhesin of *Coccidioides immitis* contributes to the virulence of this respiratory fungal pathogen. *Infect Immun* 70:3443-56. https://doi.org/10.1128/IAI.70.7.3443-3456.2002 — SOWgp binds laminin > fibronectin > collagen IV; deletion reduces ECM binding and virulence; 4–6 tandem repeats, size varies by isolate
-- Hung CY, Xue J, Cole GT. 2007. Virulence mechanisms of *Coccidioides*. *Ann N Y Acad Sci* 1111:225-35. https://doi.org/10.1196/annals.1406.020
+- Hung CY, Yu JJ, Seshan KR, Reichard U, Cole GT. 2002. A parasitic phase-specific adhesin of *Coccidioides immitis* contributes to the virulence of this respiratory fungal pathogen. *Infect Immun* 70:3443-56. https://doi.org/10.1128/IAI.70.7.3443-3456.2002 — SOWgp binds laminin > fibronectin > collagen IV; deletion reduces ECM binding and virulence; 4–6 tandem repeats; parasitic-phase specific, elevated in early spherule development.
+- Hung CY, Xue J, Cole GT. 2007. Virulence mechanisms of *Coccidioides*. *Ann N Y Acad Sci* 1111:225-35. https://doi.org/10.1196/annals.1406.020 — SOWgp depletion on endospores as immune evasion.
 
-**Code** (all in `adhesionPred`)
-- `analysis/cocci_antigens/01_build_inputs.sh` — orthology and cross-reactivity searches
-- `analysis/cocci_antigens/02_score_antigens.py` — scoring and acceptance test
-- `analysis/cocci_antigens/NOTES.md` — method detail and the v1 → v2 defect list
-- `docs/model-review/` — the model evaluation underlying §5
+**Databases** — UniProtKB, IEDB Query API, Pfam/InterPro, NCBI Datasets, SRA.
+
+**Related internal documents** — `docs/model-review/2026-09-27-review-and-framework-plan.md`
+(model evaluation behind §6), `docs/model-review/STATUS.md`, `docs/model-review/SEARCH-FRAMEWORK.md`.
