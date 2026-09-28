@@ -43,7 +43,12 @@ rank = [
     for x in csv.DictReader(open("cocci_antigens/cocci_antigen_ranking.tsv"), delimiter="\t")
     if x["is_orthogroup_representative"] == "yes"
 ]
-f = lambda x, k: float(x[k])
+
+
+def f(x, k):
+    return float(x[k])
+
+
 mapped = [x for x in rank if x["protein"] in best]
 secreted = [x for x in mapped if best[x["protein"]][0] in sp]
 print(

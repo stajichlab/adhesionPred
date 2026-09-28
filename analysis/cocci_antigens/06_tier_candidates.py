@@ -1,6 +1,7 @@
 import csv
 import math
 import statistics as st
+from collections import defaultdict
 
 import duckdb
 
@@ -31,7 +32,6 @@ tm = set(
 pf = con.execute(
     f"SELECT replace(protein_id,'.protein','') p, pfam_id FROM pfam WHERE protein_id LIKE '{RS}%'"
 ).fetchdf()
-from collections import defaultdict
 
 doms = defaultdict(set)
 for p, d in zip(pf.p, pf.pfam_id):
@@ -46,14 +46,28 @@ with open("RS1_kallisto.TPM.csv") as f:
     next(rd)
     for row in rd:
         v = [float(x) for x in row[1:]]
-        tpm[row[0].strip('"')] = dict(myc=st.mean(v[0:2]), s48=st.mean(v[2:4]), s8d=st.mean(v[4:6]))
-lfc = lambda d: math.log2((d["s48"] + 1) / (d["myc"] + 1))
+        tpm[row[0].strip('"')] = {
+            "myc": st.mean(v[0:2]),
+            "s48": st.mean(v[2:4]),
+            "s8d": st.mean(v[4:6]),
+        }
+
+
+def lfc(d):
+    return math.log2((d["s48"] + 1) / (d["myc"] + 1))
+
+
 rank = [
     x
     for x in csv.DictReader(open("cocci_antigens/cocci_antigen_ranking.tsv"), delimiter="\t")
     if x["is_orthogroup_representative"] == "yes"
 ]
-g = lambda x, k: float(x[k])
+
+
+def g(x, k):
+    return float(x[k])
+
+
 out = []
 for x in rank:
     fid = best.get(x["protein"], ("", 0))[0]
