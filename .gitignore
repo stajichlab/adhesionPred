@@ -49,3 +49,4 @@ analysis/model_review/pilot/.venv/
 analysis/model_review/pilot/out/
 analysis/model_review/pilot/data/
 analysis/model_review/pilot/logs/
+analysis/cocci_antigens/*.m8
