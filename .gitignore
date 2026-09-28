@@ -54,3 +54,8 @@ analysis/model_review/pilot/data/
 analysis/model_review/pilot/logs/
 analysis/cocci_antigens/*.m8
 analysis/cocci_repeats/repeat_profile_*.tsv
+
+# Copyrighted paper PDFs dropped for literature curation (this is a PUBLIC repo --
+# do not redistribute publisher PDFs). Only openly-licensed source files (CC-BY etc.,
+# verified per-file) get committed; see to_import/IMPORT_LOG.md for citations.
+to_import/*.pdf

@@ -2,3 +2,4 @@ accession	description	source_species	band_kda	cross_reactive_species	max_cross_r
 A0A0J6YAG6	GPI anchored serine/threonine-rich protein	C. immitis	100	C. posadasii(74%);H. capsulatum(52%);A. fumigatus(57%);P. brasiliensis(49%)	74	Recognized by patient sera on WB; BLAST cross-reactivity per Table 3
 A0A0J8R1I4	Uncharacterized protein	C. immitis	100	C. posadasii(89%);P. lutzi(60%)	89	Recognized by patient sera on WB; near-identical ortholog in C. posadasii
 A0A0J6F383	Fatty acid amide hydrolase 1	C. posadasii	50	C. immitis(96%);P. brasiliensis(54%);P. lutzi(54%);H. capsulatum(55%)	96	Recognized by patient sera on WB
+Q6QJA6	Proline-rich antigen (Ag2/PRA), gene pra	C. immitis	19.5 (predicted, unglycosylated)	not tested in source paper	NA	Cloned mycelial-phase gene, GPI-anchored, 11x Pro-Thr tetrapeptide repeats (T-X-X'-P) aa89-141; already used as a pangenome anchor gene in 02_score_antigens.py NOTES.md, this is its literature-sourced reference sequence
