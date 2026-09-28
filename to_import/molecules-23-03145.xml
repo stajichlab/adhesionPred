@@ -1,0 +1,2823 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE article PUBLIC "-//NLM//DTD JATS (Z39.96) Journal Publishing DTD v1.1 20151215//EN" "JATS-journalpublishing1.dtd">
+<article xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:xlink="http://www.w3.org/1999/xlink" article-type="research-article" dtd-version="1.1" xml:lang="en">
+  <front>
+    <journal-meta>
+      <journal-id journal-id-type="publisher-id">molecules</journal-id>
+      <journal-title-group>
+        <journal-title>Molecules</journal-title>
+        <abbrev-journal-title abbrev-type="publisher">Molecules</abbrev-journal-title>
+        <abbrev-journal-title abbrev-type="pubmed">Molecules</abbrev-journal-title>
+      </journal-title-group>
+      <issn pub-type="epub">1420-3049</issn>
+      <publisher>
+        <publisher-name>MDPI</publisher-name>
+      </publisher>
+    </journal-meta>
+    <article-meta>
+      <article-id pub-id-type="doi">10.3390/molecules23123145</article-id>
+      <article-id pub-id-type="publisher-id">molecules-23-03145</article-id>
+      <article-categories>
+        <subj-group>
+          <subject>Article</subject>
+        </subj-group>
+      </article-categories>
+      <title-group>
+        <article-title>Selection of Specific Peptides for <italic>Coccidioides</italic> spp. Obtained from Antigenic Fractions through SDS-PAGE and Western Blot Methods by the Recognition of Sera from Patients with Coccidioidomycosis</article-title>
+      </title-group>
+      <contrib-group>
+        <contrib contrib-type="author">
+          <name>
+            <surname>Duarte Escalante</surname>
+            <given-names>Esperanza</given-names>
+          </name>
+          <xref rid="af1-molecules-23-03145" ref-type="aff">1</xref>
+        </contrib>
+        <contrib contrib-type="author">
+          <contrib-id contrib-id-type="orcid" authenticated="true">https://orcid.org/0000-0002-3160-8698</contrib-id>
+          <name>
+            <surname>Fr&#xED;as De Le&#xF3;n</surname>
+            <given-names>Mar&#xED;a Guadalupe</given-names>
+          </name>
+          <xref rid="af2-molecules-23-03145" ref-type="aff">2</xref>
+        </contrib>
+        <contrib contrib-type="author">
+          <name>
+            <surname>Mart&#xED;nez Garc&#xED;a</surname>
+            <given-names>Luz Gisela</given-names>
+          </name>
+          <xref rid="af1-molecules-23-03145" ref-type="aff">1</xref>
+        </contrib>
+        <contrib contrib-type="author">
+          <name>
+            <surname>Herrera</surname>
+            <given-names>Jorge</given-names>
+          </name>
+          <xref rid="af3-molecules-23-03145" ref-type="aff">3</xref>
+        </contrib>
+        <contrib contrib-type="author">
+          <name>
+            <surname>Acosta Altamirano</surname>
+            <given-names>Gustavo</given-names>
+          </name>
+          <xref rid="af2-molecules-23-03145" ref-type="aff">2</xref>
+        </contrib>
+        <contrib contrib-type="author">
+          <name>
+            <surname>Cabello</surname>
+            <given-names>Carlos</given-names>
+          </name>
+          <xref rid="af4-molecules-23-03145" ref-type="aff">4</xref>
+        </contrib>
+        <contrib contrib-type="author">
+          <name>
+            <surname>Palma</surname>
+            <given-names>Gabriel</given-names>
+          </name>
+          <xref rid="af4-molecules-23-03145" ref-type="aff">4</xref>
+        </contrib>
+        <contrib contrib-type="author">
+          <name>
+            <surname>Reyes Montes</surname>
+            <given-names>Mar&#xED;a del Roc&#xED;o</given-names>
+          </name>
+          <xref rid="af1-molecules-23-03145" ref-type="aff">1</xref>
+          <xref rid="c1-molecules-23-03145" ref-type="corresp">*</xref>
+        </contrib>
+      </contrib-group>
+      <aff id="af1-molecules-23-03145"><label>1</label>Departamento de Microbiolog&#xED;a y Parasitolog&#xED;a, Facultad de Medicina, Universidad Nacional Aut&#xF3;noma de M&#xE9;xico (UNAM), Ciudad Universitaria No. 3000, M&#xE9;xico Cd. Mx. 04510, Mexico</aff>
+      <aff id="af2-molecules-23-03145"><label>2</label>Hospital Regional de Alta Especialidad de Ixtapaluca, Carretera Federal M&#xE9;xico&#x2014;Puebla Km. 34.5, Pueblo de Zoquiapan, Ixtapaluca 56530, Mexico</aff>
+      <aff id="af3-molecules-23-03145"><label>3</label>Unidad de Servicios de Apoyo a la Investigaci&#xF3;n y la Industria (USAII), Facultad de Qu&#xED;mica, Universidad Nacional Aut&#xF3;noma de M&#xE9;xico (UNAM), Ciudad Universitaria No. 3000, M&#xE9;xico Cd. Mx. 04510, Mexico</aff>
+      <aff id="af4-molecules-23-03145"><label>4</label>Instituto Nacional de Enfermedades Respiratorias (INER), Calzada de Tlalpan 4502, Belisario Dom&#xED;nguez Secci&#xF3;n XVI, Tlalpan, M&#xE9;xico Cd. Mx 14080, Mexico</aff>
+      <author-notes>
+        <corresp id="c1-molecules-23-03145"><label>*</label>Correspondence: <email>remoa@unam.mx</email>; Tel.: +52-55-56232463</corresp>
+      </author-notes>
+      <pub-date pub-type="epub">
+        <day>30</day>
+        <month>11</month>
+        <year>2018</year>
+      </pub-date>
+      <pub-date pub-type="collection">
+        <month>12</month>
+        <year>2018</year>
+      </pub-date>
+      <volume>23</volume>
+      <issue>12</issue>
+      <elocation-id>3145</elocation-id>
+      <history>
+        <date date-type="received">
+          <day>24</day>
+          <month>10</month>
+          <year>2018</year>
+        </date>
+        <date date-type="accepted">
+          <day>29</day>
+          <month>11</month>
+          <year>2018</year>
+        </date>
+      </history>
+      <permissions>
+        <copyright-statement>&#xA9; 2018 by the authors.</copyright-statement>
+        <copyright-year>2018</copyright-year>
+        <license license-type="open-access">
+          <license-p>Licensee MDPI, Basel, Switzerland. This article is an open access article distributed under the terms and conditions of the Creative Commons Attribution (CC BY) license (<ext-link ext-link-type="uri" xlink:href="http://creativecommons.org/licenses/by/4.0/">http://creativecommons.org/licenses/by/4.0/</ext-link>).</license-p>
+        </license>
+      </permissions>
+      <abstract>
+        <p>Antigenic fractions of 100, 50, 37, and 28 kDa obtained through the SDS-PAGE method that were more frequently recognized by anti-<italic>Coccidioides</italic> antibodies in the sera of coccidioidomycosis patients were selected using western blotting. Subsequently, these bands were sequenced, and the obtained proteins were analysed by BLAST to choose peptides specific for <italic>Coccidioides</italic> spp. from among the shared aligned sequences of related fungi. A peptide specific for <italic>C. immitis</italic> was selected from the &#x201C;GPI anchored serine-threonine rich protein OS <italic>C. immitis</italic>&#x201D;, while from the &#x201C;uncharacterized protein of <italic>C. immitis</italic>&#x201D;, we selected a peptide for <italic>C. immitis</italic> and <italic>C. posadasii</italic>. These proteins arose from the 100 kDa antigenic fraction. From the protein &#x201C;fatty acid amide hydrolase 1 of <italic>C. posadasii</italic>&#x201D; that was identified from the 50 kDa antigenic fraction, a peptide was selected that recognized <italic>C. immitis</italic> and <italic>C. posadasii</italic>. In addition, the analysis of all the peptides (353) of each of the assembled proteins showed that only 35 had 100% identity with proteins of <italic>C. immitis</italic> and <italic>C. posadasii</italic>, one had 100% identity with only <italic>C. immitis</italic>, and one had 100% identity with only <italic>C. posadasii.</italic> These peptides can be used as diagnostic reagents, vaccines, and antifungals.</p>
+      </abstract>
+      <kwd-group>
+        <kwd>coccidioidomycosis</kwd>
+        <kwd>immunodiagnosis</kwd>
+        <kwd>peptides</kwd>
+        <kwd>SDS-PAGE</kwd>
+        <kwd><italic>Coccidioides</italic> spp.</kwd>
+      </kwd-group>
+    </article-meta>
+  </front>
+  <body>
+    <sec id="sec1-molecules-23-03145" sec-type="intro">
+      <title>1. Introduction</title>
+      <p>Coccidioidomycosis or San Joaquin valley fever is a disease caused by fungi of the genus <italic>Coccidioides</italic>, in which two species with almost identical phenotypes, <italic>C. immitis</italic> and <italic>C. posadasii</italic>, are recognized [<xref ref-type="bibr" rid="B1-molecules-23-03145">1</xref>]. This disease is one of the most important endemic mycoses in North America. However, there are also significant endemic areas in other countries, such as Guatemala, Honduras, Venezuela, Colombia, Brazil, and Argentina. In these countries, coccidioidomycosis is not a disease with mandatory reporting; therefore, epidemiological data regarding this mycosis are still scarce, and investigations are restricted to retrospective studies and to the publication of clinical cases [<xref ref-type="bibr" rid="B2-molecules-23-03145">2</xref>,<xref ref-type="bibr" rid="B3-molecules-23-03145">3</xref>,<xref ref-type="bibr" rid="B4-molecules-23-03145">4</xref>,<xref ref-type="bibr" rid="B5-molecules-23-03145">5</xref>,<xref ref-type="bibr" rid="B6-molecules-23-03145">6</xref>,<xref ref-type="bibr" rid="B7-molecules-23-03145">7</xref>,<xref ref-type="bibr" rid="B8-molecules-23-03145">8</xref>,<xref ref-type="bibr" rid="B9-molecules-23-03145">9</xref>,<xref ref-type="bibr" rid="B10-molecules-23-03145">10</xref>,<xref ref-type="bibr" rid="B11-molecules-23-03145">11</xref>,<xref ref-type="bibr" rid="B12-molecules-23-03145">12</xref>,<xref ref-type="bibr" rid="B13-molecules-23-03145">13</xref>,<xref ref-type="bibr" rid="B14-molecules-23-03145">14</xref>,<xref ref-type="bibr" rid="B15-molecules-23-03145">15</xref>,<xref ref-type="bibr" rid="B16-molecules-23-03145">16</xref>]. Therefore, the actual incidence of this disease is unknown.</p>
+      <p>The clinical manifestations of coccidioidomycosis can be confused with those of other nosological entities, which hinders its diagnosis. Traditionally, the diagnosis of coccidioidomycosis is made considering clinical and radiological results and laboratory analyses. The conventional diagnosis for coccidioidomycosis has been based on fungal identification via direct examination using freshly stained samples or different staining techniques and by the culture of tissue or fluid samples. However, the retrieval rate of this pathogen through culture varies from 0.4% in blood to 8.3% in respiratory tract samples [<xref ref-type="bibr" rid="B17-molecules-23-03145">17</xref>]. The use of immunodiagnostic methods is still recommended, such as immunodiffusion (ID), complement fixation (CF), and tube precipitation (TP). These methods traditionally use coccidioidin, a crude extract formed from a large number of fungal components that favours cross-reactivity between the antibodies of patients with different fungal (<italic>Blastomyces dermatitides</italic>, <italic>Histoplasma capsulatum</italic>) and bacterial infections [<xref ref-type="bibr" rid="B18-molecules-23-03145">18</xref>]. Lindsley et al. [<xref ref-type="bibr" rid="B19-molecules-23-03145">19</xref>] showed that coccidioidin detects IgG antibodies, but when coccidioidin is treated with heat, it detects IgM antibodies. Therefore, the immunodiffusion-complement fixation (IDCF) sensitivity is 77%, while the immunodiffusion-tube precipitation (IDTP) sensitivity is between 75% and 91% [<xref ref-type="bibr" rid="B20-molecules-23-03145">20</xref>]. These findings led to the production of pure antigens with well-defined physicochemical properties for the diagnosis of coccidioidomycosis, such as the coccidioidal CF and IDCF antigen, corresponding to a chitinase. The gene encoding this antigen was cloned, and a functional recombinant antigen called 47 kDa CF-chitinase (rCF) was obtained [<xref ref-type="bibr" rid="B21-molecules-23-03145">21</xref>]. This antigen has shown a sensitivity of 96.9% and a specificity of 100% in an enzyme-linked immunosorbent assay (ELISA) [<xref ref-type="bibr" rid="B22-molecules-23-03145">22</xref>]. However, it shares an epitope with <italic>H. capsulatum</italic> and <italic>B. dermatitidis</italic> [<xref ref-type="bibr" rid="B23-molecules-23-03145">23</xref>]. The proline-rich antigen (Ag2/PRA), or antigen 2, is another specific antigen for <italic>Coccidioides</italic> spp., obtained by the deglycosylation of a spherule extract. This antigen has been favourably evaluated (in mice) as a vaccine candidate [<xref ref-type="bibr" rid="B24-molecules-23-03145">24</xref>]. The gene encoding this antigen has been cloned and the recombinant antigen (rPRA) obtained, which recognizes IgG antibodies from patients with progressive pulmonary or extrapulmonary coccidioidomycosis. It has a high sensitivity (88%) and specificity (97%) for the diagnosis of coccidioidomycosis [<xref ref-type="bibr" rid="B25-molecules-23-03145">25</xref>]. Filho et al. [<xref ref-type="bibr" rid="B26-molecules-23-03145">26</xref>] evaluated the reactivity of a local antigen that was extracted from a strain of <italic>C. posadasii</italic>. This antigen was extracted with ammonium sulfate and was characterized by 1-D electrophoresis, showing good specificity and reactivity by radial immunodiffusion and western blot. Two well-defined bands were observed, with one corresponding to &#x3B2;-glucosidase and the other to glutamine synthetase; therefore, the authors proposed them to be a rapid diagnostic tool with a low cost and without the risk of the direct manipulation of the microorganism. Likewise, De Aguiar Cordeiro et al. [<xref ref-type="bibr" rid="B27-molecules-23-03145">27</xref>] described the preparation of two antigens (F0-90 and F60-90) for the detection of human anti-<italic>Coccidioides</italic> antibodies by ID and EIA (enzyme immunoassay). The antigens were tested against serum samples from patients with coccidioidomycosis, histoplasmosis, and paracoccidioidomycosis, as well as from healthy individuals. The highest reactivity in the ID tests was observed with the F0-90 antigen, while the ELISA showed the best results with the F60-90 antigen. The F0-90 antigen showed cross-reactivity with <italic>Paracoccidioides</italic>, whereas F60-90 had cross-reactivity with <italic>Paracoccidioides</italic> and <italic>Histoplasma</italic>. Therefore, the authors suggested the commercial use of the F0-90 and F60-90 antigens for the presumptive diagnosis of coccidioidomycosis by ID or EIA, respectively.</p>
+      <p>Due to the disadvantages of cross-immunity, several researchers have oriented their work towards obtaining biomarkers with specificity and immunodominance properties, as in the case of Navalkar et al. [<xref ref-type="bibr" rid="B28-molecules-23-03145">28</xref>], who applied the immunosignature technique. These authors used two peptide types to classify coccidioidomycosis: (1) a peptide set created by tiling four of the most immunodominant proteins of <italic>C. immitis</italic> to create 83 &#x201C;epitope peptides&#x201D; so that these peptides interact specifically with anti-<italic>Coccidioides</italic> antibodies; and (2) a microarray chip containing 10,000 printed, randomly sequenced peptides, which serve as artificial <italic>Coccidioides</italic> antigens to randomly interact with patient antibodies. The authors showed that, compared with the epitope peptides, the randomly sequenced peptides had a greater precision when classifying the different stages of coccidioidomycosis. Currently, there is a greater interest in molecular mimicry, particularly in using low molecular weight peptides, which have generated considerable expectations as substitutes for natural antigens [<xref ref-type="bibr" rid="B29-molecules-23-03145">29</xref>]. Therefore, this work aims to select specific peptides for <italic>Coccidioides</italic> spp. that are obtained from antigenic fractions through SDS-PAGE and western blot by the recognition of sera from patients with coccidioidomycosis.</p>
+    </sec>
+    <sec id="sec2-molecules-23-03145" sec-type="results">
+      <title>2. Results</title>
+      <sec id="sec2dot1-molecules-23-03145">
+        <title>2.1. Species Identification for Isolates of Coccidioides spp.</title>
+        <p>Six isolates were identified as <italic>C. posadasii</italic> (HU-1, 073129, 083376, GGM, ZVJ, QR) and five as <italic>C. immitis</italic> (M40-05, PRA, 30.1, 43.3, 62).</p>
+      </sec>
+      <sec id="sec2dot2-molecules-23-03145">
+        <title>2.2. Coccidioidins Characterization</title>
+        <p>The coccidioidins obtained from the isolates of <italic>C. immitis</italic> and <italic>C. posadasii</italic> included in this study revealed antigenic identity by ID, and all showed double identity bands (<xref ref-type="fig" rid="molecules-23-03145-f001">Figure 1</xref>).</p>
+      </sec>
+      <sec id="sec2dot3-molecules-23-03145">
+        <title>2.3. Electrophoresis (SDS-PAGE)</title>
+        <p>For the SDS-PAGE assays, the protein concentration was adjusted to 3.3 mg/mL for all samples. Despite using different polyacrylamide concentrations in the SDS-PAGE gels (7.5, 10, and 12%), it was not possible to identify species-specific bands. However, when using 12% gels, bands with a wide range of molecular weights (10 to 250 kDa) were observed for exoantigens of <italic>C. immitis</italic> and <italic>C. posadasii</italic> (<xref ref-type="fig" rid="molecules-23-03145-f002">Figure 2</xref>). <xref ref-type="table" rid="molecules-23-03145-t001">Table 1</xref> shows the binary data matrix for the presence/absence of bands identified in the electrophoretic patterns for the evaluated coccidioidins (<xref ref-type="fig" rid="molecules-23-03145-f002">Figure 2</xref>).</p>
+      </sec>
+      <sec id="sec2dot4-molecules-23-03145">
+        <title>2.4. Reactivity of Antigenic Fractions by WB</title>
+        <p>To optimise the antigen and antibody concentrations in the WB assays, the antigenic fractions were tested via dot blot using 11 serum samples that recognized <italic>C. immitis</italic> and <italic>C. posadasii</italic> antigens. The optimal antigen concentration was 0.66 mg/mL; the dilution of the primary antibody was 1/250, and the dilution of the secondary antibody was 1/5000. To demonstrate the recognition of antigenic fractions with 27 anti-<italic>Coccidioides</italic> sera samples obtained from patients, they were only tested with one coccidioidin of <italic>C. immitis</italic> (M40-05) and one of <italic>C. posadasii</italic> (HU-1). From the presence/absence data matrix (<xref ref-type="app" rid="app1-molecules-23-03145">Supplementary Material Table S1</xref>), four bands were chosen for sequencing, according to the highest recognition frequency with each of the tested sera: 100, 50, 37, and 28 kDa (<xref ref-type="table" rid="molecules-23-03145-t002">Table 2</xref>).</p>
+      </sec>
+      <sec id="sec2dot5-molecules-23-03145">
+        <title>2.5. Analysis of Assembled Sequences</title>
+        <p>We identified eight proteins (assembled sequences) corresponding to the 100 kDa band, 14 proteins (assembled sequences) corresponding to the 50 kDa band, 14 proteins (assembled sequences) corresponding to the 37 kDa band, and 13 proteins (assembled sequences) corresponding to the 28 kDa band. For the sequences of proteins corresponding to the 100 kDa band, the analysis performed with the BLAST program showed two sequences: one as &#x201C;GPI anchored serine-threonine rich protein OS <italic>C. immitis</italic>&#x201D;, with access number A0A0J6YAG6_COCIT; and the other as &#x201C;uncharacterized protein OS <italic>C. immitis</italic>&#x201D;, with access number A0A0J8R1I4_COCIT. From the 50 kDa band, a sequence was identified as &#x201C;fatty acid amide hydrolase 1 OS <italic>C. posadasii</italic>&#x201D;, with access number A0A0J6F383_COCPO. From the 37 and 28 kDa bands, no sequence was identified with the conditions proposed for selection (<xref ref-type="table" rid="molecules-23-03145-t003">Table 3</xref>).</p>
+        <p>From the alignment result of the protein &#x201C;GPI anchored serine-threonine rich membrane of <italic>C. immitis</italic>&#x201D; with the related fungi, the peptide MTVSCCDKRGKALVGAVSELSRDITPPSPDFT was selected, which was specific for <italic>C. immitis</italic>. From the &#x201C;uncharacterized protein of <italic>C. immitis</italic>&#x201D;, with access number A0A0J8R1I4_COCIT, peptide GNASSIESRSTDVEPTKTPTGTDGGASLTNAPCNGPNCPSQSP was selected, which was present in both <italic>C. immitis</italic> and <italic>C. posadasii</italic>. Likewise, from the alignment of the protein &#x201C;fatty acid amide hydrolase 1 of <italic>C. posadasii</italic>&#x201D;, with access number A0A0J6F383_COCPO, the peptide MLGKTKTLCILALCLLFDGTQSLTTPRHESHLEPRTT was selected, which was present in <italic>C. immitis</italic> and <italic>C. posadasii</italic> (<xref ref-type="fig" rid="molecules-23-03145-f003">Figure 3</xref>, <xref ref-type="fig" rid="molecules-23-03145-f004">Figure 4</xref> and <xref ref-type="fig" rid="molecules-23-03145-f005">Figure 5</xref>). To confirm the specificity of the selected peptides, they were analysed using the BLAST protein program.</p>
+      </sec>
+      <sec id="sec2dot6-molecules-23-03145">
+        <title>2.6. Peptide Analysis</title>
+        <p>The analysis of all the peptides from each assembled protein showed that out of the 91 identified peptides corresponding to the 100 kDa band, nine had 100% identity with <italic>C. immitis</italic> and <italic>C. posadasii</italic> (<xref ref-type="app" rid="app1-molecules-23-03145">Supplementary Material, Table S2</xref>). For the 50 kDa band, 50 peptides were identified; four showed 100% identity with <italic>C. immitis</italic> and <italic>C. posadasii</italic> and one showed 100% identity with only <italic>C. posadasii</italic> (<xref ref-type="app" rid="app1-molecules-23-03145">Supplementary Material, Table S3</xref>). For the 37 kDa band, 152 peptides were identified; eight showed 100% identity with <italic>C. immitis</italic> and <italic>C. posadasii</italic>, and one showed 100% identity with only <italic>C. immitis</italic> (<xref ref-type="app" rid="app1-molecules-23-03145">Supplementary Material, Table S4</xref>). For the 28 kDa band, 60 peptides were identified; 14 showed 100% identity with <italic>C. immitis</italic> and <italic>C. posadasii</italic>, and one showed 100% identity with only <italic>C. posadasii</italic> (<xref ref-type="app" rid="app1-molecules-23-03145">Supplementary Material, Table S5</xref>).</p>
+      </sec>
+    </sec>
+    <sec id="sec3-molecules-23-03145" sec-type="discussion">
+      <title>3. Discussion</title>
+      <p>The diagnosis of coccidioidomycosis can be difficult in patients with acute and fulminant disease, especially if they are immunosuppressed. Commonly, antibody detection is performed based on traditional techniques, including CF and ID assays. Although ELISA and a lateral flow immunoassay (LFI) have been developed in an effort to improve the diagnostic accuracy and to improve the performance of laboratory tests, CF and ID continue to be widely used due to their simplicity and reliability [<xref ref-type="bibr" rid="B30-molecules-23-03145">30</xref>]. Despite these advantages, ID tests can present great variability in terms of sensitivity [<xref ref-type="bibr" rid="B31-molecules-23-03145">31</xref>], and cross-reactions with <italic>Histoplasma</italic> antigens can occur [<xref ref-type="bibr" rid="B32-molecules-23-03145">32</xref>], even against purified antigens [<xref ref-type="bibr" rid="B23-molecules-23-03145">23</xref>]. In addition, ID tests can have negative results at the beginning of the infection and in immunosuppressed patients.</p>
+      <p>Therefore, in the search for biomarkers for the diagnosis of coccidioidomycosis, our work identifies antigens of <italic>Coccidioides</italic> spp. by the recognition of sera from patients with coccidioidomycosis through the SDS-PAGE and western blot methods. In this study, coccidioidins were used because they are antigens containing proteins and polysaccharides. The coccidioidins are crude culture filtrates obtained from prolonged incubation and autolysis of the mycelial phase of the <italic>Coccidioidess</italic> spp. fungus in liquid media. On the other hand, the spherulin are extracts of the spherules of the fungus produced in vitro in a chemically defined liquid medium. The advantage of this antigen is that it is obtained from the parasitic phase of the fungus, which is in contact with the tissue of the host, while the mycelial phase of the fungus exists in the soil, so it is assumed that the antigens made from spherules would contain more relevant antigens in their participation of the host immune response; in addition, the spherulin is more sensitive than mycelial-based coccidioidin [<xref ref-type="bibr" rid="B33-molecules-23-03145">33</xref>]. However, the utility of both preparations is recognized by clinicians, so in this study, we use the coccdidioidin, which is the antigen most commonly used in the diagnosis of this disease [<xref ref-type="bibr" rid="B26-molecules-23-03145">26</xref>,<xref ref-type="bibr" rid="B34-molecules-23-03145">34</xref>,<xref ref-type="bibr" rid="B35-molecules-23-03145">35</xref>]. On the other hand, it has been shown that this antigen is considerably more specific than spherulin [<xref ref-type="bibr" rid="B36-molecules-23-03145">36</xref>].</p>
+      <p>Of all the coccidioidins of both <italic>C. immitis</italic> and <italic>C. posadasii</italic>, no specific band was found for either species. However, all coccidioidins showed bands of 20, 25, 28, 50, 75, and 100 kDa; therefore, only one coccidioidin representative of each species was chosen (HU-1 for <italic>C. posadasii</italic> and M40-05 for <italic>C. immitis)</italic> to carry out the western blot assays with 27 serum samples from patients with proven coccidioidomycosis. Most serum samples recognized the 28, 37, 50, and 100 kDa bands, which were sequenced and analysed. A specific peptide was identified for <italic>C. immitis</italic> from the GPI anchored serine-threonine rich protein OS <italic>Coccidioides immitis,</italic> corresponding to the 100 kDa band, and another peptide corresponding to the &#x201C;uncharacterized protein OS <italic>Coccidioides immitis</italic>&#x201D;, which recognizes <italic>C. immitis</italic> and <italic>C. posadasii</italic>. Additionally, a peptide from the protein &#x201C;fatty acid amide hydrolase 1 OS <italic>Coccidioides posadasii</italic>&#x201D; was chosen, corresponding to the 50 kDa band, which is present in both <italic>C. immitis</italic> and <italic>C. posadasii</italic>. Importantly, the selected peptides were chosen based on the elimination of shared regions with closely related fungi, such as <italic>H. capsulatum</italic>, <italic>Aspergillus</italic> spp., <italic>Blastomyces</italic> spp., and <italic>Paracoccidioides</italic> spp. These are the fungi with which the selected peptides share the antigenic fractions responsible for cross-immunity [<xref ref-type="bibr" rid="B20-molecules-23-03145">20</xref>].</p>
+      <p>In turn, the sequenced peptides of each band were also analysed by the BLAST protein program. Of the 353 peptides, only 35 showed 100% identity with sequences of <italic>Coccidioides</italic> spp. and an E-value &lt;0.001, while the remainder shared sequences with related fungi (<italic>Histoplasma, Blastomyces</italic>, <italic>Paracoccidioides</italic>, <italic>Aspergillus</italic>, and <italic>Criptococcus</italic>). Of the selected peptides, one showed identity with only <italic>C. immitis</italic>, and another showed identity with only <italic>C. posadasii</italic>, so these peptides can be used for epidemiological studies because they discriminate between the two species. The low percentage found for species-specific peptides coincides with that reported by Mitchell et al. [<xref ref-type="bibr" rid="B37-molecules-23-03145">37</xref>], who reported that both species of <italic>Coccidioides</italic> are closely related at the proteomic level. On the other hand, the rest of the peptides that were specific for the genus <italic>Coccidioides</italic> can represent an important tool for the diagnosis of coccidioidomycosis, with the advantage that they originate from antigenic fractions that are recognized by antibodies present in patients with coccidioidomycosis. In addition, peptides are now considered to be important; previously, an extensive area for the recognition of the antigen was assumed in the antibody-antigen interaction, where relatively large interaction sites are involved (&gt;6 amino acids). For this reason, the biotechnology industry has only produced products with large recognition sites&#x2014;either the complete ligand or receptor, or a substantial part of these. Today, it has been shown to be beneficial to use only one molecule representative of the binding site involved in the recognition event instead of an entire protein [<xref ref-type="bibr" rid="B29-molecules-23-03145">29</xref>]. Such molecules, for example, peptides or mimotope peptides, with a size between six and 20 amino acids, have multiple advantages compared to the native protein in terms of production, storage, and safety. Moreover, very large protein molecules turn out to be pleiotropic; that is, they have more than one function. Often, these functions are found in separate sites of the molecule [<xref ref-type="bibr" rid="B38-molecules-23-03145">38</xref>,<xref ref-type="bibr" rid="B39-molecules-23-03145">39</xref>], and therefore, they can be separated using molecules that mimic the appropriate site. Thus, unwanted immune responses are less likely to occur with small peptides than with large proteins. Consequently, peptides can be used as diagnostic reagents, vaccines, and antifungals [<xref ref-type="bibr" rid="B29-molecules-23-03145">29</xref>,<xref ref-type="bibr" rid="B40-molecules-23-03145">40</xref>,<xref ref-type="bibr" rid="B41-molecules-23-03145">41</xref>,<xref ref-type="bibr" rid="B42-molecules-23-03145">42</xref>,<xref ref-type="bibr" rid="B43-molecules-23-03145">43</xref>].</p>
+      <p>As a perspective of this study, the peptides selected as specific for <italic>Coccidioides</italic> spp., could be analyzed through immune-informatics and computational tools to find epitopes that are capable of inducing a humoral immune and cellular response and evaluating its usefulness in obtaining a vaccine or for diagnosis. In the case of reaching a diagnosis, this will be important, since the use of chemically defined antigens, such as peptides, can replace the classical immunological tests, which use undefined antigens that show variability in the sensitivity and specificity of the results [<xref ref-type="bibr" rid="B44-molecules-23-03145">44</xref>,<xref ref-type="bibr" rid="B45-molecules-23-03145">45</xref>].</p>
+    </sec>
+    <sec id="sec4-molecules-23-03145">
+      <title>4. Materials and Methods</title>
+      <sec id="sec4dot1-molecules-23-03145">
+        <title>4.1. Isolates</title>
+        <p>Eleven clinical isolates of <italic>Coccidioides</italic> spp. were used, consisting of nine isolates from Mexico and two isolates from Argentina. The clinical isolates were identified at the species level according to Duarte-Escalante et al. [<xref ref-type="bibr" rid="B46-molecules-23-03145">46</xref>], using the method of Bialek et al. [<xref ref-type="bibr" rid="B47-molecules-23-03145">47</xref>]. The isolates were preserved at 4 &#xB0;C in vials with sterile water and in tubes with mycobiotic agar (Biox&#xF3;n, M&#xE9;xico, MX), with and without mineral oil. All the procedures of this study were carried out in a class-3 biosecurity area. The isolates are found in the fungal collection of the Molecular Mycology Laboratory, Microbiology and Parasitology Department, School of Medicine, National Autonomous University of Mexico (<italic>Universidad Nacional Aut&#xF3;noma de M&#xE9;xico&#x2014;UNAM</italic>). Their source and geographic origin are shown in <xref ref-type="table" rid="molecules-23-03145-t004">Table 4</xref>.</p>
+      </sec>
+      <sec id="sec4dot2-molecules-23-03145">
+        <title>4.2. Biological Samples</title>
+        <p>Twenty-seven serum samples from patients with proven coccidioidomycosis were used. The serum samples were provided by Dr. Carlos Cabello from the National Institute of Respiratory Diseases (<italic>Instituto Nacional de Enfermedades Respiratorias&#x2014;INER</italic>) (<xref ref-type="table" rid="molecules-23-03145-t005">Table 5</xref>).</p>
+      </sec>
+      <sec id="sec4dot3-molecules-23-03145">
+        <title>4.3. Obtaining Coccidioidins</title>
+        <p>To demonstrate the antigenic identity of the study isolates, coccidioidins were obtained according to Smith et al. [<xref ref-type="bibr" rid="B48-molecules-23-03145">48</xref>]. The mycelial phase of each isolate was inoculated in Smith&#x2019;s medium (0.3 g of ferric citrate, 1.31 g of potassium dibasic phosphate, 0.4 g of anhydrous sodium citrate, 1.5 g of magnesium sulphate, 10 g of glucose, 25.6 mL of glycerine, 7 g of asparagine, 7 g of ammonium chloride, brought to 1000 mL) and incubated at 28 &#xB0;C for three months. Next, each culture was inactivated with thimerosal (1:5000) for 20 days, and subsequently, the mycelial mass was separated by filtration. Each culture&#x2019;s filtrate was concentrated 100 times using the Amicon system (Sigma-Aldrich, St. Louis, MO, USA) and a 10 kDa exclusion membrane (Millipore Corporation, Burlington, MA, USA). The concentrated filtrate was dialyzed against deionized water for 24 h, with several changes, to finally obtain concentrated exoantigens, known as crude antigens (coccidioidins). The antigenic identification was carried out by the ID immune method, as described by Ouchterlony and Nilsson [<xref ref-type="bibr" rid="B49-molecules-23-03145">49</xref>]. Positive and negative sera were used, as well as a reference antigen. The immunological identification of coccidioidins was carried out based on the appearance of identity bands. For subsequent trials, the protein concentration of each antigenic extract was determined by the method of Bradford et al. [<xref ref-type="bibr" rid="B50-molecules-23-03145">50</xref>], using bovine serum albumin (BSA) as a control.</p>
+      </sec>
+      <sec id="sec4dot4-molecules-23-03145">
+        <title>4.4. Sodium Dodecyl Sulfate-Polyacrylamide Gel Electrophoresis (SDS-PAGE)</title>
+        <p>To determine the components and molecular weights of the different coccidioidins, one-dimensional electrophoresis was carried out under denaturing conditions using the batch method [<xref ref-type="bibr" rid="B51-molecules-23-03145">51</xref>], as described below. The coccidioidins were adjusted to a concentration of 80 &#xB5;g/mL with 0.5 M Tris-HCl buffer pH 6.8 and 0.1% SDS, and the samples were heated at 100 &#xB0;C for 5 min. Next, the coccidioidins were run on gels with different acrylamide concentrations (7.5%, 10%, and 12%) in buffer containing 0.025 M Tris-HCl, 0.2 M glycine, and 1% SDS. A molecular size marker of 250&#x2013;15 kDa was used (Bio-Rad Laboratories Inc., Hercules, CA, USA). Electrophoresis was carried out with a Bio-Rad vertical electrophoresis system, with a constant current of 20 mA for 2 h. The gels were stained with Coomassie blue R250 (Sigma-Aldrich, St. Louis, MO, USA). A binary data matrix for the presence/absence of bands was developed based on the analysis with the Bio-Rad imaging system of the electrophoretic patterns obtained with the analysed exoantigens to identify, with greater precision, the existence of species-specific bands.</p>
+      </sec>
+      <sec id="sec4dot5-molecules-23-03145">
+        <title>4.5. Recognition of Antigenic Fractions of Coccidioidins by Western Blot (WB)</title>
+        <p>The WB assays were carried out according to the method described by Towbin et al. [<xref ref-type="bibr" rid="B52-molecules-23-03145">52</xref>]. The SDS-PAGE gels were placed on 0.45 &#xB5;m pore nitrocellulose membranes (Bio-Rad, Hercules, CA, USA). The transfer of the antigens to the membranes was carried out in a Mini Trans-Blot Cell device (Bio-Rad, Hercules, CA, USA) at 4 &#xB0;C, with a constant voltage of 100 V for 2 h using transfer buffer (0.025 M Tris-base pH 8.3, 0.192 M glycine, 0.37 g of SDS and 20% methanol in one litre of deionized water). After the transfer, the nitrocellulose membrane was washed three times for 5 min with TBS (50 mM Tris, 150 mM NaCl, 0.1% Tween-20). Free reactive sites were blocked overnight with 5.0% BSA in TBS/Tween at 4 &#xB0;C with occasional shaking. The membranes were washed with deionized water and with TBS-Tween three times, 10 min per wash. The test serum was added (previously diluted (1/250) with TBS-Tween) and incubated at room temperature for 2 h. The membrane was washed three times with TBS-Tween for 5 min. Next, peroxidase-conjugated anti-human gamma globulin was added (Sigma-Aldrich, St. Louis, MO, USA) at a dilution of 1/5000 and incubated for 1 h at room temperature, followed by washing with TBS for 5 min. Subsequently, we added 6 mL of Luminata Crescendo substrate (Merck, Kenilworth, NJ, USA) and incubated the sample for 2&#x2013;5 min. Finally, to develop the sample, the membrane was exposed to a Kodak X-OMAT AR FILM radiography plate (10 &#xD7; 10 cm). A presence/absence matrix was built to identify bands recognized by sera from patients with proven coccidioidomycosis and to select those that presented the highest recognition frequency with the tested sera.</p>
+      </sec>
+      <sec id="sec4dot6-molecules-23-03145">
+        <title>4.6. Protein Identification of the Antigenic Fractions of C. immitis and C. posadasii by Mass Spectrometry</title>
+        <p>Differential bands were selected for identification by mass spectrometry. The sample treatment prior to identification was carried out according to the protocol developed in the Research and Industry Support Services Unit (<italic>Unidad de Servicios de Apoyo a la Investigaci&#xF3;n y la Industria- USAII</italic>) of the School of Chemistry at the National Autonomous University of Mexico. Briefly, the gel bands were cut into small fragments and destained with 50% methanol (<italic>v</italic>/<italic>v</italic>) and 5% acetic acid (<italic>v</italic>/<italic>v</italic>) for 12 h. They were then washed with distilled water and incubated for 15 min (twice) in 100 mM ammonium bicarbonate. They were reduced in 50 mM dithiothreitol (DTT) for 45 min and alkylated with 30 mM iodoacetamide for 2 h. Subsequently, they were washed three times with 100 mM ammonium bicarbonate. The gel samples were then completely dehydrated with 100% acetonitrile and brought to full dryness. The in-gel digestion was performed with 30 &#x3BC;L of porcine trypsin (Sigma-Aldrich, St. Louis, MO, USA) modified from a solution containing 20 ng/&#x3BC;L and incubated for 18 h at 37 &#xB0;C.</p>
+        <p>The peptides were extracted by sonication in 50% acetonitrile (<italic>v</italic>/<italic>v</italic>) and 5% formic acid (<italic>v</italic>/<italic>v</italic>) and brought to full dryness. Subsequently, they were resuspended in 20 &#x3BC;L of 1% formic acid (<italic>v</italic>/<italic>v</italic>), desalted on Ziptip C18 columns, and eluted in 12 &#x3BC;L of mobile phase (97% water, 3% acetonitrile, and 0.1% formic acid).</p>
+        <p>Peptide analysis by mass spectrometry was carried out using an integrated high-definition SYNAPT G2 nano-LC-ESI-MS/MS system (Waters Corporation, Milford, MA, USA) equipped with a NanoLockSpray ion source and coupled in line to a nanoACQUITY Ultra Performance Liquid Chromatograph (UPLC, Waters Corporation, Milford, MA, USA). The binary solvent system was 2% acetonitrile in Milli-Q water with 0.1% formic acid (mobile phase A) and 98% acetonitrile in Milli-Q water with 0.1% formic acid (mobile phase B). The sample was injected into a C18 UPLC trap column (5 &#x3BC;m, 180 &#x3BC;mx, and 20 mm; Waters Corporation, Milford, MA, USA) and washed with 100% mobile phase A at a flow rate of 15 &#x3BC;L/min. The peptides were separated on a BEH, C18 UPLC column (1.7 &#x3BC;m, 75 &#x3BC;m and 100 mm; Waters Corporation, Milford, MA, USA) using a linear gradient up to 40% of mobile phase B with a flow rate of 0.3 &#x3BC;L/min.</p>
+        <p>We searched the UNIPROT database (<uri>https://www.uniprot.org</uri>) using trypsin as a specific protease. Peptides with a Protein Lynx Global Server (PLGS) score of &gt;95% confidence were accepted as correct. The scoring threshold under the previous conditions was 52 for <italic>p</italic> &lt; 0.05.</p>
+      </sec>
+      <sec id="sec4dot7-molecules-23-03145">
+        <title>4.7. Analysis of Assembled Sequences</title>
+        <p>Assembled sequences corresponding to the bands at 100, 50, 37, and 28 kDa were analysed by the BLAST protein program (Basic Local Alignment Search Tool) [<xref ref-type="bibr" rid="B53-molecules-23-03145">53</xref>] (<uri>www.blast.ncbi.nlm.nih.gov/blast.cgi</uri>) to choose sequences that showed an identity and similarity of 100% with <italic>Coccidioides</italic> spp. and an identity &lt;50% with related fungi. Subsequently, the selected sequences were aligned with the sequences that presented &lt;50% identity to select a fragment that was not shared with the related fungi. The alignment was carried out with the UNIPROT program (<uri>https://www.uniprot.org/align</uri>).</p>
+      </sec>
+      <sec id="sec4dot8-molecules-23-03145">
+        <title>4.8. Peptide Analysis</title>
+        <p>All of the peptides from each assembled protein identified in the sequencing were analysed through the BLAST protein program. The identity, similarity, and e-value parameters were considered for analysis. Peptides that had 100% identity and similarity with <italic>C. immitis</italic> and <italic>C. posadasii</italic> and a <italic>p</italic>-value &lt; 0.001 were selected.</p>
+      </sec>
+    </sec>
+    <sec id="sec5-molecules-23-03145" sec-type="conclusions">
+      <title>5. Conclusions</title>
+      <p>The peptides identified in this work can be an important tool for the diagnosis of coccidioidomycosis since they arise from antigenic fractions that are recognized by antibodies present in the serum of patients with coccidioidomycosis. In addition, the identification of specific-species peptides can be useful for the epidemiological study of this disease.</p>
+    </sec>
+  </body>
+  <back>
+    <app-group>
+      <app id="app1-molecules-23-03145">
+        <title>Supplementary Materials</title>
+        <p>Supplementary data associated with this article can be found in the online version.</p>
+		<supplementary-material id="molecules-23-03145-s001" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="molecules-23-03145-s001.zip"></supplementary-material>
+      </app>
+    </app-group>
+    <notes>
+      <title>Author Contributions</title>
+      <p>M.d.R.R.M. and E.D.E. were involved in the study design, analyzed and interpreted the results, and drafted the manuscript. L.G.M.G. and M.G.F.D.L. performed the experiments. J.H. participated in the protein identification of the antigenic fractions of <italic>Coccidioides</italic> by mass spectrometry. E.D.E. and G.A.A. conducted data analysis, participated in drafting the manuscript, and provided a critical review of the manuscript. C.C. and G.P. participated in the typing of human sera and provided a critical review of the manuscript. M.d.R.R.M. conceptualized and coordinated the project. All authors read and approved the final manuscript.</p>
+    </notes>
+    <notes>
+      <title>Funding</title>
+      <p>This research was funded by PAPIIT-DGAPA grant number IN217415.</p>
+    </notes>
+    <notes notes-type="COI-statement">
+      <title>Conflicts of Interest</title>
+      <p>The authors declare no conflict of interest.</p>
+    </notes>
+    <ref-list>
+      <title>References</title>
+      <ref id="B1-molecules-23-03145">
+        <label>1.</label>
+        <element-citation publication-type="journal">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Fisher</surname>
+              <given-names>M.G.</given-names>
+            </name>
+            <name>
+              <surname>Koening</surname>
+              <given-names>G.I.</given-names>
+            </name>
+            <name>
+              <surname>White</surname>
+              <given-names>T.J.</given-names>
+            </name>
+            <name>
+              <surname>Taylor</surname>
+              <given-names>J.W.</given-names>
+            </name>
+          </person-group>
+          <article-title>Molecular and phenotypic description of <italic>Coccidioides posadasii</italic> sp. Nov., previously recognized as the non-California population of <italic>Coccidioides immitis</italic></article-title>
+          <source>Mycologia</source>
+          <year>2002</year>
+          <volume>94</volume>
+          <fpage>73</fpage>
+          <lpage>84</lpage>
+          <pub-id pub-id-type="doi">10.1080/15572536.2003.11833250</pub-id>
+          <pub-id pub-id-type="pmid">21156479</pub-id>
+        </element-citation>
+      </ref>
+      <ref id="B2-molecules-23-03145">
+        <label>2.</label>
+        <element-citation publication-type="journal">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Canteros</surname>
+              <given-names>C.E.</given-names>
+            </name>
+            <name>
+              <surname>Toranzo</surname>
+              <given-names>A.</given-names>
+            </name>
+            <name>
+              <surname>Ibarra-Camou</surname>
+              <given-names>B.</given-names>
+            </name>
+            <name>
+              <surname>David</surname>
+              <given-names>V.</given-names>
+            </name>
+            <name>
+              <surname>Carrizo</surname>
+              <given-names>S.G.</given-names>
+            </name>
+            <name>
+              <surname>Santill&#xE1;n-Iturres</surname>
+              <given-names>A.</given-names>
+            </name>
+            <name>
+              <surname>Serrano</surname>
+              <given-names>J.</given-names>
+            </name>
+            <name>
+              <surname>Fern&#xE1;ndez</surname>
+              <given-names>N.</given-names>
+            </name>
+            <name>
+              <surname>Capece</surname>
+              <given-names>P.</given-names>
+            </name>
+            <name>
+              <surname>Gorostiaga</surname>
+              <given-names>J.</given-names>
+            </name>
+            <etal/>
+          </person-group>
+          <article-title>Coccidioidomycosis in Argentina, 1892&#x2013;2009</article-title>
+          <source>Rev. Argent. Microbiol.</source>
+          <year>2010</year>
+          <volume>42</volume>
+          <fpage>261</fpage>
+          <lpage>268</lpage>
+          <pub-id pub-id-type="pmid">21229194</pub-id>
+        </element-citation>
+      </ref>
+      <ref id="B3-molecules-23-03145">
+        <label>3.</label>
+        <element-citation publication-type="journal">
+          <person-group person-group-type="author">
+            <name>
+              <surname>de Aguiar Cordeiro</surname>
+              <given-names>R.</given-names>
+            </name>
+            <name>
+              <surname>Bezerra Fechine</surname>
+              <given-names>M.A.</given-names>
+            </name>
+            <name>
+              <surname>Nogueira Brilhante</surname>
+              <given-names>R.S.</given-names>
+            </name>
+            <name>
+              <surname>Gadelha Rocha</surname>
+              <given-names>M.F.</given-names>
+            </name>
+            <name>
+              <surname>Freire da Costa</surname>
+              <given-names>A.K.</given-names>
+            </name>
+            <name>
+              <surname>Tiemi Dias Nagao</surname>
+              <given-names>M.A.</given-names>
+            </name>
+            <name>
+              <surname>Pires de Camargo</surname>
+              <given-names>Z.</given-names>
+            </name>
+            <name>
+              <surname>Costa Sidrim</surname>
+              <given-names>J.J.</given-names>
+            </name>
+          </person-group>
+          <article-title>Serologic detection of coccidioidomycosis antibodies in northeast Brazil</article-title>
+          <source>Mycopathologia</source>
+          <year>2009</year>
+          <volume>167</volume>
+          <fpage>187</fpage>
+          <lpage>190</lpage>
+          <pub-id pub-id-type="doi">10.1007/s11046-008-9173-5</pub-id>
+          <pub-id pub-id-type="pmid">19116771</pub-id>
+        </element-citation>
+      </ref>
+      <ref id="B4-molecules-23-03145">
+        <label>4.</label>
+        <element-citation publication-type="journal">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Hideo-Togashi</surname>
+              <given-names>R.</given-names>
+            </name>
+            <name>
+              <surname>Batista-Aguiar</surname>
+              <given-names>F.M.</given-names>
+            </name>
+            <name>
+              <surname>Barros-Ferreira</surname>
+              <given-names>D.</given-names>
+            </name>
+            <name>
+              <surname>Matos de Moura</surname>
+              <given-names>C.</given-names>
+            </name>
+            <name>
+              <surname>Montezuma-Sales</surname>
+              <given-names>M.T.</given-names>
+            </name>
+            <name>
+              <surname>Ximenes-Rios</surname>
+              <given-names>N.</given-names>
+            </name>
+          </person-group>
+          <article-title>Pulmonary and extrapulmonary coccidioidomycosis: Three cases in an endemic area in the state of Cear&#xE1;, Brazil</article-title>
+          <source>J. Bras. Pneumol.</source>
+          <year>2009</year>
+          <volume>35</volume>
+          <fpage>275</fpage>
+          <lpage>279</lpage>
+        </element-citation>
+      </ref>
+      <ref id="B5-molecules-23-03145">
+        <label>5.</label>
+        <element-citation publication-type="journal">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Baptista-Rosas</surname>
+              <given-names>R.C.</given-names>
+            </name>
+            <name>
+              <surname>Hinojosa</surname>
+              <given-names>A.</given-names>
+            </name>
+            <name>
+              <surname>Riquelme</surname>
+              <given-names>M.</given-names>
+            </name>
+          </person-group>
+          <article-title>Ecological niche modeling of <italic>Coccidioides</italic> spp. in western North American deserts</article-title>
+          <source>Ann. N. Y. Acad. Sci.</source>
+          <year>2007</year>
+          <volume>1111</volume>
+          <fpage>35</fpage>
+          <lpage>46</lpage>
+          <pub-id pub-id-type="doi">10.1196/annals.1406.003</pub-id>
+          <pub-id pub-id-type="pmid">17395734</pub-id>
+        </element-citation>
+      </ref>
+      <ref id="B6-molecules-23-03145">
+        <label>6.</label>
+        <element-citation publication-type="journal">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Baptista-Rosas</surname>
+              <given-names>R.C.</given-names>
+            </name>
+            <name>
+              <surname>Riquelme</surname>
+              <given-names>M.</given-names>
+            </name>
+          </person-group>
+          <article-title>Epidemiolog&#xED;a de la coccidioidomicosis en M&#xE9;xico</article-title>
+          <source>Rev. Iberoam. Micol.</source>
+          <year>2007</year>
+          <volume>24</volume>
+          <fpage>100</fpage>
+          <lpage>105</lpage>
+          <pub-id pub-id-type="doi">10.1016/S1130-1406(07)70022-0</pub-id>
+        </element-citation>
+      </ref>
+      <ref id="B7-molecules-23-03145">
+        <label>7.</label>
+        <element-citation publication-type="journal">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Laniado-Labor&#xED;n</surname>
+              <given-names>R.</given-names>
+            </name>
+          </person-group>
+          <article-title>Expanding understanding of epidemiology of coccidioidomycosis in the western hemisphere</article-title>
+          <source>Ann. N. Y. Acad. Sci.</source>
+          <year>2007</year>
+          <volume>1111</volume>
+          <fpage>19</fpage>
+          <lpage>34</lpage>
+          <pub-id pub-id-type="doi">10.1196/annals.1406.004</pub-id>
+          <pub-id pub-id-type="pmid">17395731</pub-id>
+        </element-citation>
+      </ref>
+      <ref id="B8-molecules-23-03145">
+        <label>8.</label>
+        <element-citation publication-type="journal">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Laniado-Labor&#xED;n</surname>
+              <given-names>R.</given-names>
+            </name>
+          </person-group>
+          <article-title>Coccidioidomycosis and other endemic mycoses in M&#xE9;xico</article-title>
+          <source>Rev. Iberoam. Micol.</source>
+          <year>2007</year>
+          <volume>24</volume>
+          <fpage>249</fpage>
+          <lpage>258</lpage>
+          <pub-id pub-id-type="doi">10.1016/S1130-1406(07)70051-7</pub-id>
+        </element-citation>
+      </ref>
+      <ref id="B9-molecules-23-03145">
+        <label>9.</label>
+        <element-citation publication-type="journal">
+          <person-group person-group-type="author">
+            <name>
+              <surname>M&#xE9;ndez-Tovar</surname>
+              <given-names>L.J.</given-names>
+            </name>
+            <name>
+              <surname>Ramos-Hern&#xE1;ndez</surname>
+              <given-names>J.M.</given-names>
+            </name>
+            <name>
+              <surname>Manzano-Gayosso</surname>
+              <given-names>P.</given-names>
+            </name>
+            <name>
+              <surname>Garc&#xED;a-Gonz&#xE1;lez</surname>
+              <given-names>A.</given-names>
+            </name>
+            <name>
+              <surname>Hern&#xE1;ndez-Hern&#xE1;ndez</surname>
+              <given-names>F.</given-names>
+            </name>
+            <name>
+              <surname>Baz&#xE1;n-Mora</surname>
+              <given-names>E.</given-names>
+            </name>
+            <name>
+              <surname>L&#xF3;pez-Mart&#xED;nez</surname>
+              <given-names>R.</given-names>
+            </name>
+          </person-group>
+          <article-title>Micosis sist&#xE9;micas: Experiencia de once a&#xF1;os en el Hospital de Especialidades del Centro M&#xE9;dico Nacional Siglo XXI del IMSS, M&#xE9;xico</article-title>
+          <source>Rev. Mex. Mic.</source>
+          <year>2007</year>
+          <volume>25</volume>
+          <fpage>15</fpage>
+          <lpage>19</lpage>
+        </element-citation>
+      </ref>
+      <ref id="B10-molecules-23-03145">
+        <label>10.</label>
+        <element-citation publication-type="journal">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Herrera</surname>
+              <given-names>L.E.</given-names>
+            </name>
+            <name>
+              <surname>G&#xF3;mez</surname>
+              <given-names>V.</given-names>
+            </name>
+            <name>
+              <surname>Morales-Blanhir</surname>
+              <given-names>J.E.</given-names>
+            </name>
+          </person-group>
+          <article-title>Coccidioidomicosis: Serie de casos</article-title>
+          <source>Neumol. Cir. Torax</source>
+          <year>2006</year>
+          <volume>65</volume>
+          <fpage>206</fpage>
+          <lpage>213</lpage>
+        </element-citation>
+      </ref>
+      <ref id="B11-molecules-23-03145">
+        <label>11.</label>
+        <element-citation publication-type="journal">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Torres-N&#xE1;jera</surname>
+              <given-names>M.</given-names>
+            </name>
+            <name>
+              <surname>de la Garza-Galv&#xE1;n</surname>
+              <given-names>S.</given-names>
+            </name>
+            <name>
+              <surname>Cerda-Flores</surname>
+              <given-names>R.M.</given-names>
+            </name>
+            <name>
+              <surname>Nocedal-Rustri&#xE1;n</surname>
+              <given-names>F.C.</given-names>
+            </name>
+            <name>
+              <surname>Calder&#xF3;n-Garcidue&#xF1;as</surname>
+              <given-names>A.L.</given-names>
+            </name>
+          </person-group>
+          <article-title>Coccidioidomicosis osteoarticular: Estudio clinicopatol&#xF3;gico de una serie de 36 pacientes mexicanos</article-title>
+          <source>Rev. Invest. Clin.</source>
+          <year>2006</year>
+          <volume>58</volume>
+          <fpage>211</fpage>
+          <lpage>216</lpage>
+          <pub-id pub-id-type="pmid">16958296</pub-id>
+        </element-citation>
+      </ref>
+      <ref id="B12-molecules-23-03145">
+        <label>12.</label>
+        <element-citation publication-type="journal">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Mondrag&#xF3;n-Gonz&#xE1;lez</surname>
+              <given-names>R.</given-names>
+            </name>
+            <name>
+              <surname>M&#xE9;ndez-Tovar</surname>
+              <given-names>L.J.</given-names>
+            </name>
+            <name>
+              <surname>Bernal-V&#xE1;zquez</surname>
+              <given-names>E.</given-names>
+            </name>
+            <name>
+              <surname>Hern&#xE1;ndez-Hern&#xE1;ndez</surname>
+              <given-names>F.</given-names>
+            </name>
+            <name>
+              <surname>L&#xF3;pez-Mart&#xED;nez</surname>
+              <given-names>R.</given-names>
+            </name>
+            <name>
+              <surname>Manzano-Gayosso</surname>
+              <given-names>P.</given-names>
+            </name>
+            <name>
+              <surname>R&#xED;os-Rosas</surname>
+              <given-names>C.</given-names>
+            </name>
+            <name>
+              <surname>Contreras-P&#xE9;rez</surname>
+              <given-names>C.</given-names>
+            </name>
+            <name>
+              <surname>Anides-Fonseca</surname>
+              <given-names>A.E.</given-names>
+            </name>
+          </person-group>
+          <article-title>Detecci&#xF3;n de infecci&#xF3;n por <italic>Coccidioides immitis</italic> en Coahuila, M&#xE9;xico</article-title>
+          <source>Rev. Argent. Microbiol.</source>
+          <year>2005</year>
+          <volume>37</volume>
+          <fpage>135</fpage>
+          <lpage>138</lpage>
+        </element-citation>
+      </ref>
+      <ref id="B13-molecules-23-03145">
+        <label>13.</label>
+        <element-citation publication-type="journal">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Revi&#xE1;kina</surname>
+              <given-names>V.</given-names>
+            </name>
+            <name>
+              <surname>Panizo</surname>
+              <given-names>M.</given-names>
+            </name>
+            <name>
+              <surname>Dolande</surname>
+              <given-names>M.</given-names>
+            </name>
+            <name>
+              <surname>Maldonado</surname>
+              <given-names>B.</given-names>
+            </name>
+          </person-group>
+          <article-title>Micosis profundas sist&#xE9;micas: Casu&#xED;stica del Departamento de Micolog&#xED;a del Instituto Nacional de Higiene &#x201C;Rafael Rangel&#x201D; durante 5 a&#xF1;os (1997&#x2013;2001)</article-title>
+          <source>Rev. Soc. Ven. Microbiol.</source>
+          <year>2002</year>
+          <volume>22</volume>
+          <fpage>164</fpage>
+          <lpage>168</lpage>
+        </element-citation>
+      </ref>
+      <ref id="B14-molecules-23-03145">
+        <label>14.</label>
+        <element-citation publication-type="journal">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Dom&#xED;nguez-Cota</surname>
+              <given-names>G.</given-names>
+            </name>
+            <name>
+              <surname>Zamora-&#xC2;ngulo</surname>
+              <given-names>L.E.</given-names>
+            </name>
+            <name>
+              <surname>Osuna-Beltr&#xE1;n</surname>
+              <given-names>E.</given-names>
+            </name>
+            <name>
+              <surname>Vega-Rosas</surname>
+              <given-names>C.E.</given-names>
+            </name>
+          </person-group>
+          <article-title>Coccidioidomicosis cut&#xE1;nea primaria. Estudio epidemiol&#xF3;gico y cl&#xED;nico. Serie de 16 casos</article-title>
+          <source>CIMEL</source>
+          <year>2001</year>
+          <volume>6</volume>
+          <fpage>49</fpage>
+          <lpage>53</lpage>
+        </element-citation>
+      </ref>
+      <ref id="B15-molecules-23-03145">
+        <label>15.</label>
+        <element-citation publication-type="journal">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Borelli</surname>
+              <given-names>D.</given-names>
+            </name>
+            <name>
+              <surname>P&#xE9;rez</surname>
+              <given-names>M.</given-names>
+            </name>
+            <name>
+              <surname>Molina</surname>
+              <given-names>T.</given-names>
+            </name>
+          </person-group>
+          <article-title>Coccidioidomicosis: Un caso m&#xE1;s en el bosque muy seco tropical</article-title>
+          <source>Dermatol. Venez.</source>
+          <year>1991</year>
+          <volume>29</volume>
+          <fpage>119</fpage>
+          <lpage>123</lpage>
+        </element-citation>
+      </ref>
+      <ref id="B16-molecules-23-03145">
+        <label>16.</label>
+        <element-citation publication-type="journal">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Laniado-Labor&#xED;n</surname>
+              <given-names>R.</given-names>
+            </name>
+            <name>
+              <surname>C&#xE1;rdenas-Moreno</surname>
+              <given-names>R.P.</given-names>
+            </name>
+            <name>
+              <surname>&#xC1;lvarez-Cerro</surname>
+              <given-names>M.</given-names>
+            </name>
+          </person-group>
+          <article-title>Tijuana: Zona end&#xE9;mica de infecci&#xF3;n por <italic>Coccidioides immitis</italic></article-title>
+          <source>Salud Pub. M&#xE9;x.</source>
+          <year>1991</year>
+          <volume>33</volume>
+          <fpage>235</fpage>
+          <lpage>239</lpage>
+        </element-citation>
+      </ref>
+      <ref id="B17-molecules-23-03145">
+        <label>17.</label>
+        <element-citation publication-type="journal">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Saubolle</surname>
+              <given-names>M.A.</given-names>
+            </name>
+          </person-group>
+          <article-title>Laboratory aspects in the diagnosis of coccidioidomycosis</article-title>
+          <source>Ann. N. Y. Acad. Sci.</source>
+          <year>2007</year>
+          <volume>1111</volume>
+          <fpage>301</fpage>
+          <lpage>314</lpage>
+          <pub-id pub-id-type="doi">10.1196/annals.1406.049</pub-id>
+          <pub-id pub-id-type="pmid">17363434</pub-id>
+        </element-citation>
+      </ref>
+      <ref id="B18-molecules-23-03145">
+        <label>18.</label>
+        <element-citation publication-type="journal">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Kaufman</surname>
+              <given-names>L.</given-names>
+            </name>
+            <name>
+              <surname>Clark</surname>
+              <given-names>M.J.</given-names>
+            </name>
+          </person-group>
+          <article-title>Value of the concomitant use of complement fixation and immunodiffusion tests in the diagnosis of coccidioidomycosis</article-title>
+          <source>Appl. Microbiol.</source>
+          <year>1974</year>
+          <volume>28</volume>
+          <fpage>641</fpage>
+          <lpage>643</lpage>
+          <pub-id pub-id-type="pmid">4213789</pub-id>
+        </element-citation>
+      </ref>
+      <ref id="B19-molecules-23-03145">
+        <label>19.</label>
+        <element-citation publication-type="book">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Lindsley</surname>
+              <given-names>M.D.</given-names>
+            </name>
+            <name>
+              <surname>Warnock</surname>
+              <given-names>D.W.</given-names>
+            </name>
+            <name>
+              <surname>Morrison</surname>
+              <given-names>C.J.</given-names>
+            </name>
+          </person-group>
+          <article-title>Serological and molecular diagnosis of fungal infections</article-title>
+          <source>Manual of Molecular and Clinical Laboratory Immunology</source>
+          <edition>7th ed.</edition>
+          <person-group person-group-type="editor">
+            <name>
+              <surname>Detrick</surname>
+              <given-names>B.H.</given-names>
+            </name>
+            <name>
+              <surname>Hamilton</surname>
+              <given-names>R.G.</given-names>
+            </name>
+            <name>
+              <surname>Folds</surname>
+              <given-names>J.D.</given-names>
+            </name>
+          </person-group>
+          <publisher-name>ASM Press</publisher-name>
+          <publisher-loc>Washington, DC, USA</publisher-loc>
+          <year>2006</year>
+          <fpage>569</fpage>
+          <lpage>605</lpage>
+        </element-citation>
+      </ref>
+      <ref id="B20-molecules-23-03145">
+        <label>20.</label>
+        <element-citation publication-type="journal">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Pappagianis</surname>
+              <given-names>D.</given-names>
+            </name>
+          </person-group>
+          <article-title>Serologic studies in coccidioidomycosis</article-title>
+          <source>Semin. Respir. Infect.</source>
+          <year>2001</year>
+          <volume>16</volume>
+          <fpage>242</fpage>
+          <lpage>250</lpage>
+          <pub-id pub-id-type="doi">10.1053/srin.2001.29315</pub-id>
+          <pub-id pub-id-type="pmid">11740825</pub-id>
+        </element-citation>
+      </ref>
+      <ref id="B21-molecules-23-03145">
+        <label>21.</label>
+        <element-citation publication-type="journal">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Zimmermann</surname>
+              <given-names>C.R.</given-names>
+            </name>
+            <name>
+              <surname>Johnson</surname>
+              <given-names>S.M.</given-names>
+            </name>
+            <name>
+              <surname>Martens</surname>
+              <given-names>G.W.</given-names>
+            </name>
+            <name>
+              <surname>White</surname>
+              <given-names>A.G.</given-names>
+            </name>
+            <name>
+              <surname>Pappagianis</surname>
+              <given-names>D.</given-names>
+            </name>
+          </person-group>
+          <article-title>Cloning and characterization of the complement fixation antigen-chitinase of <italic>Coccidioides immitis</italic></article-title>
+          <source>Infect. Immun.</source>
+          <year>1996</year>
+          <volume>64</volume>
+          <fpage>4967</fpage>
+          <lpage>4975</lpage>
+        </element-citation>
+      </ref>
+      <ref id="B22-molecules-23-03145">
+        <label>22.</label>
+        <element-citation publication-type="journal">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Johnson</surname>
+              <given-names>S.M.</given-names>
+            </name>
+            <name>
+              <surname>Zimmermann</surname>
+              <given-names>R.</given-names>
+            </name>
+            <name>
+              <surname>Pappagianis</surname>
+              <given-names>D.</given-names>
+            </name>
+          </person-group>
+          <article-title>Use of a recombinant <italic>Coccidioides immitis</italic> complement fixation antigen-chitinase in conventional serological assays</article-title>
+          <source>J. Clin. Microbiol.</source>
+          <year>1996</year>
+          <volume>34</volume>
+          <fpage>3160</fpage>
+          <lpage>3164</lpage>
+          <pub-id pub-id-type="pmid">8940464</pub-id>
+        </element-citation>
+      </ref>
+      <ref id="B23-molecules-23-03145">
+        <label>23.</label>
+        <element-citation publication-type="journal">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Yang</surname>
+              <given-names>M.C.</given-names>
+            </name>
+            <name>
+              <surname>Magee</surname>
+              <given-names>M.</given-names>
+            </name>
+            <name>
+              <surname>Kaufman</surname>
+              <given-names>L.</given-names>
+            </name>
+            <name>
+              <surname>Zhu</surname>
+              <given-names>Y.</given-names>
+            </name>
+            <name>
+              <surname>Cox</surname>
+              <given-names>R.A.</given-names>
+            </name>
+          </person-group>
+          <article-title>Recombinant <italic>Coccidioides immitis</italic> complement-fixing antigen: Detection of an epitope shared by <italic>Coccidiodes immitis</italic>, <italic>Histoplasma capsulatum</italic>, and <italic>Blastomyces dermatitidis</italic></article-title>
+          <source>Clin. Diag. Lab. Immunol.</source>
+          <year>1997</year>
+          <volume>4</volume>
+          <fpage>19</fpage>
+          <lpage>22</lpage>
+        </element-citation>
+      </ref>
+      <ref id="B24-molecules-23-03145">
+        <label>24.</label>
+        <element-citation publication-type="journal">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Peng</surname>
+              <given-names>T.</given-names>
+            </name>
+            <name>
+              <surname>Orsborn</surname>
+              <given-names>K.I.</given-names>
+            </name>
+            <name>
+              <surname>Orbach</surname>
+              <given-names>M.J.</given-names>
+            </name>
+            <name>
+              <surname>Galgiani</surname>
+              <given-names>J.N.</given-names>
+            </name>
+          </person-group>
+          <article-title>Proline-rich vaccine candidate antigen of <italic>Coccidioides immitis</italic>: Conservation among isolates and differential expression with spherule maturation</article-title>
+          <source>J. Infect. Dis.</source>
+          <year>1999</year>
+          <volume>179</volume>
+          <fpage>518</fpage>
+          <lpage>521</lpage>
+          <pub-id pub-id-type="doi">10.1086/314604</pub-id>
+          <pub-id pub-id-type="pmid">9878042</pub-id>
+        </element-citation>
+      </ref>
+      <ref id="B25-molecules-23-03145">
+        <label>25.</label>
+        <element-citation publication-type="journal">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Orsborn</surname>
+              <given-names>K.I.</given-names>
+            </name>
+            <name>
+              <surname>Galgiani</surname>
+              <given-names>J.N.</given-names>
+            </name>
+          </person-group>
+          <article-title>Detecting serum antibodies to a purified recombinant proline-rich antigen of <italic>Coccidioides immitis</italic> in patients with coccidioidomycosis</article-title>
+          <source>Clin. Infect. Dis.</source>
+          <year>1998</year>
+          <volume>27</volume>
+          <fpage>1475</fpage>
+          <lpage>1478</lpage>
+          <pub-id pub-id-type="doi">10.1086/515041</pub-id>
+          <pub-id pub-id-type="pmid">9868663</pub-id>
+        </element-citation>
+      </ref>
+      <ref id="B26-molecules-23-03145">
+        <label>26.</label>
+        <element-citation publication-type="journal">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Filho</surname>
+              <given-names>R.E.</given-names>
+            </name>
+            <name>
+              <surname>Bandeira</surname>
+              <given-names>S.P.</given-names>
+            </name>
+            <name>
+              <surname>Brillhante</surname>
+              <given-names>R.S.</given-names>
+            </name>
+            <name>
+              <surname>Rocha</surname>
+              <given-names>M.F.</given-names>
+            </name>
+            <name>
+              <surname>Vasconcelos</surname>
+              <given-names>I.M.</given-names>
+            </name>
+            <name>
+              <surname>Pereira</surname>
+              <given-names>M.L.</given-names>
+            </name>
+            <name>
+              <surname>Castelo-Branco</surname>
+              <given-names>D.D.S.C.</given-names>
+            </name>
+            <name>
+              <surname>Rocha</surname>
+              <given-names>F.A.</given-names>
+            </name>
+            <name>
+              <surname>Camargo</surname>
+              <given-names>Z.P.</given-names>
+            </name>
+            <name>
+              <surname>Ramos</surname>
+              <given-names>M.V.</given-names>
+            </name>
+            <etal/>
+          </person-group>
+          <article-title>Biochemical characterization of an in-house <italic>Coccidioides</italic> antigen: Perspectives for the immunodiagnosis of coccidioidomycosis</article-title>
+          <source>Molecules</source>
+          <year>2012</year>
+          <volume>17</volume>
+          <fpage>7854</fpage>
+          <lpage>7863</lpage>
+          <pub-id pub-id-type="doi">10.3390/molecules17077854</pub-id>
+          <pub-id pub-id-type="pmid">22743589</pub-id>
+        </element-citation>
+      </ref>
+      <ref id="B27-molecules-23-03145">
+        <label>27.</label>
+        <element-citation publication-type="journal">
+          <person-group person-group-type="author">
+            <name>
+              <surname>de Aguiar Cordeiro</surname>
+              <given-names>R.</given-names>
+            </name>
+            <name>
+              <surname>Patoilo</surname>
+              <given-names>K.R.</given-names>
+            </name>
+            <name>
+              <surname>Praciano</surname>
+              <given-names>S.B.</given-names>
+            </name>
+            <name>
+              <surname>Medrano</surname>
+              <given-names>D.J.</given-names>
+            </name>
+            <name>
+              <surname>de Farias Marques</surname>
+              <given-names>F.J.</given-names>
+            </name>
+            <name>
+              <surname>Martins</surname>
+              <given-names>L.M.</given-names>
+            </name>
+            <name>
+              <surname>Eulalio</surname>
+              <given-names>K.D.</given-names>
+            </name>
+            <name>
+              <surname>de Deus Filho</surname>
+              <given-names>A.</given-names>
+            </name>
+            <name>
+              <surname>Cavalvanti Mdo</surname>
+              <given-names>A.</given-names>
+            </name>
+            <name>
+              <surname>Fechine</surname>
+              <given-names>M.A.</given-names>
+            </name>
+            <etal/>
+          </person-group>
+          <article-title>Antigens of <italic>Coccidioides posadasii</italic> as an important tool for the immunodiagnosis of coccidioidomycosis</article-title>
+          <source>Mycopathologia</source>
+          <year>2013</year>
+          <volume>175</volume>
+          <fpage>25</fpage>
+          <lpage>32</lpage>
+          <pub-id pub-id-type="doi">10.1007/s11046-012-9604-1</pub-id>
+          <pub-id pub-id-type="pmid">23242703</pub-id>
+        </element-citation>
+      </ref>
+      <ref id="B28-molecules-23-03145">
+        <label>28.</label>
+        <element-citation publication-type="journal">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Navalkar</surname>
+              <given-names>K.A.</given-names>
+            </name>
+            <name>
+              <surname>Johnston</surname>
+              <given-names>S.A.</given-names>
+            </name>
+            <name>
+              <surname>Stafford</surname>
+              <given-names>P.</given-names>
+            </name>
+          </person-group>
+          <article-title>Peptide based diagnostics: Are random-sequence peptides more useful than tiling proteome sequences?</article-title>
+          <source>J. Immunol. Methods</source>
+          <year>2015</year>
+          <volume>417</volume>
+          <fpage>10</fpage>
+          <lpage>21</lpage>
+          <pub-id pub-id-type="doi">10.1016/j.jim.2014.12.002</pub-id>
+          <pub-id pub-id-type="pmid">25497701</pub-id>
+        </element-citation>
+      </ref>
+      <ref id="B29-molecules-23-03145">
+        <label>29.</label>
+        <element-citation publication-type="journal">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Meloen</surname>
+              <given-names>R.H.</given-names>
+            </name>
+            <name>
+              <surname>Puijk</surname>
+              <given-names>W.C.</given-names>
+            </name>
+            <name>
+              <surname>Slootstra</surname>
+              <given-names>J.W.</given-names>
+            </name>
+          </person-group>
+          <article-title>Mimotopes: Realization of an unlikely concept</article-title>
+          <source>J. Mol. Recognit.</source>
+          <year>2000</year>
+          <volume>13</volume>
+          <fpage>352</fpage>
+          <lpage>359</lpage>
+          <pub-id pub-id-type="doi">10.1002/1099-1352(200011/12)13:6&lt;352::AID-JMR509&gt;3.0.CO;2-C</pub-id>
+        </element-citation>
+      </ref>
+      <ref id="B30-molecules-23-03145">
+        <label>30.</label>
+        <element-citation publication-type="journal">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Ampel</surname>
+              <given-names>N.M.</given-names>
+            </name>
+          </person-group>
+          <article-title>The diagnosis of coccidioidomycosis</article-title>
+          <source>F1000 Med. Rep.</source>
+          <year>2010</year>
+          <volume>2</volume>
+          <fpage>2</fpage>
+          <pub-id pub-id-type="doi">10.3410/M2-2</pub-id>
+          <pub-id pub-id-type="pmid">20948866</pub-id>
+        </element-citation>
+      </ref>
+      <ref id="B31-molecules-23-03145">
+        <label>31.</label>
+        <element-citation publication-type="journal">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Johnson</surname>
+              <given-names>J.E.</given-names>
+            </name>
+            <name>
+              <surname>Jeffery</surname>
+              <given-names>B.</given-names>
+            </name>
+            <name>
+              <surname>Huppert</surname>
+              <given-names>M.</given-names>
+            </name>
+          </person-group>
+          <article-title>Evaluation of five commercially available immunodiffusion kits for detection of <italic>Coccidioides immitis</italic> and <italic>Histoplasma capsulatum</italic> antibodies</article-title>
+          <source>J. Clin. Microbiol.</source>
+          <year>1984</year>
+          <volume>20</volume>
+          <fpage>530</fpage>
+          <lpage>532</lpage>
+          <pub-id pub-id-type="pmid">6436307</pub-id>
+        </element-citation>
+      </ref>
+      <ref id="B32-molecules-23-03145">
+        <label>32.</label>
+        <element-citation publication-type="journal">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Pappagianis</surname>
+              <given-names>D.</given-names>
+            </name>
+            <name>
+              <surname>Zimmer</surname>
+              <given-names>B.L.</given-names>
+            </name>
+          </person-group>
+          <article-title>Serology of coccidioidomycosis</article-title>
+          <source>Clin. Microbiol. Rev.</source>
+          <year>1990</year>
+          <volume>3</volume>
+          <fpage>247</fpage>
+          <lpage>268</lpage>
+          <pub-id pub-id-type="doi">10.1128/CMR.3.3.247</pub-id>
+          <pub-id pub-id-type="pmid">2200605</pub-id>
+        </element-citation>
+      </ref>
+      <ref id="B33-molecules-23-03145">
+        <label>33.</label>
+        <element-citation publication-type="journal">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Stevens</surname>
+              <given-names>D.A.</given-names>
+            </name>
+            <name>
+              <surname>Levine</surname>
+              <given-names>H.B.</given-names>
+            </name>
+            <name>
+              <surname>TenEyck</surname>
+              <given-names>D.R.</given-names>
+            </name>
+          </person-group>
+          <article-title>Dermal sensitivity to different doses of spherulin and coccidioidin</article-title>
+          <source>Chest</source>
+          <year>1974</year>
+          <volume>65</volume>
+          <fpage>530</fpage>
+          <lpage>533</lpage>
+          <pub-id pub-id-type="doi">10.1378/chest.65.5.530</pub-id>
+          <pub-id pub-id-type="pmid">4826026</pub-id>
+        </element-citation>
+      </ref>
+      <ref id="B34-molecules-23-03145">
+        <label>34.</label>
+        <element-citation publication-type="journal">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Brilhante</surname>
+              <given-names>R.S.</given-names>
+            </name>
+            <name>
+              <surname>Cordeiro</surname>
+              <given-names>R.A.</given-names>
+            </name>
+            <name>
+              <surname>Rocha</surname>
+              <given-names>M.F.</given-names>
+            </name>
+            <name>
+              <surname>Fechine</surname>
+              <given-names>M.A.</given-names>
+            </name>
+            <name>
+              <surname>Furtado</surname>
+              <given-names>F.M.</given-names>
+            </name>
+            <name>
+              <surname>Nagao-Dias</surname>
+              <given-names>A.T.</given-names>
+            </name>
+            <name>
+              <surname>Camargo</surname>
+              <given-names>Z.P.</given-names>
+            </name>
+            <name>
+              <surname>Sidrim</surname>
+              <given-names>J.J.</given-names>
+            </name>
+          </person-group>
+          <article-title>Coccidioidal pericarditis: A rapid presumptive diagnosis by an in-house antigen confirmed by mycological and molecular methods</article-title>
+          <source>J. Med. Microbiol.</source>
+          <year>2008</year>
+          <volume>57</volume>
+          <fpage>1288</fpage>
+          <lpage>1292</lpage>
+          <pub-id pub-id-type="doi">10.1099/jmm.0.2008/002428-0</pub-id>
+          <pub-id pub-id-type="pmid">18809560</pub-id>
+        </element-citation>
+      </ref>
+      <ref id="B35-molecules-23-03145">
+        <label>35.</label>
+        <element-citation publication-type="journal">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Welsh</surname>
+              <given-names>O.</given-names>
+            </name>
+            <name>
+              <surname>Vera-Cabrera</surname>
+              <given-names>L.</given-names>
+            </name>
+            <name>
+              <surname>Rendon</surname>
+              <given-names>A.</given-names>
+            </name>
+            <name>
+              <surname>Gonz&#xE1;lez</surname>
+              <given-names>G.</given-names>
+            </name>
+            <name>
+              <surname>Bonifaz</surname>
+              <given-names>A.</given-names>
+            </name>
+          </person-group>
+          <article-title>Coccidioidomycosis</article-title>
+          <source>Clin. Dermatol.</source>
+          <year>2012</year>
+          <volume>30</volume>
+          <fpage>573</fpage>
+          <lpage>591</lpage>
+          <pub-id pub-id-type="doi">10.1016/j.clindermatol.2012.01.003</pub-id>
+          <pub-id pub-id-type="pmid">23068145</pub-id>
+        </element-citation>
+      </ref>
+      <ref id="B36-molecules-23-03145">
+        <label>36.</label>
+        <element-citation publication-type="journal">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Huppert</surname>
+              <given-names>M.</given-names>
+            </name>
+            <name>
+              <surname>Krasnow</surname>
+              <given-names>I.</given-names>
+            </name>
+            <name>
+              <surname>Vukovich</surname>
+              <given-names>K.R.</given-names>
+            </name>
+            <name>
+              <surname>Sun</surname>
+              <given-names>S.H.</given-names>
+            </name>
+            <name>
+              <surname>Rice</surname>
+              <given-names>E.H.</given-names>
+            </name>
+            <name>
+              <surname>Kutner</surname>
+              <given-names>L.J.</given-names>
+            </name>
+          </person-group>
+          <article-title>Comparison of coccidioidin and spherulin in complement fixation tests for coccidioidomycosis</article-title>
+          <source>J. Clin. Microbiol.</source>
+          <year>1977</year>
+          <volume>6</volume>
+          <fpage>33</fpage>
+          <lpage>41</lpage>
+          <pub-id pub-id-type="pmid">886007</pub-id>
+        </element-citation>
+      </ref>
+      <ref id="B37-molecules-23-03145">
+        <label>37.</label>
+        <element-citation publication-type="journal">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Mitchell</surname>
+              <given-names>N.M.</given-names>
+            </name>
+            <name>
+              <surname>Sherrard</surname>
+              <given-names>A.L.</given-names>
+            </name>
+            <name>
+              <surname>Dasari</surname>
+              <given-names>S.</given-names>
+            </name>
+            <name>
+              <surname>Magee</surname>
+              <given-names>D.M.</given-names>
+            </name>
+            <name>
+              <surname>Grys</surname>
+              <given-names>T.E.</given-names>
+            </name>
+            <name>
+              <surname>Lake</surname>
+              <given-names>D.F.</given-names>
+            </name>
+          </person-group>
+          <article-title>Proteogenomic re-annotation of <italic>Coccidioides posadasii</italic> strain silveira</article-title>
+          <source>Proteomics</source>
+          <year>2018</year>
+          <volume>18</volume>
+          <fpage>1700173</fpage>
+          <pub-id pub-id-type="doi">10.1002/pmic.201700173</pub-id>
+          <pub-id pub-id-type="pmid">29130603</pub-id>
+        </element-citation>
+      </ref>
+      <ref id="B38-molecules-23-03145">
+        <label>38.</label>
+        <element-citation publication-type="journal">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Antoni</surname>
+              <given-names>G.</given-names>
+            </name>
+            <name>
+              <surname>Presentini</surname>
+              <given-names>R.</given-names>
+            </name>
+            <name>
+              <surname>Perin</surname>
+              <given-names>F.</given-names>
+            </name>
+            <name>
+              <surname>Tagliabue</surname>
+              <given-names>A.</given-names>
+            </name>
+            <name>
+              <surname>Ghiara</surname>
+              <given-names>P.</given-names>
+            </name>
+            <name>
+              <surname>Censini</surname>
+              <given-names>S.</given-names>
+            </name>
+            <name>
+              <surname>Volpini</surname>
+              <given-names>G.</given-names>
+            </name>
+            <name>
+              <surname>Villa</surname>
+              <given-names>L.</given-names>
+            </name>
+            <name>
+              <surname>Boraschi</surname>
+              <given-names>D.</given-names>
+            </name>
+          </person-group>
+          <article-title>A short synthetic peptide fragment of human interleukin 1 with immunostimulatory but not inflammatory activity</article-title>
+          <source>J. Immunol.</source>
+          <year>1986</year>
+          <volume>137</volume>
+          <fpage>3201</fpage>
+          <lpage>3204</lpage>
+          <pub-id pub-id-type="pmid">3490514</pub-id>
+        </element-citation>
+      </ref>
+      <ref id="B39-molecules-23-03145">
+        <label>39.</label>
+        <element-citation publication-type="journal">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Schotanus</surname>
+              <given-names>K.</given-names>
+            </name>
+            <name>
+              <surname>Meloen</surname>
+              <given-names>R.H.</given-names>
+            </name>
+            <name>
+              <surname>Puijk</surname>
+              <given-names>W.C.</given-names>
+            </name>
+            <name>
+              <surname>Berkenbosch</surname>
+              <given-names>F.</given-names>
+            </name>
+            <name>
+              <surname>Binnekade</surname>
+              <given-names>R.</given-names>
+            </name>
+            <name>
+              <surname>Tilders</surname>
+              <given-names>F.J.H.</given-names>
+            </name>
+          </person-group>
+          <article-title>Effects of monoclonal antibodies to specific epitopes of rat interleukin-1 beta (IL-&#x3B2;) on IL-1&#x3B2;-induced ACTH, corticosterone and IL-6 responses in rats</article-title>
+          <source>J. Neuroendocrinol.</source>
+          <year>1995</year>
+          <volume>7</volume>
+          <fpage>255</fpage>
+          <lpage>262</lpage>
+          <pub-id pub-id-type="doi">10.1111/j.1365-2826.1995.tb00755.x</pub-id>
+          <pub-id pub-id-type="pmid">7647767</pub-id>
+        </element-citation>
+      </ref>
+      <ref id="B40-molecules-23-03145">
+        <label>40.</label>
+        <element-citation publication-type="journal">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Meloen</surname>
+              <given-names>R.H.</given-names>
+            </name>
+            <name>
+              <surname>Casal</surname>
+              <given-names>J.I.</given-names>
+            </name>
+            <name>
+              <surname>Dalsgaard</surname>
+              <given-names>K.</given-names>
+            </name>
+            <name>
+              <surname>Langeveld</surname>
+              <given-names>J.P.M.</given-names>
+            </name>
+          </person-group>
+          <article-title>Synthetic peptide vaccines: Success at last</article-title>
+          <source>Vaccine</source>
+          <year>1995</year>
+          <volume>13</volume>
+          <fpage>885</fpage>
+          <lpage>886</lpage>
+          <pub-id pub-id-type="doi">10.1016/0264-410X(95)00031-U</pub-id>
+        </element-citation>
+      </ref>
+      <ref id="B41-molecules-23-03145">
+        <label>41.</label>
+        <element-citation publication-type="journal">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Meloen</surname>
+              <given-names>R.H.</given-names>
+            </name>
+            <name>
+              <surname>Langedijk</surname>
+              <given-names>J.P.M.</given-names>
+            </name>
+            <name>
+              <surname>Langeveld</surname>
+              <given-names>J.P.M.</given-names>
+            </name>
+          </person-group>
+          <article-title>Synthetic peptides for diagnostic use</article-title>
+          <source>Vet. Q.</source>
+          <year>1997</year>
+          <volume>19</volume>
+          <fpage>122</fpage>
+          <lpage>126</lpage>
+          <pub-id pub-id-type="doi">10.1080/01652176.1997.9694755</pub-id>
+          <pub-id pub-id-type="pmid">9323853</pub-id>
+        </element-citation>
+      </ref>
+      <ref id="B42-molecules-23-03145">
+        <label>42.</label>
+        <element-citation publication-type="journal">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Langedijk</surname>
+              <given-names>J.P.M.</given-names>
+            </name>
+            <name>
+              <surname>Brandenburg</surname>
+              <given-names>A.H.</given-names>
+            </name>
+            <name>
+              <surname>Middel</surname>
+              <given-names>W.G.J.</given-names>
+            </name>
+            <name>
+              <surname>Osterhaus</surname>
+              <given-names>A.</given-names>
+            </name>
+            <name>
+              <surname>Meloen</surname>
+              <given-names>R.H.</given-names>
+            </name>
+            <name>
+              <surname>van Oirschot</surname>
+              <given-names>J.T.</given-names>
+            </name>
+          </person-group>
+          <article-title>A subtype-specifc peptide-based enzyme immunoassay for detection of antibodies to the G protein of human respiratory syncytial virus is more sensitive than routine serological tests</article-title>
+          <source>J. Clin. Microbiol.</source>
+          <year>1997</year>
+          <volume>55</volume>
+          <fpage>1656</fpage>
+          <lpage>1660</lpage>
+        </element-citation>
+      </ref>
+      <ref id="B43-molecules-23-03145">
+        <label>43.</label>
+        <element-citation publication-type="journal">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Grunsven</surname>
+              <given-names>W.M.</given-names>
+            </name>
+            <name>
+              <surname>Spaan</surname>
+              <given-names>W.J.</given-names>
+            </name>
+            <name>
+              <surname>Middeldorp</surname>
+              <given-names>J.M.</given-names>
+            </name>
+          </person-group>
+          <article-title>Localisation and diagnostic application of immunodominant domains of BFRF3 encoded EBV capsid protein</article-title>
+          <source>J. Infect. Dis.</source>
+          <year>1994</year>
+          <volume>170</volume>
+          <fpage>13</fpage>
+          <lpage>19</lpage>
+          <pub-id pub-id-type="doi">10.1093/infdis/170.1.13</pub-id>
+          <pub-id pub-id-type="pmid">8014488</pub-id>
+        </element-citation>
+      </ref>
+      <ref id="B44-molecules-23-03145">
+        <label>44.</label>
+        <element-citation publication-type="journal">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Brusic</surname>
+              <given-names>V.</given-names>
+            </name>
+            <name>
+              <surname>Petrovsky</surname>
+              <given-names>N.</given-names>
+            </name>
+          </person-group>
+          <article-title>Immunoinformatics and its relevance to understanding human immune disease</article-title>
+          <source>Expert Rev. Clin. Immunol.</source>
+          <year>2005</year>
+          <volume>1</volume>
+          <fpage>145</fpage>
+          <lpage>157</lpage>
+          <pub-id pub-id-type="doi">10.1586/1744666X.1.1.145</pub-id>
+          <pub-id pub-id-type="pmid">20477662</pub-id>
+        </element-citation>
+      </ref>
+      <ref id="B45-molecules-23-03145">
+        <label>45.</label>
+        <element-citation publication-type="journal">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Tomar</surname>
+              <given-names>N.</given-names>
+            </name>
+            <name>
+              <surname>De</surname>
+              <given-names>R.K.</given-names>
+            </name>
+          </person-group>
+          <article-title>Immunoinformatics: An integrated scenario</article-title>
+          <source>Immunology</source>
+          <year>2010</year>
+          <volume>131</volume>
+          <fpage>153</fpage>
+          <lpage>168</lpage>
+          <pub-id pub-id-type="doi">10.1111/j.1365-2567.2010.03330.x</pub-id>
+          <pub-id pub-id-type="pmid">20722763</pub-id>
+        </element-citation>
+      </ref>
+      <ref id="B46-molecules-23-03145">
+        <label>46.</label>
+        <element-citation publication-type="journal">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Duarte-Escalante</surname>
+              <given-names>E.</given-names>
+            </name>
+            <name>
+              <surname>Z&#xFA;&#xF1;iga</surname>
+              <given-names>G.</given-names>
+            </name>
+            <name>
+              <surname>Fr&#xED;as-De-Le&#xF3;n</surname>
+              <given-names>M.G.</given-names>
+            </name>
+            <name>
+              <surname>Canteros</surname>
+              <given-names>C.</given-names>
+            </name>
+            <name>
+              <surname>Casta&#xF1;&#xF3;n-Olivares</surname>
+              <given-names>L.R.</given-names>
+            </name>
+            <name>
+              <surname>Reyes-Montes</surname>
+              <given-names>M.R.</given-names>
+            </name>
+          </person-group>
+          <article-title>AFLP analysis reveals high genetic diversity but low population structure in <italic>Coccidioides posadasii</italic> isolates from Mexico and Argentina</article-title>
+          <source>BMC Infect. Dis.</source>
+          <year>2013</year>
+          <volume>13</volume>
+          <elocation-id>411</elocation-id>
+          <pub-id pub-id-type="doi">10.1186/1471-2334-13-411</pub-id>
+          <pub-id pub-id-type="pmid">24004977</pub-id>
+        </element-citation>
+      </ref>
+      <ref id="B47-molecules-23-03145">
+        <label>47.</label>
+        <element-citation publication-type="journal">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Bialek</surname>
+              <given-names>R.</given-names>
+            </name>
+            <name>
+              <surname>Kern</surname>
+              <given-names>J.</given-names>
+            </name>
+            <name>
+              <surname>Herrmann</surname>
+              <given-names>T.</given-names>
+            </name>
+            <name>
+              <surname>Tijerina</surname>
+              <given-names>R.</given-names>
+            </name>
+            <name>
+              <surname>Cece&#xF1;as</surname>
+              <given-names>L.</given-names>
+            </name>
+            <name>
+              <surname>Reischl</surname>
+              <given-names>U.</given-names>
+            </name>
+            <name>
+              <surname>Gonz&#xE1;lez</surname>
+              <given-names>G.M.</given-names>
+            </name>
+          </person-group>
+          <article-title>PCR assays for identification of <italic>Coccidioides posadasii</italic> based on the nucleotide sequence of the antigen 2/proline-rich antigen</article-title>
+          <source>J. Clin. Microbiol.</source>
+          <year>2004</year>
+          <volume>42</volume>
+          <fpage>778</fpage>
+          <lpage>783</lpage>
+          <pub-id pub-id-type="doi">10.1128/JCM.42.2.778-783.2004</pub-id>
+          <pub-id pub-id-type="pmid">14766853</pub-id>
+        </element-citation>
+      </ref>
+      <ref id="B48-molecules-23-03145">
+        <label>48.</label>
+        <element-citation publication-type="journal">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Smith</surname>
+              <given-names>C.E.</given-names>
+            </name>
+            <name>
+              <surname>Saito</surname>
+              <given-names>M.T.</given-names>
+            </name>
+            <name>
+              <surname>Beard</surname>
+              <given-names>R.R.</given-names>
+            </name>
+            <name>
+              <surname>Kepp</surname>
+              <given-names>R.M.</given-names>
+            </name>
+            <name>
+              <surname>Clark</surname>
+              <given-names>R.W.</given-names>
+            </name>
+            <name>
+              <surname>Eddie</surname>
+              <given-names>B.U.</given-names>
+            </name>
+          </person-group>
+          <article-title>Serological tests in the diagnosis and prognosis of coccidioidomycosis</article-title>
+          <source>Am. J. Hyg.</source>
+          <year>1950</year>
+          <volume>52</volume>
+          <fpage>1</fpage>
+          <lpage>20</lpage>
+          <pub-id pub-id-type="pmid">15432437</pub-id>
+        </element-citation>
+      </ref>
+      <ref id="B49-molecules-23-03145">
+        <label>49.</label>
+        <element-citation publication-type="book">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Ouchterlony</surname>
+              <given-names>O.</given-names>
+            </name>
+            <name>
+              <surname>Nilsson</surname>
+              <given-names>L.A.</given-names>
+            </name>
+          </person-group>
+          <article-title>Immunodiffusion and immunoelectrophoresis</article-title>
+          <source>Handbook of Experimental Immunology</source>
+          <edition>1st ed.</edition>
+          <person-group person-group-type="editor">
+            <name>
+              <surname>Weir</surname>
+              <given-names>D.M.</given-names>
+            </name>
+          </person-group>
+          <publisher-name>Blackwell Scientific Publications</publisher-name>
+          <publisher-loc>Oxford, UK</publisher-loc>
+          <year>1978</year>
+          <volume>Volume 1</volume>
+          <fpage>19.1</fpage>
+          <lpage>19.44</lpage>
+          <isbn>0632014997</isbn>
+        </element-citation>
+      </ref>
+      <ref id="B50-molecules-23-03145">
+        <label>50.</label>
+        <element-citation publication-type="journal">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Bradford</surname>
+              <given-names>M.M.</given-names>
+            </name>
+          </person-group>
+          <article-title>A rapid and sensitive method for the quantitation of microgram quantities of protein utilizing the principle of protein-dye binding</article-title>
+          <source>Anal. Biochem.</source>
+          <year>1976</year>
+          <volume>72</volume>
+          <fpage>248</fpage>
+          <lpage>254</lpage>
+          <pub-id pub-id-type="doi">10.1016/0003-2697(76)90527-3</pub-id>
+        </element-citation>
+      </ref>
+      <ref id="B51-molecules-23-03145">
+        <label>51.</label>
+        <element-citation publication-type="journal">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Laemmli</surname>
+              <given-names>U.K.</given-names>
+            </name>
+          </person-group>
+          <article-title>Cleavage of structural proteins during the assembly of the bacteriophage T4</article-title>
+          <source>Nature</source>
+          <year>1970</year>
+          <volume>227</volume>
+          <fpage>679</fpage>
+          <lpage>685</lpage>
+          <pub-id pub-id-type="doi">10.1038/227680a0</pub-id>
+        </element-citation>
+      </ref>
+      <ref id="B52-molecules-23-03145">
+        <label>52.</label>
+        <element-citation publication-type="journal">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Towbin</surname>
+              <given-names>H.</given-names>
+            </name>
+            <name>
+              <surname>Staehelin</surname>
+              <given-names>T.</given-names>
+            </name>
+            <name>
+              <surname>Gordon</surname>
+              <given-names>J.</given-names>
+            </name>
+          </person-group>
+          <article-title>Electrophoretic transfer of proteins from polyacrylamide gels to nitrocellulose sheets: Procedure and some applications</article-title>
+          <source>Proc. Natl. Acad. Sci. USA</source>
+          <year>1979</year>
+          <volume>76</volume>
+          <fpage>4350</fpage>
+          <lpage>4354</lpage>
+          <pub-id pub-id-type="doi">10.1073/pnas.76.9.4350</pub-id>
+          <pub-id pub-id-type="pmid">388439</pub-id>
+        </element-citation>
+      </ref>
+      <ref id="B53-molecules-23-03145">
+        <label>53.</label>
+        <element-citation publication-type="journal">
+          <person-group person-group-type="author">
+            <name>
+              <surname>Altschul</surname>
+              <given-names>S.F.</given-names>
+            </name>
+            <name>
+              <surname>Madden</surname>
+              <given-names>T.L.</given-names>
+            </name>
+            <name>
+              <surname>Sch&#xE4;ffer</surname>
+              <given-names>A.A.</given-names>
+            </name>
+            <name>
+              <surname>Zhang</surname>
+              <given-names>J.</given-names>
+            </name>
+            <name>
+              <surname>Zhang</surname>
+              <given-names>Z.</given-names>
+            </name>
+            <name>
+              <surname>Miller</surname>
+              <given-names>W.</given-names>
+            </name>
+            <name>
+              <surname>Lipman</surname>
+              <given-names>D.J.</given-names>
+            </name>
+          </person-group>
+          <article-title>Gapped BLAST and PSI-BLAST: A new generation of protein database search programs</article-title>
+          <source>Nucleic Acids Res.</source>
+          <year>1997</year>
+          <volume>25</volume>
+          <fpage>3389</fpage>
+          <lpage>3402</lpage>
+          <pub-id pub-id-type="doi">10.1093/nar/25.17.3389</pub-id>
+          <pub-id pub-id-type="pmid">9254694</pub-id>
+        </element-citation>
+      </ref>
+    </ref-list>
+    <fn-group>
+      <fn>
+        <p><bold>Sample Availability:</bold> Samples of the compounds are not available from the authors.</p>
+      </fn>
+    </fn-group>
+    <sec sec-type="display-objects">
+      <title>Figures and Tables</title>
+      <fig id="molecules-23-03145-f001" position="float">
+        <label>Figure 1</label>
+        <caption>
+          <p>Immunological identification of coccidioidins. The identification of coccidioidins, based on the appearance of identity bands compared to the reference antigen through ID, was carried out according to the Methods section. Ag (+): Reference antigen; Ab (+): anti-<italic>Coccidioides</italic>-positive serum; SS (-): Saline solution.</p>
+        </caption>
+        <graphic xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="molecules-23-03145-g001.tif"/>
+      </fig>
+      <fig id="molecules-23-03145-f002" position="float">
+        <label>Figure 2</label>
+        <caption>
+          <p>Electrophoresis (SDS-PAGE) of coccidioidins of <italic>C. immitis</italic> and <italic>C. posadasii</italic>. The molecular weight of each band of the protein pattern was analysed with Quantity One<sup>&#xAE;</sup> 1-D Analysis software (Bio-Rad). A concentration of 12% polyacrylamide was used. M: Molecular size marker (250 kDa).</p>
+        </caption>
+        <graphic xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="molecules-23-03145-g002.tif"/>
+      </fig>
+      <fig id="molecules-23-03145-f003" position="float">
+        <label>Figure 3</label>
+        <caption>
+          <p>Alignment map with the BLAST protein program. The selected peptide of the assembled protein corresponding to the 100 kDa band is shown, identified through aligned sequences of <italic>Coccidioides</italic> spp. and related fungi. The selected peptide was compared through the BLAST program to confirm its specificity.</p>
+        </caption>
+        <graphic xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="molecules-23-03145-g003.tif"/>
+      </fig>
+      <fig id="molecules-23-03145-f004" position="float">
+        <label>Figure 4</label>
+        <caption>
+          <p>Alignment map with the BLAST protein program. The selected peptide of the assembled protein corresponding to the 100 kDa band is shown, identified through aligned sequences of <italic>Coccidioides</italic> spp. and related fungi. The selected peptide was compared through the BLAST program to confirm its specificity.</p>
+        </caption>
+        <graphic xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="molecules-23-03145-g004.tif"/>
+      </fig>
+      <fig id="molecules-23-03145-f005" position="float">
+        <label>Figure 5</label>
+        <caption>
+          <p>Alignment map with the BLAST protein program. The selected peptide of the assembled protein corresponding to the 50 kDa band is shown, identified through aligned sequences of <italic>Coccidioides</italic> spp. and related fungi. The selected peptide was compared through the BLAST program to confirm its specificity.</p>
+        </caption>
+        <graphic xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="molecules-23-03145-g005.tif"/>
+      </fig>
+      <table-wrap id="molecules-23-03145-t001" position="float">
+        <object-id pub-id-type="pii">molecules-23-03145-t001_Table 1</object-id>
+        <label>Table 1</label>
+        <caption>
+          <p>Matrix of presence/absence of bands in the electrophoretic patterns of coccidioidins of <italic>C. immitis</italic> and <italic>C. posadasii.</italic></p>
+        </caption>
+        <table>
+          <thead>
+            <tr>
+              <th colspan="12" align="center" valign="middle" style="border-top:solid thin;border-bottom:solid thin">Coccidioidins</th>
+            </tr>
+            <tr>
+              <th align="center" valign="middle" style="border-bottom:solid thin">kDa</th>
+              <th align="center" valign="middle" style="border-bottom:solid thin">QR</th>
+              <th align="center" valign="middle" style="border-bottom:solid thin">HU-1</th>
+              <th align="center" valign="middle" style="border-bottom:solid thin">GGM</th>
+              <th align="center" valign="middle" style="border-bottom:solid thin">ZVJ</th>
+              <th align="center" valign="middle" style="border-bottom:solid thin">073329</th>
+              <th align="center" valign="middle" style="border-bottom:solid thin">083376</th>
+              <th align="center" valign="middle" style="border-bottom:solid thin">M40-05</th>
+              <th align="center" valign="middle" style="border-bottom:solid thin">PRA</th>
+              <th align="center" valign="middle" style="border-bottom:solid thin">30.1</th>
+              <th align="center" valign="middle" style="border-bottom:solid thin">43.3</th>
+              <th align="center" valign="middle" style="border-bottom:solid thin">62</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td align="center" valign="middle">100</td>
+              <td align="center" valign="middle">1</td>
+              <td align="center" valign="middle">1</td>
+              <td align="center" valign="middle">1</td>
+              <td align="center" valign="middle">1</td>
+              <td align="center" valign="middle">1</td>
+              <td align="center" valign="middle">0</td>
+              <td align="center" valign="middle">1</td>
+              <td align="center" valign="middle">0</td>
+              <td align="center" valign="middle">1</td>
+              <td align="center" valign="middle">1</td>
+              <td align="center" valign="middle">0</td>
+            </tr>
+            <tr>
+              <td align="center" valign="middle">75</td>
+              <td align="center" valign="middle">1</td>
+              <td align="center" valign="middle">1</td>
+              <td align="center" valign="middle">1</td>
+              <td align="center" valign="middle">1</td>
+              <td align="center" valign="middle">1</td>
+              <td align="center" valign="middle">1</td>
+              <td align="center" valign="middle">1</td>
+              <td align="center" valign="middle">1</td>
+              <td align="center" valign="middle">1</td>
+              <td align="center" valign="middle">1</td>
+              <td align="center" valign="middle">1</td>
+            </tr>
+            <tr>
+              <td align="center" valign="middle">65</td>
+              <td align="center" valign="middle">1</td>
+              <td align="center" valign="middle">1</td>
+              <td align="center" valign="middle">1</td>
+              <td align="center" valign="middle">1</td>
+              <td align="center" valign="middle">1</td>
+              <td align="center" valign="middle">0</td>
+              <td align="center" valign="middle">1</td>
+              <td align="center" valign="middle">1</td>
+              <td align="center" valign="middle">1</td>
+              <td align="center" valign="middle">1</td>
+              <td align="center" valign="middle">0</td>
+            </tr>
+            <tr>
+              <td align="center" valign="middle">55</td>
+              <td align="center" valign="middle">1</td>
+              <td align="center" valign="middle">1</td>
+              <td align="center" valign="middle">1</td>
+              <td align="center" valign="middle">1</td>
+              <td align="center" valign="middle">1</td>
+              <td align="center" valign="middle">1</td>
+              <td align="center" valign="middle">1</td>
+              <td align="center" valign="middle">1</td>
+              <td align="center" valign="middle">1</td>
+              <td align="center" valign="middle">1</td>
+              <td align="center" valign="middle">1</td>
+            </tr>
+            <tr>
+              <td align="center" valign="middle">50</td>
+              <td align="center" valign="middle">1</td>
+              <td align="center" valign="middle">1</td>
+              <td align="center" valign="middle">1</td>
+              <td align="center" valign="middle">1</td>
+              <td align="center" valign="middle">1</td>
+              <td align="center" valign="middle">1</td>
+              <td align="center" valign="middle">1</td>
+              <td align="center" valign="middle">1</td>
+              <td align="center" valign="middle">1</td>
+              <td align="center" valign="middle">1</td>
+              <td align="center" valign="middle">1</td>
+            </tr>
+            <tr>
+              <td align="center" valign="middle">37</td>
+              <td align="center" valign="middle">1</td>
+              <td align="center" valign="middle">1</td>
+              <td align="center" valign="middle">1</td>
+              <td align="center" valign="middle">1</td>
+              <td align="center" valign="middle">1</td>
+              <td align="center" valign="middle">0</td>
+              <td align="center" valign="middle">1</td>
+              <td align="center" valign="middle">1</td>
+              <td align="center" valign="middle">0</td>
+              <td align="center" valign="middle">0</td>
+              <td align="center" valign="middle"> </td>
+            </tr>
+            <tr>
+              <td align="center" valign="middle">35</td>
+              <td align="center" valign="middle">0</td>
+              <td align="center" valign="middle">1</td>
+              <td align="center" valign="middle">1</td>
+              <td align="center" valign="middle">1</td>
+              <td align="center" valign="middle">1</td>
+              <td align="center" valign="middle">1</td>
+              <td align="center" valign="middle">1</td>
+              <td align="center" valign="middle">1</td>
+              <td align="center" valign="middle">1</td>
+              <td align="center" valign="middle">1</td>
+              <td align="center" valign="middle">1</td>
+            </tr>
+            <tr>
+              <td align="center" valign="middle">30</td>
+              <td align="center" valign="middle">1</td>
+              <td align="center" valign="middle">1</td>
+              <td align="center" valign="middle">1</td>
+              <td align="center" valign="middle">1</td>
+              <td align="center" valign="middle">1</td>
+              <td align="center" valign="middle">1</td>
+              <td align="center" valign="middle">1</td>
+              <td align="center" valign="middle">1</td>
+              <td align="center" valign="middle">1</td>
+              <td align="center" valign="middle">1</td>
+              <td align="center" valign="middle">1</td>
+            </tr>
+            <tr>
+              <td align="center" valign="middle">28</td>
+              <td align="center" valign="middle">1</td>
+              <td align="center" valign="middle">1</td>
+              <td align="center" valign="middle">1</td>
+              <td align="center" valign="middle">1</td>
+              <td align="center" valign="middle">1</td>
+              <td align="center" valign="middle">1</td>
+              <td align="center" valign="middle">1</td>
+              <td align="center" valign="middle">1</td>
+              <td align="center" valign="middle">1</td>
+              <td align="center" valign="middle">1</td>
+              <td align="center" valign="middle">1</td>
+            </tr>
+            <tr>
+              <td align="center" valign="middle">23</td>
+              <td align="center" valign="middle">0</td>
+              <td align="center" valign="middle">1</td>
+              <td align="center" valign="middle">1</td>
+              <td align="center" valign="middle">1</td>
+              <td align="center" valign="middle">1</td>
+              <td align="center" valign="middle">1</td>
+              <td align="center" valign="middle">0</td>
+              <td align="center" valign="middle">0</td>
+              <td align="center" valign="middle">0</td>
+              <td align="center" valign="middle">0</td>
+              <td align="center" valign="middle">1</td>
+            </tr>
+            <tr>
+              <td align="center" valign="middle">21</td>
+              <td align="center" valign="middle">0</td>
+              <td align="center" valign="middle">1</td>
+              <td align="center" valign="middle">0</td>
+              <td align="center" valign="middle">0</td>
+              <td align="center" valign="middle">0</td>
+              <td align="center" valign="middle">1</td>
+              <td align="center" valign="middle">0</td>
+              <td align="center" valign="middle">0</td>
+              <td align="center" valign="middle">0</td>
+              <td align="center" valign="middle">0</td>
+              <td align="center" valign="middle">1</td>
+            </tr>
+            <tr>
+              <td align="center" valign="middle">20</td>
+              <td align="center" valign="middle">1</td>
+              <td align="center" valign="middle">1</td>
+              <td align="center" valign="middle">1</td>
+              <td align="center" valign="middle">1</td>
+              <td align="center" valign="middle">1</td>
+              <td align="center" valign="middle">1</td>
+              <td align="center" valign="middle">1</td>
+              <td align="center" valign="middle">1</td>
+              <td align="center" valign="middle">1</td>
+              <td align="center" valign="middle">1</td>
+              <td align="center" valign="middle">1</td>
+            </tr>
+            <tr>
+              <td align="center" valign="middle">19</td>
+              <td align="center" valign="middle">1</td>
+              <td align="center" valign="middle">1</td>
+              <td align="center" valign="middle">1</td>
+              <td align="center" valign="middle">0</td>
+              <td align="center" valign="middle">0</td>
+              <td align="center" valign="middle">1</td>
+              <td align="center" valign="middle">0</td>
+              <td align="center" valign="middle">1</td>
+              <td align="center" valign="middle">0</td>
+              <td align="center" valign="middle">0</td>
+              <td align="center" valign="middle">0</td>
+            </tr>
+            <tr>
+              <td align="center" valign="middle">18</td>
+              <td align="center" valign="middle">0</td>
+              <td align="center" valign="middle">0</td>
+              <td align="center" valign="middle">1</td>
+              <td align="center" valign="middle">1</td>
+              <td align="center" valign="middle">1</td>
+              <td align="center" valign="middle">1</td>
+              <td align="center" valign="middle">1</td>
+              <td align="center" valign="middle">1</td>
+              <td align="center" valign="middle">1</td>
+              <td align="center" valign="middle">1</td>
+              <td align="center" valign="middle">0</td>
+            </tr>
+            <tr>
+              <td align="center" valign="middle" style="border-bottom:solid thin">16</td>
+              <td align="center" valign="middle" style="border-bottom:solid thin">1</td>
+              <td align="center" valign="middle" style="border-bottom:solid thin">1</td>
+              <td align="center" valign="middle" style="border-bottom:solid thin">1</td>
+              <td align="center" valign="middle" style="border-bottom:solid thin">1</td>
+              <td align="center" valign="middle" style="border-bottom:solid thin">1</td>
+              <td align="center" valign="middle" style="border-bottom:solid thin">1</td>
+              <td align="center" valign="middle" style="border-bottom:solid thin">1</td>
+              <td align="center" valign="middle" style="border-bottom:solid thin">0</td>
+              <td align="center" valign="middle" style="border-bottom:solid thin">1</td>
+              <td align="center" valign="middle" style="border-bottom:solid thin">1</td>
+              <td align="center" valign="middle" style="border-bottom:solid thin">1</td>
+            </tr>
+          </tbody>
+        </table>
+      </table-wrap>
+      <table-wrap id="molecules-23-03145-t002" position="float">
+        <object-id pub-id-type="pii">molecules-23-03145-t002_Table 2</object-id>
+        <label>Table 2</label>
+        <caption>
+          <p>Recognition frequency of anti-<italic>Coccidioides</italic> sera with <italic>Coccidioides</italic> spp. antigens.</p>
+        </caption>
+        <table>
+          <thead>
+            <tr>
+              <th align="center" valign="middle" style="border-top:solid thin;border-bottom:solid thin">kDa</th>
+              <th align="center" valign="middle" style="border-top:solid thin;border-bottom:solid thin">Frequency (%) Anti-<italic>C. immitis</italic></th>
+              <th align="center" valign="middle" style="border-top:solid thin;border-bottom:solid thin">Frequency (%) Anti-<italic>C. posadasii</italic></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td align="center" valign="middle">250</td>
+              <td align="center" valign="middle">21.42 (6/28)</td>
+              <td align="center" valign="middle">10.71 (3/28)</td>
+            </tr>
+            <tr>
+              <td align="center" valign="middle">150</td>
+              <td align="center" valign="middle">10.71 (3/28)</td>
+              <td align="center" valign="middle">10.71 (3/28)</td>
+            </tr>
+            <tr>
+              <td align="center" valign="middle">100</td>
+              <td align="center" valign="middle">46.42 (13/28)</td>
+              <td align="center" valign="middle">46.42 (13/28)</td>
+            </tr>
+            <tr>
+              <td align="center" valign="middle">75</td>
+              <td align="center" valign="middle">10.71 (3/28)</td>
+              <td align="center" valign="middle">10.71 (3/28)</td>
+            </tr>
+            <tr>
+              <td align="center" valign="middle">50</td>
+              <td align="center" valign="middle">42.85 (12/28)</td>
+              <td align="center" valign="middle">42.85 (12/28)</td>
+            </tr>
+            <tr>
+              <td align="center" valign="middle">37</td>
+              <td align="center" valign="middle">28.57 (8/28)</td>
+              <td align="center" valign="middle">28.57 (8/28)</td>
+            </tr>
+            <tr>
+              <td align="center" valign="middle" style="border-bottom:solid thin">28</td>
+              <td align="center" valign="middle" style="border-bottom:solid thin">20.0 (5/28)</td>
+              <td align="center" valign="middle" style="border-bottom:solid thin">25.0 (7/28)</td>
+            </tr>
+          </tbody>
+        </table>
+      </table-wrap>
+      <table-wrap id="molecules-23-03145-t003" position="float">
+        <object-id pub-id-type="pii">molecules-23-03145-t003_Table 3</object-id>
+        <label>Table 3</label>
+        <caption>
+          <p>Identification of proteins that recognize <italic>Coccidioides</italic> spp.</p>
+        </caption>
+        <table>
+          <thead>
+            <tr>
+              <th align="center" valign="middle" style="border-top:solid thin;border-bottom:solid thin">Access Number</th>
+              <th align="center" valign="middle" style="border-top:solid thin;border-bottom:solid thin">Description</th>
+              <th align="center" valign="middle" style="border-top:solid thin;border-bottom:solid thin">Alignment</th>
+              <th align="center" valign="middle" style="border-top:solid thin;border-bottom:solid thin">Query<break/>Cover</th>
+              <th align="center" valign="middle" style="border-top:solid thin;border-bottom:solid thin">E-Value</th>
+              <th align="center" valign="middle" style="border-top:solid thin;border-bottom:solid thin">Identity</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td align="center" valign="middle">
+                <bold>100 kDa band</bold>
+              </td>
+              <td align="center" valign="middle"> </td>
+              <td align="center" valign="middle"> </td>
+              <td align="center" valign="middle"> </td>
+              <td align="center" valign="middle"> </td>
+              <td align="center" valign="middle"> </td>
+            </tr>
+            <tr>
+              <td align="center" valign="middle">A0A0J6YAG6_COCIT</td>
+              <td align="center" valign="middle">GPI anchored serine threonine-rich protein<break/>OS <italic>C. immitis</italic></td>
+              <td align="center" valign="middle">
+                <italic>C. immitis</italic>
+              </td>
+              <td align="center" valign="middle">93%</td>
+              <td align="center" valign="middle">7 &#xD7; 10<sup>&#x2212;96</sup></td>
+              <td align="center" valign="middle">75%</td>
+            </tr>
+            <tr>
+              <td align="center" valign="middle"> </td>
+              <td align="center" valign="middle"> </td>
+              <td align="center" valign="middle">
+                <italic>C. posadasii</italic>
+              </td>
+              <td align="center" valign="middle">93%</td>
+              <td align="center" valign="middle">1 &#xD7; 10<sup>&#x2212;94</sup></td>
+              <td align="center" valign="middle">74%</td>
+            </tr>
+            <tr>
+              <td align="center" valign="middle"> </td>
+              <td align="center" valign="middle"> </td>
+              <td align="center" valign="middle">
+                <italic>H. capsulatum</italic>
+              </td>
+              <td align="center" valign="middle">68%</td>
+              <td align="center" valign="middle">8 &#xD7; 10<sup>&#x2212;38</sup></td>
+              <td align="center" valign="middle">52%</td>
+            </tr>
+            <tr>
+              <td align="center" valign="middle"> </td>
+              <td align="center" valign="middle"> </td>
+              <td align="center" valign="middle">
+                <italic>A. fumigatus</italic>
+              </td>
+              <td align="center" valign="middle">63%</td>
+              <td align="center" valign="middle">6 &#xD7; 10<sup>&#x2212;45</sup></td>
+              <td align="center" valign="middle">57%</td>
+            </tr>
+            <tr>
+              <td align="center" valign="middle"> </td>
+              <td align="center" valign="middle"> </td>
+              <td align="center" valign="middle">
+                <italic>P. brasiliensis</italic>
+              </td>
+              <td align="center" valign="middle">58%</td>
+              <td align="center" valign="middle">2 &#xD7; 10<sup>&#x2212;30</sup></td>
+              <td align="center" valign="middle">49%</td>
+            </tr>
+            <tr>
+              <td align="center" valign="middle">A0A0J8R1I4_COCIT</td>
+              <td align="center" valign="middle">Uncharacterized protein OS <italic>C. immitis</italic></td>
+              <td align="center" valign="middle">
+                <italic>C. immitis</italic>
+              </td>
+              <td align="center" valign="middle">100%</td>
+              <td align="center" valign="middle">0</td>
+              <td align="center" valign="middle">90%</td>
+            </tr>
+            <tr>
+              <td align="center" valign="middle"> </td>
+              <td align="center" valign="middle"> </td>
+              <td align="center" valign="middle">
+                <italic>C. posadasii</italic>
+              </td>
+              <td align="center" valign="middle">100%</td>
+              <td align="center" valign="middle">0</td>
+              <td align="center" valign="middle">89%</td>
+            </tr>
+            <tr>
+              <td align="center" valign="middle"> </td>
+              <td align="center" valign="middle"> </td>
+              <td align="center" valign="middle">
+                <italic>P. lutzi</italic>
+              </td>
+              <td align="center" valign="middle">49%</td>
+              <td align="center" valign="middle">1 &#xD7; 10<sup>&#x2212;67</sup></td>
+              <td align="center" valign="middle">60%</td>
+            </tr>
+            <tr>
+              <td align="center" valign="middle">
+                <bold>50 kDa band</bold>
+              </td>
+              <td align="center" valign="middle"> </td>
+              <td align="center" valign="middle">
+                <italic>H. capsulatum</italic>
+              </td>
+              <td align="center" valign="middle">47%</td>
+              <td align="center" valign="middle">1 &#xD7; 10<sup>&#x2212;64</sup></td>
+              <td align="center" valign="middle">58%</td>
+            </tr>
+            <tr>
+              <td align="center" valign="middle">A0A0J6F383_COCPO</td>
+              <td align="center" valign="middle">Fatty acid amide hydrolase 1 OS <italic>C. posadasii</italic></td>
+              <td align="center" valign="middle">
+                <italic>C. posadasii</italic>
+              </td>
+              <td align="center" valign="middle">100%</td>
+              <td align="center" valign="middle">0</td>
+              <td align="center" valign="middle">97%</td>
+            </tr>
+            <tr>
+              <td align="center" valign="middle"> </td>
+              <td align="center" valign="middle"> </td>
+              <td align="center" valign="middle">
+                <italic>C. immitis</italic>
+              </td>
+              <td align="center" valign="middle">100%</td>
+              <td align="center" valign="middle">0</td>
+              <td align="center" valign="middle">96%</td>
+            </tr>
+            <tr>
+              <td align="center" valign="middle"> </td>
+              <td align="center" valign="middle"> </td>
+              <td align="center" valign="middle">
+                <italic>P. brasiliensis</italic>
+              </td>
+              <td align="center" valign="middle">91%</td>
+              <td align="center" valign="middle">0</td>
+              <td align="center" valign="middle">54%</td>
+            </tr>
+            <tr>
+              <td align="center" valign="middle"> </td>
+              <td align="center" valign="middle"> </td>
+              <td align="center" valign="middle">
+                <italic>P. lutzi</italic>
+              </td>
+              <td align="center" valign="middle">91%</td>
+              <td align="center" valign="middle">0</td>
+              <td align="center" valign="middle">54%</td>
+            </tr>
+            <tr>
+              <td align="center" valign="middle" style="border-bottom:solid thin"> </td>
+              <td align="center" valign="middle" style="border-bottom:solid thin"> </td>
+              <td align="center" valign="middle" style="border-bottom:solid thin">
+                <italic>H. capsulatum</italic>
+              </td>
+              <td align="center" valign="middle" style="border-bottom:solid thin">88%</td>
+              <td align="center" valign="middle" style="border-bottom:solid thin">0</td>
+              <td align="center" valign="middle" style="border-bottom:solid thin">55%</td>
+            </tr>
+          </tbody>
+        </table>
+      </table-wrap>
+      <table-wrap id="molecules-23-03145-t004" position="float">
+        <object-id pub-id-type="pii">molecules-23-03145-t004_Table 4</object-id>
+        <label>Table 4</label>
+        <caption>
+          <p>Source and geographical origin of <italic>Coccidioides</italic> spp. isolates.</p>
+        </caption>
+        <table>
+          <thead>
+            <tr>
+              <th align="center" valign="middle" style="border-top:solid thin;border-bottom:solid thin">Isolate</th>
+              <th align="center" valign="middle" style="border-top:solid thin;border-bottom:solid thin">Specie</th>
+              <th align="center" valign="middle" style="border-top:solid thin;border-bottom:solid thin">Source</th>
+              <th align="center" valign="middle" style="border-top:solid thin;border-bottom:solid thin">Geographical Origin</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td align="center" valign="middle">HU1</td>
+              <td align="center" valign="middle">
+                <italic>C. posadasii</italic>
+              </td>
+              <td align="center" valign="middle">ND</td>
+              <td align="center" valign="middle">Monterrey, MX</td>
+            </tr>
+            <tr>
+              <td align="center" valign="middle">073129</td>
+              <td align="center" valign="middle">
+                <italic>C. posadasii</italic>
+              </td>
+              <td align="center" valign="middle">Biopsy</td>
+              <td align="center" valign="middle">Salta, AR</td>
+            </tr>
+            <tr>
+              <td align="center" valign="middle">083376</td>
+              <td align="center" valign="middle">
+                <italic>C. posadasii</italic>
+              </td>
+              <td align="center" valign="middle">BAL</td>
+              <td align="center" valign="middle">Catamarca, AR</td>
+            </tr>
+            <tr>
+              <td align="center" valign="middle">30.1</td>
+              <td align="center" valign="middle">
+                <italic>C. immitis</italic>
+              </td>
+              <td align="center" valign="middle">Sputum</td>
+              <td align="center" valign="middle">Tijuana, MX</td>
+            </tr>
+            <tr>
+              <td align="center" valign="middle">43.3</td>
+              <td align="center" valign="middle">
+                <italic>C. immitis</italic>
+              </td>
+              <td align="center" valign="middle">Sputum</td>
+              <td align="center" valign="middle">Guerrero, MX</td>
+            </tr>
+            <tr>
+              <td align="center" valign="middle">62</td>
+              <td align="center" valign="middle">
+                <italic>C. immitis</italic>
+              </td>
+              <td align="center" valign="middle">Sputum</td>
+              <td align="center" valign="middle">ND</td>
+            </tr>
+            <tr>
+              <td align="center" valign="middle">GGM</td>
+              <td align="center" valign="middle">
+                <italic>C. posadasii</italic>
+              </td>
+              <td align="center" valign="middle">Sputum</td>
+              <td align="center" valign="middle">Baja California, MX</td>
+            </tr>
+            <tr>
+              <td align="center" valign="middle">ZVJ</td>
+              <td align="center" valign="middle">
+                <italic>C. posadasii</italic>
+              </td>
+              <td align="center" valign="middle">Pulmonary nodule</td>
+              <td align="center" valign="middle">Michoac&#xE1;n, MX</td>
+            </tr>
+            <tr>
+              <td align="center" valign="middle">QR</td>
+              <td align="center" valign="middle">
+                <italic>C. posadasii</italic>
+              </td>
+              <td align="center" valign="middle">Knee puncture</td>
+              <td align="center" valign="middle">ND</td>
+            </tr>
+            <tr>
+              <td align="center" valign="middle">PRA</td>
+              <td align="center" valign="middle">
+                <italic>C. immitis</italic>
+              </td>
+              <td align="center" valign="middle">BAL</td>
+              <td align="center" valign="middle">Tijuana, MX</td>
+            </tr>
+            <tr>
+              <td align="center" valign="middle" style="border-bottom:solid thin">M40-05</td>
+              <td align="center" valign="middle" style="border-bottom:solid thin">
+                <italic>C. immitis</italic>
+              </td>
+              <td align="center" valign="middle" style="border-bottom:solid thin">Wound secretion</td>
+              <td align="center" valign="middle" style="border-bottom:solid thin">Guadalajara, MX</td>
+            </tr>
+          </tbody>
+        </table>
+        <table-wrap-foot>
+          <fn>
+            <p>BAL: bronchoalveolar lavage.</p>
+          </fn>
+        </table-wrap-foot>
+      </table-wrap>
+      <table-wrap id="molecules-23-03145-t005" position="float">
+        <object-id pub-id-type="pii">molecules-23-03145-t005_Table 5</object-id>
+        <label>Table 5</label>
+        <caption>
+          <p>Serum samples from patients with acute pulmonary or disseminated coccidioidomycosis.</p>
+        </caption>
+        <table>
+          <thead>
+            <tr>
+              <th align="center" valign="middle" style="border-top:solid thin;border-bottom:solid thin">Sera</th>
+              <th align="center" valign="middle" style="border-top:solid thin;border-bottom:solid thin">Gender</th>
+              <th align="center" valign="middle" style="border-top:solid thin;border-bottom:solid thin">Age</th>
+              <th align="center" valign="middle" style="border-top:solid thin;border-bottom:solid thin">IDG</th>
+              <th align="center" valign="middle" style="border-top:solid thin;border-bottom:solid thin">PTC</th>
+              <th align="center" valign="middle" style="border-top:solid thin;border-bottom:solid thin">ELISA</th>
+              <th align="center" valign="middle" style="border-top:solid thin;border-bottom:solid thin">Culture</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td align="center" valign="middle">1</td>
+              <td align="center" valign="middle">F</td>
+              <td align="center" valign="middle">31</td>
+              <td align="center" valign="middle">Positive</td>
+              <td align="center" valign="middle">1:32</td>
+              <td align="center" valign="middle">ND</td>
+              <td align="center" valign="middle">Positive</td>
+            </tr>
+            <tr>
+              <td align="center" valign="middle">2</td>
+              <td align="center" valign="middle">F</td>
+              <td align="center" valign="middle">39</td>
+              <td align="center" valign="middle">Negative</td>
+              <td align="center" valign="middle">1:32</td>
+              <td align="center" valign="middle">ND</td>
+              <td align="center" valign="middle">Negative</td>
+            </tr>
+            <tr>
+              <td align="center" valign="middle">3</td>
+              <td align="center" valign="middle">M</td>
+              <td align="center" valign="middle">75</td>
+              <td align="center" valign="middle">Positive</td>
+              <td align="center" valign="middle">1:16</td>
+              <td align="center" valign="middle">1:256</td>
+              <td align="center" valign="middle">Positive</td>
+            </tr>
+            <tr>
+              <td align="center" valign="middle">5</td>
+              <td align="center" valign="middle">F</td>
+              <td align="center" valign="middle">53</td>
+              <td align="center" valign="middle">Positive</td>
+              <td align="center" valign="middle">1:16</td>
+              <td align="center" valign="middle">ND</td>
+              <td align="center" valign="middle">Negative</td>
+            </tr>
+            <tr>
+              <td align="center" valign="middle">9</td>
+              <td align="center" valign="middle">F</td>
+              <td align="center" valign="middle">37</td>
+              <td align="center" valign="middle">Negative</td>
+              <td align="center" valign="middle">1:32</td>
+              <td align="center" valign="middle">ND</td>
+              <td align="center" valign="middle">Negative</td>
+            </tr>
+            <tr>
+              <td align="center" valign="middle">10</td>
+              <td align="center" valign="middle">F</td>
+              <td align="center" valign="middle">38</td>
+              <td align="center" valign="middle">Negative</td>
+              <td align="center" valign="middle">1:2</td>
+              <td align="center" valign="middle">ND</td>
+              <td align="center" valign="middle">Negative</td>
+            </tr>
+            <tr>
+              <td align="center" valign="middle">14</td>
+              <td align="center" valign="middle">M</td>
+              <td align="center" valign="middle">41</td>
+              <td align="center" valign="middle">Positive</td>
+              <td align="center" valign="middle">1:8</td>
+              <td align="center" valign="middle">ND</td>
+              <td align="center" valign="middle">Negative</td>
+            </tr>
+            <tr>
+              <td align="center" valign="middle">17</td>
+              <td align="center" valign="middle">F</td>
+              <td align="center" valign="middle">38</td>
+              <td align="center" valign="middle">Negative</td>
+              <td align="center" valign="middle">1:16</td>
+              <td align="center" valign="middle">ND</td>
+              <td align="center" valign="middle">Negative</td>
+            </tr>
+            <tr>
+              <td align="center" valign="middle">18</td>
+              <td align="center" valign="middle">F</td>
+              <td align="center" valign="middle">46</td>
+              <td align="center" valign="middle">Negative</td>
+              <td align="center" valign="middle">1:64</td>
+              <td align="center" valign="middle">ND</td>
+              <td align="center" valign="middle">Negative</td>
+            </tr>
+            <tr>
+              <td align="center" valign="middle">23</td>
+              <td align="center" valign="middle">M</td>
+              <td align="center" valign="middle">79</td>
+              <td align="center" valign="middle">Negative</td>
+              <td align="center" valign="middle">1:32</td>
+              <td align="center" valign="middle">ND</td>
+              <td align="center" valign="middle">Negative</td>
+            </tr>
+            <tr>
+              <td align="center" valign="middle">29</td>
+              <td align="center" valign="middle">M</td>
+              <td align="center" valign="middle">42</td>
+              <td align="center" valign="middle">Positive</td>
+              <td align="center" valign="middle">1:32</td>
+              <td align="center" valign="middle">1:128</td>
+              <td align="center" valign="middle">Positive</td>
+            </tr>
+            <tr>
+              <td align="center" valign="middle">31</td>
+              <td align="center" valign="middle">M</td>
+              <td align="center" valign="middle">19</td>
+              <td align="center" valign="middle">Positive</td>
+              <td align="center" valign="middle">1:128</td>
+              <td align="center" valign="middle">ND</td>
+              <td align="center" valign="middle">Positive</td>
+            </tr>
+            <tr>
+              <td align="center" valign="middle">32</td>
+              <td align="center" valign="middle">M</td>
+              <td align="center" valign="middle">32</td>
+              <td align="center" valign="middle">Positive</td>
+              <td align="center" valign="middle">1:2</td>
+              <td align="center" valign="middle">1:256</td>
+              <td align="center" valign="middle">Positive</td>
+            </tr>
+            <tr>
+              <td align="center" valign="middle">35</td>
+              <td align="center" valign="middle">M</td>
+              <td align="center" valign="middle">44</td>
+              <td align="center" valign="middle">Positive</td>
+              <td align="center" valign="middle">1:2</td>
+              <td align="center" valign="middle">ND</td>
+              <td align="center" valign="middle">Positive</td>
+            </tr>
+            <tr>
+              <td align="center" valign="middle">45</td>
+              <td align="center" valign="middle">F</td>
+              <td align="center" valign="middle">47</td>
+              <td align="center" valign="middle">Negative</td>
+              <td align="center" valign="middle">1:8</td>
+              <td align="center" valign="middle">ND</td>
+              <td align="center" valign="middle">Negative</td>
+            </tr>
+            <tr>
+              <td align="center" valign="middle">52</td>
+              <td align="center" valign="middle">M</td>
+              <td align="center" valign="middle">42</td>
+              <td align="center" valign="middle">Negative</td>
+              <td align="center" valign="middle">1:256</td>
+              <td align="center" valign="middle">ND</td>
+              <td align="center" valign="middle">Negative</td>
+            </tr>
+            <tr>
+              <td align="center" valign="middle">53</td>
+              <td align="center" valign="middle">F</td>
+              <td align="center" valign="middle">19</td>
+              <td align="center" valign="middle">Negative</td>
+              <td align="center" valign="middle">1:64</td>
+              <td align="center" valign="middle">ND</td>
+              <td align="center" valign="middle">Negative</td>
+            </tr>
+            <tr>
+              <td align="center" valign="middle">55</td>
+              <td align="center" valign="middle">M</td>
+              <td align="center" valign="middle">45</td>
+              <td align="center" valign="middle">Positive</td>
+              <td align="center" valign="middle">1:32</td>
+              <td align="center" valign="middle">ND</td>
+              <td align="center" valign="middle">Negative</td>
+            </tr>
+            <tr>
+              <td align="center" valign="middle">59</td>
+              <td align="center" valign="middle">M</td>
+              <td align="center" valign="middle">11</td>
+              <td align="center" valign="middle">Negative</td>
+              <td align="center" valign="middle">1:16</td>
+              <td align="center" valign="middle">ND</td>
+              <td align="center" valign="middle">Negative</td>
+            </tr>
+            <tr>
+              <td align="center" valign="middle">61</td>
+              <td align="center" valign="middle">F</td>
+              <td align="center" valign="middle">26</td>
+              <td align="center" valign="middle">Negative</td>
+              <td align="center" valign="middle">Negative</td>
+              <td align="center" valign="middle">ND</td>
+              <td align="center" valign="middle">Negative</td>
+            </tr>
+            <tr>
+              <td align="center" valign="middle">64</td>
+              <td align="center" valign="middle">F</td>
+              <td align="center" valign="middle">63</td>
+              <td align="center" valign="middle">Positive</td>
+              <td align="center" valign="middle">Negative</td>
+              <td align="center" valign="middle">1:128</td>
+              <td align="center" valign="middle">Negative</td>
+            </tr>
+            <tr>
+              <td align="center" valign="middle">69</td>
+              <td align="center" valign="middle">M</td>
+              <td align="center" valign="middle">35</td>
+              <td align="center" valign="middle">Negative</td>
+              <td align="center" valign="middle">1:8</td>
+              <td align="center" valign="middle">ND</td>
+              <td align="center" valign="middle">Positive</td>
+            </tr>
+            <tr>
+              <td align="center" valign="middle">74</td>
+              <td align="center" valign="middle">F</td>
+              <td align="center" valign="middle">35</td>
+              <td align="center" valign="middle">Negative</td>
+              <td align="center" valign="middle">1:8</td>
+              <td align="center" valign="middle">ND</td>
+              <td align="center" valign="middle">Negative</td>
+            </tr>
+            <tr>
+              <td align="center" valign="middle">75</td>
+              <td align="center" valign="middle">F</td>
+              <td align="center" valign="middle">57</td>
+              <td align="center" valign="middle">Positive</td>
+              <td align="center" valign="middle">1:64</td>
+              <td align="center" valign="middle">ND</td>
+              <td align="center" valign="middle">Negative</td>
+            </tr>
+            <tr>
+              <td align="center" valign="middle">81</td>
+              <td align="center" valign="middle">M</td>
+              <td align="center" valign="middle">45</td>
+              <td align="center" valign="middle">Positive</td>
+              <td align="center" valign="middle">1:32</td>
+              <td align="center" valign="middle">1:256</td>
+              <td align="center" valign="middle">Positive</td>
+            </tr>
+            <tr>
+              <td align="center" valign="middle">82</td>
+              <td align="center" valign="middle">M</td>
+              <td align="center" valign="middle">67</td>
+              <td align="center" valign="middle">Negative</td>
+              <td align="center" valign="middle">1:64</td>
+              <td align="center" valign="middle">ND</td>
+              <td align="center" valign="middle">Negative</td>
+            </tr>
+            <tr>
+              <td align="center" valign="middle" style="border-bottom:solid thin">85</td>
+              <td align="center" valign="middle" style="border-bottom:solid thin">F</td>
+              <td align="center" valign="middle" style="border-bottom:solid thin">77</td>
+              <td align="center" valign="middle" style="border-bottom:solid thin">Positive</td>
+              <td align="center" valign="middle" style="border-bottom:solid thin">1:64</td>
+              <td align="center" valign="middle" style="border-bottom:solid thin">ND</td>
+              <td align="center" valign="middle" style="border-bottom:solid thin">Negative</td>
+            </tr>
+          </tbody>
+        </table>
+      </table-wrap>
+    </sec>
+  </back>
+</article>
