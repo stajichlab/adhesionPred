@@ -136,6 +136,46 @@ Neither is identified; both are single-family leads worth a targeted look.
    genomes, to test whether the Pro/Cys-rich repeat class is an Onygenales-wide feature
    (BAD1 suggests it is).
 
+## 6a. The retrain test (2026-09-28) — positive result, with a leakage caveat
+
+Item 6.1 above, done: `analysis/model_review/repeat_structure_transfer_2a_retrain.py` adds the
+class2a candidates as training positives and re-runs `repeat_structure_transfer.py`'s transfer
+test. **Held-out integrity was checked by direct alignment, not by trusting the candidate
+table's own labels**: each of the 41 candidates was aligned (Biopython, BLOSUM62 local) against
+all 5 TEST proteins, and 5 turned out to literally be SOWgp orthologs from other strains
+(63.6–100% identity) — including one, Silveira `QVM10648.1`, that the repeat profiler had
+labeled `other`, not `ProCys_rich`. Those 5 are excluded from training; 36 remain.
+
+| training set | repeat-structure recovery | SOWgp58 | SOWgp66 |
+|---|---|---|---|
+| baseline (Saccharomycotina only) | 3/5 | 0.334 | 0.450 |
+| + all 36 non-SOWgp candidates | **5/5** | **0.701** | **0.741** |
+| + only the 16 non-SOWgp Pro/Cys-rich candidates | 4/5 | 0.475 (still misses) | 0.516 |
+
+This clears the handoff's stated success bar (both SOWgp58 and SOWgp66 cross 0.5) when all 36
+candidates are added. Two things temper that:
+
+- **Composition-only features stay at 2/5 regardless of retraining** — adding these positives
+  only helps the repeat-*structure* features, which is consistent with the original hypothesis
+  (length/composition confound broken by architecturally-similar, compositionally-different
+  positives), not just "more Coccidioides data helps everything."
+- **Leakage risk that isn't fully ruled out**: 3 of the 5 TEST targets (SOWgp58/66/82) are
+  *Coccidioides* proteins, and so are all 36 added positives (same genomes, different loci).
+  The model may be partly learning genome-specific composition/repeat quirks common to
+  *Coccidioides* repeat proteins generally, not a truly clade-general adhesin signature — the
+  fact that BAD1 (*Histoplasma*) and CspA (*Aspergillus*) were already recovered at baseline
+  and barely move means this experiment mainly speaks to within-species transfer, not the
+  cross-genus claim the original test was designed around. A cleaner version of this test would
+  need Pro/Cys-rich repeat-protein positives from *Histoplasma*/*Blastomyces* genomes, not more
+  *Coccidioides* ones.
+- **The 16 Pro/Cys-rich-only variant is the more conservative, better-matched-hypothesis test**
+  and only gets to 4/5 (SOWgp58 still misses at 0.475) — the full-36 result is partly carried by
+  the 20 non-Pro/Cys-rich candidates (10 Ser/Thr-rich, 11 "other"), which weakens the specific
+  "Pro/Cys-rich architecture closes the gap" story from the handoff.
+
+**Caveat carried forward unchanged:** all 41 candidates remain unvalidated computational
+predictions.
+
 ## 7. Files
 
 `analysis/cocci_repeats/`:
@@ -145,6 +185,12 @@ Neither is identified; both are single-family leads worth a targeted look.
 | `01_signalp.sh` | SignalP 6 (GPU) over long-read + reference proteomes |
 | `02_repeat_profile.py` | periodicity-based repeat detection + composition |
 | `03_repeat_surface_candidates.py` | join to class-2a candidates |
+
+`analysis/model_review/`:
+
+| file | contents |
+|---|---|
+| `repeat_structure_transfer_2a_retrain.py` | §6a retrain test: adds class2a candidates as training positives, checks held-out integrity by direct alignment against the TEST proteins |
 | `class2a_candidates.tsv` | **the 41 candidates** |
 | `repeat_profile_{longread,reference}.tsv` | full per-protein profiles (untracked, regenerable) |
 
