@@ -7,5 +7,6 @@
 #SBATCH -o logs/task7_seq_props.%j.log
 #SBATCH -e logs/task7_seq_props.%j.log
 
-cd /bigdata/stajichlab/jstajich/projects/adhesionPred/.claude/worktrees/adhesion-protein-properties
+PROJ_ROOT="${PROJ_ROOT:-/bigdata/stajichlab/jstajich/projects/adhesionPred}"
+cd "$PROJ_ROOT"
 /opt/linux/rocky/8.x/x86_64/pkgs/miniconda3/py39_4.12.0/bin/python analysis/adhesion_properties/03_compute_sequence_properties.py

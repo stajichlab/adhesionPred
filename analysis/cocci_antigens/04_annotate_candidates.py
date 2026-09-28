@@ -10,12 +10,16 @@ peptide and no TM helix are intracellular and are flagged, not silently kept.
 
 import argparse
 import csv
+import sys
 from collections import defaultdict
 from pathlib import Path
 
 import duckdb
 
-DB = Path("/bigdata/stajichlab/shared/projects/Fungi_5k/functionalDB/function.duckdb")
+sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
+from analysis._common.paths import FUNGI5K_DUCKDB  # noqa: E402
+
+DB = FUNGI5K_DUCKDB
 RS_PREFIX = "FA2214EC"
 
 

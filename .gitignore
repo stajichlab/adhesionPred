@@ -22,6 +22,9 @@ build/
 input/
 output/
 
+# Large intermediates from analysis/ scripts (see config/site.yaml: workdir)
+_workdir/
+
 # Misc
 .DS_Store
 

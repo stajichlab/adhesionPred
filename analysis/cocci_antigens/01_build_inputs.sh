@@ -5,9 +5,12 @@
 #   - anchor -> reference gene mapping
 # Run:  srun -p epyc -c 8 --mem 16G -t 60 ./01_build_inputs.sh
 set -euo pipefail
-OUT=${OUT:-/bigdata/stajichlab/jstajich/projects/adhesionPred_review/cocci_antigens}
-PAN=/bigdata/stajichlab/shared/projects/Coccidioides/PopGenomics/2025_All_Cocci/Pangenome
-F5K=/bigdata/stajichlab/shared/projects/Fungi_5k/input
+PROJ_ROOT="${PROJ_ROOT:-/bigdata/stajichlab/jstajich/projects/adhesionPred}"
+source "$PROJ_ROOT/analysis/_common/paths.sh"
+
+OUT=${OUT:-$WORKDIR/cocci_antigens}
+PAN=$COCCI_PANGENOME
+F5K=$FUNGI5K_INPUT
 mkdir -p "$OUT" && cd "$OUT"
 module load MMseqs2 2>/dev/null || true
 T=${SLURM_CPUS_PER_TASK:-8}

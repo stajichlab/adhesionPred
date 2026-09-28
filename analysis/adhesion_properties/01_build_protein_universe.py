@@ -12,8 +12,11 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from universe import build_protein_universe  # noqa: E402
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
+sys.path.insert(0, str(REPO_ROOT))
+from analysis._common.paths import FUNGI5K_INPUT  # noqa: E402
+
 RESULTS_DIR = REPO_ROOT / "results"
-INPUT_DIR = Path("/bigdata/stajichlab/shared/projects/Fungi_5k/input")
+INPUT_DIR = FUNGI5K_INPUT
 SUMMARY_CSV = REPO_ROOT / "analysis" / "kingdom_survey" / "tables" / "species_adhesion_summary.csv"
 OUT_DIR = Path(__file__).resolve().parent / "tables"
 

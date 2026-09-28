@@ -21,10 +21,14 @@ the ranking is not trustworthy on unknown proteins.
 import argparse
 import csv
 import statistics as st
+import sys
 from collections import defaultdict
 from pathlib import Path
 
-PAN = Path("/bigdata/stajichlab/shared/projects/Coccidioides/PopGenomics/2025_All_Cocci/Pangenome")
+sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
+from analysis._common.paths import COCCI_PANGENOME  # noqa: E402
+
+PAN = COCCI_PANGENOME
 OG = PAN / "results/Cocci_496_OG2_5_5/Orthogroups"
 REF_COL = "CimmitisRS_FungiDB"
 CONFOUNDERS = ["Histoplasma", "Blastomyces", "Paracoccidioides", "Aspergillus_fumigatus"]

@@ -1,0 +1,12 @@
+# Site-specific paths for adhesionPred analysis scripts on UCR HPCC.
+# Loaded by analysis/_common/paths.py (Python) and analysis/_common/paths.sh (bash).
+# Keys and their origin are documented in docs/HANDOFF-HPCC.md section 2.2.
+
+fungi5k_input: /bigdata/stajichlab/shared/projects/Fungi_5k/input
+fungi5k_duckdb: /bigdata/stajichlab/shared/projects/Fungi_5k/functionalDB/function.duckdb
+fungi5k_samples: /bigdata/stajichlab/shared/projects/Fungi_5k/samples.csv
+cocci_pangenome: /bigdata/stajichlab/shared/projects/Coccidioides/PopGenomics/2025_All_Cocci/Pangenome
+cocci_longread: /bigdata/stajichlab/shared/projects/Onygenales/Coccidioides/UArizona_strains/For_Marc
+spherule_rnaseq: /bigdata/stajichlab/jstajich/projects/Coccidioides_UCSD_SpheruleMycelium/reports
+rhodotorula_biofilm: /bigdata/stajichlab/shared/projects/Rhodotorula/Biofilm/00_input
+workdir: /bigdata/stajichlab/jstajich/projects/adhesionPred/_workdir

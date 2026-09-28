@@ -27,6 +27,7 @@ dependencies = [
     "matplotlib>=3.9",
     "seaborn>=0.13",
     "umap-learn",
+    "pyyaml",
 ]
 license = { file = "LICENSE" }
 dynamic = ["version"]

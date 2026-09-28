@@ -6,11 +6,16 @@ Run on HPCC (needs function.duckdb): python 05_known_virulence_families.py
 """
 
 import csv
+import sys
+from pathlib import Path
 
 import duckdb
 
-DB = "/bigdata/stajichlab/shared/projects/Fungi_5k/functionalDB/function.duckdb"
-RES = "/bigdata/stajichlab/jstajich/projects/adhesionPred/results"
+sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
+from analysis._common.paths import FUNGI5K_DUCKDB, REPO_ROOT  # noqa: E402
+
+DB = str(FUNGI5K_DUCKDB)
+RES = str(REPO_ROOT / "results")
 SP = {
     "Bd_JAM81": ("F2ADAE73", "Batrachochytrium_dendrobatidis_JAM81"),
     "Bsal_AMFP13": ("F61BA062", "Batrachochytrium_salamandrivorans_AMFP13"),

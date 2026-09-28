@@ -5,12 +5,17 @@ Run on HPCC (needs function.duckdb): python 01_cbm18_vs_calls.py
 """
 
 import csv
+import sys
+from pathlib import Path
 
 import duckdb
 from scipy.stats import fisher_exact
 
-DB = "/bigdata/stajichlab/shared/projects/Fungi_5k/functionalDB/function.duckdb"
-RES = "/bigdata/stajichlab/jstajich/projects/adhesionPred/results"
+sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
+from analysis._common.paths import FUNGI5K_DUCKDB, REPO_ROOT  # noqa: E402
+
+DB = str(FUNGI5K_DUCKDB)
+RES = str(REPO_ROOT / "results")
 SP = {
     "Batrachochytrium_dendrobatidis_JAM81": ("F2ADAE73", 7021),
     "Batrachochytrium_salamandrivorans_AMFP13": ("F61BA062", 16260),

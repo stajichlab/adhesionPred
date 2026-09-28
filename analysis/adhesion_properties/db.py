@@ -6,13 +6,17 @@ function here filters against a caller-supplied protein-id list
 """
 
 import os
+import sys
 from collections.abc import Iterable
 from pathlib import Path
 
 import duckdb
 import pandas as pd
 
-FUNCTION_DB_PATH = Path("/bigdata/stajichlab/shared/projects/Fungi_5k/functionalDB/function.duckdb")
+sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
+from analysis._common.paths import FUNGI5K_DUCKDB  # noqa: E402
+
+FUNCTION_DB_PATH = FUNGI5K_DUCKDB
 
 _ALLOWED_DOMAIN_TABLES = {"pfam", "cazy_overview", "merops", "signalp", "tmhmm", "targetp"}
 

@@ -1,11 +1,16 @@
 import csv
 import math
 import statistics as st
+import sys
 from collections import defaultdict
+from pathlib import Path
 
 import duckdb
 
-DB = "/bigdata/stajichlab/shared/projects/Fungi_5k/functionalDB/function.duckdb"
+sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
+from analysis._common.paths import FUNGI5K_DUCKDB  # noqa: E402
+
+DB = str(FUNGI5K_DUCKDB)
 RS = "FA2214EC"
 con = duckdb.connect(DB, read_only=True)
 con.execute("PRAGMA memory_limit='3GB'")

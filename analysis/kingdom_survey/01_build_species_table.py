@@ -9,9 +9,12 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from join import build_species_table, find_missing_results, load_samples_taxonomy  # noqa: E402
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
+sys.path.insert(0, str(REPO_ROOT))
+from analysis._common.paths import FUNGI5K_INPUT, FUNGI5K_SAMPLES  # noqa: E402
+
 RESULTS_DIR = REPO_ROOT / "results"
-INPUT_DIR = Path("/bigdata/stajichlab/shared/projects/Fungi_5k/input")
-SAMPLES_CSV = Path("/bigdata/stajichlab/shared/projects/Fungi_5k/samples.csv")
+INPUT_DIR = FUNGI5K_INPUT
+SAMPLES_CSV = FUNGI5K_SAMPLES
 OUT_DIR = Path(__file__).resolve().parent / "tables"
 
 MATCHED_FIELDS = [

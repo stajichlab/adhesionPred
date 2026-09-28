@@ -19,8 +19,11 @@ cd "${SLURM_SUBMIT_DIR:-.}"
 mkdir -p logs signalp
 module load signalp/6-gpu 2>/dev/null || module load signalp/6
 
-LR=/bigdata/stajichlab/shared/projects/Onygenales/Coccidioides/UArizona_strains/For_Marc
-PAN=/bigdata/stajichlab/shared/projects/Coccidioides/PopGenomics/2025_All_Cocci/Pangenome/input_run2
+PROJ_ROOT="${PROJ_ROOT:-/bigdata/stajichlab/jstajich/projects/adhesionPred}"
+source "$PROJ_ROOT/analysis/_common/paths.sh"
+
+LR=$COCCI_LONGREAD
+PAN=$COCCI_PANGENOME/input_run2
 
 for FA in "$LR"/*/*.proteins.fa "$PAN"/CimmitisRS_FungiDB.fasta "$PAN"/CposadasiiSilveira2022_FungiDB.fasta; do
   [ -s "$FA" ] || continue
