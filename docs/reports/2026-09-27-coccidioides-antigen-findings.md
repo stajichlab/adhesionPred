@@ -69,7 +69,7 @@ when known antigens are missed.
 | confounder proteomes | `Fungi_5k/input`: *Histoplasma capsulatum* G186AR, *Blastomyces dermatitidis* ER-3, *Paracoccidioides brasiliensis* Pb18, *Aspergillus fumigatus* Af293 |
 | human proteome | UniProt UP000005640 |
 | secretion / domains | Fungi_5k `function.duckdb` (SignalP, TMHMM, Pfam), joined via an MMseqs2 id map |
-| spherule expression | `jstajich/projects/Coccidioides_UCSD_SpheruleMycelium`, *C. immitis* RS, kallisto TPM, 2 replicates each of mycelia / spherule 48 h / spherule 8 d |
+| spherule expression | `jstajich/projects/Coccidioides_UCSD_SpheruleMycelium`, *C. immitis* RS, kallisto TPM, 2 replicates each of mycelia / spherule 48 h / spherule 8 d. **Data from Carlin et al. 2021** (mycelia, young and mature spherules); see §10. Related regulatory work: Duttke et al. 2022 (csRNA-seq of the phase transition). |
 | anchors | UniProt Q8NK60, Q8NK61, Q96V71 (SOWgp); Q12295, A0A0E1RVD3 (Ag2/PRA); Q6K1L8 (PRA2); Q2TVJ9 (PRA3); Q1E3R8, P0CB51 (CF antigen) |
 
 **Score.** Two axes, deliberately kept separate:
@@ -148,6 +148,15 @@ SOWgp is essentially off in mycelia and among the most abundant transcripts in t
 spherule — ~1,000-fold induction, top of the genome. The 48 h > 8 d ordering matches the
 published "elevated during early spherule development" (Hung et al. 2002), which is independent
 evidence the dataset and the ID join are correct.
+
+**Independently corroborated by the source study.** Carlin et al. 2021, reporting this
+dataset, note that genes highly upregulated in young spherules include "a spherule surface
+protein" and that "genes that are unique to *Coccidioides* spp. are also overrepresented in
+this group". Both observations match what falls out of the analysis here: SOWgp is the
+top-percentile spherule-induced surface protein, and the Tier-1 candidates (§5.2) are by
+construction *Coccidioides*-specific **and** spherule-induced — the intersection that paper
+flags as enriched. Our candidate criteria were derived independently, so the agreement is
+support for the approach rather than a circular result.
 
 > **Warning.** The PRA family goes the *other* way: Ag2/PRA, PRA2 and PRA3 are all mycelia-high
 > and down in spherules here. **Spherule induction is not a general antigenicity filter for this
@@ -302,6 +311,10 @@ All under `analysis/cocci_antigens/`:
 **Literature**
 - Hung CY, Yu JJ, Seshan KR, Reichard U, Cole GT. 2002. A parasitic phase-specific adhesin of *Coccidioides immitis* contributes to the virulence of this respiratory fungal pathogen. *Infect Immun* 70:3443-56. https://doi.org/10.1128/IAI.70.7.3443-3456.2002 — SOWgp binds laminin > fibronectin > collagen IV; deletion reduces ECM binding and virulence; 4–6 tandem repeats; parasitic-phase specific, elevated in early spherule development.
 - Hung CY, Xue J, Cole GT. 2007. Virulence mechanisms of *Coccidioides*. *Ann N Y Acad Sci* 1111:225-35. https://doi.org/10.1196/annals.1406.020 — SOWgp depletion on endospores as immune evasion.
+
+**Spherule/mycelium RNA-seq**
+- Carlin AF, Beyhan S, Peña JF, Stajich JE, Viriyakosol S, Fierer J, Kirkland TN. 2021. Transcriptional analysis of *Coccidioides immitis* mycelia and spherules by RNA sequencing. *J Fungi (Basel)* 7(5):366. PMID 34067070. https://doi.org/10.3390/jof7050366 — **the source of the expression data used in §3.6/§4.5.** Reports young- and mature-spherule upregulation including a spherule surface protein, and overrepresentation of *Coccidioides*-unique genes among spherule-upregulated genes.
+- Duttke SH, Beyhan S, Singh R, Neal S, Viriyakosol S, Fierer J, Kirkland TN, Stajich JE, Benner C, Carlin AF. 2022. Decoding transcription regulatory mechanisms associated with *Coccidioides immitis* phase transition using total RNA. *mSystems* 7(1):e0140421. PMID 35076277. https://doi.org/10.1128/msystems.01404-21 — csRNA-seq of the phase transition; identifies alternative promoter usage and a WOPR-family transcription factor (CIMG_02671) as critical for pathogenic growth. Relevant if the Tier-1 candidates are followed up for regulatory control.
 
 **Databases** — UniProtKB, IEDB Query API, Pfam/InterPro, NCBI Datasets, SRA.
 
