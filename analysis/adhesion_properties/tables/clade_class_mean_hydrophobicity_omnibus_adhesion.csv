@@ -1,0 +1,2 @@
+rank,value_col,h_stat,p_value,epsilon_squared,n_groups,n_total
+class,mean_hydrophobicity,37130.55016244221,0.0,0.049643356823142595,60,747947

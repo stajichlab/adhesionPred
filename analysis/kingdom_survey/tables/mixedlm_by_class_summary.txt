@@ -1,0 +1,50 @@
+                      Mixed Linear Model Regression Results
+==================================================================================
+Model:                   MixedLM       Dependent Variable:       adhesion_fraction
+No. Observations:        5587          Method:                   ML               
+No. Groups:              1263          Scale:                    0.0000           
+Min. group size:         1             Log-Likelihood:           25068.3203       
+Max. group size:         235           Converged:                Yes              
+Mean group size:         4.4                                                      
+----------------------------------------------------------------------------------
+                                        Coef.  Std.Err.   z    P>|z| [0.025 0.975]
+----------------------------------------------------------------------------------
+Intercept                                0.009    0.000 50.743 0.000  0.009  0.010
+C(Q('class'))[T.Blastocladiomycetes]     0.002    0.002  1.137 0.255 -0.001  0.005
+C(Q('class'))[T.Chytridiomycetes]        0.007    0.001 11.491 0.000  0.006  0.008
+C(Q('class'))[T.Cystobasidiomycetes]    -0.001    0.002 -0.645 0.519 -0.004  0.002
+C(Q('class'))[T.Dimargaritomycetes]     -0.001    0.002 -0.306 0.759 -0.004  0.003
+C(Q('class'))[T.Dipodascomycetes]        0.004    0.001  5.127 0.000  0.002  0.005
+C(Q('class'))[T.Dothideomycetes]         0.006    0.000 18.448 0.000  0.005  0.006
+C(Q('class'))[T.Entomophthoromycetes]    0.006    0.001  4.362 0.000  0.004  0.009
+C(Q('class'))[T.Eurotiomycetes]          0.001    0.000  2.052 0.040  0.000  0.002
+C(Q('class'))[T.Exobasidiomycetes]      -0.001    0.001 -1.667 0.095 -0.003  0.000
+C(Q('class'))[T.Geoglossomycetes]        0.003    0.001  2.217 0.027  0.000  0.006
+C(Q('class'))[T.Glomeromycetes]          0.001    0.001  0.721 0.471 -0.001  0.002
+C(Q('class'))[T.Harpellomycetes]         0.011    0.002  7.018 0.000  0.008  0.015
+C(Q('class'))[T.Kickxellomycetes]        0.003    0.001  2.793 0.005  0.001  0.006
+C(Q('class'))[T.Lecanoromycetes]         0.005    0.000 10.219 0.000  0.004  0.006
+C(Q('class'))[T.Leotiomycetes]           0.007    0.000 16.395 0.000  0.006  0.007
+C(Q('class'))[T.Lichinomycetes]          0.002    0.002  1.456 0.145 -0.001  0.006
+C(Q('class'))[T.Lipomycetes]            -0.002    0.001 -1.852 0.064 -0.005  0.000
+C(Q('class'))[T.Malasseziomycetes]      -0.007    0.003 -2.590 0.010 -0.012 -0.002
+C(Q('class'))[T.Microbotryomycetes]      0.002    0.001  1.492 0.136 -0.000  0.004
+C(Q('class'))[T.Mortierellomycetes]     -0.001    0.001 -1.570 0.116 -0.003  0.000
+C(Q('class'))[T.Mucoromycetes]          -0.002    0.001 -3.488 0.000 -0.003 -0.001
+C(Q('class'))[T.Neocallimastigomycetes]  0.030    0.001 20.840 0.000  0.028  0.033
+C(Q('class'))[T.Orbiliomycetes]          0.020    0.001 15.523 0.000  0.017  0.023
+C(Q('class'))[T.Pezizomycetes]           0.002    0.001  3.688 0.000  0.001  0.004
+C(Q('class'))[T.Pichiomycetes]           0.001    0.000  2.720 0.007  0.000  0.002
+C(Q('class'))[T.Pneumocystomycetes]      0.007    0.003  2.487 0.013  0.001  0.012
+C(Q('class'))[T.Pucciniomycetes]        -0.002    0.001 -1.818 0.069 -0.004  0.000
+C(Q('class'))[T.Saccharomycetes]         0.003    0.001  6.664 0.000  0.002  0.004
+C(Q('class'))[T.Schizosaccharomycetes]  -0.003    0.003 -1.273 0.203 -0.009  0.002
+C(Q('class'))[T.Sordariomycetes]         0.007    0.000 24.022 0.000  0.006  0.007
+C(Q('class'))[T.Taphrinomycetes]         0.003    0.002  1.461 0.144 -0.001  0.007
+C(Q('class'))[T.Tremellomycetes]         0.001    0.001  2.389 0.017  0.000  0.002
+C(Q('class'))[T.Trigonopsidomycetes]     0.011    0.001  7.872 0.000  0.009  0.014
+C(Q('class'))[T.Umbelopsidomycetes]     -0.000    0.003 -0.054 0.957 -0.005  0.005
+C(Q('class'))[T.Ustilaginomycetes]      -0.004    0.001 -4.853 0.000 -0.006 -0.002
+C(Q('class'))[T.Zoopagomycetes]          0.004    0.001  3.038 0.002  0.001  0.006
+Group Var                                0.000    0.000                           
+==================================================================================
