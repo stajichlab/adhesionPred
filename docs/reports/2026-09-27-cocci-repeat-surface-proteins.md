@@ -105,6 +105,26 @@ Ser/Thr-rich adhesin family. It has not been characterized here and deserves its
 
 Neither is identified; both are single-family leads worth a targeted look.
 
+### 4.4a Follow-up (2026-09-28) — one closed, one real and already in the dataset
+
+- **Period-76 is polyubiquitin, not an adhesin candidate.** The repeat unit
+  (`MQIFVKTLTGKTITLEVESSDTIDNVKTKIQDKEGIPPDQQRLIFAGKQLEDGRTLSDYNIQKESTLHLVLRLRGG`) is the
+  canonical 76-aa eukaryotic ubiquitin monomer, exactly. The protein is a 4-copy polyubiquitin
+  precursor (`CIMG_12861` and orthologs in 4 other genomes) — a universal, cytoplasmic,
+  housekeeping gene. The periodicity detector worked correctly; the biology is mundane. **Closed,
+  not a lead.**
+- **Period-34 is `CIMG_00195` and its orthologs — already one of the 41 class2a candidates**
+  (labeled `ProCys_rich(SOWgp_BAD1_type)`, SignalP-secreted), so it was already included as a
+  training positive in the §6a retrain test without ever being singled out as its own family.
+  Found in **6 of 7 genomes** (no call in the Silveira reference; one genome, *C. posadasii*
+  Cpos3700, carries two paralogs), copy number 3.7–4.8 — itself copy-number-polymorphic, the
+  same pattern SOWgp shows. Its repeat unit (`CEPHGDHWHCPPGVPEPTTPPP...`, ~4–5 copies) carries
+  **2 Cys + 3 His per 34 aa repeat** — a distinct chemistry from SOWgp/BAD1's plain Pro/Cys
+  composition. **Not yet identified against Pfam**: an EBI HMMER web-API lookup was attempted
+  and failed (405, wrong request format for that endpoint) rather than returning a genuine
+  no-hit, so whether this is a named domain family or an uncharacterized fungal-specific repeat
+  is still an open question, not a checked negative.
+
 ## 5. Limitations
 
 1. **Secretion is SignalP-only.** No GPI-anchor prediction was run, so genuinely cell-wall
@@ -130,8 +150,10 @@ Neither is identified; both are single-family leads worth a targeted look.
 2. **Read-depth at the SOWgp locus** across the strains lacking a call, and across the 402
    SRA WGS runs, to separate real absence from assembly and annotation artifact.
 3. **Add NetGPI** to the surface filter (limitation 1).
-4. **Identify the period-17 and period-76 families** — BLAST/HMM against characterized
-   proteins, check expression and pangenome prevalence.
+4. **Identify the period-17 family** (§4.3's expanded Ser/Thr-rich family, 10 members, 5 copies
+   in Cpos1038 vs 1 in Silveira) — still open. (Period-76 and period-34 are done: §4.4a —
+   period-76 is polyubiquitin, closed; period-34 is `CIMG_00195`/orthologs, named, but its
+   Cys/His-rich repeat unit is not yet matched to a Pfam family.)
 5. **Extend to Onygenales** — *Histoplasma*, *Blastomyces*, *Paracoccidioides* long-read
    genomes, to test whether the Pro/Cys-rich repeat class is an Onygenales-wide feature
    (BAD1 suggests it is).
