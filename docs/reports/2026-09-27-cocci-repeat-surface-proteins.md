@@ -134,6 +134,55 @@ Neither is identified; both are single-family leads worth a targeted look.
   has a real, now-named domain architecture: one DUF8375 domain followed by a tandem array of
   histidine-triad hairpin repeats.
 
+### 4.5 Spherule vs mycelium expression of the Pro/Cys-rich (SOWgp-class) candidates
+
+`analysis/cocci_repeats/04_procys_rs_expression.py`. The RNA-seq
+(`Coccidioides_UCSD_SpheruleMycelium/reports/RS1_kallisto.TPM.csv`) is quantified on
+*C. immitis* RS transcripts only. So each of the 20 `ProCys_rich(SOWgp_BAD1_type)` candidates
+was mapped to RS by DIAMOND blastp best hit (`--ultra-sensitive`, masking off, E ≤ 1e-5).
+All mapped hits cover 89–100% of the query. Per-candidate mapping: `procys_rs_map.tsv`.
+
+The 20 candidates collapse to **5 RS loci**, plus **1 family with no RS gene model**:
+
+| RS locus | what it is | candidates (strains) | Myc r1 / r2 | Sph48h r1 / r2 | Sph8d r1 / r2 | log2FC 48h/Myc | log2FC 8d/Myc |
+|---|---|---|---|---|---|---|---|
+| `CIMG_04613` | SOWgp, period 47 | 4 (RS, CiB10637, CiB10992, Silveira) | 11.1 / 15.1 | **14,063 / 15,938** | 5,486 / 4,193 | **+10.1** | **+8.4** |
+| `CIMG_07912` | period 7–14, 105 aa | 5 (RS, CiB10637, CiB10992, Cpos1038, Cpos3700) | 5.5 / 7.5 | 7.0 / 13.3 | 18.4 / 20.1 | +0.6 | +1.4 |
+| `CIMG_04070` | RS ortholog of a Cpos1038 period-9 candidate | 1 (Cpos1038) | 7.1 / 16.7 | 5.8 / 5.4 | 4.5 / 3.6 | −1.0 | −1.4 |
+| `CIMG_00195` | DUF8375 + His-triad hairpin repeats, period 34 (§4.4a) | 5 (RS, CiB10637, CiB10992, VFC140, Cpos3700) | 6.5 / 4.4 | 4.6 / 3.1 | 1.5 / 1.2 | −0.4 | −1.5 |
+| `CIMG_09489` | RS ortholog of a Silveira period-19 candidate | 1 (Silveira) | 1.0 / 2.8 | 1.0 / 2.3 | 1.4 / 1.4 | −0.1 | −0.3 |
+| *(none)* | Pro-rich (34–39% Pro) period 16–20 family | 4 (CiB10637, Cpos1038, Cpos3700, Silveira) | — | — | — | — | — |
+
+TPM values are per replicate. log2FC = log2((mean + 1) / (mycelium mean + 1)).
+Full table: `procys_rs_tpm.tsv`.
+
+What the data show:
+
+- **Only SOWgp is spherule-induced.** It reaches ~15,000 TPM at 48 h, about 1,000× mycelium.
+  This matches SOWgp's known spherule-specific expression (Hung et al. 2002). It also confirms
+  that the RS mapping and TPM join put a known gene in the right place.
+- **`CIMG_00195` is expressed at low levels in all conditions** (1–6 TPM). It is lowest in
+  8-day spherules. There is no evidence here that it is a spherule-phase protein.
+- `CIMG_07912` rises from ~6.5 TPM (mycelium) to ~19 TPM (8-day spherule). The absolute
+  level is low.
+- `CIMG_04070` and `CIMG_09489` were called repeat proteins only in Cpos1038 and Silveira.
+  Their RS orthologs were not called repeat proteins in RS. Their expression is low and flat.
+
+**The Pro-rich period-16/20 family has no RS expression value, and this is not evidence of no
+expression.** The four members are one family (56–89% identity to each other by DIAMOND).
+None of them has any RS protein hit, even at E ≤ 10. But tblastn against the RS genome
+(FungiDB-46, SEG off) finds the locus at **GG704916:578013–578609 (minus strand)**
+(CiB10637 member: 86% identity over aa 1–172). The FungiDB RS proteome has no gene model
+there; the gene ID `CIMG_03148` is missing from the numbering between `CIMG_03147` and
+`CIMG_03149` at this position. The kallisto index has no transcript for it either. So this
+family is an **RS annotation gap**. `CIMG_13683` overlaps the locus on the opposite strand,
+so its TPM (2–5) does not measure this family. To measure this family, add a gene model at
+this locus and re-quantify.
+
+Limits of this table: 2 replicates per condition; no differential-expression test; log2FC is
+descriptive only. Expression is measured in *C. immitis* RS only. It does not show expression
+in the other strains.
+
 ## 5. Limitations
 
 1. **Secretion is SignalP-only.** No GPI-anchor prediction was run, so genuinely cell-wall
@@ -216,6 +265,7 @@ predictions.
 | `01_signalp.sh` | SignalP 6 (GPU) over long-read + reference proteomes |
 | `02_repeat_profile.py` | periodicity-based repeat detection + composition |
 | `03_repeat_surface_candidates.py` | join to class-2a candidates |
+| `04_procys_rs_expression.py` | §4.5: map Pro/Cys-rich candidates to RS (DIAMOND), join RS1 TPM → `procys_rs_map.tsv`, `procys_rs_tpm.tsv` |
 
 `analysis/model_review/`:
 
