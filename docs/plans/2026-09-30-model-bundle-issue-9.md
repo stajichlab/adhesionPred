@@ -2,6 +2,16 @@
 
 *Drafted 2026-09-30. Revised 2026-09-30 after an independent Opus 5.5 review (section 7). Status: proposal, not implemented.*
 
+## 0. Scope and wording (clarified 2026-09-30)
+
+The model this plan covers is **step 1: a surface glycoprotein predictor**, not an adhesin
+predictor (`docs/TOOL-ARCHITECTURE.md` section 2.0). The bundle, card and `predict` output in
+this plan therefore describe a *surface glycoprotein score*. Where this plan or the code says
+"adhesion", read "surface glycoprotein" until the rename is done. Renaming the CLI, the
+`probability_adhesion` column and the `Adhesion` label is a schema change. It is **not** part of
+steps 1-6 below. It is listed as open item R1 in section 8 and needs the design review.
+Mechanism-specific adhesin classes are separate tools with their own models and are out of scope here.
+
 ## 1. Problem, with what is already fixed
 
 Issue #9 has three parts. Two are partly done in `main`.
@@ -56,10 +66,14 @@ One directory or one file per model, `adhesion_model_<esm>.joblib`, plus `.json`
 `sklearn.pipeline.Pipeline([("scale", StandardScaler()), ("clf", LogisticRegression(...))])`.
 
 Loading rules:
-- Legacy pickles (no card) get an implied card with `pooling="legacy_all_tokens"`. `predict` must
-  either reproduce that pooling for them or refuse. Default: add a `pooling` option to
-  `get_esm_embeddings` (`residue_mean` | `all_tokens_legacy`) and let the card choose it.
-  Silent "assume defaults" is not acceptable, because the defaults are wrong for these files.
+- Legacy pickles (no card) get an implied card with `pooling="legacy_all_tokens"`. Silent "assume
+  defaults" is not acceptable, because the defaults are wrong for these files.
+  **Exact reproduction is impossible.** Legacy pooling averaged padding tokens, so each training
+  embedding depended on the other sequences in its batch. The Feb 2026 batch size and order were
+  not recorded (the 2026-09-27 review script assumes batch 4 on CPU in file order). An emulation
+  can approximate the legacy input but cannot be shown equal to it. So: emulate behind an
+  explicit `--legacy-pooling` flag with a printed warning, never as a default, and retrain
+  (step 6) so the legacy path can be retired.
 - `load_model` accepts `.joblib` and legacy `.pkl`. A bare classifier is returned as is.
 - A legacy model with no card prints one warning naming what is unverified.
 - Pickle and joblib both execute code on load. State in the README that model files must come
@@ -135,9 +149,8 @@ Each step is one commit. Steps 1-3 need no GPU.
 - `predict` on a v2 bundle and on each legacy pickle both run; a wrong-layer call exits non-zero.
 - The card of a newly trained bundle lists every field in 3.2 and sets no value it did not compute.
 - Step 1 and step 6 comparisons are in a report with numbers, including the case where nothing changed.
-- T0: for a fixed 100-sequence set, a legacy pickle scored through the new path with
-  `legacy_all_tokens` pooling gives the same scores as the pre-`9dfe519` code. Identity holds only
-  with the same pooling and a bare-LR bundle.
+- T0: for a fixed 100-sequence set and a fixed batch size, the `--legacy-pooling` path gives the
+  same scores as the pre-`9dfe519` code. Identity is not claimed for other batchings.
 
 ## 6. Risks
 
@@ -166,3 +179,12 @@ Seven findings; all are applied above.
 The reviewer confirmed the card, bare-LR and pickle claims against `train.py`, `model.py` and
 `predict.py`, and loaded both shipped pickles (C=1.0, shapes (1,320) and (1,480)). It corrected
 one statement: the 0.995 figure is for `aa_comp+length`, not composition alone.
+
+## 8. Open items raised after review
+
+| id | item | state |
+|---|---|---|
+| R1 | Rename CLI, column and label from adhesion to surface glycoprotein (section 0) | proposed in TOOL-ARCHITECTURE 2.0; waits for design review |
+| R2 | Pooling mismatch for shipped pickles: measure and document | job 29301182 (step 1); issue filed |
+| R3 | Agreement between the ESM + LR step-1 CLI and a SignalP + GPI call | not measured |
+| R4 | `src/adhesion_predict/models/adhesion_model_esm2_t6_8M_UR50D.pkl` is untracked although `pyproject.toml` packages `models/*` | open; identical to `models/` copy (md5 checked) |
