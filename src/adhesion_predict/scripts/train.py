@@ -36,6 +36,21 @@ def sequences_sha256(sequences):
     return h.hexdigest()
 
 
+def dedupe_sequences(sequences):
+    """Drop records whose (label, sequence) was already seen; keep the first id.
+
+    Exact duplicates inflate the positive class and leak across the train/test split.
+    """
+    seen = set()
+    unique = []
+    for seq in sequences:
+        key = (seq["label"], seq["sequence"])
+        if key not in seen:
+            seen.add(key)
+            unique.append(seq)
+    return unique
+
+
 def prepare_data(positive_dir, negative_dir):
     """Load and label sequences from positive and negative directories."""
     print("Loading sequences...")
@@ -60,7 +75,11 @@ def prepare_data(positive_dir, negative_dir):
         seq["label"] = 0
         all_sequences.append(seq)
 
-    return all_sequences
+    unique = dedupe_sequences(all_sequences)
+    n_removed = len(all_sequences) - len(unique)
+    if n_removed:
+        print(f"  Removed {n_removed} exact-duplicate sequences ({len(unique)} remain)")
+    return unique, n_removed
 
 
 def main(positive_dir, negative_dir, output_model, model_name, test_size):
@@ -69,7 +88,7 @@ def main(positive_dir, negative_dir, output_model, model_name, test_size):
     print("Adhesion Protein Classification - LLM Training")
     print("=" * 50)
 
-    sequences = prepare_data(positive_dir, negative_dir)
+    sequences, n_duplicates_removed = prepare_data(positive_dir, negative_dir)
 
     embeddings, seq_ids, kept = get_esm_embeddings(
         sequences, model_name=model_name, return_indices=True
@@ -97,6 +116,7 @@ def main(positive_dir, negative_dir, output_model, model_name, test_size):
             "sklearn_version": sklearn.__version__,
             "n_positive": int(labels.sum()),
             "n_negative": int(len(labels) - labels.sum()),
+            "n_duplicates_removed": n_duplicates_removed,
             "n_not_embedded": len(sequences) - len(kept),
             "training_sequences_sha256": sequences_sha256(sequences),
             "positive_dir": str(positive_dir),

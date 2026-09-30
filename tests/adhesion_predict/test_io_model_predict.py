@@ -2,12 +2,11 @@
 
 import csv
 
-from sklearn.linear_model import LogisticRegression
-
 from adhesion_predict.features import extract_sequence_features
 from adhesion_predict.io import find_fasta_files, load_sequences_from_dir
 from adhesion_predict.model import load_model_card, save_model, save_model_card
 from adhesion_predict.scripts.predict import write_results
+from sklearn.linear_model import LogisticRegression
 
 
 def test_find_fasta_files_returns_each_file_once(tmp_path):
@@ -46,3 +45,14 @@ def test_write_results_quotes_ids_with_commas(tmp_path):
 
 def test_extract_sequence_features_treats_j_as_l():
     assert extract_sequence_features("JJ") == extract_sequence_features("LL")
+
+
+def test_dedupe_sequences_keeps_first_id_per_label():
+    from adhesion_predict.scripts.train import dedupe_sequences
+
+    seqs = [
+        {"id": "a", "sequence": "MK", "label": 1},
+        {"id": "b", "sequence": "MK", "label": 1},
+        {"id": "c", "sequence": "MK", "label": 0},
+    ]
+    assert [s["id"] for s in dedupe_sequences(seqs)] == ["a", "c"]
