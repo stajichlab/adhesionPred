@@ -19,6 +19,39 @@ adhesion. It is detecting repeats.
 
 ## 2. The architecture that follows
 
+### 2.0 Steps and names (clarified 2026-09-30)
+
+The shipped `adhesion_predict` CLI is **not** an adhesin predictor. It is the first step of a
+multi-step pipeline, and it answers a different question from its name.
+
+| Step | Question | What implements it today | Correct name |
+|---|---|---|---|
+| **1** | Is this a secreted, cell-surface glycoprotein? | The shipped `adhesion_predict` CLI (ESM-2 embeddings + logistic regression). Evidence: ~12% adhesin precision on S288C; behaves as a cell-surface glycoprotein detector (`docs/model-review/2026-09-27-review-and-framework-plan.md`). | **surface glycoprotein predictor** |
+| **2** | Which adhesion *mechanism*, if any? | Not one tool. 2a repeat detector (scripts in `analysis/cocci_repeats/`); 2b/2c HMM scans; 2d out of scope. A stage-2 classifier exists only as a script (`stage2_proof_of_concept.py`). | per-class names in the table below |
+| **3** | Is it useful for a specific purpose (antigen, biofilm)? | *Coccidioides* antigen tool only | purpose-specific predictor |
+
+Consequences for wording:
+- Output of step 1 is a **surface glycoprotein score**. It must not be reported as an
+  "adhesion probability". The CLI still prints `probability_adhesion` and the label `Adhesion`;
+  that wording is wrong and is tracked for change (see the open items in the #9 plan).
+- The `Adhesion` / `Non-adhesion` labels in `data/` mean "FLO/ALS-like surface glycoprotein" versus
+  random proteins, not "demonstrated to bind a ligand".
+- This document's Stage 1 (section below) defines the same question but names SignalP/NetGPI as
+  the tool. The ESM + LR CLI and a SignalP + GPI call are two implementations of step 1. Their
+  agreement has **not been measured**. Until it is, treat them as separate tools.
+
+**Proposed names** (proposal only; no code, CLI, column or package has been renamed):
+
+| Current | Proposed | Note |
+|---|---|---|
+| `adhesion_predict`, `adhesion_train` | `surface_glyco_predict`, `surface_glyco_train` | keep old entry points as deprecated aliases for one release |
+| column `probability_adhesion`, label `Adhesion` | `surface_glycoprotein_score`, `surface_glycoprotein` | output schema change; needs a version bump |
+| (scripts 02, 14 in `analysis/cocci_repeats/`) | `repeat_adhesin_detect` | class 2a; clade scope stated in the name or help |
+| PF05730, PF04681, PF01185/PF06766 scans | HMM scans, no ML | classes 2b-i, 2b-iii, 2c |
+
+The rename waits for the independent design review, because it changes the CLI, the output
+schema and the model card together.
+
 ### Stage 1 — general surface/secreted protein (clade-general)
 
 | | |
