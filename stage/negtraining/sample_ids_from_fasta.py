@@ -112,7 +112,7 @@ def main() -> int:
         "--seed",
         type=int,
         default=None,
-        help="Random seed for reproducible sampling (default: random)",
+        help="Random seed for reproducible sampling (default: random, printed to stderr)",
     )
 
     args = parser.parse_args()
@@ -132,7 +132,9 @@ def main() -> int:
         return 1
 
     ignored_ids = read_ignored_ids(tab_files, args.tab_column)
-    rng = random.Random(args.seed)
+    seed = args.seed if args.seed is not None else random.SystemRandom().randrange(2**32)
+    print(f"Sampling seed: {seed} (pass --seed {seed} to reproduce)", file=sys.stderr)
+    rng = random.Random(seed)
 
     os.makedirs(args.output_dir, exist_ok=True)
 
