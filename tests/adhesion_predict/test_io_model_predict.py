@@ -2,12 +2,11 @@
 
 import csv
 
-from sklearn.linear_model import LogisticRegression
-
 from adhesion_predict.features import extract_sequence_features
 from adhesion_predict.io import find_fasta_files, load_sequences_from_dir
 from adhesion_predict.model import load_model_card, save_model, save_model_card
-from adhesion_predict.scripts.predict import write_results
+from adhesion_predict.scripts.predict import build_results, write_results
+from sklearn.linear_model import LogisticRegression
 
 
 def test_find_fasta_files_returns_each_file_once(tmp_path):
@@ -46,3 +45,9 @@ def test_write_results_quotes_ids_with_commas(tmp_path):
 
 def test_extract_sequence_features_treats_j_as_l():
     assert extract_sequence_features("JJ") == extract_sequence_features("LL")
+
+
+def test_build_results_keeps_non_adhesion_rows():
+    rows = build_results(["a", "b"], [1, 0], [[0.1, 0.9], [0.8, 0.2]])
+    assert [r["prediction"] for r in rows] == ["Adhesion", "Non-adhesion"]
+    assert rows[1]["probability_adhesion"] == 0.2
