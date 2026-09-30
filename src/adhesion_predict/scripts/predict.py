@@ -23,6 +23,18 @@ def write_results(results, output_file):
             )
 
 
+def build_results(seq_ids, predictions, probabilities):
+    """Return one result row per sequence (every score, not only adhesion calls)."""
+    return [
+        {
+            "id": seq_id,
+            "prediction": "Adhesion" if predictions[i] == 1 else "Non-adhesion",
+            "probability_adhesion": probabilities[i][1],
+        }
+        for i, seq_id in enumerate(seq_ids)
+    ]
+
+
 def main(
     input_path, model_path, output_file, model_name, silent=False, show_all=False, max_workers=None
 ):
@@ -34,7 +46,8 @@ def main(
         output_file: Optional output CSV file path.
         model_name: ESM-2 model variant to use.
         silent: Suppress per-sequence output to stdout.
-        show_all: Show all predictions, not just adhesion proteins.
+        show_all: Print all predictions to stdout, not just adhesion calls. The output
+            CSV always contains every sequence.
         max_workers: Maximum number of workers for parallel file processing.
     """
     print("=" * 50)
@@ -98,27 +111,18 @@ def main(
     predictions = predict(classifier, embeddings)
     probabilities = predict_proba(classifier, embeddings)
 
-    results = []
-    for i, seq_id in enumerate(seq_ids):
-        pred_label = "Adhesion" if predictions[i] == 1 else "Non-adhesion"
-        if show_all or pred_label == "Adhesion":
-            # only print adhesion predictions by default, but can show all if requested
-            prob_adhesion = probabilities[i][1]
-            results.append(
-                {
-                    "id": seq_id,
-                    "prediction": pred_label,
-                    "probability_adhesion": prob_adhesion,
-                }
-            )
+    results = build_results(seq_ids, predictions, probabilities)
 
     if not silent:
         print("\nResults:")
         print("-" * 50)
         for result in results:
-            print(
-                f"{result['id']}: {result['prediction']} (p={result['probability_adhesion']:.3f})"
-            )
+            # only print adhesion calls by default; the output file always has every score
+            if show_all or result["prediction"] == "Adhesion":
+                print(
+                    f"{result['id']}: {result['prediction']} "
+                    f"(p={result['probability_adhesion']:.3f})"
+                )
 
     if output_file is None:
         output_dir = Path.cwd()
@@ -173,7 +177,7 @@ def cli():
     parser.add_argument(
         "--show-all",
         action="store_true",
-        help="Show all predictions (default: False)",
+        help="Print all predictions to stdout (the output CSV always has every score)",
     )
     parser.add_argument(
         "--max-workers",
