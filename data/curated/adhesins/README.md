@@ -29,7 +29,9 @@ and UniProt live, so re-running can change rows as those databases update.
 ## Known limitations of this draft
 - GO annotations do not encode direction of effect (`involved_in` covers anti-adhesive proteins such as YWP1). Every GO-derived row needs a human check.
 - Taxonomic coverage is heavily skewed to Saccharomycotina. There are **no curated positives for Chytridiomycota, Mucoromycota beyond CotH, or most Pezizomycotina and Basidiomycota**. The model cannot be evaluated in those lineages yet.
-- The CalA and CspA accessions were assigned from locus tags recalled from memory (flagged in `evidence_summary`). Cfl1 has no resolved UniProt accession.
+- **CalA `Q4WXJ1` is now verified (2026-09-30).** The Methods of Liu et al. 2016 (*Nat Microbiol* 1:16211, PMID 27841851) state: "A split marker strategy was used to disrupt the 534 bp *calA* (Afu3g09690) protein coding sequence". Afu3g09690 = AFUA_3G09690 = `Q4WXJ1`, and 534 bp is 177 aa plus a stop codon, matching this entry's recorded length. Independently, its fold matches experimental PDB `5FID` at TM 0.83 / LDDT 0.74 (`docs/reports/2026-09-29-class2b-structure.md`).
+  - Caution carried forward: `Q4WXJ1`'s Pfam is **PF04681 = Bys1** (IPR006771), not thaumatin (PF00314). Its two *A. fumigatus* paralogs, calB `Q4WBB5` (AFUA_8G01710) and calC `Q4WFZ4` (AFUA_3G00510), carry the same domain and are **not curated** — any PF04681-based rule must be tested against them.
+- **The CspA accession is still unverified** — assigned from a locus tag recalled from memory (flagged in `evidence_summary`). Cfl1 has no resolved UniProt accession.
 - PA14 is shared with non-adhesive glycosidases. PA14-only family hits are E3 or hard negatives.
 - Hard negatives are almost all *S. cerevisiae*. Orthologs in the other reference genomes still need adding.
 

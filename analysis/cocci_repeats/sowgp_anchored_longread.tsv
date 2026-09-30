@@ -1,0 +1,11 @@
+proteome	protein	length	n_anchor	anchor_pos	ref_start	ref_end	ref_cov	query_cov	identity_pct	aln_len	max_query_del	member	call	units_missing	partner	pair_ref_cov	gff_contig	gff_gap_bp	collinear
+Coccidioides_immitis_CiB10637	CIB10637_003943-T1	371	5	103,150,197,244,291	1	328	1.0	1.0	97.8	324	3	True	full_length						
+Coccidioides_immitis_CiB10992	CIB10992_003451-T1	371	5	103,150,197,244,291	1	328	1.0	1.0	97.8	324	3	True	full_length						
+Coccidioides_posadasii_Cpos1038	CPOS1038_003233-T1	164	2	107,154	1	164	0.5	1.0	96.3	164	0	True	split_model		CPOS1038_003234-T1	1.0	scaffold_2	80	yes
+Coccidioides_posadasii_Cpos1038	CPOS1038_003234-T1	202	3	28,75,122	127	328	0.616	1.0	99.0	202	0	True	split_model		CPOS1038_003233-T1	1.0	scaffold_2	80	yes
+Coccidioides_posadasii_Cpos3700	CPOS3700_010247-T1	115	1	105	1	117	0.357	1.0	98.2	113	3	True	split_candidate		CPOS3700_010248-T1	1.0	scaffold_84	80	yes
+Coccidioides_posadasii_Cpos3700	CPOS3700_003933-T1	202	3	28,75,122	127	328	0.616	1.0	98.0	202	0	True	truncated						
+Coccidioides_posadasii_Cpos3700	CPOS3700_010248-T1	108	1	28	221	328	0.329	1.0	99.1	108	0	True	split_candidate		CPOS3700_010247-T1	1.0	scaffold_84	80	yes
+Coccidioides_immitis_VFC140	VFC140_004201-T1	234	2	107,154	1	328	1.0	1.0	99.6	234	94	True	short_allele	2.0					
+CimmitisRS_FungiDB	CIMG_04613-t26_1-p1	324	4	103,150,197,244	1	328	1.0	1.0	97.2	324	3	True	full_length						
+CposadasiiSilveira2022_FungiDB	QVM09276.1	328	4	107,154,201,248	1	328	1.0	1.0	100.0	328	0	True	full_length						

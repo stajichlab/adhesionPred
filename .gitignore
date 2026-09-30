@@ -54,9 +54,35 @@ analysis/model_review/pilot/data/
 analysis/model_review/pilot/logs/
 analysis/cocci_antigens/*.m8
 analysis/cocci_repeats/repeat_profile_*.tsv
+analysis/cocci_repeats/repeat_general_*.tsv
+analysis/cocci_repeats/repeat_benchmark.fa
+analysis/cocci_repeats/repeat_benchmark_truth.tsv
+analysis/cocci_repeats/repeat_benchmark_calls.tsv
+analysis/cocci_repeats/logs/
+# SignalP 6 per-protein tables (01_signalp.sh). Regenerable, tens of MB across 7
+# proteomes. signalp_summary.tsv IS tracked so the run is recorded.
+analysis/cocci_repeats/signalp/
 analysis/model_review/cfem_onygenales.tsv
 
 # Copyrighted paper PDFs dropped for literature curation (this is a PUBLIC repo --
 # do not redistribute publisher PDFs). Only openly-licensed source files (CC-BY etc.,
 # verified per-file) get committed; see to_import/IMPORT_LOG.md for citations.
 to_import/*.pdf
+analysis/cocci_repeats/sowgp_anchored_pangenome.tsv
+analysis/cocci_repeats/pfam_sets.domtbl
+analysis/cocci_repeats/pfam_models.tsv
+analysis/cocci_repeats/pfam_sets.fa
+analysis/cocci_repeats/unit_genomes.tsv
+analysis/cocci_repeats/unit_architecture_onygenales.tsv
+
+# cocci_repeats: plain copies of outputs that are tracked as .gz (README section 6).
+# repeat_real_compare.tsv and repeat_benchmark_metrics.tsv stay tracked in plain form (small).
+analysis/cocci_repeats/class2a_anchor_families.tsv
+analysis/cocci_repeats/class2a_anchor_hits.tsv
+analysis/cocci_repeats/class2a_candidates_general.tsv
+analysis/cocci_repeats/newfam_anchored_pangenome.tsv
+analysis/cocci_repeats/repeat_benchmark_truth.tsv
+analysis/cocci_repeats/repeat_benchmark_calls.tsv
+analysis/cocci_repeats/sowgp_anchor_family.tsv
+analysis/cocci_repeats/sowgp_anchor_hits.tsv
+analysis/cocci_repeats/rs.dmnd

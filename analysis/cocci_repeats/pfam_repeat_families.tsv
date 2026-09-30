@@ -1,0 +1,28 @@
+query	pfam	clan_name	desc	proteins	domains	model_len
+Ank	PF00023	Ank	Ankyrin repeat	31	149	33
+Ank_2	PF12796	Ank	Ankyrin repeats (3 copies)	31	100	90
+Ank_4	PF13637	Ank	Ankyrin repeats (many copies)	29	109	50
+Ank_3	PF13606	Ank	Ankyrin repeat	28	99	31
+Ank_5	PF13857	Ank	Ankyrin repeats (many copies)	22	54	56
+WD40	PF00400	Beta_propeller	WD domain, G-beta repeat	8	33	39
+DUF346	PF03984	Beta_propeller	Repeat of unknown function (DUF346)  	8	56	39
+TPR_10	PF13374	TPR	Tetratricopeptide repeat	7	27	42
+TPR_CAND1	PF25782	TPR	CAND1-like, TPR repeats	2	2	126
+Sel1	PF08238	TPR	Sel1 repeat	2	8	36
+HEAT_2	PF13646	TPR	HEAT repeats	1	2	88
+PPR_3	PF13812	TPR	Pentatricopeptide repeat domain	1	3	63
+VPS8_N	PF23306	Beta_propeller	VPS8-like, N-terminal beta propeller repeats	1	1	375
+TPR_VPS8_2	PF25066	TPR	VPS8-like, TPR-like repeats	1	1	194
+TPR_30	PF24603	TPR	Tetratricopeptide repeat	1	1	100
+PQ-loop	PF04193	MtN3-like	PQ loop repeat 	1	1	61
+PPR_long	PF17177	TPR	Pentacotripeptide-repeat region of PRORP	1	1	211
+PPR_2	PF13041	TPR	PPR repeat family 	1	2	50
+HEAT_EF3_GNC1	PF24984	TPR	Elongation factor 3/GNC1 HEAT repeat	1	1	91
+PPR_1	PF12854	TPR	PPR repeat	1	1	34
+PPR	PF01535	TPR	PPR repeat	1	4	31
+MORN	PF02493	MORN	MORN repeat	1	4	23
+HEAT_PBS	PF03130	TPR	PBS lyase HEAT-like repeat	1	2	27
+HEAT_Nup120	PF23300	TPR	Nucleoporin Nup120, HEAT repeats	1	1	170
+HEAT_HEATR1	PF23243	TPR	HEATR1-like, HEAT repeats	1	1	195
+HEAT_EF3_N	PF24987	TPR	EF3 N-terminal HEAT repeat	1	1	169
+PAH	PF02671	PAH	Paired amphipathic helix repeat	1	3	45
