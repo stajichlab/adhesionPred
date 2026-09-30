@@ -121,15 +121,21 @@ Main results (details in `REPORT_2026-09-29_sowgp_repeat_structure.md`):
 
 ## 6. File index
 
-| File | From | Tracked in git |
+Large text outputs are tracked as `.gz` copies. The scripts write and read the plain files,
+which are not tracked. To use a tracked copy, decompress it here first
+(for example `gunzip -k sowgp_repeat_viz.copies.tsv.gz`).
+
+| File | From | In git |
 |---|---|---|
-| `README.md`, `REPORT_2026-09-29_sowgp_repeat_structure.md` | documentation | no (new) |
-| `class2a_candidates.tsv` | 03 | yes |
-| `procys_rs_map.tsv`, `procys_rs_tpm.tsv` | 04 | yes |
-| `repeat_profile_longread.tsv`, `repeat_profile_reference.tsv` | 02 | no (git-ignored) |
-| `sowgp_seed.fa`, `sowgp_pangenome*.fa`, `sowgp_pangenome*.tsv` | 05 | no |
-| `sowgp_*.msa.fa`, `msa_seed.log` | 06 | no |
-| `sowgp_tblastn_*.out`, `sowgp_tblastn_noseg_*.out` | 07 / by hand | no |
-| `sowgp_loci_orfs.fa`, `sowgp_loci_orfs_diamond.tsv` | 08 / by hand | no |
+| `README.md`, `REPORT_2026-09-29_sowgp_repeat_structure.md` | documentation | yes |
+| `class2a_candidates.tsv` | 03 | yes (also `.gz`) |
+| `procys_rs_map.tsv`, `procys_rs_tpm.tsv` | 04 | yes (also `.gz`) |
+| `repeat_profile_longread.tsv`, `repeat_profile_reference.tsv` | 02 | `.gz` only (plain files are git-ignored) |
+| `sowgp_seed.fa`, `sowgp_pangenome.fa`, `sowgp_pangenome_other_families.fa`, `sowgp_pangenome.tsv`, `sowgp_pangenome_summary.tsv` | 05 | `.gz` only |
+| `sowgp_seed.msa.fa`, `sowgp_pangenome.msa.fa` | 06 | `.gz` only |
+| `msa_seed.log` | 06 | no |
+| `sowgp_tblastn_*.out`, `sowgp_tblastn_noseg_*.out` | 07 / by hand | yes (plain) |
+| `sowgp_loci_orfs.fa`, `sowgp_loci_orfs_diamond.tsv` | 08 / by hand | `.gz` only |
 | `rs.dmnd` | DIAMOND database of the RS proteome. Its timestamp matches the 04 run, but 04 writes its own database to a temp directory, so the origin is not recorded. | no |
-| `sowgp_repeat_viz.*`, `sowgp_unit_map.*`, `sowgp_unit_identity.*`, `sowgp_dotplot.png`, `sowgp_tree_units.*` | 09-13 | no |
+| `sowgp_repeat_viz.copies.tsv`, `sowgp_repeat_viz.units.tsv`, `sowgp_unit_map.tsv`, `sowgp_unit_identity.tsv`, `sowgp_tree_units.tsv`, `sowgp_tree_units.stats.tsv` | 09-13 | `.gz` only |
+| `sowgp_repeat_viz.png`, `sowgp_unit_map.png`, `sowgp_unit_identity.png`, `sowgp_dotplot.png`, `sowgp_tree_units.png`, `sowgp_tree_units.pdf` | 09-13 | yes |
