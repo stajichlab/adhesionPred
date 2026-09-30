@@ -25,7 +25,7 @@ Issue #9 has three parts. Two are partly done in `main`.
 2. **Accuracy is unlikely to move.** Reported CV is already ROC-AUC 0.999 for ESM-2 8M, and 0.995
    for amino-acid composition plus length (leave-family-out). Scaling or tuning `C` cannot add much
    there. The value of #9 is reproducibility and safety, not score. This is a prediction, not a
-   measurement. The plan includes the measurement (step 2).
+   measurement. The plan includes the measurement (step 1).
 3. **Layer 6 means different things.** For `esm2_t6_8M` it is the final layer. For
    `esm2_t12_35M` (used for the Fungi_5k screen) it is the middle layer. Changing the default
    would silently change every existing embedding. The default must stay 6 for existing models.
