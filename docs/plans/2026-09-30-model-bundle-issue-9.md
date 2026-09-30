@@ -1,6 +1,6 @@
 # Plan for #9: model bundle, model card, explicit embedding config
 
-*Drafted 2026-09-30. Status: proposal, not implemented. Review requested before any code.*
+*Drafted 2026-09-30. Revised 2026-09-30 after an independent Opus 5.5 review (section 7). Status: proposal, not implemented.*
 
 ## 1. Problem, with what is already fixed
 
@@ -23,21 +23,28 @@ Issue #9 has three parts. Two are partly done in `main`.
    `LogisticRegression`. Every CV figure in the 2026-09-27 review describes the first. The shipped
    `.pkl` files are the second. **Nobody has measured the shipped model with the review's CV.**
 2. **Accuracy is unlikely to move.** Reported CV is already ROC-AUC 0.999 for ESM-2 8M, and 0.995
-   for amino-acid composition alone (leave-family-out). Scaling or tuning `C` cannot add much
+   for amino-acid composition plus length (leave-family-out). Scaling or tuning `C` cannot add much
    there. The value of #9 is reproducibility and safety, not score. This is a prediction, not a
    measurement. The plan includes the measurement (step 2).
 3. **Layer 6 means different things.** For `esm2_t6_8M` it is the final layer. For
    `esm2_t12_35M` (used for the Fungi_5k screen) it is the middle layer. Changing the default
    would silently change every existing embedding. The default must stay 6 for existing models.
-4. **Shipped models have no card.** `models/*.pkl` and `src/adhesion_predict/models/*.pkl` have
+4. **The shipped pickles were trained on a different pooling than `predict` now computes.**
+   The pickles were committed 2026-02-15 (8M) and 2026-09-22 (35M). The pooling fix is commit
+   `9dfe519` (2026-09-27). Before it, pooling was `token_representations.mean(dim=1)`, which
+   averages BOS, EOS and padding. Now it is `residue_mean`. So `predict` today scores the legacy
+   pickles on embeddings they were not trained on. This is a live error, separate from #9's
+   goals, and the plan must not preserve it. (Verified in git history; the effect on scores is
+   not measured.)
+5. **Shipped models have no card.** `models/*.pkl` and `src/adhesion_predict/models/*.pkl` have
    no JSON. They must keep working.
-5. **The shipped models were trained with 167 duplicate sequences** (PR #24 removes them for
-   new training). A retrained bundle is therefore not comparable to the old pickles on the
+6. **The shipped models were probably trained with 167 duplicate sequences** (PR #24 removes them for
+   new training). Not confirmed which data the pickles saw. A retrained bundle is therefore not comparable to the old pickles on the
    training data, only on an external set.
-6. `config.ESM2_MODELS` lists `esm2_t6_35M_UR50D` and `esm2_t6_150M_UR50D`. I do not know that
-   these ESM-2 checkpoints exist. Only two names are in `ESM2_MODEL_CHOICES`. Verify or delete
-   before writing them into any card or test.
-7. Only 0.5 thresholding exists. The review (§5.4, §6 T5) says the threshold must be chosen on
+7. `config.ESM2_MODELS` lists `esm2_t6_35M_UR50D` and `esm2_t6_150M_UR50D`. These do not exist in
+   fair-esm (real names: `esm2_t12_35M_UR50D`, `esm2_t30_150M_UR50D`). The dict is unused in `src/`
+   and `tests/`. Delete it.
+8. Only 0.5 thresholding exists. The review (§5.4, §6 T5) says the threshold must be chosen on
    proteome-level data, which needs the T5 inventory (#12, #13, #14). #9 cannot choose it.
 
 ## 3. Design
@@ -49,6 +56,10 @@ One directory or one file per model, `adhesion_model_<esm>.joblib`, plus `.json`
 `sklearn.pipeline.Pipeline([("scale", StandardScaler()), ("clf", LogisticRegression(...))])`.
 
 Loading rules:
+- Legacy pickles (no card) get an implied card with `pooling="legacy_all_tokens"`. `predict` must
+  either reproduce that pooling for them or refuse. Default: add a `pooling` option to
+  `get_esm_embeddings` (`residue_mean` | `all_tokens_legacy`) and let the card choose it.
+  Silent "assume defaults" is not acceptable, because the defaults are wrong for these files.
 - `load_model` accepts `.joblib` and legacy `.pkl`. A bare classifier is returned as is.
 - A legacy model with no card prints one warning naming what is unverified.
 - Pickle and joblib both execute code on load. State in the README that model files must come
@@ -68,15 +79,18 @@ Existing fields stay. New fields:
 | `threshold` | `{value, chosen_on}`; `0.5` and `"default (uncalibrated)"` until T5 exists |
 | `duplicates_removed` | already added in PR #24 |
 | `code_version` | package version, git hash if available |
+| `environment` | numpy, scikit-learn, torch, fair-esm versions. Legacy pickles need numpy >= 2 and warn under sklearn 1.9.1 |
 
 The card must not claim a tier that was not run. An empty `validation` list is the honest value.
 
 ### 3.3 `predict` compatibility check
 
-Compare `(esm_model, repr_layer, pooling, max_residues)` in the card against what this
-installation will compute. On mismatch, exit with an error that names the field. Add
-`--repr-layer` to `predict` and `train`, defaulting to the card value for `predict`. No card:
-warn, assume defaults, continue.
+`predict` reads `esm_model`, `repr_layer` and `pooling` **from the card** and uses them. The CLI
+value is only an override, and a disagreement with the card is an error that names the field.
+Today the CLI is the authority and the card only vetoes it (`predict.py:47-54`).
+Truncation: the card records the policy (`truncate_at_1022` now; versioned, because #10 changes
+it). `predict` counts truncated sequences and reports the count. Model path lookup: try
+`.joblib`, then `.pkl`. No card: use the legacy pooling above and warn.
 
 ### 3.4 Training
 
@@ -95,22 +109,25 @@ explicit step (section 4, step 6).
 
 ## 4. Steps
 
-Each step is one commit; steps 1-3 need no GPU.
+Each step is one commit. Steps 1-3 need no GPU.
 
-1. **Measure the gap (no code change).** Re-run `02_cv_and_proteome_eval.py` twice on the same
-   embeddings: scaled (as reviewed) and unscaled (as shipped). Report both. If the unscaled model
-   is materially worse on leave-family-out, the plan matters more than fact 2 predicts. If not,
-   say so and keep the Pipeline for robustness only.
-   *Needs the cached `train_masked.npy`; `run.sh` makes it in about 1.5 h on CPU.*
-2. **Tests first (TDD).** Card round trip with v2 fields; legacy model loads with a warning;
-   mismatched layer is refused; a Pipeline bundle round-trips through joblib.
-3. **Card v2 + `load_model` for both formats + predict checks.** No change to training output yet.
+1. **Measure, on the right axis.** This needs a small code change: give `02_cv_and_proteome_eval.py`
+   a `--no-scaler` flag (the scaler is hard-coded at line 43-44). Run on `train_legacy.npy` (the
+   features the shipped pickles were trained on) with and without the scaler, and on
+   `train_masked.npy` for the current pooling. Nothing is cached, so `run.sh` runs first
+   (about 1.5 h CPU, needs `mmseqs`). The embeddings contain the 167 duplicates, which inflate
+   random-fold CV. The report must say so. Also score S288C with the old pickle under both
+   poolings to measure the live mismatch in fact 4.
+2. **Tests first.** Card v2 round trip. Legacy pickle loads with implied `legacy_all_tokens`
+   pooling. Mismatched layer or pooling is refused. Pipeline bundle round-trips through joblib.
+   Truncated-sequence count is reported.
+3. **Legacy pooling in `get_esm_embeddings`, card v2, card-driven `predict`.** Delete
+   `config.ESM2_MODELS`.
 4. **Pipeline in `train_classifier`; `--repr-layer`, `--seed`.**
-5. **Optional `--tune-c` with grouped nested CV.**
-6. **Retrain both bundles from deduplicated data; compare with the old pickles on a fixed
-   external set (S288C, `analysis/model_review/s288c_scores.tsv`) before replacing them.**
-   Keep the old files under a `legacy/` name for one release.
-7. Update README, `docs/TOOL-ARCHITECTURE.md` status, and AGENTS.md.
+5. **Optional `--tune-c`.**
+6. **Retrain both bundles; compare with old pickles on S288C before replacing.** Keep old files
+   under `legacy/` for one release. Test loading in the target conda env.
+7. README, `docs/TOOL-ARCHITECTURE.md`, AGENTS.md.
 
 ## 5. Acceptance
 
@@ -118,8 +135,9 @@ Each step is one commit; steps 1-3 need no GPU.
 - `predict` on a v2 bundle and on each legacy pickle both run; a wrong-layer call exits non-zero.
 - The card of a newly trained bundle lists every field in 3.2 and sets no value it did not compute.
 - Step 1 and step 6 comparisons are in a report with numbers, including the case where nothing changed.
-- Scores for a fixed 100-sequence set are identical between the old pickle path and the new
-  bundle path when both use the same scaler setting (T0 determinism).
+- T0: for a fixed 100-sequence set, a legacy pickle scored through the new path with
+  `legacy_all_tokens` pooling gives the same scores as the pre-`9dfe519` code. Identity holds only
+  with the same pooling and a bare-LR bundle.
 
 ## 6. Risks
 
@@ -127,6 +145,24 @@ Each step is one commit; steps 1-3 need no GPU.
 |---|---|
 | Retraining changes calls that other work depends on (Fungi_5k survey used the old model) | keep `legacy/` models; record model hash in any survey output |
 | Scaler changes score scale, so the 0.5 threshold means something different | compare call counts on S288C before and after; do not ship without that |
-| joblib/sklearn version drift breaks loading | store `sklearn_version`; warn on mismatch at load |
+| joblib/sklearn/numpy drift breaks loading (legacy pickles fail under numpy < 2) | store all versions; test load in the target env |
 | Card claims more than was measured | schema allows empty `validation`; no default metrics |
 | Grouped CV needs MMseqs2 | make it optional and recorded |
+
+## 7. Independent review (Opus 5.5, 2026-09-30)
+
+Seven findings; all are applied above.
+
+| # | Severity | Finding | Applied in |
+|---|---|---|---|
+| 1 | High | Pooling changed after the pickles were made; legacy models get wrong input today | fact 4, 3.1, 3.3, step 3 |
+| 2 | High | Step 1 was not "no code change" and used the wrong features | step 1 |
+| 3 | Medium | Predict must take layer and model from the card; truncation and model path were unhandled | 3.3 |
+| 4 | Medium | Version drift includes numpy and torch | 3.2, risks |
+| 5 | Low | Fixed `C=1` is defensible but untested | step 1, 3.4 |
+| 6 | Low | T0 acceptance was ambiguous | section 5 |
+| 7 | Low | Step order encoded the wrong legacy default | steps 2-3 |
+
+The reviewer confirmed the card, bare-LR and pickle claims against `train.py`, `model.py` and
+`predict.py`, and loaded both shipped pickles (C=1.0, shapes (1,320) and (1,480)). It corrected
+one statement: the 0.995 figure is for `aa_comp+length`, not composition alone.
