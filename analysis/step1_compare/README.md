@@ -45,26 +45,58 @@ $PY 04_build_keyword_tier.py --fetch   # keyword_tier.tsv.gz, keyword_tier_remov
                                        #   keyword_sequences.json
 ```
 
-Run the scripts in this order. Each script reads the outputs of the earlier scripts.
-Run `<script> --help` for all options.
+Run the scripts in this order. Run `<script> --help` for all options.
 The download sizes in `manifest.tsv` add up to 83,309,908 bytes (19 files).
-Scripts 03 and 04 query UniProtKB REST. They need network access.
+
+### Dependencies between the scripts
+
+| Script | Reads from the work directory |
+|---|---|
+| 00 | nothing (it downloads) |
+| 01 | the files that 00 downloaded |
+| 02 | the output of 01 (`truth_set.tsv.gz`, `extract_log.json`) and the FASTA files from 00 |
+| 03 | the output of 01 (`truth_set.tsv.gz`, `extract_log.json`), plus `species.tsv` and `curated_gpi.tsv`. It does not read the output of 02. |
+| 04 | the output of 01 (`extract_log.json`) and of 02 (`truth_sequences.tsv.gz`, `sequence_run.json`). It does not read the output of 03 or `d8_run.json`. |
+
+Scripts 03 and 04 are independent of each other.
+
+### Network access
+
+- 00 needs the network.
+- 01 and 02 need no network. Script 02 reads the FASTA files that 00 downloaded.
+- 03 always queries UniProtKB REST. It has no option to work offline.
+- 04 needs the network only with `--fetch` when `keyword_sequences.fasta.gz` is missing.
+  If the file exists, 04 uses it and does not fetch. 04 refuses a cached file that has no
+  matching sidecar `keyword_sequences.json`.
+
+### Stale outputs
+
+- Nothing detects stale downstream outputs.
+- Script 02 records `truth_set_sha256` in `sequence_run.json`. Scripts 03 and 04 do not compare
+  it, or their own inputs, with the current `truth_set.tsv.gz`.
+- After any re-run of 01, or a run of 01 with `--sources`, re-run 02, 03 and 04.
 
 ## The STOP contract
 
 - A script that cannot continue prints `STOP: <reason>` to stderr and exits with code 2.
+- Script 00 differs. A strict hash mismatch prints `FAILED ... rerun with --update-manifest`.
+  Script 00 then continues with the other files and exits with code 2 at the end. It prints no
+  `STOP:` line for this case. Only a network error or an unknown `--only` name prints `STOP:`.
+- Script 00 skips a download only for a strict file that is already in `downloads/` with the
+  right hash. It fetches record-mode files every time.
 - Causes include a SHA-256 mismatch in strict mode, a missing input, a malformed GAF row, an
   unknown `--sources` value, an HTTP error, and a missing sequence.
-- A STOP writes no partial output tables. The exception is script 02: it still writes
-  `unmatched_ids.tsv`, `sequence_counts.tsv` and `sequence_run.json`, so you can read the cause.
-  It deletes an old `truth_sequences.tsv.gz`.
+- A STOP in 01, 03 or 04 writes no output tables and leaves the previous outputs in place.
+- A STOP in 02 differs. It still writes `unmatched_ids.tsv`, `sequence_counts.tsv` and
+  `sequence_run.json`, so you can read the cause. It deletes an old `truth_sequences.tsv.gz`.
+  It is the only script that deletes an output on a STOP.
 - Read the `--help` text of each script for the exact STOP conditions.
 
 ## Atomic outputs
 
 - Scripts write outputs to temporary names. They move the files into place with `os.replace`
   after all outputs are complete.
-- A failed run leaves the earlier outputs untouched.
+- A failed run leaves the earlier outputs untouched, except in script 02 (see the STOP contract).
 
 ## Partial runs and the `all_sources` markers
 
@@ -91,8 +123,12 @@ Scripts 03 and 04 query UniProtKB REST. They need network access.
 ## Hash-pinned inputs
 
 - `manifest.tsv` pins every input by SHA-256. A row has mode `strict` or `record`.
-- In `strict` mode a hash mismatch stops the run. This applies to the GO OBO file and the GAF
-  files. In `record` mode the hash is logged only. The FASTA files use `record` mode.
+- In `strict` mode a hash mismatch stops the run. This applies to the GO OBO file, the GAF
+  files and the two Cryptococcus `.goa` files (`20846.C_neoformans_JEC21.goa` and
+  `313589.C_neoformans_var_grubii_H99.goa`). In `record` mode the hash is logged only. The
+  FASTA files use `record` mode.
+- Script 00 appends one row per download to `fetch_log.tsv` in `downloads/`.
+- `00_fetch_inputs.py --update-manifest` rewrites `manifest.tsv` inside the repository.
 - `01_extract_go_truth.py` checks each input against the manifest before it reads the input.
 - Accept a new upstream file only on purpose:
   `$PY 00_fetch_inputs.py --update-manifest`. Then rerun the tests and commit the new
@@ -106,6 +142,8 @@ cd "$PROJ_ROOT"
 STEP1_GO_DIR=/tmp/glyco_spec /usr/bin/python3.12 -m pytest tests/step1_compare -q   # real files
 ```
 
+- `PROJ_ROOT` need not be set to run the tests. Observed on 2026-10-01: 180 tests collected, and 175 passed
+  with 5 skipped, with `PROJ_ROOT` and `STEP1_WORKDIR` unset.
 - Without the real files, the tests that need them are skipped.
 - Those tests run when the GO files are in `$STEP1_GO_DIR` or in `$STEP1_WORKDIR/downloads`.
 - The real-data tests include `test_reproduces_spec_counts_on_real_files`
@@ -132,14 +170,15 @@ extraction.
 - `curated_gpi.tsv` has only a header row. This is by design. Literature curation fills it
   later as separate work.
 - Genes with GPI evidence whose label is not P-ext go to `d8_gpi_outside_pext.tsv`. The script
-  does not relabel them. The D8 test fixture shows this for GAS1. I did not run script 03
-  against UniProt, so I did not check TIP1 in real data.
+  does not relabel them. The D8 test fixture shows this for GAS1. No real-data run of
+  script 03 was checked for GAS1 or TIP1.
 
 ## Counts reproduced from the real files
 
-I ran `01_extract_go_truth.py --input-dir /tmp/glyco_spec` with `STEP1_WORKDIR=/tmp/s1w`.
-The run took about 16 s. These are the P-ext counts in `counts.tsv`, with the direct-evidence
-count (`direct_p_ext`) in brackets.
+Command: `01_extract_go_truth.py --input-dir /tmp/glyco_spec` with `STEP1_WORKDIR=/tmp/s1w`.
+The table is valid for the pinned `manifest.tsv` (verified 2026-10-01) and for the GO files in the
+directory given by `STEP1_GO_DIR`. These are the P-ext counts in `counts.tsv`, with the
+direct-evidence count (`direct_p_ext`) in brackets.
 
 | source_id | p_ext (direct_p_ext) |
 |---|---|
