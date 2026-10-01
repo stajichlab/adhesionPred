@@ -617,3 +617,51 @@ def test_log_records_whether_all_sources_were_processed(tmp_path, fixtures_dir):
     log = json.loads((tmp_path / "b" / "extract_log.json").read_text())
     assert log["all_sources"] is False
     assert [s["source_id"] for s in log["sources"]] == ["Fix_SGD"]
+
+
+# ---- final review item 3: STOP contract for bad species.tsv and manifest.tsv ----
+
+
+def _argv(tmp_path, input_dir, out):
+    return [
+        "--species", str(tmp_path / "species.tsv"),
+        "--manifest", str(tmp_path / "manifest.tsv"),
+        "--input-dir", str(input_dir),
+        "--out-dir", str(out),
+    ]  # fmt: skip
+
+
+def test_manifest_with_missing_column_stops_with_exit_2(tmp_path, fixtures_dir, capsys):
+    input_dir, manifest_rows = _inputs(tmp_path, fixtures_dir)
+    out = tmp_path / "out"
+    truth_table.write_tsv(tmp_path / "species.tsv", list(FIXTURE_SPECIES[0]), FIXTURE_SPECIES)
+    # manifest.tsv without the `mode` column
+    lines = ["file\tsha256"] + [f"{r['file']}\t{r['sha256']}" for r in manifest_rows]
+    (tmp_path / "manifest.tsv").write_text("\n".join(lines) + "\n")
+    assert extract.main(_argv(tmp_path, input_dir, out)) == 2
+    err = capsys.readouterr().err
+    assert err.startswith("STOP:") and "lacks" in err
+    assert _files(out) == []
+
+
+@pytest.mark.parametrize("defect", ["short_row", "missing_column", "missing_file"])
+def test_malformed_species_table_stops_with_exit_2(tmp_path, fixtures_dir, capsys, defect):
+    input_dir, manifest_rows = _inputs(tmp_path, fixtures_dir)
+    out = tmp_path / "out"
+    _cli(tmp_path, FIXTURE_SPECIES, manifest_rows, input_dir, tmp_path / "first")
+    capsys.readouterr()
+    columns = list(FIXTURE_SPECIES[0])
+    values = [FIXTURE_SPECIES[0][c] for c in columns]
+    if defect == "short_row":
+        text = "\t".join(columns) + "\n" + "\t".join(values[:3]) + "\n"
+    elif defect == "missing_column":
+        keep = [i for i, c in enumerate(columns) if c != "gaf_file"]
+        text = "\t".join(columns[i] for i in keep) + "\n"
+        text += "\t".join(values[i] for i in keep) + "\n"
+    if defect == "missing_file":
+        (tmp_path / "species.tsv").unlink()
+    else:
+        (tmp_path / "species.tsv").write_text(text)
+    assert extract.main(_argv(tmp_path, input_dir, out)) == 2
+    assert capsys.readouterr().err.startswith("STOP:")
+    assert _files(out) == []

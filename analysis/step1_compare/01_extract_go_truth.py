@@ -29,9 +29,30 @@ direct-evidence truth.
 """
 
 
+SPECIES_COLUMNS = (
+    "source_id",
+    "species",
+    "taxon_id",
+    "taxon_filter",
+    "in_clade",
+    "role",
+    "gaf_file",
+)
+
+
 def read_species(path: str | Path) -> list[dict[str, str]]:
+    """Read species.tsv. Raise ValueError for a missing column or a row with a wrong field count."""
     with open(path, encoding="utf-8", newline="") as handle:
-        return list(csv.DictReader(handle, delimiter="\t"))
+        reader = csv.DictReader(handle, delimiter="\t")
+        rows = list(reader)
+        header = reader.fieldnames or []
+    missing = [c for c in SPECIES_COLUMNS if c not in header]
+    if missing:
+        raise ValueError(f"{path}: header lacks {missing}")
+    for lineno, row in enumerate(rows, start=2):
+        if None in row or None in row.values():
+            raise ValueError(f"{path}: row {lineno} does not have {len(header)} fields")
+    return rows
 
 
 def _manifest_row(by_file: dict[str, dict[str, str]], name: str) -> dict[str, str]:
@@ -136,21 +157,18 @@ def main(argv=None) -> int:
     parser.add_argument("--out-dir", default=None, help="default: $STEP1_WORKDIR")
     parser.add_argument("--sources", nargs="*", default=None, help="source_id values to run")
     args = parser.parse_args(argv)
-    species_rows = read_species(args.species)
-    all_source_ids = [r["source_id"] for r in species_rows]
-    if args.sources is not None:
-        valid = [r["source_id"] for r in species_rows]
-        for source_id in args.sources:
-            if source_id not in valid:
-                print(
-                    f"STOP: unknown source {source_id}; valid ids: {', '.join(valid)}",
-                    file=sys.stderr,
-                )
-                return 2
-        species_rows = [r for r in species_rows if r["source_id"] in args.sources]
-    input_dir = Path(args.input_dir) if args.input_dir else paths.downloads_dir()
-    out_dir = Path(args.out_dir) if args.out_dir else paths.workdir()
     try:
+        input_dir = Path(args.input_dir) if args.input_dir else paths.downloads_dir()
+        out_dir = Path(args.out_dir) if args.out_dir else paths.workdir()
+        species_rows = read_species(args.species)
+        all_source_ids = [r["source_id"] for r in species_rows]
+        if args.sources is not None:
+            for source_id in args.sources:
+                if source_id not in all_source_ids:
+                    raise manifest.DownloadError(
+                        f"unknown source {source_id}; valid ids: {', '.join(all_source_ids)}"
+                    )
+            species_rows = [r for r in species_rows if r["source_id"] in args.sources]
         provenance = {
             "species_sha256": manifest.sha256_file(args.species),
             "manifest_sha256": manifest.sha256_file(args.manifest),
@@ -164,7 +182,7 @@ def main(argv=None) -> int:
             out_dir,
             provenance=provenance,
         )
-    except (manifest.DownloadError, gaf.GafFormatError) as exc:
+    except (manifest.DownloadError, gaf.GafFormatError, ValueError, OSError, KeyError) as exc:
         print(f"STOP: {exc}", file=sys.stderr)
         return 2
     for c in counts:
