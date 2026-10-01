@@ -348,3 +348,47 @@ MEMBER_FEATURE_COLUMNS = (
     "d8_class", "homology_only", "role", *FEATURE_COLUMNS, "emb_row", "emb_cterm_row",
 )  # fmt: skip
 KEYWORD_COLUMNS = ("accession", "gene", "genome", "taxon_id", "length", "seq_sha256", "tier")
+
+
+STUB_MMSEQS = Path(__file__).resolve().parent / "fixtures" / "phasec" / "stub_mmseqs" / "mmseqs"
+
+
+def run_chain(root: Path, upto: int, load_phasec, workers: int = 1, candidates=None) -> dict:
+    """Build the fixture and run 08 (and 09 with the stub MMseqs2, 10, 11) up to step `upto`."""
+    fx = make_work(root)
+    assert load_phasec("08_build_eval_tables").main(build_argv(fx)) == 0
+    if upto >= 9:
+        argv = ["--work-dir", str(fx["work"]), "--species", str(fx["species"]),
+                "--mmseqs", str(STUB_MMSEQS), "--tmp-dir", str(Path(root) / "scratch")]  # fmt: skip
+        assert load_phasec("09_make_splits").main(argv) == 0
+    if upto >= 10:
+        argv = ["--work-dir", str(fx["work"]), "--workers", str(workers)]
+        if candidates:
+            argv += ["--candidates", candidates]
+        assert load_phasec("10_fit_and_score").main(argv) == 0
+    if upto >= 11:
+        argv = ["--work-dir", str(fx["work"]), "--sets", str(fx["sets"]),
+                "--species", str(fx["species"]), "--n-resamples", "50"]  # fmt: skip
+        assert load_phasec("11_evaluate").main(argv) == 0
+    return fx
+
+
+def copy_work(chain: dict, dest: Path) -> dict:
+    """A writable copy of a chain's work directory (and its side files)."""
+    import shutil
+
+    dest = Path(dest)
+    shutil.copytree(chain["work"], dest / "work", symlinks=True)
+    return {**chain, "work": dest / "work"}
+
+
+def eval_argv(fx: dict, n_resamples: int = 50) -> list[str]:
+    return ["--work-dir", str(fx["work"]), "--sets", str(fx["sets"]), "--species",
+            str(fx["species"]), "--n-resamples", str(n_resamples)]  # fmt: skip
+
+
+def fix_recorded_hash(run_json: Path, name: str, path: Path, key: str = "outputs_sha256") -> None:
+    """Record the current SHA-256 of `path` under run_json[key][name] (for tamper tests)."""
+    obj = json.loads(Path(run_json).read_text())
+    obj[key][name] = _sha(path)
+    Path(run_json).write_text(json.dumps(obj))
