@@ -1,4 +1,5 @@
 import gzip
+import json
 
 import manifest
 import pytest
@@ -128,7 +129,7 @@ def _manifest_row():
     return {c: "" for c in manifest.MANIFEST_COLUMNS} | {"file": "c.fa", "mode": "record"}
 
 
-def _setup_main(tmp_path, truth):
+def _setup_main(tmp_path, truth, all_sources=True):
     input_dir = tmp_path / "in"
     input_dir.mkdir()
     _write(input_dir, "c.fa", CGD_FASTA)
@@ -137,6 +138,7 @@ def _setup_main(tmp_path, truth):
     manifest_tsv = tmp_path / "manifest.tsv"
     manifest.write_manifest(manifest_tsv, [_manifest_row()])
     truth_table.write_tsv(tmp_path / "truth_set.tsv.gz", truth_table.TRUTH_COLUMNS, truth)
+    (tmp_path / "extract_log.json").write_text(json.dumps({"all_sources": all_sources}))
     return [
         "--species", str(species), "--manifest", str(manifest_tsv),
         "--input-dir", str(input_dir), "--work-dir", str(tmp_path),
@@ -165,11 +167,11 @@ def test_main_unknown_source_stops_with_valid_ids(tmp_path, capsys):
     assert not (tmp_path / "truth_sequences.tsv.gz").exists()
 
 
-def test_main_stop_keeps_previous_truth_sequences(tmp_path, capsys):
+def test_main_stop_deletes_previous_truth_sequences(tmp_path, capsys):
     attach = load_script("02_attach_sequences")
     argv = _setup_main(tmp_path, [_full_row("CAL1", "C1_00010W_A", "P-ext")])
     assert attach.main(argv) == 0
-    before = (tmp_path / "truth_sequences.tsv.gz").read_bytes()
+    assert (tmp_path / "truth_sequences.tsv.gz").exists()
     truth_table.write_tsv(
         tmp_path / "truth_set.tsv.gz",
         truth_table.TRUTH_COLUMNS,
@@ -177,7 +179,9 @@ def test_main_stop_keeps_previous_truth_sequences(tmp_path, capsys):
     )
     assert attach.main(argv) == 2
     assert "STOP:" in capsys.readouterr().err
-    assert (tmp_path / "truth_sequences.tsv.gz").read_bytes() == before
+    assert not (tmp_path / "truth_sequences.tsv.gz").exists()
+    assert truth_table.read_tsv(tmp_path / "unmatched_ids.tsv")[0]["gene_id"] == "CAL5"
+    assert json.loads((tmp_path / "sequence_run.json").read_text())["truth_set_sha256"]
     assert not list(tmp_path.glob(".tmp.*"))
 
 
@@ -187,3 +191,198 @@ def test_main_missing_manifest_row_stops(tmp_path, capsys):
     manifest.write_manifest(tmp_path / "manifest.tsv", [])
     assert attach.main(argv) == 2
     assert "no manifest row" in capsys.readouterr().err
+
+
+# ---- review round 1 ----
+
+
+def _run(tmp_path, fasta, truth, mapping="cgd", sources=("X",)):
+    attach = load_script("02_attach_sequences")
+    input_dir = tmp_path / "in"
+    input_dir.mkdir(exist_ok=True)
+    species, manifest_rows = [], []
+    for name, text in fasta.items():
+        _write(input_dir, name, text)
+        manifest_rows.append({"file": name, "mode": "record", "sha256": ""})
+    for source_id, name in zip(sources, fasta, strict=False):
+        species.append({"source_id": source_id, "fasta_file": name, "id_mapping": mapping})
+    return attach, lambda **kw: attach.run(truth, species, manifest_rows, input_dir, tmp_path, **kw)
+
+
+def test_all_outputs_columns_and_content(tmp_path):
+    attach, go = _run(
+        tmp_path,
+        {"c.fa": ">C1_00010W_A\nmstq\nka*\n>C1_00020C_A\nMKKLLV\n"},
+        [_row("CAL1", "C1_00010W_A", "P-ext"), _row("CAL2", "tRNA1", "N-int")],
+    )
+    go(truth_set_sha256="abc")
+    rows = truth_table.read_tsv(tmp_path / "truth_sequences.tsv.gz")
+    with gzip.open(tmp_path / "truth_sequences.tsv.gz", "rt") as handle:
+        assert handle.readline().rstrip("\n").split("\t") == [
+            "source_id", "gene_id", "label", "fasta_id", "length", "seq_sha256", "sequence",
+        ]  # fmt: skip
+    assert len(rows) == 1 and rows[0]["sequence"] == "MSTQKA" and "*" not in rows[0]["sequence"]
+    assert rows[0]["length"] == str(len("MSTQKA"))
+    assert rows[0]["seq_sha256"] == seqhash.seq_sha256("MSTQKA")
+    header = (tmp_path / "unmatched_ids.tsv").read_text().splitlines()[0]
+    assert header.split("\t") == [
+        "source_id", "gene_id", "symbol", "synonym1", "label", "reason",
+    ]  # fmt: skip
+    assert truth_table.read_tsv(tmp_path / "unmatched_ids.tsv")[0]["reason"] == "no_fasta_record"
+    header = (tmp_path / "sequence_counts.tsv").read_text().splitlines()[0]
+    assert header.split("\t") == list(attach.SEQ_COUNT_COLUMNS)
+    assert attach.SEQ_COUNT_COLUMNS[:3] == ("source_id", "truth_set_sha256", "fasta_file")
+    assert truth_table.read_tsv(tmp_path / "sequence_counts.tsv")[0]["truth_set_sha256"] == "abc"
+    assert not list(tmp_path.glob(".tmp.*"))
+
+
+def test_empty_cleaned_sequence_is_unmatched_and_stops_for_p_ext(tmp_path):
+    attach, go = _run(
+        tmp_path,
+        {"c.fa": ">C1_00010W_A\n*\n>C1_00020C_A\nMK\n"},
+        [_row("CAL1", "C1_00010W_A", "P-ext"), _row("CAL2", "C1_00020C_A", "N-int")],
+    )
+    with pytest.raises(sequences.MappingError, match="P-ext gene CAL1"):
+        go()
+    reason = truth_table.read_tsv(tmp_path / "unmatched_ids.tsv")[0]["reason"]
+    assert reason == "empty_sequence"
+
+
+def test_empty_cleaned_sequence_for_n_int_is_only_unmatched(tmp_path):
+    attach, go = _run(
+        tmp_path,
+        {"c.fa": ">C1_00010W_A\n*\n>C1_00020C_A\nMK\n"},
+        [_row("CAL1", "C1_00010W_A", "N-int"), _row("CAL2", "C1_00020C_A", "N-int")],
+    )
+    seq_rows, unmatched, counts = go()
+    assert [r["gene_id"] for r in seq_rows] == ["CAL2"]
+    assert unmatched[0]["reason"] == "empty_sequence" and counts[0]["unmatched_n_int"] == "1"
+
+
+def test_non_ascii_sequence_stops_with_diagnostics(tmp_path):
+    attach, go = _run(
+        tmp_path,
+        {"c.fa": ">C1_00010W_A\nMK\u00c9A\n>C1_00020C_A\nMK\n"},
+        [_row("CAL1", "C1_00010W_A", "N-int"), _row("CAL2", "C1_00020C_A", "N-int")],
+    )
+    (tmp_path / "truth_sequences.tsv.gz").write_bytes(b"old")
+    with pytest.raises(sequences.MappingError, match="non-ASCII"):
+        go()
+    assert (tmp_path / "unmatched_ids.tsv").exists()
+    assert (tmp_path / "sequence_counts.tsv").exists()
+    assert not (tmp_path / "truth_sequences.tsv.gz").exists()
+
+
+def test_gene_side_key_collision_raises_naming_both_genes():
+    index = {"C1_00010W_A": ("C1_00010W_A", "MK")}
+    rows = [_row("CAL1", "C1_00010W_A"), _row("CAL2", " c1_00010w_a ")]
+    with pytest.raises(sequences.MappingError, match="CAL1 and CAL2"):
+        sequences.attach(rows, index, "cgd")
+    with pytest.raises(sequences.MappingError, match="CAL1 occurs twice"):
+        sequences.attach([_row("CAL1", "A"), _row("CAL1", "A")], index, "cgd")
+    with pytest.raises(sequences.MappingError, match="CAL1 occurs twice"):
+        sequences.attach([_row("CAL1", "A"), _row("CAL1", "B")], index, "cgd")
+
+
+def test_empty_gene_keys_do_not_collide():
+    rows = [_row("CAL1", ""), _row("CAL2", "")]
+    matched, unmatched = sequences.attach(rows, {}, "cgd")
+    assert matched == [] and len(unmatched) == 2
+
+
+def test_fasta_side_uniprot_isoform_is_stripped_but_not_for_cgd_or_pombase(tmp_path):
+    index, _ = sequences.index_fasta(
+        _write(tmp_path, "u.fa", ">sp|P22146-2|GAS1_YEAST x\nMK\n"), "uniprot"
+    )
+    assert set(index) == {"P22146"}
+    index, _ = sequences.index_fasta(_write(tmp_path, "c.fa", ">C1_00010W-2\nMK\n"), "cgd")
+    assert set(index) == {"C1_00010W-2"}
+    index, _ = sequences.index_fasta(
+        _write(tmp_path, "p.fa", ">SPAC1002.01-2.1:pep x\nMK\n"), "pombase"
+    )
+    assert set(index) == {"SPAC1002.01-2"}
+    assert sequences.normalize_id("ab-2", "cgd") == "AB-2"
+    assert sequences.normalize_id("ab-2", "pombase") == "AB-2"
+    assert sequences.normalize_id("ab-2", "uniprot") == "AB"
+
+
+def test_duplicates_differing_only_in_case_or_stop_are_merged(tmp_path):
+    index, dups = sequences.index_fasta(
+        _write(tmp_path, "c.fa", ">K\nMSTQKA\n>K\nmstqka*\n>K\nMST QKA\n"), "cgd"
+    )
+    assert dups == 2 and len(index) == 1
+    with pytest.raises(sequences.MappingError, match="two different sequences"):
+        sequences.index_fasta(_write(tmp_path, "d.fa", ">K\nMSTQKA\n>K\nMSTQKV*\n"), "cgd")
+
+
+def test_zero_match_guard_is_per_source(tmp_path):
+    attach, go = _run(
+        tmp_path,
+        {"a.fa": CGD_FASTA, "b.fa": CGD_FASTA},
+        [
+            _row("CAL1", "C1_00010W_A", "N-sec", "A"),
+            _row("CAL2", "C9_99999W_A", "N-sec", "B"),
+        ],
+        sources=("A", "B"),
+    )
+    with pytest.raises(sequences.MappingError, match="B: no gene matched"):
+        go()
+
+
+@pytest.mark.parametrize("label", ["P-ext", "ambiguous"])
+def test_each_unmatched_positive_label_stops_alone(tmp_path, label):
+    attach, go = _run(
+        tmp_path,
+        {"c.fa": CGD_FASTA},
+        [_row("CAL1", "C1_00010W_A", "N-sec"), _row("CAL5", "C5_00000W_A", label)],
+    )
+    with pytest.raises(sequences.MappingError, match=f"{label} gene CAL5"):
+        go()
+
+
+def test_partial_run_is_recorded_and_partial_truth_set_is_refused(tmp_path, capsys):
+    attach = load_script("02_attach_sequences")
+    argv = _setup_main(tmp_path, [_full_row("CAL1", "C1_00010W_A", "P-ext")], all_sources=False)
+    assert attach.main(argv) == 2
+    err = capsys.readouterr().err
+    assert err.startswith("STOP:") and "all_sources" in err and "--allow-partial-truth-set" in err
+    assert not (tmp_path / "truth_sequences.tsv.gz").exists()
+    assert attach.main([*argv, "--allow-partial-truth-set"]) == 0
+    log = json.loads((tmp_path / "sequence_run.json").read_text())
+    assert log["all_sources"] is True and log["sources"] == ["X"]
+    assert log["truth_set_sha256"] == manifest.sha256_file(tmp_path / "truth_set.tsv.gz")
+    assert log["fasta_sha256"] == {"X": manifest.sha256_file(tmp_path / "in" / "c.fa")}
+    assert (
+        log["git_commit"]
+        and log["python"]
+        and log["arguments"] == [*argv, "--allow-partial-truth-set"]
+    )
+
+
+def test_missing_extract_log_is_refused(tmp_path, capsys):
+    attach = load_script("02_attach_sequences")
+    argv = _setup_main(tmp_path, [_full_row("CAL1", "C1_00010W_A", "P-ext")])
+    (tmp_path / "extract_log.json").unlink()
+    assert attach.main(argv) == 2
+    assert "extract_log.json" in capsys.readouterr().err
+
+
+def test_sources_subset_marks_run_as_not_all_sources(tmp_path):
+    attach = load_script("02_attach_sequences")
+    argv = _setup_main(tmp_path, [_full_row("CAL1", "C1_00010W_A", "P-ext")])
+    species = tmp_path / "species.tsv"
+    species.write_text("source_id\tfasta_file\tid_mapping\nX\tc.fa\tcgd\nY\tc.fa\tcgd\n")
+    assert attach.main([*argv, "--sources", "X"]) == 0
+    log = json.loads((tmp_path / "sequence_run.json").read_text())
+    assert log["sources"] == ["X"] and log["all_sources"] is False
+    assert attach.main(argv) == 0
+    assert json.loads((tmp_path / "sequence_run.json").read_text())["all_sources"] is True
+
+
+def test_run_json_is_byte_stable(tmp_path):
+    attach = load_script("02_attach_sequences")
+    argv = _setup_main(tmp_path, [_full_row("CAL1", "C1_00010W_A", "P-ext")])
+    assert attach.main(argv) == 0
+    first = (tmp_path / "sequence_run.json").read_bytes()
+    assert attach.main(argv) == 0
+    assert (tmp_path / "sequence_run.json").read_bytes() == first

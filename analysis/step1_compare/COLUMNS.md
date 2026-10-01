@@ -60,3 +60,41 @@ homology codes). They are NOT used as truth. The `direct_*` columns are the dire
 | nohom_p_ext, nohom_n_int, nohom_n_sec, nohom_ambiguous | Label counts without homology codes. Reproduce `d1_count.py`. NOT truth. |
 | direct_p_ext, direct_n_int, direct_n_sec, direct_ambiguous | Genes whose `label` is X and `homology_only` is `no`. This is the direct-evidence truth. |
 | ambiguous_htp_only | Ambiguous genes whose internal evidence is high-throughput only. |
+
+## extract_log.json (from 01_extract_go_truth.py)
+
+`all_sources` is `true` when the run processed every source in `species.tsv`. It is `false` after a run with `--sources` that selected a subset. `sources` lists the processed sources (one object each, with `source_id`).
+
+## truth_sequences.tsv.gz (02_attach_sequences.py, one row per matched gene)
+
+| Column | Meaning |
+|---|---|
+| source_id, gene_id, label | As in `truth_set.tsv.gz`. |
+| fasta_id | First token of the FASTA header. |
+| length | Length of the cleaned sequence. |
+| seq_sha256 | SHA-256 of the cleaned sequence (upper case, no whitespace, `J` to `L`, no `*`). |
+| sequence | The cleaned sequence. |
+
+The file does not exist after a STOP. A STOP happens when a source matches no gene, when a P-ext or ambiguous gene has no usable sequence, or when a sequence has a non-ASCII character.
+
+## unmatched_ids.tsv (02_attach_sequences.py)
+
+| Column | Meaning |
+|---|---|
+| source_id, gene_id, symbol, synonym1, label | As in `truth_set.tsv.gz`. |
+| reason | `no_fasta_record` (no FASTA record has the gene key) or `empty_sequence` (the record has no residue after cleaning). |
+
+## sequence_counts.tsv (02_attach_sequences.py, one row per source)
+
+| Column | Meaning |
+|---|---|
+| source_id | Identifier of the source. |
+| truth_set_sha256 | SHA-256 of the `truth_set.tsv.gz` that was read. |
+| fasta_file, fasta_sha256 | FASTA file name and its SHA-256. |
+| fasta_duplicate_records | Identical duplicate FASTA records that were merged. |
+| genes, matched, unmatched | Gene counts. |
+| unmatched_p_ext, unmatched_ambiguous, unmatched_n_int, unmatched_n_sec | Unmatched genes by label. |
+
+## sequence_run.json (02_attach_sequences.py)
+
+Keys: `sources` (selected source ids), `all_sources` (`true` when all sources of `species.tsv` were selected), `truth_set_sha256`, `fasta_sha256` (per source), `git_commit` (or `unknown`), `python`, `arguments`. It has no time stamp. A run with `--sources` replaces the full outputs with partial ones. Check `all_sources` before you use `truth_sequences.tsv.gz`. 02 refuses a `truth_set.tsv.gz` unless `extract_log.json` says `all_sources: true`; `--allow-partial-truth-set` overrides this.

@@ -96,12 +96,32 @@ def index_fasta(path: str | Path, mapping: str) -> tuple[dict[str, tuple[str, st
 
 
 def attach(rows: list[dict[str, str]], index: dict[str, tuple[str, str]], mapping: str):
-    """Return (matched, unmatched). matched rows gain fasta_id and sequence."""
+    """Return (matched, unmatched). matched rows gain fasta_id and sequence.
+
+    unmatched rows gain `reason`: `no_fasta_record`, or `empty_sequence` when the FASTA record
+    has no residue left after cleaning. Two genes with the same key raise MappingError.
+    """
+    seen: dict[str, str] = {}
+    gene_ids: set[str] = set()
+    for row in rows:
+        if row["gene_id"] in gene_ids:
+            raise MappingError(f"gene {row['gene_id']} occurs twice in the truth table")
+        gene_ids.add(row["gene_id"])
+        key = gene_key(row, mapping)
+        if not key:
+            continue
+        if key in seen:
+            raise MappingError(
+                f"genes {seen[key]} and {row['gene_id']} have the same {mapping} key {key}"
+            )
+        seen[key] = row["gene_id"]
     matched, unmatched = [], []
     for row in rows:
         hit = index.get(gene_key(row, mapping))
         if hit is None:
-            unmatched.append(row)
+            unmatched.append({**row, "reason": "no_fasta_record"})
+        elif not clean(hit[1]):
+            unmatched.append({**row, "reason": "empty_sequence"})
         else:
             matched.append({**row, "fasta_id": hit[0], "sequence": hit[1]})
     return matched, unmatched

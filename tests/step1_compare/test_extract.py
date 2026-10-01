@@ -600,3 +600,20 @@ def test_real_truth_file_reads_back_and_matches_counts(real_run):
     assert set(by_source) == set(counts)
     for source_id, rows in by_source.items():
         assert _recount(rows) == {k: counts[source_id][k] for k in _recount(rows)}, source_id
+
+
+def test_log_records_whether_all_sources_were_processed(tmp_path, fixtures_dir):
+    import json
+
+    input_dir, manifest_rows = _inputs(tmp_path, fixtures_dir)
+    assert _cli(tmp_path, FIXTURE_SPECIES, manifest_rows, input_dir, tmp_path / "a")[0] == 0
+    log = json.loads((tmp_path / "a" / "extract_log.json").read_text())
+    assert log["all_sources"] is True
+    two = FIXTURE_SPECIES + [{**FIXTURE_SPECIES[0], "source_id": "Fix_Two"}]
+    code, _ = _cli(
+        tmp_path, two, manifest_rows, input_dir, tmp_path / "b", ["--sources", "Fix_SGD"]
+    )
+    assert code == 0
+    log = json.loads((tmp_path / "b" / "extract_log.json").read_text())
+    assert log["all_sources"] is False
+    assert [s["source_id"] for s in log["sources"]] == ["Fix_SGD"]

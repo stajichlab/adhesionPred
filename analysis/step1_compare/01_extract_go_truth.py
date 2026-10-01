@@ -137,6 +137,7 @@ def main(argv=None) -> int:
     parser.add_argument("--sources", nargs="*", default=None, help="source_id values to run")
     args = parser.parse_args(argv)
     species_rows = read_species(args.species)
+    all_source_ids = [r["source_id"] for r in species_rows]
     if args.sources is not None:
         valid = [r["source_id"] for r in species_rows]
         for source_id in args.sources:
@@ -154,6 +155,7 @@ def main(argv=None) -> int:
             "species_sha256": manifest.sha256_file(args.species),
             "manifest_sha256": manifest.sha256_file(args.manifest),
             "arguments": list(argv) if argv is not None else sys.argv[1:],
+            "all_sources": [r["source_id"] for r in species_rows] == all_source_ids,
         }
         _, counts = run(
             species_rows,
