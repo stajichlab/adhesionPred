@@ -8,7 +8,7 @@
 
 **Tech Stack:** conda env `adhesionPred` Python 3.14.2 (`ENV_PY=/rhome/jstajich/.conda/envs/adhesionPred/bin/python`) with numpy 2.4.2, scipy 1.17.0, scikit-learn 1.8.0 for `phasec/`; the Phase A standard-library modules (`truth_table`, `runinfo`, `manifest`, `paths`) through `PYTHONPATH`; MMseqs2 17-b804f (`module load MMseqs2/17-b804f`, AVX2 build; non-AVX2 binary at `/opt/linux/rocky/8.x/x86_64/pkgs/mmseqs2/17-b804f/bin/mmseqs`); SLURM partition `epyc`; bash; pytest 9.1.1; ruff 0.3.5 through pre-commit.
 
-**Spec:** `docs/superpowers/specs/2026-10-01-step1-phase-c-evaluation-design.md` (binding; rulings C-1 to C-11). Parent spec: `docs/superpowers/specs/2026-09-30-surface-glycoprotein-model-design.md` (sections 2 to 6, 10, 11; in the worktree `/bigdata/stajichlab/jstajich/projects/adhesionPred-spec`). Phase B plan and code (conventions): `docs/superpowers/plans/2026-10-01-step1-features-embeddings.md`, `analysis/step1_compare/`.
+**Spec:** `docs/superpowers/specs/2026-10-01-step1-phase-c-evaluation-design.md` (binding; rulings C-1 to C-15; owner answers of 2026-10-01 on the `t` grid, the estimate floor and the `hard_negative` rows). Parent spec: `docs/superpowers/specs/2026-09-30-surface-glycoprotein-model-design.md` (sections 2 to 6, 10, 11; in the worktree `/bigdata/stajichlab/jstajich/projects/adhesionPred-spec`). Phase B plan and code (conventions): `docs/superpowers/plans/2026-10-01-step1-features-embeddings.md`, `analysis/step1_compare/`.
 
 **Scope.** E1 (library, scripts 08 to 12, the tests of spec section 6), the code that produces E2 and E3, and E4 (COLUMNS.md and README.md sections). The plan submits no job. The section "Run (controller, after review)" gives the commands and acceptance checks R0 to R6 for the real run. Gate values, a model card and Basidiomycota curation are out of scope (spec 1).
 
@@ -25,12 +25,13 @@ All numbers come from read-only runs on `$STEP1_WORKDIR=/bigdata/stajichlab/jsta
 | GO members (non-alternate, labelled) | 20,873; by source pos / neg / excluded: Scer 113 / 4,193 / 57; Calb 200 / 2,683 / 137; Spom 49 / 4,178 / 20; Afum 123 / 3,081 / 9; Anid 206 / 3,122 / 41; H99 7 / 48 / 4; Umay 59 / 2,540 / 3 | 08 prototype, `build_run.json` |
 | Dedupe | 0 hashes with pos and neg; 2 hashes with pos and an ambiguous gene (S000005921 / S000006203; CAL0000180850 / CAL0000182697); 2 multi-source hashes (Afum + Anid); 12 merged hashes whose members differ in `homology_only` | prototype count |
 | Ruling C-6 on the real data | 497 T-c rows dropped (`go_label_wins`); by the class of the GO members of their hash: neg 224 rows, excluded 65, pos 208. GO members that share a hash with a T-c row: N-sec 207, N-int 8, PM-TM 9, pm-unresolved 27, ambiguous 38, P-ext 206, P-gpi 1. The spec's reviewer counts (224 negatives, 65 excluded) are confirmed | 08 prototype |
-| 08 on the real data | 23,338 table rows (go pos 752, go neg 19,776, go excluded 266, tc pos 2,544); 23,351 sequences in `eval_sequences.fasta.gz` (13 literature sequences not in the table); 20 literature rows with an accession, 19 positives (HSP60 not), YPS3 without accession; 17.5 s wall time on c01. The spec's "about 23,400 (reviewer 23,413)" is 23,351 | 08 prototype |
+| Labelled genes without a feature row (real) | `build_run.json` `labelled_genes_without_sequence`: `Calb_CGD` 72, `Scer_SGD` 3, `Spom_PomBase` 2. The 75 of the two training sources are negatives (they are the difference between the spec's 6,951 negative members and the 6,876 negative members that 08 counts) | 08 prototype, `build_run.json` |
+| 08 on the real data | 23,338 table rows (go pos 752, go neg 19,776, go excluded 266, tc pos 2,544); 23,351 sequences in `eval_sequences.fasta.gz` (13 literature sequences not in the table); 20 literature rows with an accession, 19 positives (HSP60 not; the 9 `hard_negative` rows count, owner decision 2026-10-01, ruling C-9 amended), YPS3 without accession; 17.5 s wall time on c01. The spec's "about 23,400 (reviewer 23,413)" is 23,351 | 08 prototype |
 | MMseqs2 module on c01 | `module load MMseqs2/17-b804f` puts `…/17-b804f-avx2/bin/mmseqs` on PATH; `mmseqs version` dies with "Illegal instruction" (exit 132). c01 is an AMD Opteron 6376 (abu_dhabi, no AVX2). The non-AVX2 binary `…/17-b804f/bin/mmseqs` runs (version `b804fbe384e6f6c9fe96322ec0e92d48bccd0a42`). Partition `epyc` (default, AMD Milan) has AVX2 | `module show`, `/proc/cpuinfo`, `sinfo` |
 | 09 on the real data (non-AVX2 binary, 2 threads, c01) | 9,737 clusters for 23,351 sequences; 18 min 48 s wall (clustering 2 min 14 s; five `easy-search -s 7.5` runs about 3 min each) | 09 prototype |
-| Split sizes (real) | V-go training pool (FULL): 308 pos, 6,842 neg (7,150 unique; spec: 313 and 6,951 members before dedupe); S1 fold test sizes 1,454 to 1,483; T-c rows removed: S1 0; S2-Calb_CGD 506 (b) + 164 (c); S2-Scer_SGD 633 (b) + 69 (c); S2-Spom_PomBase 464 (b); S3-Basidiomycota 293 (b); S3-Eurotiomycetes 674 (b) + 1,235 (c) | `splits_run.json` of the prototype |
-| Direct-evidence test sets (real, pos / neg) | S1 pooled 232 / 4,244; Calb 153 / 459; Scer 79 / 3,785; Spom 33 / 3,668; Afum 19 / 45; Anid 109 / 164; H99 7 / 32; Umay 9 / 28; literature 19 / 0 | prototype count |
-| Fit time, one real unit (S1 fold 0, V-go, 5,720 training rows, one BLAS thread, c01) | B0 1.3 s, B1 1.5 s, each rule 1.2 s, M8 6.0 s, M35 7.0 s, M8-C 6.0 s, M35-C 6.3 s, H 23.1 s; each call includes the 3-fold split (about 1.2 s); chosen C = 0.01 for all LR candidates, H variant M8-C, R2 g = highly_probable, t = 0.10 | `unit_timing.py` prototype run |
+| Split sizes (real) | V-go training pool (FULL): 308 pos, 6,842 neg (7,150 unique; spec: 313 and 6,951 members before dedupe; ruling C-14: positives 313 - 2 made `excluded` (share a hash with an ambiguous gene) - 3 merged = 308; negatives 6,951 - 75 without a feature row - 34 merged = 6,842); S1 fold test sizes 1,454 to 1,483; T-c rows removed: S1 0; S2-Calb_CGD 506 (b) + 164 (c); S2-Scer_SGD 633 (b) + 69 (c); S2-Spom_PomBase 464 (b); S3-Basidiomycota 293 (b); S3-Eurotiomycetes 674 (b) + 1,235 (c) | `splits_run.json` of the prototype |
+| Direct-evidence test sets (real, pos / neg) | S1 pooled 232 / 4,244; Calb 153 / 459; Scer 79 / 3,785; Spom 33 / 3,668; Afum 19 / 45; Anid 109 / 164; H99 7 / 32; Umay 9 / 28; literature 19 / 0. Below the count floor of 20 direct positives (ruling C-8): Afum, H99, Umay, literature; these are smoke tests whatever their interval widths | prototype count |
+| Fit time, one real unit (S1 fold 0, V-go, 5,720 training rows, one BLAS thread, c01) | B0 1.3 s, B1 1.5 s, each rule 1.2 s, M8 6.0 s, M35 7.0 s, M8-C 6.0 s, M35-C 6.3 s, H 23.1 s; each call includes the 3-fold split (about 1.2 s); chosen C = 0.01 for all LR candidates, H variant M8-C, R2 g = highly_probable, t = 0.10. These timings and choices used the old grids (C in 0.01 to 10, `t` from 0.10). The new grids (C-12: six C values; `t` 0.20 to 0.40) were not timed on the real data (not run) | `unit_timing.py` prototype run |
 | Bootstrap time (real S1 pooled direct rows: 4,476 rows, 3,477 clusters) | weight matrix 2,000 x 4,476 in 0.4 s; stratum `all` for 20 candidate-variant pairs (binary metrics for all, curve metrics for 14) in 28.0 s on c01 | `boot_timing.py` prototype run |
 | Universe load (69,941 sequences, 4 matrices) | 9.2 s with SHA-256 checks, 6.6 s without | prototype |
 | Logistic regression on 7,152 x 480 (35M) | 1.4 s (C = 0.01) to 7.3 s (C = 10) per fit, no convergence warning at `max_iter=5000` | prototype |
@@ -45,6 +46,7 @@ All numbers come from read-only runs on `$STEP1_WORKDIR=/bigdata/stajichlab/jsta
 - Seed 20261001 (`evalio.SEED`) for every fold split and every bootstrap; 2,000 resamples (`bootstrap.N_RESAMPLES`).
 - No file uses `BASH_SOURCE`, not even in a comment.
 - SLURM scripts: `#!/bin/bash -l`, `set -euo pipefail`, `${SCRATCH:?}` node-local work, `PROJ_ROOT` and `STEP1_WORKDIR` required (`: "${PROJ_ROOT:?...}"`), explicit `#SBATCH --time`; results on `/bigdata` before the job ends.
+- A job that runs an AVX2 tool must request a node feature that has AVX2 (`-p epyc` with `#SBATCH --constraint=ryzen`; ruling C-15). `test_avx2_tools_have_a_cpu_constraint` scans every `*.sh` file of `analysis/step1_compare/` (Task 11).
 - Job size: about 1 to 1.5 h of real run time per job. No run time is measured on the real data for C1; the first submission is the pilot and later submissions are sized from its `wall_seconds` lines.
 - Compress large text outputs with gzip (`truth_table.write_tsv` with a `.gz` path, byte-stable).
 - ruff 0.3.5 through pre-commit, line length 100: `pre-commit run --all-files` before every commit; re-stage if a hook reformats.
@@ -55,13 +57,13 @@ All numbers come from read-only runs on `$STEP1_WORKDIR=/bigdata/stajichlab/jsta
 
 The spec does not name these five inputs. Each one gets a test in its owning task.
 
-1. **A stratum or test set without positives or without negatives** (for example the N-sec stratum, or the 19 literature rows that have no negatives). Expected: the metric is `null` in `metrics.json` (never NaN, never an exception) and the label is `smoke test` when a recall interval is not defined. Pinned by `test_undefined_metrics_are_nan` (Task 3), `test_estimate_label_rule` and `test_undefined_metrics_are_null` (Task 9).
+1. **A stratum or test set without positives or without negatives** (for example the N-sec stratum, or the 19 literature rows that have no negatives). Expected: the metric is `null` in `metrics.json` (never NaN, never an exception) and the label is `smoke test` when a recall interval is not defined. A truth block without negatives (the literature set) also stores precision, PR-AUC and precision at recall as `null` (spec 3.2, review I-1), and `report.md` prints recall only for it. Pinned by `test_undefined_metrics_are_nan` (Task 3), `test_estimate_label_rule` and `test_undefined_metrics_are_null` (Task 9) and `test_literature_section_reports_recall_only` (Task 10).
 2. **A bootstrap resample without positives** (all positives in one cluster that a resample misses). Expected: that resample does not count; the interval uses the defined resamples and records `n_defined`. Pinned by `test_interval_skips_undefined_resamples` and `test_all_positives_in_one_cluster_gives_some_empty_resamples` (Task 4).
 3. **A missing or non-finite feature value** (an empty `sp_prob` or a NaN score). Expected: 08 stops and names the hash; the metric functions refuse non-finite scores. Pinned by `test_missing_feature_value_stops` (Task 2) and `test_non_finite_scores_are_refused` (Task 3).
 4. **One sequence in two sources** (2 Afum/Anid hashes exist; a hash in a training and a test source would leak). Expected: one table row that lists both sources and counts in each source's test set; a hash in a training source and a test source stops 09. Pinned by `test_identical_sequence_in_two_sources_is_one_row` (Task 2) and `test_hash_in_a_training_and_a_test_source_stops` (Task 7).
 5. **An outer training set with fewer positive clusters than inner folds** (S2-Calb_CGD trains on 109 positives of S. cerevisiae only). Expected: 10 stops and names the unit and the cluster counts, instead of a fold without positives and an undefined Youden threshold. Pinned by `test_inner_folds_stop_without_enough_positive_clusters` (Task 6) and `test_too_few_positive_clusters_stops` (Task 8).
 
-A sixth case found while prototyping is recorded as a spec issue (section "Spec issues", item 1): a recall interval of zero width (for example 2 of 2 positives found in every resample) meets the estimate rule. The plan keeps the rule as written and reports `zero_width_recall_interval` beside the label (Tasks 9 and 10).
+A sixth case found while prototyping: a recall interval of zero width (for example 2 of 2 positives found in every resample) meets the half-width rule. The owner decision of 2026-10-01 adds a count floor (ruling C-8): a test set is an estimate only with at least 20 direct-evidence positives. `metrics.json` records `n_direct_positives`, `floor_met` and `zero_width_recall_interval` beside the label (Tasks 9 and 10).
 
 ---
 
@@ -94,7 +96,7 @@ In S2 and S3 a GO training protein may share a cluster with a test protein (homo
 
 ### Nested protocol (spec 3.3; `models.fit_unit`)
 
-For each unit: inner `StratifiedGroupKFold(3, shuffle=True, random_state=20261001)` over the training rows (groups = clusters). Logistic-regression candidates: for each C in {0.01, 0.1, 1, 10} the inner out-of-fold decision values; C = the highest inner PR-AUC (ties: smaller C). H: the same over (ESM variant, C). With that setting: Youden threshold and Platt (a, b) from the inner out-of-fold values; the final pipeline (StandardScaler + LogisticRegression(class_weight="balanced")) is refitted on all training rows. Rules: g and t by Youden's J on the training rows (a rule has no fitted model, so this equals J on the pooled inner out-of-fold rows). The fit receives only the training rows' labels (`10.tasks` builds them); `test_threshold_fit_uses_train_only` permutes every outer test label and asserts identical settings.
+For each unit: inner `StratifiedGroupKFold(3, shuffle=True, random_state=20261001)` over the training rows (groups = clusters). Logistic-regression candidates: for each C in {0.001, 0.003, 0.01, 0.1, 1, 10} (ruling C-12) the inner out-of-fold decision values; C = the highest inner PR-AUC (ties: smaller C). H: the same over (ESM variant, C). With that setting: Youden threshold and Platt (a, b) from the inner out-of-fold values; the final pipeline (StandardScaler + LogisticRegression(class_weight="balanced")) is refitted on all training rows. Rules: g and t (`t` in 0.20 to 0.40, owner decision 2026-10-01) by Youden's J on the training rows (a rule has no fitted model, so this equals J on the pooled inner out-of-fold rows). The fit receives only the training rows' labels (`10.tasks` builds them); `test_threshold_fit_uses_train_only` permutes every outer test label and asserts identical settings.
 
 ### Test sets and truth (spec 3.2, 4)
 
@@ -486,9 +488,9 @@ Co-Authored-By: Claude Sonnet 5.5 <noreply@anthropic.com>"
 - Produces: `dedupe.TABLE_COLUMNS`, `dedupe.LOG_COLUMNS`, `merge_group(h, group, cls) -> dict`, `merge_go(members) -> (rows_by_hash, log)`, `apply_precedence(go_hashes: dict[str, str], tc_rows) -> (tc_rows_by_hash, log)`. Script `08_build_eval_tables.py`: `OUTPUT_NAMES`, `LITERATURE_COLUMNS`, `check_chain(work) -> dict`, `iea_problems(truth_rows) -> list[str]`, `read_tc_clades(path) -> dict[str, str]`, `check_tc_clades(kw_rows, clades)`, `go_members(...)`, `literature_rows(seeds, kw_by_acc)`, `check_features(hashes, features_by_hash)`, `run(work, species_path, seeds_path, clades_path, arguments=())`, `main(argv=None) -> int`. Outputs in `$STEP1_WORKDIR/phasec/`: `eval_table.tsv.gz`, `eval_literature.tsv`, `eval_dedupe_log.tsv`, `eval_sequences.fasta.gz`, `build_run.json`. Test helper `phasec_fixture.make_work(root, seed=7) -> dict` (keys `work`, `species`, `seeds`, `clades`, `sets`, `named`, `seqs`), `build_argv(fx)`, `rewrite_json(path, **changes)`, `gz_lines(path)`, `_sha(path)`, the column constants and `TRUTH_SHA`.
 
 Decisions in this task (state them in review):
-- A hash with pos (or neg) members and an excluded member becomes one `excluded` row (`class_and_excluded`). The spec defines only pos plus neg (drop). The real data have 2 such hashes (S288C and *C. albicans*, each a P-ext and an ambiguous gene with one sequence). Cost if wrong: 2 positives fewer in training.
+- A hash with pos (or neg) members and an excluded member becomes one `excluded` row (`class_and_excluded`; ruling C-14). The real data have 2 such hashes (S288C and *C. albicans*, each a P-ext and an ambiguous gene with one sequence). Cost if wrong: 2 positives fewer in training.
 - `homology_only` of a merged row is `no` when any member has direct evidence (12 real hashes have members that differ). The sequence is identical, so the direct evidence of one gene applies to it.
-- 08 also writes the literature rows (spec 3.2): positives are rows with an accession, a `uniprot_kw` sequence and `moonlighting` not `YES`; this includes the 9 `hard_negative` rows (see "Spec issues", item 2).
+- 08 also writes the literature rows (spec 3.2): positives are rows with an accession, a `uniprot_kw` sequence and `moonlighting` not `YES`; this includes the 9 `hard_negative` rows (owner decision 2026-10-01, ruling C-9 amended; `test_literature_rows` pins LIT2, a `hard_negative` row, as a positive).
 
 - [ ] **Step 1: Write the test fixture `tests/step1_compare/phasec_fixture.py`**
 
@@ -1790,6 +1792,13 @@ def test_recall_at_fpr():
     assert m.recall_at_fpr(ONE, Y, S, 0.01)[0] == 0.25  # only the 0.9 threshold has FPR 0
     assert m.recall_at_fpr(ONE, Y, S, 0.17)[0] == 0.75  # FPR 1/6 at 0.8 and at 0.7
     assert m.recall_at_fpr(ONE, Y, S, 1.0)[0] == 1.0
+    # review I-3: the top-scored protein is a negative, so every non-empty call set has FPR > 0;
+    # the empty call set (recall 0, FPR 0) is the only one within FPR 0.01: the result is 0.0
+    y = np.array([0, 1, 1, 0, 0], dtype=bool)
+    s = np.array([0.9, 0.8, 0.7, 0.2, 0.1])
+    got = m.recall_at_fpr(np.ones(5), y, s, 0.01)[0]
+    assert got == 0.0 and not math.isnan(got)
+    assert m.scored_summary(np.ones(5), y, s)["recall_at_fpr_0.01"][0] == 0.0
 
 
 def test_fpr_at_recall_inside_a_stratum():
@@ -2267,7 +2276,7 @@ Co-Authored-By: Claude Sonnet 5.5 <noreply@anthropic.com>"
 
 **Interfaces:**
 - Consumes: numpy.
-- Produces: `rules.GPI_RANK`, `G_VALUES = ("highly_probable", "probable", "weakly")`, `T_VALUES = (0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40)`, `RULES = ("R0", "R1", "R2")`, `gpi_rank(calls) -> np.ndarray` (ValueError on an unknown call), `rule_call(rule, sp, rank, st, g=None, t=None) -> np.ndarray[bool]`, `youden(y, call) -> float`, `fit_rule(rule, y, sp, rank, st) -> {"g", "t", "j"}`.
+- Produces: `rules.GPI_RANK`, `G_VALUES = ("highly_probable", "probable", "weakly")`, `T_VALUES = (0.20, 0.25, 0.30, 0.35, 0.40)` (owner decision 2026-10-01; review I-2: at 0.10, R2 equals R0 on the real data), `RULES = ("R0", "R1", "R2")`, `gpi_rank(calls) -> np.ndarray` (ValueError on an unknown call), `rule_call(rule, sp, rank, st, g=None, t=None) -> np.ndarray[bool]`, `youden(y, call) -> float`, `fit_rule(rule, y, sp, rank, st) -> {"g", "t", "j"}`.
 
 - [ ] **Step 1: Write the failing test**
 
@@ -2302,11 +2311,24 @@ def test_rule_truth_table():
 
 
 def test_cut_off_values_parse_equal_to_the_grid():
-    # ser_thr_frac is stored with 6 decimals; "0.150000" must reach t = 0.15
+    # ser_thr_frac is stored with 6 decimals; "0.300000" must reach t = 0.30
     for t in rules.T_VALUES:
         st = float(f"{t:.6f}")
         assert rules.rule_call("R2", [True], rules.gpi_rank(["none"]), [st], "weakly", t)[0]
-    assert rules.T_VALUES[4] == 0.30 and 0.1 + 0.05 * 4 != 0.30  # why the grid is literal
+        below = float(f"{t - 0.000001:.6f}")
+        assert not rules.rule_call("R2", [True], rules.gpi_rank(["none"]), [below], "weakly", t)[0]
+    assert rules.T_VALUES[2] == 0.30 and 0.2 + 0.05 * 2 != 0.30  # why the grid is literal
+
+
+def test_t_grid_is_0_20_to_0_40():
+    # owner decision 2026-10-01: the grid starts at 0.20 (at 0.10, R2 equals R0 on the real data)
+    assert rules.T_VALUES == (0.20, 0.25, 0.30, 0.35, 0.40)
+    # positives at Ser+Thr 0.15, negatives at 0.05: a grid with 0.10 or 0.15 would give J = 1
+    y = np.array([1] * 4 + [0] * 4, dtype=bool)
+    rank = rules.gpi_rank(["none"] * 8)
+    st = np.array([0.15] * 4 + [0.05] * 4)
+    fit = rules.fit_rule("R2", y, np.ones(8, dtype=bool), rank, st)
+    assert fit == {"g": "highly_probable", "t": 0.40, "j": 0.0}  # no t of the grid calls them
 
 
 def test_too_short_is_never_gpi():
@@ -2367,8 +2389,9 @@ R0: SignalP call is SP.
 R1: SP and PredGPI class at or above g.
 R2: SP and (PredGPI class at or above g, or ser_thr_frac >= t). R2 is "the rule".
 
-g takes highly_probable, probable, weakly (PredGPI scores 1.0, 0.70, 0.55); t takes 0.10 to 0.40
-in steps of 0.05. g and t are fitted by Youden's J (recall minus FPR) on the training rows of
+g takes highly_probable, probable, weakly (PredGPI scores 1.0, 0.70, 0.55); t takes 0.20 to 0.40
+in steps of 0.05 (owner decision 2026-10-01: at t = 0.10 R2 equals R0 on the real data, because
+96.7% of the SP proteins have ser_thr_frac >= 0.10). g and t are fitted by Youden's J (recall minus FPR) on the training rows of
 one outer training set. A rule has no fitted model, so J on the training rows equals J on the
 pooled inner out-of-fold rows. Ties in J: the first setting in grid order wins (g from
 highly_probable down, then t from 0.40 down), that is the stricter rule.
@@ -2378,7 +2401,7 @@ import numpy as np
 
 GPI_RANK = {"highly_probable": 3, "probable": 2, "weakly": 1, "none": 0, "too_short": 0}
 G_VALUES = ("highly_probable", "probable", "weakly")
-T_VALUES = (0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40)  # literals: 0.1 + 0.05 * 4 != 0.30
+T_VALUES = (0.20, 0.25, 0.30, 0.35, 0.40)  # literals: 0.2 + 0.05 * 2 != 0.30
 RULES = ("R0", "R1", "R2")
 
 
@@ -2431,7 +2454,7 @@ def fit_rule(rule: str, y, sp, rank, st) -> dict:
 - [ ] **Step 4: Run the tests to verify they pass**
 
 Run: `PYTHONPATH=src $ENV_PY -m pytest tests/step1_compare/test_phasec_rules.py -q`
-Expected: `8 passed`.
+Expected: `9 passed`.
 
 - [ ] **Step 5: Commit**
 
@@ -2451,9 +2474,9 @@ Co-Authored-By: Claude Sonnet 5.5 <noreply@anthropic.com>"
 
 **Interfaces:**
 - Consumes: `evalio.StopError`, `evalio.SEED`, `evalio.float_or_stop`, `evalio.read_json` (Task 1); `metrics.pr_auc`, `metrics.roc_auc` (Task 3); `rules.*` (Task 5); `truth_table.read_tsv`.
-- Produces: `universe.Universe` (fields `hashes`, `length`, `sp`, `sp_prob`, `rank`, `gpi_prob`, `st`, `comp`, `cterm_row`, `nterm`, `cterm`, `index`; method `rows(hashes) -> np.ndarray`), `universe.EMBEDDINGS`, `MODELS`, `MAX_RESIDUES = 1022`, `check_cterm_rows(length, cterm_row)`, `composition(sequence)`, `embedding(u, name, idx)`, `features(u, candidate, idx, h_variant=None)`, `load(phaseb, verify=True) -> Universe`. `models.CANDIDATES = ("B0", "B1", "R0", "R1", "R2", "M8", "M35", "M8-C", "M35-C", "H")`, `LR_CANDIDATES`, `ML_CANDIDATES`, `H_VARIANTS`, `C_GRID = (0.01, 0.1, 1.0, 10.0)`, `INNER_FOLDS = 3`, `ModelError(ValueError)`, `inner_folds(y, groups, seed)`, `make_lr(C)`, `oof_scores(X, y, folds, C, notes)`, `youden_threshold(y, score) -> float`, `fit_platt(y, score) -> (a, b)`, `platt(score, a, b)`, `fit_unit(u, train_idx, y, groups, score_idx, seed, candidates=CANDIDATES) -> (params, scores)`; work-unit functions for Task 8: `init_worker(phaseb: str)`, `run_task(task: dict, u=None) -> (key, params, scores)` (task keys `key`, `train`, `y`, `groups`, `score`, `seed`, `candidates`).
+- Produces: `universe.Universe` (fields `hashes`, `length`, `sp`, `sp_prob`, `rank`, `gpi_prob`, `st`, `comp`, `cterm_row`, `nterm`, `cterm`, `index`; method `rows(hashes) -> np.ndarray`), `universe.EMBEDDINGS`, `MODELS`, `MAX_RESIDUES = 1022`, `check_cterm_rows(length, cterm_row)`, `composition(sequence)`, `embedding(u, name, idx)`, `features(u, candidate, idx, h_variant=None)`, `load(phaseb, verify=True) -> Universe`. `models.CANDIDATES = ("B0", "B1", "R0", "R1", "R2", "M8", "M35", "M8-C", "M35-C", "H")`, `LR_CANDIDATES`, `ML_CANDIDATES`, `H_VARIANTS`, `C_GRID = (0.001, 0.003, 0.01, 0.1, 1.0, 10.0)` (ruling C-12), `INNER_FOLDS = 3`, `ModelError(ValueError)`, `inner_folds(y, groups, seed)`, `make_lr(C)`, `oof_scores(X, y, folds, C, notes)`, `youden_threshold(y, score) -> float`, `fit_platt(y, score) -> (a, b)`, `platt(score, a, b)`, `fit_unit(u, train_idx, y, groups, score_idx, seed, candidates=CANDIDATES) -> (params, scores)`; work-unit functions for Task 8: `init_worker(phaseb: str)`, `run_task(task: dict, u=None) -> (key, params, scores)` (task keys `key`, `train`, `y`, `groups`, `score`, `seed`, `candidates`).
 
-Measured on a real unit (S1 fold 0, V-go, 5,720 rows, 1 BLAS thread, c01): all candidates together about 45 s (see Facts). The chance-level test is a real contamination check: in the prototype, a mutation that trained every outer fold on all rows gave an out-of-fold AUC of 0.970 on the same shuffled labels (the test requires 0.45 to 0.55; five seeds gave 0.493 to 0.532 without the mutation).
+Measured on a real unit (S1 fold 0, V-go, 5,720 rows, 1 BLAS thread, c01): all candidates together about 45 s with the old grid of four C values (see Facts). The grid of ruling C-12 has six values, so each LR candidate makes 18 instead of 12 inner fits and H 72 instead of 48; the added values are small C, which fit fastest (1.4 s at C = 0.01 against 7.3 s at C = 10 on 7,152 x 480). The new grid was not timed on the real data (not run). The chance-level test is a real contamination check: in the prototype, a mutation that trained every outer fold on all rows gave an out-of-fold AUC of 0.970 on the same shuffled labels (the test requires 0.45 to 0.55; five seeds gave 0.493 to 0.532 without the mutation).
 
 - [ ] **Step 1: Write the failing test**
 
@@ -2798,7 +2821,7 @@ CANDIDATES = ("B0", "B1", "R0", "R1", "R2", "M8", "M35", "M8-C", "M35-C", "H")
 LR_CANDIDATES = ("B0", "B1", "M8", "M35", "M8-C", "M35-C")
 ML_CANDIDATES = ("M8", "M35", "M8-C", "M35-C", "H")
 H_VARIANTS = ("M8", "M35", "M8-C", "M35-C")
-C_GRID = (0.01, 0.1, 1.0, 10.0)
+C_GRID = (0.001, 0.003, 0.01, 0.1, 1.0, 10.0)  # ruling C-12: S1 fold 0 chose 0.01, the old edge
 INNER_FOLDS = 3
 MAX_ITER = 5000
 SCORE_CHUNK = 20000
@@ -4163,12 +4186,12 @@ def test_scores_cover_every_unit_candidate_and_scored_row(phasec_chain):
 def test_fitted_settings_are_recorded(phasec_chain):
     units = _units(phasec_chain["work"])
     unit = units["S1|0|V-go"]
-    assert unit["M8"]["C"] in (0.01, 0.1, 1.0, 10.0)
+    assert unit["M8"]["C"] in (0.001, 0.003, 0.01, 0.1, 1.0, 10.0)  # ruling C-12
     assert unit["H"]["h_variant"] in ("M8", "M35", "M8-C", "M35-C")
-    assert (
-        unit["R2"]["g"] in ("highly_probable", "probable", "weakly") and unit["R2"]["t"] is not None
-    )
-    assert set(unit["M35"]["inner_pr_auc"]) == {"0.01", "0.1", "1.0", "10.0"}
+    assert unit["R2"]["g"] in ("highly_probable", "probable", "weakly")
+    assert unit["R2"]["t"] in (0.20, 0.25, 0.30, 0.35, 0.40)  # owner decision 2026-10-01
+    assert set(unit["M35"]["inner_pr_auc"]) == {"0.001", "0.003", "0.01", "0.1", "1.0", "10.0"}
+    assert len(unit["H"]["inner_pr_auc"]) == 4 * 6  # (ESM variant, C) pairs
     assert units["S1|0|V-kw"]["M8"]["n_train_pos"] > unit["M8"]["n_train_pos"]  # T-c positives
 
 
@@ -4502,13 +4525,13 @@ Co-Authored-By: Claude Sonnet 5.5 <noreply@anthropic.com>"
 
 **Interfaces:**
 - Consumes: `evalio.*` (Task 1); `metrics.*` (Task 3); `bootstrap.*` (Task 4); `splits.check_test_truth`, `splits.IDENTITY_CUT` (Task 7); `scores.tsv.gz`, `scores_run.json` (Task 8); `phaseb/sequence_members.tsv.gz`, `phaseb/features_run.json`, `sequence_sets.tsv`.
-- Produces: `findings.ESTIMATE_HALF_WIDTH = 0.10`, `SATURATION_AUC = 0.99`, `LABEL_CANDIDATES = ("R2", "M8", "M35", "M8-C", "M35-C", "H")`, `ML`, `COMPARATORS = ("B1", "R2")`, `estimate_label(recall_half_widths) -> str`, `finding_a(b1_auc) -> dict`, `beats(diff) -> bool`, `finding_b(diffs) -> dict`, `finding_c(per_test_set) -> dict`. `agreement.PANEL` (22 entries of parent spec 6), `score_source(h, s1_hashes, full_train) -> str`, `find_panel_hashes(panel, members)`, `agreement_counts(rule_calls, ml_calls) -> dict`. `11_evaluate.py`: `OUTPUT_NAMES`, `METRICS_SCHEMA = "step1-phasec-metrics/1"`, `FINDINGS_SCHEMA = "step1-phasec-findings/1"`, `STRATA`, `TRUTHS`, `PREVALENCES`, `PROTEOME_BASE`, `proteome_columns(cands) -> tuple`, `test_sets(...)`, `evaluate_truth(...)`, `build_findings(test_blocks) -> dict`, `run(work, sets_path, species_path, n_resamples, arguments=())`, `main(argv=None)`; options `--work-dir`, `--sets`, `--species`, `--n-resamples` (default 2,000).
+- Produces: `findings.ESTIMATE_HALF_WIDTH = 0.10`, `SATURATION_AUC = 0.99`, `LABEL_CANDIDATES = ("R2", "M8", "M35", "M8-C", "M35-C", "H")`, `ML`, `COMPARATORS = ("B1", "R2")`, `MIN_DIRECT_POSITIVES = 20`, `floor_met(n_direct_positives) -> bool`, `estimate_label(recall_half_widths, n_direct_positives) -> str`, `finding_a(b1_auc) -> dict`, `beats(diff) -> bool`, `finding_b(diffs) -> dict`, `finding_c(per_test_set) -> dict`. `agreement.PANEL` (22 entries of parent spec 6), `score_source(h, s1_hashes, full_train) -> str`, `find_panel_hashes(panel, members)`, `agreement_counts(rule_calls, ml_calls) -> dict`. `11_evaluate.py`: `OUTPUT_NAMES`, `METRICS_SCHEMA = "step1-phasec-metrics/1"`, `FINDINGS_SCHEMA = "step1-phasec-findings/1"`, `PRECISION_METRICS`, `STRATA`, `TRUTHS`, `PREVALENCES`, `PROTEOME_BASE`, `proteome_columns(cands) -> tuple`, `test_sets(...)`, `evaluate_truth(...)`, `build_findings(test_blocks) -> dict`, `run(work, sets_path, species_path, n_resamples, arguments=())`, `main(argv=None)`; options `--work-dir`, `--sets`, `--species`, `--n-resamples` (default 2,000).
 
 Decisions in this task (state them in review):
-- C for every LR candidate is chosen by inner out-of-fold PR-AUC, the criterion the spec gives for H's variant; the spec names no criterion for C (Task 6; "Spec issues", item 4).
-- Findings (b) and (c) are evaluated per ML candidate; `holds_for` lists the candidates for which the statement holds; (c) holds for a candidate only when it holds on all three S2 test sets ("Spec issues", item 3).
-- The literature test set counts as direct truth (it has no homology flag); it has positives only, so precision, FPR and AUC are `null`.
-- `zero_width_recall_interval` lists the label candidates whose recall interval has lo equal to hi. The label still follows ruling C-8 ("Spec issues", item 1).
+- C for every LR candidate is chosen by inner out-of-fold PR-AUC (ties: the smaller C), the criterion the spec gives for H's variant; the spec now states it (spec 3.3, ruling C-12).
+- Findings (b) and (c) are evaluated per ML candidate; `holds_for` lists the candidates for which the statement holds; (c) holds for a candidate only when it holds on all three S2 test sets. No headline ML candidate is named (ruling C-13); the report says "any".
+- The literature test set counts as direct truth (it has no homology flag). It has positives only: FPR and AUC are `null` because they are not defined, and `evaluate_truth` sets precision, PR-AUC, precision at recall 0.8 and 0.9 (`PRECISION_METRICS`) and the precision at the rule's recall to `null` for a truth block without negatives (review I-1). Without this step they would be 1.0 by construction. The metric functions themselves are unchanged: `test_undefined_metrics_are_nan` (Task 3) still asserts that `pr_auc` of a positives-only input returns 1.0, as a property of the function; that value is no longer reported.
+- The estimate label (ruling C-8, owner decision 2026-10-01): every label candidate has a recall half-width of at most 0.10 and the test set has at least 20 direct-evidence positives (`floor_met`). `n_direct_positives`, `floor_met` and `zero_width_recall_interval` (the label candidates whose recall interval has lo equal to hi) are stored beside the label.
 - Calibration bins are 10 equal-width bins of the Platt probability on the S2 test sets (direct truth). The Brier score has no interval in `calibration` (the spec asks for the score and the reliability data).
 
 - [ ] **Step 1: Write the failing test**
@@ -4577,6 +4600,18 @@ def test_undefined_metrics_are_null(phasec_chain):
     ]
     assert lit["M8"]["roc_auc"]["value"] is None and lit["M8"]["fpr"]["value"] is None
     assert lit["M8"]["recall"]["value"] is not None
+    # review I-1: without negatives precision is 1 by construction; spec 3.2 says recall only
+    for c in ("M8", "R2", "B1"):
+        assert lit[c]["precision"]["value"] is None, c
+    assert lit["M8"]["pr_auc"]["value"] is None
+    assert lit["M8"]["precision_at_recall_0.8"]["value"] is None
+    assert lit["M8"]["precision_at_recall_0.9"]["value"] is None
+    lit_truth = m["test_sets"]["S3-Eurotiomycetes:literature"]["truth"]["direct"]
+    vs_rule = lit_truth["vs_rule"]["V-go"]["M8"]["precision_at_rule_recall"]
+    assert vs_rule["value"] is None
+    # a test set with negatives keeps its precision
+    s1 = m["test_sets"]["S1:all"]["truth"]["direct"]["metrics"]["all"]["V-go"]["M8"]
+    assert s1["precision"]["value"] is not None and s1["pr_auc"]["value"] is not None
 
 
 def test_direct_filter_applies_to_test_rows_only(phasec_chain):
@@ -4601,17 +4636,27 @@ def test_direct_filter_applies_to_test_rows_only(phasec_chain):
 
 def test_estimate_label_rule():
     ok = {c: 0.10 for c in findings.LABEL_CANDIDATES}
-    assert findings.estimate_label(ok) == "estimate"
-    assert findings.estimate_label({**ok, "H": 0.1001}) == "smoke test"
-    assert findings.estimate_label({**ok, "R2": 0.0999}) == "estimate"
-    assert findings.estimate_label({**ok, "M35": None}) == "smoke test"  # no positives
-    assert findings.estimate_label({c: 0.05 for c in ("R2", "M8")}) == "smoke test"  # missing
+    assert findings.estimate_label(ok, 20) == "estimate"
+    assert findings.estimate_label({**ok, "H": 0.1001}, 20) == "smoke test"
+    assert findings.estimate_label({**ok, "R2": 0.0999}, 20) == "estimate"
+    assert findings.estimate_label({**ok, "M35": None}, 20) == "smoke test"  # no positives
+    assert findings.estimate_label({c: 0.05 for c in ("R2", "M8")}, 50) == "smoke test"  # missing
     assert "B1" not in findings.LABEL_CANDIDATES and "R0" not in findings.LABEL_CANDIDATES
+    # count floor (owner decision 2026-10-01): a zero-width interval of 7 positives is a smoke test
+    zero = {c: 0.0 for c in findings.LABEL_CANDIDATES}
+    assert findings.estimate_label(zero, 7) == "smoke test"
+    assert findings.estimate_label(zero, 19) == "smoke test"
+    small = {c: 0.04 for c in findings.LABEL_CANDIDATES}
+    assert findings.estimate_label(small, 20) == "estimate"
+    assert findings.floor_met(20) and not findings.floor_met(19)
 
 
 def test_label_in_metrics_follows_the_half_widths(phasec_chain):
     for name, ts in _metrics(phasec_chain["work"])["test_sets"].items():
-        assert ts["label"] == findings.estimate_label(ts["recall_half_width"]), name
+        n_pos = ts["truth"]["direct"]["n"]["all"]["pos"]
+        assert ts["n_direct_positives"] == n_pos, name
+        assert ts["floor_met"] is (n_pos >= findings.MIN_DIRECT_POSITIVES), name
+        assert ts["label"] == findings.estimate_label(ts["recall_half_width"], n_pos), name
         direct = ts["truth"]["direct"]["metrics"]["all"]["V-go"]
         r2 = direct["R2"]["recall"]
         if r2["lo"] is not None:
@@ -4778,17 +4823,26 @@ boolean in findings.json can be traced to a number there.
 """
 
 ESTIMATE_HALF_WIDTH = 0.10
+MIN_DIRECT_POSITIVES = 20  # owner decision 2026-10-01 (ruling C-8)
 SATURATION_AUC = 0.99
 LABEL_CANDIDATES = ("R2", "M8", "M35", "M8-C", "M35-C", "H")  # ruling C-8
 ML = ("M8", "M35", "M8-C", "M35-C", "H")
 COMPARATORS = ("B1", "R2")
 
 
-def estimate_label(recall_half_widths: dict) -> str:
-    """`estimate` when the recall half-width is <= 0.10 for every listed candidate, else
-    `smoke test` (also when a half-width is not defined, for example without positives)."""
+def floor_met(n_direct_positives: int) -> bool:
+    """The test set has at least MIN_DIRECT_POSITIVES direct-evidence positives."""
+    return n_direct_positives >= MIN_DIRECT_POSITIVES
+
+
+def estimate_label(recall_half_widths: dict, n_direct_positives: int) -> str:
+    """`estimate` when the recall half-width is <= 0.10 for every listed candidate and the test
+    set has at least 20 direct-evidence positives, else `smoke test` (also when a half-width is
+    not defined, for example without positives). The count floor stops a zero-width interval
+    of a small set (for example 7 of 7 positives found in every resample) from passing."""
     values = [recall_half_widths.get(c) for c in LABEL_CANDIDATES]
-    if all(v is not None and v <= ESTIMATE_HALF_WIDTH + 1e-12 for v in values):
+    widths_ok = all(v is not None and v <= ESTIMATE_HALF_WIDTH + 1e-12 for v in values)
+    if widths_ok and floor_met(n_direct_positives):
         return "estimate"
     return "smoke test"
 
@@ -4914,7 +4968,8 @@ features_run.json) and sequence_sets.tsv (--sets) for the proteome sets.
 Test sets: S1:all (out-of-fold, all folds pooled) and S1:<source>; S2-<source>:<source>;
 S3-<clade>:clade, S3-<clade>:<source>, S3-Eurotiomycetes:literature. Truth `direct` =
 homology_only no (headline); `all` = all non-IEA labels (beside it). Literature rows have
-positives only. The bootstrap weights (bootstrap.py) are drawn once per test set and truth and
+positives only: a truth block without negatives stores precision, PR-AUC, precision at recall
+and precision at the rule's recall as null (spec 3.2: recall only). The bootstrap weights (bootstrap.py) are drawn once per test set and truth and
 serve every candidate, variant and stratum (paired).
 
 Writes to $STEP1_WORKDIR/phasec/:
@@ -4964,6 +5019,13 @@ SCORED = (
     "precision_at_recall_0.8",
     "precision_at_recall_0.9",
     "recall_at_fpr_0.01",
+)
+# undefined without negatives: precision is 1 (or n/a) by construction (spec 3.2, review I-1)
+PRECISION_METRICS = (
+    "precision",
+    "pr_auc",
+    "precision_at_recall_0.8",
+    "precision_at_recall_0.9",
 )
 STRATA = (
     "all",
@@ -5161,6 +5223,7 @@ def evaluate_truth(ts, truth, scores, cands, n_resamples, seed):
     W = bootstrap.cluster_weights([r["cluster"] for r in rows], n_resamples,
                                   bootstrap.seed_for(seed, f"{ts.name}|{truth}"))  # fmt: skip
     Wx = np.vstack([np.ones((1, len(rows))), W])
+    no_negatives = not bool((~y).any())
     masks = strata_masks(rows, y)
     data = {(v, c): gather(scores, rows, v, c) for v in evalio.VARIANTS for c in cands}
     arrays: dict = {}
@@ -5178,6 +5241,10 @@ def evaluate_truth(ts, truth, scores, cands, n_resamples, seed):
                         "fpr": metrics.fpr(Wm, ym, call[mask])}  # fmt: skip
                 if not np.isnan(s).any():
                     vals.update(metrics.scored_summary(Wm, ym, s[mask], RECALL_LEVELS, FPR_LEVEL))
+                if no_negatives:
+                    for name in PRECISION_METRICS:
+                        if name in vals:
+                            vals[name] = np.full(len(Wm), np.nan)
                 for name, arr in vals.items():
                     arrays[(stratum, v, c, name)] = arr
                 per[v][c] = {name: summary(arr) for name, arr in vals.items()}
@@ -5212,8 +5279,11 @@ def evaluate_truth(ts, truth, scores, cands, n_resamples, seed):
             if c == "R2" or np.isnan(s).any():
                 continue
             if c in findings.ML:
+                prec = metrics.precision_at_recall(Wx, y, s, rule_rec)
+                if no_negatives:
+                    prec = np.full(len(Wx), np.nan)
                 block["vs_rule"][v][c] = {
-                    "precision_at_rule_recall": summary(metrics.precision_at_recall(Wx, y, s, rule_rec)),
+                    "precision_at_rule_recall": summary(prec),
                     "recall_at_rule_fpr": summary(metrics.recall_at_fpr(Wx, y, s, rule_fpr)),
                 }  # fmt: skip
             comp[c] = metrics.fpr_at_recall(Wx, y, s, rule_rec, nsec)
@@ -5452,7 +5522,10 @@ def run(work: Path, sets_path: Path, species_path: Path, n_resamples: int, argum
         }
         res["recall_half_width"] = hw
         res["fpr_half_width"] = {c: bootstrap.half_width(direct[c]["fpr"]) for c in hw}
-        res["label"] = findings.estimate_label(hw)
+        n_pos = res["truth"]["direct"]["n"]["all"]["pos"]
+        res["n_direct_positives"] = n_pos
+        res["floor_met"] = findings.floor_met(n_pos)
+        res["label"] = findings.estimate_label(hw, n_pos)
         for key, src in (
             ("max_recall_half_width", hw),
             ("max_fpr_half_width", res["fpr_half_width"]),
@@ -5482,6 +5555,7 @@ def run(work: Path, sets_path: Path, species_path: Path, n_resamples: int, argum
             "seed": evalio.SEED,
             "ci_level": 95,
             "estimate_half_width": findings.ESTIMATE_HALF_WIDTH,
+            "estimate_min_direct_positives": findings.MIN_DIRECT_POSITIVES,
             "saturation_auc": findings.SATURATION_AUC,
             "prevalences": list(PREVALENCES),
             "recall_levels": list(RECALL_LEVELS),
@@ -5561,7 +5635,7 @@ if __name__ == "__main__":
 - [ ] **Step 6: Generate the golden file once, then run the tests**
 
 Run: `PHASEC_WRITE_GOLDEN=1 PYTHONPATH=src $ENV_PY -m pytest tests/step1_compare/test_phasec_evaluate.py::test_golden_metrics -q -rs`
-Expected: `1 skipped` with reason `golden file written`; the file `tests/step1_compare/fixtures/phasec/golden_metrics.json.gz` exists (prototype: 53,798 bytes, SHA-256 `5f55c3041b7987417601c50735b2308713eda6218bf426b8362facb2891526a8` with numpy 2.4.2 and scikit-learn 1.8.0 on c01). The same SHA-256 means the code was transcribed exactly; another value is not an error by itself, because the test compares numbers with a tolerance of 1e-9. Before you generate the file, the hand check in `test_golden_metrics` (R2 recall on S1:all from the raw score rows) must pass.
+Expected: `1 skipped` with reason `golden file written`; the file `tests/step1_compare/fixtures/phasec/golden_metrics.json.gz` exists (prototype: 54,129 bytes, SHA-256 `233a0333518551229725e5e7da97a717a56f0e8ec46665da5f9811ea7b9883c8` with numpy 2.4.2 and scikit-learn 1.8.0 on c01; regenerated after the plan-review fixes, which change the C and `t` grids, the label rule and the literature precision). The same SHA-256 means the code was transcribed exactly; another value is not an error by itself, because the test compares numbers with a tolerance of 1e-9. Before you generate the file, the hand check in `test_golden_metrics` (R2 recall on S1:all from the raw score rows) must pass.
 
 Run: `PYTHONPATH=src $ENV_PY -m pytest tests/step1_compare/test_phasec_evaluate.py -q`
 Expected: `13 passed`.
@@ -5586,9 +5660,11 @@ Co-Authored-By: Claude Sonnet 5.5 <noreply@anthropic.com>"
 
 **Interfaces:**
 - Consumes: `evalio.*` (Task 1); `metrics.json`, `findings.json`, `evaluate_run.json` (Task 9).
-- Produces: `12_report.py` with `OUTPUT_NAMES = ("report.md", "report_run.json")`, `NUMBER` (regex of a number token), `HEADLINE`, `CANNOT_SHOW`, `fmt(x) -> str` (int: thousands separator; float: 3 decimals; bool: yes/no; None: n/a), `ci(m) -> str`, `allowed_numbers(*objs) -> set[str]`, `unsupported_numbers(text, allowed) -> list[str]`, `render(m, f) -> str`, `run(work, arguments=())`, `main(argv=None)`.
+- Produces: `12_report.py` with `OUTPUT_NAMES = ("report.md", "report_run.json")`, `NUMBER` (regex of a number token), `HEADLINE`, `LITERATURE_HEADLINE = ("recall",)`, `CAVEATS` (three fixed lines: reviews M-3, M-4, M-7), `CANNOT_SHOW`, `fmt(x) -> str` (int: thousands separator; float: 3 decimals; bool: yes/no; None: n/a), `ci(m) -> str`, `allowed_numbers(*objs) -> set[str]`, `unsupported_numbers(text, allowed) -> list[str]`, `render(m, f) -> str`, `run(work, arguments=())`, `main(argv=None)`.
 
-The number check: a token is `-?digits[,digits][.digits]` not preceded by a letter, digit, `_`, `.` or `-` and not followed by a letter or digit, so identifiers such as `M35`, `S2-Calb_CGD`, `C-11` and `precision_at_recall_0.8` hold no number. The allowed set is every numeric leaf of `metrics.json` and `findings.json` printed with `fmt` (and integers also without separators) plus the number tokens inside their keys and strings (for example the fold in `S1|0`). The report has 2,412 lines on the fixture.
+The number check: a token is `-?digits[,digits][.digits]` not preceded by a letter, digit, `_`, `.` or `-` and not followed by a letter or digit, so identifiers such as `M35`, `S2-Calb_CGD`, `C-11` and `precision_at_recall_0.8` hold no number. The allowed set is every numeric leaf of `metrics.json` and `findings.json` printed with `fmt` (and integers also without separators) plus the number tokens inside their keys and strings (for example the fold in `S1|0`). The report has 2,390 lines on the fixture. Prose of the report must not hold a number token that is not in the JSON files: the caveat lines and the literature note name the spec in words, not by section number.
+
+The literature section (positives only) prints the recall column only and no comparison or prevalence table (review I-1). The report names no headline ML candidate: findings (b) and (c) read "Any ML candidate" and list `holds_for` (ruling C-13).
 
 - [ ] **Step 1: Write the failing test**
 
@@ -5649,6 +5725,12 @@ def test_report_quotes_findings_and_labels(reported):
     _, text, m, f = reported
     holds = "yes" if f["a_b1_not_saturated"]["holds"] else "no"
     assert f"holds = {holds}." in text
+    # ruling C-13: no headline ML candidate; (b) and (c) say "any" and list holds_for
+    b = ", ".join(f["b_ml_beats_b1_and_r2_on_nsec_s1"]["holds_for"]) or "no ML candidate"
+    want = "- (b) Any ML candidate beats B1 and R2 on N-sec FPR at the recall of R2 (S1:all): "
+    assert f"{want}holds for {b}." in text
+    c = ", ".join(f["c_same_under_s2"]["holds_for"]) or "no ML candidate"
+    assert f"- (c) Any ML candidate, the same on every S2 test set: holds for {c}." in text
     assert "What the data cannot show" in text and "assumed, not measured" in text
     for name, ts in m["test_sets"].items():
         assert f"## {name} ({ts['label']})" in text
@@ -5657,6 +5739,33 @@ def test_report_quotes_findings_and_labels(reported):
     label = m["test_sets"]["S1:all"]["label"]
     rows = [r for r in section.splitlines() if r.startswith("| ") and "[" in r]
     assert rows and all(f"| {label} |" in r for r in rows)
+
+
+def test_report_states_the_caveats(reported):
+    # review M-3, M-4, M-7: fixed caveat lines, not free text about accuracy
+    _, text, m, _ = reported
+    rep = load_phasec("12_report")
+    caveats = text.split("## Caveats\n")[1].split("\n## ")[0]
+    assert len(rep.CAVEATS) == 3
+    for line in rep.CAVEATS:
+        assert f"- {line}" in caveats
+    for review in ("M-3", "M-4", "M-7"):
+        assert review in caveats
+    floor = m["settings"]["estimate_min_direct_positives"]
+    assert f"at least {floor} direct-evidence positives" in text
+
+
+def test_literature_section_reports_recall_only(reported):
+    # review I-1: the literature set has no negatives; spec 3.2 asks for recall only
+    _, text, m, _ = reported
+    lit = m["test_sets"]["S3-Eurotiomycetes:literature"]
+    section = text.split(f"## S3-Eurotiomycetes:literature ({lit['label']})")[1].split("\n## ")[0]
+    assert "| Candidate | Variant | Label | recall |" in section
+    for word in ("precision", "pr_auc", "roc_auc", "fpr", "prevalence"):
+        assert word not in section, word
+    # a set with negatives still shows the precision columns
+    s1 = text.split("## S1:all (")[1].split("\n## ")[0]
+    assert "| precision |" in s1 and "Precision at R2 recall" in s1
 
 
 def test_stale_input_stops(phasec_chain, tmp_path, capsys):
@@ -5670,7 +5779,7 @@ def test_stale_input_stops(phasec_chain, tmp_path, capsys):
 - [ ] **Step 2: Run the test to verify it fails**
 
 Run: `PYTHONPATH=src $ENV_PY -m pytest tests/step1_compare/test_phasec_report.py -q`
-Expected: `2 failed, 2 errors`, each with `FileNotFoundError: ... phasec/12_report.py`.
+Expected: `2 failed, 4 errors`, each with `FileNotFoundError: ... phasec/12_report.py` (the four tests that use the fixture `reported` error).
 
 - [ ] **Step 3: Write `analysis/step1_compare/phasec/12_report.py`**
 
@@ -5684,7 +5793,9 @@ evaluate_run.json). Writes report.md and report_run.json to $STEP1_WORKDIR/phase
 Every number in report.md is a value of metrics.json or findings.json, printed by `fmt`
 (integers with thousands separators, other numbers with 3 decimals). Before it writes, the
 script checks this with `unsupported_numbers` and stops if a number has no source. The report
-quotes the findings fields; it adds no free-text claim about accuracy.
+quotes the findings fields; it adds no free-text claim about accuracy. The literature test set
+has no negatives, so its tables give recall only (spec 3.2). The fixed caveat lines (CAVEATS)
+name known limits of the method.
 
 STOP (exit 2, no output): stale inputs; a number in the report without a source.
 """
@@ -5709,6 +5820,19 @@ HEADLINE = (
     "precision_at_recall_0.8",
     "precision_at_recall_0.9",
     "recall_at_fpr_0.01",
+)
+LITERATURE_HEADLINE = ("recall",)  # positives only: recall is the one defined metric
+CAVEATS = (
+    "The pooled S1:all ROC-AUC and PR-AUC rank decision values from five fold models. Each "
+    "fold model has its own score scale, so the pooled values mix scales (review M-3; the "
+    "per-fold diagnostic is not computed).",
+    "The ML decision threshold and the Platt scaling are fitted on the inner out-of-fold "
+    "predictions and then applied to the model refitted on all training rows. The refitted "
+    "model can have another score scale, so binary calls and calibrated probabilities can "
+    "shift (review M-4; not measured).",
+    "The report-number check is set membership: each printed number equals some value in "
+    "metrics.json or findings.json. The check does not show that a number is in the correct "
+    "cell (review M-7).",
 )
 CANNOT_SHOW = (
     "The whole-proteome prevalence of surface proteins. It is not measured; the prevalence "
@@ -5788,8 +5912,13 @@ def render(m: dict, f: dict) -> str:
         "The models are fitted once per split and are not refitted inside the bootstrap.",
         "Headline truth: direct evidence (`homology_only == no`). All non-IEA truth is beside it.",
         f"A test set is an estimate when the recall half-width is at most "
-        f"{fmt(st['estimate_half_width'])} for R2 and every ML candidate (V-go, direct truth); "
-        "otherwise it is a smoke test.",
+        f"{fmt(st['estimate_half_width'])} for R2 and every ML candidate (V-go, direct truth) "
+        f"and the set has at least {fmt(st['estimate_min_direct_positives'])} direct-evidence "
+        "positives; otherwise it is a smoke test.",
+        "",
+        "## Caveats",
+        "",
+        *[f"- {x}" for x in CAVEATS],
         "",
         "## Estimate or smoke test",
         "",
@@ -5797,20 +5926,23 @@ def render(m: dict, f: dict) -> str:
     rows = []
     for name, ts in m["test_sets"].items():
         n = ts["truth"]["direct"]["n"]["all"]
-        rows.append([name, ts["label"], fmt(n["pos"]), fmt(n["neg"]),
+        rows.append([name, ts["label"], fmt(n["pos"]), fmt(n["neg"]), fmt(ts["floor_met"]),
                      fmt(ts["max_recall_half_width"]), fmt(ts["max_fpr_half_width"]),
                      ", ".join(ts["zero_width_recall_interval"]) or "none"])  # fmt: skip
-    lines += table(["Test set", "Label", "Positives", "Negatives", "Max recall half-width",
-                    "Max FPR half-width", "Zero-width recall interval"], rows)  # fmt: skip
+    lines += table(["Test set", "Label", "Positives", "Negatives", "Count floor met",
+                    "Max recall half-width", "Max FPR half-width", "Zero-width recall interval"],
+                   rows)  # fmt: skip
     lines += ["A zero-width interval (every resample gives the same recall, for example 1 of 1) "
               "meets the half-width rule but carries no information about precision of the "
-              "estimate.", ""]  # fmt: skip
+              "estimate. The count floor keeps such a small set a smoke test.", ""]  # fmt: skip
     for name, ts in m["test_sets"].items():
+        lit = ts["kind"] == "literature"
+        heads = LITERATURE_HEADLINE if lit else HEADLINE
         lines += [f"## {name} ({ts['label']})", ""]
-        if name.endswith(":literature"):
+        if lit:
             lines += [
-                "Literature rows have positives only: recall is reported, precision and AUC are "
-                "not. Context: the V-kw training of S1 and S2 keeps the C. immitis and "
+                "Literature rows have positives only: the tables give recall only (Phase C spec). "
+                "Context: the V-kw training of S1 and S2 keeps the C. immitis and "
                 "C. posadasii T-c rows (counts in the context section).",
                 "",
             ]
@@ -5822,26 +5954,30 @@ def render(m: dict, f: dict) -> str:
             for v in variants:
                 for c in cands:
                     mm = block["metrics"]["all"][v][c]
-                    rows.append([c, v, ts["label"], *[ci(mm.get(k)) for k in HEADLINE]])
-            lines += table(["Candidate", "Variant", "Label", *HEADLINE], rows)
+                    rows.append([c, v, ts["label"], *[ci(mm.get(k)) for k in heads]])
+            lines += table(["Candidate", "Variant", "Label", *heads], rows)
         block = ts["truth"]["direct"]
+        cols = LITERATURE_HEADLINE if lit else ("recall", "fpr", "roc_auc")
         rows = []
         for stratum, n in block["n"].items():
             for c in cands:
                 mm = block["metrics"][stratum]["V-go"][c]
                 rows.append([stratum, c, ts["label"], fmt(n["pos"]), fmt(n["neg"]),
-                             ci(mm.get("recall")), ci(mm.get("fpr")), ci(mm.get("roc_auc"))])  # fmt: skip
+                             *[ci(mm.get(k)) for k in cols]])  # fmt: skip
         lines += ["Strata (direct truth, V-go):", ""]
-        lines += table(["Stratum", "Candidate", "Label", "Positives", "Negatives", "recall",
-                        "fpr", "roc_auc"], rows)  # fmt: skip
+        lines += table(["Stratum", "Candidate", "Label", "Positives", "Negatives", *cols], rows)
+        cols = LITERATURE_HEADLINE if lit else ("recall", "fpr", "roc_auc", "pr_auc")
         rows = []
         for c in cands:
             eff = block["variant_effect"]["all"][c]
-            rows.append(
-                [c, ts["label"], *[ci(eff.get(k)) for k in ("recall", "fpr", "roc_auc", "pr_auc")]]
-            )
+            rows.append([c, ts["label"], *[ci(eff.get(k)) for k in cols]])
         lines += ["Variant effect, V-kw minus V-go (paired intervals; test-set sampling only):", ""]
-        lines += table(["Candidate", "Label", "recall", "fpr", "roc_auc", "pr_auc"], rows)
+        lines += table(["Candidate", "Label", *cols], rows)
+        amb = ts["ambiguous"]
+        lines += [f"Ambiguous genes: {fmt(amb['n'])} (score distribution only); with "
+                  f"high-throughput-only internal evidence: {fmt(ts['ambiguous_htp_only']['n'])}.", ""]  # fmt: skip
+        if lit:
+            continue  # no negatives: no comparison at the rule's FPR, no prevalence table
         rows = []
         for v in variants:
             for c, vr in block["vs_rule"].get(v, {}).items():
@@ -5890,9 +6026,6 @@ def render(m: dict, f: dict) -> str:
             lines += ["Reliability: observed positive fraction (count) per bin of the calibrated "
                       "probability:", ""]  # fmt: skip
             lines += table(["Candidate", "Variant", "Label", *head], rows)
-        amb = ts["ambiguous"]
-        lines += [f"Ambiguous genes: {fmt(amb['n'])} (score distribution only); with "
-                  f"high-throughput-only internal evidence: {fmt(ts['ambiguous_htp_only']['n'])}.", ""]  # fmt: skip
     lines += ["## Agreement of R2 with ML (proteome_calls.tsv.gz holds the protein IDs)", ""]
     rows = []
     for set_id, per in m["agreement"]["proteomes"].items():
@@ -5924,12 +6057,15 @@ def render(m: dict, f: dict) -> str:
     lines += [f"- (a) B1 ROC-AUC below {fmt(a['threshold'])} on S1 and S2 (direct truth, V-go): "
               f"holds = {fmt(a['holds'])}."]  # fmt: skip
     lines += [f"  - {k}: {fmt(v)}" for k, v in a["b1_roc_auc"].items()]
-    lines += [f"- (b) ML beats B1 and R2 on N-sec FPR at the recall of R2 ({b['test_set']}): "
-              f"holds for {', '.join(b['holds_for']) or 'no ML candidate'}."]  # fmt: skip
+    lines += ["Findings (b) and (c) are read per ML candidate; no headline ML candidate is named "
+              "(ruling C-13). \"Any\" means at least one listed candidate.", ""]  # fmt: skip
+    lines += [f"- (b) Any ML candidate beats B1 and R2 on N-sec FPR at the recall of R2 "
+              f"({b['test_set']}): holds for {', '.join(b['holds_for']) or 'no ML candidate'}."]  # fmt: skip
     for cand, entry in b["candidates"].items():
         lines += [f"  - {cand}: B1 minus ML {ci(entry['B1'])}; R2 minus ML {ci(entry['R2'])}"]
     lines += [
-        f"- (c) the same under S2: holds for {', '.join(c3['holds_for']) or 'no ML candidate'}.",
+        f"- (c) Any ML candidate, the same on every S2 test set: holds for "
+        f"{', '.join(c3['holds_for']) or 'no ML candidate'}.",
         "",
     ]
     lines += ["## Context", ""]
@@ -5984,7 +6120,7 @@ if __name__ == "__main__":
 - [ ] **Step 4: Run the tests to verify they pass**
 
 Run: `PYTHONPATH=src $ENV_PY -m pytest tests/step1_compare/test_phasec_report.py -q`
-Expected: `4 passed`.
+Expected: `6 passed`.
 
 - [ ] **Step 5: Commit**
 
@@ -6004,9 +6140,13 @@ Co-Authored-By: Claude Sonnet 5.5 <noreply@anthropic.com>"
 
 **Interfaces:**
 - Consumes: 09, 10, 11 (Tasks 7 to 9).
-- Produces: environment contract: `PROJ_ROOT`, `STEP1_WORKDIR` (required); `STEP1_ENV_PY`, `STEP1_MMSEQS` (a binary; skips `module load`), `PHASEC_MMSEQS_MODULE` (default `MMseqs2/17-b804f`), `PHASEC_SPECIES`, `PHASEC_SETS`, `PHASEC_N_RESAMPLES` (default 2000), `PHASEC_CANDIDATES` (default all ten), `C1_STEPS` (default `09 10 11`). C1 prints `C1 step <step> wall_seconds=<s>` per step and copies these lines to `$STEP1_WORKDIR/phasec/logs/wall.<job id>.txt`.
+- Produces: environment contract: `PROJ_ROOT`, `STEP1_WORKDIR` (required); `STEP1_ENV_PY`, `STEP1_MMSEQS` (a binary; skips `module load`), `PHASEC_MMSEQS_MODULE` (default `MMseqs2/17-b804f`), `PHASEC_SPECIES`, `PHASEC_SETS`, `PHASEC_N_RESAMPLES` (default 2000), `PHASEC_CANDIDATES` (default all ten), `C1_STEPS` (default `09 10 11`). C1 prints `C1 step <step> wall_seconds=<s>` per step and copies these lines to `$STEP1_WORKDIR/phasec/logs/wall.<job id>.txt` from an EXIT trap, so the copy also happens after a failed step (review M-1). Both scripts request `-p epyc` and `--constraint=ryzen` (ruling C-15; owner rule: a job that runs an AVX2 tool must request a node feature that has AVX2). Test helpers `needs_avx2(text)`, `has_avx2_constraint(text)`, `uses_non_avx2_binary(text)`, `AVX2_FEATURES = ("ryzen", "milan", "genoa", "rome")`.
 
-Sizing (global rule; no run time measured on epyc yet). The three steps depend on each other, so one job is the smallest job count. Estimate from c01 measurements (Facts): 09 about 19 min with 2 threads (less with 16); 10 about 22 units x 45 to 90 s single-threaded = 17 to 33 CPU-minutes, spread over 16 worker processes; 11 about 25 min single-threaded (28 s per 4,476 rows and 20 candidate-variant pairs for stratum `all`, scaled to all test sets, strata and truths). Total estimate: under 1 h on 16 epyc cores. This is an estimate, not a measurement: the first submission is the pilot with `--time=4:00:00`, and the run section sizes any further submission from its `wall_seconds` lines. Memory: 48 GB for 16 workers that each hold the universe (about 0.7 GB, estimate) and 11's weight matrices (2,001 x 7,150 float64, 114 MB per test set).
+Sizing (global rule; no run time measured on epyc yet). The three steps depend on each other, so one job is the smallest job count. Estimate from c01 measurements (Facts): 09 about 19 min with 2 threads (less with 16); 10 about 22 units x 45 to 90 s single-threaded = 17 to 33 CPU-minutes with the old C grid, at most 1.5 x that with the six-value grid of ruling C-12 (estimate from the grid size, not measured), spread over 16 worker processes; 11 about 25 min single-threaded (28 s per 4,476 rows and 20 candidate-variant pairs for stratum `all`, scaled to all test sets, strata and truths). Total estimate: under 1 h on 16 epyc cores. This is an estimate, not a measurement: the first submission is the pilot with `--time=4:00:00`, and the run section sizes any further submission from its `wall_seconds` lines. Memory: 48 GB for 16 workers that each hold the universe (about 0.7 GB, estimate) and 11's weight matrices (2,001 x 7,150 float64, 114 MB per test set).
+
+Step 11 runs one process with `OMP_NUM_THREADS=1` (review M-2). Its pilot `wall_seconds` is therefore a one-core number, not a 16-core number; 15 of the 16 requested cores are idle during step 11. R3 sizes from the measured value as it is.
+
+The Phase B jobs (`jobs/j0_pilot.sh`, `jobs/j1_features.sh`, `jobs/j2_embed.sh`) run on exfab GPU nodes and use no MMseqs2. `test_avx2_tools_have_a_cpu_constraint` must not flag them, and this plan does not change them.
 
 - [ ] **Step 1: Write the failing test**
 
@@ -6017,6 +6157,7 @@ Sizing (global rule; no run time measured on epyc yet). The three steps depend o
 
 import json
 import os
+import re
 import subprocess
 
 import paths
@@ -6024,6 +6165,25 @@ import pytest
 
 PHASEC = paths.STEP1_DIR / "phasec"
 SCRIPTS = sorted(PHASEC.glob("*.sh"))
+# node features of AVX2 CPUs that sbatch accepts on UCR HPCC (epyc nodes: ryzen, amd, milan)
+AVX2_FEATURES = ("ryzen", "milan", "genoa", "rome")
+NON_AVX2_MMSEQS = "/opt/linux/rocky/8.x/x86_64/pkgs/mmseqs2/17-b804f/bin/mmseqs"
+
+
+def needs_avx2(text: str) -> bool:
+    """The script loads the MMseqs2 module, names the AVX2 build, or is a SLURM script that
+    runs mmseqs."""
+    loads = re.search(r"module\s+load\b[^\n]*MMseqs2", text) or "17-b804f-avx2" in text
+    return bool(loads) or ("#SBATCH" in text and "mmseqs" in text.lower())
+
+
+def has_avx2_constraint(text: str) -> bool:
+    found = re.findall(r"^#SBATCH\s+--constraint=(\S+)", text, flags=re.M)
+    return any(f in AVX2_FEATURES for c in found for f in re.split(r"[&|,]", c))
+
+
+def uses_non_avx2_binary(text: str) -> bool:
+    return re.search(rf'STEP1_MMSEQS="?{re.escape(NON_AVX2_MMSEQS)}"?', text) is not None
 
 
 def test_two_shell_scripts_exist():
@@ -6044,10 +6204,36 @@ def test_shell_script_conventions(script):
 def test_c1_requests_cpu_on_an_avx2_partition_with_a_time_limit():
     text = (PHASEC / "c1_evaluate.sh").read_text()
     assert "#SBATCH -p epyc" in text and "#SBATCH --time=" in text
+    assert "#SBATCH --constraint=ryzen" in text  # ruling C-15
+    assert """trap 'cp "$TMP/wall.txt" "$WALL_OUT"' EXIT""" in text  # review M-1
     assert "--gres" not in text  # no GPU (spec 5)
     assert "OMP_NUM_THREADS=1" in text
     assert 'STEPS="${C1_STEPS:-09 10 11}"' in text
     assert "wall_seconds=" in text
+
+
+def test_avx2_tools_have_a_cpu_constraint():
+    # owner rule: a job that runs an AVX2 tool must request a node feature that has AVX2
+    scripts = sorted(paths.STEP1_DIR.rglob("*.sh"))
+    flagged = {s.relative_to(paths.STEP1_DIR).as_posix(): s.read_text() for s in scripts
+               if needs_avx2(s.read_text())}  # fmt: skip
+    assert {"phasec/c1_evaluate.sh", "phasec/09_cluster_and_split.sh"} <= set(flagged)
+    # the Phase B jobs run on exfab GPU nodes and use no MMseqs2
+    assert not set(flagged) & {"jobs/j0_pilot.sh", "jobs/j1_features.sh", "jobs/j2_embed.sh"}
+    bad = [
+        n for n, t in flagged.items() if not has_avx2_constraint(t) and not uses_non_avx2_binary(t)
+    ]
+    assert bad == [], f"no #SBATCH --constraint with an AVX2 feature: {bad}"
+
+
+def test_avx2_check_flags_a_planted_script():
+    head = "#!/bin/bash -l\n#SBATCH -p epyc\n"
+    plain = head + 'module load "${M:-MMseqs2/17-b804f}"\nmmseqs easy-cluster in out tmp\n'
+    assert needs_avx2(plain) and not has_avx2_constraint(plain)
+    assert has_avx2_constraint(plain.replace(head, head + "#SBATCH --constraint=ryzen\n"))
+    assert not has_avx2_constraint(plain.replace(head, head + "#SBATCH --constraint=intel\n"))
+    assert uses_non_avx2_binary(f"STEP1_MMSEQS={NON_AVX2_MMSEQS}\n")
+    assert not needs_avx2("#!/bin/bash -l\n#SBATCH -p exfab\nsignalp6 --help\n")
 
 
 def _env(tmp_path, fx, **extra):
@@ -6101,12 +6287,29 @@ def test_c1_stops_when_mmseqs_fails(tmp_path):
     assert run.returncode == 2 and "STOP: mmseqs easy-cluster exited with 1" in run.stderr
     assert "C1 step 09 wall_seconds" not in run.stdout
     assert not (fx["work"] / "phasec" / "split_members.tsv.gz").exists()
+
+
+def test_c1_keeps_the_wall_times_after_a_failed_step(tmp_path):
+    # review M-1: step 09 passes, step 10 stops; wall.<job>.txt must still hold the 09 line
+    pytest.importorskip("sklearn")
+    import phasec_fixture as pf
+    from conftest import load_phasec
+
+    fx = pf.make_work(tmp_path)
+    assert load_phasec("08_build_eval_tables").main(pf.build_argv(fx)) == 0
+    env = _env(tmp_path, fx, SLURM_JOB_ID="m1test", PHASEC_CANDIDATES="M8,XGB")
+    run = subprocess.run(["bash", str(PHASEC / "c1_evaluate.sh")], env=env,
+                         capture_output=True, text=True)  # fmt: skip
+    assert run.returncode == 2 and "unknown candidates ['XGB']" in run.stderr
+    assert "C1 step 09 wall_seconds=" in run.stdout and "C1 done" not in run.stdout
+    wall = (fx["work"] / "phasec" / "logs" / "wall.m1test.txt").read_text()
+    assert wall.startswith("C1 step 09 wall_seconds=") and "step 10" not in wall
 ```
 
 - [ ] **Step 2: Run the test to verify it fails**
 
 Run: `PYTHONPATH=src $ENV_PY -m pytest tests/step1_compare/test_phasec_jobs.py -q`
-Expected: `4 failed, 1 skipped`: `test_two_shell_scripts_exist` (`[] == ['09_cluster_and_split.sh', 'c1_evaluate.sh']`), `test_c1_requests_cpu_on_an_avx2_partition_with_a_time_limit` (no file) and the two C1 runs (bash exit 127); `test_shell_script_conventions` is skipped (empty parameter set).
+Expected: `6 failed, 1 passed, 1 skipped`: `test_two_shell_scripts_exist` (`[] == ['09_cluster_and_split.sh', 'c1_evaluate.sh']`), `test_c1_requests_cpu_on_an_avx2_partition_with_a_time_limit` (no file), `test_avx2_tools_have_a_cpu_constraint` (the two scripts are not flagged because they do not exist) and the three C1 runs (bash exit 127); `test_shell_script_conventions` is skipped (empty parameter set). `test_avx2_check_flags_a_planted_script` passes: it tests the checker on planted text, not the scripts.
 
 - [ ] **Step 3: Write `analysis/step1_compare/phasec/09_cluster_and_split.sh`**
 
@@ -6119,8 +6322,12 @@ Expected: `4 failed, 1 skipped`: `test_two_shell_scripts_exist` (`[] == ['09_clu
 # $STEP1_WORKDIR/phasec/ (on /bigdata) with a temp name and os.replace.
 # The module MMseqs2/17-b804f puts the AVX2 build on PATH. It stops with "Illegal instruction"
 # (exit 132) on CPUs without AVX2 (for example the abu_dhabi nodes of partition batch), so
-# c1_evaluate.sh requests partition epyc. STEP1_MMSEQS (a binary path) skips the module (tests
-# pass the stub there).
+# c1_evaluate.sh requests partition epyc with --constraint=ryzen. STEP1_MMSEQS (a binary path)
+# skips the module (tests pass the stub there). A job that runs an AVX2 tool must request a node
+# feature that has AVX2; the two #SBATCH lines below keep this script on such nodes if it is
+# ever submitted alone (c1_evaluate.sh requests the same).
+#SBATCH -p epyc
+#SBATCH --constraint=ryzen
 set -euo pipefail
 
 : "${PROJ_ROOT:?export PROJ_ROOT (repository root)}"
@@ -6150,11 +6357,16 @@ fi
 # the first submission is the pilot. It prints `C1 step <n> wall_seconds=<s>` for every step,
 # and the run section sizes later submissions from these lines (C1_STEPS selects steps).
 # The time limit of 4 h is a bound for the pilot, not a measurement (estimate in the plan).
-# Partition epyc: its CPUs have AVX2, which the MMseqs2 module build needs.
+# A job that runs an AVX2 tool must request a node feature that has AVX2 (--constraint=ryzen on
+# partition epyc). Partition epyc and constraint ryzen (ruling C-15): the epyc nodes carry the
+# features ryzen, amd, milan; their CPUs have AVX2, which the MMseqs2 module build needs (it
+# stops with exit 132 on the abu_dhabi Opterons of partition batch). Step 11 runs one process
+# with one BLAS thread, so its wall time is a one-core number, not a 16-core number.
 # PROJ_ROOT comes from the environment, never from the script location. Temp files go to
 # node-local $SCRATCH; the scripts write their outputs to $STEP1_WORKDIR/phasec/ (on /bigdata)
 # with temp names and os.replace, so the results are on /bigdata when the job ends.
 #SBATCH -p epyc
+#SBATCH --constraint=ryzen
 #SBATCH -c 16
 #SBATCH --mem=48G
 #SBATCH --time=4:00:00
@@ -6174,6 +6386,9 @@ STEPS="${C1_STEPS:-09 10 11}"
 LOGDIR="$STEP1_WORKDIR/phasec/logs"
 mkdir -p "$TMP" "$LOGDIR"
 : > "$TMP/wall.txt"
+WALL_OUT="$LOGDIR/wall.${SLURM_JOB_ID:-local}.txt"
+# copy the wall times on every exit path, also after a failed step (review M-1)
+trap 'cp "$TMP/wall.txt" "$WALL_OUT"' EXIT
 
 timed() {  # timed NAME CMD...: run CMD and record its wall time
   local name=$1 t0=$SECONDS
@@ -6194,14 +6409,13 @@ for step in $STEPS; do
     *) echo "C1: unknown step $step" >&2; exit 2 ;;
   esac
 done
-cp "$TMP/wall.txt" "$LOGDIR/wall.${SLURM_JOB_ID:-local}.txt"
 echo "C1 done: $STEPS"
 ```
 
 - [ ] **Step 5: Run the tests to verify they pass**
 
 Run: `PYTHONPATH=src $ENV_PY -m pytest tests/step1_compare/test_phasec_jobs.py tests/step1_compare/test_paths.py -q`
-Expected: `15 passed` (`test_no_shell_script_uses_bash_source` in `test_paths.py` scans `phasec/*.sh` too).
+Expected: `18 passed` (9 + 9; `test_no_shell_script_uses_bash_source` in `test_paths.py` scans `phasec/*.sh` too).
 
 - [ ] **Step 6: Commit**
 
@@ -6349,12 +6563,33 @@ def test_readme_names_the_phase_c_commands_and_rules():
     job = (paths.STEP1_DIR / "phasec" / "c1_evaluate.sh").read_text()
     assert "C1_STEPS" in job and "wall_seconds" in job
     assert '`input_sha256["unique_sequences.tsv.gz"]` must equal `embedding_run.json`' in README
+    rule = "A job that runs an AVX2 tool must request a node feature that has AVX2"
+    assert rule in " ".join(README.split()) and rule in " ".join(job.split())
+
+
+def test_grids_in_columns_md_equal_the_code():
+    import findings
+    import models
+    import rules
+
+    def bullet(heading, key):
+        lines = section(heading).splitlines()
+        return next(x for x in lines if x.startswith(f"- `{key}` "))
+
+    c_line = bullet("phasec/scores_run.json", "c_grid")
+    values = c_line.split(":", 1)[1].split("(")[0].split(",")
+    assert tuple(float(x) for x in values) == models.C_GRID  # ruling C-12
+    t_line = bullet("phasec/scores_run.json", "t")
+    lo, hi = (float(x) for x in t_line.split("cut, ")[1].split(" in steps")[0].split(" to "))
+    assert (lo, hi) == (rules.T_VALUES[0], rules.T_VALUES[-1])
+    floor = bullet("phasec/metrics.json", "floor_met")
+    assert f"at least {findings.MIN_DIRECT_POSITIVES} " in floor
 ```
 
 - [ ] **Step 2: Run the test to verify it fails**
 
 Run: `PYTHONPATH=src $ENV_PY -m pytest tests/step1_compare/test_phasec_docs.py -q`
-Expected: `6 failed`, for example `COLUMNS.md has no heading for ['phasec/eval_table.tsv.gz', ...]` and `'phasec/08_build_eval_tables.py' in README`.
+Expected: `7 failed`, for example `COLUMNS.md has no heading for ['phasec/eval_table.tsv.gz', ...]` and `'phasec/08_build_eval_tables.py' in README`.
 
 - [ ] **Step 3: Append the Phase C section to `analysis/step1_compare/COLUMNS.md`**
 
@@ -6532,7 +6767,7 @@ is the `seq_sha256`. The MMseqs2 input of 09.
 - `embedding_array_sha256` key `<model>.<window>`
 - `seed`
 - `candidates`
-- `c_grid`
+- `c_grid` values of C tried: 0.001, 0.003, 0.01, 0.1, 1, 10 (ruling C-12)
 - `inner_folds`
 - `units` key `<split>|<fold>|<variant>`, one object per candidate
 - `git_commit`
@@ -6552,7 +6787,7 @@ is the `seq_sha256`. The MMseqs2 input of 09.
 - `n_train`
 - `n_train_pos`
 - `g` PredGPI class cut (null for R0)
-- `t` Ser+Thr cut (null for R0 and R1)
+- `t` Ser+Thr cut, 0.20 to 0.40 in steps of 0.05 (null for R0 and R1)
 - `j` Youden's J on the training rows
 
 **Keys of a logistic-regression object in `units`:**
@@ -6571,7 +6806,9 @@ is the `seq_sha256`. The MMseqs2 input of 09.
 
 Values are objects `{value, lo, hi, n_defined}`: the point value, the 2.5th and 97.5th
 percentiles over the resamples where the metric is defined, and their number. `null` means
-not defined (for example recall without positives).
+not defined (for example recall without positives). A truth block without negatives (the
+literature set) has `null` precision, PR-AUC, precision at recall and precision at the rule's
+recall (spec 3.2: recall only).
 
 **Keys:**
 
@@ -6591,7 +6828,9 @@ not defined (for example recall without positives).
 - `truth` key `direct` or `all`, see below
 - `recall_half_width` per label candidate (R2 and ML; V-go; direct truth)
 - `fpr_half_width`
-- `label` `estimate` or `smoke test` (ruling C-8)
+- `n_direct_positives` positives of the direct truth (stratum `all`)
+- `floor_met` `true` when `n_direct_positives` is at least 20 (ruling C-8)
+- `label` `estimate` (every recall half-width at most 0.10 and `floor_met`) or `smoke test` (ruling C-8)
 - `max_recall_half_width`
 - `max_fpr_half_width`
 - `zero_width_recall_interval` label candidates whose recall interval has lo equal to hi
@@ -6707,8 +6946,14 @@ $ENV_PY "$S1/phasec/12_report.py"
   instruction" (exit 132) on CPUs without AVX2, for example the abu_dhabi nodes (c01). C1 runs
   on partition epyc. On another node set `STEP1_MMSEQS` to
   `/opt/linux/rocky/8.x/x86_64/pkgs/mmseqs2/17-b804f/bin/mmseqs` (no AVX2 needed).
+- A job that runs an AVX2 tool must request a node feature that has AVX2 (--constraint=ryzen on
+  partition epyc). The rule covers the scripts that run MMseqs2: `phasec/c1_evaluate.sh` and
+  `phasec/09_cluster_and_split.sh`. The Phase B jobs (`jobs/j0_pilot.sh`, `jobs/j1_features.sh`,
+  `jobs/j2_embed.sh`) run on exfab GPU nodes and use no MMseqs2, so the rule does not cover
+  them. `test_avx2_tools_have_a_cpu_constraint` checks every `*.sh` file.
 - C1 prints `C1 step <step> wall_seconds=<seconds>` per step and copies these lines to
-  `phasec/logs/`. `C1_STEPS` (default `09 10 11`) runs a subset of the steps.
+  `phasec/logs/` on every exit, also after a failed step. `C1_STEPS` (default `09 10 11`) runs
+  a subset of the steps. Step 11 runs one process with one BLAS thread.
 - Phase C tests need numpy and scikit-learn:
   `PYTHONPATH=src $ENV_PY -m pytest tests/step1_compare -q`. A Python without these libraries
   skips those test files.
@@ -6717,9 +6962,9 @@ $ENV_PY "$S1/phasec/12_report.py"
 - [ ] **Step 5: Run the whole suite**
 
 Run: `PYTHONPATH=src $ENV_PY -m pytest tests/step1_compare -q`
-Expected: `526 passed, 2 skipped` (prototype, Python 3.14.2, 420 s on c01; 409 old + 117 new passed; skipped: one old test and the real-MMseqs2 test)
+Expected: `533 passed, 2 skipped` (prototype after the plan-review fixes, Python 3.14.2, 663 s; 409 old + 124 new passed; skipped: one old test and the real-MMseqs2 test)
 Run: `$PY -m pytest tests/step1_compare -q`
-Expected: `477 passed, 1 failed, 8 skipped` (prototype, Python 3.12.14, 151 s; the failure is the old surface_glyco import). On c01 `~/.local` gives Python 3.12 numpy 2.5.2, scipy 1.18.1 and scikit-learn 1.9.1, so the 117 Phase C tests also ran and passed there, the golden file included (tolerance 1e-9, other library versions); without these libraries they skip.
+Expected: `484 passed, 1 failed, 8 skipped` (prototype after the plan-review fixes, Python 3.12.14, 209 s; the failure is the old surface_glyco import). `~/.local` gives Python 3.12 numpy 2.5.2, scipy 1.18.1 and scikit-learn 1.9.1, so the Phase C tests also ran and passed there, the golden file included (tolerance 1e-9, other library versions); without these libraries they skip.
 
 - [ ] **Step 6: Commit**
 
@@ -6762,8 +7007,9 @@ Accept: the suite passes (counts in Task 12 Step 5); three lines `"all_sources":
 
 ```bash
 $ENV_PY phasec/08_build_eval_tables.py
+$ENV_PY -c 'import json, os; b = json.load(open(os.environ["STEP1_WORKDIR"] + "/phasec/build_run.json")); print("labelled_genes_without_sequence", b["labelled_genes_without_sequence"], "literature_positives", b["literature_positives"])'
 ```
-Accept: exit 0 and `table_rows=23338 sequences=23351 literature=20`, `go:excluded=266 go:neg=19776 go:pos=752 tc:pos=2544`, `tc_dropped_go_class_excluded=65 tc_dropped_go_class_neg=224 tc_dropped_go_class_pos=208` (prototype values on the same inputs). Another value means an input changed: read `phasec/build_run.json` before you go on. A STOP names the failed check.
+Accept: exit 0 and `table_rows=23338 sequences=23351 literature=20`, `go:excluded=266 go:neg=19776 go:pos=752 tc:pos=2544`, `tc_dropped_go_class_excluded=65 tc_dropped_go_class_neg=224 tc_dropped_go_class_pos=208` (prototype values on the same inputs); `literature_positives 19` (the 9 `hard_negative` rows included, ruling C-9 amended). Another value means an input changed: read `phasec/build_run.json` before you go on. A STOP names the failed check. Record in the run notes `labelled_genes_without_sequence` (prototype: `Calb_CGD` 72, `Scer_SGD` 3, `Spom_PomBase` 2; the 75 of the two training sources are labelled negatives without a feature row, review M-5). They have no sequence, so they are in no table; this explains part of the difference between the spec's 6,951 negative members and the 6,842 negative training sequences (ruling C-14).
 
 **R2. C1 pilot (epyc CPU; the first submission is the pilot).**
 
@@ -6771,7 +7017,7 @@ Accept: exit 0 and `table_rows=23338 sequences=23351 literature=20`, `go:exclude
 sbatch --export=ALL,PROJ_ROOT="$PROJ_ROOT",STEP1_WORKDIR="$STEP1_WORKDIR" \
   -o "$LOG/c1.%j.log" -e "$LOG/c1.%j.log" "$S1/phasec/c1_evaluate.sh"
 ```
-Accept: the log ends with `C1 done: 09 10 11` and holds three lines `C1 step <step> wall_seconds=<s>`; `phasec/logs/wall.<job id>.txt` exists. Then check the outputs:
+Accept: the log ends with `C1 done: 09 10 11` and holds three lines `C1 step <step> wall_seconds=<s>`; `phasec/logs/wall.<job id>.txt` exists (it also exists after a failed step, with the lines of the finished steps). Then check the outputs:
 
 ```bash
 $ENV_PY - <<'EOF'
@@ -6787,17 +7033,20 @@ print("convergence warnings", warn)
 m = json.load(open(d + "metrics.json"))
 assert m["settings"]["n_resamples"] == 2000 and len(m["test_sets"]) == 13, len(m["test_sets"])
 for name, ts in m["test_sets"].items():
-    print(name, ts["label"], ts["max_recall_half_width"], ts["zero_width_recall_interval"])
+    assert ts["floor_met"] == (ts["n_direct_positives"] >= 20), name
+    assert ts["label"] == "smoke test" or ts["floor_met"], name  # ruling C-8 floor
+    print(name, ts["label"], ts["n_direct_positives"], ts["floor_met"],
+          ts["max_recall_half_width"], ts["zero_width_recall_interval"])
 print("score sources", m["score_sources"])
 n = sum(1 for _ in gzip.open(d + "proteome_calls.tsv.gz", "rt")) - 1
 print("proteome_calls rows", n)
 EOF
 ```
-Accept: `sequences 23351`; 22 units; 13 test sets; `proteome_calls rows 69150` (members of the nine proteome sets in `sequence_sets.tsv`, prototype count); no `in_sample` in `score_sources`. Record in the run notes: `clusters` (prototype: 9,737 with the non-AVX2 binary; the AVX2 build of the job was not run, so another count is possible and is not a STOP), the removal counts (prototype: S2-Calb_CGD b 506, c 164; S2-Scer_SGD b 633, c 69; S2-Spom_PomBase b 464; S3-Basidiomycota b 293; S3-Eurotiomycetes b 674, c 1,235; S1 none), any convergence warnings, and every label.
+Accept: `sequences 23351`; 22 units; 13 test sets; `S3-Eurotiomycetes:Afum_ASPFU`, `S3-Basidiomycota:Cneo_H99_GOA`, `S3-Basidiomycota:Umay_MYCMD` and `S3-Eurotiomycetes:literature` are `smoke test` (19, 7, 9 and 19 direct positives in the prototype counts, below the floor); `proteome_calls rows 69150` (members of the nine proteome sets in `sequence_sets.tsv`, prototype count); no `in_sample` in `score_sources`. Record in the run notes: `clusters` (prototype: 9,737 with the non-AVX2 binary; the AVX2 build of the job was not run, so another count is possible and is not a STOP), the removal counts (prototype: S2-Calb_CGD b 506, c 164; S2-Scer_SGD b 633, c 69; S2-Spom_PomBase b 464; S3-Basidiomycota b 293; S3-Eurotiomycetes b 674, c 1,235; S1 none), any convergence warnings, and every label.
 
 **R3. Size from the pilot (global job-size rule).**
 
-Read the three `wall_seconds` values. The steps depend on each other, so one job is the smallest job count; there is no unit of work to merge into it.
+Read the three `wall_seconds` values. Step 11 is a one-process number (review M-2): it does not shrink with more cores. The steps depend on each other, so one job is the smallest job count; there is no unit of work to merge into it.
 - Total at most 5,400 s (1.5 h): keep one job. A later full re-run uses `--time` = ceil(1.5 x total / 60) minutes, at least 30 minutes.
 - Total above 5,400 s: submit the steps as separate jobs (`--export=...,C1_STEPS=09`, then `C1_STEPS=10`, then `C1_STEPS=11`, each with `--dependency=afterok:<previous job id>` and `--time` = ceil(1.5 x step seconds / 60) minutes). If one step alone is above 5,400 s, record it in the run notes; the plan has no split of a step.
 - The pilot timed out: read the finished steps in the log, resubmit the unfinished steps with `C1_STEPS` and `--time=8:00:00`, and size again from that run.
@@ -6825,21 +7074,24 @@ Accept: `identical` (same seed, same inputs). The 1-versus-2-worker identity of 
 
 A prototype of every file was built in a scratch copy of the worktree (all tracked files of `step1-eval` at `7b735ec`, outside the repository). The code blocks of this plan are those files after `ruff check` and `ruff format` (ruff 0.3.5): `All checks passed!`.
 
+**Plan-review fixes (2026-10-01).** The fixes of the plan review and the owner answers (rulings C-8, C-9 amended, C-12 to C-15; reviews I-1, I-3, M-1, M-2, M-5, M-3/M-4/M-7 caveats; the AVX2 rule) were prototyped in a second scratch copy (tracked files of `step1-eval` at `0b05bdd`, plan code extracted, changed, then copied back into this plan). A fresh extraction of every code block of this plan into another copy gives files identical to the prototype (`diff -r`), and the golden command there gives the same SHA-256 (`233a0333...83c8`). Before the fixes the same extraction reproduced the old golden SHA-256 `5f55c304...26a8` and `526 passed, 2 skipped`.
+
 | Check | Result |
 |---|---|
-| Full suite, `PYTHONPATH=src $ENV_PY -m pytest tests/step1_compare -q` (Python 3.14.2) | `526 passed, 2 skipped` (prototype, Python 3.14.2, 420 s on c01; 409 old + 117 new passed; skipped: one old test and the real-MMseqs2 test) |
-| Stdlib suite, `$PY -m pytest tests/step1_compare -q` | `477 passed, 1 failed, 8 skipped` (prototype, Python 3.12.14, 151 s; the failure is the old surface_glyco import). On c01 `~/.local` gives Python 3.12 numpy 2.5.2, scipy 1.18.1 and scikit-learn 1.9.1, so the 117 Phase C tests also ran and passed there, the golden file included (tolerance 1e-9, other library versions); without these libraries they skip. (the failure is the old `test_chunk_manifest_columns_equal_the_code_constant`, see "How to run the tests") |
-| New tests per file | scaffold 9, build 17, metrics 12, bootstrap 7, rules 8, models 9, splits 17 (+1 skipped), fit 9, evaluate 13, report 4, jobs 6, docs 6; 117 new tests pass |
-| Each task's tests before its implementation (scratch copies with the files of that task and later tasks removed) | the "Expected: FAIL" lines of the tasks are these runs |
-| Real MMseqs2 (non-AVX2 binary) on the fixture | `test_phasec_splits.py`: 18 passed in 46 s |
-| Mutation checks (each change made in a copy, then the named test run) | 16 of 16 mutations make their test fail: labelmap pm-unresolved -> neg -> `test_class_of_truth_table`; no GO-over-T-c precedence -> `test_tc_row_yields_to_go_label`; no M3 check -> `test_stale_input_stops`; metrics: precision at first threshold reaching recall -> `test_precision_at_recall_reads_the_step_curve_with_ties`; bootstrap per protein -> `test_bootstrap_resamples_whole_clusters`; R2 uses > t -> `test_rule_truth_table`; M8-C ignores the C-terminal row -> `test_cterm_variant_row_selection`; no T-c rule b -> `test_tc_excludes_test_cluster_mates`; no T-c rule c -> `test_tc_excludes_test_taxa`; self hits kept -> `test_max_identity_excludes_self_hits`; 10 trains on test labels -> `test_threshold_fit_uses_train_only`; 11 no direct filter -> `test_direct_filter_applies_to_test_rows_only`; score_source always final -> `test_proteome_calls_use_oof_for_training_hashes`; estimate rule uses < -> `test_estimate_label_rule`; beats reads hi -> `test_findings_booleans`; report regex without '-' guard -> `test_report_numbers_come_from_metrics` |
-| Leakage probe | shuffled labels, 600 x 300: out-of-fold AUC 0.5143 (seeds 21 to 25: 0.493 to 0.532); every fold trained on all rows: 0.970 |
+| Full suite, `PYTHONPATH=src $ENV_PY -m pytest tests/step1_compare -q` (Python 3.14.2) | `533 passed, 2 skipped` in 663 s (after the plan-review fixes; before them `526 passed, 2 skipped` in 449 s); skipped: one old test and the real-MMseqs2 test |
+| Stdlib suite, `$PY -m pytest tests/step1_compare -q` | `484 passed, 1 failed, 8 skipped` in 209 s (Python 3.12.14 with `~/.local` numpy 2.5.2, scipy 1.18.1, scikit-learn 1.9.1, so the Phase C tests ran, the golden file included); the failure is the old `test_chunk_manifest_columns_equal_the_code_constant` (see "How to run the tests") |
+| New tests per file | scaffold 9, build 17, metrics 12, bootstrap 7, rules 9, models 9, splits 17 (+1 skipped), fit 9, evaluate 13, report 6, jobs 9, docs 7; 124 new tests pass (117 before the fixes; added: `test_t_grid_is_0_20_to_0_40`, `test_report_states_the_caveats`, `test_literature_section_reports_recall_only`, `test_avx2_tools_have_a_cpu_constraint`, `test_avx2_check_flags_a_planted_script`, `test_c1_keeps_the_wall_times_after_a_failed_step`, `test_grids_in_columns_md_equal_the_code`; extended: `test_recall_at_fpr`, `test_cut_off_values_parse_equal_to_the_grid`, `test_fitted_settings_are_recorded`, `test_undefined_metrics_are_null`, `test_estimate_label_rule`, `test_label_in_metrics_follows_the_half_widths`, `test_report_quotes_findings_and_labels`, `test_c1_requests_cpu_on_an_avx2_partition_with_a_time_limit`, `test_readme_names_the_phase_c_commands_and_rules`) |
+| Each task's tests before its implementation (scratch copies with the files of that task and later tasks removed) | the "Expected: FAIL" lines of the tasks are these runs; after the fixes re-run for Tasks 10 (`2 failed, 4 errors`), 11 (`6 failed, 1 passed, 1 skipped`) and 12 (`7 failed`); Tasks 1 to 9 not re-run (their red step is a missing module or script, which the fixes do not change) |
+| Real MMseqs2 (non-AVX2 binary) on the fixture | `test_phasec_splits.py`: 18 passed in 46 s (before the fixes; not re-run, Task 7 did not change) |
+| Mutation checks before the fixes (each change made in a copy, then the named test run) | 16 of 16 mutations make their test fail: labelmap pm-unresolved -> neg -> `test_class_of_truth_table`; no GO-over-T-c precedence -> `test_tc_row_yields_to_go_label`; no M3 check -> `test_stale_input_stops`; metrics: precision at first threshold reaching recall -> `test_precision_at_recall_reads_the_step_curve_with_ties`; bootstrap per protein -> `test_bootstrap_resamples_whole_clusters`; R2 uses > t -> `test_rule_truth_table`; M8-C ignores the C-terminal row -> `test_cterm_variant_row_selection`; no T-c rule b -> `test_tc_excludes_test_cluster_mates`; no T-c rule c -> `test_tc_excludes_test_taxa`; self hits kept -> `test_max_identity_excludes_self_hits`; 10 trains on test labels -> `test_threshold_fit_uses_train_only`; 11 no direct filter -> `test_direct_filter_applies_to_test_rows_only`; score_source always final -> `test_proteome_calls_use_oof_for_training_hashes`; estimate rule uses < -> `test_estimate_label_rule`; beats reads hi -> `test_findings_booleans`; report regex without '-' guard -> `test_report_numbers_come_from_metrics`. Not re-run after the fixes |
+| Mutation checks of the plan-review fixes (each change made in a copy, then the named test run; a kill counts only when the test itself fails, not its fixture) | 15 of 15 make their test fail: `T_VALUES` keeps 0.10 and 0.15 -> `test_t_grid_is_0_20_to_0_40`; old C grid -> `test_fitted_settings_are_recorded`; no count floor -> `test_estimate_label_rule`; floor 19 -> `test_estimate_label_rule`; literature precision kept -> `test_undefined_metrics_are_null` (`1.0 is None`); literature precision at the rule's recall kept -> `test_undefined_metrics_are_null`; literature section prints all columns -> `test_literature_section_reports_recall_only`; no caveat lines -> `test_report_states_the_caveats`; findings without "Any" -> `test_report_quotes_findings_and_labels`; `recall_at_fpr` without the empty call set -> `test_recall_at_fpr` (`-inf == 0.0`); no EXIT trap in C1 -> `test_c1_keeps_the_wall_times_after_a_failed_step` (no `wall.m1test.txt`); no `--constraint` in `c1_evaluate.sh` -> `test_avx2_tools_have_a_cpu_constraint`; no `--constraint` in `09_cluster_and_split.sh` -> the same test; `hard_negative` not positive -> `test_literature_rows`; old C grid in COLUMNS.md -> `test_grids_in_columns_md_equal_the_code` |
+| Leakage probe | shuffled labels, 600 x 300: out-of-fold AUC 0.5143 (seeds 21 to 25: 0.493 to 0.532); every fold trained on all rows: 0.970 (before the fixes; not re-run) |
 | 08 on the real inputs (scratch links) | Facts table; 17.5 s |
 | 09 on the real inputs (non-AVX2 binary, 2 threads, c01) | 9,737 clusters, removal counts in Facts; 18 min 48 s |
-| One real unit of 10 (S1 fold 0, V-go, all candidates, 1 BLAS thread) | about 45 s fit time (Facts) |
+| One real unit of 10 (S1 fold 0, V-go, all candidates, 1 BLAS thread) | about 45 s fit time with the old grids (Facts); not run with the new grids |
 | Bootstrap at real size (S1 pooled direct rows) | 28.0 s for stratum `all` and 20 candidate-variant pairs |
-| Fixture chain (08, 09 stub, 10 all candidates, 11 with 50 resamples, 12) | 08 + 09 13 s; 10 78 s (under load); 11 13 to 25 s; report 2,412 lines |
-| Not run | 10 and 11 on the real data; C1 on epyc; the AVX2 MMseqs2 build (it cannot run on c01); any SLURM submission |
+| Fixture chain (08, 09 stub, 10 all candidates, 11 with 50 resamples, 12) | 08 + 09 13 s; 10 78 s (under load); 11 13 to 25 s; report 2,390 lines after the fixes (2,412 before) |
+| Not run | 10 and 11 on the real data (old or new grids); C1 on epyc; the AVX2 MMseqs2 build (it cannot run on c01); any SLURM submission; `sbatch` parsing of `--constraint=ryzen` (no submission). Checked read-only: `sinfo -p epyc -o '%N %f'` lists `r[21-23,25-40] ryzen,amd,milan` (19 nodes) |
 
 ## Self-review
 
@@ -6850,19 +7102,19 @@ A prototype of every file was built in a scratch copy of the worktree (all track
 
 ## Spec issues found while planning
 
-1. **The estimate rule accepts zero-width intervals (defect).** The percentile interval of recall has width 0 when every resample gives the same recall, for example when all positives of a small test set are found (H99 has 7 direct positives). Such a test set meets "half-width 0.10 or less" and gets the label `estimate`, although 7 positives cannot support it. In the fixture the literature set (2 positives, all found) was labelled `estimate` this way. The plan keeps ruling C-8 as written and adds `zero_width_recall_interval` beside the label in `metrics.json` and `report.md`. Owner decision needed: add a minimum count of direct positives, or use an interval that does not collapse (for example Wilson), or accept the rule.
-2. **Literature positives versus ruling C-9 (ambiguity).** Spec 3.2 defines literature positives as the rows with an accession, a sequence and `moonlighting` not `YES` (19 rows; this includes the 9 `hard_negative` rows). Ruling C-9 says the `hard_negative` rows are not negatives and "their scores appear in the named panel only", which can also be read as "not positives either". The plan follows the explicit 3.2 definition (19 positives, as in the parent's "about 19 usable") and also lists the `hard_negative` rows in the named panel. If C-9 means "panel only", the literature set has 10 positives; the change is one line in `08.literature_rows`.
-3. **Findings (b) and (c) do not name the ML candidate.** The plan evaluates each ML candidate (M8, M35, M8-C, M35-C, H) against B1 and R2 and reports `holds_for`; (c) holds for a candidate only on all three S2 test sets. Comparator FPRs are read at the threshold where the comparator reaches the recall of R2, per resample (paired).
-4. **No criterion for C.** Spec 3.3 says C is "chosen on the inner folds" without a criterion; the plan uses the inner out-of-fold PR-AUC, the criterion that the spec gives for H's variant (ties: the smaller C). On the real S1 fold 0 every LR candidate chose C = 0.01, the smallest value of the grid; the grid may be too narrow at the low end (not tested further).
+1. **The estimate rule accepts zero-width intervals (defect).** The percentile interval of recall has width 0 when every resample gives the same recall, for example when all positives of a small test set are found (H99 has 7 direct positives). Such a test set meets "half-width 0.10 or less" and gets the label `estimate`, although 7 positives cannot support it. In the fixture the literature set (2 positives, all found) was labelled `estimate` this way. The plan keeps ruling C-8 as written and adds `zero_width_recall_interval` beside the label in `metrics.json` and `report.md`. Owner decision needed: add a minimum count of direct positives, or use an interval that does not collapse (for example Wilson), or accept the rule. **Resolved (owner, 2026-10-01):** a count floor of 20 direct-evidence positives (ruling C-8 amended); `n_direct_positives` and `floor_met` are stored beside the label, and `zero_width_recall_interval` stays.
+2. **Literature positives versus ruling C-9 (ambiguity).** Spec 3.2 defines literature positives as the rows with an accession, a sequence and `moonlighting` not `YES` (19 rows; this includes the 9 `hard_negative` rows). Ruling C-9 says the `hard_negative` rows are not negatives and "their scores appear in the named panel only", which can also be read as "not positives either". The plan follows the explicit 3.2 definition (19 positives, as in the parent's "about 19 usable") and also lists the `hard_negative` rows in the named panel. If C-9 means "panel only", the literature set has 10 positives; the change is one line in `08.literature_rows`. **Resolved (owner, 2026-10-01):** the `hard_negative` rows count as positives (19 literature positives; HSP60 never); ruling C-9 is amended to say so, and the named panel still lists every `hard_negative` row.
+3. **Findings (b) and (c) do not name the ML candidate.** The plan evaluates each ML candidate (M8, M35, M8-C, M35-C, H) against B1 and R2 and reports `holds_for`; (c) holds for a candidate only on all three S2 test sets. Comparator FPRs are read at the threshold where the comparator reaches the recall of R2, per resample (paired). **Resolved (ruling C-13):** no headline ML candidate; the report says "any" and prints the per-candidate table.
+4. **No criterion for C.** Spec 3.3 says C is "chosen on the inner folds" without a criterion; the plan uses the inner out-of-fold PR-AUC, the criterion that the spec gives for H's variant (ties: the smaller C). On the real S1 fold 0 every LR candidate chose C = 0.01, the smallest value of the grid; the grid may be too narrow at the low end (not tested further). **Resolved (ruling C-12):** the grid is {0.001, 0.003, 0.01, 0.1, 1, 10}; the spec now names the criterion (inner out-of-fold PR-AUC, ties: the smaller C).
 5. **S2 test sets.** Spec 3.4 item 4 says S2 and S3 test sets are fixed by role (`test_species`, `test_clade`, `undecided`); the parent spec 4 step 8 also has "train S288C, test *C. albicans*; the reverse". The plan has both swaps (S2-Calb_CGD, S2-Scer_SGD) and S2-Spom_PomBase, and C-7 removes the T-c rows of the test species in each.
 6. **Cluster check for S2 and S3.** `test_no_cluster_spans_train_and_test` cannot apply to the GO training rows of S2 and S3: orthologs across species share clusters (by design of leave-species-out; ruling C-4 measures it). The plan applies the check to S1 folds and to the T-c training rows of S2 and S3 (C-5), and says so in `splits.py`.
-7. **Dedupe with an excluded gene.** Spec 3.4 item 2 covers a hash in pos and neg; it does not cover pos or neg with an excluded gene (2 real hashes). The plan makes such a row `excluded` (Task 2).
+7. **Dedupe with an excluded gene.** Spec 3.4 item 2 covers a hash in pos and neg; it does not cover pos or neg with an excluded gene (2 real hashes). The plan makes such a row `excluded` (Task 2). **Resolved (ruling C-14):** the spec now states this rule.
 8. **`in_sample` cannot occur.** Every hash of a FULL training table is in an S1 fold (T-c rows are assigned by cluster), so `score_source` is `oof` or `final`. The rule stays as a guard; R2 checks that `in_sample` does not appear.
 9. **Rule b in S1 removes nothing.** S1 folds are formed by cluster, so no T-c training row can share a cluster with the test fold. The code still applies rule b and logs 0.
-10. **Counts.** "About 23,400 (reviewer 23,413)" sequences to cluster: measured 23,351 (23,338 table rows and 13 literature-only sequences). V-go training pool: 308 pos and 6,842 neg unique sequences (spec: 313 and 6,951 members before dedupe). Direct-evidence *C. albicans* positives in the test set: 153 (spec table: 154; one positive merged into an excluded row, item 7).
-11. **Environment (not a spec defect).** Spec 3.4 item 3 names `module MMseqs2/17-b804f`. Its build needs AVX2 and dies on the abu_dhabi nodes; C1 requests partition `epyc`.
+10. **Counts.** "About 23,400 (reviewer 23,413)" sequences to cluster: measured 23,351 (23,338 table rows and 13 literature-only sequences). V-go training pool: 308 pos and 6,842 neg unique sequences (spec: 313 and 6,951 members before dedupe). Direct-evidence *C. albicans* positives in the test set: 153 (spec table: 154; one positive merged into an excluded row, item 7). **Resolved (ruling C-14):** the spec explains 308 / 6,842 against 313 / 6,951: positives 313 - 2 made excluded - 3 merged; negatives 6,951 - 75 without a feature row (`Calb_CGD` 72, `Scer_SGD` 3) - 34 merged (counts from the prototype `build_run.json` and `eval_dedupe_log.tsv`).
+11. **Environment (not a spec defect).** Spec 3.4 item 3 names `module MMseqs2/17-b804f`. Its build needs AVX2 and dies on the abu_dhabi nodes; C1 requests partition `epyc`. **Resolved (ruling C-15):** both phasec shell scripts request `-p epyc --constraint=ryzen`; `test_avx2_tools_have_a_cpu_constraint` scans every shell script of `analysis/step1_compare/`.
 12. **Output location (deviation).** Parent spec 6 says `results/step1_compare/metrics.json`. `results/*` is git-ignored and the Phase A README says data never go into the repository, so the plan writes every Phase C output to `$STEP1_WORKDIR/phasec/`, as Phase B did for its outputs. The owner can copy `metrics.json` and `report.md` where D7 needs them.
-13. **Observation for the owner (one unit only).** On S1 fold 0 the Youden fit gave R2 t = 0.10, the lowest grid value; then R2 is close to "SP and Ser+Thr at least 10%", which most SP proteins meet. This is a property of Youden's J (ruling C-3), not a code error; the R0-to-R2 rows of the report show the effect.
+13. **Observation for the owner (one unit only).** On S1 fold 0 the Youden fit gave R2 t = 0.10, the lowest grid value; then R2 is close to "SP and Ser+Thr at least 10%", which most SP proteins meet. This is a property of Youden's J (ruling C-3), not a code error; the R0-to-R2 rows of the report show the effect. **Resolved (owner, 2026-10-01):** the `t` grid is 0.20 to 0.40; the plan review measured that 96.7% of the SP proteins have `ser_thr_frac` >= 0.10, so R2 at t = 0.10 equals R0 on the real data.
 
 ## Deviations from the suggested decomposition (each with a reason)
 
