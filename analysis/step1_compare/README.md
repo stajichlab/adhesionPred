@@ -285,6 +285,10 @@ J2 needs two more arguments (see "Rules for the jobs").
   `phaseb/j0/nvidia_smi.csv` (GPU name, driver and memory of the J0 node; see `COLUMNS.md`).
   It copies each result to `phaseb/j0/` as soon as it exists. If the job fails or times out
   after the throughput step, `throughput.json` is kept.
+- The readers in `feature_parsers.py` stop with `file:line` on a value that is not a number, on
+  a duplicate id (SignalP table, SignalP GFF, PredGPI table) and on a PredGPI row whose
+  `gpi_prob`, `omega` and `fpr` do not fit its `gpi_call`. `jobs/predgpi_scores.py` removes its
+  temporary file and prints `STOP:` (exit 2) on any scoring error.
 - J1 splits the FASTA into `J1_PARTS` parts (default 8). If you change `J1_PARTS`, delete
   `phaseb/signalp` and `phaseb/predgpi` first. Old parts have other members. Script 07 stops
   when one sequence is in two parts.

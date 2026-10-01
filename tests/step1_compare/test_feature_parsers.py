@@ -88,6 +88,76 @@ def test_ser_thr_fraction():
     assert fp.ser_thr_fraction("") == 0.0
 
 
+GPI_HEAD = "id\tlength\tgpi_call\tgpi_prob\tomega\tfpr\tsvm\n"
+
+
+def _gpi(tmp_path, line, name="g.tsv"):
+    path = tmp_path / name
+    path.write_text(GPI_HEAD + line)
+    return path
+
+
+@pytest.mark.parametrize(
+    "line, message",
+    [
+        (f"{A}\t90\tweakly\t0.55\t8x\t0.007\t-1\n", r"g.tsv:2: omega '8x'"),
+        (f"{A}\t90\tweakly\tabc\t80\t0.007\t-1\n", r"g.tsv:2: gpi_prob 'abc'"),
+        (f"{A}\t90\tweakly\t0.55\t80\t0.007\tnan?\n", r"g.tsv:2: svm 'nan\?'"),
+        (f"{A}\t90\tweakly\t0.55\t80\t1e\t-1\n", r"g.tsv:2: fpr '1e'"),
+        (f"{A}\t90\tweakly\t0.70\t80\t0.007\t-1\n", "expected 0.55"),
+        (f"{A}\t90\tprobable\t0.70\t80\t0.007\t-1\n", "expected 0.0015 to 0.005"),
+        (f"{A}\t90\tweakly\t0.55\t\t0.007\t-1\n", "omega"),
+        (f"{A}\t90\tnone\t0\t80\t0.5\t-1\n", "none row has omega"),
+        (f"{A}\t90\tnone\t0\t\t0.005\t-1\n", "expected 0.01 to 1.0"),
+        (f"{A}\t30\ttoo_short\t0\t\t\t\n{A}\t30\ttoo_short\t0\t\t\t\n", "g.tsv:3: duplicate"),
+        (f"{A}\t30\ttoo_short\t0.55\t\t\t\n", "expected 0.0"),
+        (f"{A}\t30\ttoo_short\t0\t10\t\t\n", "too_short row has omega"),
+    ],
+)
+def test_predgpi_bad_rows_stop_with_file_and_line(tmp_path, line, message):
+    with pytest.raises(fp.OutputFormatError, match=message):
+        fp.parse_predgpi_scores(_gpi(tmp_path, line))
+
+
+def test_predgpi_fpr_at_the_class_bounds_is_accepted(tmp_path):
+    rows = (
+        f"{A}\t90\thighly_probable\t1.0\t5\t0.0015\t1\n"
+        f"{B}\t90\tprobable\t0.70\t5\t0.0015\t1\n"
+        f"{C}\t90\tweakly\t0.55\t5\t0.01\t1\n"
+        f"{D}\t90\tnone\t0\t\t0.01\t1\n"
+    )
+    assert len(fp.parse_predgpi_scores(_gpi(tmp_path, rows))) == 4
+
+
+@pytest.mark.parametrize(
+    "line, message",
+    [
+        (
+            "# ID\tPrediction\tOTHER\tSP(Sec/SPI)\tCS Position\n" + f"{A}\tOTHER\tx\t0.1\t\n",
+            "p.txt:2",
+        ),
+        (f"{A}\tSP\t0.1\t0.9\tCS pos: 3-4. Pr: 1.2.3\n", "CS probability"),
+    ],
+)
+def test_signalp_bad_numbers_stop_with_file_and_line(tmp_path, line, message):
+    path = tmp_path / "p.txt"
+    head = "# ID\tPrediction\tOTHER\tSP(Sec/SPI)\tCS Position\n"
+    path.write_text(line if line.startswith("# ID") else head + line)
+    with pytest.raises(fp.OutputFormatError, match=message):
+        fp.parse_signalp(path)
+
+
+def test_signalp_gff_bad_end_and_duplicate_id_stop(tmp_path):
+    path = tmp_path / "o.gff3"
+    row = f"{A}\tSignalP-6.0\tsignal_peptide\t1\t{{end}}\t0.9\t.\t.\t.\n"
+    path.write_text("##gff-version 3\n" + row.format(end="2x"))
+    with pytest.raises(fp.OutputFormatError, match=r"o.gff3:2: GFF end '2x'"):
+        fp.parse_signalp_gff(path)
+    path.write_text("##gff-version 3\n" + row.format(end=24) + row.format(end=25))
+    with pytest.raises(fp.OutputFormatError, match=r"o.gff3:3: duplicate id"):
+        fp.parse_signalp_gff(path)
+
+
 PREDGPI_HOME = os.environ.get("PREDGPI_HOME")
 
 
@@ -119,3 +189,90 @@ def test_predgpi_wrapper_matches_cli(tmp_path):
         n += 1
     assert n == len(scores) >= 3
     assert scores["short1"].call == "too_short"
+
+
+def _wrapper():
+    import predgpi_scores  # jobs/predgpi_scores.py; PredGPI itself is imported lazily
+
+    return predgpi_scores
+
+
+@pytest.mark.parametrize(
+    "fpr, call, prob",
+    [
+        (0.0, "highly_probable", "1.0"),
+        (0.0015, "highly_probable", "1.0"),
+        (0.0015000001, "probable", "0.70"),
+        (0.005, "probable", "0.70"),
+        (0.0050000001, "weakly", "0.55"),
+        (0.01, "weakly", "0.55"),
+        (0.0100000001, "none", "0"),
+    ],
+)
+def test_wrapper_classify_boundaries(fpr, call, prob):
+    assert _wrapper().classify(fpr) == (call, prob)
+
+
+def test_wrapper_length_boundary_is_40_and_41():
+    wrapper = _wrapper()
+    calls = []
+
+    def predict(seq_t):
+        calls.append(seq_t)
+        return 5, 0.5, 0.2
+
+    short = wrapper.score_row("s", "A" * 40, predict).split("\t")
+    assert short == ["s", "40", "too_short", "0", "", "", ""] and calls == []
+    long = wrapper.score_row("l", "A" * 41, predict).split("\t")
+    assert long == ["l", "41", "none", "0", "", "0.2", "0.5"] and len(calls) == 1
+
+
+def test_wrapper_applies_the_residue_substitutions_and_computes_omega():
+    wrapper = _wrapper()
+    seen = []
+
+    def predict(seq_t):
+        seen.append(seq_t)
+        return 30, 1.5, 0.001
+
+    row = wrapper.score_row("p", "UZBX" + "K" * 46, predict).split("\t")
+    assert seen == ["CAAA" + "K" * 46]
+    assert row[2:5] == ["highly_probable", "1.0", "20"] and row[5] == "0.001"
+
+
+def test_wrapper_read_fasta_removes_inner_spaces(tmp_path):
+    path = tmp_path / "in.fasta"
+    path.write_text(">p1 desc\nMK LV\nAA G\n>p2\nGG\n")
+    assert list(_wrapper().read_fasta(str(path))) == [("p1", "MKLVAAG"), ("p2", "GG")]
+
+
+def test_wrapper_error_removes_tmp_and_stops(tmp_path, capsys):
+    wrapper = _wrapper()
+    fasta, out = tmp_path / "in.fasta", tmp_path / "scores.tsv"
+    fasta.write_text(f">a\n{'A' * 50}\n>b\n{'A' * 50}\n")
+
+    def boom(seq_t):
+        raise RuntimeError("model failed")
+
+    assert wrapper.write_scores(str(fasta), str(out), boom) == 2
+    assert "STOP: RuntimeError: model failed" in capsys.readouterr().err
+    assert list(tmp_path.glob("scores.tsv*")) == []
+
+
+def test_wrapper_duplicate_id_removes_tmp_and_stops(tmp_path, capsys):
+    wrapper = _wrapper()
+    fasta, out = tmp_path / "in.fasta", tmp_path / "scores.tsv"
+    fasta.write_text(">a\nMKV\n>a\nMKV\n")
+    assert wrapper.write_scores(str(fasta), str(out), lambda s: (1, 1.0, 1.0)) == 2
+    assert "duplicate id a" in capsys.readouterr().err
+    assert list(tmp_path.glob("scores.tsv*")) == []
+
+
+def test_wrapper_output_parses_with_the_parser(tmp_path):
+    wrapper = _wrapper()
+    fasta, out = tmp_path / "in.fasta", tmp_path / "scores.tsv"
+    fasta.write_text(f">a\nMKV\n>b\n{'A' * 60}\n>c\n{'S' * 60}\n")
+    fprs = iter([0.0001, 0.3])
+    assert wrapper.write_scores(str(fasta), str(out), lambda s: (10, 0.7, next(fprs))) == 0
+    calls = fp.parse_predgpi_scores(out)
+    assert [calls[k].call for k in "abc"] == ["too_short", "highly_probable", "none"]
