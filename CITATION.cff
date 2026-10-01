@@ -2,7 +2,7 @@
 # Visit https://bit.ly/cffinit to generate yours today!
 
 cff-version: 1.2.0
-title: adhesion_predict
+title: surface_glyco
 message: >-
   If you use this software, please cite it using the
   metadata from this file.
@@ -16,10 +16,11 @@ authors:
     orcid: 'https://orcid.org/0000-0002-7591-0020'
 repository-code: 'https://github.com/stajichlab/adhesionPred'
 abstract: >-
-  A simple classifier for adhesion related proteins focused
-  on fungi
+  ESM-2 based scorer for fungal cell-surface glycoproteins
 keywords:
   - bioinformatics
   - fungi
   - classifier
 license: MIT
+version: 0.1.0
+date-released: '2026-02-16'

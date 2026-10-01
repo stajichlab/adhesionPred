@@ -21,36 +21,36 @@ adhesion. It is detecting repeats.
 
 ### 2.0 Steps and names (clarified 2026-09-30)
 
-The shipped `adhesion_predict` CLI is **not** an adhesin predictor. It is the first step of a
-multi-step pipeline, and it answers a different question from its name.
+The `surface_glyco_predict` CLI (formerly `adhesion_predict`) is **not** an adhesin predictor. It is the first step of a
+multi-step pipeline. No trained model ships with it.
 
 | Step | Question | What implements it today | Correct name |
 |---|---|---|---|
-| **1** | Is this a secreted, cell-surface glycoprotein? | The shipped `adhesion_predict` CLI (ESM-2 embeddings + logistic regression). Evidence: ~12% adhesin precision on S288C; behaves as a cell-surface glycoprotein detector (`docs/model-review/2026-09-27-review-and-framework-plan.md`). | **surface glycoprotein predictor** |
+| **1** | Is this a secreted, cell-surface glycoprotein? | The `surface_glyco_predict` CLI (formerly `adhesion_predict`; ESM-2 embeddings + logistic regression). No model ships. Evidence for the removed 0.1.0 models: ~12% adhesin precision on S288C; behaves as a cell-surface glycoprotein detector (`docs/model-review/2026-09-27-review-and-framework-plan.md`). | **surface glycoprotein predictor** |
 | **2** | Which adhesion *mechanism*, if any? | Not one tool. 2a repeat detector (scripts in `analysis/cocci_repeats/`); 2b/2c HMM scans; 2d out of scope. A stage-2 classifier exists only as a script (`stage2_proof_of_concept.py`). | per-class names in the table below |
 | **3** | Is it useful for a specific purpose (antigen, biofilm)? | *Coccidioides* antigen tool only | purpose-specific predictor |
 
 Consequences for wording:
 - Output of step 1 is a **surface glycoprotein score**. It must not be reported as an
-  "adhesion probability". The CLI still prints `probability_adhesion` and the label `Adhesion`;
-  that wording is wrong and is tracked for change (see the open items in the #9 plan).
+  "adhesion probability". The CLI writes the column `surface_glycoprotein_score` and the
+  label `surface_glycoprotein`. The old column `probability_adhesion` and label `Adhesion` are removed.
 - The `Adhesion` / `Non-adhesion` labels in `data/` mean "FLO/ALS-like surface glycoprotein" versus
   random proteins, not "demonstrated to bind a ligand".
 - This document's Stage 1 (section below) defines the same question but names SignalP/NetGPI as
   the tool. The ESM + LR CLI and a SignalP + GPI call are two implementations of step 1. Their
   agreement has **not been measured**. Until it is, treat them as separate tools.
 
-**Proposed names** (proposal only; no code, CLI, column or package has been renamed):
+**Names (implemented, unreleased):**
 
-| Current | Proposed | Note |
+| Old | Now | Note |
 |---|---|---|
-| `adhesion_predict`, `adhesion_train` | `surface_glyco_predict`, `surface_glyco_train` | keep old entry points as deprecated aliases for one release |
-| column `probability_adhesion`, label `Adhesion` | `surface_glycoprotein_score`, `surface_glycoprotein` | output schema change; needs a version bump |
-| (scripts 02, 14 in `analysis/cocci_repeats/`) | `repeat_adhesin_detect` | class 2a; clade scope stated in the name or help |
-| PF05730, PF04681, PF01185/PF06766 scans | HMM scans, no ML | classes 2b-i, 2b-iii, 2c |
+| `adhesion_predict`, `adhesion_train` | `surface_glyco_predict`, `surface_glyco_train`, `surface_glyco_evaluate` | done; no aliases (decision 4) |
+| column `probability_adhesion`, label `Adhesion` | `surface_glycoprotein_score`, `surface_glycoprotein` | done; output schema change, unreleased |
+| (scripts 02, 14 in `analysis/cocci_repeats/`) | `repeat_adhesin_detect` | not done; class 2a; clade scope stated in the name or help |
+| PF05730, PF04681, PF01185/PF06766 scans | HMM scans, no ML | not done; classes 2b-i, 2b-iii, 2c |
 
-The rename waits for the independent design review, because it changes the CLI, the output
-schema and the model card together.
+The rename of the step 1 CLI, the output schema and the model card is done in one change on the
+branch `surface-glyco-rename`. It is not released. See `CHANGELOG.md`.
 
 ### Stage 1 — general surface/secreted protein (clade-general)
 
@@ -61,7 +61,7 @@ schema and the model card together.
 | tools | SignalP 6.0, NetGPI/PredGPI — **not** a language model |
 | scope | all fungi; these features are universal |
 | status | **works**; currently keyword-derived, should be run directly |
-| known gap | annotation coverage. Only 371 of ~9,910 *C. immitis* RS proteins carry a SignalP call (~4%, vs ~10% expected), and **SOWgp — a known surface antigen — has no call at all**. Stage 1 is the foundation of everything downstream and it is under-called. |
+| known gap | annotation coverage. Only 371 of ~9,910 *C. immitis* RS proteins carry a SignalP call in the keyword-derived database annotation (~4%). A direct SignalP 6 run (`analysis/cocci_repeats/signalp_summary.tsv`) calls 460 of 9,910 (4.6%) and calls SOWgp (gene CIMG_04613) as a signal peptide with probability 0.9998 (`analysis/cocci_repeats/signalp/CimmitisRS_FungiDB/prediction_results.txt`, git-ignored). No truth data show that 4.6% is an under-call. |
 
 This is the one genuinely general tool, and it does not need ML.
 

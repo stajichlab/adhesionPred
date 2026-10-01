@@ -214,7 +214,7 @@ def sowgp_identity(member_seq, seed_seqs):
         a = aln[0].aligned
         ids = 0
         amt = 0
-        for (st, en), (qt, _qe) in zip(a[0], a[1]):
+        for (st, en), (qt, _qe) in zip(a[0], a[1], strict=False):
             ids += sum(1 for i in range(en - st) if member_seq[st + i] == seed[qt + i])
             amt += en - st
         if amt >= 50:

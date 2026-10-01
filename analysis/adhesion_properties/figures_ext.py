@@ -8,7 +8,6 @@ de-emphasized/reference states.
 
 import sys
 from pathlib import Path
-from typing import Optional
 
 import matplotlib
 
@@ -29,7 +28,7 @@ def paired_boxplot_by_rank(
     rank_col: str,
     value_col: str,
     out_path: Path,
-    top_n: Optional[int] = None,
+    top_n: int | None = None,
 ) -> None:
     """Boxplot of value_col by rank_col, adhesion vs. background as paired
     boxes per clade (hue='group'), ordered by adhesion-group median."""
@@ -119,12 +118,14 @@ def top_domain_enrichment_barplot(
 def scatter_feature_vs_probability(
     adhesion_df: pd.DataFrame, feature_col: str, out_path: Path
 ) -> None:
-    """Scatter of feature_col vs. probability_adhesion, adhesion proteins only."""
-    sub = adhesion_df.dropna(subset=[feature_col, "probability_adhesion"])
+    """Scatter of feature_col vs. surface_glycoprotein_score, called proteins only."""
+    sub = adhesion_df.dropna(subset=[feature_col, "surface_glycoprotein_score"])
     fig, ax = plt.subplots(figsize=(7, 6))
-    ax.scatter(sub[feature_col], sub["probability_adhesion"], alpha=0.3, s=10, color=_FULL_COLOR)
+    ax.scatter(
+        sub[feature_col], sub["surface_glycoprotein_score"], alpha=0.3, s=10, color=_FULL_COLOR
+    )
     ax.set_xlabel(feature_col.replace("_", " "))
-    ax.set_ylabel("Adhesion probability")
+    ax.set_ylabel("Surface glycoprotein score")
     fig.tight_layout()
     fig.savefig(out_path, dpi=150)
     plt.close(fig)

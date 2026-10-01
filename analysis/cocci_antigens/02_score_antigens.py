@@ -40,7 +40,7 @@ def read_m8(path, cols=("query", "target", "pident", "qcov")):
         return out
     for line in open(path):
         f = line.rstrip("\n").split("\t")
-        out[f[0]].append(dict(zip(cols, f)))
+        out[f[0]].append(dict(zip(cols, f, strict=False)))
     return out
 
 

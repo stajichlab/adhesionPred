@@ -69,7 +69,7 @@ Points that are easy to get wrong:
 
 | Piece | State |
 |---|---|
-| Step 1: SignalP + GPI + Ser/Thr rule | decided, to build. SignalP under-calls in *Coccidioides* (4% of proteins; SOWgp has no call) |
+| Step 1: SignalP + GPI + Ser/Thr rule | decided, to build. A direct SignalP 6 run calls 460 of 9,910 *C. immitis* RS proteins (4.6%). It calls SOWgp (CIMG_04613) with probability 0.9998. No truth data show whether 4.6% is an under-call. See `docs/TOOL-ARCHITECTURE.md`, Stage 1 |
 | 2a repeat detector | works. Two detectors; `02` reaches 50% recall at ~75% unit identity, `14` at ~35%. Neither supersedes the other. Validated only in Saccharomycotina |
 | 2b-i CFEM (PF05730), 2b-iii Bys1 (PF04681), 2c hydrophobin | HMMs exist. A scan wrapper and a specificity test are missing (for Bys1: the *A. fumigatus* paralogs calB and calC) |
 | 2b-ii Cys-knot (PRA3) | one protein; not a tool |
@@ -84,7 +84,7 @@ Points that are easy to get wrong:
 |---|---|---|
 | 1 | Step 1 is a **rule**: SignalP + GPI anchor + Ser/Thr content. Not an ML model. | The review concluded stage 1 "does not need ML". The ESM model's labels (FLO/ALS vs random) do not define surface glycoproteins. |
 | 2 | The **ESM + LR model is frozen as legacy**. Safety fixes only: card, explicit legacy-pooling flag, refuse on mismatch. No retraining, no tuning. | Step 1 measurement: the scaler barely matters for ESM features (section 5). Keep the embedding code for a possible step 2. |
-| 3 | Step 1 truth set: **curated GO annotation** (SGD/CGD cell wall and GPI-anchored vs cytosolic/nuclear) in S288C and *C. albicans*, plus the curated Onygenales/Eurotiales literature rows. Report per clade. | SignalP cannot check itself. `surface.tsv` labels come from UniProt keywords and share inputs with the rule. The literature rows cover the known Onygenales under-call. |
+| 3 | Step 1 truth set: **curated GO annotation** (SGD/CGD cell wall and GPI-anchored vs cytosolic/nuclear) in S288C and *C. albicans*, plus the curated Onygenales/Eurotiales literature rows. Report per clade. | SignalP cannot check itself. `surface.tsv` labels come from UniProt keywords and share inputs with the rule. The literature rows cover Onygenales and Eurotiales proteins, where SignalP coverage has not been checked against truth data. |
 | 4 | **Breaking rename now, no aliases.** Package `surface_glyco`, holding only the legacy code. Entry points `surface_glyco_predict`, `surface_glyco_train`, `surface_glyco_evaluate`. Column `surface_glycoprotein_score`. Labels `surface_glycoprotein` and `other`. Model files renamed to match. Repo name `adhesionPred` stays. | The old names assert something the tool does not do. |
 | 5 | New tools (step 1 rule, step 2) get **their own packages or modules**. | Each name then matches what it does. |
 | 6 | Accuracy gates: **measure first, then freeze as regression tests.** Report recall, precision and false-positive rate per clade with confidence intervals; the owner reviews; gates are set at or just below the measured values. | No target is guessed in advance. |
@@ -93,10 +93,24 @@ Defaults adopted for the remaining questions in the Fable review (change on requ
 
 1. The legacy threshold stays at 0.5 and is documented as uncalibrated.
 2. Python 3.12 is the canonical version. CI uses CPU only.
-3. Both packaged pickles (8M and 35M) are tracked in one place, `src/surface_glyco/models/`. The duplicate root `models/` copies are dropped.
+3. Both packaged pickles (8M and 35M) are tracked in one place, `src/surface_glyco/models/`. The duplicate root `models/` copies are dropped. Superseded: the pickles are deleted (section 4a).
 4. A sequence present in both classes is dropped from training. This only matters if the legacy model is retrained.
 5. Curated labels may be smoke-test fixtures, not accuracy gates, until expert review.
-6. Old Fungi_5k outputs are frozen and labelled "legacy pooling, 35M".
+6. Old Fungi_5k outputs are frozen and labelled "legacy pooling, 35M". Superseded: the old result files are not read (section 4a).
+
+## 4a. Changes made later on 2026-09-30
+
+| Was | Now | Reason |
+|---|---|---|
+| ESM + LR model frozen as legacy; pickles kept, legacy pooling emulated behind a flag (decision 2) | The old pickles are **deleted**. No legacy mode, no `--allow-legacy-pooling`. | The tool is not in circulation. The emulation of the original padding-inclusive pooling could only be approximate and could not be verified. |
+| Old result files stay readable by downstream code | Old-schema files are **not** read; result discovery uses `*.surface_glyco.csv`. | Not in circulation; the Fungi_5k outputs came from the pre-fix model and are already due for a re-run (#16). |
+| Step 1 is a SignalP + GPI + Ser/Thr rule (decision 1); ESM model only a possible step 2 base | Step 1 is **two candidates**: the rule, and an ESM-based model **retrained on a surface-glycoprotein label** (surface vs non-surface). Both are tested on the same GO truth set (decision 3); rule, ML or hybrid is decided from that comparison. | Owner is open to retraining on the correct target. This also measures the rule-vs-ESM agreement (R3). |
+| 0.2.0 ships with the rename | **0.2.0 is cut when a validated model ships.** The rename and card framework merge to `main` earlier, unreleased. | The package has no useful default model until the new one exists. |
+| Simple retrain on the current labels in 0.2.0 | **Skipped.** | Replaced by the surface-glycoprotein-label model. |
+
+The surface-glycoprotein-label model needs its own spec (positive and negative definitions,
+homology-grouped CV, GO truth set, head-to-head with the rule) and independent review before
+any plan or code.
 
 ## 5. What was measured (step 1 job 29301182, 8M model)
 
@@ -129,9 +143,7 @@ This is new code, so it needs a design spec and an independent review before any
 
 ## 7. Work, in order
 
-1. **Legacy rename and safety fixes.** Touches 46 files: package, tests, `kingdom_survey`, analysis
-   scripts, HPCC scripts, docs. Needs a CHANGELOG entry and a version bump. Existing Fungi_5k CSVs are
-   labelled legacy. Shrinks the #9 plan to the card, the pooling flag, refusal on mismatch, and tests.
+1. **Legacy rename and safety fixes.** In progress (branch `surface-glyco-rename`). The diff touches about 79 files. It covers: the rename, the result schema, the model directory, the result reader and discovery, the card framework, card-driven predict, evaluate and train, and docs. The old pickles are deleted. No HPCC scripts were changed (`run_fungi5k*.sh` are untracked in the primary checkout). Nothing labels the old Fungi_5k CSVs as legacy, and the analysis code no longer reads the old schema. There is no pooling flag and no legacy mode (section 4a, row 1). The CHANGELOG entry exists. No release is cut and no version is bumped until a validated model ships (section 4a).
 2. **GO truth-set extraction** for step 1 (S288C, *C. albicans*), plus the literature rows.
 3. **Step 1 rule and its baseline measurement**, per clade with confidence intervals. Then freeze the gates.
 4. **Orchestrator design spec** and independent review.
@@ -158,7 +170,7 @@ JSON the model card reads. Accuracy results enter a card only through that harne
 | Item | Location |
 |---|---|
 | This plan | `docs/PLAN-2026-09-30-pipeline-and-decisions.md` |
-| Steps and proposed names | `docs/TOOL-ARCHITECTURE.md` section 2.0 |
+| Steps and names (implemented, unreleased) | `docs/TOOL-ARCHITECTURE.md` section 2.0 |
 | #9 plan, with Opus review (section 7) | `docs/plans/2026-09-30-model-bundle-issue-9.md` (branch `issue-9-plan`) |
 | Independent design and test review (Fable) | `docs/plans/2026-09-30-design-review-fable.md` (branch `issue-9-plan`) |
 | Step 1 measurement records | `analysis/model_review/results/step1/` (branch `issue-9-plan`) |

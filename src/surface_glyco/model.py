@@ -8,6 +8,8 @@ from pathlib import Path
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import cross_val_score, train_test_split
 
+from surface_glyco.card import ModelCardError
+
 
 def train_classifier(x, y, test_size=0.2, random_state=42):
     """Train logistic regression classifier on embeddings.
@@ -78,8 +80,27 @@ def load_model_card(model_path):
     path = model_card_path(model_path)
     if not path.exists():
         return None
-    with open(path) as f:
-        return json.load(f)
+    try:
+        with open(path) as f:
+            card = json.load(f)
+    except json.JSONDecodeError as e:
+        raise ModelCardError(f"{path}: not valid JSON ({e})") from e
+    if not isinstance(card, dict):
+        raise ModelCardError(f"{path}: the card must be a JSON object, not {type(card).__name__}")
+    return card
+
+
+def require_model_file(model_path):
+    """Exit 1 with a message on stderr when the model file does not exist."""
+    if not Path(model_path).exists():
+        print(
+            f"Error: model file not found at {model_path}. "
+            "Train one with surface_glyco_train, or pass --model. "
+            "Models written by surface_glyco_train go to ./models by default; "
+            "pass --model ./models/<file> or set SURFACE_GLYCO_MODELS_DIR.",
+            file=sys.stderr,
+        )
+        sys.exit(1)
 
 
 def load_model(model_path):

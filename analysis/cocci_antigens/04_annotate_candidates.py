@@ -59,10 +59,14 @@ def main():
     tm = set(fetch("tmhmm").protein_id.str.replace(".protein", "", regex=False))
     pf = fetch("pfam", "protein_id, pfam_id")
     doms = defaultdict(set)
-    for p, d in zip(pf.protein_id.str.replace(".protein", "", regex=False), pf.pfam_id):
+    for p, d in zip(
+        pf.protein_id.str.replace(".protein", "", regex=False), pf.pfam_id, strict=False
+    ):
         doms[p].add(d)
     lens = fetch("gene_proteins", "protein_id, length")
-    length = dict(zip(lens.protein_id.str.replace(".protein", "", regex=False), lens.length))
+    length = dict(
+        zip(lens.protein_id.str.replace(".protein", "", regex=False), lens.length, strict=False)
+    )
 
     out = []
     for r in rows:

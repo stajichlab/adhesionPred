@@ -217,3 +217,5 @@ functional evidence for any of them. The chytrid label gap recorded in
 - Rosenblum EB, Stajich JE, Maddox N, Eisen MB. 2008. Global gene expression profiles for life stages of the deadly amphibian pathogen *Batrachochytrium dendrobatidis*. *PNAS* 105(44):17034-9. https://doi.org/10.1073/pnas.0804173105
 - Rosenblum EB, Poorten TJ, Joneson S, Settles M. 2012. Substrate-specific gene expression in *Batrachochytrium dendrobatidis*, the chytrid pathogen of amphibians. *Mol Ecol* 21(13):3110-20. https://doi.org/10.1111/j.1365-294X.2012.05481.x
 - No literature found describing VWD-domain proteins in *Batrachochytrium* (searched 2026-09-27).
+
+> These scripts read frozen result files written by `adhesion_predict` 0.1.0 (`*.adhesion_predict.csv`, column `probability_adhesion`) and were not updated.

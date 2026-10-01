@@ -200,7 +200,7 @@ def summarize(calls, out_tsv):
 
     for arm in ARMS:
         d = syn[(syn.arm == arm) & (syn.detected == 1)]
-        v = [period_verdict(p, tp) for p, tp in zip(d.rep_period, d.true_period)]
+        v = [period_verdict(p, tp) for p, tp in zip(d.rep_period, d.true_period, strict=False)]
         n = max(len(v), 1)
         for k in ("exact", "multiple", "divisor", "wrong"):
             lines.append(
@@ -428,7 +428,7 @@ def figure(rec, syn, neg, out_png):
             linewidth=2,
         )
         n_of = {c: int((neg.donor_class == c).sum() / len(ARMS)) for c in kinds}
-        for xi, v, c in zip(x + (k - 1) * w, vals, kinds):
+        for xi, v, c in zip(x + (k - 1) * w, vals, kinds, strict=False):
             a.annotate(
                 f"{round(v * n_of[c] / 100)}/{n_of[c]}",
                 (xi, max(v, 0)),

@@ -3,14 +3,13 @@ requires = ["setuptools>=82.0.1", "wheel", "setuptools-scm"]
 build-backend = "setuptools.build_meta"
 
 # Configuration for CLI scripts
-# Script prefix is defined below as "adhesion_" and is automatically prepended to all script names
-# To change the prefix, update the [project.scripts] section entries
+# Script names carry the "surface_glyco_" prefix; see the [project.scripts] section entries
 
 [project]
-name = "adhesion_predict"
-description = "A bioinformatics package for predicting adhesion proteins using ESM-2 embeddings"
+name = "surface_glyco"
+description = "ESM-2 based scorer for fungal cell-surface glycoproteins"
 readme = "README.md"
-requires-python = ">=3.9"
+requires-python = ">=3.11"
 dependencies = [
     "biopython>=1.85",
     "numpy>=2.0.2",
@@ -19,7 +18,6 @@ dependencies = [
     "scikit-learn",
     "tqdm",
     "torchvision",
-    "importlib-metadata; python_version<'3.8'",
     "scikit-posthocs>=0.7",
     "pandas",
     "scipy",
@@ -34,9 +32,9 @@ license = { file = "LICENSE" }
 dynamic = ["version"]
 
 [project.scripts]
-adhesion_predict = "adhesion_predict.scripts.predict:cli"
-adhesion_train = "adhesion_predict.scripts.train:cli"
-adhesion_evaluate = "adhesion_predict.scripts.evaluate:cli"
+surface_glyco_predict = "surface_glyco.scripts.predict:cli"
+surface_glyco_train = "surface_glyco.scripts.train:cli"
+surface_glyco_evaluate = "surface_glyco.scripts.evaluate:cli"
 
 [project.optional-dependencies]
 dev = [
@@ -59,6 +57,9 @@ line-length = 100
 select = ["E", "F", "W", "I", "N", "UP", "B", "C4"]
 ignore = ["E501", "N803", "N806", "N999"]
 
+[tool.ruff.lint.isort]
+known-first-party = ["surface_glyco"]
+
 [tool.setuptools_scm]
 # Use git tags for versioning
 # Will create versions like: 1.2.3 (if on tag) or 1.2.3.dev4+g1234567 (if after tag)
@@ -70,4 +71,4 @@ where = ["src"]
 
 [tool.setuptools.package-data]
 # Include models directory and all files within it
-"adhesion_predict" = ["models/*"]
+"surface_glyco" = ["models/*"]

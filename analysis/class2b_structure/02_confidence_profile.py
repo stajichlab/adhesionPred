@@ -61,7 +61,7 @@ def read_cif_atoms(path):
             break
         if in_loop:
             f = ln.split()
-            atoms.append(dict(zip(cols, f)))
+            atoms.append(dict(zip(cols, f, strict=False)))
     residues = {}
     for a in atoms:
         rn = int(a["label_seq_id"])

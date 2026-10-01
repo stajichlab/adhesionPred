@@ -37,7 +37,7 @@ def read_tsv(path, cols):
         f = line.rstrip("\n").split("\t")
         if len(f) < len(cols):
             continue
-        out.append(dict(zip(cols, f)))
+        out.append(dict(zip(cols, f, strict=False)))
     return out
 
 

@@ -176,7 +176,7 @@ for rs, ms in loci.items():
         "min_pident": min(float(m["pident"]) for m in ms),
     }
     if v:
-        rec.update({h: round(x, 2) for h, x in zip(header, v)})
+        rec.update({h: round(x, 2) for h, x in zip(header, v, strict=False)})
         myc, s48, s8d = st.mean(v[0:2]), st.mean(v[2:4]), st.mean(v[4:6])
         rec.update(
             mycelia_mean=round(myc, 2),
