@@ -31,6 +31,7 @@ import gzip
 import shutil
 import subprocess
 import sys
+import tempfile
 from collections import Counter
 from pathlib import Path
 
@@ -70,7 +71,7 @@ def mmseqs_version(mmseqs: str) -> str:
         ) from exc
     if done.returncode != 0:
         raise evalio.StopError(
-            f"`{mmseqs} version` exited with {done.returncode} (132 = illegal instruction: an "
+            f"`{mmseqs} version` exited with {done.returncode} (132 or -4 = illegal instruction: an "
             "AVX2 build on a CPU without AVX2; run on partition epyc or set STEP1_MMSEQS to "
             "the non-AVX2 binary)"
         )
@@ -102,6 +103,17 @@ def read_fasta_gz(path: Path) -> dict[str, str]:
 
 
 def run(work: Path, species_path: Path, mmseqs: str, tmp: Path, threads: int, arguments=()):
+    """Run in a fresh directory made inside `tmp`; only that directory is removed (never `tmp`)."""
+    tmp = Path(tmp)
+    tmp.mkdir(parents=True, exist_ok=True)
+    fresh = Path(tempfile.mkdtemp(prefix="splits_", dir=tmp))
+    try:
+        return _run(work, species_path, mmseqs, fresh, threads, arguments)
+    finally:
+        shutil.rmtree(fresh, ignore_errors=True)
+
+
+def _run(work: Path, species_path: Path, mmseqs: str, tmp: Path, threads: int, arguments=()):
     out = evalio.out_dir(work)
     build = evalio.require_current(
         out,
@@ -112,10 +124,6 @@ def run(work: Path, species_path: Path, mmseqs: str, tmp: Path, threads: int, ar
     if manifest.sha256_file(species_path) != build["input_sha256"]["species.tsv"]:
         raise evalio.StopError(f"{species_path} differs from the species.tsv that 08 used")
     version = mmseqs_version(mmseqs)
-    tmp = Path(tmp)
-    if tmp.exists():
-        shutil.rmtree(tmp)
-    tmp.mkdir(parents=True)
     log_path = tmp / "mmseqs.log"
     seqs = read_fasta_gz(out / "eval_sequences.fasta.gz")
     fasta = tmp / "all.fasta"

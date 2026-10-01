@@ -20,6 +20,9 @@ a_test_protein (accession or hash of a test protein), b_cluster_mate (cluster ho
 protein, ruling C-5), c_test_taxon (S2: taxon_id of the test species; S3: taxon in the test
 clade, ruling C-7).
 
+In S1 the guarantee of ruling C-5 comes from assigning T-c rows to the fold of their cluster, so
+rules a and b are expected to remove few or no rows there (b_cluster_mate counts can be 0 in S1).
+
 In S2 and S3 a GO training protein may share a cluster with a test protein: that is homology
 across species, which the maximum-identity stratum measures (ruling C-4). Only S1 folds and
 the T-c rows must not share clusters with the test set.

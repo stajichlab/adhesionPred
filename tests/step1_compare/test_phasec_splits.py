@@ -306,15 +306,139 @@ def _real_mmseqs():
     return exe if ok else None
 
 
+def _plant_homolog(fx, out):
+    """Make one S. pombe test sequence a ~80% identical copy of an S. cerevisiae training one."""
+    import gzip
+
+    table = truth_table.read_tsv(out / "eval_table.tsv.gz")
+    train = next(r["seq_sha256"] for r in table if r["source_ids"] == "Scer_SGD"
+                 and r["class"] == "neg")  # fmt: skip
+    test = next(r["seq_sha256"] for r in table if r["source_ids"] == "Spom_PomBase")
+    path = out / "eval_sequences.fasta.gz"
+    seqs, head = {}, None
+    for line in gzip.decompress(path.read_bytes()).decode().splitlines():
+        if line.startswith(">"):
+            head = line[1:].strip()
+            seqs[head] = ""
+        else:
+            seqs[head] += line.strip()
+    src = seqs[train]
+    seqs[test] = "".join("A" if i % 5 == 4 and c != "A" else c for i, c in enumerate(src))
+    text = "".join(f">{h}\n{q}\n" for h, q in seqs.items())
+    path.write_bytes(gzip.compress(text.encode(), mtime=0))
+    pf.fix_recorded_hash(out / "build_run.json", "eval_sequences.fasta.gz", path)
+
+
 @pytest.mark.skipif(
     _real_mmseqs() is None, reason="needs a working MMseqs2 (module or STEP1_MMSEQS)"
 )
 def test_make_splits_with_real_mmseqs(tmp_path):
     fx = _built(tmp_path)
-    assert _run09(fx, tmp_path, _real_mmseqs()) == 0
     out = fx["work"] / "phasec"
+    _plant_homolog(fx, out)
+    assert _run09(fx, tmp_path, _real_mmseqs()) == 0
     clusters = truth_table.read_tsv(out / "clusters.tsv.gz")
     seqs = pf.gz_lines(out / "eval_sequences.fasta.gz")
     assert len(clusters) == sum(x.startswith(">") for x in seqs)
     run = json.loads((out / "splits_run.json").read_text())
     assert run["mmseqs_version"] and run["clusters"] >= 1
+    ident = [r for r in truth_table.read_tsv(out / "max_identity.tsv.gz") if r["max_identity"]]
+    assert any(0.3 < float(r["max_identity"]) <= 1.0 for r in ident)
+
+
+# --- fix round 1 ---
+
+
+def _wrapper(tmp_path, keep):
+    """A mmseqs wrapper that copies the easy-search FASTA files to `keep`, then runs the stub."""
+    keep.mkdir()
+    wrap = tmp_path / "wrap_mmseqs"
+    wrap.write_text(
+        f'#!/bin/bash\nif [ "$1" = easy-search ]; then cp "$2" "{keep}/$(basename "$2")"; '
+        f'cp "$3" "{keep}/$(basename "$3")"; fi\nexec "{STUB}" "$@"\n'
+    )
+    wrap.chmod(0o755)
+    return wrap
+
+
+def _fasta_ids(path):
+    return {x[1:].strip() for x in path.read_text().splitlines() if x.startswith(">")}
+
+
+def test_search_targets_are_train_part_and_queries_include_literature(tmp_path):
+    fx = _built(tmp_path)
+    keep = tmp_path / "keep"
+    assert _run09(fx, tmp_path, _wrapper(tmp_path, keep)) == 0
+    members = truth_table.read_tsv(fx["work"] / "phasec" / "split_members.tsv.gz")
+    for split_id in ("S2-Calb_CGD", "S3-Eurotiomycetes", "S3-Basidiomycota"):
+        rows = [m for m in members if m["split_id"] == split_id]
+        assert any(m["part"] == "train_tc" for m in rows)  # the fixture has T-c training rows
+        train = {m["seq_sha256"] for m in rows if m["part"] == "train"}
+        query = {m["seq_sha256"] for m in rows if m["part"] in ("test", "test_lit")}
+        assert _fasta_ids(keep / f"{split_id}.t.fasta") == train
+        assert _fasta_ids(keep / f"{split_id}.q.fasta") == query
+    lit = {m["seq_sha256"] for m in members
+           if m["split_id"] == "S3-Eurotiomycetes" and m["part"] == "test_lit"}  # fmt: skip
+    assert lit and lit <= _fasta_ids(keep / "S3-Eurotiomycetes.q.fasta")
+
+
+def test_tc_rule_order_a_before_c_and_literature_accession():
+    table, cluster_of = _toy()
+    row = tc("tcboth", "Q77", "237561", "Saccharomycotina")  # taxon rule c would also match
+    cluster_of.update({"tcboth": "cl_tcboth", "litx": "cl_litx"})
+    lit = [{"seq_sha256": "litx", "origin": "lit", "class": "pos", "gene_ids": "Q77"}]
+    kept, removed = splits.tc_removals([row], lit, cluster_of, frozenset({"237561"}))
+    assert not kept and [rule for _, rule in removed] == ["a_test_protein"]
+    same_taxon = tc("tcboth", "Q78", "237561", "Saccharomycotina")
+    test = [r for r in table if r["source_ids"] == "Calb_CGD"][:1] + [
+        {**go("t1", "pos", "Calb_CGD"), "gene_ids": "Q78"}
+    ]
+    cluster_of["t1"] = "cl_t1"
+    _, removed = splits.tc_removals([same_taxon], test, cluster_of, frozenset({"237561"}))
+    assert [rule for _, rule in removed] == ["a_test_protein"]
+
+
+def test_literature_accession_removes_tc_row_in_build():
+    table, cluster_of = _toy()
+    table.append(tc("tclit", "P1", "330879", "Eurotiomycetes"))
+    cluster_of["tclit"] = "cl_tclit"
+    lit = [{"accession": "P1", "seq_sha256": "lit1", "literature_positive": "yes"}]
+    cluster_of["lit1"] = "cl_lit1"
+    _, removed = _build(table, cluster_of, lit)
+    got = {(r["split_id"], r["rule"]) for r in removed if r["seq_sha256"] == "tclit"}
+    assert ("S3-Eurotiomycetes", "a_test_protein") in got
+
+
+def test_user_files_in_tmp_dir_survive_and_fresh_dir_is_removed(tmp_path):
+    fx = _built(tmp_path)
+    scratch = tmp_path / "scratch"
+    (scratch / "mine").mkdir(parents=True)
+    (scratch / "mine" / "keep.txt").write_text("x")
+    (scratch / "file.txt").write_text("y")
+    assert _run09(fx, tmp_path) == 0
+    assert (scratch / "mine" / "keep.txt").read_text() == "x"
+    assert (scratch / "file.txt").read_text() == "y"
+    assert sorted(p.name for p in scratch.iterdir()) == ["file.txt", "mine"]
+
+
+def test_fresh_dir_is_removed_after_a_failed_command(tmp_path, monkeypatch):
+    fx = _built(tmp_path)
+    scratch = tmp_path / "scratch"
+    scratch.mkdir()
+    (scratch / "file.txt").write_text("y")
+    monkeypatch.setenv("STUB_MMSEQS_FAIL", "easy-search")
+    assert _run09(fx, tmp_path) == 2
+    assert [p.name for p in scratch.iterdir()] == ["file.txt"]
+
+
+@pytest.mark.parametrize("how", ["exit 132", "kill -ILL $$"])
+def test_avx2_message_for_exit_132_and_sigill(tmp_path, capsys, how):
+    fx = _built(tmp_path)
+    bad = tmp_path / "mmseqs_bad"
+    bad.write_text(f"#!/bin/bash\n{how}\n")
+    bad.chmod(0o755)
+    assert _run09(fx, tmp_path, bad) == 2
+    err = capsys.readouterr().err
+    assert "AVX2" in err and "132 or -4" in err
+    code = "132" if how == "exit 132" else "-4"
+    assert f"exited with {code}" in err
