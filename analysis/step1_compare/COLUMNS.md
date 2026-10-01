@@ -224,10 +224,26 @@ The unique sequences as FASTA, in `row` order. The header is the `seq_sha256`. J
 
 ## prepare_run.json (05_prepare_sequences.py)
 
-Keys: `inputs` (per set: `file`, `sha256`, `members`, `empty_records`), `members`,
-`unique_sequences`, `unique_residues`, `over_max_residues`, `all_sources` (`true` when
-`sequence_run.json` and `keyword_tier_run.json` both say `all_sources: true`), `git_commit`,
-`python`, `arguments`. No time stamp.
+**Keys:**
+
+- `inputs` per set, see below
+- `members`
+- `unique_sequences`
+- `unique_residues`
+- `over_max_residues` unique sequences longer than 1,022 aa
+- `all_sources` `true` when `sequence_run.json` and `keyword_tier_run.json` both say `all_sources: true`
+- `git_commit`
+- `python`
+- `arguments`
+
+**Keys of each `inputs` object:**
+
+- `file`
+- `sha256`
+- `members`
+- `empty_records`
+
+No time stamp.
 
 ## chunk_plan.tsv (06_plan_embedding.py, one row per embedding chunk)
 
@@ -250,32 +266,111 @@ Keys: `inputs` (per set: `file`, `sha256`, `members`, `empty_records`), `members
 
 ## job_plan.json (06_plan_embedding.py)
 
-Keys: `models`, `rates_residues_per_s` and `model_load_s` and `batch_size` (each per model),
-`chunk_residues`, `chunks`, `residues_per_model`, `unique_sequences`, `total_seconds`,
-`n_jobs`, `seconds_per_job`, `longest_job_seconds`, `time_minutes`, `rate_source` (`J0` or
-`assumed`), `throughput_sha256` (empty when `assumed`), `unique_sequences_sha256`,
-`git_commit`, `python`, `arguments`. With `rate_source` `J0` the file also has
-`j0_sample_sha256`, `j0_device` and `j0_gpu_name`. The formula is in the docstring of
-`chunk_plan.py`.
+**Keys:**
+
+- `models`
+- `rates_residues_per_s` per model
+- `model_load_s` per model
+- `batch_size` per model
+- `chunk_residues`
+- `chunks`
+- `residues_per_model`
+- `unique_sequences`
+- `total_seconds`
+- `n_jobs`
+- `seconds_per_job`
+- `longest_job_seconds`
+- `time_minutes`
+- `rate_source` `J0` or `assumed`
+- `throughput_sha256` empty when `rate_source` is `assumed`
+- `unique_sequences_sha256`
+- `git_commit`
+- `python`
+- `arguments`
+
+**Keys added when `rate_source` is `J0`:**
+
+- `j0_sample_sha256`
+- `j0_device`
+- `j0_gpu_name`
+
+The formula is in the docstring of `chunk_plan.py`.
 
 ## j0/throughput.json (jobs/throughput_pilot.py, J0)
 
-Keys: `schema` (`step1-phaseb-j0-throughput/2`), `device`, `gpu_name`, `torch`, `torch_cuda`,
-`esm`, `n_proteins`, `residues`, `seed`, `sample_sha256`, `truth_sequences_sha256`,
-`batch_sizes`, `model_load_s` (per model), `runs`, `best`, `git_commit`, `python`.
-Each object in `runs` (one per model and batch size) has `model`, `batch_size`,
-`batch_failures` (batches that `get_esm_embeddings` retried one sequence at a time, for example
-after out of memory), `status` (`ok`, `batch_failures`, or `skipped_<n>`), `seconds`,
-`proteins_per_s`, `residues_per_s`, `peak_mem_bytes` and `dim`. `best` holds, per model, the
-`ok` run with the highest `residues_per_s` (keys `batch_size`, `residues_per_s`,
-`proteins_per_s`, `seconds`).
+**Keys:**
+
+- `schema` `step1-phaseb-j0-throughput/2`
+- `device`
+- `gpu_name`
+- `torch`
+- `torch_cuda`
+- `esm`
+- `n_proteins`
+- `residues`
+- `seed`
+- `sample_sha256`
+- `truth_sequences_sha256`
+- `batch_sizes`
+- `model_load_s` per model
+- `runs` one object per model and batch size
+- `best` per model
+- `git_commit`
+- `python`
+
+**Keys of each `runs` object with status `ok`:**
+
+- `model`
+- `batch_size`
+- `batch_failures` batches that `get_esm_embeddings` retried one sequence at a time, for example after out of memory
+- `status` `ok`, `batch_failures`, or `skipped_<n>`
+- `seconds`
+- `proteins_per_s`
+- `residues_per_s`
+- `peak_mem_bytes` `null` on CPU
+- `dim`
+
+A run with status `skipped_<n>` has only `model`, `batch_size`, `batch_failures` and `status`.
+
+**Keys of each `best` object:**
+
+- `batch_size`
+- `residues_per_s`
+- `proteins_per_s`
+- `seconds`
+
+`best` holds, per model, the `ok` run with the highest `residues_per_s`.
 
 ## j0/gpu_cpu_diff.json (jobs/gpu_cpu_diff.py, J0)
 
-Keys: `schema` (`step1-phaseb-gpu-cpu-diff/1`), `device_a`, `device_b`, `gpu_name`, `torch`,
-`n_windows`, `windows_sha256`, `batch_size`, `models` (per model: `max_abs_diff`,
-`mean_abs_diff`, `max_rel_diff`, `min_cosine`, `repeat_identical_on_a`,
-`repeat_max_abs_diff_on_a`), `git_commit`. No threshold is applied.
+**Keys:**
+
+- `schema` `step1-phaseb-gpu-cpu-diff/1`
+- `device_a`
+- `device_b`
+- `gpu_name`
+- `torch`
+- `n_windows`
+- `windows_sha256`
+- `batch_size`
+- `models` per model, see below
+- `git_commit`
+
+**Keys of each `models` object:**
+
+- `max_abs_diff`
+- `mean_abs_diff`
+- `max_rel_diff`
+- `min_cosine`
+- `repeat_identical_on_a`
+- `repeat_max_abs_diff_on_a`
+
+No threshold is applied.
+
+## j0/nvidia_smi.csv (jobs/j0_pilot.sh, J0)
+
+Output of `nvidia-smi --query-gpu=name,driver_version,memory.total --format=csv` on the J0 node:
+one header line and one line per GPU. It records the GPU and driver that J0 measured.
 
 ## signalp/part_NNN/ (jobs/j1_features.sh, J1)
 
@@ -285,10 +380,18 @@ SignalP 6 output for one part of `unique_sequences.fasta.gz`: `prediction_result
 
 ## predgpi/part_NNN.tsv.gz (jobs/j1_features.sh, J1)
 
-`jobs/predgpi_scores.py` output for one part: columns `id` (seq_sha256), `length`, `gpi_call`
-(`highly_probable`, `probable`, `weakly`, `none`, `too_short` for 40 aa or less), `gpi_prob`
-(the PredGPI CLI score: 1.0, 0.70, 0.55, or 0), `omega` (omega site, GPI calls only), `fpr`
-(PredGPI estimated false positive rate; lower is more GPI-like), `svm` (SVM output).
+`jobs/predgpi_scores.py` output for one part, one row per sequence.
+
+| Column | Meaning |
+|---|---|
+| id | The `seq_sha256`. |
+| length | Sequence length. |
+| gpi_call | `highly_probable`, `probable`, `weakly`, `none`, or `too_short` (40 aa or less). |
+| gpi_prob | The PredGPI CLI score: 1.0, 0.70, 0.55, or 0. |
+| omega | Omega site (GPI calls only). |
+| fpr | PredGPI estimated false positive rate. Lower is more GPI-like. |
+| svm | SVM output. |
+
 `part_NNN.input.sha256` holds the SHA-256 of the part FASTA.
 
 ## features_unique.tsv.gz (07_build_features.py, one row per unique sequence)
@@ -328,21 +431,49 @@ SignalP 6 output for one part of `unique_sequences.fasta.gz`: `prediction_result
 
 ## features_run.json (07_build_features.py)
 
-Keys: `tool_outputs_sha256` (per J1 file, key = path under `phaseb/`), `truth_set_sha256`
-(the hash that `d8_run.json` and `sequence_run.json` share), `input_sha256`
-(`truth_set_triaged.tsv.gz`, `sequence_members.tsv.gz`, `unique_sequences.tsv.gz`),
-`unique_sequences`, `members`, `missing_signalp`, `missing_predgpi`, `sp_predictions` and
-`gpi_calls` (counts), `all_sources` (`true` when `d8_run.json` and `prepare_run.json` say
-`all_sources: true`), `git_commit`, `python`, `arguments`. Script 07 reads `sequence_run.json`
-and `d8_run.json` and stops if their `truth_set_sha256` values differ.
+**Keys:**
+
+- `tool_outputs_sha256` per J1 file, key = path under `phaseb/`
+- `truth_set_sha256` the hash that `d8_run.json` and `sequence_run.json` share
+- `input_sha256` see below
+- `unique_sequences`
+- `members`
+- `missing_signalp`
+- `missing_predgpi`
+- `sp_predictions` counts
+- `gpi_calls` counts
+- `all_sources` `true` when `d8_run.json` and `prepare_run.json` say `all_sources: true`
+- `git_commit`
+- `python`
+- `arguments`
+
+**Keys of `input_sha256`:**
+
+- `truth_set_triaged.tsv.gz`
+- `sequence_members.tsv.gz`
+- `unique_sequences.tsv.gz`
+
+Script 07 reads `sequence_run.json` and `d8_run.json`. It stops if their `truth_set_sha256` values differ. Script 07 does not need J2 or the assembly step.
 
 ## emb/<model>/<chunk_id>.npy (jobs/embed_chunks.py, J2)
 
 float32 array, one row per chunk member in `chunk_members.tsv.gz` order, ESM-2 layer 6,
 mean over residue tokens (`surface_glyco.embeddings.get_esm_embeddings`). The sidecar
-`<chunk_id>.json` is the done marker: `chunk_id`, `model`, `window`, `members_sha256`,
-`repr_layer`, `batch_size`, `device`, `seconds`, `shape`, `dtype`, `array_sha256` (SHA-256 of
-the raw array bytes).
+`<chunk_id>.json` is the done marker.
+
+**Keys of the sidecar:**
+
+- `window`
+- `members_sha256`
+- `repr_layer`
+- `batch_size`
+- `device`
+- `seconds`
+- `chunk_id`
+- `model`
+- `shape`
+- `dtype`
+- `array_sha256` SHA-256 of the raw array bytes
 
 ## emb/<model>.nterm.npy (jobs/assemble_embeddings.py)
 
@@ -361,5 +492,18 @@ dim is 320 for `esm2_t6_8M_UR50D` and 480 for `esm2_t12_35M_UR50D`.
 
 ## emb/embedding_run.json (jobs/assemble_embeddings.py)
 
-Keys: `models` (per model and window: `shape`, `dtype`, `array_sha256`), `unique_sequences`,
-`chunks`, `unique_sequences_sha256`, `chunk_plan_sha256`, `git_commit`, `python`.
+**Keys:**
+
+- `models` per model and window, see below
+- `unique_sequences`
+- `chunks`
+- `unique_sequences_sha256`
+- `chunk_plan_sha256`
+- `git_commit`
+- `python`
+
+**Keys of each window object in `models`:**
+
+- `shape`
+- `dtype`
+- `array_sha256`

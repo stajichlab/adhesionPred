@@ -233,6 +233,30 @@ lists every Phase B output. All Phase B outputs go to `$STEP1_WORKDIR/phaseb/`.
 | 07 | login node | `$PY 07_build_features.py` | `features.tsv.gz`, `feature_coverage.tsv` |
 | assemble | login node | `$ENV_PY jobs/assemble_embeddings.py` | `emb/<model>.nterm.npy`, `.cterm.npy` |
 
+Variables used in the commands below (set them in the shell that runs the commands):
+
+```bash
+export PROJ_ROOT=/bigdata/stajichlab/jstajich/projects/adhesionPred-feat   # the checkout
+export STEP1_WORKDIR=/bigdata/stajichlab/jstajich/projects/adhesionPred/_workdir/step1_compare
+PY=/usr/bin/python3.12
+ENV_PY=/rhome/jstajich/.conda/envs/adhesionPred/bin/python
+S1=$PROJ_ROOT/analysis/step1_compare
+LOG=$STEP1_WORKDIR/logs
+mkdir -p "$LOG"
+cd "$S1"
+```
+
+Full `sbatch` lines for J0 and J1:
+
+```bash
+sbatch --export=ALL,PROJ_ROOT="$PROJ_ROOT",STEP1_WORKDIR="$STEP1_WORKDIR" \
+  -o "$LOG/j0.%j.log" -e "$LOG/j0.%j.log" "$S1/jobs/j0_pilot.sh"
+sbatch --export=ALL,PROJ_ROOT="$PROJ_ROOT",STEP1_WORKDIR="$STEP1_WORKDIR" \
+  -o "$LOG/j1.%j.log" -e "$LOG/j1.%j.log" "$S1/jobs/j1_features.sh"
+```
+
+J2 needs two more arguments (see "Rules for the jobs").
+
 - The `jobs/` Python scripts run with the conda env Python
   (`/rhome/jstajich/.conda/envs/adhesionPred/bin/python`) and
   `PYTHONPATH=$PROJ_ROOT/src:$PROJ_ROOT/analysis/step1_compare:$PROJ_ROOT/analysis/step1_compare/jobs`.
@@ -242,6 +266,7 @@ lists every Phase B output. All Phase B outputs go to `$STEP1_WORKDIR/phaseb/`.
   `chunk_plan.py`). `06_plan_embedding.py --rate` makes a dry plan from an assumed rate and
   records `rate_source: assumed`.
 - J1 and J2 resume: a finished part or chunk is skipped after its hash is checked.
+- 07 does not need J2 or assemble.
 - Script 07 reads `sequence_run.json` and `d8_run.json`. It stops if their `truth_set_sha256`
   values differ. Re-run 02, 03 and 05 on the same truth set.
 - Embedding tests need torch and fair-esm:
@@ -254,7 +279,9 @@ lists every Phase B output. All Phase B outputs go to `$STEP1_WORKDIR/phaseb/`.
   stops if the J0 record has a device other than `cuda`. It also stops if the best rate of a
   model is below 1,000 residues/s (`MIN_RATE` in `06_plan_embedding.py`): such a rate means a
   CPU or failed run.
-- J0 copies each result to `phaseb/j0/` as soon as it exists. If the job fails or times out
+- J0 writes `phaseb/j0/throughput.json`, `phaseb/j0/gpu_cpu_diff.json` and
+  `phaseb/j0/nvidia_smi.csv` (GPU name, driver and memory of the J0 node; see `COLUMNS.md`).
+  It copies each result to `phaseb/j0/` as soon as it exists. If the job fails or times out
   after the throughput step, `throughput.json` is kept.
 - J1 splits the FASTA into `J1_PARTS` parts (default 8). If you change `J1_PARTS`, delete
   `phaseb/signalp` and `phaseb/predgpi` first. Old parts have other members. Script 07 stops

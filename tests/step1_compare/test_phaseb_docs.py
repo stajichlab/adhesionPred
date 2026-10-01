@@ -1,4 +1,11 @@
-"""COLUMNS.md and README.md document the Phase B outputs as the code writes them."""
+"""COLUMNS.md and README.md document the Phase B outputs exactly as the code writes them.
+
+Table sections: the SET of names in the first cell of each table row must equal the code
+tuple (rows that say "As in X" still list their names, so the set is complete; a stale name
+fails too). Key sections: the bullet list after a marker such as `**Keys:**` must equal the set
+of keys in a real output. The text after the first back-ticked name of a bullet is free (it
+holds value tokens such as a schema string) and is never read as a key.
+"""
 
 import json
 import re
@@ -6,26 +13,53 @@ import re
 import chunk_plan
 import paths
 import pytest
+import seqsets
 from conftest import load_script
+from test_chunk_plan import _j0, _plan_inputs, _write_j0
 from test_phaseb_features import _work
+from test_phaseb_prepare import _phaseb_inputs
 
 COLUMNS = (paths.STEP1_DIR / "COLUMNS.md").read_text()
 README = (paths.STEP1_DIR / "README.md").read_text()
 JOBS = paths.STEP1_DIR / "jobs"
+KEYS = "**Keys:**"
 
 
-def _section(heading: str) -> str:
+def section(heading: str, text: str = COLUMNS) -> str:
     """Text of the COLUMNS.md section whose heading starts with `heading`."""
-    parts = re.split(r"^## ", COLUMNS, flags=re.M)
+    parts = re.split(r"^## ", text, flags=re.M)
     hit = [p for p in parts[1:] if p.split()[0] == heading]
     assert len(hit) == 1, f"COLUMNS.md needs exactly one heading {heading}"
     return hit[0]
 
 
-def _check_names(heading: str, names) -> None:
-    text = _section(heading)
-    missing = [n for n in names if f"`{n}`" not in text and not re.search(rf"\b{n}\b", text)]
-    assert not missing, f"section {heading} does not name {missing}"
+def table_names(heading: str, text: str = COLUMNS) -> set[str]:
+    """Column names in the first cell of every table row of the section."""
+    names: list[str] = []
+    rows = [ln for ln in section(heading, text).splitlines() if ln.startswith("|")]
+    assert len(rows) > 2, f"section {heading} has no table"
+    for line in rows[2:]:  # skip the header row and the |---| row
+        cell = line.strip("|").split("|")[0]
+        names += [n.strip().strip("`").strip() for n in cell.split(",") if n.strip()]
+    assert len(names) == len(set(names)), f"section {heading} names a column twice"
+    return set(names)
+
+
+def key_names(heading: str, marker: str = KEYS, text: str = COLUMNS) -> set[str]:
+    """Names in the bullet list that follows `marker` in the section."""
+    lines = section(heading, text).splitlines()
+    assert marker in lines, f"section {heading} has no line {marker!r}"
+    names: list[str] = []
+    for line in lines[lines.index(marker) + 1 :]:
+        if not line.strip():
+            if names:
+                break
+            continue
+        match = re.match(r"- `([^`]+)`", line)
+        assert match, f"section {heading}: {line!r} is not a bullet that starts with a key"
+        names.append(match.group(1))
+    assert names and len(names) == len(set(names)), f"section {heading}: empty or duplicate list"
+    return set(names)
 
 
 def test_phaseb_outputs_have_columns_md_headings():
@@ -35,6 +69,7 @@ def test_phaseb_outputs_have_columns_md_headings():
     names += [
         "j0/throughput.json",
         "j0/gpu_cpu_diff.json",
+        "j0/nvidia_smi.csv",
         "signalp/part_NNN/",
         "predgpi/part_NNN.tsv.gz",
         "emb/<model>/<chunk_id>.npy",
@@ -47,66 +82,98 @@ def test_phaseb_outputs_have_columns_md_headings():
     assert not missing, f"COLUMNS.md has no heading for {missing}"
 
 
-def test_header_constants_are_documented():
-    pytest.importorskip("numpy")
-    import assemble_embeddings
+def test_table_columns_equal_the_code_constants():
     import predgpi_scores
-    import seqsets
 
     f07 = load_script("07_build_features")
-    _check_names("sequence_members.tsv.gz", seqsets.MEMBER_COLUMNS)
-    _check_names("unique_sequences.tsv.gz", seqsets.UNIQUE_COLUMNS)
-    _check_names("chunk_plan.tsv", chunk_plan.PLAN_COLUMNS)
-    _check_names("chunk_members.tsv.gz", chunk_plan.MEMBER_COLUMNS)
-    _check_names("predgpi/part_NNN.tsv.gz", predgpi_scores.COLUMNS)
-    _check_names("features_unique.tsv.gz", f07.UNIQUE_FEATURE_COLUMNS)
-    _check_names("features.tsv.gz", f07.MEMBER_FEATURE_COLUMNS)
-    _check_names("feature_coverage.tsv", f07.COVERAGE_COLUMNS)
-    _check_names("emb/chunk_manifest.tsv", assemble_embeddings.MANIFEST_COLUMNS)
+    expected = {
+        "sequence_members.tsv.gz": seqsets.MEMBER_COLUMNS,
+        "unique_sequences.tsv.gz": seqsets.UNIQUE_COLUMNS,
+        "chunk_plan.tsv": chunk_plan.PLAN_COLUMNS,
+        "chunk_members.tsv.gz": chunk_plan.MEMBER_COLUMNS,
+        "predgpi/part_NNN.tsv.gz": predgpi_scores.COLUMNS,
+        "features_unique.tsv.gz": f07.UNIQUE_FEATURE_COLUMNS,
+        "features.tsv.gz": f07.MEMBER_FEATURE_COLUMNS,
+        "feature_coverage.tsv": f07.COVERAGE_COLUMNS,
+    }
+    for heading, columns in expected.items():
+        assert table_names(heading) == set(columns), heading
 
 
-def test_json_keys_are_documented(tmp_path, fixtures_dir):
+def test_chunk_manifest_columns_equal_the_code_constant():
+    pytest.importorskip("numpy")
+    import assemble_embeddings
+
+    got = table_names("emb/chunk_manifest.tsv")
+    assert got == set(assemble_embeddings.MANIFEST_COLUMNS)
+
+
+def test_features_run_keys_equal_the_code(tmp_path, fixtures_dir):
     f07 = load_script("07_build_features")
     work, out = _work(tmp_path, fixtures_dir)
     assert f07.main(["--work-dir", str(work)]) == 0
     log = json.loads((out / "features_run.json").read_text())
-    _check_names("features_run.json", log)
-    _check_names("features_run.json", log["input_sha256"])
+    assert key_names("features_run.json") == set(log)
+    assert key_names("features_run.json", "**Keys of `input_sha256`:**") == set(log["input_sha256"])
+
+
+def test_prepare_run_keys_equal_the_code(tmp_path, monkeypatch):
+    work, downloads, site, sets_path = _phaseb_inputs(tmp_path)
+    prepare = load_script("05_prepare_sequences")
+    monkeypatch.setattr(prepare.paths, "site_value", lambda key: str(site))
+    argv = ["--sets", str(sets_path), "--work-dir", str(work), "--input-dir", str(downloads)]
+    assert prepare.main(argv) == 0
+    log = json.loads((work / "phaseb" / "prepare_run.json").read_text())
+    assert key_names("prepare_run.json") == set(log)
+    one = next(iter(log["inputs"].values()))
+    assert key_names("prepare_run.json", "**Keys of each `inputs` object:**") == set(one)
+
+
+def test_job_plan_keys_equal_the_code_for_both_rate_sources(tmp_path):
+    plan06 = load_script("06_plan_embedding")
+    out, _ = _plan_inputs(tmp_path / "assumed", [50, 400, 1100, 1300, 900])
+    assert plan06.main(["--work-dir", str(out.parent), "--rate", "2000"]) == 0
+    assumed = json.loads((out / "job_plan.json").read_text())
+    assert assumed["rate_source"] == "assumed"
+    base = key_names("job_plan.json")
+    assert base == set(assumed)
+
+    out, _ = _plan_inputs(tmp_path / "j0", [50, 400, 1100, 1300, 900])
+    _write_j0(out, _j0())
+    assert plan06.main(["--work-dir", str(out.parent), "--chunk-residues", "1000"]) == 0
+    from_j0 = json.loads((out / "job_plan.json").read_text())
+    assert from_j0["rate_source"] == "J0"
+    added = key_names("job_plan.json", "**Keys added when `rate_source` is `J0`:**")
+    assert base | added == set(from_j0)
+    assert not base & added
+
+
+def test_plan_jobs_keys_are_in_the_documented_job_plan():
     plan = chunk_plan.plan_jobs({"m": 1000.0}, {"m": 1.0}, 5000, [5000])
-    _check_names("job_plan.json", plan)
+    assert set(plan) <= key_names("job_plan.json")
 
 
-def test_j0_json_keys_are_documented():
-    pytest.importorskip("torch")
-    import gpu_cpu_diff
-    import throughput_pilot
+# --- parser self-tests: a stale or missing name must make the comparison fail ---
 
-    for module, heading in (
-        (throughput_pilot, "j0/throughput.json"),
-        (gpu_cpu_diff, "j0/gpu_cpu_diff.json"),
-    ):
-        assert f"`{module.SCHEMA}`" in _section(heading)
-    best = throughput_pilot.best_runs(
-        [
-            {
-                "model": "m",
-                "status": "ok",
-                "batch_size": 8,
-                "residues_per_s": 5.0,
-                "proteins_per_s": 1.0,
-                "seconds": 1.0,
-            }
-        ]
+
+def test_table_parser_sees_a_missing_row_and_a_stale_name():
+    text = COLUMNS
+    row = next(ln for ln in text.splitlines() if ln.startswith("| residues |"))
+    assert "residues" not in table_names("chunk_plan.tsv", text.replace(row + "\n", ""))
+    stale = text.replace(row, row + "\n| old_column | Gone. |")
+    assert table_names("chunk_plan.tsv", stale) != set(chunk_plan.PLAN_COLUMNS)
+    assert table_names("chunk_plan.tsv") == set(chunk_plan.PLAN_COLUMNS)
+
+
+def test_key_parser_sees_a_missing_key_and_an_extra_key():
+    line = next(ln for ln in COLUMNS.splitlines() if ln.startswith("- `longest_job_seconds`"))
+    got = key_names("job_plan.json")
+    assert "longest_job_seconds" in got
+    assert "longest_job_seconds" not in key_names(
+        "job_plan.json", text=COLUMNS.replace(line + "\n", "")
     )
-    _check_names("j0/throughput.json", best["m"])
-
-
-def test_sidecar_keys_are_documented():
-    text = (JOBS / "embed_chunks.py").read_text()
-    block = text[text.index("meta = {") :].split("}", 1)[0]
-    keys = re.findall(r'"([a-z_0-9]+)":', block)
-    assert "repr_layer" in keys
-    _check_names("emb/<model>/<chunk_id>.npy", keys + ["chunk_id", "model", "shape", "dtype"])
+    extra = COLUMNS.replace(line, line + "\n- `not_written_by_the_code`")
+    assert "not_written_by_the_code" in key_names("job_plan.json", text=extra)
 
 
 def test_readme_job_rules_match_the_code():
@@ -118,6 +185,24 @@ def test_readme_job_rules_match_the_code():
     assert "--array=0-<n_jobs-1>" in README and "--time=<time_minutes>" in README
     assert "--device cuda" in (JOBS / "j0_pilot.sh").read_text()
     assert "sequence_run.json" in README and "d8_run.json" in README
+    assert "07 does not need J2 or assemble." in README
+
+
+def test_readme_has_sbatch_examples_and_defines_env_py():
+    assert "ENV_PY=/rhome/jstajich/.conda/envs/adhesionPred/bin/python" in README
+    assert "PY=/usr/bin/python3.12" in README
+    for job in ("j0_pilot.sh", "j1_features.sh"):
+        assert f'"$S1/jobs/{job}"' in README
+    assert README.count('--export=ALL,PROJ_ROOT="$PROJ_ROOT",STEP1_WORKDIR="$STEP1_WORKDIR"') >= 2
+    assert "export PROJ_ROOT=" in README and "export STEP1_WORKDIR=" in README
+
+
+def test_nvidia_smi_csv_is_documented_as_the_script_writes_it():
+    text = (JOBS / "j0_pilot.sh").read_text()
+    query = "nvidia-smi --query-gpu=name,driver_version,memory.total --format=csv"
+    assert query in text and "nvidia_smi.csv" in text
+    assert f"`{query}`" in section("j0/nvidia_smi.csv")
+    assert "phaseb/j0/nvidia_smi.csv" in README
 
 
 @pytest.mark.parametrize("script", sorted(p.name for p in JOBS.glob("*.sh")))
