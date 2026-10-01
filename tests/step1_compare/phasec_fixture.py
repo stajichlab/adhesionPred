@@ -217,6 +217,9 @@ def make_work(root: Path, seed: int = 7) -> dict:
     # literature seeds: an adhesin, a hard_negative, a moonlighting row, a row without accession
     lit_seqs = {"P90001": _seq(rng, 300, 0.35), "P90002": _seq(rng, 250, 0.30),
                 "P90003": _seq(rng, 500, 0.08)}  # fmt: skip
+    # LIT2 has the sequence of an A. fumigatus GO gene: one hash is a `test` and a `test_lit` row
+    lit_seqs["P90002"] = seqs[next(m["seq_sha256"] for m in members if m["gene_id"] == "AFUM0007")]
+    named["LIT_AND_GO"] = seqhash.seq_sha256(lit_seqs["P90002"])
     for acc, seq in lit_seqs.items():
         add_member("uniprot_kw", "uniprot_kw", acc, seq, "pos" if acc != "P90003" else "nint")
     seeds = root / "seeds.tsv"

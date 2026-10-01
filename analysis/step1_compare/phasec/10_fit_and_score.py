@@ -17,8 +17,13 @@ Writes to $STEP1_WORKDIR/phasec/:
   scores_run.json  fitted settings per unit and candidate (C, g, t, threshold, Platt a and b,
                    H variant, inner PR-AUC), seed, input hashes, library versions
 
-STOP (exit 2, no output): stale 08 or 09 outputs; changed Phase B files; an outer training set
-that cannot be fitted (for example fewer than 3 positive clusters).
+A hash that is in two scored parts of one unit (for example a GO `test` row and a `test_lit`
+row with the same sequence) is scored once; its `part` lists the parts, sorted and joined with
+a comma (`test,test_lit`). Readers that index by hash ignore `part`.
+
+STOP (exit 2, no output): stale 08 or 09 outputs; a 09 run made from other 08 outputs than
+build_run.json records; changed Phase B files; an outer training set that cannot be fitted (for
+example fewer than 3 positive clusters); a missing key in an input or run file.
 """
 
 import argparse
@@ -26,7 +31,7 @@ import gzip
 import io
 import multiprocessing
 import sys
-from concurrent.futures import ProcessPoolExecutor
+from concurrent.futures import FIRST_EXCEPTION, ProcessPoolExecutor, wait
 from pathlib import Path
 
 import evalio
@@ -50,6 +55,7 @@ SCORE_COLUMNS = (
     "call",
 )
 SCORED_PARTS = ("test", "test_tc", "test_lit")
+CLUSTERS = "clusters.tsv.gz"
 
 
 def unit_order(members, splits_order) -> list[tuple[str, str]]:
@@ -58,8 +64,12 @@ def unit_order(members, splits_order) -> list[tuple[str, str]]:
     return sorted(keys, key=lambda k: (rank[k[0]], int(k[1])))
 
 
-def tasks(members, splits_order, all_hashes, candidates) -> list[dict]:
-    """One task per (split, fold, variant). Only training rows carry labels into a task."""
+def tasks(members, splits_order, all_hashes, candidates, clusters=None) -> list[dict]:
+    """One task per (split, fold, variant). Only training rows carry labels into a task.
+
+    `clusters` (hash -> cluster_id from clusters.tsv.gz), when given, must agree with the
+    cluster ids of the members. A training hash that is also scored stops the run, except in
+    FULL, which scores every sequence."""
     by_unit: dict[tuple, list] = {}
     for m in members:
         by_unit.setdefault((m["split_id"], m["fold"]), []).append(m)
@@ -70,16 +80,31 @@ def tasks(members, splits_order, all_hashes, candidates) -> list[dict]:
             score, parts = list(all_hashes), {}
         else:
             scored = [m for m in rows if m["part"] in SCORED_PARTS]
-            score = [m["seq_sha256"] for m in scored]
-            parts = {m["seq_sha256"]: m["part"] for m in scored}
+            found: dict[str, set] = {}
+            for m in scored:
+                found.setdefault(m["seq_sha256"], set()).add(m["part"])
+            score = list(found)  # one entry per hash, in member order
+            parts = {h: ",".join(sorted(p)) for h, p in found.items()}
         for variant in evalio.VARIANTS:
             use = ("train", "train_tc") if variant == "V-kw" else ("train",)
             train = [m for m in rows if m["part"] in use]
             bad = [m for m in train if m["class"] not in ("pos", "neg")]
             if bad:
                 raise evalio.StopError(
-                    f"{key}: training row {bad[0]['seq_sha256']} has class {bad[0]['class']}"
+                    f"{key[0]}|{key[1]}: training row {bad[0]['seq_sha256']} has class {bad[0]['class']}"
                 )
+            if clusters is not None:
+                wrong = [m for m in train if clusters.get(m["seq_sha256"]) != m["cluster_id"]]
+                if wrong:
+                    raise evalio.StopError(
+                        f"{key[0]}|{key[1]}: cluster_id of {wrong[0]['seq_sha256']} differs from clusters.tsv.gz"
+                    )
+            if key[0] != "FULL":
+                shared = {m["seq_sha256"] for m in train} & set(score)
+                if shared:
+                    raise evalio.StopError(
+                        f"{key[0]}|{key[1]}: {len(shared)} sequences are in training and scored parts"
+                    )
             out.append(
                 {
                     "key": f"{key[0]}|{key[1]}|{variant}",
@@ -105,7 +130,13 @@ def run_tasks(task_list, u, workers: int, phaseb: Path):
     with ProcessPoolExecutor(
         max_workers=workers, mp_context=ctx, initializer=models.init_worker, initargs=(str(phaseb),)
     ) as pool:
-        return list(pool.map(models.run_task, task_list))
+        futures = [pool.submit(models.run_task, t) for t in task_list]
+        wait(futures, return_when=FIRST_EXCEPTION)
+        failed = [f for f in futures if f.done() and not f.cancelled() and f.exception()]
+        if failed:
+            pool.shutdown(wait=True, cancel_futures=True)  # do not start the other units
+            raise failed[0].exception()
+        return [f.result() for f in futures]
 
 
 def _fmt(x) -> str:
@@ -118,7 +149,8 @@ def write_scores(path: Path, task_list, results) -> None:
         text = io.TextIOWrapper(gz, encoding="utf-8", newline="")
         text.write("\t".join(SCORE_COLUMNS) + "\n")
         for task, (key, _, scores) in zip(task_list, results, strict=True):
-            assert key == task["key"]
+            if key != task["key"]:
+                raise evalio.StopError(f"result for unit {key} where {task['key']} was expected")
             head = f"{task['split_id']}\t{task['fold']}\t{task['variant']}\t"
             for cand in task["candidates"]:
                 s = scores[cand]
@@ -139,6 +171,12 @@ def run(work: Path, workers: int, candidates=models.CANDIDATES, arguments=()):
     split_log = evalio.require_current(
         out, "splits_run.json", ("clusters.tsv.gz", "split_members.tsv.gz"), "09_make_splits.py"
     )
+    for name in ("eval_table.tsv.gz", "eval_literature.tsv", "eval_sequences.fasta.gz"):
+        if split_log["input_sha256"].get(name) != build["outputs_sha256"].get(name):
+            raise evalio.StopError(
+                f"splits_run.json was made from another {name} than build_run.json records; "
+                "re-run 09_make_splits.py"
+            )
     phaseb = work / "phaseb"
     for name in ("features_unique.tsv.gz", "unique_sequences.tsv.gz"):
         if manifest.sha256_file(phaseb / name) != build["input_sha256"][name]:
@@ -150,7 +188,8 @@ def run(work: Path, workers: int, candidates=models.CANDIDATES, arguments=()):
         )
     u = universe.load(phaseb, verify=True)
     members = truth_table.read_tsv(out / "split_members.tsv.gz")
-    task_list = tasks(members, split_log["splits"], u.hashes, tuple(candidates))
+    clusters = {r["seq_sha256"]: r["cluster_id"] for r in truth_table.read_tsv(out / CLUSTERS)}
+    task_list = tasks(members, split_log["splits"], u.hashes, tuple(candidates), clusters)
     results = run_tasks(task_list, u, workers, phaseb)
     log = {
         "all_sources": build["all_sources"],
@@ -200,8 +239,11 @@ def main(argv=None) -> int:
             raise evalio.StopError(f"unknown candidates {unknown}")
         cands = tuple(c for c in models.CANDIDATES if c in cands)
         log = run(work, args.workers, cands, list(argv) if argv is not None else sys.argv[1:])
-    except (evalio.StopError, models.ModelError, ValueError, OSError, KeyError) as exc:
+    except (evalio.StopError, models.ModelError, ValueError, OSError) as exc:
         print(f"STOP: {exc}", file=sys.stderr)
+        return 2
+    except KeyError as exc:
+        print(f"STOP: missing key {exc} in an input or run file", file=sys.stderr)
         return 2
     print(f"units={len(log['units'])} candidates={len(log['candidates'])}")
     return 0
