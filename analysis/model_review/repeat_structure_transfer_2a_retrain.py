@@ -50,6 +50,10 @@ from repeat_structure_transfer import (  # noqa: E402
     repeat_desc,
 )
 
+# Default: the 41 candidates from 02_repeat_profile.py + 03 (the 2026-09-28 run).
+# Override with --candidates to test a different candidate set, e.g. the 58 produced by
+# 14_repeat_detect_general.py + 03 after the 2026-09-30 SignalP re-run. The file must have
+# the same columns (strain, protein, comp_class).
 CANDIDATES_TSV = REPO / "analysis" / "cocci_repeats" / "class2a_candidates.tsv"
 STRAIN_FASTA = {
     "CimmitisRS_FungiDB": "/bigdata/stajichlab/shared/projects/Coccidioides/PopGenomics/2025_All_Cocci/Pangenome/input_run2/CimmitisRS_FungiDB.fasta",
@@ -152,6 +156,20 @@ def evaluate(fn, keys, train_accs, seqs, y_extra_keys, y):
 
 
 def main():
+    import argparse
+
+    global CANDIDATES_TSV
+    ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
+    ap.add_argument(
+        "--candidates",
+        default=None,
+        help="candidate TSV to use instead of the default 41-candidate file",
+    )
+    args = ap.parse_args()
+    if args.candidates:
+        CANDIDATES_TSV = Path(args.candidates)
+    print(f"candidate table: {CANDIDATES_TSV}")
+
     with open(REPO / "data" / "curated" / "surface" / "surface.tsv") as f:
         meta = {r["accession"]: r for r in csv.DictReader(f, delimiter="\t")}
     lab = {
@@ -185,8 +203,10 @@ def main():
 
     variants = {
         "baseline (Saccharomycotina only, unchanged)": [],
-        "+all_candidates (36 non-SOWgp class2a candidates)": list(kept),
-        "+procys_only (16 non-SOWgp Pro/Cys-rich candidates)": list(procys_only),
+        # Counts are computed, not hardcoded. They were literal "36"/"16" until
+        # 2026-09-30, which silently mislabelled every run on a different candidate set.
+        f"+all_candidates ({len(kept)} non-SOWgp class2a candidates)": list(kept),
+        f"+procys_only ({len(procys_only)} non-SOWgp Pro/Cys-rich candidates)": list(procys_only),
     }
 
     for variant_name, extra_keys in variants.items():

@@ -55,6 +55,32 @@ def main():
             r["signalp_prob"] = call[1]
             r["secreted"] = "yes" if call[0] and call[0] != "OTHER" else "no"
             st, pro, cys = float(r["pct_ser_thr"]), float(r["pct_pro"]), float(r["pct_cys"])
+            # KNOWN DEFECT, documented 2026-09-30. Behaviour deliberately UNCHANGED here
+            # because the 41- and 58-candidate tables and the retrain test in
+            # analysis/model_review/repeat_structure_transfer_2a_retrain.py all depend on
+            # these labels. Do not "fix" this without re-running those.
+            #
+            # `pro + cys > 15` is a SUM, so a high proline fraction alone satisfies it and
+            # cysteine is never required. Consequences, both measured:
+            #
+            #  * FALSE POSITIVES: 6 of the 21 candidates labelled ProCys_rich have < 2% Cys.
+            #    CIMG_04070 (the PTGIPTEWP family) has 0.0% Cys and 18.5% Pro -> 18.5 > 15
+            #    -> labelled "ProCys_rich(SOWgp_BAD1_type)" despite containing no cysteine
+            #    and having no relationship to SOWgp or BAD1.
+            #  * FALSE NEGATIVES: BAD1 itself (UniProt A4D962, recomputed from sequence:
+            #    %Ser+Thr 8.5, %Pro 3.8, %Cys 8.0, Pro+Cys 11.9) scores BELOW 15 and is
+            #    classified "other". **The class named after BAD1 does not contain BAD1.**
+            #    Three candidates with the same profile (Cys 5.1-6.6%, Pro+Cys 10.6-12.1)
+            #    sit in "other" with it: CPOS3700_005551, VFC140_000791, CPOS1038_001811.
+            #
+            # The ordering also matters: SerThr is tested first, so a protein with
+            # Ser+Thr just over 25% never reaches the Pro/Cys test. CIMG_04070 sits 1.8
+            # points under that cutoff and 3.5 points over the Pro/Cys one.
+            #
+            # A corrected rule would test the two axes separately rather than summing them,
+            # e.g. Pro-rich (pro > 15), Cys-rich (cys > 5), Pro/Cys-rich (both), and would
+            # be calibrated so that SOWgp and BAD1 both land in the class named for them.
+            # See REPORT_2026-09-30_ptgiptewp_family.md section 2.
             r["comp_class"] = (
                 "SerThr_rich(FLO_ALS_type)"
                 if st > 25

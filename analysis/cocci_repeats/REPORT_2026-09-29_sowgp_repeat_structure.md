@@ -273,3 +273,76 @@ Run order: 09, then 10-13 in any order. Each runs in seconds with `/usr/bin/pyth
   topology. *Syst Zool* 20:406-416. https://doi.org/10.2307/2412116
 - Hartigan JA. 1973. Minimum mutation fits to a given tree. *Biometrics* 29:53-65.
   https://doi.org/10.2307/2529676
+
+---
+
+## Correction, 2026-09-30: the three "no protein call" strains do have SOWgp models
+
+Section 5 of this report, and section 3 of `README.md`, state that a SOWgp locus is present in
+VFC140, Cpos1038 and Cpos3700 **with no protein call**, and infer a gene-model failure. The
+first half of that is wrong. **All three strains have SOWgp protein models in their own
+proteomes.** They were missed because the search went through the pangenome orthogroups, and
+because `02_repeat_profile.py` does not call them.
+
+Found by searching all seven proteomes directly for the `PTDCYGDC` anchor:
+
+| strain | protein | len | anchors | maps to SOWgp58 | identity |
+|---|---|---|---|---|---|
+| VFC140 | `VFC140_004201-T1` | 234 | 2 | **aa 1-328 (whole)** | **99.6%** |
+| Cpos1038 | `CPOS1038_003233-T1` | 164 | 2 | aa 1-164 | 96.3% |
+| Cpos1038 | `CPOS1038_003234-T1` | 202 | 3 | aa 127-328 | 99.0% |
+| Cpos3700 | `CPOS3700_003933-T1` | 202 | 3 | aa 127-328 | 98.0% |
+| Cpos3700 | `CPOS3700_010247-T1` | 115 | 1 | aa 1-117 | 98.2% |
+| Cpos3700 | `CPOS3700_010248-T1` | 108 | 1 | aa 221-328 | 99.1% |
+
+Three separate conclusions, and they are not the same:
+
+1. **VFC140 is not a gene-model failure.** It has one model, 234 aa, matching the whole of
+   SOWgp58 at 99.6% identity, with 2 anchored units in regular spacing.
+
+   *Correction to a first draft of this addendum:* 2-unit alleles are **not** new. The
+   pangenome already contains them — *immitis* 250 aa and *posadasii* 251 / 255 aa, one strain
+   each. Section 4's "277 / 324 / 371 = 3 / 4 / 5 units" is the **modal** series, not the full
+   range. What is different about VFC140 is its *quality*, not its unit count: it is 99.6%
+   identical to SOWgp58 across its whole length, whereas the existing 250 aa *immitis* 2-unit
+   call has a completely divergent N-terminus (93 mismatched columns in a global alignment,
+   starting at residue 1) and looks like a gene-model artifact rather than a short allele.
+   **VFC140_004201-T1 may be the first clean 2-unit allele in this dataset. That is a
+   hypothesis from one alignment, not an established result.**
+
+   Its implied base length is **140 aa**, not the modal *immitis* 136. The difference is in
+   the N-terminal non-repeat region: VFC140 carries `GATSHKEHSYCDTYGCDGP` where the modal
+   277 aa allele has `GAKEHSYCDTYGCDGP`. So section 4's `length = base + 47 x units` holds
+   within a modal allele series but **base length is not a species constant** — observed bases
+   run 116-156 in *immitis* and 120-161 in *posadasii*.
+2. **Cpos1038 is a split gene model, and the split is now visible.** Two consecutive locus
+   tags cover aa 1-164 and aa 127-328 — **overlapping halves of one protein**. This is the
+   gene-model failure the original section 5 predicted, but it produces two short calls, not
+   zero calls.
+3. **Cpos3700 has two separate SOWgp regions**, one called as a single 202 aa model
+   (aa 127-328) and another split across `010247` + `010248` (aa 1-117 and aa 221-328).
+   Whether that is two loci or one locus split across contigs is **not established here**.
+
+### Why this was missed
+
+- `05_sowgp_pangenome.py` takes SOWgp members from the 496-genome pangenome orthogroups. The
+  five UArizona long-read proteomes are a different dataset and were only ever profiled by
+  `02_repeat_profile.py`, never searched for the anchor directly.
+- `02_repeat_profile.py` does not call `VFC140_004201-T1`. Its units are **not** diverged
+  (99.6% identity), so this is not the divergence floor. With only 2-3 copies in 234 aa it
+  falls below 02's `copies >= 2.5` threshold. `14_repeat_detect_general.py` calls it at 3
+  copies, which is why it appears among the 22 newly secreted candidates
+  (`REPORT_2026-09-29_repeat_detector_divergence.md`, section 5).
+
+### What this does not change
+
+The tblastn work in section 5 stands: the loci are real and are where the report said. What
+changes is the claim that no protein was called from them. Counts elsewhere in this report are
+drawn from the pangenome set and are unaffected; the unit-count range for *immitis* (item 1
+above) is the one number that may need revising, and that needs the VFC140 allele placed on the
+tree before anything is claimed.
+
+**Not experimentally validated.** Every statement here is from sequence alignment.
+
+Reproduce: search each proteome for `PTDCYGDC`, then align hits to `sowgp_seed.fa` with a local
+BLOSUM62 alignment. Both steps are inline in the 2026-09-30 session, not yet scripted.

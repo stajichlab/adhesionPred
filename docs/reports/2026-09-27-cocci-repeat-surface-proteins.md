@@ -280,3 +280,62 @@ predictions.
 - Hung CY, Yu JJ, Seshan KR, Reichard U, Cole GT. 2002. *Infect Immun* 70:3443-56. https://doi.org/10.1128/IAI.70.7.3443-3456.2002 — SOWgp tandem repeats and size alleles.
 - Teufel F, et al. 2022. SignalP 6.0. *Nat Biotechnol*. https://doi.org/10.1038/s41587-021-01156-3
 - Long-read assemblies: `shared/projects/Onygenales/Coccidioides/UArizona_strains/For_Marc`
+
+---
+
+## Addendum 2026-09-30: the retrain test replicates on an independent candidate set
+
+Section 6a used the 41 secreted candidates from `02_repeat_profile.py` + `03`. A second,
+differently-derived candidate set now exists: `14_repeat_detect_general.py` + `03`, after the
+2026-09-30 SignalP re-run, gives **58** secreted candidates (36 shared with the 41, 22 gained,
+5 lost). Re-running the same test on it is a real robustness check, because the two sets come
+from different detectors with different failure modes.
+
+Run: `repeat_structure_transfer_2a_retrain.py --candidates
+analysis/cocci_repeats/class2a_candidates_general.tsv` (the `--candidates` flag was added for
+this; the default reproduces section 6a exactly).
+
+| arm | features | 41-set (36 kept) | 58-set (51 kept) |
+|---|---|---|---|
+| baseline | composition | 2/5 | 2/5 |
+| baseline | repeat structure | 3/5 (SOWgp58 0.334) | 3/5 (SOWgp58 0.334) |
+| +all candidates | composition | 2/5 | 2/5 |
+| **+all candidates** | **repeat structure** | **5/5** (0.701 / 0.741) | **5/5** (0.685 / 0.693) |
+| +procys only | composition | 2/5 | **5/5** (0.665 / 0.749) |
+| +procys only | repeat structure | 4/5 (0.475 / 0.516) | 2/5 (0.362 / 0.395) |
+
+**The main result holds.** Adding class-2a candidates takes repeat-structure recovery from 3/5
+to 5/5, with both SOWgp58 and SOWgp66 above 0.5, on 51 candidates as well as on 36. Composition
+features stay at 2/5 in both. That is the pattern section 6a predicted, now seen twice on
+non-identical inputs.
+
+**The `+procys_only` arm is not a finding, in either direction.** It inverted between the two
+runs. Both sets happen to contain 16 Pro/Cys-rich candidates after the TEST-ortholog exclusion,
+but they are **not the same 16** — the underlying sets are 20 and 21 proteins sharing 16:
+
+- dropped from the new set: `CPOS1038_008584-T1`, `CPOS3700_002661-T1`, `QVM10969.1`,
+  `QVM13252.1` — exactly the four Pro/Gly-rich proteins the new detector cannot call
+  (`REPORT_2026-09-29_repeat_detector_divergence.md`, section 4.4);
+- added: `CIMG_05576`, `CIMG_10851`, `CIB10637_004729`, `CIB10992_002655`, `VFC140_004201-T1`.
+
+A 4-protein swap on n=16 flipping the result both ways means this arm is under-powered. Neither
+the earlier 4/5 nor the new 2/5 should be quoted.
+
+**One result to treat with suspicion.** `+procys_only` reaching **5/5 on composition features**
+is the leakage signature section 6a warned about, not a success. All added positives are
+*Coccidioides* proteins; if the new Pro/Cys set is compositionally closer to SOWgp while
+staying under the 60% identity exclusion, a composition model can score SOWgp by recognising
+"Coccidioides Pro/Cys protein" rather than adhesin architecture. The leakage filter did fire
+correctly and hard here — it excluded 7 of 58, including `VFC140_004201-T1` at **99.6%**
+identity to SOWgp58, a protein only identified as SOWgp on 2026-09-30 (see the correction in
+`analysis/cocci_repeats/REPORT_2026-09-29_sowgp_repeat_structure.md`). That it caught a
+previously unrecognised SOWgp ortholog by alignment alone is the strongest evidence so far that
+the held-out check works as intended.
+
+**Unchanged caveats.** All added positives are still *Coccidioides*, so the cross-clade leakage
+concern in section 6a stands in full. These candidates remain computational predictions with no
+functional validation.
+
+Also fixed in this pass: the arm labels in `repeat_structure_transfer_2a_retrain.py` had the
+counts **hardcoded** as "36" and "16". Any run on a different candidate set was silently
+mislabelled. They are now computed from the data.

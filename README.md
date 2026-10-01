@@ -1,6 +1,9 @@
 # Adhesion Protein Predictor
 
-A bioinformatics tool for predicting adhesion proteins from FASTA formatted sequence files.
+A bioinformatics tool that scores proteins from FASTA files as **secreted cell-surface glycoproteins**
+(FLO/ALS-like). Despite the project name, this is step 1 of a multi-step pipeline and not an adhesin
+predictor: on *S. cerevisiae* S288C about 12% of its calls are known adhesins. Mechanism-specific
+adhesin classes are separate tools; see `docs/TOOL-ARCHITECTURE.md` section 2.0 for the steps and names.
 
 # Requirements
 

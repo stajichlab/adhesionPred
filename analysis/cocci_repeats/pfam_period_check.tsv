@@ -1,0 +1,195 @@
+target	family	pfam	desc	model_len	n_hits	spacing	set	period_new	period_old
+CimmitisRS_FungiDB|CIMG_00345-t26_1-p1	DUF346	PF03984	Repeat of unknown function (DUF346)  	39	7	49.0	shared	49	49
+CimmitisRS_FungiDB|CIMG_01220-t26_1-p1	WD40	PF00400	WD domain, G-beta repeat	39	1		background	0	0
+CimmitisRS_FungiDB|CIMG_01822-t26_1-p1	WD40	PF00400	WD domain, G-beta repeat	39	1		background	0	0
+CimmitisRS_FungiDB|CIMG_01985-t26_1-p1	Ank	PF00023	Ankyrin repeat	33	1		background	0	0
+CimmitisRS_FungiDB|CIMG_01985-t26_1-p1	Ank_2	PF12796	Ankyrin repeats (3 copies)	90	1		background	0	0
+CimmitisRS_FungiDB|CIMG_04665-t26_1-p1	BTRD1	PF17660	Polyglycine hydrolase-like, structural repeat	50	5	51.0	gained	51	51
+CimmitisRS_FungiDB|CIMG_05722-t26_1-p1	TPR_10	PF13374	Tetratricopeptide repeat	42	5	67.5	gained	45	45
+CimmitisRS_FungiDB|CIMG_06086-t26_1-p1	Ank	PF00023	Ankyrin repeat	33	3	32.5	gained	33	0
+CimmitisRS_FungiDB|CIMG_06086-t26_1-p1	Ank_2	PF12796	Ankyrin repeats (3 copies)	90	2	87.0	gained	33	0
+CimmitisRS_FungiDB|CIMG_06086-t26_1-p1	Ank_3	PF13606	Ankyrin repeat	31	3	32.5	gained	33	0
+CimmitisRS_FungiDB|CIMG_06086-t26_1-p1	Ank_4	PF13637	Ankyrin repeats (many copies)	50	2	69.0	gained	33	0
+CimmitisRS_FungiDB|CIMG_06086-t26_1-p1	Ank_5	PF13857	Ankyrin repeats (many copies)	56	2	68.0	gained	33	0
+CimmitisRS_FungiDB|CIMG_06195-t26_1-p1	Ank	PF00023	Ankyrin repeat	33	6	33.0	gained	34	0
+CimmitisRS_FungiDB|CIMG_06195-t26_1-p1	Ank_2	PF12796	Ankyrin repeats (3 copies)	90	2	63.0	gained	34	0
+CimmitisRS_FungiDB|CIMG_06195-t26_1-p1	Ank_3	PF13606	Ankyrin repeat	31	1		gained	34	0
+CimmitisRS_FungiDB|CIMG_06195-t26_1-p1	Ank_4	PF13637	Ankyrin repeats (many copies)	50	1		gained	34	0
+CimmitisRS_FungiDB|CIMG_06195-t26_1-p1	Ank_5	PF13857	Ankyrin repeats (many copies)	56	1		gained	34	0
+CimmitisRS_FungiDB|CIMG_06515-t26_1-p1	WD40	PF00400	WD domain, G-beta repeat	39	6	49.0	background	0	0
+CimmitisRS_FungiDB|CIMG_08207-t26_1-p1	WD40	PF00400	WD domain, G-beta repeat	39	3	160.0	background	0	0
+CimmitisRS_FungiDB|CIMG_09383-t26_1-p1	TPR_CAND1	PF25782	CAND1-like, TPR repeats	126	1		background	0	0
+CimmitisRS_FungiDB|CIMG_10332-t26_1-p1	HEAT_Nup120	PF23300	Nucleoporin Nup120, HEAT repeats	170	1		background	0	0
+CimmitisRS_FungiDB|CIMG_10962-t26_1-p1	WD40	PF00400	WD domain, G-beta repeat	39	3	108.0	background	0	0
+CimmitisRS_FungiDB|CIMG_13045-t26_1-p1	Ank	PF00023	Ankyrin repeat	33	9	33.0	gained	33	0
+CimmitisRS_FungiDB|CIMG_13045-t26_1-p1	Ank_2	PF12796	Ankyrin repeats (3 copies)	90	3	131.0	gained	33	0
+CimmitisRS_FungiDB|CIMG_13045-t26_1-p1	Ank_3	PF13606	Ankyrin repeat	31	8	33.0	gained	33	0
+CimmitisRS_FungiDB|CIMG_13045-t26_1-p1	Ank_4	PF13637	Ankyrin repeats (many copies)	50	4	66.0	gained	33	0
+CimmitisRS_FungiDB|CIMG_13045-t26_1-p1	Ank_5	PF13857	Ankyrin repeats (many copies)	56	3	92.5	gained	33	0
+Coccidioides_immitis_CiB10637|CIB10637_000021-T1	Ank	PF00023	Ankyrin repeat	33	4	34.0	gained	33	0
+Coccidioides_immitis_CiB10637|CIB10637_000021-T1	Ank_2	PF12796	Ankyrin repeats (3 copies)	90	1		gained	33	0
+Coccidioides_immitis_CiB10637|CIB10637_000021-T1	Ank_3	PF13606	Ankyrin repeat	31	2	35.0	gained	33	0
+Coccidioides_immitis_CiB10637|CIB10637_000021-T1	Ank_4	PF13637	Ankyrin repeats (many copies)	50	3	61.5	gained	33	0
+Coccidioides_immitis_CiB10637|CIB10637_002268-T1	DUF346	PF03984	Repeat of unknown function (DUF346)  	39	7	49.0	shared	49	49
+Coccidioides_immitis_CiB10637|CIB10637_003988-T1	BTRD1	PF17660	Polyglycine hydrolase-like, structural repeat	50	5	51.0	gained	51	51
+Coccidioides_immitis_CiB10637|CIB10637_005776-T1	Ank	PF00023	Ankyrin repeat	33	9	33.0	gained	33	33
+Coccidioides_immitis_CiB10637|CIB10637_005776-T1	Ank_2	PF12796	Ankyrin repeats (3 copies)	90	3	131.0	gained	33	33
+Coccidioides_immitis_CiB10637|CIB10637_005776-T1	Ank_3	PF13606	Ankyrin repeat	31	9	33.0	gained	33	33
+Coccidioides_immitis_CiB10637|CIB10637_005776-T1	Ank_4	PF13637	Ankyrin repeats (many copies)	50	4	67.0	gained	33	33
+Coccidioides_immitis_CiB10637|CIB10637_005776-T1	Ank_5	PF13857	Ankyrin repeats (many copies)	56	3	77.5	gained	33	33
+Coccidioides_immitis_CiB10637|CIB10637_005885-T1	Ank	PF00023	Ankyrin repeat	33	6	34.0	gained	34	0
+Coccidioides_immitis_CiB10637|CIB10637_005885-T1	Ank_2	PF12796	Ankyrin repeats (3 copies)	90	3	82.0	gained	34	0
+Coccidioides_immitis_CiB10637|CIB10637_005885-T1	Ank_3	PF13606	Ankyrin repeat	31	1		gained	34	0
+Coccidioides_immitis_CiB10637|CIB10637_005885-T1	Ank_4	PF13637	Ankyrin repeats (many copies)	50	1		gained	34	0
+Coccidioides_immitis_CiB10637|CIB10637_005885-T1	Ank_5	PF13857	Ankyrin repeats (many copies)	56	1		gained	34	0
+Coccidioides_immitis_CiB10637|CIB10637_005992-T1	Ank	PF00023	Ankyrin repeat	33	3	32.5	gained	33	0
+Coccidioides_immitis_CiB10637|CIB10637_005992-T1	Ank_2	PF12796	Ankyrin repeats (3 copies)	90	1		gained	33	0
+Coccidioides_immitis_CiB10637|CIB10637_005992-T1	Ank_3	PF13606	Ankyrin repeat	31	3	32.5	gained	33	0
+Coccidioides_immitis_CiB10637|CIB10637_005992-T1	Ank_4	PF13637	Ankyrin repeats (many copies)	50	2	69.0	gained	33	0
+Coccidioides_immitis_CiB10637|CIB10637_005992-T1	Ank_5	PF13857	Ankyrin repeats (many copies)	56	1		gained	33	0
+Coccidioides_immitis_CiB10637|CIB10637_007039-T1	RPEL	PF02755	RPEL repeat	24	3	44.0	background	44	0
+Coccidioides_immitis_CiB10637|CIB10637_008552-T1	TPR_10	PF13374	Tetratricopeptide repeat	42	5	67.5	gained	45	45
+Coccidioides_immitis_CiB10992|CIB10992_000023-T1	Ank	PF00023	Ankyrin repeat	33	4	34.0	gained	33	0
+Coccidioides_immitis_CiB10992|CIB10992_000023-T1	Ank_2	PF12796	Ankyrin repeats (3 copies)	90	1		gained	33	0
+Coccidioides_immitis_CiB10992|CIB10992_000023-T1	Ank_3	PF13606	Ankyrin repeat	31	2	35.0	gained	33	0
+Coccidioides_immitis_CiB10992|CIB10992_000023-T1	Ank_4	PF13637	Ankyrin repeats (many copies)	50	3	61.5	gained	33	0
+Coccidioides_immitis_CiB10992|CIB10992_001943-T1	PPR	PF01535	PPR repeat	31	4	81.0	background	0	0
+Coccidioides_immitis_CiB10992|CIB10992_001943-T1	PPR_1	PF12854	PPR repeat	34	1		background	0	0
+Coccidioides_immitis_CiB10992|CIB10992_001943-T1	PPR_2	PF13041	PPR repeat family 	50	2	76.0	background	0	0
+Coccidioides_immitis_CiB10992|CIB10992_001943-T1	PPR_3	PF13812	Pentatricopeptide repeat domain	63	2	639.0	background	0	0
+Coccidioides_immitis_CiB10992|CIB10992_001943-T1	PPR_long	PF17177	Pentacotripeptide-repeat region of PRORP	211	1		background	0	0
+Coccidioides_immitis_CiB10992|CIB10992_001943-T1	TPR_30	PF24603	Tetratricopeptide repeat	100	1		background	0	0
+Coccidioides_immitis_CiB10992|CIB10992_002283-T1	DUF346	PF03984	Repeat of unknown function (DUF346)  	39	7	49.0	shared	49	49
+Coccidioides_immitis_CiB10992|CIB10992_003407-T1	BTRD1	PF17660	Polyglycine hydrolase-like, structural repeat	50	5	51.0	gained	51	51
+Coccidioides_immitis_CiB10992|CIB10992_005007-T1	WD40	PF00400	WD domain, G-beta repeat	39	4	39.0	background	0	0
+Coccidioides_immitis_CiB10992|CIB10992_005809-T1	Ank	PF00023	Ankyrin repeat	33	9	33.0	gained	33	33
+Coccidioides_immitis_CiB10992|CIB10992_005809-T1	Ank_2	PF12796	Ankyrin repeats (3 copies)	90	3	131.0	gained	33	33
+Coccidioides_immitis_CiB10992|CIB10992_005809-T1	Ank_3	PF13606	Ankyrin repeat	31	9	33.0	gained	33	33
+Coccidioides_immitis_CiB10992|CIB10992_005809-T1	Ank_4	PF13637	Ankyrin repeats (many copies)	50	4	67.0	gained	33	33
+Coccidioides_immitis_CiB10992|CIB10992_005809-T1	Ank_5	PF13857	Ankyrin repeats (many copies)	56	3	77.5	gained	33	33
+Coccidioides_immitis_CiB10992|CIB10992_005921-T1	Ank	PF00023	Ankyrin repeat	33	3	34.5	gained	34	34
+Coccidioides_immitis_CiB10992|CIB10992_005921-T1	Ank_2	PF12796	Ankyrin repeats (3 copies)	90	1		gained	34	34
+Coccidioides_immitis_CiB10992|CIB10992_005921-T1	Ank_3	PF13606	Ankyrin repeat	31	1		gained	34	34
+Coccidioides_immitis_CiB10992|CIB10992_005921-T1	Ank_4	PF13637	Ankyrin repeats (many copies)	50	1		gained	34	34
+Coccidioides_immitis_CiB10992|CIB10992_006027-T1	Ank	PF00023	Ankyrin repeat	33	3	32.5	gained	33	0
+Coccidioides_immitis_CiB10992|CIB10992_006027-T1	Ank_2	PF12796	Ankyrin repeats (3 copies)	90	1		gained	33	0
+Coccidioides_immitis_CiB10992|CIB10992_006027-T1	Ank_3	PF13606	Ankyrin repeat	31	3	32.5	gained	33	0
+Coccidioides_immitis_CiB10992|CIB10992_006027-T1	Ank_4	PF13637	Ankyrin repeats (many copies)	50	2	69.0	gained	33	0
+Coccidioides_immitis_CiB10992|CIB10992_006027-T1	Ank_5	PF13857	Ankyrin repeats (many copies)	56	1		gained	33	0
+Coccidioides_immitis_CiB10992|CIB10992_006560-T1	Ank	PF00023	Ankyrin repeat	33	5	141.0	background	0	0
+Coccidioides_immitis_CiB10992|CIB10992_006560-T1	Ank_2	PF12796	Ankyrin repeats (3 copies)	90	3	162.0	background	0	0
+Coccidioides_immitis_CiB10992|CIB10992_006560-T1	Ank_4	PF13637	Ankyrin repeats (many copies)	50	1		background	0	0
+Coccidioides_immitis_CiB10992|CIB10992_006668-T1	PAH	PF02671	Paired amphipathic helix repeat	45	3	234.0	background	0	0
+Coccidioides_immitis_CiB10992|CIB10992_007054-T1	RPEL	PF02755	RPEL repeat	24	3	44.0	background	44	0
+Coccidioides_immitis_CiB10992|CIB10992_008600-T1	TPR_10	PF13374	Tetratricopeptide repeat	42	5	67.5	gained	45	45
+Coccidioides_immitis_VFC140|VFC140_002329-T1	DUF346	PF03984	Repeat of unknown function (DUF346)  	39	7	49.0	shared	49	49
+Coccidioides_immitis_VFC140|VFC140_004246-T1	BTRD1	PF17660	Polyglycine hydrolase-like, structural repeat	50	5	51.0	gained	51	51
+Coccidioides_immitis_VFC140|VFC140_006070-T1	MORN	PF02493	MORN repeat	23	4	23.0	background	0	0
+Coccidioides_immitis_VFC140|VFC140_006135-T1	Ank	PF00023	Ankyrin repeat	33	9	33.0	gained	33	0
+Coccidioides_immitis_VFC140|VFC140_006135-T1	Ank_2	PF12796	Ankyrin repeats (3 copies)	90	4	75.0	gained	33	0
+Coccidioides_immitis_VFC140|VFC140_006135-T1	Ank_3	PF13606	Ankyrin repeat	31	8	33.0	gained	33	0
+Coccidioides_immitis_VFC140|VFC140_006135-T1	Ank_4	PF13637	Ankyrin repeats (many copies)	50	4	67.0	gained	33	0
+Coccidioides_immitis_VFC140|VFC140_006135-T1	Ank_5	PF13857	Ankyrin repeats (many copies)	56	3	83.5	gained	33	0
+Coccidioides_immitis_VFC140|VFC140_006246-T1	Ank	PF00023	Ankyrin repeat	33	3	35.0	gained	34	34
+Coccidioides_immitis_VFC140|VFC140_006246-T1	Ank_2	PF12796	Ankyrin repeats (3 copies)	90	1		gained	34	34
+Coccidioides_immitis_VFC140|VFC140_006246-T1	Ank_3	PF13606	Ankyrin repeat	31	1		gained	34	34
+Coccidioides_immitis_VFC140|VFC140_006246-T1	Ank_4	PF13637	Ankyrin repeats (many copies)	50	2	50.0	gained	34	34
+Coccidioides_immitis_VFC140|VFC140_006246-T1	Ank_5	PF13857	Ankyrin repeats (many copies)	56	1		gained	34	34
+Coccidioides_immitis_VFC140|VFC140_006347-T1	Ank	PF00023	Ankyrin repeat	33	3	32.5	gained	33	0
+Coccidioides_immitis_VFC140|VFC140_006347-T1	Ank_2	PF12796	Ankyrin repeats (3 copies)	90	1		gained	33	0
+Coccidioides_immitis_VFC140|VFC140_006347-T1	Ank_3	PF13606	Ankyrin repeat	31	2	32.0	gained	33	0
+Coccidioides_immitis_VFC140|VFC140_006347-T1	Ank_4	PF13637	Ankyrin repeats (many copies)	50	2	69.0	gained	33	0
+Coccidioides_immitis_VFC140|VFC140_006347-T1	Ank_5	PF13857	Ankyrin repeats (many copies)	56	1		gained	33	0
+Coccidioides_immitis_VFC140|VFC140_006618-T1	Ank	PF00023	Ankyrin repeat	33	10	34.0	gained	34	34
+Coccidioides_immitis_VFC140|VFC140_006618-T1	Ank_2	PF12796	Ankyrin repeats (3 copies)	90	3	146.0	gained	34	34
+Coccidioides_immitis_VFC140|VFC140_006618-T1	Ank_3	PF13606	Ankyrin repeat	31	6	34.0	gained	34	34
+Coccidioides_immitis_VFC140|VFC140_006618-T1	Ank_4	PF13637	Ankyrin repeats (many copies)	50	5	70.0	gained	34	34
+Coccidioides_immitis_VFC140|VFC140_006618-T1	Ank_5	PF13857	Ankyrin repeats (many copies)	56	3	68.0	gained	34	34
+Coccidioides_immitis_VFC140|VFC140_008513-T2	HEAT_HEATR1	PF23243	HEATR1-like, HEAT repeats	195	1		background	0	0
+Coccidioides_immitis_VFC140|VFC140_009205-T1	TPR_10	PF13374	Tetratricopeptide repeat	42	3	67.0	gained	45	0
+Coccidioides_posadasii_Cpos1038|CPOS1038_000278-T1	DUF346	PF03984	Repeat of unknown function (DUF346)  	39	7	49.0	shared	49	49
+Coccidioides_posadasii_Cpos1038|CPOS1038_001869-T1	Sel1	PF08238	Sel1 repeat	36	5	37.5	background	0	0
+Coccidioides_posadasii_Cpos1038|CPOS1038_002923-T1	Ank	PF00023	Ankyrin repeat	33	2	135.0	background	0	0
+Coccidioides_posadasii_Cpos1038|CPOS1038_002923-T1	Ank_2	PF12796	Ankyrin repeats (3 copies)	90	3	84.0	background	0	0
+Coccidioides_posadasii_Cpos1038|CPOS1038_002923-T1	Ank_3	PF13606	Ankyrin repeat	31	1		background	0	0
+Coccidioides_posadasii_Cpos1038|CPOS1038_002923-T1	Ank_4	PF13637	Ankyrin repeats (many copies)	50	2	167.0	background	0	0
+Coccidioides_posadasii_Cpos1038|CPOS1038_003280-T1	BTRD1	PF17660	Polyglycine hydrolase-like, structural repeat	50	5	51.0	gained	51	51
+Coccidioides_posadasii_Cpos1038|CPOS1038_003436-T1	TPR_VPS8_2	PF25066	VPS8-like, TPR-like repeats	194	1		background	0	0
+Coccidioides_posadasii_Cpos1038|CPOS1038_003436-T1	VPS8_N	PF23306	VPS8-like, N-terminal beta propeller repeats	375	1		background	0	0
+Coccidioides_posadasii_Cpos1038|CPOS1038_005402-T3	HEAT_EF3_GNC1	PF24984	Elongation factor 3/GNC1 HEAT repeat	91	1		background	0	0
+Coccidioides_posadasii_Cpos1038|CPOS1038_005402-T3	HEAT_EF3_N	PF24987	EF3 N-terminal HEAT repeat	169	1		background	0	0
+Coccidioides_posadasii_Cpos1038|CPOS1038_006230-T1	TPR_10	PF13374	Tetratricopeptide repeat	42	3	67.0	gained	45	0
+Coccidioides_posadasii_Cpos1038|CPOS1038_006296-T1	Ank	PF00023	Ankyrin repeat	33	3	35.0	gained	34	34
+Coccidioides_posadasii_Cpos1038|CPOS1038_006296-T1	Ank_2	PF12796	Ankyrin repeats (3 copies)	90	1		gained	34	34
+Coccidioides_posadasii_Cpos1038|CPOS1038_006296-T1	Ank_3	PF13606	Ankyrin repeat	31	1		gained	34	34
+Coccidioides_posadasii_Cpos1038|CPOS1038_006296-T1	Ank_4	PF13637	Ankyrin repeats (many copies)	50	2	64.0	gained	34	34
+Coccidioides_posadasii_Cpos1038|CPOS1038_006296-T1	Ank_5	PF13857	Ankyrin repeats (many copies)	56	1		gained	34	34
+Coccidioides_posadasii_Cpos1038|CPOS1038_006396-T1	Ank	PF00023	Ankyrin repeat	33	3	32.5	gained	33	0
+Coccidioides_posadasii_Cpos1038|CPOS1038_006396-T1	Ank_2	PF12796	Ankyrin repeats (3 copies)	90	1		gained	33	0
+Coccidioides_posadasii_Cpos1038|CPOS1038_006396-T1	Ank_3	PF13606	Ankyrin repeat	31	3	32.5	gained	33	0
+Coccidioides_posadasii_Cpos1038|CPOS1038_006396-T1	Ank_4	PF13637	Ankyrin repeats (many copies)	50	2	69.0	gained	33	0
+Coccidioides_posadasii_Cpos1038|CPOS1038_006396-T1	Ank_5	PF13857	Ankyrin repeats (many copies)	56	1		gained	33	0
+Coccidioides_posadasii_Cpos1038|CPOS1038_007358-T1	Ank	PF00023	Ankyrin repeat	33	2	286.0	background	0	0
+Coccidioides_posadasii_Cpos1038|CPOS1038_007358-T1	Ank_2	PF12796	Ankyrin repeats (3 copies)	90	2	193.0	background	0	0
+Coccidioides_posadasii_Cpos1038|CPOS1038_007358-T1	Ank_3	PF13606	Ankyrin repeat	31	1		background	0	0
+Coccidioides_posadasii_Cpos1038|CPOS1038_007358-T1	Ank_5	PF13857	Ankyrin repeats (many copies)	56	1		background	0	0
+Coccidioides_posadasii_Cpos1038|CPOS1038_007862-T2	Ank	PF00023	Ankyrin repeat	33	2	32.0	background	0	0
+Coccidioides_posadasii_Cpos1038|CPOS1038_007862-T2	Ank_2	PF12796	Ankyrin repeats (3 copies)	90	1		background	0	0
+Coccidioides_posadasii_Cpos1038|CPOS1038_007862-T2	Ank_3	PF13606	Ankyrin repeat	31	1		background	0	0
+Coccidioides_posadasii_Cpos1038|CPOS1038_007862-T2	Ank_4	PF13637	Ankyrin repeats (many copies)	50	1		background	0	0
+Coccidioides_posadasii_Cpos1038|CPOS1038_007931-T1	PQ-loop	PF04193	PQ loop repeat 	61	1		background	0	0
+Coccidioides_posadasii_Cpos1038|CPOS1038_008378-T1	Ank	PF00023	Ankyrin repeat	33	9	33.0	gained	33	0
+Coccidioides_posadasii_Cpos1038|CPOS1038_008378-T1	Ank_2	PF12796	Ankyrin repeats (3 copies)	90	4	75.0	gained	33	0
+Coccidioides_posadasii_Cpos1038|CPOS1038_008378-T1	Ank_3	PF13606	Ankyrin repeat	31	8	33.0	gained	33	0
+Coccidioides_posadasii_Cpos1038|CPOS1038_008378-T1	Ank_4	PF13637	Ankyrin repeats (many copies)	50	4	67.0	gained	33	0
+Coccidioides_posadasii_Cpos1038|CPOS1038_008378-T1	Ank_5	PF13857	Ankyrin repeats (many copies)	56	3	83.5	gained	33	0
+Coccidioides_posadasii_Cpos3700|CPOS3700_000549-T1	Ank	PF00023	Ankyrin repeat	33	3	185.0	background	0	0
+Coccidioides_posadasii_Cpos3700|CPOS3700_000549-T1	Ank_2	PF12796	Ankyrin repeats (3 copies)	90	3	191.5	background	0	0
+Coccidioides_posadasii_Cpos3700|CPOS3700_000549-T1	Ank_4	PF13637	Ankyrin repeats (many copies)	50	2	140.0	background	0	0
+Coccidioides_posadasii_Cpos3700|CPOS3700_001796-T1	Ank	PF00023	Ankyrin repeat	33	9	33.0	gained	33	0
+Coccidioides_posadasii_Cpos3700|CPOS3700_001796-T1	Ank_2	PF12796	Ankyrin repeats (3 copies)	90	4	75.0	gained	33	0
+Coccidioides_posadasii_Cpos3700|CPOS3700_001796-T1	Ank_3	PF13606	Ankyrin repeat	31	8	33.0	gained	33	0
+Coccidioides_posadasii_Cpos3700|CPOS3700_001796-T1	Ank_4	PF13637	Ankyrin repeats (many copies)	50	4	67.0	gained	33	0
+Coccidioides_posadasii_Cpos3700|CPOS3700_001796-T1	Ank_5	PF13857	Ankyrin repeats (many copies)	56	3	83.5	gained	33	0
+Coccidioides_posadasii_Cpos3700|CPOS3700_001910-T1	Ank	PF00023	Ankyrin repeat	33	3	35.0	gained	34	34
+Coccidioides_posadasii_Cpos3700|CPOS3700_001910-T1	Ank_2	PF12796	Ankyrin repeats (3 copies)	90	1		gained	34	34
+Coccidioides_posadasii_Cpos3700|CPOS3700_001910-T1	Ank_3	PF13606	Ankyrin repeat	31	1		gained	34	34
+Coccidioides_posadasii_Cpos3700|CPOS3700_001910-T1	Ank_4	PF13637	Ankyrin repeats (many copies)	50	1		gained	34	34
+Coccidioides_posadasii_Cpos3700|CPOS3700_001910-T1	Ank_5	PF13857	Ankyrin repeats (many copies)	56	1		gained	34	34
+Coccidioides_posadasii_Cpos3700|CPOS3700_002013-T1	Ank	PF00023	Ankyrin repeat	33	3	32.5	gained	33	0
+Coccidioides_posadasii_Cpos3700|CPOS3700_002013-T1	Ank_2	PF12796	Ankyrin repeats (3 copies)	90	1		gained	33	0
+Coccidioides_posadasii_Cpos3700|CPOS3700_002013-T1	Ank_3	PF13606	Ankyrin repeat	31	3	32.5	gained	33	0
+Coccidioides_posadasii_Cpos3700|CPOS3700_002013-T1	Ank_4	PF13637	Ankyrin repeats (many copies)	50	2	69.0	gained	33	0
+Coccidioides_posadasii_Cpos3700|CPOS3700_002013-T1	Ank_5	PF13857	Ankyrin repeats (many copies)	56	1		gained	33	0
+Coccidioides_posadasii_Cpos3700|CPOS3700_003978-T1	BTRD1	PF17660	Polyglycine hydrolase-like, structural repeat	50	5	51.0	gained	51	51
+Coccidioides_posadasii_Cpos3700|CPOS3700_004052-T1	WD40	PF00400	WD domain, G-beta repeat	39	10	46.0	background	0	0
+Coccidioides_posadasii_Cpos3700|CPOS3700_006716-T1	TPR_10	PF13374	Tetratricopeptide repeat	42	3	67.0	gained	45	0
+Coccidioides_posadasii_Cpos3700|CPOS3700_006921-T1	TPR_CAND1	PF25782	CAND1-like, TPR repeats	126	1		background	0	0
+Coccidioides_posadasii_Cpos3700|CPOS3700_007963-T1	DUF346	PF03984	Repeat of unknown function (DUF346)  	39	7	49.0	shared	49	49
+Coccidioides_posadasii_Cpos3700|CPOS3700_009906-T1	Ank	PF00023	Ankyrin repeat	33	3	34.5	gained	34	34
+Coccidioides_posadasii_Cpos3700|CPOS3700_009906-T1	Ank_2	PF12796	Ankyrin repeats (3 copies)	90	1		gained	34	34
+Coccidioides_posadasii_Cpos3700|CPOS3700_009906-T1	Ank_3	PF13606	Ankyrin repeat	31	1		gained	34	34
+Coccidioides_posadasii_Cpos3700|CPOS3700_009906-T1	Ank_4	PF13637	Ankyrin repeats (many copies)	50	1		gained	34	34
+Coccidioides_posadasii_Cpos3700|CPOS3700_010888-T1	DUF346	PF03984	Repeat of unknown function (DUF346)  	39	7	49.0	shared	49	49
+Coccidioides_posadasii_Cpos3700|CPOS3700_012306-T1	Sel1	PF08238	Sel1 repeat	36	3	46.0	background	36	0
+CposadasiiSilveira2022_FungiDB|QVM07673.1	HEAT_2	PF13646	HEAT repeats	88	2	164.0	background	0	0
+CposadasiiSilveira2022_FungiDB|QVM07673.1	HEAT_PBS	PF03130	PBS lyase HEAT-like repeat	27	2	166.0	background	0	0
+CposadasiiSilveira2022_FungiDB|QVM09321.1	BTRD1	PF17660	Polyglycine hydrolase-like, structural repeat	50	5	51.0	gained	51	51
+CposadasiiSilveira2022_FungiDB|QVM09584.1	WD40	PF00400	WD domain, G-beta repeat	39	5	45.0	background	0	0
+CposadasiiSilveira2022_FungiDB|QVM10536.1	DUF346	PF03984	Repeat of unknown function (DUF346)  	39	7	49.0	shared	49	49
+CposadasiiSilveira2022_FungiDB|QVM11784.1	Ank	PF00023	Ankyrin repeat	33	9	33.0	gained	33	0
+CposadasiiSilveira2022_FungiDB|QVM11784.1	Ank_2	PF12796	Ankyrin repeats (3 copies)	90	4	75.0	gained	33	0
+CposadasiiSilveira2022_FungiDB|QVM11784.1	Ank_3	PF13606	Ankyrin repeat	31	8	33.0	gained	33	0
+CposadasiiSilveira2022_FungiDB|QVM11784.1	Ank_4	PF13637	Ankyrin repeats (many copies)	50	4	67.0	gained	33	0
+CposadasiiSilveira2022_FungiDB|QVM11784.1	Ank_5	PF13857	Ankyrin repeats (many copies)	56	3	83.5	gained	33	0
+CposadasiiSilveira2022_FungiDB|QVM11898.1	Ank	PF00023	Ankyrin repeat	33	5	34.5	gained	34	34
+CposadasiiSilveira2022_FungiDB|QVM11898.1	Ank_2	PF12796	Ankyrin repeats (3 copies)	90	2	114.0	gained	34	34
+CposadasiiSilveira2022_FungiDB|QVM11898.1	Ank_3	PF13606	Ankyrin repeat	31	1		gained	34	34
+CposadasiiSilveira2022_FungiDB|QVM11898.1	Ank_4	PF13637	Ankyrin repeats (many copies)	50	2	52.0	gained	34	34
+CposadasiiSilveira2022_FungiDB|QVM11898.1	Ank_5	PF13857	Ankyrin repeats (many copies)	56	1		gained	34	34
+CposadasiiSilveira2022_FungiDB|QVM11995.1	Ank	PF00023	Ankyrin repeat	33	3	32.5	gained	33	0
+CposadasiiSilveira2022_FungiDB|QVM11995.1	Ank_2	PF12796	Ankyrin repeats (3 copies)	90	1		gained	33	0
+CposadasiiSilveira2022_FungiDB|QVM11995.1	Ank_3	PF13606	Ankyrin repeat	31	3	32.5	gained	33	0
+CposadasiiSilveira2022_FungiDB|QVM11995.1	Ank_4	PF13637	Ankyrin repeats (many copies)	50	2	69.0	gained	33	0
+CposadasiiSilveira2022_FungiDB|QVM11995.1	Ank_5	PF13857	Ankyrin repeats (many copies)	56	1		gained	33	0
+CposadasiiSilveira2022_FungiDB|QVM13365.1	TPR_10	PF13374	Tetratricopeptide repeat	42	3	67.0	gained	45	0

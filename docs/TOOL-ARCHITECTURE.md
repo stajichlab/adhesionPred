@@ -19,6 +19,39 @@ adhesion. It is detecting repeats.
 
 ## 2. The architecture that follows
 
+### 2.0 Steps and names (clarified 2026-09-30)
+
+The shipped `adhesion_predict` CLI is **not** an adhesin predictor. It is the first step of a
+multi-step pipeline, and it answers a different question from its name.
+
+| Step | Question | What implements it today | Correct name |
+|---|---|---|---|
+| **1** | Is this a secreted, cell-surface glycoprotein? | The shipped `adhesion_predict` CLI (ESM-2 embeddings + logistic regression). Evidence: ~12% adhesin precision on S288C; behaves as a cell-surface glycoprotein detector (`docs/model-review/2026-09-27-review-and-framework-plan.md`). | **surface glycoprotein predictor** |
+| **2** | Which adhesion *mechanism*, if any? | Not one tool. 2a repeat detector (scripts in `analysis/cocci_repeats/`); 2b/2c HMM scans; 2d out of scope. A stage-2 classifier exists only as a script (`stage2_proof_of_concept.py`). | per-class names in the table below |
+| **3** | Is it useful for a specific purpose (antigen, biofilm)? | *Coccidioides* antigen tool only | purpose-specific predictor |
+
+Consequences for wording:
+- Output of step 1 is a **surface glycoprotein score**. It must not be reported as an
+  "adhesion probability". The CLI still prints `probability_adhesion` and the label `Adhesion`;
+  that wording is wrong and is tracked for change (see the open items in the #9 plan).
+- The `Adhesion` / `Non-adhesion` labels in `data/` mean "FLO/ALS-like surface glycoprotein" versus
+  random proteins, not "demonstrated to bind a ligand".
+- This document's Stage 1 (section below) defines the same question but names SignalP/NetGPI as
+  the tool. The ESM + LR CLI and a SignalP + GPI call are two implementations of step 1. Their
+  agreement has **not been measured**. Until it is, treat them as separate tools.
+
+**Proposed names** (proposal only; no code, CLI, column or package has been renamed):
+
+| Current | Proposed | Note |
+|---|---|---|
+| `adhesion_predict`, `adhesion_train` | `surface_glyco_predict`, `surface_glyco_train` | keep old entry points as deprecated aliases for one release |
+| column `probability_adhesion`, label `Adhesion` | `surface_glycoprotein_score`, `surface_glycoprotein` | output schema change; needs a version bump |
+| (scripts 02, 14 in `analysis/cocci_repeats/`) | `repeat_adhesin_detect` | class 2a; clade scope stated in the name or help |
+| PF05730, PF04681, PF01185/PF06766 scans | HMM scans, no ML | classes 2b-i, 2b-iii, 2c |
+
+The rename waits for the independent design review, because it changes the CLI, the output
+schema and the model card together.
+
 ### Stage 1 — general surface/secreted protein (clade-general)
 
 | | |
@@ -37,9 +70,62 @@ This is the one genuinely general tool, and it does not need ML.
 | class | exemplars | architecture | detectable from sequence? | status |
 |---|---|---|---|---|
 | **2a. Repeat/avidity surface proteins** | FLO11, ALS1, AGA1, SOWgp, BAD1, CspA | tandem repeats, repeat coverage ≈ 1.0 | **yes, easily** | **works**: PR-AUC 0.98 homology-grouped, 0.94 leave-genome-out |
-| **2b. Small receptor-binding invasins** | CalA (177 aa), Ag2/PRA, PRA3 | compact fold, one binding interface | **no** — scores ~0.000 | not achievable from sequence; needs structure |
+| **2b. Small secreted proteins** — *see below; this was one row and is now three* | CalA (177 aa), Ag2/PRA, PRA3 | **not one architecture** | **no** — scores ~0.000 | **split 2026-09-30.** The single row was a residual bucket, not a mechanism class |
+| **2b-i. CFEM-domain surface proteins** | Ag2/PRA, PRA2, ~7 per Onygenales genome | CFEM hemophore fold, structurally confirmed | **yes** — PF05730 | *HMM problem, not ML*. Same standing as 2c |
+| **2b-ii. Small Cys-knot secreted proteins** | PRA3 | 38 aa 7-Cys knot on a disordered stalk; no fold assignment | **no** | **open structural question**, one protein. Not a classification task |
+| **2b-iii. Bys1-domain invasins** | CalA | Bys1 domain (thaumatin-*like* fold) | **yes** — PF04681 | *HMM problem, not ML* |
 | **2c. Hydrophobin/repellent attachment** | RodA, RodB, Ustilago Rep1 | 8-Cys hydrophobin pattern | **yes, trivially** — PF01185/PF06766 | *solved by HMMs*; was misfiled as an ML failure |
 | **2d. Moonlighting surface proteins** | Histoplasma Hsp60, *Paracoccidioides* gp43 | cytoplasmic or enzymatic proteins on the surface | **no, by construction** | violates the stage-1 premise; must be held out, not predicted |
+
+### Why class 2b was split (2026-09-30)
+
+Source: `docs/reports/2026-09-29-class2b-structure.md`, `analysis/class2b_structure/`.
+AlphaFold DB models, confident cores only (pLDDT ≥ 70), compared by TM-align and read together
+with LDDT.
+
+**The positive set is 2 proteins, or 6 drawn as generously as the evidence allows** — of 110
+curated adhesins, 12 are ≤ 260 aa, of which 4 are hydrophobins (2c) and 4 are flocculin/PA14
+fragments (2a). Those 6 already span five Pfam families. **This cannot support a classifier**:
+no homology-grouped CV, no precision estimate, no train/test split. A fold survey was run
+instead, and no classifier was built.
+
+What the structures show:
+
+| member | confident core | fold | evidence |
+|---|---|---|---|
+| Ag2/PRA, PRA2 | 64, 67 aa | **CFEM hemophore** | TM 0.80 / LDDT 0.77 to Csa2 and Rbt5; and TM 0.807 / LDDT 0.77 to the **experimental** Csa2 crystal `4Y7S` |
+| PRA3 | **38 aa**, 7 Cys | none assigned | best score 0.477 (LDDT 0.47), below threshold. Rest of the protein is Pro/Thr/Glu at pLDDT 35–50 |
+| CalA | 145 aa | **Bys1 / thaumatin-like** | TM 0.83 / LDDT 0.74 to the experimental *Magnaporthe* elicitor MoHrip2 `5FID`, then plant thaumatins |
+
+Three consequences:
+
+1. **The old row's name asserted a mechanism the structures do not support.** The only 2b fold
+   assignable with confidence is a *hemophore* — an iron-acquisition architecture, not a
+   host-receptor-binding one. Whether Ag2/PRA binds heme was not tested and is not claimed.
+2. **Two of the three resulting classes are HMM problems** (PF05730, PF04681), the same
+   conclusion already reached for hydrophobins. Only PRA3 is an open structural question, and
+   it concerns one protein.
+3. **Class 2a and class 2b differ in kind, not degree.** The 2a control SOWgp has **zero**
+   residues above pLDDT 70. One class has a fold; the other does not.
+
+Two methodological cautions, both of which fired in practice:
+
+- **TM-score alone is not sufficient evidence for a short query.** Ag2/PRA scores TM 0.518
+  against a 392 aa TIM barrel, but LDDT 0.41. Every genuine relationship here sits at LDDT
+  0.76–0.77 and every artifact at 0.33–0.48. Report LDDT with TM.
+- **A whole-PDB Foldseek search missed the real answer.** It returns no hit to `4Y7S` for
+  Ag2/PRA in either mode, while direct pairwise TM-align with the prefilter disabled finds it
+  at TM 0.807. The 3Di prefilter drops true neighbours of ~60-residue queries. For a class
+  *defined* by being small, "no Foldseek hit" is not evidence of no fold relationship — run
+  both, and do not read a null as negative.
+
+**Naming caution.** PF04681 is `Bys1` (*Blastomyces* yeast-phase-specific protein, IPR006771).
+It is **not** a thaumatin Pfam — thaumatin proper is PF00314. UniProt names `Q4WXJ1`
+"Extracellular thaumatin domain protein, putative" and the structural neighbours are
+thaumatin-like, so "thaumatin-like fold, Bys1 family" is the accurate phrasing. CalA's two
+*A. fumigatus* paralogs, calB (`Q4WBB5`, AFUA_8G01710) and calC (`Q4WFZ4`, AFUA_3G00510), carry
+the same domain and are **not** curated or tested; they are the obvious specificity control for
+any PF04681 rule.
 
 ### A finding that refines class 2a
 
@@ -64,7 +150,44 @@ with different chemistry.
 
 And the small *Coccidioides* antigens are a different problem entirely — Ag2/PRA (repeat 0.25),
 PRA3 (0.00), PRA2 (0.00), CF antigen (0.00) — alongside AGA2 (0.00), RodA (0.00), CalA (0.00).
-**No repeat-based tool will ever find these.**
+**No repeat-based tool will ever find these.** The 2b structure survey now gives this a
+structural reading: these proteins have a folded domain and SOWgp has none, so they are not
+two points on a size axis.
+
+### What the repeat detector actually measures (2026-09-30)
+
+Source: `analysis/cocci_repeats/REPORT_2026-09-29_repeat_detector_divergence.md`, scripts 14-18.
+
+The class-2a detector was measured against a synthetic divergence series for the first time.
+`02_repeat_profile.py` scores a period by **exact** residue matches, and that has a floor:
+
+| | old (`02`) | new (`14`) |
+|---|---|---|
+| 50% recall reached at unit identity of about | **75%** | **35%** |
+| copy-number error, mean | **−1.43** (grows with array length: −3.43 at 15 copies) | **+0.38** (roughly flat) |
+| calls on the same 71,044 *Coccidioides* proteins | 83 | 189 |
+
+**So the 58 proteins reported in the 2026-09-27 survey are not the *Coccidioides* proteins with
+tandem repeats. They are the ones whose repeat units are more than about 75% identical.** That
+is a statement about the detector, not about the biology, and every downstream count inherits
+it.
+
+Four cautions before anyone adopts `14`:
+
+- **It is not a replacement.** Above ~85% unit identity `02` has the higher recall (96–99% vs a
+  ~90% plateau), cleaner period calls, and its fractional count rounds to the anchored SOWgp
+  truth more often (87.1% vs 24.3%).
+- **It loses 4 Pro/Cys-rich curated class-2a candidates.** Pro/Gly-rich units match at *every*
+  period, so the significance test that suppresses low-complexity false positives also rejects
+  them. Unresolved, and it hits exactly the SOWgp/BAD1 composition class this section is about.
+- **Most of the gain is not the substitution matrix.** It is replacing a flat 0.3 cut on the
+  raw match rate with a significance test. Similarity scoring adds ~5 points and costs a
+  27-fold rise in low-complexity false positives that must then be controlled.
+- **34 of the 123 new calls are ankyrin repeats** — real repeats, but intracellular. A new
+  false-positive class for 2a curation at the biology level, which stage 1 should filter.
+
+The divergence axis is synthetic, single substitution model, **no indels**, so ~35% is an upper
+bound. There is no real benchmark between 40–60% unit identity.
 
 ### Purpose-specific predictors (built on stage 1, not on stage 2)
 
@@ -121,10 +244,14 @@ mistake as one classifier covering all adhesins.
 |---|---|
 | Stage 1 surface/secreted | works; needs SignalP/NetGPI run directly (issue #15) |
 | 2a repeat/avidity adhesin | works within Saccharomycotina; PR-AUC 0.94–0.98 |
+| 2a repeat *detector* | divergence floor measured 2026-09-30: `02` ≈ 75% unit identity, `14` ≈ 35%. Neither supersedes the other |
 | 2c hydrophobin | solved by existing HMMs; no work needed |
 | *Coccidioides* antigen | built, 3/4 calibration, 14 Tier-1 / 45 Tier-2 candidates |
 | Biofilm | **not built** — blocked on phenotype linkage, not on modelling |
-| 2b invasin / 2d moonlighting | **not achievable from sequence**; documented as out of scope |
+| 2b-i CFEM (Ag2/PRA, PRA2) | fold confirmed against experimental `4Y7S`; **HMM problem** (PF05730), not ML |
+| 2b-ii Cys-knot (PRA3) | **open structural question**, one protein. No fold assignment |
+| 2b-iii Bys1 (CalA) | fold confirmed against experimental `5FID`; **HMM problem** (PF04681), not ML |
+| 2d moonlighting | **not achievable from sequence**; documented as out of scope |
 
 ## 6. Related documents
 
