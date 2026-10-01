@@ -38,3 +38,25 @@ def test_every_module_imports_only_stdlib_or_local():
 def test_no_shell_script_uses_bash_source():
     for script in paths.STEP1_DIR.rglob("*.sh"):
         assert "BASH_SOURCE" not in script.read_text(), script
+
+
+def test_every_output_file_has_a_columns_md_heading():
+    from conftest import load_script
+
+    names = []
+    for script in (
+        "01_extract_go_truth",
+        "02_attach_sequences",
+        "03_triage_pm",
+        "04_build_keyword_tier",
+    ):
+        names += load_script(script).OUTPUT_NAMES
+    names += ["keyword_sequences.json", "keyword_sequences.fasta.gz"]  # D10 sequence cache
+    assert len(names) >= 16
+    headings = [
+        line[3:].split()[0]
+        for line in (paths.STEP1_DIR / "COLUMNS.md").read_text().splitlines()
+        if line.startswith("## ")
+    ]
+    missing = [n for n in names if n not in headings]
+    assert not missing, f"COLUMNS.md has no heading for {missing}"

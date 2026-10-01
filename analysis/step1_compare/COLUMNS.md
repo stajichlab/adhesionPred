@@ -1,4 +1,4 @@
-# Columns of the D1 outputs
+# Columns of the step 1 outputs
 
 `01_extract_go_truth.py` writes `truth_set.tsv.gz`, `counts.tsv` and `extract_log.json`.
 
@@ -99,6 +99,61 @@ The file does not exist after a STOP. A STOP happens when a source matches no ge
 
 Keys: `sources` (selected source ids), `all_sources` (`true` when all sources of `species.tsv` were selected), `truth_set_sha256`, `fasta_sha256` (per source), `git_commit` (or `unknown`), `python`, `arguments`. It has no time stamp. A run with `--sources` replaces the full outputs with partial ones. Check `all_sources` before you use `truth_sequences.tsv.gz`. 02 refuses a `truth_set.tsv.gz` unless `extract_log.json` says `all_sources: true`; `--allow-partial-truth-set` overrides this.
 
+## d8_triage.tsv (03_triage_pm.py, one row per PM candidate)
+
+A PM candidate is a gene with `pm_candidate == "yes"` in `truth_set.tsv.gz`. Matched UniProt
+entries are listed in one order in all list columns.
+
+| Column | Meaning |
+|---|---|
+| source_id, gene_id, symbol | As in `truth_set.tsv.gz`. |
+| d8_class | `P-gpi`, `PM-TM` or `pm-unresolved` (rules in `d8_triage.py`). |
+| d8_reason | Why the class was given (for example the accession and the ECO codes). |
+| uniprot_accessions | Accessions of the matched UniProt entries, separated by `,`. Empty if no entry matched. |
+| reviewed | `yes` or `no` for each matched entry, separated by `,`. |
+| gpi_eco | For each entry, the ECO codes of its GPI-anchor Lipidation features (joined by `,`); entries are separated by `;`. |
+| tm_count | For each entry, the number of Transmembrane features; entries are separated by `;`. |
+| tm_eco | For each entry, the ECO codes of its Transmembrane features (joined by `,`); entries are separated by `;`. |
+
+## d8_gpi_outside_pext.tsv (03_triage_pm.py, one row per gene and UniProt entry)
+
+Genes whose `label` is not `P-ext` but that match a reviewed UniProt entry of the organism with a
+GPI-anchor Lipidation feature that has evidence ECO:0000269. The script does not relabel them.
+
+| Column | Meaning |
+|---|---|
+| source_id, gene_id, symbol, label | As in `truth_set.tsv.gz`. |
+| uniprot_accession | The matched UniProt entry. |
+| gpi_eco | ECO codes of the GPI-anchor features of that entry, separated by `,`. |
+
+## d8_counts.tsv (03_triage_pm.py, one row per source with at least one PM candidate)
+
+| Column | Meaning |
+|---|---|
+| source_id | Identifier of the source. |
+| pm_candidates | PM candidates of the source. |
+| p_gpi, pm_tm, pm_unresolved | PM candidates in each D8 class. |
+| organism_curated_gpi_entries | Entries from the organism GPI query that are reviewed and have a GPI-anchor feature with ECO:0000269. |
+| curated_gpi_outside_pext | Rows in `d8_gpi_outside_pext.tsv` for the source. |
+| uniprot_release | `X-UniProt-Release` header of the first candidate query response (of the organism query if that is empty). |
+
+## truth_set_triaged.tsv.gz (03_triage_pm.py, one row per gene)
+
+All columns of `truth_set.tsv.gz`, plus `d8_class` and `d8_reason` (as in `d8_triage.tsv`; empty
+for genes that are not PM candidates).
+
+- For PM candidates, `stratum` is overwritten with `d8_class`. `label` stays `P-ext`.
+- A later phase must therefore filter on `d8_class` (`P-gpi`, `PM-TM`, `pm-unresolved`) to use
+  the triage, not on `label`.
+- `truth_set.tsv.gz` is not changed. It keeps the GO-only `stratum`.
+
+## d8_run.json (03_triage_pm.py)
+
+Keys: `sources` (selected source ids), `all_sources` (`true` when all sources of `species.tsv`
+were selected), `truth_set_sha256` (SHA-256 of the `truth_set.tsv.gz` that was read; nothing
+compares it later), `uniprot_release` (per source with PM candidates), `git_commit`, `python`,
+`arguments`. It has no time stamp.
+
 ## keyword_tier.tsv.gz (04_build_keyword_tier.py, one row per kept T-c protein)
 
 | Column | Meaning |
@@ -113,6 +168,12 @@ Keys: `sources` (selected source ids), `all_sources` (`true` when all sources of
 `reason` is the first matching rule: `literature_accession`, `spombe_taxon`, `heldout_accession`, `no_sequence`, `literature_hash`, `heldout_hash`. `matched` names the matched protein (seed gene, taxon id, or `source_id:gene_id`). Held-out proteins are the labelled genes (`ambiguous` included, `unlabelled` excluded) of every source whose role is not `train`.
 
 Limitation: removal is by accession and by exact cleaned-sequence hash only. Near-identical orthologs or paralogs under other accessions remain in the training table. Homology clustering in the later dataset plan must remove them.
+
+## keyword_sequences.fasta.gz (04_build_keyword_tier.py)
+
+UniProtKB FASTA records of the accessions in `surface.tsv` and the literature seeds, as returned
+by UniProt (gzip). 04 downloads it with `--fetch` only when it is missing. Its SHA-256 and
+UniProt release are in `keyword_sequences.json`.
 
 ## keyword_sequences.json (04_build_keyword_tier.py)
 
