@@ -37,8 +37,7 @@ MAX_ITER = 5000
 SCORE_CHUNK = 20000
 
 
-class ModelError(ValueError):
-    """An outer training set cannot be fitted (for example an inner fold without positives)."""
+ModelError = universe.ModelError  # an outer training set cannot be fitted (or an input is bad)
 
 
 def inner_folds(y, groups, seed: int, n_folds: int = INNER_FOLDS):
@@ -125,6 +124,11 @@ def fit_unit(u, train_idx, y, groups, score_idx, seed: int, candidates=CANDIDATE
     train_idx = np.asarray(train_idx, dtype=np.int64)
     score_idx = np.asarray(score_idx, dtype=np.int64)
     y = np.asarray(y, dtype=bool)
+    if not len(train_idx) == len(y) == len(groups):
+        raise ModelError(
+            f"train_idx has {len(train_idx)} rows, y {len(y)} and groups {len(groups)}; "
+            "they must agree"
+        )
     folds = inner_folds(y, groups, seed)
     params, scores = {}, {}
     base = {"n_train": int(len(y)), "n_train_pos": int(y.sum())}

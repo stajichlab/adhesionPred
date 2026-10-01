@@ -26,6 +26,10 @@ EMBEDDINGS = {
 MODELS = ("esm2_t6_8M_UR50D", "esm2_t12_35M_UR50D")
 
 
+class ModelError(ValueError):
+    """An input of the Phase C models is unusable (re-exported as models.ModelError)."""
+
+
 @dataclass
 class Universe:
     hashes: list[str]
@@ -43,6 +47,8 @@ class Universe:
 
     def __post_init__(self):
         self.index = {h: i for i, h in enumerate(self.hashes)}
+        if len(self.index) != len(self.hashes):
+            raise ModelError("the universe lists a hash more than once")
         check_cterm_rows(self.length, self.cterm_row)
 
     def rows(self, hashes) -> np.ndarray:
@@ -64,7 +70,11 @@ def check_cterm_rows(length, cterm_row) -> None:
 
 
 def composition(sequence: str) -> list[float]:
+    """Fraction of each of the 20 amino acids. The divisor is the full length, X included,
+    so the fractions sum to less than 1 for a sequence with X or other symbols."""
     n = len(sequence)
+    if n == 0:
+        raise ModelError("composition of an empty sequence is undefined")
     return [sequence.count(a) / n for a in AA20]
 
 
@@ -90,6 +100,10 @@ def features(u: Universe, candidate: str, idx, h_variant: str | None = None) -> 
     if candidate in EMBEDDINGS:
         return embedding(u, candidate, idx)
     if candidate == "H":
+        if h_variant not in EMBEDDINGS:
+            raise ModelError(
+                f"candidate H needs h_variant in {tuple(EMBEDDINGS)}, got {h_variant!r}"
+            )
         extra = np.c_[u.sp_prob[idx], u.gpi_prob[idx], u.st[idx]]
         return np.hstack([embedding(u, h_variant, idx), extra])
     raise ValueError(f"candidate {candidate!r} has no feature matrix")
