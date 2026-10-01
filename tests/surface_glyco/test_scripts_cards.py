@@ -6,8 +6,9 @@ import numpy as np
 import pytest
 from sklearn.linear_model import LogisticRegression
 
-from surface_glyco.card import POOLING_RESIDUE_MEAN, new_card
+from surface_glyco.card import DEFAULT_REPR_LAYER, POOLING_RESIDUE_MEAN, new_card
 from surface_glyco.model import save_model, save_model_card
+from surface_glyco.scripts import evaluate as evaluate_mod
 from surface_glyco.scripts import predict as predict_mod
 from surface_glyco.scripts import train as train_mod
 
@@ -178,3 +179,113 @@ def test_trained_model_card_has_environment_and_counts(tmp_path, monkeypatch):
         3,
     )
     assert set(card["environment"]) == {"numpy", "scikit_learn", "torch", "fair_esm"}
+
+
+def test_train_passes_repr_layer_explicitly_and_card_matches(tmp_path, monkeypatch):
+    from surface_glyco.model import load_model_card
+
+    seen = {}
+    monkeypatch.setattr(
+        train_mod,
+        "prepare_data",
+        lambda p, n: (
+            [{"id": f"s{i}", "sequence": "MK" * (i + 2), "label": i % 2} for i in range(40)],
+            {"n_empty_removed": 0, "n_conflicting_removed": 0, "n_duplicates_removed": 0},
+        ),
+    )
+
+    def fake(seqs, **kw):
+        seen.update(kw)
+        return (
+            np.random.default_rng(1).normal(size=(len(seqs), 4)),
+            [s["id"] for s in seqs],
+            list(range(len(seqs))),
+        )
+
+    monkeypatch.setattr(train_mod, "get_esm_embeddings", fake)
+    out = tmp_path / "m.pkl"
+    train_mod.main(tmp_path, tmp_path, out, ESM, 0.2)
+    assert seen["repr_layer"] == DEFAULT_REPR_LAYER
+    assert load_model_card(out)["repr_layer"] == DEFAULT_REPR_LAYER
+
+
+def test_predict_checks_the_card_before_unpickling(tmp_path, fasta, fake_embed, capsys):
+    bad = tmp_path / "bad.pkl"
+    bad.write_bytes(b"not a pickle")
+    save_model_card(bad, new_card(ESM, 6, POOLING_RESIDUE_MEAN, 1, 1))
+    with pytest.raises(SystemExit) as e:
+        predict_mod.main(fasta, bad, tmp_path / "o.csv", "esm2_t12_35M_UR50D")
+    assert e.value.code == 1
+    assert "esm_model" in capsys.readouterr().err
+    assert fake_embed == {}
+
+
+@pytest.fixture
+def eval_dirs(tmp_path):
+    pos = tmp_path / "pos"
+    neg = tmp_path / "neg"
+    pos.mkdir()
+    neg.mkdir()
+    (pos / "p.fa").write_text(">p1\nMKTAYIAK\n>p2\nMKTAYIAKQR\n>p3\nMKTAYIAKQRQ\n")
+    (neg / "n.fa").write_text(">n1\nGGSSGGSA\n>n2\nGGSSGGSAGG\n>n3\nGGSSGGSAGGT\n")
+    return pos, neg
+
+
+@pytest.fixture
+def eval_embed(monkeypatch):
+    calls = {}
+
+    def fake(sequences, **kw):
+        calls.update(kw)
+        calls["n"] = len(sequences)
+        rng = np.random.default_rng(2)
+        emb = rng.normal(size=(len(sequences), 4))
+        return emb, [s["id"] for s in sequences], list(range(len(sequences)))
+
+    monkeypatch.setattr(evaluate_mod, "get_esm_embeddings", fake)
+    return calls
+
+
+def test_evaluate_card_settings_reach_the_embedder(tmp_path, eval_dirs, eval_embed):
+    card = new_card(ESM, 6, POOLING_RESIDUE_MEAN, 3, 3)
+    evaluate_mod.main(*eval_dirs, _model(tmp_path, card), None)
+    assert (eval_embed["model_name"], eval_embed["repr_layer"]) == (ESM, 6)
+    assert eval_embed["n"] == 6
+
+
+@pytest.mark.parametrize(
+    "card, cli_model, field",
+    [
+        (new_card(ESM, 6, POOLING_RESIDUE_MEAN, 1, 1), "esm2_t12_35M_UR50D", "esm_model"),
+        (None, None, "card"),
+    ],
+)
+def test_evaluate_refusals_exit_1_before_embedding(
+    tmp_path, eval_dirs, eval_embed, capsys, card, cli_model, field
+):
+    with pytest.raises(SystemExit) as e:
+        evaluate_mod.main(*eval_dirs, _model(tmp_path, card), cli_model)
+    assert e.value.code == 1
+    assert field in capsys.readouterr().err
+    assert eval_embed == {}
+
+
+def test_evaluate_cli_leaves_model_name_to_the_card(tmp_path, eval_dirs, monkeypatch):
+    got = {}
+    monkeypatch.setattr(evaluate_mod, "main", lambda *a, **k: got.update(args=a, kwargs=k))
+    model = _model(tmp_path, new_card(ESM, 6, POOLING_RESIDUE_MEAN, 1, 1))
+    monkeypatch.setattr(
+        sys,
+        "argv",
+        [
+            "surface_glyco_evaluate",
+            "--positive",
+            str(eval_dirs[0]),
+            "--negative",
+            str(eval_dirs[1]),
+            "--model",
+            str(model),
+        ],
+    )
+    evaluate_mod.cli()
+    assert got["args"][3] is None

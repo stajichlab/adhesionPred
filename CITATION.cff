@@ -16,8 +16,7 @@ authors:
     orcid: 'https://orcid.org/0000-0002-7591-0020'
 repository-code: 'https://github.com/stajichlab/adhesionPred'
 abstract: >-
-  A simple classifier for adhesion related proteins focused
-  on fungi
+  ESM-2 based scorer for fungal cell-surface glycoproteins
 keywords:
   - bioinformatics
   - fungi

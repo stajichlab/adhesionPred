@@ -84,7 +84,7 @@ Points that are easy to get wrong:
 |---|---|---|
 | 1 | Step 1 is a **rule**: SignalP + GPI anchor + Ser/Thr content. Not an ML model. | The review concluded stage 1 "does not need ML". The ESM model's labels (FLO/ALS vs random) do not define surface glycoproteins. |
 | 2 | The **ESM + LR model is frozen as legacy**. Safety fixes only: card, explicit legacy-pooling flag, refuse on mismatch. No retraining, no tuning. | Step 1 measurement: the scaler barely matters for ESM features (section 5). Keep the embedding code for a possible step 2. |
-| 3 | Step 1 truth set: **curated GO annotation** (SGD/CGD cell wall and GPI-anchored vs cytosolic/nuclear) in S288C and *C. albicans*, plus the curated Onygenales/Eurotiales literature rows. Report per clade. | SignalP cannot check itself. `surface.tsv` labels come from UniProt keywords and share inputs with the rule. The literature rows cover the known Onygenales under-call. |
+| 3 | Step 1 truth set: **curated GO annotation** (SGD/CGD cell wall and GPI-anchored vs cytosolic/nuclear) in S288C and *C. albicans*, plus the curated Onygenales/Eurotiales literature rows. Report per clade. | SignalP cannot check itself. `surface.tsv` labels come from UniProt keywords and share inputs with the rule. The literature rows cover Onygenales and Eurotiales proteins, where SignalP coverage has not been checked against truth data. |
 | 4 | **Breaking rename now, no aliases.** Package `surface_glyco`, holding only the legacy code. Entry points `surface_glyco_predict`, `surface_glyco_train`, `surface_glyco_evaluate`. Column `surface_glycoprotein_score`. Labels `surface_glycoprotein` and `other`. Model files renamed to match. Repo name `adhesionPred` stays. | The old names assert something the tool does not do. |
 | 5 | New tools (step 1 rule, step 2) get **their own packages or modules**. | Each name then matches what it does. |
 | 6 | Accuracy gates: **measure first, then freeze as regression tests.** Report recall, precision and false-positive rate per clade with confidence intervals; the owner reviews; gates are set at or just below the measured values. | No target is guessed in advance. |
@@ -93,10 +93,10 @@ Defaults adopted for the remaining questions in the Fable review (change on requ
 
 1. The legacy threshold stays at 0.5 and is documented as uncalibrated.
 2. Python 3.12 is the canonical version. CI uses CPU only.
-3. Both packaged pickles (8M and 35M) are tracked in one place, `src/surface_glyco/models/`. The duplicate root `models/` copies are dropped.
+3. Both packaged pickles (8M and 35M) are tracked in one place, `src/surface_glyco/models/`. The duplicate root `models/` copies are dropped. Superseded: the pickles are deleted (section 4a).
 4. A sequence present in both classes is dropped from training. This only matters if the legacy model is retrained.
 5. Curated labels may be smoke-test fixtures, not accuracy gates, until expert review.
-6. Old Fungi_5k outputs are frozen and labelled "legacy pooling, 35M".
+6. Old Fungi_5k outputs are frozen and labelled "legacy pooling, 35M". Superseded: the old result files are not read (section 4a).
 
 ## 4a. Changes made later on 2026-09-30
 
@@ -143,9 +143,7 @@ This is new code, so it needs a design spec and an independent review before any
 
 ## 7. Work, in order
 
-1. **Legacy rename and safety fixes.** In progress (branch `surface-glyco-rename`). Touches 46 files: package, tests, `kingdom_survey`, analysis
-   scripts, HPCC scripts, docs. The CHANGELOG entry exists. No version bump until a validated model ships (section 4a). Existing Fungi_5k CSVs are
-   labelled legacy. Shrinks the #9 plan to the card, the pooling flag, refusal on mismatch, and tests.
+1. **Legacy rename and safety fixes.** In progress (branch `surface-glyco-rename`). The diff touches about 79 files. It covers: the rename, the result schema, the model directory, the result reader and discovery, the card framework, card-driven predict, evaluate and train, and docs. The old pickles are deleted. No HPCC scripts were changed (`run_fungi5k*.sh` are untracked in the primary checkout). Nothing labels the old Fungi_5k CSVs as legacy, and the analysis code no longer reads the old schema. There is no pooling flag and no legacy mode (section 4a, row 1). The CHANGELOG entry exists. No release is cut and no version is bumped until a validated model ships (section 4a).
 2. **GO truth-set extraction** for step 1 (S288C, *C. albicans*), plus the literature rows.
 3. **Step 1 rule and its baseline measurement**, per clade with confidence intervals. Then freeze the gates.
 4. **Orchestrator design spec** and independent review.

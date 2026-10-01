@@ -138,8 +138,8 @@ def get_esm_embeddings(
         batch_size: Number of sequences to process at once. If None, will auto-optimize.
         device: torch device (cuda or cpu).
         repr_layer: Transformer layer whose representations are pooled. Defaults to 6,
-            the layer the shipped models were trained on (the final layer of the 6-layer
-            model, the middle layer of the 12-layer model).
+            the layer new models are trained on (the final layer of the 6-layer model,
+            the middle layer of the 12-layer model).
         return_indices: If True, also return the input positions of the embedded sequences.
 
     Returns:

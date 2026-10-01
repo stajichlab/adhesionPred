@@ -128,7 +128,10 @@ def main(positive_dir, negative_dir, output_model, model_name, test_size):
     sequences, counts = prepare_data(positive_dir, negative_dir)
 
     embeddings, seq_ids, kept = get_esm_embeddings(
-        sequences, model_name=model_name, return_indices=True
+        sequences,
+        model_name=model_name,
+        repr_layer=DEFAULT_REPR_LAYER,
+        return_indices=True,
     )
 
     if len(embeddings) == 0:

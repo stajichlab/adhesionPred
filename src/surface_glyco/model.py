@@ -95,7 +95,9 @@ def require_model_file(model_path):
     if not Path(model_path).exists():
         print(
             f"Error: model file not found at {model_path}. "
-            "Train one with surface_glyco_train, or pass --model.",
+            "Train one with surface_glyco_train, or pass --model. "
+            "Models written by surface_glyco_train go to ./models by default; "
+            "pass --model ./models/<file> or set SURFACE_GLYCO_MODELS_DIR.",
             file=sys.stderr,
         )
         sys.exit(1)

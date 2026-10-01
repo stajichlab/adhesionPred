@@ -2,7 +2,7 @@
 
 A bioinformatics tool that scores proteins from FASTA files as **secreted cell-surface glycoproteins**
 (FLO/ALS-like). Despite the project name, this is step 1 of a multi-step pipeline and not an adhesin
-predictor: on *S. cerevisiae* S288C about 12% of its calls are known adhesins. Mechanism-specific
+predictor. The removed 0.1.0 model made calls on *S. cerevisiae* S288C of which about 12% were known adhesins. Mechanism-specific
 adhesin classes are separate tools; see `docs/TOOL-ARCHITECTURE.md` section 2.0 for the steps and names.
 
 # Requirements
@@ -19,7 +19,7 @@ No trained model ships with this package. Train one before you predict. The trai
 surface_glyco_train --positive data/positive --negative data/negative
 ```
 
-Training writes the model to `./models` by default. It also writes a JSON model card next to the model. Set `SURFACE_GLYCO_MODELS_DIR` to read models from another directory.
+Training writes the model to `./models` by default. It also writes a JSON model card next to the model. `surface_glyco_predict` and `surface_glyco_evaluate` do not look in `./models`. They look in the packaged model directory, or in the directory in `SURFACE_GLYCO_MODELS_DIR`. After training, pass the model with `--model`, as in the examples below, or run `export SURFACE_GLYCO_MODELS_DIR=$PWD/models`.
 
 ### Application 
 
@@ -35,14 +35,14 @@ curl -O https://fungidb.org/a/service/raw-files/release-68/Spombe972h/fasta/data
 popd
 for qorg in $(ls query/*.fasta)
 do
-   surface_glyco_predict --input $qorg --output $(basename $qorg .fasta).surface_glyco.csv
+   surface_glyco_predict --model models/surface_glyco_model_esm2_t6_8M_UR50D.pkl --input $qorg --output $(basename $qorg .fasta).surface_glyco.csv
 done
 ```
 
 You can run on a single folder and all results will be combined in a single file. It will look for all .fasta, .fa, .pep, .aa with or without .gz extensions.
 
 ```
-surface_glyco_predict --input query --output Combinedquery.surface_glyco.csv
+surface_glyco_predict --model models/surface_glyco_model_esm2_t6_8M_UR50D.pkl --input query --output Combinedquery.surface_glyco.csv
 ```
 
 ## Development Setup

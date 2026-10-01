@@ -77,8 +77,7 @@ def main(
     print("Surface glycoprotein scoring")
     print("=" * 50)
 
-    print(f"Loading model from {model_path}...")
-    classifier = load_model(model_path)
+    # Read the card first. A pickle is executable data, so it is loaded only after the card passes.
     try:
         settings = resolve_embedding_settings(
             load_model_card(model_path), model_name, DEFAULT_MODEL
@@ -86,6 +85,9 @@ def main(
     except ModelCardError as e:
         print(f"Error: {e}", file=sys.stderr)
         sys.exit(1)
+
+    print(f"Loading model from {model_path}...")
+    classifier = load_model(model_path)
 
     # Handle both file and directory inputs
     input_path = Path(input_path)
