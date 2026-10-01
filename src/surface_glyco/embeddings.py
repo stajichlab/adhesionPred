@@ -5,14 +5,11 @@ import numpy as np
 import torch
 from tqdm import tqdm
 
+from surface_glyco.card import DEFAULT_REPR_LAYER, MAX_RESIDUES
+
 # Global model cache to avoid reloading models
 _MODEL_CACHE = {}
 
-# Layer the shipped models were trained on; see get_esm_embeddings.
-DEFAULT_REPR_LAYER = 6
-# ESM-2 context is 1024 tokens including BOS and EOS.
-MAX_RESIDUES = 1022
-POOLING = "residue_mean"
 # Residue characters the ESM-2 alphabet accepts; anything else becomes 'X'.
 ESM_RESIDUES = set("ACDEFGHIKLMNPQRSTVWYXBUZO")
 STRIP_CHARS = "*-."
@@ -94,6 +91,11 @@ def sanitize_sequence(sequence):
     return "".join(ch if ch in ESM_RESIDUES else "X" for ch in seq)
 
 
+def count_truncated(sequences):
+    """Number of sequences longer than MAX_RESIDUES after sanitizing (they get truncated)."""
+    return sum(len(sanitize_sequence(s["sequence"])) > MAX_RESIDUES for s in sequences)
+
+
 def _embed_batch(model, alphabet, batch_converter, batch, repr_layer, device):
     """Embed one batch of (id, sequence) pairs; mean over residue tokens only.
 
@@ -136,8 +138,8 @@ def get_esm_embeddings(
         batch_size: Number of sequences to process at once. If None, will auto-optimize.
         device: torch device (cuda or cpu).
         repr_layer: Transformer layer whose representations are pooled. Defaults to 6,
-            the layer the shipped models were trained on (the final layer of the 6-layer
-            model, the middle layer of the 12-layer model).
+            the layer new models are trained on (the final layer of the 6-layer model,
+            the middle layer of the 12-layer model).
         return_indices: If True, also return the input positions of the embedded sequences.
 
     Returns:
@@ -171,7 +173,9 @@ def get_esm_embeddings(
         batch = [(str(k), cleaned[k]) for k in idx]
         try:
             for k, vec in zip(
-                idx, _embed_batch(model, alphabet, batch_converter, batch, repr_layer, device)
+                idx,
+                _embed_batch(model, alphabet, batch_converter, batch, repr_layer, device),
+                strict=False,
             ):
                 pooled[k] = vec
         except Exception as e:

@@ -23,7 +23,7 @@ jobs:
       - run: ruff format --check .
 
   test:
-    name: Unit tests (tests/adhesion_predict, CPU)
+    name: Unit tests (tests/surface_glyco, CPU)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
@@ -43,7 +43,7 @@ jobs:
           path: ~/.cache/torch/hub/checkpoints
           key: esm2-t6-8M-UR50D-v1
       - name: Run tests
-        run: pytest tests/adhesion_predict
+        run: pytest tests/surface_glyco
 
   analysis-tests:
     name: Analysis tests (${{ matrix.suite }}, informational)

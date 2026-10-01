@@ -17,13 +17,22 @@ _SUMMARY_HEADER = (
 
 
 def test_read_result_ids(tmp_path):
-    result = tmp_path / "sp.adhesion_predict.csv"
+    result = tmp_path / "sp.surface_glyco.csv"
     result.write_text(
-        "id,prediction,probability_adhesion\n"
-        "LOC1_000001-T1,Adhesion,0.9\n"
-        "LOC1_000002-T1,Adhesion,0.7\n"
+        "id,prediction,surface_glycoprotein_score\n"
+        "LOC1_000001-T1,surface_glycoprotein,0.9\n"
+        "LOC1_000002-T1,surface_glycoprotein,0.7\n"
     )
     assert read_result_ids(result) == [("LOC1_000001-T1", 0.9), ("LOC1_000002-T1", 0.7)]
+
+
+def test_read_result_ids_keeps_only_called_rows(tmp_path):
+    result = tmp_path / "sp.surface_glyco.csv"
+    result.write_text(
+        "id,prediction,surface_glycoprotein_score\n"
+        "A,surface_glycoprotein,0.9\nB,other,0.1\nC,surface_glycoprotein,0.6\n"
+    )
+    assert read_result_ids(result) == [("A", 0.9), ("C", 0.6)]
 
 
 def test_read_fai_ids(tmp_path):
@@ -65,10 +74,10 @@ def test_build_protein_universe_matched_species(tmp_path):
     (input_dir / "Sp_one.proteins.fa.fai").write_text(
         "".join(f"LOC1_{i:06d}-T1\t100\t10\t60\t61\n" for i in range(1, 11))
     )
-    (results_dir / "Sp_one.adhesion_predict.csv").write_text(
-        "id,prediction,probability_adhesion\n"
-        "LOC1_000001-T1,Adhesion,0.9\n"
-        "LOC1_000002-T1,Adhesion,0.8\n"
+    (results_dir / "Sp_one.surface_glyco.csv").write_text(
+        "id,prediction,surface_glycoprotein_score\n"
+        "LOC1_000001-T1,surface_glycoprotein,0.9\n"
+        "LOC1_000002-T1,surface_glycoprotein,0.8\n"
     )
     summary = tmp_path / "species_adhesion_summary.csv"
     summary.write_text(
@@ -91,8 +100,8 @@ def test_build_protein_universe_skips_unmatched_species(tmp_path):
     input_dir.mkdir()
     results_dir.mkdir()
     (input_dir / "Sp_two.proteins.fa.fai").write_text("LOC2_000001-T1\t100\t10\t60\t61\n")
-    (results_dir / "Sp_two.adhesion_predict.csv").write_text(
-        "id,prediction,probability_adhesion\nLOC2_000001-T1,Adhesion,0.9\n"
+    (results_dir / "Sp_two.surface_glyco.csv").write_text(
+        "id,prediction,surface_glycoprotein_score\nLOC2_000001-T1,surface_glycoprotein,0.9\n"
     )
     summary = tmp_path / "species_adhesion_summary.csv"
     summary.write_text(_SUMMARY_HEADER)  # no rows — LOC2 not present

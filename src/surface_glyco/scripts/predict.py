@@ -1,42 +1,64 @@
 #!/usr/bin/env python
-"""Prediction script for classifying adhesion proteins."""
+"""Prediction script for scoring fungal cell-surface glycoproteins."""
 
 import argparse
 import csv
 import sys
 from pathlib import Path
 
-from adhesion_predict.config import DEFAULT_MODEL, MODELS_DIR
-from adhesion_predict.embeddings import ESM2_MODEL_CHOICES, get_esm_embeddings
-from adhesion_predict.io import find_fasta_files, process_fasta_file, process_fasta_files_parallel
-from adhesion_predict.model import load_model, load_model_card, predict, predict_proba
+from surface_glyco.card import ModelCardError, resolve_embedding_settings
+from surface_glyco.config import DEFAULT_MODEL, get_models_dir, model_filename
+from surface_glyco.embeddings import ESM2_MODEL_CHOICES, count_truncated, get_esm_embeddings
+from surface_glyco.io import find_fasta_files, process_fasta_file, process_fasta_files_parallel
+from surface_glyco.model import (
+    load_model,
+    load_model_card,
+    predict,
+    predict_proba,
+    require_model_file,
+)
+
+LABEL_POSITIVE = "surface_glycoprotein"
+LABEL_NEGATIVE = "other"
+SCORE_COLUMN = "surface_glycoprotein_score"
+
+
+def default_output_path(input_path):
+    """Output CSV in the current directory, named after the input."""
+    input_path = Path(input_path)
+    stem = input_path.name if input_path.is_dir() else input_path.stem
+    return Path.cwd() / f"{stem}.surface_glyco.csv"
 
 
 def write_results(results, output_file):
     """Write prediction rows as CSV (ids containing commas or quotes are quoted)."""
     with open(output_file, "w", newline="") as f:
         writer = csv.writer(f, lineterminator="\n")
-        writer.writerow(["id", "prediction", "probability_adhesion"])
+        writer.writerow(["id", "prediction", SCORE_COLUMN])
         for result in results:
-            writer.writerow(
-                [result["id"], result["prediction"], f"{result['probability_adhesion']:.4f}"]
-            )
+            writer.writerow([result["id"], result["prediction"], f"{result[SCORE_COLUMN]:.4f}"])
 
 
 def build_results(seq_ids, predictions, probabilities):
-    """Return one result row per sequence (every score, not only adhesion calls)."""
+    """Return one result row per sequence (every score, not only positive calls)."""
     return [
         {
             "id": seq_id,
-            "prediction": "Adhesion" if predictions[i] == 1 else "Non-adhesion",
-            "probability_adhesion": probabilities[i][1],
+            "prediction": LABEL_POSITIVE if predictions[i] == 1 else LABEL_NEGATIVE,
+            SCORE_COLUMN: probabilities[i][1],
         }
         for i, seq_id in enumerate(seq_ids)
     ]
 
 
 def main(
-    input_path, model_path, output_file, model_name, silent=False, show_all=False, max_workers=None
+    input_path,
+    model_path,
+    output_file,
+    model_name=None,
+    silent=False,
+    show_all=False,
+    max_workers=None,
 ):
     """Run prediction on input sequences.
 
@@ -44,27 +66,28 @@ def main(
         input_path: Path to a FASTA file or directory containing FASTA files.
         model_path: Path to trained model.
         output_file: Optional output CSV file path.
-        model_name: ESM-2 model variant to use.
+        model_name: Optional ESM-2 variant from --model-name. None uses the model card; a value
+            that differs from the card is refused.
         silent: Suppress per-sequence output to stdout.
-        show_all: Print all predictions to stdout, not just adhesion calls. The output
+        show_all: Print all predictions to stdout, not just positive calls. The output
             CSV always contains every sequence.
         max_workers: Maximum number of workers for parallel file processing.
     """
     print("=" * 50)
-    print("Adhesion Protein Prediction")
+    print("Surface glycoprotein scoring")
     print("=" * 50)
+
+    # Read the card first. A pickle is executable data, so it is loaded only after the card passes.
+    try:
+        settings = resolve_embedding_settings(
+            load_model_card(model_path), model_name, DEFAULT_MODEL
+        )
+    except ModelCardError as e:
+        print(f"Error: {e}", file=sys.stderr)
+        sys.exit(1)
 
     print(f"Loading model from {model_path}...")
     classifier = load_model(model_path)
-    card = load_model_card(model_path)
-    if card is None:
-        print("  No model card found; assuming the model was trained with --model-name embeddings")
-    elif card.get("esm_model") != model_name:
-        print(
-            f"Error: model was trained on {card.get('esm_model')} embeddings, "
-            f"but --model-name is {model_name}"
-        )
-        sys.exit(1)
 
     # Handle both file and directory inputs
     input_path = Path(input_path)
@@ -100,8 +123,17 @@ def main(
 
     print(f"Total sequences to predict: {len(all_sequences)}")
 
-    print(f"Extracting ESM-2 embeddings using {model_name}...")
-    embeddings, seq_ids = get_esm_embeddings(all_sequences, model_name=model_name)
+    n_trunc = count_truncated(all_sequences)
+    if n_trunc:
+        print(
+            f"{n_trunc} of {len(all_sequences)} sequences are longer than "
+            f"{settings.max_residues} residues and will be truncated"
+        )
+
+    print(f"Extracting ESM-2 embeddings using {settings.esm_model}...")
+    embeddings, seq_ids = get_esm_embeddings(
+        all_sequences, model_name=settings.esm_model, repr_layer=settings.repr_layer
+    )
 
     if len(embeddings) == 0:
         print("Error: No embeddings extracted")
@@ -117,19 +149,12 @@ def main(
         print("\nResults:")
         print("-" * 50)
         for result in results:
-            # only print adhesion calls by default; the output file always has every score
-            if show_all or result["prediction"] == "Adhesion":
-                print(
-                    f"{result['id']}: {result['prediction']} "
-                    f"(p={result['probability_adhesion']:.3f})"
-                )
+            # only print positive calls by default; the output file always has every score
+            if show_all or result["prediction"] == LABEL_POSITIVE:
+                print(f"{result['id']}: {result['prediction']} " f"(p={result[SCORE_COLUMN]:.3f})")
 
     if output_file is None:
-        output_dir = Path.cwd()
-        if input_path.is_dir():
-            output_file = output_dir / f"{input_path.name}.adhesion_predict.csv"
-        else:
-            output_file = output_dir / f"{input_path.stem}.adhesion_predict.csv"
+        output_file = default_output_path(input_path)
 
     print(f"\nSaving results to {output_file}...")
     write_results(results, output_file)
@@ -141,7 +166,9 @@ def main(
 
 def cli():
     """Command-line interface entry point."""
-    parser = argparse.ArgumentParser(description="Predict adhesion proteins using trained model")
+    parser = argparse.ArgumentParser(
+        description="Score proteins as fungal cell-surface glycoproteins"
+    )
     parser.add_argument(
         "--input",
         type=Path,
@@ -165,9 +192,9 @@ def cli():
     )
     parser.add_argument(
         "--model-name",
-        default=DEFAULT_MODEL,
+        default=None,
         choices=ESM2_MODEL_CHOICES,
-        help="ESM-2 model variant (must match training)",
+        help="ESM-2 model variant; defaults to the model card's, and must match it if given",
     )
     parser.add_argument(
         "--silent",
@@ -193,12 +220,9 @@ def cli():
         sys.exit(1)
 
     if args.model is None:
-        args.model = MODELS_DIR / f"adhesion_model_{args.model_name}.pkl"
+        args.model = get_models_dir() / model_filename(args.model_name or DEFAULT_MODEL)
 
-    if not args.model.exists():
-        print(f"Error: Model file not found at {args.model}")
-        print("Run training first: adhesion_train")
-        sys.exit(1)
+    require_model_file(args.model)
 
     main(
         args.input,

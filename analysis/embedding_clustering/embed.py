@@ -2,7 +2,7 @@
 space, plus chunked save/load bookkeeping used across the embedding-space
 clustering pipeline.
 
-Reuses src/adhesion_predict/embeddings.py's exact classifier recipe
+Reuses src/surface_glyco/embeddings.py's exact classifier recipe
 (esm2_t12_35M_UR50D, layer 6, mean-pooled) rather than reimplementing it,
 so "the classifier's own embedding space" is genuinely the same
 representation the classifier was trained/predicts on.
@@ -16,14 +16,14 @@ AttributeError if this module is ever imported in the wrong interpreter.
 ESM-C extraction lives entirely in its own self-contained CLI script
 (a separate task), not here.
 
-IMPORT NOTE: `adhesion_predict.embeddings` (which pulls in `fair-esm`) is
+IMPORT NOTE: `surface_glyco.embeddings` (which pulls in `fair-esm`) is
 imported lazily, inside extract_esm2_classifier_embeddings, rather than at
 module level. This lets the ESM-C extraction script import this module's
 version-agnostic bookkeeping functions (read_protein_universe_adhesion_ids,
 save_embeddings_chunk, load_all_embedding_chunks) under `.venv_esmc`
-(Python 3.11), where `adhesion_predict` is not installed and `import esm`
+(Python 3.11), where `surface_glyco` is not installed and `import esm`
 resolves to the unrelated ESM-C SDK package -- without ever needing
-adhesion_predict.embeddings to actually load there.
+surface_glyco.embeddings to actually load there.
 """
 
 import sys
@@ -40,13 +40,13 @@ def read_protein_universe_adhesion_ids(universe_csv_path: Path) -> list[str]:
 
 
 def extract_esm2_classifier_embeddings(sequences: list) -> tuple[np.ndarray, list[str]]:
-    """Extract embeddings using the exact recipe adhesion_predict's
+    """Extract embeddings using the exact recipe surface_glyco's
     classifier was trained/predicts on: esm2_t12_35M_UR50D, layer 6,
     mean-pooled. `sequences` is a list of {"id", "sequence"} dicts,
     matching get_esm_embeddings' expected input shape."""
     _repo_root = Path(__file__).resolve().parents[2]
     sys.path.insert(0, str(_repo_root / "src"))
-    from adhesion_predict.embeddings import get_esm_embeddings
+    from surface_glyco.embeddings import get_esm_embeddings
 
     return get_esm_embeddings(sequences, model_name="esm2_t12_35M_UR50D")
 

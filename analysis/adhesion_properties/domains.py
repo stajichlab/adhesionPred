@@ -36,7 +36,9 @@ def compute_domain_flags(con, protein_ids: Iterable[str]) -> pd.DataFrame:
 
     targetp = fetch_domain_hits(con, "targetp", protein_ids)
     targetp_map = (
-        dict(zip(targetp["protein_id"], targetp["prediction"])) if not targetp.empty else {}
+        dict(zip(targetp["protein_id"], targetp["prediction"], strict=False))
+        if not targetp.empty
+        else {}
     )
 
     base["has_pfam"] = base["protein_id"].isin(pfam_hits)

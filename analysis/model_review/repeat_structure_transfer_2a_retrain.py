@@ -115,10 +115,10 @@ def pct_identity(aligner, seq1, seq2):
     aln = aligner.align(seq1, seq2)[0]
     a1, a2 = aln.aligned
     matches = alnlen = 0
-    for (s1, e1), (s2, e2) in zip(a1, a2):
+    for (s1, e1), (s2, e2) in zip(a1, a2, strict=False):
         x, y = seq1[s1:e1], seq2[s2:e2]
         alnlen += len(x)
-        matches += sum(1 for p, q in zip(x, y) if p == q)
+        matches += sum(1 for p, q in zip(x, y, strict=False) if p == q)
     return matches / alnlen * 100 if alnlen else 0.0
 
 

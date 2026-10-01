@@ -129,7 +129,7 @@ def embed_genome(model, proteins, nterm, token_budget, device):
             dim = s.shape[1]
             sums = np.zeros((2, n, dim), dtype=np.float64)
             counts = np.zeros((2, n), dtype=np.int64)
-        for (i, t, _), vec, cnt in zip(batch, s, k):
+        for (i, t, _), vec, cnt in zip(batch, s, k, strict=False):
             sums[t, i] += vec
             counts[t, i] += cnt
 

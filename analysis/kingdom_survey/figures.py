@@ -27,7 +27,6 @@ palette (see .superpowers dataviz skill, references/palette.md):
 """
 
 from pathlib import Path
-from typing import Optional
 
 import matplotlib
 
@@ -54,7 +53,7 @@ _CATEGORICAL_ORDER = [
 _OTHER_COLOR = "#898781"  # muted gray, for overflow past the 8 validated slots
 
 
-def _order_groups(df: pd.DataFrame, rank_col: str, value_col: str, top_n: Optional[int]) -> list:
+def _order_groups(df: pd.DataFrame, rank_col: str, value_col: str, top_n: int | None) -> list:
     medians = df.groupby(rank_col)[value_col].median().sort_values(ascending=False)
     if top_n is not None:
         counts = df[rank_col].value_counts()
@@ -68,7 +67,7 @@ def boxplot_by_rank(
     rank_col: str,
     value_col: str,
     out_path: Path,
-    top_n: Optional[int] = None,
+    top_n: int | None = None,
     title: str = "",
 ) -> None:
     """Ordered box plot of value_col across rank_col groups, N-annotated, small-N greyed."""
@@ -230,7 +229,7 @@ def scatter_proteome_vs_adhesion_by_phylum(
 
 
 def probability_boxplot_by_rank(
-    df: pd.DataFrame, rank_col: str, out_path: Path, top_n: Optional[int] = None
+    df: pd.DataFrame, rank_col: str, out_path: Path, top_n: int | None = None
 ) -> None:
     """Distribution of mean_adhesion_prob by rank_col — secondary signal of
     'how confidently adhesive', same N-annotation/greying as boxplot_by_rank."""

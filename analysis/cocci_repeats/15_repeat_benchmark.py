@@ -130,7 +130,7 @@ def mean_pairwise_identity(units):
         for j in range(i + 1, n):
             a, b = units[i], units[j]
             k = min(len(a), len(b))
-            vals.append(sum(x == y for x, y in zip(a[:k], b[:k])) / k)
+            vals.append(sum(x == y for x, y in zip(a[:k], b[:k], strict=False)) / k)
     return float(np.mean(vals)) if vals else 1.0
 
 

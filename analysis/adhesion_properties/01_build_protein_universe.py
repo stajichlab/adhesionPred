@@ -29,7 +29,7 @@ FIELDS = [
     "order",
     "family",
     "genus",
-    "probability_adhesion",
+    "surface_glycoprotein_score",
 ]
 
 
@@ -45,7 +45,7 @@ def main() -> None:
         for row in adhesion_rows:
             writer.writerow({**row, "group": "adhesion"})
         for row in background_rows:
-            writer.writerow({**row, "group": "background", "probability_adhesion": ""})
+            writer.writerow({**row, "group": "background", "surface_glycoprotein_score": ""})
 
     print(f"Adhesion proteins: {len(adhesion_rows)}")
     print(f"Background proteins: {len(background_rows)}")

@@ -185,7 +185,7 @@ extraction + `sklearn.cluster.HDBSCAN` clustering), joined against
 
 **Why the two spaces cover slightly different protein counts (749,680 vs.
 749,697):** the shipped classifier's own embedding function
-(`src/adhesion_predict/embeddings.py`'s `get_esm_embeddings`) silently
+(`src/surface_glyco/embeddings.py`'s `get_esm_embeddings`) silently
 drops an entire batch of sequences if any single sequence in it fails to
 tokenize. The real ESM2-classifier extraction run lost 176 proteins to
 this; 159 were pure batch-collateral-damage and were recovered by

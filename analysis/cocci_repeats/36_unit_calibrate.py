@@ -64,6 +64,7 @@ NAT = dict(
             1.08,
             2.92,
         ],
+        strict=False,
     )
 )
 IDS = [1.0, 0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3]
@@ -174,7 +175,7 @@ def main():
     ids = list(seqs)
     sh = fam.shuffled_copy([seqs[i] for i in ids])
     with open(scratch / "null.fa", "w") as fh:
-        for i, s in zip(ids, sh):
+        for i, s in zip(ids, sh, strict=False):
             fh.write(f">{i}\n{s}\n")
     hmmsearch(args.hmm, scratch / "null.fa", scratch / "null.domtbl")
     nd = read_domtbl(scratch / "null.domtbl")

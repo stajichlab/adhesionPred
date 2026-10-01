@@ -1,5 +1,5 @@
 """Embed training set + S288C proteome with ESM-2 t6 8M two ways:
-legacy  = exactly what src/adhesion_predict/embeddings.py does (batch 4 on CPU, file order,
+legacy  = exactly what src/surface_glyco/embeddings.py does (batch 4 on CPU, file order,
           mean over ALL token positions incl. BOS/EOS/padding)
 masked  = mean over residue tokens only (batch-independent)
 """

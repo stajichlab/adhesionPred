@@ -1,6 +1,6 @@
 [path]
 source =
-    src/adhesion_predict
+    src/surface_glyco
 
 [run]
 omit =

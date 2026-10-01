@@ -47,7 +47,7 @@ def anchor_units(seq):
     """
     pos = [m.start() for m in re.finditer(ANCHOR, seq)]
     out = []
-    for a, b in zip(pos, pos[1:] + [None]):
+    for a, b in zip(pos, pos[1:] + [None], strict=False):
         out.append((a, False))
         if b is not None and abs((b - a) - 2 * PERIOD) <= 1:
             out.append((a + PERIOD, True))
@@ -67,12 +67,12 @@ def unit_seqs(seq, units=None):
 
 def is_regular(units):
     starts = [p for p, _ in units]
-    return all(abs((b - a) - PERIOD) <= 1 for a, b in zip(starts, starts[1:]))
+    return all(abs((b - a) - PERIOD) <= 1 for a, b in zip(starts, starts[1:], strict=False))
 
 
 def ungapped_identity(a, b):
     n = min(len(a), len(b))
-    return sum(x == y for x, y in zip(a[:n], b[:n])) / n if n else 0.0
+    return sum(x == y for x, y in zip(a[:n], b[:n], strict=False)) / n if n else 0.0
 
 
 def distinct_alleles(copies_tsv):
@@ -113,7 +113,9 @@ def distinct_alleles(copies_tsv):
     H = H.sort_values(
         ["species", "n_units", "length", "n"], ascending=[True, True, True, False]
     ).reset_index(drop=True)
-    H["allele"] = [f"{sp[:3]}{k}u_{i:02d}" for i, (sp, k) in enumerate(zip(H.species, H.n_units))]
+    H["allele"] = [
+        f"{sp[:3]}{k}u_{i:02d}" for i, (sp, k) in enumerate(zip(H.species, H.n_units, strict=False))
+    ]
     return H
 
 
@@ -127,4 +129,4 @@ def unit_diff(a, b):
     pa.open_gap_score, pa.extend_gap_score = -4, -1
     aln = pa.align(a, b)[0]
     ta, tb = aln[0], aln[1]
-    return sum(x != y for x, y in zip(ta, tb))
+    return sum(x != y for x, y in zip(ta, tb, strict=False))
