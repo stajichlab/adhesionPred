@@ -76,7 +76,22 @@ and all of them are IBA-only (parent section 3.3), so they are not headline test
 | **pm-unresolved** | PM candidate with neither curated GPI evidence nor a TM segment. Excluded (ruling C-1). |
 | **SP** | Signal peptide call by SignalP 6. |
 | **P-ext, N-int, N-sec** | Positive (wall or extracellular), internal negative, secretory-pathway negative (parent spec section 2.2). |
-| **T-c, V-go, V-kw** | Keyword-only training tier; training variant without it; training variant with it (parent spec section 2.3). |
+| **T-c** | Keyword-only training tier: proteins labelled surface only by UniProt keywords, not by GO (3,092 rows kept). Training only, never test truth (parent spec section 2.3). |
+| **V-go** | Training variant 1. Positives are GO-labelled proteins (P-ext and P-gpi). No T-c rows. |
+| **V-kw** | Training variant 2. V-go plus the T-c rows that survive the leakage controls of section 3.4. Both variants are scored on the same GO test truth. |
+| **`C`** | Regularisation strength of the logistic regression (smaller means stronger regularisation). Values tried: 0.01, 0.1, 1, 10. Chosen on the inner folds. |
+| **`g`** | GPI class cut for the rule. A protein counts as GPI-anchored when its PredGPI class is at or above `g`. Values: `highly_probable`, `probable`, `weakly`. Fitted on the inner folds. |
+| **`t`** | Ser+Thr cut for the rule. A protein counts as Ser/Thr-rich when `ser_thr_frac` is at or above `t`. Values: 0.10 to 0.40 in steps of 0.05. Fitted on the inner folds. |
+| **R0, R1, R2** | The three nested rules of section 3.3. R2 (SP and either GPI at or above `g` or Ser+Thr at or above `t`) is "the rule". |
+| **B0, B1** | Baselines: length only; amino-acid composition plus length. |
+| **M8, M35; M8-C, M35-C** | ESM-2 8M and 35M embeddings with logistic regression. The "-C" versions use the last 1,022 residues for proteins longer than 1,022 aa. |
+| **H** | Hybrid: embedding plus SignalP probability, GPI score and Ser+Thr in one logistic regression. |
+| **S1, S2, S3** | Split schemes: homology-grouped 5-fold cross-validation; leave-species-out; leave-clade-out (parent spec section 4). |
+| **Inner / outer folds** | Outer folds give the test result. Inner folds sit inside each outer training set and pick `C`, `g`, `t` and thresholds, so the test labels never influence a choice. |
+| **Out-of-fold (oof) score** | A score for a protein from a model that did not train on that protein or its cluster. |
+| **Youden's J** | Recall minus false-positive rate. The operating point is the setting that maximises it. |
+| **Direct evidence** | A label whose supporting GO codes are not homology-transfer codes (`homology_only == "no"`). Used for headline test numbers. |
+| **Estimate / smoke test** | A test set is an "estimate" when the 95% interval of recall has half-width 0.10 or less; otherwise it is a "smoke test" (section 4). |
 
 ## 3. Definitions that Phase C fixes
 
