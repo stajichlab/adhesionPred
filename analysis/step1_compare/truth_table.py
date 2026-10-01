@@ -1,6 +1,10 @@
-"""Build the D1 truth table from filtered GAF rows. Standard library only."""
+"""Build the D1 truth table and its counts from filtered GAF rows. Standard library only."""
 
+import csv
+import gzip
+import io
 from dataclasses import dataclass, field
+from pathlib import Path
 
 import labels
 
@@ -30,6 +34,39 @@ TRUTH_COLUMNS = (
     "source_sha256",
     "source_date",
     "obo_sha256",
+)
+
+COUNT_COLUMNS = (
+    "source_id",
+    "primary_db",
+    "genes_cc",
+    "genes_noniea_cc",
+    "p_ext",
+    "p_ext_wall",
+    "p_ext_extonly",
+    "n_int",
+    "n_sec",
+    "ambiguous",
+    "pm_candidates",
+    "cc_iea_triples",
+    "cc_triples",
+    "cc_iea_frac",
+    "all_aspects_iea_frac",
+    "obsolete_rows",
+    "unknown_term_rows",
+    "exp_p_ext",
+    "exp_n_int",
+    "exp_n_sec",
+    "exp_ambiguous",
+    "nohom_p_ext",
+    "nohom_n_int",
+    "nohom_n_sec",
+    "nohom_ambiguous",
+    "direct_p_ext",
+    "direct_n_int",
+    "direct_n_sec",
+    "direct_ambiguous",
+    "ambiguous_htp_only",
 )
 
 
@@ -131,3 +168,75 @@ def in_direct_stratum(row: dict[str, str], label: str) -> bool:
     that moves genes whose only internal term is IBA or ISS into P-ext (contradicts Q9).
     """
     return row["label"] == label and row["homology_only"] == "no"
+
+
+def _n(rows, column, value) -> int:
+    return sum(1 for r in rows if r[column] == value)
+
+
+def count_rows(rows: list[dict[str, str]], filtered, source_id: str) -> dict[str, str]:
+    triples = {(r.gene_id, r.term, r.evidence) for r in filtered.cc_rows}
+    iea = sum(1 for t in triples if t[2] == "IEA")
+    iea_all = sum(1 for t in filtered.all_aspect_triples if t[2] == "IEA")
+    counts = {
+        "source_id": source_id,
+        "primary_db": filtered.primary_db,
+        "genes_cc": len(rows),
+        "genes_noniea_cc": sum(1 for r in rows if r["evidence_codes"] != "IEA"),
+        "p_ext": _n(rows, "label", labels.P_EXT),
+        "p_ext_wall": _n(rows, "subset", "wall"),
+        "p_ext_extonly": _n(rows, "subset", "extracellular-only"),
+        "n_int": _n(rows, "label", labels.N_INT),
+        "n_sec": _n(rows, "label", labels.N_SEC),
+        "ambiguous": _n(rows, "label", labels.AMBIGUOUS),
+        "pm_candidates": _n(rows, "pm_candidate", "yes"),
+        "cc_iea_triples": iea,
+        "cc_triples": len(triples),
+        "cc_iea_frac": f"{iea / len(triples):.3f}",
+        "all_aspects_iea_frac": f"{iea_all / len(filtered.all_aspect_triples):.3f}",
+        "obsolete_rows": filtered.dropped["obsolete_term"],
+        "unknown_term_rows": filtered.unknown_term_rows,
+        "exp_p_ext": _n(rows, "label_experimental", labels.P_EXT),
+        "exp_n_int": _n(rows, "label_experimental", labels.N_INT),
+        "exp_n_sec": _n(rows, "label_experimental", labels.N_SEC),
+        "exp_ambiguous": _n(rows, "label_experimental", labels.AMBIGUOUS),
+        "nohom_p_ext": _n(rows, "label_no_homology", labels.P_EXT),
+        "nohom_n_int": _n(rows, "label_no_homology", labels.N_INT),
+        "nohom_n_sec": _n(rows, "label_no_homology", labels.N_SEC),
+        "nohom_ambiguous": _n(rows, "label_no_homology", labels.AMBIGUOUS),
+        "direct_p_ext": sum(in_direct_stratum(r, labels.P_EXT) for r in rows),
+        "direct_n_int": sum(in_direct_stratum(r, labels.N_INT) for r in rows),
+        "direct_n_sec": sum(in_direct_stratum(r, labels.N_SEC) for r in rows),
+        "direct_ambiguous": sum(in_direct_stratum(r, labels.AMBIGUOUS) for r in rows),
+        "ambiguous_htp_only": sum(
+            r["label"] == labels.AMBIGUOUS and r["internal_evidence_htp_only"] == "yes"
+            for r in rows
+        ),
+    }
+    return {k: str(v) for k, v in counts.items()}
+
+
+def write_tsv(path: str | Path, columns, rows) -> None:
+    """Write a TSV. A path ending in .gz is gzip-compressed with a fixed mtime (byte-stable)."""
+    path = Path(path)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    buffer = io.StringIO()
+    writer = csv.DictWriter(buffer, fieldnames=list(columns), delimiter="\t", lineterminator="\n")
+    writer.writeheader()
+    writer.writerows(rows)
+    data = buffer.getvalue().encode("utf-8")
+    if path.suffix == ".gz":
+        with (
+            open(path, "wb") as raw,
+            gzip.GzipFile(filename="", mode="wb", fileobj=raw, mtime=0) as gz,
+        ):
+            gz.write(data)
+    else:
+        path.write_bytes(data)
+
+
+def read_tsv(path: str | Path) -> list[dict[str, str]]:
+    path = Path(path)
+    opener = gzip.open if path.suffix == ".gz" else open
+    with opener(path, "rt", encoding="utf-8", newline="") as handle:
+        return list(csv.DictReader(handle, delimiter="\t"))
