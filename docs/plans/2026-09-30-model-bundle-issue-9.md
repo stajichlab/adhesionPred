@@ -1,5 +1,11 @@
 # Plan for #9: model bundle, model card, explicit embedding config
 
+> **Superseded in scope, 2026-09-30 (later).** The owner decided to freeze the ESM + LR model as
+> legacy (`docs/PLAN-2026-09-30-pipeline-and-decisions.md`, decision 2). Only the safety fixes in
+> this plan stay: the card, the explicit legacy-pooling flag, refusal on mismatch, and their tests.
+> The scaler pipeline, `C` tuning and retraining (steps 4-6) are dropped. The facts and the review
+> in this document remain valid.
+
 *Drafted 2026-09-30. Revised 2026-09-30 after an independent Opus 5.5 review (section 7). Status: proposal, not implemented.*
 
 ## 0. Scope and wording (clarified 2026-09-30)
