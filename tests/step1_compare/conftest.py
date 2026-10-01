@@ -41,3 +41,16 @@ def mini_ontology(fixtures_dir):
     import go_obo
 
     return go_obo.parse_obo(fixtures_dir / "mini.obo")
+
+
+@pytest.fixture(scope="session")
+def phasec_chain(tmp_path_factory):
+    """Phase C fixture chain 08 -> 09 (stub MMseqs2) -> 10 -> 11, built once per session.
+
+    Step 11 runs only when phasec/11_evaluate.py exists (it is written after 10). Tests that
+    change a file must copy chain["work"] first (phasec_fixture.copy_work)."""
+    pytest.importorskip("sklearn")
+    import phasec_fixture
+
+    upto = 11 if (STEP1_DIR / "phasec" / "11_evaluate.py").exists() else 10
+    return phasec_fixture.run_chain(tmp_path_factory.mktemp("phasec_chain"), upto, load_phasec)
