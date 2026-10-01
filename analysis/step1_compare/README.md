@@ -29,6 +29,10 @@ Downloads go to `$STEP1_WORKDIR/downloads`. All other outputs go to `$STEP1_WORK
 `paths.workdir()` always returns an absolute path. A relative `STEP1_WORKDIR` is resolved
 against the current directory. A relative `workdir` in `config/site.yaml` is resolved against
 the repository root, not against the current directory.
+- With `STEP1_WORKDIR` and `PROJ_ROOT` unset, the default is `<workdir in config/site.yaml>/step1_compare`.
+  `config/site.yaml` gives the absolute path of the main checkout's `_workdir`
+  (`/bigdata/stajichlab/jstajich/projects/adhesionPred/_workdir`, git-ignored). A run from a git
+  worktree therefore writes into the main checkout's `_workdir`, not into the worktree.
 
 ## Re-run
 
@@ -53,13 +57,13 @@ The download sizes in `manifest.tsv` add up to 83,309,908 bytes (19 files).
 
 ### Dependencies between the scripts
 
-| Script | Reads from the work directory |
-|---|---|
-| 00 | nothing (it downloads) |
-| 01 | the files that 00 downloaded |
-| 02 | the output of 01 (`truth_set.tsv.gz`, `extract_log.json`) and the FASTA files from 00 |
-| 03 | the output of 01 (`truth_set.tsv.gz`, `extract_log.json`), plus `species.tsv` and `curated_gpi.tsv`. It does not read the output of 02. |
-| 04 | the output of 01 (`extract_log.json`, and the SHA-256 of `truth_set.tsv.gz`) and of 02 (`truth_sequences.tsv.gz`, `sequence_run.json`). It does not read the output of 03 or `d8_run.json`. |
+| Script | Reads from the work directory | Reads from the repository |
+|---|---|---|
+| 00 | nothing (it downloads) | `manifest.tsv` |
+| 01 | the files that 00 downloaded | `species.tsv`, `manifest.tsv` |
+| 02 | the output of 01 (`truth_set.tsv.gz`, `extract_log.json`) and the FASTA files from 00 | `species.tsv`, `manifest.tsv` |
+| 03 | the output of 01 (`truth_set.tsv.gz`, `extract_log.json`). It does not read the output of 02. | `species.tsv`, `curated_gpi.tsv` |
+| 04 | the output of 01 (`extract_log.json`, and the SHA-256 of `truth_set.tsv.gz`) and of 02 (`truth_sequences.tsv.gz`, `sequence_run.json`). It does not read the output of 03 or `d8_run.json`. | `species.tsv`, `data/curated/surface/surface.tsv`, `data/curated/adhesins/eurotiomycetes_seeds.tsv` |
 
 Scripts 03 and 04 are independent of each other.
 
@@ -68,9 +72,13 @@ Scripts 03 and 04 are independent of each other.
 - 00 needs the network.
 - 01 and 02 need no network. Script 02 reads the FASTA files that 00 downloaded.
 - 03 always queries UniProtKB REST. It has no option to work offline.
+- 03 skips a source with no PM candidate: it sends no UniProt query for it (not even the
+  organism GPI query), and the source has no row in `d8_counts.tsv`.
 - 04 needs the network only with `--fetch` when `keyword_sequences.fasta.gz` is missing.
   If the file exists, 04 uses it and does not fetch. 04 refuses a cached file that has no
   matching sidecar `keyword_sequences.json`.
+- 04 downloads the cache before it checks `all_sources` and the truth table hash. A STOP from
+  those checks leaves the downloaded cache in place.
 
 ### Stale outputs
 
@@ -172,6 +180,7 @@ extraction.
 |---|---|
 | Direct-evidence truth (headline metrics and gates) | `homology_only == "no" and label == X`. The `direct_*` columns of `counts.tsv` count it. |
 | All non-IEA truth (reported beside it) | `label == X` |
+| Hard negatives (N-sec) that also have internal evidence, for example cytosolic enzymes with one high-throughput plasma-membrane annotation | `label == "N-sec" and internal_evidence != ""`. Example: CDC19 (*S. cerevisiae*) is N-sec by rule (plasma membrane HDA; cytosol RCA). The filter is broad: 658 Scer_SGD genes match it (`truth_set.tsv.gz`, 2026-10-01). |
 | Ambiguous genes with only high-throughput internal evidence (R-A) | `label == "ambiguous" and internal_evidence_htp_only == "yes"`. `counts.tsv` column `ambiguous_htp_only` counts it. |
 | Not used as truth | `label_no_homology == X`. It is stored for traceability. The `nohom_*` columns of `counts.tsv` reproduce `d1_count.py`. |
 | *A. nidulans* as second Eurotiomycetes test species | `source_id == "Anid_EMENI"` and `role == "test_clade"` |
