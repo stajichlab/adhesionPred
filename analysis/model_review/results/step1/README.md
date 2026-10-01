@@ -6,5 +6,5 @@ CPU, file order); the real Feb 2026 batching is unknown.
 
 - `pooling_mismatch_summary.tsv`: shipped 8M pickle on S288C under both poolings.
 - `pooling_mismatch_scores.tsv.gz`: per-protein scores.
-- `cv_scaler1_results.*`: review CV with StandardScaler. `cv_scaler0_results.*`: without.
+- `cv_scaler1_results.txt`: review CV with StandardScaler. `cv_scaler0_results.txt`: without.
 - Interpretation: issue #25 comment 2026-09-30.
