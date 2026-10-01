@@ -4,7 +4,7 @@
 
 **Goal:** Build the GO truth set for the step 1 surface model: the D1 extractor that reproduces the spec 3.3 counts exactly, sequence attachment, the D8 GPI/TM triage, and the D10 keyword-tier table with test proteins removed.
 
-**Architecture:** A new analysis folder `analysis/step1_compare/` holds small standard-library modules (ontology parser, GAF reader, label rules, truth-table builder, manifest checks, sequence mapping, D8 parser, D10 filter) and five numbered scripts (`00_` to `04_`). Each script reads pinned inputs from a work directory taken from the environment and writes compressed tables there, never to the repository. The truth table stores every evidence code, three label columns (one per evidence policy), the source file hash and date, the clade and the role, so the five open owner questions become filters on stored columns, not a re-extraction.
+**Architecture:** A new analysis folder `analysis/step1_compare/` holds small standard-library modules (ontology parser, GAF reader, label rules, truth-table builder, manifest checks, sequence mapping, D8 parser, D10 filter) and five numbered scripts (`00_` to `04_`). Each script reads pinned inputs from a work directory taken from the environment and writes compressed tables there, never to the repository. The truth table stores every evidence code, three label columns (one per evidence policy), the source file hash and date, the clade and the role, so evidence subsets and owner choices are filters on stored columns, not a re-extraction. Direct-evidence truth is an intersection: `label == X and homology_only == "no"`.
 
 **Tech Stack:** Python 3.12 standard library (gzip, csv, hashlib, json, argparse, urllib, dataclasses); pytest; ruff 0.3.5 via pre-commit; GitHub Actions (CPU).
 
@@ -18,29 +18,33 @@
 - Run python for any Mycelium script with /usr/bin/python3.12 (global instruction) — only relevant if a Mycelium script is used; you may use /usr/bin/python3.12 for the analysis scripts too.
 - Writing style for all prose in the plan: Simplified Technical English (short sentences, one idea per sentence, active voice, no idioms, no flowery language). No inflated claims: never state a count in the plan that you did not compute. Where the real data are needed (SHA-256, counts), compute them now from /tmp/glyco_spec/ and cite the command.
 - Commit message trailer: `Co-Authored-By: Claude Sonnet 5.5 <noreply@anthropic.com>`.
+- The analysis-tests CI job has `continue-on-error: true`. The `tests/step1_compare` suite is therefore informational in CI: it cannot fail the build. Moving it into a required job is an owner decision; this plan does not change it.
 - This plan adds no SLURM job. The downloads total about 83 MB (measured on 2026-10-01). Run every script on a login or interactive node.
 - The work directory is `$STEP1_WORKDIR`. If it is not set, it is `<workdir in config/site.yaml>/step1_compare`. The repository root is `$PROJ_ROOT`; if it is not set, `paths.py` uses its own file location (a Python path, not `BASH_SOURCE`).
 - Interpreter: `PY=/usr/bin/python3.12`. On this system pytest for that interpreter is in the user site (`~/.local`). Run tests as `$PY -m pytest tests/step1_compare -q` from the repository root.
 - Do not edit `/tmp/glyco_spec/d1_count.py`. Do not commit any downloaded file.
 
-### Open owner questions (spec section 12): this plan does not decide them
+### Decisions recorded on 2026-10-01 and how the data keep them reversible
 
-The plan stores the data that each question needs. Each later choice is a one-line filter.
+The review fix brief of 2026-10-01 closed four of the five spec section 12 questions and gave three controller rulings (R-A, R-B, R-C). Each choice is a filter on stored columns, so a later change needs no re-extraction.
 
-| Question | Stored columns that keep it open | Example filter on `truth_set.tsv.gz` |
+| Item | Status | Stored columns and filter |
 |---|---|---|
-| 1 Basidiomycota truth option | `source_id`, `in_clade`, `role`, `label`, `label_no_homology`, `label_experimental` | `in_clade == "Basidiomycota" and source_id == "Cneo_H99_GOA"` |
-| 2 Do IBA and other homology codes count as truth? | `label` (all non-IEA), `label_no_homology`, `homology_only`, `surface_evidence`, `internal_evidence`, `secretory_evidence` | use `label_no_homology` instead of `label` |
-| 3 H99 or JEC21 | three Cryptococcus sources: `Cneo_H99_GOA`, `Cneo_JEC21_GOA`, `Cneo_CRYD1` | `source_id == "Cneo_JEC21_GOA"` |
-| 4 Add *A. nidulans* to S3 | `source_id == "Anid_EMENI"`, `role == "undecided"` | keep or drop those rows |
-| 5 Estimate versus smoke-test threshold | `counts.tsv`: `p_ext`, `nohom_p_ext`, `exp_p_ext` per source | compare with the threshold the owner sets |
+| Homology codes as truth | closed: direct-evidence truth is the intersection `label == X and homology_only == "no"`; headline metrics and gates use it; all non-IEA truth (`label == X`) is reported beside it | `label`, `homology_only`; `counts.tsv` `direct_*`. `label_no_homology` is stored for traceability and is not used as truth: recomputing without homology codes moves 83 ambiguous *C. albicans* genes (TDH3, PGK1, ADH1 and others) into P-ext, against Q9 |
+| *A. nidulans* in S3 | closed: second Eurotiomycetes test species | `source_id == "Anid_EMENI"`, `role == "test_clade"` |
+| H99 or JEC21 | closed: H99 is the reference; a FungiDB H99 GO check and literature curation are separate later work | `Cneo_H99_GOA` `role == "test_clade"`; JEC21 and CRYD1 `role == "alternate_file"` |
+| Estimate versus smoke test | closed: "estimate" when the 95% cluster-bootstrap interval for recall has half-width <= 0.10, else "smoke test" | `counts.tsv` per source; applied by the later evaluation plan |
+| Basidiomycota truth option | open | `in_clade == "Basidiomycota"`; `Umay_MYCMD` `role == "undecided"` |
+| R-A high-throughput internal evidence | D1 rule unchanged; sub-stratum reported | `internal_evidence_htp_only == "yes"` within `label == "ambiguous"`; `counts.tsv` `ambiguous_htp_only` |
+| R-B P-gpi | list, not a scored stratum, until `curated_gpi.tsv` has literature rows; filling it is separate curation work | `d8_triage.tsv`, `d8_gpi_outside_pext.tsv` |
+| R-C shipping gate | unchanged: no model ships before the Basidiomycota truth is in the evaluation | none in this plan |
 
 ## Review Focus
 
-1. **One gene, conflicting evidence rows** (wall IDA, wall IBA, cytosol IBA; or a `NOT` row next to a positive row). Expected: the label follows the spec rule, and the table keeps every code so the no-homology label differs and is visible. Pinned by `test_conflicting_evidence_is_stored_not_collapsed` (Task 4) and the `NOT` row in `test_gaf_extract_golden` (Task 3).
+1. **One gene, conflicting evidence rows** (wall IDA, wall IBA, cytosol IBA; or a `NOT` row next to a positive row). Expected: the label follows the spec rule, the table keeps every code, and the gene is excluded from the direct-evidence stratum. Pinned by `test_conflicting_evidence_is_stored_not_collapsed` and `test_direct_stratum_is_an_intersection` (Task 4) and the `NOT` row in `test_gaf_extract_golden` (Task 3).
 2. **IDs that differ in case, transcript suffix or isoform suffix between GAF and FASTA** (`spbc21h7.03C` vs `SPBC21H7.03c.1:pep`; `P22146-2` vs `sp|P22146|`), and **one ID twice in a FASTA**. Expected: a match after normalisation; identical duplicates merge; different duplicates stop the run. Pinned by `test_pombase_suffix_and_case_insensitive_match`, `test_uniprot_isoform_and_version_differences`, `test_duplicate_key_with_different_sequence_raises` (Task 7).
 3. **A gene with wall and cytosol only at IEA level** (plus a non-IEA plasma-membrane term). Expected: unlabelled, never P-ext, never N-sec. Pinned by `test_truth_set_has_no_iea` and the truth-table row `(set(), {WALL, CYTO})` (Task 4).
-4. **A truncated download or an HTML error page saved as `.gaf.gz`.** Expected: the fetch stops with exit 2, keeps no file, and the extractor refuses any input whose SHA-256 differs from the manifest. Pinned by `test_check_payload_refuses_html_truncated_and_empty`, `test_html_error_page_stops_even_with_update`, `test_strict_hash_mismatch_stops_and_keeps_no_file` (Task 5) and `test_extract_stops_on_hash_mismatch` (Task 6).
+4. **A truncated download or an HTML error page saved as `.gaf.gz`.** Expected: the fetch stops with exit 2, keeps no file, and the extractor refuses any input whose SHA-256 differs from the manifest. An HTTP 403 or a broken connection stops with `STOP:` and leaves no `.part` file. Pinned by `test_check_payload_refuses_html_truncated_and_empty`, `test_html_error_page_stops_even_with_update`, `test_strict_hash_mismatch_stops_and_keeps_no_file`, `test_http_403_stops_with_exit_2`, `test_url_error_mid_download_leaves_no_part_file` (Task 5), and `test_extract_stops_on_hash_mismatch`, `test_missing_gaf_stops_with_exit_2` (Task 6).
 5. **Label leakage from the keyword tier into held-out species**: the same sequence under a different accession (for example a *C. posadasii* entry identical to SOWgp58 Q8NK60). Expected: removal by exact cleaned-sequence hash, with the matched test protein in the log. Pinned by `test_tc_excludes_test_proteins` (Task 9).
 
 ---
@@ -56,7 +60,28 @@ Commands were run with `/usr/bin/python3.12` unless stated.
 - UniProt proteomes (queried at `rest.uniprot.org/proteomes/search` on 2026-10-01): UP000002530 Af293 9,647; UP000000560 *A. nidulans* FGSC A4 10,561 (a second proteome, UP000005890, returned 0 entries); UP000010091 H99 7,427; UP000002149 JEC21 6,740; UP000000561 *U. maydis* 6,805. The UniProt `stream` endpoint ended two downloads early: *U. maydis* once, and H99 once (curl exit 92, HTTP/2 stream error). Both files were truncated gzip ("unexpected end of file"). The paginated `search` endpoint with `size=500` gave the complete H99 file in 33 s. The plan uses the paginated endpoint.
 - ID mapping on the 2026-10-01 files (prototype of Task 7): SGD 6,052 of 6,056 genes matched; CGD 6,060 of 6,313 (253 unmatched; 72 of them are N-int, with tRNA, rRNA and snoRNA symbols such as `tQ(UUG)6mt`, `RDN58`); PomBase 5,020 of 5,025 (`pombase.gaf.gz`) and 5,008 of 5,008 (`SCHPO-mod.gaf.gz`); all five UniProt-based sources 100%. No unmatched gene is P-ext or ambiguous.
 - UniProt 2026_03, reviewed entries with a `GPI-anchor` lipidation feature (query `(organism_id:T) AND (reviewed:true) AND (ft_lipid:GPI-anchor)`): S288C 64 entries, 3 with ECO:0000269 (GAS1 P22146, TIP1 P27654, P53872); *C. albicans* 94, 3 with ECO:0000269; *S. pombe* 17, 0; *A. fumigatus* 22, 0. YPS1, SAG1, CWP2 and CRH1 carry ECO:0000255 (sequence analysis). MSB2 and HKR1 (both reviewed) have one TRANSMEM feature each, evidence ECO:0000255.
-- In `sgd.gaf.gz`, GAS1 has fungal-type cell wall (IDA) and mitochondrion (HDA). The D1 rule therefore labels GAS1 ambiguous, not P-ext.
+- In `sgd.gaf.gz`, GAS1 has fungal-type cell wall (IDA), mitochondrion (HDA) and nuclear periphery (IDA, part of nucleus). The D1 rule therefore labels GAS1 ambiguous, not P-ext; its internal evidence is not high-throughput only.
+- Direct-evidence truth (`label == X and homology_only == "no"`) on `truth_set.tsv.gz` built by the Task 6 code, P-ext / N-int / N-sec: S288C 88 / 2,360 / 1,457; *C. albicans* 211 / 179 / 263; *S. pombe* (pombase) 42 / 2,799 / 886; H99 9 / 17 / 15; JEC21 0 / 3 / 1; Af293 23 / 18 / 26; *A. nidulans* 113 / 97 / 66; *U. maydis* 10 / 6 / 21. Ambiguous genes whose label turns P-ext when labels are recomputed without homology codes: S288C 8, *C. albicans* 83, *S. pombe* 2, *A. nidulans* 35.
+- Ambiguous genes with only high-throughput internal evidence (`ambiguous_htp_only`): S288C 18 (for example TIP1, CWP2, CCW14, HSP150, ECM33, CTS1), *S. pombe* 4, all other sources 0.
+- Extracellular-region genes with an experimental code: S288C 125, *C. albicans* 305. With an internal term at any evidence level: 39 and 102. With an experimental internal code: 32 and 13. Command (run in `analysis/step1_compare/` after Task 6):
+
+  ```python
+  import gaf, go_obo, labels
+  o = go_obo.parse_obo("/tmp/glyco_spec/go-basic.obo")
+  for fn, tx in [("sgd.gaf.gz", None), ("cgd.gaf.gz", "237561")]:
+      f = gaf.filter_gaf("/tmp/glyco_spec/" + fn, o, tx)
+      ext, any_int, exp_int = set(), set(), set()
+      for r in f.cc_rows:
+          a = o.ancestors(r.term)
+          if r.evidence in gaf.EXPERIMENTAL_CODES and labels.EXTRACELLULAR in a:
+              ext.add(r.gene_id)
+          if a & labels.INTERNAL:
+              any_int.add(r.gene_id)
+              if r.evidence in gaf.EXPERIMENTAL_CODES:
+                  exp_int.add(r.gene_id)
+      print(fn, len(ext), len(ext & any_int), len(ext & exp_int))
+  ```
+- HKR1, YPS1 (S288C) and chiA (*A. nidulans*) have surface evidence from IBA only, so `homology_only == "yes"` and they are outside the direct-evidence stratum.
 
 ## File structure
 
@@ -84,7 +109,7 @@ Commands were run with `/usr/bin/python3.12` unless stated.
 | `analysis/step1_compare/03_triage_pm.py` | D8: triage tables, counts, `truth_set_triaged.tsv.gz` | 8 |
 | `analysis/step1_compare/keyword_tier.py` | D10 removal rules | 9 |
 | `analysis/step1_compare/04_build_keyword_tier.py` | D10: `keyword_tier.tsv.gz`, `keyword_tier_removed.tsv` | 9 |
-| `analysis/step1_compare/README.md` | how to re-run; open questions as filters | 10 |
+| `analysis/step1_compare/README.md` | how to re-run; truth subsets and the open question as filters | 10 |
 
 ### Output tables (all in `$STEP1_WORKDIR`)
 
@@ -101,18 +126,19 @@ Commands were run with `/usr/bin/python3.12` unless stated.
 | `subset` | `wall` or `extracellular-only` for P-ext, else empty |
 | `stratum` | `subset` for P-ext, else `label`; D8 replaces it with `P-gpi`, `PM-TM` or `pm-unresolved` in `truth_set_triaged.tsv.gz` |
 | `tier` | `T-a` |
-| `label_no_homology` | same rule, evidence without IEA and without IBA, IBD, IKR, IRD, ISS, ISO, ISA, ISM, RCA |
+| `label_no_homology` | same rule, evidence without IEA and without IBA, IBD, IKR, IRD, ISS, ISO, ISA, ISM, RCA; stored for traceability, not used as truth |
 | `label_experimental` | same rule, evidence EXP, IDA, IPI, IMP, IGI, IEP, HTP, HDA, HMP, HGI, HEP only |
-| `homology_only` | `yes` if `label` differs from `label_no_homology` |
+| `homology_only` | `yes` if `label` differs from `label_no_homology`; the direct-evidence stratum is `label == X and homology_only == "no"` |
 | `pm_candidate` | `yes` if P-ext and a non-IEA plasma-membrane (GO:0005886) ancestor |
 | `evidence_codes` | sorted codes of all aspect-C rows, IEA included |
 | `surface_evidence`, `internal_evidence`, `secretory_evidence` | sorted non-IEA codes on rows whose term reaches wall/extracellular, cytosol/nucleus/mitochondrion, or endomembrane/PM/vacuole |
+| `internal_evidence_htp_only` | `yes` if the gene has non-IEA internal evidence and every code is HDA, HMP, HEP, HGI or HTP (R-A) |
 | `source_file`, `source_sha256`, `source_date` | GAF file name, its SHA-256, its `!date-generated` header |
 | `obo_sha256` | SHA-256 of `go-basic.obo` |
 
 The spec D1 list also names a `cluster` column. Clusters need MMseqs2 on sequences (spec section 4, step 6). That step belongs to the later dataset plan, which appends the column.
 
-`counts.tsv` columns: `source_id, primary_db, genes_cc, genes_noniea_cc, p_ext, p_ext_wall, p_ext_extonly, n_int, n_sec, ambiguous, pm_candidates, cc_iea_triples, cc_triples, cc_iea_frac, all_aspects_iea_frac, obsolete_rows, unknown_term_rows, exp_p_ext, exp_n_int, exp_n_sec, exp_ambiguous, nohom_p_ext, nohom_n_int, nohom_n_sec, nohom_ambiguous`.
+`counts.tsv` columns: `source_id, primary_db, genes_cc, genes_noniea_cc, p_ext, p_ext_wall, p_ext_extonly, n_int, n_sec, ambiguous, pm_candidates, cc_iea_triples, cc_triples, cc_iea_frac, all_aspects_iea_frac, obsolete_rows, unknown_term_rows, exp_p_ext, exp_n_int, exp_n_sec, exp_ambiguous, nohom_p_ext, nohom_n_int, nohom_n_sec, nohom_ambiguous, direct_p_ext, direct_n_int, direct_n_sec, direct_ambiguous, ambiguous_htp_only`. The `nohom_*` columns reproduce the `d1_count.py` output; the `direct_*` columns are the spec 3.3 direct-evidence counts.
 
 ---
 
@@ -280,7 +306,7 @@ to
         suite: [adhesion_properties, embedding_clustering, kingdom_survey, step1_compare]
 ```
 
-Each suite runs in its own job and its own pytest process, so the plain module names in `analysis/step1_compare/` do not collide with other analysis folders.
+Each suite runs in its own job and its own pytest process, so the plain module names in `analysis/step1_compare/` do not collide with other analysis folders. The analysis-tests job has `continue-on-error: true`, so this suite is informational in CI. Do not change that setting in this plan; a required job is an owner decision.
 
 - [ ] **Step 6: Lint and commit**
 
@@ -565,7 +591,7 @@ def parse_obo(path: str | Path) -> Ontology:
 - [ ] **Step 4: Run the test to verify it passes**
 
 Run: `$PY -m pytest tests/step1_compare/test_go_obo.py -q`
-Expected: PASS (3 passed).
+Expected: PASS (5 passed).
 
 - [ ] **Step 5: Lint and commit**
 
@@ -968,9 +994,9 @@ Co-Authored-By: Claude Sonnet 5.5 <noreply@anthropic.com>"
 
 **Interfaces:**
 - Consumes: `gaf.HOMOLOGY_CODES`, `gaf.EXPERIMENTAL_CODES`, `gaf.FilteredGaf`, `gaf.filter_gaf` (Task 3); `go_obo.Ontology.ancestors` (Task 2); `gaf_fixture` (Task 3).
-- Produces: `labels.WALL`, `labels.EXTRACELLULAR`, `labels.PLASMA_MEMBRANE`, `labels.INTERNAL`, `labels.SECRETORY`, `labels.ANY_SECRETORY`, `labels.SURFACE`; label strings `labels.P_EXT = "P-ext"`, `AMBIGUOUS = "ambiguous"`, `N_INT = "N-int"`, `N_SEC = "N-sec"`, `UNLABELLED = "unlabelled"`, `labels.LABELS`; `labels.POLICIES = ("non_iea", "no_homology", "experimental")`; `labels.policy_accepts(policy, evidence) -> bool`; `labels.classify(label_terms, any_terms) -> str`; `labels.subset_of(label, label_terms) -> str`; `labels.is_pm_candidate(label, label_terms) -> bool`. `truth_table.TRUTH_COLUMNS: tuple[str, ...]`; `truth_table.SourceInfo(source_id, species, taxon_id, in_clade, role, source_file, source_sha256, source_date, obo_sha256)`; `truth_table.GeneRecord`; `truth_table.collect_genes(filtered) -> dict[str, GeneRecord]`; `truth_table.build_truth_rows(filtered, ontology, info) -> list[dict[str, str]]`.
+- Produces: `labels.WALL`, `labels.EXTRACELLULAR`, `labels.PLASMA_MEMBRANE`, `labels.INTERNAL`, `labels.SECRETORY`, `labels.ANY_SECRETORY`, `labels.SURFACE`; label strings `labels.P_EXT = "P-ext"`, `AMBIGUOUS = "ambiguous"`, `N_INT = "N-int"`, `N_SEC = "N-sec"`, `UNLABELLED = "unlabelled"`, `labels.LABELS`; `labels.POLICIES = ("non_iea", "no_homology", "experimental")`; `labels.policy_accepts(policy, evidence) -> bool`; `labels.classify(label_terms, any_terms) -> str`; `labels.subset_of(label, label_terms) -> str`; `labels.is_pm_candidate(label, label_terms) -> bool`; `labels.HIGH_THROUGHPUT_CODES`; `labels.htp_only(internal_codes: set[str]) -> bool`. `truth_table.TRUTH_COLUMNS: tuple[str, ...]`; `truth_table.SourceInfo(source_id, species, taxon_id, in_clade, role, source_file, source_sha256, source_date, obo_sha256)`; `truth_table.GeneRecord`; `truth_table.collect_genes(filtered) -> dict[str, GeneRecord]`; `truth_table.build_truth_rows(filtered, ontology, info) -> list[dict[str, str]]`; `truth_table.in_direct_stratum(row, label) -> bool` (`row["label"] == label and row["homology_only"] == "no"`).
 
-The rules copy `d1_count.py` `sets()`. The labels are mutually exclusive: a surface gene is P-ext or ambiguous; N-int needs no secretory-side term at any level; N-sec needs no surface term at any level and may carry an internal term. Every label column is computed from the same stored rows, so open question 2 (homology codes as truth) is answered by choosing `label` or `label_no_homology`.
+The rules copy `d1_count.py` `sets()`. The labels are mutually exclusive: a surface gene is P-ext or ambiguous; N-int needs no secretory-side term at any level; N-sec needs no surface term at any level and may carry an internal term. Every label column is computed from the same stored rows. Direct-evidence truth is the intersection `in_direct_stratum(row, X)`: the gene keeps the same label with and without homology codes. `label_no_homology` alone is not used as truth, because it moves genes whose only internal term is IBA or ISS (fixture gene G10; 83 genes in *C. albicans*) into P-ext. `internal_evidence_htp_only` marks ambiguous genes whose internal evidence is high-throughput only (R-A); the D1 rule itself does not change.
 
 - [ ] **Step 1: Write the failing test**
 
@@ -1080,6 +1106,30 @@ def test_truth_set_has_no_iea(tmp_path, mini_ontology):
             assert r[support[r["label"]]], f"{r['gene_id']} label has no non-IEA support"
     assert rows["G09"]["label"] == "unlabelled"  # wall + cytosol only at IEA level
     assert rows["G15"]["label"] == "unlabelled"  # IEA-only gene
+
+
+def test_htp_only_rule():
+    assert labels.htp_only({"HDA"}) and labels.htp_only({"HDA", "HTP"})
+    assert not labels.htp_only({"HDA", "IDA"}) and not labels.htp_only(set())
+
+
+def test_direct_stratum_is_an_intersection(tmp_path, mini_ontology):
+    rows = _rows(tmp_path, mini_ontology)
+    direct = sorted(g for g, r in rows.items() if truth_table.in_direct_stratum(r, "P-ext"))
+    assert direct == ["G01", "G02", "G03", "G21", "G22"]
+    # G10 (wall IDA + cytosol IBA) turns P-ext when labels are recomputed without homology
+    # codes; the intersection rule keeps it out of the direct P-ext stratum.
+    assert rows["G10"]["label_no_homology"] == "P-ext"
+    assert not truth_table.in_direct_stratum(rows["G10"], "P-ext")
+    assert not truth_table.in_direct_stratum(rows["G10"], "ambiguous")
+
+
+def test_internal_evidence_htp_only_column(tmp_path, mini_ontology):
+    rows = _rows(tmp_path, mini_ontology)
+    g14, g04, g10 = rows["G14"], rows["G04"], rows["G10"]
+    assert (g14["label"], g14["internal_evidence_htp_only"]) == ("ambiguous", "yes")  # mito HDA
+    assert (g04["label"], g04["internal_evidence_htp_only"]) == ("ambiguous", "no")  # cytosol IDA
+    assert g10["internal_evidence_htp_only"] == "no"  # cytosol IBA only
 ```
 
 - [ ] **Step 2: Run the test to verify it fails**
@@ -1105,6 +1155,7 @@ INTERNAL = frozenset({"GO:0005829", "GO:0005634", "GO:0005739"})  # cytosol, nuc
 SECRETORY = frozenset({"GO:0012505", PLASMA_MEMBRANE, "GO:0005773"})  # endomembrane, PM, vacuole
 ANY_SECRETORY = SECRETORY | {"GO:0016020", "GO:0071944", WALL, EXTRACELLULAR}
 SURFACE = frozenset({WALL, EXTRACELLULAR})
+HIGH_THROUGHPUT_CODES = frozenset({"HDA", "HMP", "HEP", "HGI", "HTP"})
 
 P_EXT = "P-ext"
 AMBIGUOUS = "ambiguous"
@@ -1144,6 +1195,11 @@ def subset_of(label: str, label_terms: frozenset[str] | set[str]) -> str:
     return "wall" if WALL in label_terms else "extracellular-only"
 
 
+def htp_only(internal_codes: set[str]) -> bool:
+    """True if the gene has non-IEA internal evidence and all of it is high-throughput (R-A)."""
+    return bool(internal_codes) and internal_codes <= HIGH_THROUGHPUT_CODES
+
+
 def is_pm_candidate(label: str, label_terms: frozenset[str] | set[str]) -> bool:
     """P-ext with a non-IEA plasma-membrane term: the input set of D8 triage."""
     return label == P_EXT and PLASMA_MEMBRANE in label_terms
@@ -1178,6 +1234,7 @@ TRUTH_COLUMNS = (
     "evidence_codes",
     "surface_evidence",
     "internal_evidence",
+    "internal_evidence_htp_only",
     "secretory_evidence",
     "source_file",
     "source_sha256",
@@ -1240,6 +1297,7 @@ def build_truth_rows(filtered, ontology, info: SourceInfo) -> list[dict[str, str
         label_nohom = labels.classify(by_policy["no_homology"], any_terms)
         label_exp = labels.classify(by_policy["experimental"], any_terms)
         subset = labels.subset_of(label, by_policy["non_iea"])
+        internal = _codes(rec, ontology, labels.INTERNAL)
         rows.append(
             {
                 "source_id": info.source_id,
@@ -1262,7 +1320,10 @@ def build_truth_rows(filtered, ontology, info: SourceInfo) -> list[dict[str, str
                 else "no",
                 "evidence_codes": ",".join(sorted({ev for _, ev in rec.rows})),
                 "surface_evidence": _codes(rec, ontology, labels.SURFACE),
-                "internal_evidence": _codes(rec, ontology, labels.INTERNAL),
+                "internal_evidence": internal,
+                "internal_evidence_htp_only": "yes"
+                if labels.htp_only(set(internal.split(",")) - {""})
+                else "no",
                 "secretory_evidence": _codes(rec, ontology, labels.SECRETORY),
                 "source_file": info.source_file,
                 "source_sha256": info.source_sha256,
@@ -1271,12 +1332,21 @@ def build_truth_rows(filtered, ontology, info: SourceInfo) -> list[dict[str, str
             }
         )
     return rows
+
+
+def in_direct_stratum(row: dict[str, str], label: str) -> bool:
+    """Direct-evidence truth (spec 3.3): the label is the same with and without homology codes.
+
+    This is an intersection. Labels recomputed without homology codes are NOT used, because
+    that moves genes whose only internal term is IBA or ISS into P-ext (contradicts Q9).
+    """
+    return row["label"] == label and row["homology_only"] == "no"
 ```
 
 - [ ] **Step 5: Run the test to verify it passes**
 
 Run: `$PY -m pytest tests/step1_compare/test_labels.py -q`
-Expected: PASS (16 passed).
+Expected: PASS (19 passed).
 
 - [ ] **Step 6: Lint and commit**
 
@@ -1303,9 +1373,9 @@ Co-Authored-By: Claude Sonnet 5.5 <noreply@anthropic.com>"
 
 **Interfaces:**
 - Consumes: `paths.STEP1_DIR`, `paths.downloads_dir()` (Task 1); `conftest.load_script` (Task 1).
-- Produces: `manifest.MANIFEST_COLUMNS`; `manifest.DownloadError`; `manifest.read_manifest(path) -> list[dict[str, str]]`; `manifest.write_manifest(path, rows)`; `manifest.sha256_file(path) -> str`; `manifest.check_payload(path)`; `manifest.verify_against_manifest(path, row) -> str` (returns the SHA-256; raises `DownloadError` on a strict mismatch); `manifest.http_get(url, opener) -> (bytes, dict)`; `manifest.uniprot_pages(url, opener) -> iterator of (bytes, dict)`. `00_fetch_inputs.main(argv=None, opener=None) -> int` (0 ok, 2 failure). `species.tsv` columns: `source_id, species, taxon_id, taxon_filter, in_clade, role, role_note, gaf_file, fasta_file, id_mapping`.
+- Produces: `manifest.MANIFEST_COLUMNS`; `manifest.DownloadError`; `manifest.read_manifest(path) -> list[dict[str, str]]`; `manifest.write_manifest(path, rows)`; `manifest.sha256_file(path) -> str`; `manifest.check_payload(path)`; `manifest.verify_against_manifest(path, row) -> str` (returns the SHA-256; raises `DownloadError` on a strict mismatch); `manifest.http_get(url, opener) -> (bytes, dict)`; `manifest.uniprot_pages(url, opener) -> iterator of (bytes, dict)`. `00_fetch_inputs.NetworkError`; `00_fetch_inputs.fetch_one(row, dest_dir, opener) -> dict`; `00_fetch_inputs.main(argv=None, opener=None) -> int` (0 ok, 2 failure; an HTTP or URL error prints `STOP: <url>: <error>`, removes the `.part` file and returns 2 at once). `species.tsv` columns: `source_id, species, taxon_id, taxon_filter, in_clade, role, role_note, gaf_file, fasta_file, id_mapping`.
 
-Manifest modes. `strict`: the 11 GO files. A different SHA-256 stops the run unless `--update-manifest` is given. `record`: the protein FASTA files. PomBase rebuilds `peptide.fa.gz` often (its `Last-Modified` on 2026-10-01 was 02:43 GMT that day), and UniProt changes per release. A different SHA-256 is logged and written to `fetch_log.tsv`, not fatal. Both modes refuse empty files, HTML pages and truncated gzip.
+Manifest modes. `strict`: the 11 GO files. A different SHA-256 stops the run unless `--update-manifest` is given. `record`: the protein FASTA files. PomBase rebuilds `peptide.fa.gz` often (its `Last-Modified` on 2026-10-01 was 02:43 GMT that day), and UniProt changes per release. A different SHA-256 is logged and written to `fetch_log.tsv`, not fatal. Both modes refuse a missing file, an empty file, an HTML page and a truncated gzip. `check_payload` does not catch an empty but valid gzip stream or a truncated plain-text file (for example a cut `go-basic.obo`): for `strict` files the SHA-256 comparison catches both; `record` files have only the gzip end-of-stream check.
 
 The SHA-256 values below come from `sha256sum` on `/tmp/glyco_spec/` (GO files) and from the first run of the script in this task (FASTA files, 2026-10-01). The `last_modified` values are HTTP `Last-Modified` headers read with `curl -sIL` on 2026-10-01. UniProt sends no `Last-Modified`; those rows say `not verified` and give the release (`2026_03`) in `date_generated`.
 
@@ -1317,6 +1387,7 @@ The SHA-256 values below come from `sha256sum` on `/tmp/glyco_spec/` (GO files) 
 import gzip
 import hashlib
 import io
+import urllib.error
 
 import manifest
 import paths
@@ -1460,6 +1531,44 @@ def test_uniprot_pages_follow_link_header(tmp_path):
     assert gzip.decompress((tmp_path / "dl" / "UP1.fasta.gz").read_bytes()).count(b">") == 2
 
 
+def test_http_403_stops_with_exit_2(tmp_path, capsys):
+    fetch = load_script("00_fetch_inputs")
+    url = "https://example.org/aspgd.gaf.gz"
+    mpath = write_manifest(
+        tmp_path / "m.tsv",
+        [{"file": "aspgd.gaf.gz", "kind": "http", "url": url, "sha256": "", "mode": "strict"}],
+    )
+
+    def opener(request, timeout=None):
+        raise urllib.error.HTTPError(request.full_url, 403, "Forbidden", {}, None)
+
+    assert (
+        fetch.main(["--manifest", str(mpath), "--dest", str(tmp_path / "dl")], opener=opener) == 2
+    )
+    assert "STOP:" in capsys.readouterr().err
+    assert list((tmp_path / "dl").iterdir()) == []
+
+
+def test_url_error_mid_download_leaves_no_part_file(tmp_path):
+    fetch = load_script("00_fetch_inputs")
+    first = "https://rest.uniprot.org/uniprotkb/search?query=proteome%3AUP1&format=fasta&size=500"
+    second = "https://rest.uniprot.org/uniprotkb/search?cursor=abc"
+    mpath = write_manifest(
+        tmp_path / "m.tsv",
+        [{"file": "UP1.fasta.gz", "kind": "uniprot_fasta", "url": first, "mode": "record"}],
+    )
+
+    def opener(request, timeout=None):
+        if request.full_url == first:
+            return FakeResponse(b">sp|P1|A_B\nMK\n", {"Link": f'<{second}>; rel="next"'})
+        raise urllib.error.URLError("connection reset")
+
+    assert (
+        fetch.main(["--manifest", str(mpath), "--dest", str(tmp_path / "dl")], opener=opener) == 2
+    )
+    assert list((tmp_path / "dl").iterdir()) == []
+
+
 def test_committed_manifest_covers_species_table():
     rows = {r["file"]: r for r in manifest.read_manifest(paths.STEP1_DIR / "manifest.tsv")}
     import csv
@@ -1542,8 +1651,15 @@ def sha256_file(path: str | Path) -> str:
 
 
 def check_payload(path: str | Path) -> None:
-    """Refuse empty files, HTML error pages and truncated gzip files."""
+    """Refuse a missing file, an empty file, an HTML error page and a truncated gzip file.
+
+    Limits: an empty but valid gzip stream and a truncated plain-text file (for example a cut
+    go-basic.obo) pass this check. For `strict` files the SHA-256 comparison catches both. For
+    `record` files only the gzip end-of-stream check applies.
+    """
     path = Path(path)
+    if not path.exists():
+        raise DownloadError(f"{path}: file not found")
     if path.stat().st_size == 0:
         raise DownloadError(f"{path.name}: empty file")
     with open(path, "rb") as handle:
@@ -1609,6 +1725,7 @@ import datetime
 import gzip
 import os
 import sys
+import urllib.error
 import urllib.request
 from pathlib import Path
 
@@ -1616,23 +1733,31 @@ import manifest
 import paths
 
 
+class NetworkError(RuntimeError):
+    """An HTTP error, a URL error or a timeout during a download."""
+
+
 def fetch_one(row: dict[str, str], dest_dir: Path, opener) -> dict[str, str]:
     dest = dest_dir / row["file"]
     part = dest.with_name(dest.name + ".part")
     headers: dict[str, str] = {}
-    if row["kind"] == "http":
-        body, headers = manifest.http_get(row["url"], opener)
-        part.write_bytes(body)
-    elif row["kind"] == "uniprot_fasta":
-        with (
-            open(part, "wb") as raw,
-            gzip.GzipFile(filename="", mode="wb", fileobj=raw, mtime=0) as gz,
-        ):
-            for body, page_headers in manifest.uniprot_pages(row["url"], opener):
-                gz.write(body)
-                headers = headers or page_headers
-    else:
-        raise ValueError(f"{row['file']}: unknown kind {row['kind']!r}")
+    try:
+        if row["kind"] == "http":
+            body, headers = manifest.http_get(row["url"], opener)
+            part.write_bytes(body)
+        elif row["kind"] == "uniprot_fasta":
+            with (
+                open(part, "wb") as raw,
+                gzip.GzipFile(filename="", mode="wb", fileobj=raw, mtime=0) as gz,
+            ):
+                for body, page_headers in manifest.uniprot_pages(row["url"], opener):
+                    gz.write(body)
+                    headers = headers or page_headers
+        else:
+            raise ValueError(f"{row['file']}: unknown kind {row['kind']!r}")
+    except (urllib.error.URLError, TimeoutError) as exc:
+        part.unlink(missing_ok=True)
+        raise NetworkError(f"{row['url']}: {exc}") from exc
     try:
         manifest.check_payload(part)
     except manifest.DownloadError:
@@ -1677,6 +1802,9 @@ def main(argv=None, opener=None) -> int:
             continue
         try:
             got = fetch_one(row, dest_dir, opener)
+        except NetworkError as exc:
+            print(f"STOP: {exc}", file=sys.stderr)
+            return 2
         except manifest.DownloadError as exc:
             print(f"FAILED {exc}", file=sys.stderr)
             failed.append(row["file"])
@@ -1731,7 +1859,7 @@ if __name__ == "__main__":
 
 - [ ] **Step 5: Write `analysis/step1_compare/species.tsv` (tab-separated)**
 
-`role` values: `train` (Q6), `test_species` (Q6), `test_clade` (Q7), `alternate_file` (a second file for the same genome, kept for comparison), `undecided` (an open owner question; see `role_note`).
+`role` values: `train` (Q6), `test_species` (Q6), `test_clade` (Q7; *A. nidulans* and H99 recorded on 2026-10-01; H99 truth is pending curation, which is separate work), `alternate_file` (another file or strain kept for comparison: SCHPO-mod, JEC21, CRYD1), `undecided` (*U. maydis*: the Basidiomycota option is open).
 
 ```text
 source_id	species	taxon_id	taxon_filter	in_clade	role	role_note	gaf_file	fasta_file	id_mapping
@@ -1740,11 +1868,11 @@ Calb_CGD	Candida albicans SC5314	237561	237561	Saccharomycotina	train	Q6	cgd.gaf
 Spom_PomBase	Schizosaccharomyces pombe 972h-	284812		Taphrinomycotina	test_species	Q6	pombase.gaf.gz	peptide.fa.gz	pombase
 Spom_SCHPO-mod	Schizosaccharomyces pombe 972h-	284812		Taphrinomycotina	alternate_file	spec 3.2	SCHPO-mod.gaf.gz	peptide.fa.gz	pombase
 Afum_ASPFU	Aspergillus fumigatus Af293	330879		Eurotiomycetes	test_clade	Q7	ASPFU-uniprot.gaf.gz	UP000002530.fasta.gz	uniprot
-Anid_EMENI	Aspergillus nidulans FGSC A4	227321		Eurotiomycetes	undecided	open question 4	EMENI-uniprot.gaf.gz	UP000000560.fasta.gz	uniprot
-Cneo_H99_GOA	Cryptococcus neoformans H99	235443		Basidiomycota	undecided	open questions 1 and 3	313589.C_neoformans_var_grubii_H99.goa	UP000010091.fasta.gz	uniprot
-Cneo_JEC21_GOA	Cryptococcus deneoformans JEC21	214684		Basidiomycota	undecided	open questions 1 and 3	20846.C_neoformans_JEC21.goa	UP000002149.fasta.gz	uniprot
-Cneo_CRYD1	Cryptococcus deneoformans JEC21	214684		Basidiomycota	alternate_file	open questions 1 and 3	CRYD1-uniprot.gaf.gz	UP000002149.fasta.gz	uniprot
-Umay_MYCMD	Ustilago maydis 521	5270		Basidiomycota	undecided	open question 1	MYCMD-uniprot.gaf.gz	UP000000561.fasta.gz	uniprot
+Anid_EMENI	Aspergillus nidulans FGSC A4	227321		Eurotiomycetes	test_clade	decided 2026-10-01: second Eurotiomycetes test species	EMENI-uniprot.gaf.gz	UP000000560.fasta.gz	uniprot
+Cneo_H99_GOA	Cryptococcus neoformans H99	235443		Basidiomycota	test_clade	decided 2026-10-01: Cryptococcus reference; pending curation (separate work)	313589.C_neoformans_var_grubii_H99.goa	UP000010091.fasta.gz	uniprot
+Cneo_JEC21_GOA	Cryptococcus deneoformans JEC21	214684		Basidiomycota	alternate_file	H99 is the reference; JEC21 kept for comparison	20846.C_neoformans_JEC21.goa	UP000002149.fasta.gz	uniprot
+Cneo_CRYD1	Cryptococcus deneoformans JEC21	214684		Basidiomycota	alternate_file	same genome as Cneo_JEC21_GOA	CRYD1-uniprot.gaf.gz	UP000002149.fasta.gz	uniprot
+Umay_MYCMD	Ustilago maydis 521	5270		Basidiomycota	undecided	Basidiomycota truth option is open	MYCMD-uniprot.gaf.gz	UP000000561.fasta.gz	uniprot
 ```
 
 - [ ] **Step 6: Write `analysis/step1_compare/manifest.tsv` (tab-separated)**
@@ -1775,7 +1903,7 @@ UP000000561.fasta.gz	uniprot_fasta	https://rest.uniprot.org/uniprotkb/search?que
 - [ ] **Step 7: Run the test to verify it passes**
 
 Run: `$PY -m pytest tests/step1_compare/test_fetch.py -q`
-Expected: PASS (7 passed).
+Expected: PASS (9 passed).
 
 - [ ] **Step 8: Run the real download (network; about 3 minutes)**
 
@@ -1810,11 +1938,13 @@ Co-Authored-By: Claude Sonnet 5.5 <noreply@anthropic.com>"
 
 **Interfaces:**
 - Consumes: `go_obo.parse_obo` (Task 2); `gaf.filter_gaf`, `gaf.header_value` (Task 3); `truth_table.build_truth_rows`, `truth_table.SourceInfo`, `labels.*` (Task 4); `manifest.verify_against_manifest`, `manifest.read_manifest`, `species.tsv`, `manifest.tsv` (Task 5); `paths.*` (Task 1).
-- Produces: `truth_table.COUNT_COLUMNS`; `truth_table.count_rows(rows, filtered, source_id) -> dict[str, str]`; `truth_table.write_tsv(path, columns, rows)` (a `.gz` path is gzip with `mtime=0` and no file name, so output is byte-stable); `truth_table.read_tsv(path) -> list[dict[str, str]]`. `01_extract_go_truth.read_species(path) -> list[dict[str, str]]`; `01_extract_go_truth.run(species_rows, manifest_rows, input_dir: Path, out_dir: Path, obo_name="go-basic.obo") -> (truth_rows, count_rows)`; `main(argv=None) -> int`. Files: `$STEP1_WORKDIR/truth_set.tsv.gz`, `counts.tsv`, `extract_log.json`.
+- Produces: `truth_table.COUNT_COLUMNS` (includes `direct_p_ext`, `direct_n_int`, `direct_n_sec`, `direct_ambiguous`, `ambiguous_htp_only`); `truth_table.count_rows(rows, filtered, source_id) -> dict[str, str]`; `truth_table.write_tsv(path, columns, rows)` (a `.gz` path is gzip with `mtime=0` and no file name, so output is byte-stable); `truth_table.read_tsv(path) -> list[dict[str, str]]`. `01_extract_go_truth.read_species(path) -> list[dict[str, str]]`; `01_extract_go_truth.run(species_rows, manifest_rows, input_dir: Path, out_dir: Path, obo_name="go-basic.obo") -> (truth_rows, count_rows)`; `main(argv=None) -> int`. Files: `$STEP1_WORKDIR/truth_set.tsv.gz`, `counts.tsv`, `extract_log.json`.
 
-Fixture counts (hand-computed from the 50 rows): genes 20, non-IEA genes 19, P-ext 7 (wall 4, extracellular-only 3), N-int 1, N-sec 4, ambiguous 3, PM candidates 1, CC triples 35 of which 7 IEA (0.200), all-aspect IEA fraction 9/43 = 0.209, obsolete rows 1; experimental-only 6 / 1 / 4 / 2; without homology codes 6 / 1 / 4 / 2.
+Fixture counts (hand-computed from the 50 rows): genes 20, non-IEA genes 19, P-ext 7 (wall 4, extracellular-only 3), N-int 1, N-sec 4, ambiguous 3, PM candidates 1, CC triples 35 of which 7 IEA (0.200), all-aspect IEA fraction 9/43 = 0.209, obsolete rows 1; experimental-only 6 / 1 / 4 / 2; recomputed without homology codes 6 / 1 / 4 / 2; direct-evidence intersection 5 / 1 / 4 / 2 (G10, G11, G16 drop out); ambiguous with high-throughput-only internal evidence 1 (G14).
 
-The regression test holds the spec 3.3 numbers (and the SCHPO-mod and CRYD1 rows of the script output). It runs when the real files are in `$STEP1_GO_DIR` or `$STEP1_WORKDIR/downloads`. CI has no real files, so CI skips it and runs the fixture tests.
+A GAF named in `species.tsv` but absent on disk stops with `STOP: <path>: file not found` and exit 2 (`check_payload` checks existence).
+
+Two regression tests share one real extraction (module-scoped fixture). `test_reproduces_spec_counts_on_real_files` holds the `d1_count.py` numbers, the SCHPO-mod and CRYD1 rows, and `genes_cc` for the five UniProt-based sources. `test_direct_evidence_counts_on_real_files` holds the spec 3.3 direct-evidence counts. They run when the real files are in `$STEP1_GO_DIR` or `$STEP1_WORKDIR/downloads`. CI has no real files, so CI skips it and runs the fixture tests.
 
 - [ ] **Step 1: Write the failing test**
 
@@ -1892,6 +2022,11 @@ def test_extract_writes_truth_and_counts(tmp_path, fixtures_dir):
         "nohom_n_int": "1",
         "nohom_n_sec": "4",
         "nohom_ambiguous": "2",
+        "direct_p_ext": "5",
+        "direct_n_int": "1",
+        "direct_n_sec": "4",
+        "direct_ambiguous": "2",
+        "ambiguous_htp_only": "1",
     }
     assert {k: counts[k] for k in expected} == expected
     assert truth[0]["source_sha256"] == manifest_rows[1]["sha256"]
@@ -1916,6 +2051,21 @@ def test_extract_stops_on_hash_mismatch(tmp_path, fixtures_dir):
     with pytest.raises(manifest.DownloadError, match="differs from manifest"):
         extract.run(FIXTURE_SPECIES, manifest_rows, input_dir, tmp_path / "out")
     assert not (tmp_path / "out" / "truth_set.tsv.gz").exists()
+
+
+def test_missing_gaf_stops_with_exit_2(tmp_path, fixtures_dir, capsys):
+    input_dir, manifest_rows = _inputs(tmp_path, fixtures_dir)
+    (input_dir / "golden.gaf").unlink()
+    species_path = tmp_path / "species.tsv"
+    truth_table.write_tsv(species_path, list(FIXTURE_SPECIES[0]), FIXTURE_SPECIES)
+    mpath = tmp_path / "manifest.tsv"
+    full = [{c: "" for c in manifest.MANIFEST_COLUMNS} | r for r in manifest_rows]
+    manifest.write_manifest(mpath, full)
+    argv = ["--species", str(species_path), "--manifest", str(mpath)]
+    argv += ["--input-dir", str(input_dir), "--out-dir", str(tmp_path / "out")]
+    assert extract.main(argv) == 2
+    err = capsys.readouterr().err
+    assert "STOP:" in err and "golden.gaf" in err and "file not found" in err
 
 
 # Spec 3.3 numbers, reproduced from /tmp/glyco_spec/d1_count.py on 2026-10-01.
@@ -2033,22 +2183,66 @@ SPEC_COUNTS = {
 }
 
 
+# M2: genes_cc for the five UniProt-based sources.
+GENES_CC_UNIPROT = {
+    "Cneo_H99_GOA": 4320,
+    "Cneo_JEC21_GOA": 4364,
+    "Cneo_CRYD1": 4317,
+    "Afum_ASPFU": 5613,
+    "Anid_EMENI": 5884,
+    "Umay_MYCMD": 4206,
+}
+
+# Spec 3.3 direct-evidence truth: label == X and homology_only == "no" (P-ext, N-int, N-sec).
+DIRECT_COUNTS = {
+    "Scer_SGD": (88, 2360, 1457),
+    "Calb_CGD": (211, 179, 263),
+    "Spom_PomBase": (42, 2799, 886),
+    "Cneo_H99_GOA": (9, 17, 15),
+    "Cneo_JEC21_GOA": (0, 3, 1),
+    "Afum_ASPFU": (23, 18, 26),
+    "Anid_EMENI": (113, 97, 66),
+    "Umay_MYCMD": (10, 6, 21),
+}
+
+
 def _real_input_dir() -> Path:
     return Path(os.environ.get("STEP1_GO_DIR") or paths.downloads_dir())
 
 
-@pytest.mark.skipif(
+needs_real_files = pytest.mark.skipif(
     not (_real_input_dir() / "go-basic.obo").exists(),
     reason="real GO files absent; run 00_fetch_inputs.py or set STEP1_GO_DIR",
 )
-def test_reproduces_spec_counts_on_real_files(tmp_path):
+
+
+@pytest.fixture(scope="module")
+def real_counts(tmp_path_factory):
     species = extract.read_species(paths.STEP1_DIR / "species.tsv")
     manifest_rows = manifest.read_manifest(paths.STEP1_DIR / "manifest.tsv")
-    _, counts = extract.run(species, manifest_rows, _real_input_dir(), tmp_path)
-    got = {c["source_id"]: c for c in counts}
+    out = tmp_path_factory.mktemp("real")
+    _, counts = extract.run(species, manifest_rows, _real_input_dir(), out)
+    return {c["source_id"]: c for c in counts}
+
+
+@needs_real_files
+def test_reproduces_spec_counts_on_real_files(real_counts):
     for source_id, expected in SPEC_COUNTS.items():
         for key, value in expected.items():
-            assert got[source_id][key] == str(value), (source_id, key)
+            assert real_counts[source_id][key] == str(value), (source_id, key)
+    for source_id, value in GENES_CC_UNIPROT.items():
+        assert real_counts[source_id]["genes_cc"] == str(value), source_id
+
+
+@needs_real_files
+def test_direct_evidence_counts_on_real_files(real_counts):
+    for source_id, (p_ext, n_int, n_sec) in DIRECT_COUNTS.items():
+        got = real_counts[source_id]
+        assert (got["direct_p_ext"], got["direct_n_int"], got["direct_n_sec"]) == (
+            str(p_ext),
+            str(n_int),
+            str(n_sec),
+        ), source_id
 ```
 
 - [ ] **Step 2: Run the test to verify it fails**
@@ -2089,6 +2283,7 @@ TRUTH_COLUMNS = (
     "evidence_codes",
     "surface_evidence",
     "internal_evidence",
+    "internal_evidence_htp_only",
     "secretory_evidence",
     "source_file",
     "source_sha256",
@@ -2122,6 +2317,11 @@ COUNT_COLUMNS = (
     "nohom_n_int",
     "nohom_n_sec",
     "nohom_ambiguous",
+    "direct_p_ext",
+    "direct_n_int",
+    "direct_n_sec",
+    "direct_ambiguous",
+    "ambiguous_htp_only",
 )
 
 
@@ -2179,6 +2379,7 @@ def build_truth_rows(filtered, ontology, info: SourceInfo) -> list[dict[str, str
         label_nohom = labels.classify(by_policy["no_homology"], any_terms)
         label_exp = labels.classify(by_policy["experimental"], any_terms)
         subset = labels.subset_of(label, by_policy["non_iea"])
+        internal = _codes(rec, ontology, labels.INTERNAL)
         rows.append(
             {
                 "source_id": info.source_id,
@@ -2201,7 +2402,10 @@ def build_truth_rows(filtered, ontology, info: SourceInfo) -> list[dict[str, str
                 else "no",
                 "evidence_codes": ",".join(sorted({ev for _, ev in rec.rows})),
                 "surface_evidence": _codes(rec, ontology, labels.SURFACE),
-                "internal_evidence": _codes(rec, ontology, labels.INTERNAL),
+                "internal_evidence": internal,
+                "internal_evidence_htp_only": "yes"
+                if labels.htp_only(set(internal.split(",")) - {""})
+                else "no",
                 "secretory_evidence": _codes(rec, ontology, labels.SECRETORY),
                 "source_file": info.source_file,
                 "source_sha256": info.source_sha256,
@@ -2210,6 +2414,15 @@ def build_truth_rows(filtered, ontology, info: SourceInfo) -> list[dict[str, str
             }
         )
     return rows
+
+
+def in_direct_stratum(row: dict[str, str], label: str) -> bool:
+    """Direct-evidence truth (spec 3.3): the label is the same with and without homology codes.
+
+    This is an intersection. Labels recomputed without homology codes are NOT used, because
+    that moves genes whose only internal term is IBA or ISS into P-ext (contradicts Q9).
+    """
+    return row["label"] == label and row["homology_only"] == "no"
 
 
 def _n(rows, column, value) -> int:
@@ -2246,6 +2459,14 @@ def count_rows(rows: list[dict[str, str]], filtered, source_id: str) -> dict[str
         "nohom_n_int": _n(rows, "label_no_homology", labels.N_INT),
         "nohom_n_sec": _n(rows, "label_no_homology", labels.N_SEC),
         "nohom_ambiguous": _n(rows, "label_no_homology", labels.AMBIGUOUS),
+        "direct_p_ext": sum(in_direct_stratum(r, labels.P_EXT) for r in rows),
+        "direct_n_int": sum(in_direct_stratum(r, labels.N_INT) for r in rows),
+        "direct_n_sec": sum(in_direct_stratum(r, labels.N_SEC) for r in rows),
+        "direct_ambiguous": sum(in_direct_stratum(r, labels.AMBIGUOUS) for r in rows),
+        "ambiguous_htp_only": sum(
+            r["label"] == labels.AMBIGUOUS and r["internal_evidence_htp_only"] == "yes"
+            for r in rows
+        ),
     }
     return {k: str(v) for k, v in counts.items()}
 
@@ -2376,18 +2597,18 @@ if __name__ == "__main__":
 - [ ] **Step 5: Run the fixture tests to verify they pass**
 
 Run: `$PY -m pytest tests/step1_compare -q`
-Expected: PASS (38 passed, 1 skipped: the real-data test). If the Task 5 downloads are in `$STEP1_WORKDIR/downloads`, the real-data test runs as well: 39 passed.
+Expected: PASS (44 passed, 2 skipped: the real-data tests). If the Task 5 downloads are in `$STEP1_WORKDIR/downloads`, the real-data tests run as well: 46 passed.
 
 - [ ] **Step 6: Run the real-data regression test and the real extraction**
 
 ```bash
 STEP1_GO_DIR=/tmp/glyco_spec /usr/bin/python3.12 -m pytest \
-  tests/step1_compare/test_extract.py::test_reproduces_spec_counts_on_real_files -q
+  tests/step1_compare/test_extract.py -q -k real_files
 export PROJ_ROOT=$PWD STEP1_WORKDIR=/bigdata/stajichlab/jstajich/projects/adhesionPred/_workdir/step1_compare
 cd analysis/step1_compare && /usr/bin/python3.12 01_extract_go_truth.py; cd -
 ```
 
-Expected: the test PASSES (about 20 s). The script prints one tab-separated line per source; the first two lines are `source_id=Scer_SGD p_ext=125 n_int=2645 n_sec=1548 ambiguous=48` and `source_id=Calb_CGD p_ext=259 n_int=1772 n_sec=961 ambiguous=100` (tabs shown as spaces). If `/tmp/glyco_spec` is gone, use the Task 5 download directory as `STEP1_GO_DIR`.
+Expected: both real-data tests PASS (about 20 s). The script prints one tab-separated line per source; the first two lines are `source_id=Scer_SGD p_ext=125 n_int=2645 n_sec=1548 ambiguous=48` and `source_id=Calb_CGD p_ext=259 n_int=1772 n_sec=961 ambiguous=100` (tabs shown as spaces). If `/tmp/glyco_spec` is gone, use the Task 5 download directory as `STEP1_GO_DIR`.
 
 - [ ] **Step 7: Lint and commit**
 
@@ -2413,7 +2634,7 @@ Co-Authored-By: Claude Sonnet 5.5 <noreply@anthropic.com>"
 
 **Interfaces:**
 - Consumes: `gaf.open_text` (Task 3); `labels.*` (Task 4); `manifest.verify_against_manifest`, `manifest.read_manifest` (Task 5); `truth_table.read_tsv`, `truth_table.write_tsv` (Task 6); `species.tsv` `fasta_file`, `id_mapping` (Task 5).
-- Produces: `seqhash.clean(sequence) -> str`; `seqhash.seq_sha256(sequence) -> str`. `sequences.MAPPINGS`; `sequences.MappingError`; `sequences.read_fasta(path) -> Iterator[tuple[str, str]]`; `sequences.normalize_id(value, mapping) -> str`; `sequences.fasta_key(header, mapping) -> str | None`; `sequences.gene_key(row, mapping) -> str`; `sequences.index_fasta(path, mapping) -> tuple[dict[str, tuple[str, str]], int]`; `sequences.attach(rows, index, mapping) -> (matched, unmatched)`. `02_attach_sequences.run(truth_rows, species_rows, manifest_rows, input_dir, out_dir) -> (seq_rows, unmatched_rows, counts)`. Files: `truth_sequences.tsv.gz` (`source_id, gene_id, label, fasta_id, length, seq_sha256, sequence`), `unmatched_ids.tsv` (`source_id, gene_id, symbol, synonym1, label`), `sequence_counts.tsv` (`source_id, fasta_file, fasta_sha256, fasta_duplicate_records, genes, matched, unmatched, unmatched_p_ext, unmatched_ambiguous, unmatched_n_int, unmatched_n_sec`).
+- Produces: `seqhash.clean(sequence) -> str`; `seqhash.seq_sha256(sequence) -> str`. `sequences.MAPPINGS`; `sequences.MappingError`; `sequences.read_fasta(path) -> Iterator[tuple[str, str]]`; `sequences.normalize_id(value, mapping) -> str`; `sequences.fasta_key(header, mapping) -> str | None`; `sequences.gene_key(row, mapping) -> str`; `sequences.index_fasta(path, mapping) -> tuple[dict[str, tuple[str, str]], int]`; `sequences.attach(rows, index, mapping) -> (matched, unmatched)`. `02_attach_sequences.run(truth_rows, species_rows, manifest_rows, input_dir, out_dir) -> (seq_rows, unmatched_rows, counts)`; it raises `sequences.MappingError` (main exits 2, no `truth_sequences.tsv.gz`) when a source matches no gene or when a P-ext or ambiguous gene has no sequence; `unmatched_ids.tsv` and `sequence_counts.tsv` are written first so the cause can be read. Files: `truth_sequences.tsv.gz` (`source_id, gene_id, label, fasta_id, length, seq_sha256, sequence`), `unmatched_ids.tsv` (`source_id, gene_id, symbol, synonym1, label`), `sequence_counts.tsv` (`source_id, fasta_file, fasta_sha256, fasta_duplicate_records, genes, matched, unmatched, unmatched_p_ext, unmatched_ambiguous, unmatched_n_int, unmatched_n_sec`).
 
 Mapping table (spec 3.3, corrected for CGD):
 
@@ -2533,6 +2754,28 @@ def test_attach_script_reports_unmatched_by_label(tmp_path):
     assert counts[0]["fasta_sha256"] == manifest.sha256_file(input_dir / "c.fa")
     assert seq_rows[0]["seq_sha256"] == seqhash.seq_sha256("MSTQKA")
     assert truth_table.read_tsv(tmp_path / "unmatched_ids.tsv")[0]["gene_id"] == "CAL2"
+
+
+def test_attach_stops_when_a_source_matches_nothing(tmp_path):
+    attach = load_script("02_attach_sequences")
+    _write(tmp_path, "c.fa", CGD_FASTA)
+    species = [{"source_id": "X", "fasta_file": "c.fa", "id_mapping": "cgd"}]
+    manifest_rows = [{"file": "c.fa", "mode": "record", "sha256": ""}]
+    truth = [_row("CAL9", "C9_99999W_A", "N-sec")]
+    with pytest.raises(sequences.MappingError, match="no gene matched"):
+        attach.run(truth, species, manifest_rows, tmp_path, tmp_path)
+    assert not (tmp_path / "truth_sequences.tsv.gz").exists()
+
+
+def test_attach_stops_when_a_positive_or_ambiguous_gene_is_unmatched(tmp_path):
+    attach = load_script("02_attach_sequences")
+    _write(tmp_path, "c.fa", CGD_FASTA)
+    species = [{"source_id": "X", "fasta_file": "c.fa", "id_mapping": "cgd"}]
+    manifest_rows = [{"file": "c.fa", "mode": "record", "sha256": ""}]
+    truth = [_row("CAL1", "C1_00010W_A", "N-sec"), _row("CAL5", "C5_00000W_A", "ambiguous")]
+    with pytest.raises(sequences.MappingError, match="ambiguous gene CAL5"):
+        attach.run(truth, species, manifest_rows, tmp_path, tmp_path)
+    assert truth_table.read_tsv(tmp_path / "unmatched_ids.tsv")[0]["gene_id"] == "CAL5"
 ```
 
 - [ ] **Step 2: Run the test to verify it fails**
@@ -2680,6 +2923,8 @@ def attach(rows: list[dict[str, str]], index: dict[str, tuple[str, str]], mappin
 
 Reads $STEP1_WORKDIR/truth_set.tsv.gz and the FASTA files named in species.tsv. Writes
 truth_sequences.tsv.gz, unmatched_ids.tsv and sequence_counts.tsv to the work directory.
+Stops (exit 2, no truth_sequences.tsv.gz) if a source matches no gene, or if a P-ext or
+ambiguous gene has no sequence; unmatched_ids.tsv and sequence_counts.tsv are still written.
 """
 
 import argparse
@@ -2763,9 +3008,17 @@ def run(truth_rows, species_rows, manifest_rows, input_dir: Path, out_dir: Path)
                 "unmatched_n_sec": str(sum(u["label"] == labels.N_SEC for u in unmatched)),
             }
         )
-    truth_table.write_tsv(out_dir / "truth_sequences.tsv.gz", SEQUENCE_COLUMNS, seq_rows)
     truth_table.write_tsv(out_dir / "unmatched_ids.tsv", UNMATCHED_COLUMNS, unmatched_rows)
     truth_table.write_tsv(out_dir / "sequence_counts.tsv", SEQ_COUNT_COLUMNS, counts)
+    problems = [f"{c['source_id']}: no gene matched" for c in counts if c["matched"] == "0"]
+    problems += [
+        f"{u['source_id']}: {u['label']} gene {u['gene_id']} has no sequence"
+        for u in unmatched_rows
+        if u["label"] in (labels.P_EXT, labels.AMBIGUOUS)
+    ]
+    if problems:
+        raise sequences.MappingError("; ".join(problems[:10]))
+    truth_table.write_tsv(out_dir / "truth_sequences.tsv.gz", SEQUENCE_COLUMNS, seq_rows)
     return seq_rows, unmatched_rows, counts
 
 
@@ -2799,7 +3052,7 @@ if __name__ == "__main__":
 - [ ] **Step 6: Run the test to verify it passes**
 
 Run: `$PY -m pytest tests/step1_compare/test_sequences.py -q`
-Expected: PASS (7 passed, 1 skipped). The skip is `test_clean_matches_package_clean_sequence` when `surface_glyco` (Biopython) does not import under `/usr/bin/python3.12`. With `PYTHONPATH=$PWD/src /rhome/jstajich/.conda/envs/adhesionPred/bin/python -m pytest tests/step1_compare/test_sequences.py -q` all 8 pass.
+Expected: PASS (9 passed, 1 skipped). The skip is `test_clean_matches_package_clean_sequence` when `surface_glyco` (Biopython) does not import under `/usr/bin/python3.12`. With `PYTHONPATH=$PWD/src /rhome/jstajich/.conda/envs/adhesionPred/bin/python -m pytest tests/step1_compare/test_sequences.py -q` all 10 pass.
 
 - [ ] **Step 7: Run on the real files and record the unmatched counts**
 
@@ -2835,22 +3088,25 @@ git commit -m "step1_compare: attach protein sequences, report unmatched IDs" \
 
 **Interfaces:**
 - Consumes: `truth_set.tsv.gz` columns `source_id, gene_id, symbol, label, pm_candidate, stratum` (Task 6); `truth_table.read_tsv`, `write_tsv`, `TRUTH_COLUMNS` (Task 6); `manifest.uniprot_pages` (Task 5); `species.tsv` `id_mapping`, `taxon_id` (Task 5).
-- Produces: `d8_triage.CURATED_GPI_ECO`, `UNIPROT_FIELDS`, `P_GPI`, `PM_TM`, `PM_UNRESOLVED`; `d8_triage.UniprotEvidence` (`accession, reviewed, gpi_eco, tm_count, tm_eco, xrefs`, property `curated_gpi`); `parse_entry(entry: dict) -> UniprotEvidence`; `query_terms(rows, mapping) -> dict[str, str]`; `search_urls(terms, batch=50) -> list[str]`; `organism_gpi_url(taxon_id) -> str`; `entries_for_gene(gene_id, mapping, entries) -> list[UniprotEvidence]`; `classify_pm(entries, literature: bool) -> tuple[str, str]`. `03_triage_pm.triage_source(sp, rows, literature_ids, fetch) -> (triage, outside, counts)`; `03_triage_pm.apply_triage(truth_rows, triage_rows) -> list[dict]`; `main(argv=None, fetch=None) -> int`. Files: `d8_triage.tsv`, `d8_gpi_outside_pext.tsv`, `d8_counts.tsv`, `truth_set_triaged.tsv.gz`, raw JSON pages in `d8_uniprot/`.
+- Produces: `d8_triage.CURATED_GPI_ECO`, `UNIPROT_FIELDS`, `P_GPI`, `PM_TM`, `PM_UNRESOLVED`; `d8_triage.UniprotError`; `d8_triage.UniprotEvidence` (`accession, reviewed, gpi_eco, tm_count, tm_eco, xrefs`, property `curated_gpi`); `parse_entry(entry: dict) -> UniprotEvidence` (raises `UniprotError` if `primaryAccession` or `entryType` is missing); `query_terms(rows, mapping) -> dict[str, str]`; `search_urls(terms, batch=50) -> list[str]`; `organism_gpi_url(taxon_id) -> str`; `entries_for_gene(gene_id, mapping, entries) -> list[UniprotEvidence]`; `classify_pm(entries, literature: bool) -> tuple[str, str]`. `03_triage_pm.triage_source(sp, rows, literature_ids, fetch) -> (triage, outside, counts)`; `03_triage_pm.apply_triage(truth_rows, triage_rows) -> list[dict]`; `main(argv=None, fetch=None) -> int` (exit 2 with `STOP:` and no output tables on an HTTP or URL error, a response without `results`, an entry without the expected fields, or PM candidates of which none matches a UniProt entry). Files: `d8_triage.tsv`, `d8_gpi_outside_pext.tsv`, `d8_counts.tsv`, `truth_set_triaged.tsv.gz`, raw JSON pages in `d8_uniprot/`.
 
 UniProt REST query. Endpoint `https://rest.uniprot.org/uniprotkb/search`, `format=json`, `size=500`, `fields=accession,reviewed,ft_lipid,ft_transmem,xref_sgd,xref_cgd,xref_pombase`. Candidate genes are queried in batches of 50 terms joined by `OR`: `xref:sgd-<S000...>`, `xref:cgd-<CAL...>`, `xref:pombase-<SP...>` or `accession:<ACC>`. One more query per species lists every reviewed GPI entry: `(organism_id:<taxon>) AND (reviewed:true) AND (ft_lipid:GPI-anchor)`. The parser records, per entry, whether it is reviewed, the ECO codes of every `Lipidation` feature whose description starts with `GPI-anchor`, the number of `Transmembrane` features and their ECO codes.
 
-Rules. P-gpi: a row in `curated_gpi.tsv`, or a reviewed entry with a GPI-anchor ECO code in `CURATED_GPI_ECO = {"ECO:0000269"}`. PM-TM: not P-gpi and at least one Transmembrane feature (the code is recorded; it is often ECO:0000255). pm-unresolved: neither; the spec does not define this case, so the gene stays P-ext with stratum `pm-unresolved` and goes to the owner. `d8_gpi_outside_pext.tsv` lists curated-GPI entries whose gene is not P-ext (for example an ambiguous gene); the plan does not relabel them. Because every ECO code is stored, a wider GPI rule later is a filter on `d8_triage.tsv`.
+Rules. P-gpi: a row in `curated_gpi.tsv`, or a reviewed entry with a GPI-anchor ECO code in `CURATED_GPI_ECO = {"ECO:0000269"}`. PM-TM: not P-gpi and at least one Transmembrane feature (the code is recorded; it is often ECO:0000255). pm-unresolved: neither; the spec does not define this case, so the gene stays P-ext with stratum `pm-unresolved` and goes to the owner. `d8_gpi_outside_pext.tsv` lists curated-GPI entries whose gene is not P-ext (for example an ambiguous gene); the plan does not relabel them. Because every ECO code is stored, a wider GPI rule later is a filter on `d8_triage.tsv`. **P-gpi is a list, not a scored stratum** (ruling R-B), until `curated_gpi.tsv` has literature rows. Filling that file is separate curation work, outside this plan.
 
-**The real D8 counts are not yet known.** The spec says so (section 2.2). This plan does not state expected values for them. Step 7 runs the real query and records the counts.
+A prototype run against UniProt 2026_03 on 2026-10-01 gave P-gpi / PM-TM / pm-unresolved: S288C 0 / 3 / 9, *C. albicans* 1 / 22 / 37, *S. pombe* 0 / 4 / 6, *A. fumigatus* 0 / 1 / 8, *A. nidulans* 1 / 2 / 3. The independent reviewer re-ran S288C and *S. pombe* only. Step 7 re-runs the query and records the counts of the day.
 
 - [ ] **Step 1: Write the failing test**
 
 `tests/step1_compare/test_d8.py`:
 
 ```python
+import urllib.error
 import urllib.parse
 
 import d8_triage
+import pytest
+import truth_table
 from conftest import load_script
 
 
@@ -2968,6 +3224,55 @@ def test_triage_source_and_apply(tmp_path):
     triaged = triage.apply_triage(rows, t)
     assert [r["stratum"] for r in triaged] == ["PM-TM", "pm-unresolved", "ambiguous"]
     assert triaged[0]["label"] == "P-ext"  # label kept; stratum carries the D8 class
+
+
+def _work(tmp_path):
+    truth = [
+        {
+            "source_id": "Scer",
+            "gene_id": "S000003246",
+            "symbol": "MSB2",
+            "label": "P-ext",
+            "pm_candidate": "yes",
+            "stratum": "extracellular-only",
+        },
+    ]
+    truth_table.write_tsv(tmp_path / "truth_set.tsv.gz", list(truth[0]), truth)
+    species = [{"source_id": "Scer", "id_mapping": "sgd", "taxon_id": "559292"}]
+    truth_table.write_tsv(tmp_path / "species.tsv", list(species[0]), species)
+    (tmp_path / "curated_gpi.tsv").write_text("source_id\tgene_id\tsymbol\tpmid\tnote\n")
+    return [
+        "--species",
+        str(tmp_path / "species.tsv"),
+        "--work-dir",
+        str(tmp_path),
+        "--curated-gpi",
+        str(tmp_path / "curated_gpi.tsv"),
+    ]
+
+
+def test_no_candidate_matched_stops_and_writes_nothing(tmp_path, capsys):
+    triage = load_script("03_triage_pm")
+    argv = _work(tmp_path)
+    assert triage.main(argv, fetch=lambda url, tag: ([], "2026_03")) == 2
+    assert "none of 1 candidates matched" in capsys.readouterr().err
+    assert not (tmp_path / "truth_set_triaged.tsv.gz").exists()
+    assert not (tmp_path / "d8_triage.tsv").exists()
+
+
+def test_http_error_stops(tmp_path):
+    triage = load_script("03_triage_pm")
+
+    def broken(url, tag):
+        raise urllib.error.HTTPError(url, 500, "Server Error", {}, None)
+
+    assert triage.main(_work(tmp_path), fetch=broken) == 2
+    assert not (tmp_path / "truth_set_triaged.tsv.gz").exists()
+
+
+def test_entry_without_expected_fields_raises():
+    with pytest.raises(d8_triage.UniprotError, match="primaryAccession"):
+        d8_triage.parse_entry({"features": []})
 ```
 
 - [ ] **Step 2: Run the test to verify it fails**
@@ -2990,6 +3295,7 @@ Rules (spec 2.2, Q2 and Q3):
 - PM-TM: not P-gpi, and at least one UniProt Transmembrane feature (any evidence code; the
   codes are recorded because they are often ECO:0000255, sequence analysis).
 - pm-unresolved: neither. The spec does not define this case; it stays P-ext and is listed.
+P-gpi is reported as a list, not a scored stratum, until curated_gpi.tsv has literature rows.
 """
 
 import urllib.parse
@@ -3000,6 +3306,10 @@ UNIPROT_FIELDS = "accession,reviewed,ft_lipid,ft_transmem,xref_sgd,xref_cgd,xref
 UNIPROT_SEARCH = "https://rest.uniprot.org/uniprotkb/search"
 XREF_DB = {"sgd": "SGD", "cgd": "CGD", "pombase": "PomBase"}
 P_GPI, PM_TM, PM_UNRESOLVED = "P-gpi", "PM-TM", "pm-unresolved"
+
+
+class UniprotError(RuntimeError):
+    """A UniProt response lacks expected fields, or no candidate gene matched any entry."""
 
 
 @dataclass
@@ -3021,6 +3331,9 @@ def _eco(feature: dict) -> list[str]:
 
 
 def parse_entry(entry: dict) -> UniprotEvidence:
+    missing = [k for k in ("primaryAccession", "entryType") if k not in entry]
+    if missing:
+        raise UniprotError(f"UniProt entry lacks {missing}: {str(entry)[:80]}")
     ev = UniprotEvidence(
         accession=entry["primaryAccession"],
         reviewed=entry.get("entryType", "").startswith("UniProtKB reviewed"),
@@ -3100,12 +3413,15 @@ The owner adds literature rows (one per gene, with a PMID). The file starts empt
 
 Reads $STEP1_WORKDIR/truth_set.tsv.gz, species.tsv and curated_gpi.tsv. Queries UniProtKB REST.
 Writes d8_triage.tsv, d8_gpi_outside_pext.tsv, d8_counts.tsv, truth_set_triaged.tsv.gz and the
-raw UniProt JSON pages (d8_uniprot/) to the work directory.
+raw UniProt JSON pages (d8_uniprot/) to the work directory. Stops (exit 2, no output tables)
+on an HTTP error, a response without the expected fields, or when PM candidates exist and none
+of them matches a UniProt entry.
 """
 
 import argparse
 import json
 import sys
+import urllib.error
 from pathlib import Path
 
 import d8_triage
@@ -3144,7 +3460,10 @@ def uniprot_fetch(url: str, raw_dir: Path, tag: str) -> tuple[list[dict], str]:
     raw_dir.mkdir(parents=True, exist_ok=True)
     for n, (body, headers) in enumerate(manifest.uniprot_pages(url)):
         (raw_dir / f"{tag}_{n:03d}.json").write_bytes(body)
-        entries.extend(json.loads(body)["results"])
+        page = json.loads(body)
+        if "results" not in page:
+            raise d8_triage.UniprotError(f"{url}: response has no 'results' field")
+        entries.extend(page["results"])
         release = release or headers.get("x-uniprot-release", "")
     return entries, release
 
@@ -3157,6 +3476,13 @@ def triage_source(sp, rows, literature_ids, fetch):
     for i, url in enumerate(d8_triage.search_urls(sorted(terms))):
         got, release = fetch(url, f"{sp['source_id']}_candidates_{i}")
         entries.extend(d8_triage.parse_entry(e) for e in got)
+    matched_any = any(
+        d8_triage.entries_for_gene(r["gene_id"], mapping, entries) for r in candidates
+    )
+    if candidates and not matched_any:
+        raise d8_triage.UniprotError(
+            f"{sp['source_id']}: none of {len(candidates)} candidates matched a UniProt entry"
+        )
     triage = []
     for r in candidates:
         mine = d8_triage.entries_for_gene(r["gene_id"], mapping, entries)
@@ -3248,7 +3574,11 @@ def main(argv=None, fetch=None) -> int:
         rows = [r for r in truth_rows if r["source_id"] == sp["source_id"]]
         if not any(r["pm_candidate"] == "yes" for r in rows):
             continue
-        t, o, c = triage_source(sp, rows, literature_ids, fetch)
+        try:
+            t, o, c = triage_source(sp, rows, literature_ids, fetch)
+        except (d8_triage.UniprotError, urllib.error.URLError, TimeoutError) as exc:
+            print(f"STOP: {exc}", file=sys.stderr)
+            return 2
         triage += t
         outside += o
         counts.append(c)
@@ -3270,7 +3600,7 @@ if __name__ == "__main__":
 - [ ] **Step 6: Run the test to verify it passes**
 
 Run: `$PY -m pytest tests/step1_compare/test_d8.py -q`
-Expected: PASS (4 passed).
+Expected: PASS (7 passed).
 
 - [ ] **Step 7: Run the real query and record the counts**
 
@@ -3306,18 +3636,23 @@ git commit -m "step1_compare: D8 GPI/TM triage of P-ext genes with a plasma-memb
 
 **Interfaces:**
 - Consumes: `seqhash.seq_sha256`, `seqhash.clean`, `sequences.read_fasta`, `sequences.fasta_key` (Task 7); `truth_sequences.tsv.gz` (Task 7); `species.tsv` `role`, `id_mapping` (Task 5); `manifest.uniprot_pages`, `manifest.check_payload` (Task 5); `truth_table.read_tsv`, `write_tsv` (Task 6); `data/curated/surface/surface.tsv`; `data/curated/adhesins/eurotiomycetes_seeds.tsv`.
-- Produces: `keyword_tier.SPOMBE_TAXA`, `TC_SOURCE`, `KEYWORD_COLUMNS`, `REMOVED_COLUMNS`; `read_seed_accessions(path) -> dict[str, str]`; `accession_fasta_urls(accessions, batch=100) -> list[str]`; `build_keyword_tier(surface_rows, seq_by_acc, seed_accessions, heldout_accessions, heldout_hashes) -> (kept, removed)`. `04_build_keyword_tier.heldout_sets(species_rows, seq_rows) -> (accessions, hashes)`; `main(argv=None) -> int`. Files: `keyword_tier.tsv.gz` (`accession, gene, genome, taxon_id, length, seq_sha256, tier`), `keyword_tier_removed.tsv` (`accession, gene, genome, taxon_id, reason, matched`), `keyword_sequences.fasta.gz`.
+- Produces: `keyword_tier.SPOMBE_TAXA`, `TC_SOURCE`, `KEYWORD_COLUMNS`, `REMOVED_COLUMNS`; `read_seed_accessions(path) -> dict[str, str]`; `accession_fasta_urls(accessions, batch=100) -> list[str]`; `build_keyword_tier(surface_rows, seq_by_acc, seed_accessions, heldout_accessions, heldout_hashes) -> (kept, removed)`. `04_build_keyword_tier.heldout_sets(species_rows, seq_rows) -> (accessions, hashes)`; `main(argv=None) -> int`. Files: `keyword_tier.tsv.gz` (`accession, gene, genome, taxon_id, length, seq_sha256, tier`), `keyword_tier_removed.tsv` (`accession, gene, genome, taxon_id, reason, matched`), `keyword_sequences.fasta.gz`, `keyword_sequences.json` (`sha256`, `uniprot_release`, `accessions`, `fetched_on`). `04_build_keyword_tier.fetch_sequences(accessions, dest) -> dict`; `check_cached(seq_path) -> dict` (raises `manifest.DownloadError` if the sidecar is missing, has no release, or its SHA-256 differs).
 
 `surface.tsv` has no sequence column. The script fetches the sequences of all `surface.tsv` accessions and all seed accessions from UniProt (100 accessions per paginated query) into `keyword_sequences.fasta.gz` in the work directory.
 
-Test proteins are: the Eurotiomycetes literature rows (Q7), every *S. pombe* protein (taxon 284812 or 4896; Q6), and every **labelled** gene (`label` not `unlabelled`) of every source whose `role` is not `train`. The held-out set is wide on purpose: it includes `undecided` and `alternate_file` sources, so an owner decision on open questions 1, 3 or 4 never re-opens a leak. The removal log keeps the reason and the matched protein, so rows can be restored by a filter if the owner narrows the held-out set. The per-fold removal for S1 (spec 2.3, "the test fold in each CV split") belongs to the later training plan.
+Test proteins are: the Eurotiomycetes literature rows (Q7), every *S. pombe* protein (taxon 284812 or 4896; Q6), and every **labelled** gene (`label` not `unlabelled`) of every source whose `role` is not `train`. The held-out set is wide on purpose: it includes `test_clade` (*A. fumigatus*, *A. nidulans*, H99), `alternate_file` and `undecided` sources, so a later choice on the Basidiomycota option never re-opens a leak. The removal log keeps the reason and the matched protein, so rows can be restored by a filter if the owner narrows the held-out set. The per-fold removal for S1 (spec 2.3, "the test fold in each CV split") belongs to the later training plan.
 
 - [ ] **Step 1: Write the failing test**
 
 `tests/step1_compare/test_keyword_tier.py`:
 
 ```python
+import gzip
+import json
+
 import keyword_tier
+import manifest
+import pytest
 import seqhash
 from conftest import load_script
 
@@ -3395,6 +3730,30 @@ def test_heldout_sets_skip_training_and_unlabelled_rows():
     accessions, hashes = build.heldout_sets(species, seq_rows)
     assert accessions == {"Q4W1": "Afum_ASPFU:Q4W1"}
     assert hashes == {"h2": "Afum_ASPFU:Q4W1", "h4": "Spom_PomBase:SPAC1.01"}
+
+
+def test_cached_sequences_without_sidecar_are_refused(tmp_path, capsys):
+    build = load_script("04_build_keyword_tier")
+    (tmp_path / "keyword_sequences.fasta.gz").write_bytes(gzip.compress(b">sp|P1|X\nMK\n"))
+    surface = tmp_path / "surface.tsv"
+    surface.write_text("accession\tgene\tgenome\ttaxon_id\tsource\n")
+    seeds = tmp_path / "seeds.tsv"
+    seeds.write_text(SEEDS_TSV)
+    argv = ["--surface", str(surface), "--seeds", str(seeds), "--work-dir", str(tmp_path)]
+    assert build.main(argv) == 2
+    assert "keyword_sequences.json missing" in capsys.readouterr().err
+
+
+def test_check_cached_accepts_matching_sidecar_and_rejects_changed_file(tmp_path):
+    build = load_script("04_build_keyword_tier")
+    seq_path = tmp_path / "keyword_sequences.fasta.gz"
+    seq_path.write_bytes(gzip.compress(b">sp|P1|X\nMK\n"))
+    meta = {"sha256": manifest.sha256_file(seq_path), "uniprot_release": "2026_03"}
+    (tmp_path / "keyword_sequences.json").write_text(json.dumps(meta))
+    assert build.check_cached(seq_path)["uniprot_release"] == "2026_03"
+    seq_path.write_bytes(gzip.compress(b">sp|P1|X\nMA\n"))
+    with pytest.raises(manifest.DownloadError, match="does not match"):
+        build.check_cached(seq_path)
 ```
 
 - [ ] **Step 2: Run the test to verify it fails**
@@ -3495,11 +3854,14 @@ def build_keyword_tier(
 Reads data/curated/surface/surface.tsv, data/curated/adhesins/eurotiomycetes_seeds.tsv,
 species.tsv and $STEP1_WORKDIR/truth_sequences.tsv.gz. Sequences for surface.tsv and the seed
 accessions come from $STEP1_WORKDIR/keyword_sequences.fasta.gz; --fetch downloads that file
-from UniProtKB REST if it is missing.
+from UniProtKB REST if it is missing and records its SHA-256 and UniProt release in
+keyword_sequences.json. A cached sequence file without a matching sidecar is refused.
 """
 
 import argparse
+import datetime
 import gzip
+import json
 import sys
 from pathlib import Path
 
@@ -3510,14 +3872,42 @@ import sequences
 import truth_table
 
 
-def fetch_sequences(accessions: list[str], dest: Path) -> None:
+def fetch_sequences(accessions: list[str], dest: Path) -> dict[str, str]:
+    """Download the sequences and write a JSON sidecar with SHA-256 and UniProt release."""
     part = dest.with_name(dest.name + ".part")
+    release = ""
     with open(part, "wb") as raw, gzip.GzipFile(filename="", mode="wb", fileobj=raw, mtime=0) as gz:
         for url in keyword_tier.accession_fasta_urls(accessions):
-            for body, _ in manifest.uniprot_pages(url):
+            for body, headers in manifest.uniprot_pages(url):
                 gz.write(body)
+                release = release or headers.get("x-uniprot-release", "")
     manifest.check_payload(part)
     part.replace(dest)
+    meta = {
+        "sha256": manifest.sha256_file(dest),
+        "uniprot_release": release,
+        "accessions": str(len(accessions)),
+        "fetched_on": datetime.datetime.now(datetime.UTC).date().isoformat(),
+    }
+    sidecar(dest).write_text(json.dumps(meta, indent=2, sort_keys=True) + "\n")
+    return meta
+
+
+def sidecar(seq_path: Path) -> Path:
+    return seq_path.with_name("keyword_sequences.json")
+
+
+def check_cached(seq_path: Path) -> dict[str, str]:
+    """Return the sidecar of a cached sequence file. Refuse a file without a matching sidecar."""
+    meta_path = sidecar(seq_path)
+    if not meta_path.exists():
+        raise manifest.DownloadError(f"{meta_path} missing; delete {seq_path} and rerun --fetch")
+    meta = json.loads(meta_path.read_text())
+    if not meta.get("uniprot_release") or meta.get("sha256") != manifest.sha256_file(seq_path):
+        raise manifest.DownloadError(
+            f"{seq_path}: SHA-256 or UniProt release does not match {meta_path.name}"
+        )
+    return meta
 
 
 def heldout_sets(species_rows, seq_rows):
@@ -3550,12 +3940,18 @@ def main(argv=None) -> int:
     surface_rows = truth_table.read_tsv(args.surface)
     seeds = keyword_tier.read_seed_accessions(args.seeds)
     seq_path = work / "keyword_sequences.fasta.gz"
-    if not seq_path.exists():
-        if not args.fetch:
+    try:
+        if seq_path.exists():
+            meta = check_cached(seq_path)
+        elif args.fetch:
+            wanted = sorted({r["accession"] for r in surface_rows} | set(seeds))
+            meta = fetch_sequences(wanted, seq_path)
+        else:
             print(f"STOP: {seq_path} missing; rerun with --fetch", file=sys.stderr)
             return 2
-        wanted = sorted({r["accession"] for r in surface_rows} | set(seeds))
-        fetch_sequences(wanted, seq_path)
+    except manifest.DownloadError as exc:
+        print(f"STOP: {exc}", file=sys.stderr)
+        return 2
     seq_by_acc = {
         sequences.fasta_key(h, "uniprot"): s
         for h, s in sequences.read_fasta(seq_path)
@@ -3572,7 +3968,10 @@ def main(argv=None) -> int:
     reasons: dict[str, int] = {}
     for r in removed:
         reasons[r["reason"]] = reasons.get(r["reason"], 0) + 1
-    print(f"kept={len(kept)} removed={len(removed)} {reasons}")
+    print(
+        f"kept={len(kept)} removed={len(removed)} {reasons} "
+        f"sequences_sha256={meta['sha256'][:12]} uniprot_release={meta['uniprot_release']}"
+    )
     return 0
 
 
@@ -3593,7 +3992,7 @@ cd analysis/step1_compare && /usr/bin/python3.12 04_build_keyword_tier.py --fetc
   | tee "$STEP1_WORKDIR/keyword_tier_summary.txt"; cd -
 ```
 
-Expected (prototype run, 2026-10-01, UniProt 2026_03, about 1 minute): `kept=3092 removed=448 {'literature_accession': 11, 'heldout_accession': 220, 'literature_hash': 1, 'spombe_taxon': 216}`. The `literature_hash` row is A0ACG8D6C9 (*C. posadasii* C735), whose sequence equals SOWgp58 Q8NK60. Step 7 puts the actual line in the commit message body.
+Expected (prototype run, 2026-10-01, UniProt 2026_03, about 1 minute): `kept=3092 removed=448 {'literature_accession': 11, 'heldout_accession': 220, 'literature_hash': 1, 'spombe_taxon': 216} sequences_sha256=091887296077 uniprot_release=2026_03`. The role change of *A. nidulans* and H99 to `test_clade` does not change these numbers, because every non-training source was already held out. The sequence hash changes with each fetch. A cached sequence file without its `keyword_sequences.json` sidecar is refused. The `literature_hash` row is A0ACG8D6C9 (*C. posadasii* C735), whose sequence equals SOWgp58 Q8NK60. Step 7 puts the actual line in the commit message body.
 
 - [ ] **Step 7: Lint and commit**
 
@@ -3658,29 +4057,36 @@ cd "$PROJ_ROOT"
 /usr/bin/python3.12 -m pytest tests/step1_compare -q
 ```
 
-`test_reproduces_spec_counts_on_real_files` runs only when the GO files are present in
+The real-data tests (`test_reproduces_spec_counts_on_real_files`, `test_direct_evidence_counts_on_real_files`) run only when the GO files are present in
 `$STEP1_WORKDIR/downloads` or in `$STEP1_GO_DIR`.
 
-## Open owner questions (spec section 12) and the column that answers each
+## Truth subsets as filters on `truth_set.tsv.gz`
 
-| Question | Query on stored columns |
+| Subset | Filter |
 |---|---|
-| 1 Basidiomycota truth option | rows with `in_clade == "Basidiomycota"`; choose `source_id` |
-| 2 Do homology codes count as truth? | use `label` (all non-IEA) or `label_no_homology` |
-| 3 H99 or JEC21 | `source_id` `Cneo_H99_GOA` or `Cneo_JEC21_GOA` |
-| 4 Add *A. nidulans* to S3 | include or drop `source_id == "Anid_EMENI"` |
-| 5 Estimate vs smoke test threshold | `counts.tsv` (`p_ext`, `nohom_p_ext`) per source |
+| Direct-evidence truth (headline metrics and gates) | `label == X and homology_only == "no"`; counts in `counts.tsv` `direct_*` |
+| All non-IEA truth (reported beside it) | `label == X` |
+| Ambiguous with only high-throughput internal evidence (R-A sub-stratum) | `label == "ambiguous" and internal_evidence_htp_only == "yes"` |
+| Not used | `label_no_homology == X`: recomputing without homology codes moves genes whose only internal term is IBA or ISS into P-ext (83 in *C. albicans*), against Q9 |
+
+P-gpi is a list (`d8_triage.tsv`), not a scored stratum, until `curated_gpi.tsv` has literature rows.
+
+## Open owner question and its filter
+
+| Question | Filter |
+|---|---|
+| Basidiomycota truth option | rows with `in_clade == "Basidiomycota"`; `Cneo_H99_GOA` is the reference (`role == "test_clade"`), `Umay_MYCMD` is `undecided` |
 ````
 
 - [ ] **Step 2: Run the full test folder (fixtures only)**
 
 Run: `env -u STEP1_WORKDIR -u STEP1_GO_DIR /usr/bin/python3.12 -m pytest tests/step1_compare -q`
-Expected: PASS (52 passed, 2 skipped) when `$STEP1_WORKDIR/downloads` under the `config/site.yaml` work directory does not hold the GO files. If Task 5 step 8 filled that directory, the real-data test runs too: 53 passed, 1 skipped.
+Expected: PASS (65 passed, 3 skipped) when `$STEP1_WORKDIR/downloads` under the `config/site.yaml` work directory does not hold the GO files. If Task 5 step 8 filled that directory, the two real-data tests run too: 67 passed, 1 skipped.
 
 - [ ] **Step 3: Run the full test folder with the real files**
 
 Run: `STEP1_GO_DIR=/tmp/glyco_spec /usr/bin/python3.12 -m pytest tests/step1_compare -q`
-Expected: PASS (53 passed, 1 skipped; about 20 s).
+Expected: PASS (67 passed, 1 skipped; about 20 s).
 
 - [ ] **Step 4: Run the package tests and lint**
 
@@ -3702,7 +4108,7 @@ Expected: only the files in the File structure table; no `.gaf`, `.gz`, `.fasta`
 
 ```bash
 git add analysis/step1_compare/README.md
-git commit -m "step1_compare: README with re-run steps and open questions as filters
+git commit -m "step1_compare: README with re-run steps and truth subsets as filters
 
 Co-Authored-By: Claude Sonnet 5.5 <noreply@anthropic.com>"
 ```
@@ -3725,12 +4131,13 @@ Co-Authored-By: Claude Sonnet 5.5 <noreply@anthropic.com>"
 | 2.3 and D10 (removal by accession and hash, log) | 9 |
 | D9 extraction half: *S. pombe* and the Basidiomycota GO sources | 6 (all ten sources in `species.tsv`) |
 | Section 7 tests `test_gaf_extract_golden`, `test_label_rules_truth_table`, `test_truth_set_has_no_iea`, `test_tc_excludes_test_proteins` | 3, 4, 4, 9 |
-| Section 12 open questions kept open | Global Constraints table; columns in Task 6 |
+| 3.3 direct-evidence truth (intersection), R-A sub-stratum, R-B list | 4, 6 (`test_direct_evidence_counts_on_real_files`), 8 |
+| Section 12 decisions, rulings R-A to R-C, and the remaining open question as filters | Global Constraints table; columns in Task 6 |
 
 Not covered here, by design (later plans): section 4 steps 4, 6 to 8 (dedupe, MMseqs2 clusters and the `cluster` column, class balance, splits); `test_cterm_window_takes_last_1022`, `test_rule_truth_table`, cluster leakage tests, `test_golden_scores`; D2 to D7; the D9 Basidiomycota curation, which waits for the owner's Q8 option.
 
 **2. Placeholder scan.** Searched for TBD, TODO, "similar to", "add error handling" and "fill in": none. Angle brackets appear only where the text describes a query or path pattern, not as work left to do. Every code step has complete code. Commit bodies that carry real counts take them from the files that the preceding step writes.
 
-**3. Type consistency.** Checked names across tasks: `filter_gaf`, `FilteredGaf.cc_rows`, `all_aspect_triples`, `dropped`; `build_truth_rows`, `count_rows`, `write_tsv`, `read_tsv`, `TRUTH_COLUMNS`, `COUNT_COLUMNS`; `verify_against_manifest`, `uniprot_pages`, `check_payload`; `index_fasta` returns `(index, duplicates)` and `02_attach_sequences.py` unpacks both; `heldout_sets` reads `label` from `truth_sequences.tsv.gz`, which Task 7 writes. A prototype of all ten tasks was applied in task order in a clean directory; after each task the cumulative tests passed and `ruff check .` and `ruff format --check .` (0.3.5, repository `pyproject.toml`) reported no finding.
+**3. Type consistency.** Checked names across tasks: `filter_gaf`, `FilteredGaf.cc_rows`, `all_aspect_triples`, `dropped`; `build_truth_rows`, `count_rows`, `write_tsv`, `read_tsv`, `TRUTH_COLUMNS`, `COUNT_COLUMNS`; `verify_against_manifest`, `uniprot_pages`, `check_payload`; `index_fasta` returns `(index, duplicates)` and `02_attach_sequences.py` unpacks both; `heldout_sets` reads `label` from `truth_sequences.tsv.gz`, which Task 7 writes. After the review fixes of 2026-10-01 the code blocks were extracted from this plan and applied in task order in a clean directory (cumulative: 4, 7, 12, 31, 40, 44 + 2 skipped, 53 + 3, 60 + 3, 65 + 3, 65 + 3); after each task the cumulative tests passed and `ruff check .` and `ruff format --check .` (0.3.5, repository `pyproject.toml`) reported no finding.
 
-**4. Review Focus.** Each of the five items has its test in the owning task (Tasks 3, 4, 5, 6, 7, 9). Further inputs checked by tests: an empty GAF, a row with fewer than 13 columns, a gzip file without a `.gz` suffix, a cached file (no second download), UniProt `Link` paging, an IEA-only gene, a membrane-only internal gene, an unreviewed entry with experimental GPI evidence (does not count).
+**4. Review Focus.** Each of the five items has its test in the owning task (Tasks 3, 4, 5, 6, 7, 9). Further inputs checked by tests: an empty GAF, a row with fewer than 13 columns, a gzip file without a `.gz` suffix, a cached file (no second download), UniProt `Link` paging, an IEA-only gene, a membrane-only internal gene, an unreviewed entry with experimental GPI evidence (does not count), a missing GAF, an HTTP 403, a broken connection during UniProt paging, a source with no matched gene, an unmatched ambiguous gene, a UniProt answer with no entries, an entry without `primaryAccession`, and a cached keyword-sequence file without its sidecar.
