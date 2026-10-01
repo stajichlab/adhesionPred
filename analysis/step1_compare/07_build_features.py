@@ -22,6 +22,7 @@ row in truth_set_triaged.tsv.gz; d8_run.json without all_sources: true (unless
 """
 
 import argparse
+import json
 import sys
 from collections import Counter
 from pathlib import Path
@@ -30,6 +31,7 @@ import feature_parsers as fp
 import manifest
 import paths
 import runinfo
+import seqhash
 import truth_table
 
 OUTPUT_NAMES = (
@@ -91,6 +93,53 @@ def merge_parts(parts: list[dict], what: str) -> dict:
             raise FeatureError(f"{what}: id {sorted(dup)[0]} occurs in two parts")
         merged.update(part)
     return merged
+
+
+def check_inputs(unique, members, truth_rows) -> dict:
+    """Check the unique sequences, the members and the truth rows. Return truth rows by key."""
+    seen = set()
+    for u in unique:
+        h = u["seq_sha256"]
+        if h in seen:
+            raise FeatureError(f"unique_sequences has seq_sha256 {h} twice")
+        seen.add(h)
+        seq = u["sequence"]
+        if seq != seqhash.clean(seq):
+            raise FeatureError(f"sequence {h} is not cleaned upper case; re-run 05")
+        if seqhash.seq_sha256(seq) != h:
+            raise FeatureError(f"sequence {h} does not match its seq_sha256; re-run 05")
+        if str(len(seq)) != u["length"]:
+            raise FeatureError(f"sequence {h} has a length that differs from its row")
+    keys = set()
+    for m in members:
+        key = (m["set_id"], m["source_id"], m["gene_id"])
+        if key in keys:
+            raise FeatureError(f"member {':'.join(key)} occurs twice in sequence_members")
+        keys.add(key)
+        if m["seq_sha256"] not in seen:
+            raise FeatureError(
+                f"member {':'.join(key)} has seq_sha256 {m['seq_sha256']} that is not in "
+                "unique_sequences"
+            )
+    truth_by_key: dict = {}
+    for r in truth_rows:
+        key = (r["source_id"], r["gene_id"])
+        if key in truth_by_key:
+            raise FeatureError(f"truth_set_triaged.tsv.gz has {key[0]}:{key[1]} twice")
+        truth_by_key[key] = r
+    return truth_by_key
+
+
+def check_truth_set_current(work: Path) -> str:
+    """The truth set that 03 triaged must be the one that 02 attached sequences to."""
+    triaged = json.loads((work / "d8_run.json").read_text()).get("truth_set_sha256")
+    attached = json.loads((work / "sequence_run.json").read_text()).get("truth_set_sha256")
+    if not triaged or triaged != attached:
+        raise FeatureError(
+            f"d8_run.json truth_set_sha256 ({triaged}) differs from sequence_run.json "
+            f"({attached}); re-run 02, 03 and 05 on the same truth set"
+        )
+    return triaged
 
 
 def feature_rows(unique, sp_calls, gpi_calls, allow_missing: bool):
@@ -194,6 +243,7 @@ def read_tool_outputs(out: Path) -> tuple[dict, dict, dict]:
         fp.check_signalp_consistency(calls, fp.parse_signalp_gff(gff))
         sp_parts.append(calls)
         hashes[str(pred.relative_to(out))] = manifest.sha256_file(pred)
+        hashes[str(gff.relative_to(out))] = manifest.sha256_file(gff)
     gpi_parts = []
     for f in gpi_files:
         gpi_parts.append(fp.parse_predgpi_scores(f))
@@ -205,10 +255,9 @@ def run(work: Path, allow_missing: bool, provenance: dict | None = None):
     out = Path(work) / "phaseb"
     unique = truth_table.read_tsv(out / "unique_sequences.tsv.gz")
     members = truth_table.read_tsv(out / "sequence_members.tsv.gz")
-    truth_by_key = {
-        (r["source_id"], r["gene_id"]): r
-        for r in truth_table.read_tsv(Path(work) / "truth_set_triaged.tsv.gz")
-    }
+    truth_path = Path(work) / "truth_set_triaged.tsv.gz"
+    truth_by_key = check_inputs(unique, members, truth_table.read_tsv(truth_path))
+    truth_set_sha256 = check_truth_set_current(Path(work))
     sp_calls, gpi_calls, hashes = read_tool_outputs(out)
     feats = feature_rows(unique, sp_calls, gpi_calls, allow_missing)
     by_hash = {f["seq_sha256"]: f for f in feats}
@@ -216,13 +265,18 @@ def run(work: Path, allow_missing: bool, provenance: dict | None = None):
     cov = coverage_rows(members, by_hash)
     log = {
         "tool_outputs_sha256": hashes,
+        "truth_set_sha256": truth_set_sha256,
+        "input_sha256": {
+            "truth_set_triaged.tsv.gz": manifest.sha256_file(truth_path),
+            "sequence_members.tsv.gz": manifest.sha256_file(out / "sequence_members.tsv.gz"),
+            "unique_sequences.tsv.gz": manifest.sha256_file(out / "unique_sequences.tsv.gz"),
+        },
         "unique_sequences": len(feats),
         "members": len(mrows),
         "missing_signalp": sum(f["sp_prediction"] == "" for f in feats),
         "missing_predgpi": sum(f["gpi_call"] == "" for f in feats),
         "sp_predictions": dict(Counter(f["sp_prediction"] for f in feats)),
         "gpi_calls": dict(Counter(f["gpi_call"] for f in feats)),
-        "unique_sequences_sha256": manifest.sha256_file(out / "unique_sequences.tsv.gz"),
         "all_sources": None,
         "git_commit": runinfo.git_commit(),
         "python": runinfo.python_version(),
@@ -253,6 +307,11 @@ def main(argv=None) -> int:
     try:
         runinfo.require_full(
             work / "d8_run.json", "truth_set_triaged.tsv.gz", args.allow_partial_truth_set
+        )
+        runinfo.require_full(
+            work / "phaseb" / "prepare_run.json",
+            "unique_sequences.tsv.gz",
+            args.allow_partial_truth_set,
         )
         provenance = {
             "all_sources": runinfo.says_all_sources(work / "d8_run.json")

@@ -1,13 +1,25 @@
 import gzip
 import json
 
+import manifest
 import pytest
+import seqhash
 import seqsets
 import truth_table
 from conftest import load_script
 
-A, B, C, D = "a" * 64, "b" * 64, "c" * 64, "d" * 64
-SEQS = {A: "MKSTST" * 20, B: "M" * 84, C: "MS" * 600, D: "MKT" * 10}
+_SEQ_TEXT = {"a": "MKSTST" * 20, "b": "M" * 84, "c": "MS" * 600, "d": "MKT" * 10}
+# the fixture files use the ids a*64 .. d*64; the tests use the real hashes of the sequences
+PLACEHOLDER = {k * 64: seqhash.seq_sha256(v) for k, v in _SEQ_TEXT.items()}
+A, B, C, D = (PLACEHOLDER[k * 64] for k in "abcd")
+SEQS = {A: _SEQ_TEXT["a"], B: _SEQ_TEXT["b"], C: _SEQ_TEXT["c"], D: _SEQ_TEXT["d"]}
+TRUTH_SHA = "7" * 64
+
+
+def _real_ids(text: str) -> str:
+    for old, new in PLACEHOLDER.items():
+        text = text.replace(old, new)
+    return text
 
 
 def _work(tmp_path, fixtures_dir, drop_gpi=None):
@@ -48,15 +60,20 @@ def _work(tmp_path, fixtures_dir, drop_gpi=None):
          "stratum": "N-sec", "d8_class": "", "homology_only": "yes", "role": "train"},
     ]  # fmt: skip
     truth_table.write_tsv(work / "truth_set_triaged.tsv.gz", list(truth[0]), truth)
-    (work / "d8_run.json").write_text(json.dumps({"all_sources": True}))
+    (work / "d8_run.json").write_text(
+        json.dumps({"all_sources": True, "truth_set_sha256": TRUTH_SHA})
+    )
+    (work / "sequence_run.json").write_text(
+        json.dumps({"all_sources": True, "truth_set_sha256": TRUTH_SHA})
+    )
     (out / "prepare_run.json").write_text(json.dumps({"all_sources": True}))
     fx = fixtures_dir / "phaseb"
     sp = out / "signalp" / "part_000"
     sp.mkdir(parents=True)
     for name, dest in (("signalp_prediction_results.txt", "prediction_results.txt.gz"),
                        ("signalp_output.gff3", "output.gff3.gz")):  # fmt: skip
-        (sp / dest).write_bytes(gzip.compress((fx / name).read_bytes()))
-    gpi_lines = (fx / "predgpi_scores.tsv").read_text().splitlines(keepends=True)
+        (sp / dest).write_bytes(gzip.compress(_real_ids((fx / name).read_text()).encode()))
+    gpi_lines = _real_ids((fx / "predgpi_scores.tsv").read_text()).splitlines(keepends=True)
     if drop_gpi:
         gpi_lines = [x for x in gpi_lines if not x.startswith(drop_gpi)]
     (out / "predgpi").mkdir()
@@ -95,6 +112,19 @@ def test_features_join_members_truth_and_embedding_rows(tmp_path, fixtures_dir):
     assert cov["Cimm"]["gpi_too_short"] == "1"
     log = json.loads((out / "features_run.json").read_text())
     assert log["all_sources"] is True and log["missing_signalp"] == 0
+    assert log["truth_set_sha256"] == TRUTH_SHA
+    for name, path in (
+        ("truth_set_triaged.tsv.gz", work / "truth_set_triaged.tsv.gz"),
+        ("sequence_members.tsv.gz", out / "sequence_members.tsv.gz"),
+        ("unique_sequences.tsv.gz", out / "unique_sequences.tsv.gz"),
+    ):
+        assert log["input_sha256"][name] == manifest.sha256_file(path)
+    for rel in (
+        "signalp/part_000/prediction_results.txt.gz",
+        "signalp/part_000/output.gff3.gz",
+        "predgpi/part_000.tsv.gz",
+    ):
+        assert log["tool_outputs_sha256"][rel] == manifest.sha256_file(out / rel)
     assert log["sp_predictions"] == {"OTHER": 2, "SP": 2}
 
 
@@ -110,12 +140,150 @@ def test_missing_predgpi_call_stops_unless_allowed(tmp_path, fixtures_dir, capsy
 
 
 def test_stale_tool_output_stops(tmp_path, fixtures_dir, capsys):
+    # unique_sequences and members no longer hold D, but the J1 output still does
     work, out = _work(tmp_path, fixtures_dir)
-    unique = truth_table.read_tsv(out / "unique_sequences.tsv.gz")
-    truth_table.write_tsv(out / "unique_sequences.tsv.gz", seqsets.UNIQUE_COLUMNS, unique[:3])
+    unique = [
+        r for r in truth_table.read_tsv(out / "unique_sequences.tsv.gz") if r["seq_sha256"] != D
+    ]
+    truth_table.write_tsv(out / "unique_sequences.tsv.gz", seqsets.UNIQUE_COLUMNS, unique)
+    members = [
+        r for r in truth_table.read_tsv(out / "sequence_members.tsv.gz") if r["seq_sha256"] != D
+    ]
+    truth_table.write_tsv(out / "sequence_members.tsv.gz", seqsets.MEMBER_COLUMNS, members)
     build = load_script("07_build_features")
     assert build.main(["--work-dir", str(work), "--allow-missing-calls"]) == 2
     assert "not unique sequences" in capsys.readouterr().err
+
+
+def _rewrite(path, edit):
+    rows = truth_table.read_tsv(path)
+    cols = list(rows[0])
+    truth_table.write_tsv(path, cols, edit(rows))
+
+
+def test_member_hash_absent_from_unique_stops(tmp_path, fixtures_dir, capsys):
+    work, out = _work(tmp_path, fixtures_dir)
+    _rewrite(
+        out / "unique_sequences.tsv.gz", lambda rows: [r for r in rows if r["seq_sha256"] != D]
+    )
+    build = load_script("07_build_features")
+    assert build.main(["--work-dir", str(work), "--allow-missing-calls"]) == 2
+    assert "CIMG_2 has seq_sha256" in capsys.readouterr().err
+
+
+def test_sequence_not_matching_its_id_stops(tmp_path, fixtures_dir, capsys):
+    work, out = _work(tmp_path, fixtures_dir)
+
+    def mutate(rows):
+        for r in rows:
+            if r["seq_sha256"] == B:
+                r["sequence"] = "M" * 83 + "K"  # same length, same id, other sequence
+        return rows
+
+    _rewrite(out / "unique_sequences.tsv.gz", mutate)
+    build = load_script("07_build_features")
+    assert build.main(["--work-dir", str(work)]) == 2
+    assert f"sequence {B} does not match its seq_sha256" in capsys.readouterr().err
+    assert not (out / "features.tsv.gz").exists()
+
+
+def test_lower_case_sequence_stops(tmp_path, fixtures_dir, capsys):
+    work, out = _work(tmp_path, fixtures_dir)
+
+    def mutate(rows):
+        for r in rows:
+            if r["seq_sha256"] == B:
+                r["sequence"] = r["sequence"].lower()
+        return rows
+
+    _rewrite(out / "unique_sequences.tsv.gz", mutate)
+    build = load_script("07_build_features")
+    assert build.main(["--work-dir", str(work)]) == 2
+    assert "not cleaned upper case" in capsys.readouterr().err
+
+
+def test_duplicate_unique_id_stops(tmp_path, fixtures_dir, capsys):
+    work, out = _work(tmp_path, fixtures_dir)
+    _rewrite(out / "unique_sequences.tsv.gz", lambda rows: rows + [dict(rows[0])])
+    build = load_script("07_build_features")
+    assert build.main(["--work-dir", str(work)]) == 2
+    assert "twice" in capsys.readouterr().err
+
+
+def test_duplicate_member_stops(tmp_path, fixtures_dir, capsys):
+    work, out = _work(tmp_path, fixtures_dir)
+    _rewrite(out / "sequence_members.tsv.gz", lambda rows: rows + [dict(rows[0])])
+    build = load_script("07_build_features")
+    assert build.main(["--work-dir", str(work)]) == 2
+    assert "truth:Scer_SGD:S1 occurs twice" in capsys.readouterr().err
+
+
+def test_duplicate_truth_row_stops(tmp_path, fixtures_dir, capsys):
+    work, _ = _work(tmp_path, fixtures_dir)
+    _rewrite(work / "truth_set_triaged.tsv.gz", lambda rows: rows + [dict(rows[0])])
+    build = load_script("07_build_features")
+    assert build.main(["--work-dir", str(work)]) == 2
+    assert "Scer_SGD:S1 twice" in capsys.readouterr().err
+
+
+def test_stale_truth_set_stops(tmp_path, fixtures_dir, capsys):
+    work, out = _work(tmp_path, fixtures_dir)
+    (work / "sequence_run.json").write_text(
+        json.dumps({"all_sources": True, "truth_set_sha256": "8" * 64})
+    )
+    build = load_script("07_build_features")
+    assert build.main(["--work-dir", str(work)]) == 2
+    assert "truth_set_sha256" in capsys.readouterr().err
+    assert not (out / "features.tsv.gz").exists()
+
+
+def test_partial_prepare_is_refused(tmp_path, fixtures_dir, capsys):
+    work, out = _work(tmp_path, fixtures_dir)
+    (out / "prepare_run.json").write_text(json.dumps({"all_sources": False}))
+    build = load_script("07_build_features")
+    assert build.main(["--work-dir", str(work)]) == 2
+    assert "prepare_run.json" in capsys.readouterr().err
+    (out / "prepare_run.json").write_text("{}")  # all_sources missing
+    assert build.main(["--work-dir", str(work)]) == 2
+
+
+def test_tool_ids_are_the_join_key(tmp_path, fixtures_dir, capsys):
+    work, out = _work(tmp_path, fixtures_dir)
+    build = load_script("07_build_features")
+    assert build.main(["--work-dir", str(work)]) == 0
+    base = {r["seq_sha256"]: r for r in truth_table.read_tsv(out / "features_unique.tsv.gz")}
+
+    def swap(text):
+        return text.replace(C, "@").replace(D, C).replace("@", D)
+
+    for rel in ("signalp/part_000/prediction_results.txt.gz", "signalp/part_000/output.gff3.gz"):
+        path = out / rel
+        path.write_bytes(gzip.compress(swap(gzip.decompress(path.read_bytes()).decode()).encode()))
+    assert build.main(["--work-dir", str(work)]) == 0
+    now = {r["seq_sha256"]: r for r in truth_table.read_tsv(out / "features_unique.tsv.gz")}
+    for col in ("sp_prediction", "sp_prob", "sp_cs_end"):
+        assert now[C][col] == base[D][col] and now[D][col] == base[C][col]
+    assert base[C]["sp_cs_end"] != base[D]["sp_cs_end"]  # the swap changes the values
+    # an id that no longer matches any unique sequence stops
+    for rel in ("signalp/part_000/prediction_results.txt.gz", "signalp/part_000/output.gff3.gz"):
+        path = out / rel
+        path.write_bytes(
+            gzip.compress(gzip.decompress(path.read_bytes()).replace(D.encode(), b"f" * 64))
+        )
+    assert build.main(["--work-dir", str(work)]) == 2
+    assert "not unique sequences" in capsys.readouterr().err
+
+
+def test_outputs_are_byte_stable(tmp_path, fixtures_dir):
+    from hashlib import sha256
+
+    work, out = _work(tmp_path, fixtures_dir)
+    build = load_script("07_build_features")
+    digests = []
+    for _ in range(2):
+        assert build.main(["--work-dir", str(work)]) == 0
+        digests.append({n: sha256((out / n).read_bytes()).hexdigest() for n in build.OUTPUT_NAMES})
+    assert digests[0] == digests[1]
 
 
 def test_id_in_two_parts_stops(tmp_path, fixtures_dir, capsys):
