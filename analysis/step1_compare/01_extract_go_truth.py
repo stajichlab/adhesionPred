@@ -7,10 +7,6 @@ against manifest.tsv before it is read; a strict-mode SHA-256 mismatch stops the
 
 import argparse
 import csv
-import json
-import os
-import platform
-import subprocess
 import sys
 from pathlib import Path
 
@@ -18,6 +14,7 @@ import gaf
 import go_obo
 import manifest
 import paths
+import runinfo
 import truth_table
 
 OUTPUT_NAMES = ("truth_set.tsv.gz", "counts.tsv", "extract_log.json")
@@ -61,20 +58,6 @@ def _manifest_row(by_file: dict[str, dict[str, str]], name: str) -> dict[str, st
     return by_file[name]
 
 
-def git_commit() -> str:
-    """HEAD commit of the repository, or 'unknown'. Does not depend on the time."""
-    try:
-        done = subprocess.run(
-            ["git", "-C", str(paths.repo_root()), "rev-parse", "HEAD"],
-            capture_output=True,
-            text=True,
-            check=True,
-        )
-        return done.stdout.strip() or "unknown"
-    except (OSError, subprocess.CalledProcessError):
-        return "unknown"
-
-
 def run(
     species_rows: list[dict[str, str]],
     manifest_rows: list[dict[str, str]],
@@ -95,8 +78,8 @@ def run(
         "obo": obo_name,
         "obo_sha256": obo_sha,
         "input_dir": str(input_dir),
-        "git_commit": git_commit(),
-        "python": platform.python_version(),
+        "git_commit": runinfo.git_commit(),
+        "python": runinfo.python_version(),
         "sources": [],
     }
     log.update(provenance or {})
@@ -128,23 +111,17 @@ def run(
                 "dropped": dict(filtered.dropped),
             }
         )
-    _write_outputs(out_dir, truth_rows, count_rows, log)
+    runinfo.atomic_write_all(
+        out_dir,
+        {
+            "truth_set.tsv.gz": lambda p: truth_table.write_tsv(
+                p, truth_table.TRUTH_COLUMNS, truth_rows
+            ),
+            "counts.tsv": lambda p: truth_table.write_tsv(p, truth_table.COUNT_COLUMNS, count_rows),
+            "extract_log.json": lambda p: runinfo.write_json(p, log),
+        },
+    )
     return truth_rows, count_rows
-
-
-def _write_outputs(out_dir: Path, truth_rows, count_rows, log) -> None:
-    """Write all outputs to temp names, then os.replace them. A failure keeps old outputs."""
-    out_dir.mkdir(parents=True, exist_ok=True)
-    temps = {name: out_dir / f".tmp.{name}" for name in OUTPUT_NAMES}
-    try:
-        truth_table.write_tsv(temps["truth_set.tsv.gz"], truth_table.TRUTH_COLUMNS, truth_rows)
-        truth_table.write_tsv(temps["counts.tsv"], truth_table.COUNT_COLUMNS, count_rows)
-        temps["extract_log.json"].write_text(json.dumps(log, indent=2, sort_keys=True) + "\n")
-        for name in OUTPUT_NAMES:
-            os.replace(temps[name], out_dir / name)
-    finally:
-        for temp in temps.values():
-            temp.unlink(missing_ok=True)
 
 
 def main(argv=None) -> int:

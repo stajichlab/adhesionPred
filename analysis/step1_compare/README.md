@@ -103,6 +103,8 @@ Scripts 03 and 04 are independent of each other.
 - Scripts write outputs to temporary names. They move the files into place with `os.replace`
   after all outputs are complete.
 - A failed run leaves the earlier outputs untouched, except in script 02 (see the STOP contract).
+- The shared code is `runinfo.atomic_write_all`. `runinfo.py` also holds `git_commit`,
+  `python_version` and the `all_sources` guard (`require_full`).
 
 ## Partial runs and the `all_sources` markers
 

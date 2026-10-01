@@ -41,8 +41,6 @@ import hashlib
 import http.client
 import json
 import os
-import platform
-import subprocess
 import sys
 import urllib.error
 import zlib
@@ -51,6 +49,7 @@ from pathlib import Path
 import keyword_tier
 import manifest
 import paths
+import runinfo
 import sequences
 import truth_table
 
@@ -154,43 +153,6 @@ def heldout_sets(species_rows, seq_rows):
     return accessions, hashes
 
 
-def git_commit() -> str:
-    """HEAD commit of the repository, or 'unknown'."""
-    try:
-        done = subprocess.run(
-            ["git", "-C", str(paths.repo_root()), "rev-parse", "HEAD"],
-            capture_output=True,
-            text=True,
-            check=True,
-        )
-        return done.stdout.strip() or "unknown"
-    except (OSError, subprocess.CalledProcessError):
-        return "unknown"
-
-
-def _require_full(log_path: Path, what: str) -> None:
-    """Stop unless the run log says that the table covers all sources."""
-    try:
-        all_sources = json.loads(log_path.read_text()).get("all_sources")
-    except (OSError, ValueError) as exc:
-        raise manifest.DownloadError(
-            f"cannot read {log_path} ({exc}); use --allow-partial-truth-set to skip this check"
-        ) from exc
-    if all_sources is not True:
-        raise manifest.DownloadError(
-            f"{log_path.name} does not say all_sources: true (value: {all_sources!r}), so {what} "
-            "may hold only some sources; rerun without --sources or use --allow-partial-truth-set"
-        )
-
-
-def _says_all_sources(log_path: Path) -> bool:
-    """True if the run log exists and says all_sources: true."""
-    try:
-        return json.loads(log_path.read_text()).get("all_sources") is True
-    except (OSError, ValueError, AttributeError):
-        return False
-
-
 def _require_current_truth_set(work: Path) -> str:
     """Stop unless sequence_run.json records the SHA-256 of the current truth_set.tsv.gz.
 
@@ -211,25 +173,6 @@ def _require_current_truth_set(work: Path) -> str:
             "re-run 02_attach_sequences.py"
         )
     return current
-
-
-def _write_outputs(work: Path, kept, removed, run_log) -> None:
-    """Write to temp names in the output directory, then os.replace all of them."""
-    work.mkdir(parents=True, exist_ok=True)
-    temps = {name: work / f".tmp.{name}" for name in OUTPUT_NAMES}
-    try:
-        truth_table.write_tsv(temps["keyword_tier.tsv.gz"], keyword_tier.KEYWORD_COLUMNS, kept)
-        truth_table.write_tsv(
-            temps["keyword_tier_removed.tsv"], keyword_tier.REMOVED_COLUMNS, removed
-        )
-        temps["keyword_tier_run.json"].write_text(
-            json.dumps(run_log, indent=2, sort_keys=True) + "\n"
-        )
-        for name in OUTPUT_NAMES:
-            os.replace(temps[name], work / name)
-    finally:
-        for temp in temps.values():
-            temp.unlink(missing_ok=True)
 
 
 def main(argv=None) -> int:
@@ -271,12 +214,13 @@ def main(argv=None) -> int:
             meta = fetch_sequences(wanted, seq_path)
         else:
             raise manifest.DownloadError(f"{seq_path} missing; rerun with --fetch")
-        if not args.allow_partial_truth_set:
-            _require_full(work / "extract_log.json", "truth_set.tsv.gz")
-            _require_full(work / "sequence_run.json", "truth_sequences.tsv.gz")
+        allow = args.allow_partial_truth_set
+        runinfo.require_full(work / "extract_log.json", "truth_set.tsv.gz", allow)
+        runinfo.require_full(work / "sequence_run.json", "truth_sequences.tsv.gz", allow)
         truth_set_sha256 = _require_current_truth_set(work)
         all_sources = all(
-            _says_all_sources(work / name) for name in ("extract_log.json", "sequence_run.json")
+            runinfo.says_all_sources(work / name)
+            for name in ("extract_log.json", "sequence_run.json")
         )
         seq_by_acc = {
             sequences.fasta_key(h, "uniprot"): s
@@ -327,11 +271,22 @@ def main(argv=None) -> int:
             },
             "kept": len(kept),
             "removed": len(removed),
-            "git_commit": git_commit(),
-            "python": platform.python_version(),
+            "git_commit": runinfo.git_commit(),
+            "python": runinfo.python_version(),
             "arguments": list(argv) if argv is not None else sys.argv[1:],
         }
-        _write_outputs(work, kept, removed, run_log)
+        runinfo.atomic_write_all(
+            work,
+            {
+                "keyword_tier.tsv.gz": lambda p: truth_table.write_tsv(
+                    p, keyword_tier.KEYWORD_COLUMNS, kept
+                ),
+                "keyword_tier_removed.tsv": lambda p: truth_table.write_tsv(
+                    p, keyword_tier.REMOVED_COLUMNS, removed
+                ),
+                "keyword_tier_run.json": lambda p: runinfo.write_json(p, run_log),
+            },
+        )
     except (
         manifest.DownloadError,
         sequences.MappingError,

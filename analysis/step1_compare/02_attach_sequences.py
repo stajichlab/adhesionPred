@@ -16,16 +16,13 @@ truth_set.tsv.gz whose extract_log.json does not say `all_sources: true`, unless
 """
 
 import argparse
-import json
-import os
-import platform
-import subprocess
 import sys
 from pathlib import Path
 
 import labels
 import manifest
 import paths
+import runinfo
 import seqhash
 import sequences
 import truth_table
@@ -60,20 +57,6 @@ SEQ_COUNT_COLUMNS = (
     "unmatched_n_int",
     "unmatched_n_sec",
 )
-
-
-def git_commit() -> str:
-    """HEAD commit of the repository, or 'unknown'."""
-    try:
-        done = subprocess.run(
-            ["git", "-C", str(paths.repo_root()), "rev-parse", "HEAD"],
-            capture_output=True,
-            text=True,
-            check=True,
-        )
-        return done.stdout.strip() or "unknown"
-    except (OSError, subprocess.CalledProcessError):
-        return "unknown"
 
 
 def run(
@@ -148,53 +131,27 @@ def run(
         "all_sources": None,
         "truth_set_sha256": truth_set_sha256,
         "fasta_sha256": {c["source_id"]: c["fasta_sha256"] for c in counts},
-        "git_commit": git_commit(),
-        "python": platform.python_version(),
+        "git_commit": runinfo.git_commit(),
+        "python": runinfo.python_version(),
         "arguments": [],
     }
     log.update(provenance or {})
-    _write_outputs(out_dir, unmatched_rows, counts, log, None if problems else seq_rows)
+    writers = {
+        "unmatched_ids.tsv": lambda p: truth_table.write_tsv(p, UNMATCHED_COLUMNS, unmatched_rows),
+        "sequence_counts.tsv": lambda p: truth_table.write_tsv(p, SEQ_COUNT_COLUMNS, counts),
+        "sequence_run.json": lambda p: runinfo.write_json(p, log),
+    }
+    if not problems:
+        writers["truth_sequences.tsv.gz"] = lambda p: truth_table.write_tsv(
+            p, SEQUENCE_COLUMNS, seq_rows
+        )
+    runinfo.atomic_write_all(out_dir, writers)
     if problems:
+        # The contract: after a STOP there is no truth_sequences.tsv.gz. The diagnostic files
+        # above are replaced first, so the cause can be read.
+        (out_dir / "truth_sequences.tsv.gz").unlink(missing_ok=True)
         raise sequences.MappingError("; ".join(problems[:10]))
     return seq_rows, unmatched_rows, counts
-
-
-def _write_outputs(out_dir: Path, unmatched_rows, counts, log, seq_rows) -> None:
-    """Write to temp names, then os.replace. seq_rows is None on a STOP: the diagnostic files
-    are replaced and an earlier truth_sequences.tsv.gz is deleted (the contract is: after a
-    STOP there is no truth_sequences.tsv.gz)."""
-    out_dir.mkdir(parents=True, exist_ok=True)
-    names = OUTPUT_NAMES if seq_rows is not None else OUTPUT_NAMES[:3]
-    temps = {name: out_dir / f".tmp.{name}" for name in names}
-    try:
-        truth_table.write_tsv(temps["unmatched_ids.tsv"], UNMATCHED_COLUMNS, unmatched_rows)
-        truth_table.write_tsv(temps["sequence_counts.tsv"], SEQ_COUNT_COLUMNS, counts)
-        temps["sequence_run.json"].write_text(json.dumps(log, indent=2, sort_keys=True) + "\n")
-        if seq_rows is not None:
-            truth_table.write_tsv(temps["truth_sequences.tsv.gz"], SEQUENCE_COLUMNS, seq_rows)
-        for name in names:
-            os.replace(temps[name], out_dir / name)
-        if seq_rows is None:
-            (out_dir / "truth_sequences.tsv.gz").unlink(missing_ok=True)
-    finally:
-        for temp in temps.values():
-            temp.unlink(missing_ok=True)
-
-
-def _require_full_truth_set(log_path: Path) -> None:
-    """Stop unless extract_log.json says that truth_set.tsv.gz covers all sources."""
-    try:
-        all_sources = json.loads(log_path.read_text()).get("all_sources")
-    except (OSError, ValueError) as exc:
-        raise manifest.DownloadError(
-            f"cannot read {log_path} ({exc}); use --allow-partial-truth-set to skip this check"
-        ) from exc
-    if all_sources is not True:
-        raise manifest.DownloadError(
-            f"{log_path.name} does not say all_sources: true (value: {all_sources!r}), so "
-            "truth_set.tsv.gz may hold only some sources; rerun 01_extract_go_truth.py without "
-            "--sources or use --allow-partial-truth-set"
-        )
 
 
 def main(argv=None) -> int:
@@ -226,8 +183,9 @@ def main(argv=None) -> int:
         if not species_rows:
             raise manifest.DownloadError("no sources selected")
         truth_path = work / "truth_set.tsv.gz"
-        if not args.allow_partial_truth_set:
-            _require_full_truth_set(work / "extract_log.json")
+        runinfo.require_full(
+            work / "extract_log.json", "truth_set.tsv.gz", args.allow_partial_truth_set
+        )
         truth_rows = truth_table.read_tsv(truth_path)
         provenance = {
             "sources": [r["source_id"] for r in species_rows],

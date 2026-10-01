@@ -16,9 +16,6 @@ does not say `all_sources: true`, unless --allow-partial-truth-set is given. A r
 import argparse
 import http.client
 import json
-import os
-import platform
-import subprocess
 import sys
 import urllib.error
 from pathlib import Path
@@ -26,6 +23,7 @@ from pathlib import Path
 import d8_triage
 import manifest
 import paths
+import runinfo
 import truth_table
 
 TRIAGE_COLUMNS = (
@@ -156,51 +154,6 @@ def apply_triage(truth_rows, triage_rows):
     return out
 
 
-def git_commit() -> str:
-    """HEAD commit of the repository, or 'unknown'."""
-    try:
-        done = subprocess.run(
-            ["git", "-C", str(paths.repo_root()), "rev-parse", "HEAD"],
-            capture_output=True,
-            text=True,
-            check=True,
-        )
-        return done.stdout.strip() or "unknown"
-    except (OSError, subprocess.CalledProcessError):
-        return "unknown"
-
-
-def _require_full_truth_set(log_path: Path) -> None:
-    """Stop unless extract_log.json says that truth_set.tsv.gz covers all sources."""
-    try:
-        all_sources = json.loads(log_path.read_text()).get("all_sources")
-    except (OSError, ValueError) as exc:
-        raise d8_triage.UniprotError(
-            f"cannot read {log_path} ({exc}); use --allow-partial-truth-set to skip this check"
-        ) from exc
-    if all_sources is not True:
-        raise d8_triage.UniprotError(
-            f"{log_path.name} does not say all_sources: true (value: {all_sources!r}), so "
-            "truth_set.tsv.gz may hold only some sources; rerun 01_extract_go_truth.py without "
-            "--sources or use --allow-partial-truth-set"
-        )
-
-
-def _write_outputs(work: Path, tables: dict, run_log: dict) -> None:
-    """Write every output to a temp name, then os.replace all. A failure keeps old outputs."""
-    work.mkdir(parents=True, exist_ok=True)
-    temps = {name: work / f".tmp.{name}" for name in OUTPUT_NAMES}
-    try:
-        for name, (columns, rows) in tables.items():
-            truth_table.write_tsv(temps[name], columns, rows)
-        temps["d8_run.json"].write_text(json.dumps(run_log, indent=2, sort_keys=True) + "\n")
-        for name in OUTPUT_NAMES:
-            os.replace(temps[name], work / name)
-    finally:
-        for temp in temps.values():
-            temp.unlink(missing_ok=True)
-
-
 def main(argv=None, fetch=None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--species", default=str(paths.STEP1_DIR / "species.tsv"))
@@ -231,8 +184,9 @@ def main(argv=None, fetch=None) -> int:
             species_rows = [r for r in species_rows if r["source_id"] in args.sources]
         if not species_rows:
             raise d8_triage.UniprotError("no sources selected")
-        if not args.allow_partial_truth_set:
-            _require_full_truth_set(work / "extract_log.json")
+        runinfo.require_full(
+            work / "extract_log.json", "truth_set.tsv.gz", args.allow_partial_truth_set
+        )
         truth_path = work / "truth_set.tsv.gz"
         truth_rows = truth_table.read_tsv(truth_path)
         literature_ids = {
@@ -254,21 +208,23 @@ def main(argv=None, fetch=None) -> int:
             "all_sources": selected == all_source_ids,
             "truth_set_sha256": manifest.sha256_file(truth_path),
             "uniprot_release": {c["source_id"]: c["uniprot_release"] for c in counts},
-            "git_commit": git_commit(),
-            "python": platform.python_version(),
+            "git_commit": runinfo.git_commit(),
+            "python": runinfo.python_version(),
             "arguments": list(argv) if argv is not None else sys.argv[1:],
         }
         columns = (*truth_table.TRUTH_COLUMNS, "d8_class", "d8_reason")
-        _write_outputs(
-            work,
-            {
-                "d8_triage.tsv": (TRIAGE_COLUMNS, triage),
-                "d8_gpi_outside_pext.tsv": (OUTSIDE_COLUMNS, outside),
-                "d8_counts.tsv": (D8_COUNT_COLUMNS, counts),
-                "truth_set_triaged.tsv.gz": (columns, triaged),
-            },
-            run_log,
-        )
+        tables = {
+            "d8_triage.tsv": (TRIAGE_COLUMNS, triage),
+            "d8_gpi_outside_pext.tsv": (OUTSIDE_COLUMNS, outside),
+            "d8_counts.tsv": (D8_COUNT_COLUMNS, counts),
+            "truth_set_triaged.tsv.gz": (columns, triaged),
+        }
+        writers = {
+            name: (lambda p, c=c, r=r: truth_table.write_tsv(p, c, r))
+            for name, (c, r) in tables.items()
+        }
+        writers["d8_run.json"] = lambda p: runinfo.write_json(p, run_log)
+        runinfo.atomic_write_all(work, writers)
     except (
         d8_triage.UniprotError,
         urllib.error.URLError,
