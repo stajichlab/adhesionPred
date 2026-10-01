@@ -163,8 +163,9 @@ cd "$PROJ_ROOT"
 STEP1_GO_DIR=/tmp/glyco_spec /usr/bin/python3.12 -m pytest tests/step1_compare -q   # real files
 ```
 
-- `PROJ_ROOT` need not be set to run the tests. Observed on 2026-10-01: 180 tests collected, and 175 passed
-  with 5 skipped, with `PROJ_ROOT` and `STEP1_WORKDIR` unset.
+- `PROJ_ROOT` need not be set to run the tests. Observed on 2026-10-01: 220 tests collected, and 215 passed
+  with 5 skipped, with `PROJ_ROOT` and `STEP1_WORKDIR` unset. With
+  `STEP1_GO_DIR=/tmp/glyco_spec`: 219 passed, 1 skipped.
 - Without the real files, the tests that need them are skipped.
 - Those tests run when the GO files are in `$STEP1_GO_DIR` or in `$STEP1_WORKDIR/downloads`.
 - The real-data tests include `test_reproduces_spec_counts_on_real_files`
