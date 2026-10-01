@@ -180,7 +180,7 @@ def main(argv=None) -> int:
             args.seed,
             torch.device(args.device),
         )
-    except (PilotError, ValueError, OSError, KeyError) as exc:
+    except (PilotError, RuntimeError, ImportError, ValueError, OSError, KeyError) as exc:
         print(f"STOP: {exc}", file=sys.stderr)
         return 2
     print(json.dumps(record["best"]))

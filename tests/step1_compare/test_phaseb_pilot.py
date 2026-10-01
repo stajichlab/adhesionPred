@@ -139,3 +139,65 @@ def test_batch_failures_are_counted_and_never_best(tmp_path, monkeypatch):
     assert by_size[2]["status"] == "ok" and by_size[2]["batch_failures"] == 0
     assert by_size[4]["status"] == "batch_failures" and by_size[4]["batch_failures"] == 2
     assert rec["best"][MODEL]["batch_size"] == 2
+
+
+def test_compare_matches_hand_computed_values():
+    import numpy as np
+
+    a = np.array([[1, 2, 2], [0, 3, 4]], dtype=np.float32)
+    b = a + np.array([[0, 0, 0.5], [0, -0.25, 0]], dtype=np.float32)
+    got = gpu_cpu_diff.compare(a, b)
+    assert got["max_abs_diff"] == pytest.approx(0.5)
+    assert got["mean_abs_diff"] == pytest.approx(0.75 / 6)  # (0.5 + 0.25) / 6 values
+    assert got["max_rel_diff"] == pytest.approx(0.5 / 4.0)  # largest |b| is 4
+    # row 0: 10 / (3 * sqrt(11.25)); row 1: 24.25 / (5 * sqrt(23.5625)); row 0 is lower
+    assert got["min_cosine"] == pytest.approx(10 / (3 * 11.25**0.5), abs=1e-6)
+    assert got["min_cosine"] == pytest.approx(0.993808, abs=1e-6)
+
+
+def test_compare_cosine_is_per_row():
+    import numpy as np
+
+    a = np.array([[1, 0, 0], [0, 1, 0]], dtype=np.float32)
+    b = np.array([[1, 0, 0], [0, 0, 1]], dtype=np.float32)  # row 1 is orthogonal to a row 1
+    assert gpu_cpu_diff.compare(a, b)["min_cosine"] == pytest.approx(0.0, abs=1e-9)
+    # row 0 alone is identical: cosine 1
+    assert gpu_cpu_diff.compare(a[:1], b[:1])["min_cosine"] == pytest.approx(1.0, abs=1e-6)
+
+
+def test_repeat_identical_is_false_when_the_repeat_differs(tmp_path, monkeypatch):
+    import numpy as np
+
+    _truth(tmp_path)
+    calls = []
+
+    def fake_embed(seqs, model, device, batch_size):
+        calls.append(1)
+        arr = np.ones((len(seqs), 4), dtype=np.float32)
+        if len(calls) == 2:  # the repeat on device A
+            arr[0, 0] += 0.5
+        return arr
+
+    monkeypatch.setattr(gpu_cpu_diff, "embed", fake_embed)
+    out = tmp_path / "diff.json"
+    argv = ["--work-dir", str(tmp_path), "--out", str(out), "--models", MODEL]
+    argv += ["--device-a", "cpu", "--device-b", "cpu", "--n", "5", "--n-long", "0"]
+    assert gpu_cpu_diff.main(argv) == 0
+    m = json.loads(out.read_text())["models"][MODEL]
+    assert m["repeat_identical_on_a"] is False
+    assert m["repeat_max_abs_diff_on_a"] == pytest.approx(0.5)
+
+
+def test_pilot_stops_with_code_2_when_the_model_cannot_load(tmp_path, monkeypatch, capsys):
+    import surface_glyco.embeddings as emb
+
+    def broken(*args, **kwargs):
+        raise RuntimeError("cannot load weights (simulated)")
+
+    monkeypatch.setattr(emb, "get_cached_model", broken)
+    _truth(tmp_path)
+    out = tmp_path / "phaseb" / "j0" / "throughput.json"
+    argv = ["--work-dir", str(tmp_path), "--device", "cpu", "--models", MODEL]
+    assert throughput_pilot.main(argv + ["--n", "8", "--batch-sizes", "2"]) == 2
+    assert "STOP:" in capsys.readouterr().err
+    assert not out.exists()
