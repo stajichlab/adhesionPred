@@ -469,6 +469,7 @@ mean over residue tokens (`surface_glyco.embeddings.get_esm_embeddings`). The si
 - `batch_size`
 - `device`
 - `seconds`
+- `batch_failures` number of "Warning: batch failed" lines of `get_esm_embeddings` for this chunk (0 unless `--allow-batch-failures`)
 - `chunk_id`
 - `model`
 - `shape`
@@ -501,6 +502,8 @@ dim is 320 for `esm2_t6_8M_UR50D` and 480 for `esm2_t12_35M_UR50D`.
 - `chunk_plan_sha256`
 - `git_commit`
 - `python`
+
+Evaluation scripts must check that `features_run.json` `input_sha256["unique_sequences.tsv.gz"]` equals `embedding_run.json` `unique_sequences_sha256`.
 
 **Keys of each window object in `models`:**
 

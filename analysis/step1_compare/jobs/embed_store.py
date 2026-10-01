@@ -13,6 +13,7 @@ import shutil
 from pathlib import Path
 
 import numpy as np
+from embed_constants import MODEL_DIM, REPR_LAYER
 
 DTYPE = np.float32
 
@@ -74,13 +75,39 @@ def load_chunk(publish: Path, model: str, chunk_id: str):
     return arr, meta
 
 
-def chunk_is_done(publish: Path, model: str, chunk_id: str, members_sha256: str, n: int) -> bool:
-    """True if the chunk exists, matches the plan (members, row count) and its hash."""
+def check_chunk_meta(model: str, arr: np.ndarray, meta: dict) -> str | None:
+    """Reason why a loaded chunk is not an ESM-2 layer-6 chunk of `model`, else None."""
+    if meta.get("model") != model:
+        return f"the file records model {meta.get('model')!r}, not {model!r}"
+    if meta.get("repr_layer") != REPR_LAYER:
+        return f"the file records repr_layer {meta.get('repr_layer')!r}, not {REPR_LAYER}"
+    dim = MODEL_DIM.get(model)
+    if dim is None:
+        return f"model {model!r} has no known embedding width (embed_constants.MODEL_DIM)"
+    if arr.ndim != 2 or arr.shape[1] != dim:
+        return f"the array has shape {list(arr.shape)}, the width of {model} is {dim}"
+    return None
+
+
+def chunk_is_done(
+    publish: Path,
+    model: str,
+    chunk_id: str,
+    members_sha256: str,
+    n: int,
+    window: str | None = None,
+) -> bool:
+    """True if the chunk exists, matches the plan (members, row count, window), the model
+    (name, layer, width) and its hash."""
     npy, js = chunk_paths(publish, model, chunk_id)
     if not (npy.exists() and js.exists()):
         return False
     try:
         arr, meta = load_chunk(publish, model, chunk_id)
     except (OSError, ValueError, KeyError):
+        return False
+    if check_chunk_meta(model, arr, meta) is not None:
+        return False
+    if window is not None and meta.get("window") != window:
         return False
     return meta.get("members_sha256") == members_sha256 and arr.shape[0] == n

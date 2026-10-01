@@ -34,7 +34,9 @@ def run_cpu(work, scratch, **kw):
     import torch
 
     cpu = torch.device("cpu")
-    return embed_chunks.run_job(work, [MODEL], 0, 1, cpu, scratch, batch_size=2, **kw)
+    return embed_chunks.run_job(
+        work, [MODEL], 0, 1, cpu, scratch, batch_size=2, allow_assumed_plan=True, **kw
+    )
 
 
 def change_row0_sequence(out):

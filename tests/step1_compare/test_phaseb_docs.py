@@ -186,6 +186,18 @@ def test_readme_job_rules_match_the_code():
     assert "--device cuda" in (JOBS / "j0_pilot.sh").read_text()
     assert "sequence_run.json" in README and "d8_run.json" in README
     assert "07 does not need J2 or assemble." in README
+    assert "--allow-assumed-plan" in README and "--allow-batch-failures" in README
+    assert "`batch_failures`" in section("emb/<model>/<chunk_id>.npy")
+
+
+def test_evaluation_scripts_must_compare_the_unique_sequences_hashes():
+    sentence = (
+        "Evaluation scripts must check that `features_run.json` "
+        '`input_sha256["unique_sequences.tsv.gz"]` equals `embedding_run.json` '
+        "`unique_sequences_sha256`."
+    )
+    assert sentence in README
+    assert sentence in section("emb/embedding_run.json")
 
 
 def test_readme_has_sbatch_examples_and_defines_env_py():

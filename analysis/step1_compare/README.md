@@ -290,3 +290,13 @@ J2 needs two more arguments (see "Rules for the jobs").
   and `--time=<time_minutes>` on the `sbatch` command line. Read both values from
   `phaseb/job_plan.json`. Set `J2_JOB_COUNT` to `n_jobs` in `--export`. `embed_chunks.py` stops
   (exit 2) if `J2_JOB_COUNT` differs from `n_jobs`.
+- J2 stops (exit 2) if `job_plan.json` has `rate_source` other than `J0` (a dry plan from
+  `06 --rate`). `--allow-assumed-plan` overrides this for tests. `j2_embed.sh` never sets it.
+- J2 counts the "Warning: batch failed" lines that `get_esm_embeddings` prints for each chunk
+  and stores the count as `batch_failures` in the sidecar. It stops (exit 2) when the count is
+  above 0, unless `--allow-batch-failures` is given. A failed batch is retried one sequence at
+  a time and is slow. Use a smaller `--batch-size`.
+- J2 skips a finished chunk only if its sidecar names the same model, `repr_layer` 6 and window
+  and the array width equals the model width (320 for `esm2_t6_8M_UR50D`, 480 for
+  `esm2_t12_35M_UR50D`; `jobs/embed_constants.py`). The assembly applies the same checks.
+- Evaluation scripts must check that `features_run.json` `input_sha256["unique_sequences.tsv.gz"]` equals `embedding_run.json` `unique_sequences_sha256`.

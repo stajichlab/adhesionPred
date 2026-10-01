@@ -69,6 +69,7 @@ def test_kill_and_resume_gives_the_same_arrays(tmp_path):
     }
     base = [sys.executable, str(script), "--work-dir", str(work_a), "--models", MODEL]
     base += ["--device", "cpu", "--batch-size", "2", "--scratch-dir", str(tmp_path / "s")]
+    base += ["--allow-assumed-plan"]
     killed = subprocess.run(base + ["--stop-after-chunks", "1"], env=env, capture_output=True)
     assert killed.returncode == 3, killed.stderr.decode()[-2000:]
     resumed = subprocess.run(base, env=env, capture_output=True, text=True)
@@ -135,11 +136,15 @@ def _cli(work, tmp_path, *extra):
     return embed_chunks.main(argv + ["--scratch-dir", str(tmp_path / "s"), *extra])
 
 
+def _cli_assumed(work, tmp_path, *extra):
+    return _cli(work, tmp_path, "--allow-assumed-plan", *extra)
+
+
 def test_stale_plan_stops_the_job(tmp_path, capsys):
     work = tmp_path / "w"
     out, _ = make_plan(work)
     change_row0_sequence(out)
-    assert _cli(work, tmp_path) == 2
+    assert _cli_assumed(work, tmp_path) == 2
     assert "re-run 06_plan_embedding.py" in capsys.readouterr().err
     assert not (out / "emb").exists()
 
@@ -167,6 +172,123 @@ def test_chunk_json_with_other_members_is_recomputed(tmp_path):
 def test_job_count_must_match_the_plan(tmp_path, capsys):
     work = tmp_path / "w"
     out, _ = make_plan(work)
-    assert _cli(work, tmp_path, "--job-count", "2", "--job-index", "0") == 2
+    assert _cli_assumed(work, tmp_path, "--job-count", "2", "--job-index", "0") == 2
     assert "J2_JOB_COUNT" in capsys.readouterr().err
     assert not (out / "emb").exists()
+
+
+def test_an_assumed_plan_is_refused_without_the_flag(tmp_path, capsys):
+    work = tmp_path / "w"
+    out, _ = make_plan(work)  # make_plan uses --rate, so rate_source is "assumed"
+    import json
+
+    assert json.loads((out / "job_plan.json").read_text())["rate_source"] == "assumed"
+    assert _cli(work, tmp_path) == 2
+    err = capsys.readouterr().err
+    assert "STOP" in err and "rate_source" in err and "--allow-assumed-plan" in err
+    assert not (out / "emb").exists()
+    assert _cli(work, tmp_path, "--allow-assumed-plan") == 0
+
+
+def test_j2_script_never_passes_the_assumed_plan_flag():
+    assert "--allow-assumed-plan" not in (STEP1_DIR / "jobs" / "j2_embed.sh").read_text()
+
+
+def _fail_multi_sequence_batches(monkeypatch):
+    import surface_glyco.embeddings as emb
+
+    real = emb._embed_batch
+
+    def flaky(model, alphabet, converter, batch, layer, device):
+        if len(batch) > 1:
+            raise RuntimeError("CUDA out of memory (test)")
+        return real(model, alphabet, converter, batch, layer, device)
+
+    monkeypatch.setattr(emb, "_embed_batch", flaky)
+
+
+def test_batch_failures_stop_the_job_and_are_counted(tmp_path, monkeypatch, capsys):
+    work = tmp_path / "w"
+    out, _ = make_plan(work)
+    _fail_multi_sequence_batches(monkeypatch)
+    assert _cli_assumed(work, tmp_path) == 2
+    assert "batches failed" in capsys.readouterr().err
+    assert not (out / "emb").exists()
+
+
+def test_allowed_batch_failures_are_stored_in_the_sidecar(tmp_path, monkeypatch):
+    work = tmp_path / "w"
+    out, _ = make_plan(work)
+    _fail_multi_sequence_batches(monkeypatch)
+    assert _cli_assumed(work, tmp_path, "--allow-batch-failures") == 0
+    for c in chunk_plan.read_plan(out):
+        meta = embed_store.load_chunk(out / "emb", MODEL, c.chunk_id)[1]
+        assert meta["batch_failures"] >= (1 if len(c.rows) > 2 else 0)
+    assert any(
+        embed_store.load_chunk(out / "emb", MODEL, c.chunk_id)[1]["batch_failures"] > 0
+        for c in chunk_plan.read_plan(out)
+    )
+
+
+def test_a_clean_run_stores_zero_batch_failures(tmp_path):
+    work = tmp_path / "w"
+    out, _ = make_plan(work)
+    run_cpu(work, tmp_path / "scratch")
+    for c in chunk_plan.read_plan(out):
+        assert embed_store.load_chunk(out / "emb", MODEL, c.chunk_id)[1]["batch_failures"] == 0
+
+
+def _rewrite_meta(out, chunk_id, **changes):
+    import json
+
+    _, js = embed_store.chunk_paths(out / "emb", MODEL, chunk_id)
+    meta = json.loads(js.read_text())
+    meta.update(changes)
+    js.write_text(json.dumps(meta))
+
+
+@pytest.mark.parametrize(
+    "change", [{"model": "esm2_t12_35M_UR50D"}, {"repr_layer": 12}, {"window": "cterm"}]
+)
+def test_chunk_is_done_checks_model_layer_and_window(tmp_path, change):
+    work = tmp_path / "w"
+    out, _ = make_plan(work)
+    run_cpu(work, tmp_path / "scratch")
+    chunk = next(c for c in chunk_plan.read_plan(out) if c.window == "nterm")
+    args = (out / "emb", MODEL, chunk.chunk_id, chunk.members_sha256, len(chunk.rows))
+    assert embed_store.chunk_is_done(*args, chunk.window)
+    _rewrite_meta(out, chunk.chunk_id, **change)
+    assert not embed_store.chunk_is_done(*args, chunk.window)
+
+
+def test_chunk_is_done_checks_the_width_of_the_model(tmp_path):
+    work = tmp_path / "w"
+    out, _ = make_plan(work)
+    run_cpu(work, tmp_path / "scratch")
+    chunk = chunk_plan.read_plan(out)[0]
+    npy, js = embed_store.chunk_paths(out / "emb", MODEL, chunk.chunk_id)
+    arr = np.load(npy)[:, :100]
+    embed_store.save_chunk(
+        out / "emb", tmp_path / "s2", MODEL, chunk.chunk_id, arr,
+        {"window": chunk.window, "members_sha256": chunk.members_sha256, "repr_layer": 6},
+    )  # fmt: skip
+    assert embed_store.load_chunk(out / "emb", MODEL, chunk.chunk_id)  # hash and shape agree
+    done = embed_store.chunk_is_done
+    assert not done(out / "emb", MODEL, chunk.chunk_id, chunk.members_sha256, len(chunk.rows))
+
+
+def test_model_dim_matches_the_real_model_configuration():
+    import embed_constants
+
+    from surface_glyco.embeddings import get_cached_model
+
+    checked = 0
+    for model, dim in embed_constants.MODEL_DIM.items():
+        try:
+            net, _ = get_cached_model(model, CPU)
+        except Exception as exc:  # weights not on this host
+            print(f"{model}: weights not available ({exc})")
+            continue
+        assert net.embed_dim == dim, model
+        checked += 1
+    assert checked >= 1  # the 8M weights are required by this test file

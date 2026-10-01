@@ -13,8 +13,9 @@ A sequence of 1,022 aa or less has no C-terminal row: its C-terminal window is t
 sequence, so the M8-C and M35-C candidates use its `nterm` row (see `window_matrix`).
 STOP (exit 2, no output): the plan has no chunks; the plan was made from another
 unique_sequences.tsv.gz or a row holds another sequence than planned (re-run 06); a chunk is
-missing, fails its hash, or holds other members, another window or another chunk id than the
-plan; a matrix row is filled twice or not at all; NaN or inf; a row count that is not the
+missing, fails its hash, records another model or layer, has another width than the model
+(`embed_constants.MODEL_DIM`), or holds other members, another window or another chunk id than
+the plan; a matrix row is filled twice or not at all; NaN or inf; a row count that is not the
 unique sequence count.
 """
 
@@ -29,8 +30,8 @@ import numpy as np
 import paths
 import runinfo
 import truth_table
+from embed_constants import MODELS
 
-MODELS = ("esm2_t6_8M_UR50D", "esm2_t12_35M_UR50D")
 MANIFEST_COLUMNS = ("model", "chunk_id", "window", "n_seqs", "members_sha256", "array_sha256")
 
 
@@ -64,6 +65,9 @@ def assemble_model(publish: Path, model: str, chunks, unique, manifest_rows: lis
                 f"{model}/{chunk.chunk_id}: the file records chunk {meta.get('chunk_id')!r} "
                 f"window {meta.get('window')!r}, the plan has window {chunk.window!r}"
             )
+        why = embed_store.check_chunk_meta(model, arr, meta)
+        if why is not None:
+            raise AssembleError(f"{model}/{chunk.chunk_id}: {why}")
         manifest_rows.append(
             {
                 "model": model,

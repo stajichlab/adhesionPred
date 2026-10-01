@@ -133,14 +133,20 @@ def test_each_cterm_row_holds_the_embedding_of_its_own_last_1022_residues(tmp_pa
         np.testing.assert_allclose(cterm[int(u["cterm_row"])], direct, atol=1e-5, rtol=0)
 
 
-def test_missing_chunk_of_the_second_model_stops_with_no_output(tmp_path, capsys):
+def test_missing_chunk_of_the_second_model_stops_with_no_output(tmp_path, capsys, monkeypatch):
+    import json
     import shutil
+
+    import embed_constants
 
     work = tmp_path / "w"
     out, _ = make_plan(work)
     run_cpu(work, tmp_path / "scratch")
     second = "esm2_copy"  # assembly only reads files; no weights are needed for a copy
     shutil.copytree(out / "emb" / MODEL, out / "emb" / second)
+    monkeypatch.setitem(embed_constants.MODEL_DIM, second, 320)  # the copy is a 320-wide model
+    for js in (out / "emb" / second).glob("*.json"):
+        js.write_text(json.dumps({**json.loads(js.read_text()), "model": second}))
     chunk_id = chunk_plan.read_plan(out)[-1].chunk_id
     embed_store.chunk_paths(out / "emb", second, chunk_id)[0].unlink()
     assert _assemble(work, MODEL, second) == 2
@@ -193,3 +199,40 @@ def test_empty_plan_stops_with_a_clear_message(tmp_path, capsys):
     err = capsys.readouterr().err
     assert err.startswith("STOP:") and "no chunks" in err and "06_plan_embedding.py" in err
     assert not (out / "emb").exists()
+
+
+@pytest.mark.parametrize(
+    ("change", "text"),
+    [
+        ({"model": "esm2_t12_35M_UR50D"}, "records model"),
+        ({"repr_layer": 12}, "repr_layer"),
+    ],
+)
+def test_assembly_stops_on_a_chunk_of_another_model_or_layer(tmp_path, capsys, change, text):
+    import json
+
+    work = tmp_path / "w"
+    out, _ = make_plan(work)
+    run_cpu(work, tmp_path / "scratch")
+    chunk = chunk_plan.read_plan(out)[0]
+    _, js = embed_store.chunk_paths(out / "emb", MODEL, chunk.chunk_id)
+    meta = json.loads(js.read_text())
+    meta.update(change)
+    js.write_text(json.dumps(meta))
+    assert _assemble(work) == 2
+    assert text in capsys.readouterr().err
+    assert not (out / "emb" / f"{MODEL}.nterm.npy").exists()
+
+
+def test_assembly_stops_on_a_chunk_with_the_wrong_width(tmp_path, capsys):
+    work = tmp_path / "w"
+    out, _ = make_plan(work)
+    run_cpu(work, tmp_path / "scratch")
+    chunk = chunk_plan.read_plan(out)[0]
+    npy, js = embed_store.chunk_paths(out / "emb", MODEL, chunk.chunk_id)
+    arr = np.load(npy)[:, :100]
+    meta = embed_store.load_chunk(out / "emb", MODEL, chunk.chunk_id)[1]
+    embed_store.save_chunk(out / "emb", tmp_path / "s2", MODEL, chunk.chunk_id, arr, meta)
+    assert _assemble(work) == 2
+    assert "width" in capsys.readouterr().err
+    assert not (out / "emb" / f"{MODEL}.nterm.npy").exists()
