@@ -26,6 +26,9 @@ The plan is `docs/superpowers/plans/2026-10-01-step1-truth-set.md`.
 | `STEP1_GO_DIR` | Test only. A folder that holds the real GO files (for example `/tmp/glyco_spec`). |
 
 Downloads go to `$STEP1_WORKDIR/downloads`. All other outputs go to `$STEP1_WORKDIR`.
+`paths.workdir()` always returns an absolute path. A relative `STEP1_WORKDIR` is resolved
+against the current directory. A relative `workdir` in `config/site.yaml` is resolved against
+the repository root, not against the current directory.
 
 ## Re-run
 

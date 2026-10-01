@@ -2,7 +2,9 @@
 
 The repository root comes from the PROJ_ROOT environment variable. If PROJ_ROOT is not set,
 the root is two levels above this file. The work directory comes from STEP1_WORKDIR. If
-STEP1_WORKDIR is not set, it is `<workdir from config/site.yaml>/step1_compare`.
+STEP1_WORKDIR is not set, it is `<workdir from config/site.yaml>/step1_compare`. The result is
+always absolute: a relative STEP1_WORKDIR is resolved against the current directory, and a
+relative site.yaml value against the repository root.
 """
 
 import os
@@ -29,10 +31,15 @@ def site_value(key: str, site_yaml: Path | None = None) -> str:
 
 
 def workdir() -> Path:
+    """Absolute work directory. A relative STEP1_WORKDIR is resolved against the current
+    directory; a relative site.yaml value is resolved against the repository root."""
     env = os.environ.get("STEP1_WORKDIR")
     if env:
-        return Path(env)
-    return Path(site_value("workdir")) / "step1_compare"
+        return Path(env).resolve()
+    base = Path(site_value("workdir"))
+    if not base.is_absolute():
+        base = repo_root() / base
+    return base.resolve() / "step1_compare"
 
 
 def downloads_dir() -> Path:
