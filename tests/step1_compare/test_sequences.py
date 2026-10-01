@@ -386,3 +386,21 @@ def test_run_json_is_byte_stable(tmp_path):
     first = (tmp_path / "sequence_run.json").read_bytes()
     assert attach.main(argv) == 0
     assert (tmp_path / "sequence_run.json").read_bytes() == first
+
+
+# ---- final review item 6: stored cleaned sequence feeds the held-out hash ----
+
+
+def test_lower_case_star_and_j_are_cleaned_in_stored_sequence_length_and_hash(tmp_path):
+    import hashlib
+
+    _, go = _run(
+        tmp_path,
+        {"c.fa": ">C1_00010W_A\nmkcjc*\nsj\n"},
+        [_row("CAL1", "C1_00010W_A", "P-ext")],
+    )
+    go()
+    (row,) = truth_table.read_tsv(tmp_path / "truth_sequences.tsv.gz")
+    assert row["sequence"] == "MKCLCSL"
+    assert row["length"] == "7"
+    assert row["seq_sha256"] == hashlib.sha256(b"MKCLCSL").hexdigest()
