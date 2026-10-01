@@ -1,0 +1,9 @@
+n_proteins	6722.0
+spearman_rho	0.973
+max_abs_diff	0.7158
+median_abs_diff	0.0002
+calls_legacy_pooling	77.0
+calls_masked_pooling	104.0
+calls_in_both	77.0
+calls_only_legacy	0.0
+calls_only_masked	27.0
