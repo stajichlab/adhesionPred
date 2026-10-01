@@ -16,6 +16,7 @@ import paths
 PRODUCERS = {
     "extract_log.json": "01_extract_go_truth.py",
     "sequence_run.json": "02_attach_sequences.py",
+    "keyword_tier_run.json": "04_build_keyword_tier.py",
 }
 
 
