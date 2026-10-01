@@ -191,3 +191,175 @@ Keys: `sha256` of `keyword_sequences.fasta.gz`, `uniprot_release`, `accessions` 
 ## keyword_tier_run.json (04_build_keyword_tier.py)
 
 Keys: `all_sources` (`true` only when `extract_log.json` and `sequence_run.json` both say `all_sources: true`), `truth_set_sha256` (SHA-256 of the current `truth_set.tsv.gz`; 04 stops unless it equals the value in `sequence_run.json`), `inputs_sha256`, `uniprot_release`, `kept`, `removed`, `missing_sequences`, `seeds` (per literature-seed accession: `gene`, `in_keyword_tier`, `has_sequence`), `git_commit`, `python`, `arguments`. It has no time stamp. The run STOPs when a requested accession or a seed has no sequence, unless `--allow-missing-sequences` or `--allow-missing-seed-sequences` is given (the second disables the hash rule for those seeds). A seed that is not a T-c row needs no hash rule for removal of itself, but its sequence still defines the literature hash.
+
+# Phase B outputs (features and embeddings)
+
+Scripts 05, 06 and 07 and the jobs in `jobs/` write to `$STEP1_WORKDIR/phaseb/`. Later phases
+join on `(source_id, gene_id)` and on `seq_sha256`. `emb_row` and `emb_cterm_row` give the rows
+of the embedding matrices.
+
+## sequence_members.tsv.gz (05_prepare_sequences.py, one row per protein of an input set)
+
+| Column | Meaning |
+|---|---|
+| set_id | Input set in `sequence_sets.tsv` (`truth`, `uniprot_kw`, `<species>_proteome`, ...). |
+| source_id | For `truth`: the `source_id` of `truth_sequences.tsv.gz`. Else equal to `set_id`. |
+| gene_id | For `truth`: the GAF gene ID. For `uniprot_kw`: the UniProt accession. Else the first FASTA header token. |
+| seq_sha256 | SHA-256 of the cleaned sequence (`seqhash.seq_sha256`). |
+| length | Length of the cleaned sequence. |
+
+## unique_sequences.tsv.gz (05_prepare_sequences.py, one row per unique sequence)
+
+| Column | Meaning |
+|---|---|
+| row | Position in seq_sha256 order (0-based). Row of `emb/<model>.nterm.npy`. |
+| seq_sha256 | SHA-256 of the cleaned sequence. Sort key. |
+| length | Length of the cleaned sequence. |
+| cterm_row | For sequences longer than 1,022 aa: row of `emb/<model>.cterm.npy` (0-based, in seq_sha256 order). Empty otherwise. |
+| sequence | The cleaned sequence. Every character is in the ESM-2 alphabet. |
+
+## unique_sequences.fasta.gz (05_prepare_sequences.py)
+
+The unique sequences as FASTA, in `row` order. The header is the `seq_sha256`. J1 reads it.
+
+## prepare_run.json (05_prepare_sequences.py)
+
+Keys: `inputs` (per set: `file`, `sha256`, `members`, `empty_records`), `members`,
+`unique_sequences`, `unique_residues`, `over_max_residues`, `all_sources` (`true` when
+`sequence_run.json` and `keyword_tier_run.json` both say `all_sources: true`), `git_commit`,
+`python`, `arguments`. No time stamp.
+
+## chunk_plan.tsv (06_plan_embedding.py, one row per embedding chunk)
+
+| Column | Meaning |
+|---|---|
+| chunk_id | `<window>_<NNNN>`, numbered in plan order. |
+| window | `nterm` (first 1,022 residues) or `cterm` (last 1,022 residues; sequences > 1,022 aa only). |
+| n_seqs | Number of chunk members. |
+| residues | Sum of the window lengths. |
+| members_sha256 | SHA-256 of the member seq_sha256 values joined by newlines, in chunk order. |
+
+## chunk_members.tsv.gz (06_plan_embedding.py, one row per chunk member)
+
+| Column | Meaning |
+|---|---|
+| chunk_id | As in `chunk_plan.tsv`. |
+| position | Row in the chunk array (0-based). |
+| row | `row` of the sequence in `unique_sequences.tsv.gz`. |
+| seq_sha256 | SHA-256 of the sequence. |
+
+## job_plan.json (06_plan_embedding.py)
+
+Keys: `models`, `rates_residues_per_s` and `model_load_s` and `batch_size` (each per model),
+`chunk_residues`, `chunks`, `residues_per_model`, `unique_sequences`, `total_seconds`,
+`n_jobs`, `seconds_per_job`, `longest_job_seconds`, `time_minutes`, `rate_source` (`J0` or
+`assumed`), `throughput_sha256` (empty when `assumed`), `unique_sequences_sha256`,
+`git_commit`, `python`, `arguments`. With `rate_source` `J0` the file also has
+`j0_sample_sha256`, `j0_device` and `j0_gpu_name`. The formula is in the docstring of
+`chunk_plan.py`.
+
+## j0/throughput.json (jobs/throughput_pilot.py, J0)
+
+Keys: `schema` (`step1-phaseb-j0-throughput/2`), `device`, `gpu_name`, `torch`, `torch_cuda`,
+`esm`, `n_proteins`, `residues`, `seed`, `sample_sha256`, `truth_sequences_sha256`,
+`batch_sizes`, `model_load_s` (per model), `runs`, `best`, `git_commit`, `python`.
+Each object in `runs` (one per model and batch size) has `model`, `batch_size`,
+`batch_failures` (batches that `get_esm_embeddings` retried one sequence at a time, for example
+after out of memory), `status` (`ok`, `batch_failures`, or `skipped_<n>`), `seconds`,
+`proteins_per_s`, `residues_per_s`, `peak_mem_bytes` and `dim`. `best` holds, per model, the
+`ok` run with the highest `residues_per_s` (keys `batch_size`, `residues_per_s`,
+`proteins_per_s`, `seconds`).
+
+## j0/gpu_cpu_diff.json (jobs/gpu_cpu_diff.py, J0)
+
+Keys: `schema` (`step1-phaseb-gpu-cpu-diff/1`), `device_a`, `device_b`, `gpu_name`, `torch`,
+`n_windows`, `windows_sha256`, `batch_size`, `models` (per model: `max_abs_diff`,
+`mean_abs_diff`, `max_rel_diff`, `min_cosine`, `repeat_identical_on_a`,
+`repeat_max_abs_diff_on_a`), `git_commit`. No threshold is applied.
+
+## signalp/part_NNN/ (jobs/j1_features.sh, J1)
+
+SignalP 6 output for one part of `unique_sequences.fasta.gz`: `prediction_results.txt.gz`
+(the done marker of the part), `output.gff3.gz`, `region_output.gff3.gz` (gzip `-n`), and
+`input.sha256` (SHA-256 of the part FASTA). The format is described in `feature_parsers.py`.
+
+## predgpi/part_NNN.tsv.gz (jobs/j1_features.sh, J1)
+
+`jobs/predgpi_scores.py` output for one part: columns `id` (seq_sha256), `length`, `gpi_call`
+(`highly_probable`, `probable`, `weakly`, `none`, `too_short` for 40 aa or less), `gpi_prob`
+(the PredGPI CLI score: 1.0, 0.70, 0.55, or 0), `omega` (omega site, GPI calls only), `fpr`
+(PredGPI estimated false positive rate; lower is more GPI-like), `svm` (SVM output).
+`part_NNN.input.sha256` holds the SHA-256 of the part FASTA.
+
+## features_unique.tsv.gz (07_build_features.py, one row per unique sequence)
+
+| Column | Meaning |
+|---|---|
+| row, seq_sha256, length, cterm_row | As in `unique_sequences.tsv.gz`. |
+| ser_thr_frac | (count of S + count of T) / length, 6 decimals. |
+| sp_prediction | SignalP 6: `SP` or `OTHER`. Empty if SignalP gave no call. |
+| sp_prob | SignalP 6 `SP(Sec/SPI)` probability. |
+| sp_other_prob | SignalP 6 `OTHER` probability. |
+| sp_cs_end | Last residue of the signal peptide (`CS pos: X-Y`, X). SP only. |
+| sp_cs_prob | Probability of the cleavage site. SP only. |
+| gpi_call, gpi_prob, gpi_omega, gpi_fpr, gpi_svm | PredGPI columns `gpi_call`, `gpi_prob`, `omega`, `fpr`, `svm`. |
+
+## features.tsv.gz (07_build_features.py, one row per member)
+
+| Column | Meaning |
+|---|---|
+| set_id, source_id, gene_id, seq_sha256, length | As in `sequence_members.tsv.gz`. |
+| label, subset, stratum, d8_class, homology_only, role | From `truth_set_triaged.tsv.gz` for `truth` members. Empty for other sets. |
+| ser_thr_frac, sp_prediction, sp_prob, sp_other_prob, sp_cs_end, sp_cs_prob, gpi_call, gpi_prob, gpi_omega, gpi_fpr, gpi_svm | As in `features_unique.tsv.gz`. |
+| emb_row | Row of `emb/<model>.nterm.npy` (the `row` of the sequence). |
+| emb_cterm_row | Row of `emb/<model>.cterm.npy`. Empty for sequences of 1,022 aa or less: use `emb_row` (their C-terminal window is the whole sequence). |
+
+## feature_coverage.tsv (07_build_features.py, one row per set_id)
+
+| Column | Meaning |
+|---|---|
+| set_id | Input set. |
+| members | Members of the set. |
+| unique_sequences | Distinct seq_sha256 values in the set. |
+| no_signalp | Unique sequences of the set without a SignalP call. |
+| no_predgpi | Unique sequences of the set without a PredGPI call. |
+| over_1022 | Unique sequences of the set longer than 1,022 aa. |
+| gpi_too_short | Unique sequences of the set of 40 aa or less (PredGPI gives no score). |
+
+## features_run.json (07_build_features.py)
+
+Keys: `tool_outputs_sha256` (per J1 file, key = path under `phaseb/`), `truth_set_sha256`
+(the hash that `d8_run.json` and `sequence_run.json` share), `input_sha256`
+(`truth_set_triaged.tsv.gz`, `sequence_members.tsv.gz`, `unique_sequences.tsv.gz`),
+`unique_sequences`, `members`, `missing_signalp`, `missing_predgpi`, `sp_predictions` and
+`gpi_calls` (counts), `all_sources` (`true` when `d8_run.json` and `prepare_run.json` say
+`all_sources: true`), `git_commit`, `python`, `arguments`. Script 07 reads `sequence_run.json`
+and `d8_run.json` and stops if their `truth_set_sha256` values differ.
+
+## emb/<model>/<chunk_id>.npy (jobs/embed_chunks.py, J2)
+
+float32 array, one row per chunk member in `chunk_members.tsv.gz` order, ESM-2 layer 6,
+mean over residue tokens (`surface_glyco.embeddings.get_esm_embeddings`). The sidecar
+`<chunk_id>.json` is the done marker: `chunk_id`, `model`, `window`, `members_sha256`,
+`repr_layer`, `batch_size`, `device`, `seconds`, `shape`, `dtype`, `array_sha256` (SHA-256 of
+the raw array bytes).
+
+## emb/<model>.nterm.npy (jobs/assemble_embeddings.py)
+
+float32, shape (unique sequences, dim): row `row` is the N-terminal window embedding of that
+sequence. `emb/<model>.cterm.npy` has shape (sequences > 1,022 aa, dim) and row `cterm_row`.
+`assemble_embeddings.window_matrix` builds the full C-terminal matrix for M8-C and M35-C.
+dim is 320 for `esm2_t6_8M_UR50D` and 480 for `esm2_t12_35M_UR50D`.
+
+## emb/chunk_manifest.tsv (jobs/assemble_embeddings.py, one row per model and chunk)
+
+| Column | Meaning |
+|---|---|
+| model | ESM-2 model name. |
+| chunk_id, window, n_seqs, members_sha256 | As in `chunk_plan.tsv`. |
+| array_sha256 | SHA-256 of the raw bytes of `emb/<model>/<chunk_id>.npy` (as in its JSON). |
+
+## emb/embedding_run.json (jobs/assemble_embeddings.py)
+
+Keys: `models` (per model and window: `shape`, `dtype`, `array_sha256`), `unique_sequences`,
+`chunks`, `unique_sequences_sha256`, `chunk_plan_sha256`, `git_commit`, `python`.

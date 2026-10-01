@@ -9,12 +9,14 @@ The plan is `docs/superpowers/plans/2026-10-01-step1-truth-set.md`.
 
 - Use Python 3.12 or later: `PY=/usr/bin/python3.12`.
 - The code uses `dataclass(slots=True)`. The default `python3` on the HPCC (3.9) fails.
-- Every module uses the Python standard library only. A test checks this with the `ast` module
-  (`test_every_module_imports_only_stdlib_or_local` in `tests/step1_compare/test_paths.py`).
-- No script uses `BASH_SOURCE`. The folder has no shell script. A test checks this
-  (`test_no_shell_script_uses_bash_source`).
-- No SLURM job is needed. Run every script on a login or interactive node.
-  If you use a job later, write to `${SCRATCH:?}` and copy the results to /bigdata.
+- Every module in this folder uses the Python standard library only. A test checks this with
+  the `ast` module (`test_every_module_imports_only_stdlib_or_local` in
+  `tests/step1_compare/test_paths.py`). The subfolder `jobs/` is outside this rule: its scripts
+  need numpy, torch and fair-esm (conda env `adhesionPred`) or the PredGPI module Python.
+- No script uses `BASH_SOURCE`. A test checks this (`test_no_shell_script_uses_bash_source`).
+- Scripts 00 to 07 need no SLURM job. Run them on a login or interactive node. The Phase B
+  jobs J0, J1 and J2 (`jobs/*.sh`) need a GPU. They write to `${SCRATCH:?}` and copy the
+  results to /bigdata (see "Phase B" below).
 - Data never go into the repository.
 
 ## Work directory and variables
@@ -215,3 +217,49 @@ direct-evidence count (`direct_p_ext`) in brackets.
 | Cneo_JEC21_GOA | 32 (0) |
 | Cneo_CRYD1 | 32 (0) |
 | Umay_MYCMD | 62 (10) |
+
+## Phase B: features and embeddings (D2, D3)
+
+The plan is `docs/superpowers/plans/2026-10-01-step1-features-embeddings.md`. `COLUMNS.md`
+lists every Phase B output. All Phase B outputs go to `$STEP1_WORKDIR/phaseb/`.
+
+| Step | Where | Command | Output |
+|---|---|---|---|
+| 05 | login node | `$PY 05_prepare_sequences.py` | members, unique sequences, FASTA |
+| J0 | exfab GPU | `sbatch ... jobs/j0_pilot.sh` | `j0/throughput.json`, `j0/gpu_cpu_diff.json` |
+| 06 | login node | `$PY 06_plan_embedding.py` | `chunk_plan.tsv`, `job_plan.json` |
+| J1 | exfab GPU | `sbatch ... jobs/j1_features.sh` | `signalp/`, `predgpi/` |
+| J2 | exfab GPU | `sbatch --array ... jobs/j2_embed.sh` | `emb/<model>/<chunk_id>.npy` |
+| 07 | login node | `$PY 07_build_features.py` | `features.tsv.gz`, `feature_coverage.tsv` |
+| assemble | login node | `$ENV_PY jobs/assemble_embeddings.py` | `emb/<model>.nterm.npy`, `.cterm.npy` |
+
+- The `jobs/` Python scripts run with the conda env Python
+  (`/rhome/jstajich/.conda/envs/adhesionPred/bin/python`) and
+  `PYTHONPATH=$PROJ_ROOT/src:$PROJ_ROOT/analysis/step1_compare:$PROJ_ROOT/analysis/step1_compare/jobs`.
+  `jobs/predgpi_scores.py` runs with the Python of `module load predgpi/202001` (3.9).
+- Every sequence is embedded and scored once: members with the same `seq_sha256` share one row.
+- The chunk size and the J2 job count come from the measured J0 throughput (formula in
+  `chunk_plan.py`). `06_plan_embedding.py --rate` makes a dry plan from an assumed rate and
+  records `rate_source: assumed`.
+- J1 and J2 resume: a finished part or chunk is skipped after its hash is checked.
+- Script 07 reads `sequence_run.json` and `d8_run.json`. It stops if their `truth_set_sha256`
+  values differ. Re-run 02, 03 and 05 on the same truth set.
+- Embedding tests need torch and fair-esm:
+  `PYTHONPATH=src /rhome/jstajich/.conda/envs/adhesionPred/bin/python -m pytest tests/step1_compare -q`.
+  With `/usr/bin/python3.12` those test files are skipped.
+
+### Rules for the jobs
+
+- J0 must run on a GPU (device `cuda`). `jobs/j0_pilot.sh` sets `--device cuda`. Script 06
+  stops if the J0 record has a device other than `cuda`. It also stops if the best rate of a
+  model is below 1,000 residues/s (`MIN_RATE` in `06_plan_embedding.py`): such a rate means a
+  CPU or failed run.
+- J0 copies each result to `phaseb/j0/` as soon as it exists. If the job fails or times out
+  after the throughput step, `throughput.json` is kept.
+- J1 splits the FASTA into `J1_PARTS` parts (default 8). If you change `J1_PARTS`, delete
+  `phaseb/signalp` and `phaseb/predgpi` first. Old parts have other members. Script 07 stops
+  when one sequence is in two parts.
+- J2 is an array job. The `#SBATCH` lines cannot read variables. Give `--array=0-<n_jobs-1>`
+  and `--time=<time_minutes>` on the `sbatch` command line. Read both values from
+  `phaseb/job_plan.json`. Set `J2_JOB_COUNT` to `n_jobs` in `--export`. `embed_chunks.py` stops
+  (exit 2) if `J2_JOB_COUNT` differs from `n_jobs`.
