@@ -8,6 +8,8 @@ from pathlib import Path
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import cross_val_score, train_test_split
 
+from surface_glyco.card import ModelCardError
+
 
 def train_classifier(x, y, test_size=0.2, random_state=42):
     """Train logistic regression classifier on embeddings.
@@ -78,8 +80,11 @@ def load_model_card(model_path):
     path = model_card_path(model_path)
     if not path.exists():
         return None
-    with open(path) as f:
-        return json.load(f)
+    try:
+        with open(path) as f:
+            return json.load(f)
+    except json.JSONDecodeError as e:
+        raise ModelCardError(f"{path}: not valid JSON ({e})") from e
 
 
 def load_model(model_path):
