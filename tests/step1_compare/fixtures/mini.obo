@@ -1,0 +1,138 @@
+format-version: 1.2
+data-version: releases/2026-07-26
+
+[Term]
+id: GO:0005575
+name: cellular_component
+namespace: cellular_component
+
+[Term]
+id: GO:0110165
+name: cellular anatomical structure
+namespace: cellular_component
+is_a: GO:0005575 ! cellular_component
+
+[Term]
+id: GO:0071944
+name: cell periphery
+namespace: cellular_component
+is_a: GO:0110165 ! cellular anatomical structure
+
+[Term]
+id: GO:0005618
+name: cell wall
+namespace: cellular_component
+is_a: GO:0110165 ! cellular anatomical structure
+relationship: part_of GO:0071944 ! cell periphery
+
+[Term]
+id: GO:0009277
+name: fungal-type cell wall
+namespace: cellular_component
+alt_id: GO:0099999
+is_a: GO:0005618 ! cell wall
+
+[Term]
+id: GO:0005576
+name: extracellular region
+namespace: cellular_component
+is_a: GO:0110165 ! cellular anatomical structure
+
+[Term]
+id: GO:0016020
+name: membrane
+namespace: cellular_component
+is_a: GO:0110165 ! cellular anatomical structure
+
+[Term]
+id: GO:0005886
+name: plasma membrane
+namespace: cellular_component
+is_a: GO:0016020 ! membrane
+relationship: part_of GO:0071944 ! cell periphery
+
+[Term]
+id: GO:0005737
+name: cytoplasm
+namespace: cellular_component
+is_a: GO:0110165 ! cellular anatomical structure
+
+[Term]
+id: GO:0005829
+name: cytosol
+namespace: cellular_component
+is_a: GO:0110165 ! cellular anatomical structure
+relationship: part_of GO:0005737 ! cytoplasm
+
+[Term]
+id: GO:0005634
+name: nucleus
+namespace: cellular_component
+is_a: GO:0110165 ! cellular anatomical structure
+
+[Term]
+id: GO:0005739
+name: mitochondrion
+namespace: cellular_component
+is_a: GO:0110165 ! cellular anatomical structure
+
+[Term]
+id: GO:0005743
+name: mitochondrial inner membrane
+namespace: cellular_component
+is_a: GO:0016020 ! membrane
+relationship: part_of GO:0005739 ! mitochondrion
+
+[Term]
+id: GO:0012505
+name: endomembrane system
+namespace: cellular_component
+is_a: GO:0110165 ! cellular anatomical structure
+
+[Term]
+id: GO:0005783
+name: endoplasmic reticulum
+namespace: cellular_component
+is_a: GO:0110165 ! cellular anatomical structure
+relationship: part_of GO:0012505 ! endomembrane system
+
+[Term]
+id: GO:0005773
+name: vacuole
+namespace: cellular_component
+is_a: GO:0110165 ! cellular anatomical structure
+
+[Term]
+id: GO:0000324
+name: fungal-type vacuole
+namespace: cellular_component
+is_a: GO:0005773 ! vacuole
+
+[Term]
+id: GO:0032991
+name: protein-containing complex
+namespace: cellular_component
+is_a: GO:0005575 ! cellular_component
+relationship: has_part GO:0005886 ! plasma membrane
+
+[Term]
+id: GO:0031225
+name: obsolete anchored component of membrane
+namespace: cellular_component
+is_obsolete: true
+
+[Term]
+id: GO:0003674
+name: molecular_function
+namespace: molecular_function
+
+[Term]
+id: GO:0008150
+name: biological_process
+namespace: biological_process
+
+[Typedef]
+id: part_of
+name: part of
+is_a: GO:0005575
+is_transitive: true
