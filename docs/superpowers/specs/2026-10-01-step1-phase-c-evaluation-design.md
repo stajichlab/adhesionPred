@@ -61,6 +61,21 @@ training yeasts (before dedupe and the direct-evidence rule, which applies to te
 evidence counts are smaller (parent section 3.3). H99 has 7 positives: any H99 recall interval is wide.
 JEC21 positives are IBA-only (parent section 3.3), so JEC21 is not a headline test set.
 
+## 2a. Terms used in this spec
+
+| Term | Meaning |
+|---|---|
+| **PM** | Plasma membrane. The GO term is GO:0005886 (`labels.PLASMA_MEMBRANE`). |
+| **PM candidate** | A P-ext gene that also has a non-IEA PM term. Column `pm_candidate == "yes"`. Such a gene is a surface protein in the GO sense (wall or extracellular) and sits in the plasma membrane. It may be a GPI-anchored wall protein (a true positive) or a transmembrane protein (a negative under decision Q3). |
+| **TM** | Transmembrane segment, taken from the UniProt Transmembrane feature (any evidence code). |
+| **GPI** | Glycosylphosphatidylinositol anchor. The anchor holds a protein on the outer face of the PM or in the wall. |
+| **P-gpi** | PM candidate with curated GPI evidence (reviewed UniProt entry with ECO:0000269, or a literature row). Positive. |
+| **PM-TM** | PM candidate with no curated GPI evidence and at least one TM segment (for example MSB2, HKR1). Negative. |
+| **pm-unresolved** | PM candidate with neither curated GPI evidence nor a TM segment. Excluded (ruling C-1). |
+| **SP** | Signal peptide call by SignalP 6. |
+| **P-ext, N-int, N-sec** | Positive (wall or extracellular), internal negative, secretory-pathway negative (parent spec section 2.2). |
+| **T-c, V-go, V-kw** | Keyword-only training tier; training variant without it; training variant with it (parent spec section 2.3). |
+
 ## 3. Definitions that Phase C fixes
 
 ### 3.1 Class mapping (one function, one test)
