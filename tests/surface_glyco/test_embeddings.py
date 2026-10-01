@@ -5,6 +5,7 @@ import pytest
 
 pytest.importorskip("esm")
 
+from surface_glyco import embeddings as emb  # noqa: E402
 from surface_glyco.embeddings import get_esm_embeddings, sanitize_sequence  # noqa: E402
 
 SHORT = "MKTLLVAGLLSSAAFA"
@@ -45,6 +46,25 @@ def test_nonstandard_characters_do_not_drop_sequences():
 def test_repr_layer_out_of_range_raises():
     with pytest.raises(ValueError):
         get_esm_embeddings(_seqs(("a", SHORT)), device=_cpu(), repr_layer=7)
+
+
+def test_count_truncated_counts_sequences_over_the_limit():
+    seqs = _seqs(("a", "M" * 1022), ("b", "M" * 1023), ("c", ""), ("d", "M*" * 1200))
+    assert emb.count_truncated(seqs) == 2  # b, and d (1200 residues once '*' is stripped)
+
+
+def test_failed_sequence_is_skipped_and_indices_stay_aligned(monkeypatch):
+    real = emb._embed_batch
+
+    def flaky(model, alphabet, bc, batch, layer, device):
+        if any(seq == "BAD" for _, seq in batch):
+            raise RuntimeError("boom")
+        return real(model, alphabet, bc, batch, layer, device)
+
+    monkeypatch.setattr(emb, "_embed_batch", flaky)
+    seqs = _seqs(("a", "MKTAYIAK"), ("bad", "BAD"), ("c", "MKTAYIAKQR"))
+    vecs, ids, kept = emb.get_esm_embeddings(seqs, device=_cpu(), batch_size=3, return_indices=True)
+    assert ids == ["a", "c"] and kept == [0, 2] and len(vecs) == 2
 
 
 def _cpu():

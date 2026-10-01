@@ -93,6 +93,11 @@ def sanitize_sequence(sequence):
     return "".join(ch if ch in ESM_RESIDUES else "X" for ch in seq)
 
 
+def count_truncated(sequences):
+    """Number of sequences longer than MAX_RESIDUES after sanitizing (they get truncated)."""
+    return sum(len(sanitize_sequence(s["sequence"])) > MAX_RESIDUES for s in sequences)
+
+
 def _embed_batch(model, alphabet, batch_converter, batch, repr_layer, device):
     """Embed one batch of (id, sequence) pairs; mean over residue tokens only.
 
