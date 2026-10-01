@@ -157,9 +157,14 @@ def make_work(tmp_path, extract_all=True, sequence_all=True, with_logs=True):
     write_sidecar(work, seq_path, WANTED)
     with gzip.open(work / "truth_sequences.tsv.gz", "wt") as handle:
         handle.write(TRUTH_SEQ)
+    # 02 records the SHA-256 of the truth table it read; 04 compares it with the current file.
+    (work / "truth_set.tsv.gz").write_bytes(gzip.compress(b"source_id\tgene_id\n", mtime=0))
+    truth_sha = manifest.sha256_file(work / "truth_set.tsv.gz")
     if with_logs:
         (work / "extract_log.json").write_text(json.dumps({"all_sources": extract_all}))
-        (work / "sequence_run.json").write_text(json.dumps({"all_sources": sequence_all}))
+        (work / "sequence_run.json").write_text(
+            json.dumps({"all_sources": sequence_all, "truth_set_sha256": truth_sha})
+        )
     (tmp_path / "surface.tsv").write_text(SURFACE_HEADER + SURFACE_ROWS)
     (tmp_path / "seeds.tsv").write_text(SEEDS_TSV)
     (tmp_path / "species.tsv").write_text(SPECIES_TSV)
@@ -253,7 +258,12 @@ def test_partial_or_unlogged_truth_tables_are_refused(
     assert "all_sources" in err or "cannot read" in err
     assert not (work / "keyword_tier.tsv.gz").exists()
     assert not (work / "keyword_tier_run.json").exists()
-    assert build.main(argv_for(tmp_path, work, "--allow-partial-truth-set")) == 0
+    # Without sequence_run.json the staleness check cannot run, so the override does not help.
+    expected = 0 if with_logs else 2
+    assert build.main(argv_for(tmp_path, work, "--allow-partial-truth-set")) == expected
+    if with_logs:
+        run = json.loads((work / "keyword_tier_run.json").read_text())
+        assert run["all_sources"] is False  # a partial input log makes the 04 run partial
 
 
 def test_stop_leaves_previous_outputs_untouched(tmp_path, capsys):
@@ -491,3 +501,39 @@ def test_seed_without_sequence_stops_unless_allowed(tmp_path, capsys):
         "in_keyword_tier": True,
         "has_sequence": False,
     }
+
+
+# ---- final review: stale outputs (item 1) and the all_sources marker (item 9) ----
+
+
+def test_changed_truth_set_after_02_stops_with_no_outputs(tmp_path, capsys):
+    build = load_script("04_build_keyword_tier")
+    work = make_work(tmp_path)
+    data = bytearray((work / "truth_set.tsv.gz").read_bytes())
+    data[-1] ^= 0x01  # change one byte of the truth table after 02 has run
+    (work / "truth_set.tsv.gz").write_bytes(bytes(data))
+    assert build.main(argv_for(tmp_path, work)) == 2
+    err = capsys.readouterr().err
+    assert err.startswith("STOP:")
+    assert "02_attach_sequences.py" in err
+    assert not [p for p in work.iterdir() if p.name.startswith("keyword_tier")]
+    # --allow-partial-truth-set does not disable the staleness check.
+    assert build.main(argv_for(tmp_path, work, "--allow-partial-truth-set")) == 2
+
+
+def test_sequence_run_without_truth_hash_stops(tmp_path, capsys):
+    build = load_script("04_build_keyword_tier")
+    work = make_work(tmp_path)
+    (work / "sequence_run.json").write_text(json.dumps({"all_sources": True}))
+    assert build.main(argv_for(tmp_path, work)) == 2
+    assert capsys.readouterr().err.startswith("STOP:")
+    assert not (work / "keyword_tier_run.json").exists()
+
+
+def test_run_json_records_truth_set_sha256_and_all_sources(tmp_path):
+    build = load_script("04_build_keyword_tier")
+    work = make_work(tmp_path)
+    assert build.main(argv_for(tmp_path, work)) == 0
+    run = json.loads((work / "keyword_tier_run.json").read_text())
+    assert run["truth_set_sha256"] == manifest.sha256_file(work / "truth_set.tsv.gz")
+    assert run["all_sources"] is True

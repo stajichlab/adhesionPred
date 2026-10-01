@@ -56,7 +56,7 @@ The download sizes in `manifest.tsv` add up to 83,309,908 bytes (19 files).
 | 01 | the files that 00 downloaded |
 | 02 | the output of 01 (`truth_set.tsv.gz`, `extract_log.json`) and the FASTA files from 00 |
 | 03 | the output of 01 (`truth_set.tsv.gz`, `extract_log.json`), plus `species.tsv` and `curated_gpi.tsv`. It does not read the output of 02. |
-| 04 | the output of 01 (`extract_log.json`) and of 02 (`truth_sequences.tsv.gz`, `sequence_run.json`). It does not read the output of 03 or `d8_run.json`. |
+| 04 | the output of 01 (`extract_log.json`, and the SHA-256 of `truth_set.tsv.gz`) and of 02 (`truth_sequences.tsv.gz`, `sequence_run.json`). It does not read the output of 03 or `d8_run.json`. |
 
 Scripts 03 and 04 are independent of each other.
 
@@ -71,9 +71,15 @@ Scripts 03 and 04 are independent of each other.
 
 ### Stale outputs
 
-- Nothing detects stale downstream outputs.
-- Script 02 records `truth_set_sha256` in `sequence_run.json`. Scripts 03 and 04 do not compare
-  it, or their own inputs, with the current `truth_set.tsv.gz`.
+- Script 02 records `truth_set_sha256` (the SHA-256 of the `truth_set.tsv.gz` it read) in
+  `sequence_run.json`.
+- Script 04 compares that value with the SHA-256 of the current `truth_set.tsv.gz`. On a
+  difference, 04 prints `STOP:`, tells you to re-run 02, exits with code 2 and writes no output.
+  A missing `sequence_run.json` or a missing value also stops 04. `--allow-partial-truth-set`
+  does not disable this check.
+- Script 04 records `truth_set_sha256` in `keyword_tier_run.json`.
+- Script 03 records `truth_set_sha256` in `d8_run.json`, so its outputs show which truth table
+  they came from. Nothing compares this value or refuses stale 03 outputs.
 - After any re-run of 01, or a run of 01 with `--sources`, re-run 02, 03 and 04.
 
 ## The STOP contract
@@ -103,6 +109,8 @@ Scripts 03 and 04 are independent of each other.
 - `--sources` selects a subset of the sources in `species.tsv`. A partial run replaces the full
   outputs. Check the marker before you use a file.
 - Each run log records `all_sources`. It is `true` only when the run processed every source.
+  Script 04 has no `--sources` option. Its `all_sources` is `true` only when both
+  `extract_log.json` and `sequence_run.json` say `all_sources: true`.
 
 | Marker file | Written by |
 |---|---|

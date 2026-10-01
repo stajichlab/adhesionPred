@@ -361,3 +361,13 @@ def test_pm_tm_needs_a_tm_feature():
         d8_triage.classify_pm([p(entry("Q2", True, tm=["ECO:0000255", "ECO:0000269"]))], False)[0]
         == "PM-TM"
     )
+
+
+def test_d8_run_json_records_hash_of_current_truth_table(tmp_path):
+    import manifest
+
+    triage = load_script("03_triage_pm")
+    argv = _work(tmp_path)
+    assert triage.main(argv, fetch=good_fetch) == 0
+    run = json.loads((tmp_path / "d8_run.json").read_text())
+    assert run["truth_set_sha256"] == manifest.sha256_file(tmp_path / "truth_set.tsv.gz")

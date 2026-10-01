@@ -2,7 +2,8 @@
 """D10: build keyword_tier.tsv.gz (T-c rows for V-kw) and keyword_tier_removed.tsv.
 
 Reads data/curated/surface/surface.tsv, data/curated/adhesins/eurotiomycetes_seeds.tsv,
-species.tsv and $STEP1_WORKDIR/truth_sequences.tsv.gz. Sequences for surface.tsv and the seed
+species.tsv, $STEP1_WORKDIR/truth_sequences.tsv.gz and (for its SHA-256 only)
+$STEP1_WORKDIR/truth_set.tsv.gz. Sequences for surface.tsv and the seed
 accessions come from $STEP1_WORKDIR/keyword_sequences.fasta.gz; --fetch downloads that file
 from UniProtKB REST if it is missing and records its SHA-256 and UniProt release in
 keyword_sequences.json. A cached sequence file without a matching sidecar is refused.
@@ -11,8 +12,11 @@ Errors print `STOP: <message>` and exit 2 with no output files written. Outputs 
 keyword_tier_removed.tsv, keyword_tier_run.json) are written to temp names and moved into place
 only when all are complete. The script refuses a truth set or sequence table whose run log
 (extract_log.json, sequence_run.json) is missing or does not say `all_sources: true`, unless
---allow-partial-truth-set is given. keyword_tier_run.json records the SHA-256 of the inputs, the
-UniProt release, the git commit, the Python version and the arguments (no timestamps).
+--allow-partial-truth-set is given. The script also stops (re-run 02) when the
+truth_set_sha256 in sequence_run.json differs from the SHA-256 of the current truth_set.tsv.gz;
+--allow-partial-truth-set does not disable this check. keyword_tier_run.json records
+all_sources, truth_set_sha256, the SHA-256 of the inputs, the UniProt release, the git commit,
+the Python version and the arguments (no timestamps).
 
 Sequence checks (a missing sequence could hide a test protein):
 - The sidecar keeps the sorted list of requested accessions and its SHA-256. A cached file is
@@ -179,6 +183,36 @@ def _require_full(log_path: Path, what: str) -> None:
         )
 
 
+def _says_all_sources(log_path: Path) -> bool:
+    """True if the run log exists and says all_sources: true."""
+    try:
+        return json.loads(log_path.read_text()).get("all_sources") is True
+    except (OSError, ValueError, AttributeError):
+        return False
+
+
+def _require_current_truth_set(work: Path) -> str:
+    """Stop unless sequence_run.json records the SHA-256 of the current truth_set.tsv.gz.
+
+    Return that SHA-256. A difference means that 01 ran again after 02, so
+    truth_sequences.tsv.gz is stale."""
+    run_path = work / "sequence_run.json"
+    try:
+        recorded = json.loads(run_path.read_text()).get("truth_set_sha256")
+    except (OSError, ValueError) as exc:
+        raise manifest.DownloadError(
+            f"cannot read {run_path} ({exc}); re-run 02_attach_sequences.py"
+        ) from exc
+    current = manifest.sha256_file(work / "truth_set.tsv.gz")
+    if recorded != current:
+        raise manifest.DownloadError(
+            f"truth_sequences.tsv.gz is stale: {run_path.name} records truth_set_sha256 "
+            f"{recorded!r}, but the current truth_set.tsv.gz has {current}; "
+            "re-run 02_attach_sequences.py"
+        )
+    return current
+
+
 def _write_outputs(work: Path, kept, removed, run_log) -> None:
     """Write to temp names in the output directory, then os.replace all of them."""
     work.mkdir(parents=True, exist_ok=True)
@@ -240,6 +274,10 @@ def main(argv=None) -> int:
         if not args.allow_partial_truth_set:
             _require_full(work / "extract_log.json", "truth_set.tsv.gz")
             _require_full(work / "sequence_run.json", "truth_sequences.tsv.gz")
+        truth_set_sha256 = _require_current_truth_set(work)
+        all_sources = all(
+            _says_all_sources(work / name) for name in ("extract_log.json", "sequence_run.json")
+        )
         seq_by_acc = {
             sequences.fasta_key(h, "uniprot"): s
             for h, s in sequences.read_fasta(seq_path)
@@ -268,6 +306,8 @@ def main(argv=None) -> int:
             surface_rows, seq_by_acc, seeds, accessions, hashes
         )
         run_log = {
+            "all_sources": all_sources,
+            "truth_set_sha256": truth_set_sha256,
             "inputs_sha256": {
                 "surface": manifest.sha256_file(args.surface),
                 "seeds": manifest.sha256_file(args.seeds),
