@@ -15,7 +15,7 @@ This document tracks contributions made by AI agents to the Adhesion Protein Pre
 - **Technical Details**: 
   - Cache uses (model_name, device) as key
   - Models remain loaded in memory between predictions
-  - Thread-safe implementation for concurrent access
+  - The model cache is a module-level dict and is not thread-safe
 
 ##### Medium Impact: Dynamic Batch Sizing (`embeddings.py`) 
 - **Implementation**: Added `get_optimal_batch_size()` for GPU memory-aware batching

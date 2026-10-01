@@ -98,6 +98,20 @@ Defaults adopted for the remaining questions in the Fable review (change on requ
 5. Curated labels may be smoke-test fixtures, not accuracy gates, until expert review.
 6. Old Fungi_5k outputs are frozen and labelled "legacy pooling, 35M".
 
+## 4a. Changes made later on 2026-09-30
+
+| Was | Now | Reason |
+|---|---|---|
+| ESM + LR model frozen as legacy; pickles kept, legacy pooling emulated behind a flag (decision 2) | The old pickles are **deleted**. No legacy mode, no `--allow-legacy-pooling`. | The tool is not in circulation. The emulation of the original padding-inclusive pooling could only be approximate and could not be verified. |
+| Old result files stay readable by downstream code | Old-schema files are **not** read; result discovery uses `*.surface_glyco.csv`. | Not in circulation; the Fungi_5k outputs came from the pre-fix model and are already due for a re-run (#16). |
+| Step 1 is a SignalP + GPI + Ser/Thr rule (decision 1); ESM model only a possible step 2 base | Step 1 is **two candidates**: the rule, and an ESM-based model **retrained on a surface-glycoprotein label** (surface vs non-surface). Both are tested on the same GO truth set (decision 3); rule, ML or hybrid is decided from that comparison. | Owner is open to retraining on the correct target. This also measures the rule-vs-ESM agreement (R3). |
+| 0.2.0 ships with the rename | **0.2.0 is cut when a validated model ships.** The rename and card framework merge to `main` earlier, unreleased. | The package has no useful default model until the new one exists. |
+| Simple retrain on the current labels in 0.2.0 | **Skipped.** | Replaced by the surface-glycoprotein-label model. |
+
+The surface-glycoprotein-label model needs its own spec (positive and negative definitions,
+homology-grouped CV, GO truth set, head-to-head with the rule) and independent review before
+any plan or code.
+
 ## 5. What was measured (step 1 job 29301182, 8M model)
 
 Records: `analysis/model_review/results/step1/`, issue #25.
@@ -129,7 +143,7 @@ This is new code, so it needs a design spec and an independent review before any
 
 ## 7. Work, in order
 
-1. **Legacy rename and safety fixes.** Touches 46 files: package, tests, `kingdom_survey`, analysis
+1. **Legacy rename and safety fixes.** In progress (PR for `rename-plan`). Touches 46 files: package, tests, `kingdom_survey`, analysis
    scripts, HPCC scripts, docs. Needs a CHANGELOG entry and a version bump. Existing Fungi_5k CSVs are
    labelled legacy. Shrinks the #9 plan to the card, the pooling flag, refusal on mismatch, and tests.
 2. **GO truth-set extraction** for step 1 (S288C, *C. albicans*), plus the literature rows.

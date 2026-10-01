@@ -40,17 +40,17 @@ Consequences for wording:
   the tool. The ESM + LR CLI and a SignalP + GPI call are two implementations of step 1. Their
   agreement has **not been measured**. Until it is, treat them as separate tools.
 
-**Proposed names** (proposal only; no code, CLI, column or package has been renamed):
+**Names (implemented, unreleased):**
 
-| Current | Proposed | Note |
+| Old | Now | Note |
 |---|---|---|
-| `adhesion_predict`, `adhesion_train` | `surface_glyco_predict`, `surface_glyco_train` | keep old entry points as deprecated aliases for one release |
-| column `probability_adhesion`, label `Adhesion` | `surface_glycoprotein_score`, `surface_glycoprotein` | output schema change; needs a version bump |
-| (scripts 02, 14 in `analysis/cocci_repeats/`) | `repeat_adhesin_detect` | class 2a; clade scope stated in the name or help |
-| PF05730, PF04681, PF01185/PF06766 scans | HMM scans, no ML | classes 2b-i, 2b-iii, 2c |
+| `adhesion_predict`, `adhesion_train` | `surface_glyco_predict`, `surface_glyco_train`, `surface_glyco_evaluate` | done; no aliases (decision 4) |
+| column `probability_adhesion`, label `Adhesion` | `surface_glycoprotein_score`, `surface_glycoprotein` | done; output schema change, unreleased |
+| (scripts 02, 14 in `analysis/cocci_repeats/`) | `repeat_adhesin_detect` | not done; class 2a; clade scope stated in the name or help |
+| PF05730, PF04681, PF01185/PF06766 scans | HMM scans, no ML | not done; classes 2b-i, 2b-iii, 2c |
 
-The rename waits for the independent design review, because it changes the CLI, the output
-schema and the model card together.
+The rename of the step 1 CLI, the output schema and the model card is done in one change on the
+branch `surface-glyco-rename`. It is not released. See `CHANGELOG.md`.
 
 ### Stage 1 — general surface/secreted protein (clade-general)
 
@@ -61,7 +61,7 @@ schema and the model card together.
 | tools | SignalP 6.0, NetGPI/PredGPI — **not** a language model |
 | scope | all fungi; these features are universal |
 | status | **works**; currently keyword-derived, should be run directly |
-| known gap | annotation coverage. Only 371 of ~9,910 *C. immitis* RS proteins carry a SignalP call (~4%, vs ~10% expected), and **SOWgp — a known surface antigen — has no call at all**. Stage 1 is the foundation of everything downstream and it is under-called. |
+| known gap | annotation coverage. Only 371 of ~9,910 *C. immitis* RS proteins carry a SignalP call in the keyword-derived database annotation (~4%). A direct SignalP 6 run (`analysis/cocci_repeats/signalp_summary.tsv`) calls 460 of 9,910 (4.6%) and calls SOWgp (gene CIMG_04613) as a signal peptide with probability 0.9998 (`analysis/cocci_repeats/signalp/CimmitisRS_FungiDB/prediction_results.txt`, git-ignored). No truth data show that 4.6% is an under-call. |
 
 This is the one genuinely general tool, and it does not need ML.
 
