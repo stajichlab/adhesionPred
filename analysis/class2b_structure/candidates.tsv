@@ -1,0 +1,11 @@
+accession	label	protein	organism	length	pfam	role	notes
+Q4WXJ1	CalA	Extracellular thaumatin domain protein (CalA)	Aspergillus fumigatus Af293	177	PF04681	class2b	binds integrin a5b1; accession VERIFIED 2026-09-30 from Liu et al. 2016 Nat Microbiol Methods ("the 534 bp calA (Afu3g09690) protein coding sequence"); Afu3g09690=AFUA_3G09690=Q4WXJ1 and 534bp=177aa+stop. PF04681 is Bys1/IPR006771, NOT thaumatin (PF00314); thaumatin resemblance is at fold level. Untested paralogs sharing PF04681: calB Q4WBB5, calC Q4WFZ4
+Q6QJA6	Ag2_PRA	Proline-rich antigen Ag2/PRA	Coccidioides immitis	194	PF05730	class2b	AFDB model used in the 2026-09-28 fold survey
+Q12295	Ag2	Antigen 2	Coccidioides immitis	194	PF05730,PF04886	class2b	second accession for the same protein
+Q6K1L8	PRA2	Proline rich antigen 2	Coccidioides posadasii	124	PF05730	class2b	
+Q2TVJ9	PRA3	Proline-rich antigen 3	Coccidioides posadasii	153	PF28404	class2b	PF28404 = ARB_05178, uncharacterised secreted protein family; NOT CFEM
+Q5A0X8	Csa2	Secreted hemophore Csa2	Candida albicans SC5314	147	PF05730	cfem_reference	has an experimental structure, PDB 4Y7S; positive control for the CFEM fold
+Q59UT4	Rbt5	GPI-anchored hemophore Rbt5	Candida albicans SC5314	241	PF05730	cfem_reference	
+Q8NK60	SOWgp	Spherule outer wall glycoprotein	Coccidioides posadasii	328	-	class2a_control	tandem-repeat surface protein; expected mostly disordered
+P41746	RodA	Class I hydrophobin RodA	Aspergillus fumigatus Af293	159	PF01185	class2c_control	solved by HMM
+Q1E3R8	CTS1	Endochitinase 1 (CF antigen)	Coccidioides immitis RS	427	PF00704	enzyme_control	GH18 fold, abundant in the PDB; positive control that the Foldseek search works
