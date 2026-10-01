@@ -13,11 +13,27 @@ only when all are complete. The script refuses a truth set or sequence table who
 (extract_log.json, sequence_run.json) is missing or does not say `all_sources: true`, unless
 --allow-partial-truth-set is given. keyword_tier_run.json records the SHA-256 of the inputs, the
 UniProt release, the git commit, the Python version and the arguments (no timestamps).
+
+Sequence checks (a missing sequence could hide a test protein):
+- The sidecar keeps the sorted list of requested accessions and its SHA-256. A cached file is
+  refused if the accession list for the current surface.tsv and seeds file differs; rerun with
+  --fetch after deleting the cache.
+- The run STOPs if any requested accession has no sequence (names up to 20), unless
+  --allow-missing-sequences is given. Missing T-c rows are then removed as `no_sequence` and
+  appear in keyword_tier_removed.tsv.
+- The run STOPs if a literature-seed accession has no sequence, unless
+  --allow-missing-seed-sequences is given (this disables the hash rule for those seeds). The run
+  JSON lists every seed with `in_keyword_tier` and `has_sequence`.
+
+Limitation: removal is by accession and by exact cleaned-sequence hash only. Near-identical
+orthologs or paralogs under other accessions stay in the training table. Homology clustering in
+the later dataset plan must remove them.
 """
 
 import argparse
 import datetime
 import gzip
+import hashlib
 import http.client
 import json
 import os
@@ -38,7 +54,12 @@ NET_ERRORS = (urllib.error.URLError, OSError, http.client.HTTPException)
 OUTPUT_NAMES = ("keyword_tier.tsv.gz", "keyword_tier_removed.tsv", "keyword_tier_run.json")
 
 
-def fetch_sequences(accessions: list[str], dest: Path, opener=None) -> dict[str, str]:
+def accessions_digest(accessions) -> str:
+    """SHA-256 of the sorted, newline-joined accession list."""
+    return hashlib.sha256("\n".join(sorted(accessions)).encode("ascii")).hexdigest()
+
+
+def fetch_sequences(accessions: list[str], dest: Path, opener=None) -> dict:
     """Download the sequences and write a JSON sidecar with SHA-256 and UniProt release."""
     kwargs = {} if opener is None else {"opener": opener}
     part = dest.with_name(dest.name + ".part")
@@ -62,10 +83,18 @@ def fetch_sequences(accessions: list[str], dest: Path, opener=None) -> dict[str,
                 raise manifest.DownloadError(f"UniProt download failed: {exc!r}") from exc
         manifest.check_payload(part)
         part.replace(dest)
+        returned = {
+            key
+            for header, _ in sequences.read_fasta(dest)
+            if (key := sequences.fasta_key(header, "uniprot"))
+        }
         meta = {
             "sha256": manifest.sha256_file(dest),
             "uniprot_release": release,
-            "accessions": str(len(accessions)),
+            "accessions": sorted(accessions),
+            "accessions_sha256": accessions_digest(accessions),
+            "requested": len(accessions),
+            "returned": len(returned & set(accessions)),
             "fetched_on": datetime.datetime.now(datetime.UTC).date().isoformat(),
         }
         meta_part.write_text(json.dumps(meta, indent=2, sort_keys=True) + "\n")
@@ -80,8 +109,11 @@ def sidecar(seq_path: Path) -> Path:
     return seq_path.with_name("keyword_sequences.json")
 
 
-def check_cached(seq_path: Path) -> dict[str, str]:
-    """Return the sidecar of a cached sequence file. Refuse a file without a matching sidecar."""
+def check_cached(seq_path: Path, wanted=None) -> dict:
+    """Return the sidecar of a cached sequence file. Refuse a file without a matching sidecar.
+
+    If `wanted` (the accessions needed now) is given, also refuse a cache requested for a
+    different accession list."""
     meta_path = sidecar(seq_path)
     if not meta_path.exists():
         raise manifest.DownloadError(f"{meta_path} missing; delete {seq_path} and rerun --fetch")
@@ -90,6 +122,17 @@ def check_cached(seq_path: Path) -> dict[str, str]:
         raise manifest.DownloadError(
             f"{seq_path}: SHA-256 or UniProt release does not match {meta_path.name}"
         )
+    if wanted is not None:
+        if isinstance(meta.get("accessions"), str) or "accessions_sha256" not in meta:
+            raise manifest.DownloadError(
+                f"{meta_path.name} is in the old format (no accession list); delete {seq_path} "
+                "and rerun with --fetch"
+            )
+        if meta["accessions_sha256"] != accessions_digest(wanted):
+            raise manifest.DownloadError(
+                f"{seq_path.name} was fetched for a different accession list than the current "
+                "surface.tsv and seeds file; delete it and rerun with --fetch"
+            )
     return meta
 
 
@@ -170,6 +213,16 @@ def main(argv=None) -> int:
         action="store_true",
         help="use truth tables whose run logs do not say all_sources: true",
     )
+    parser.add_argument(
+        "--allow-missing-sequences",
+        action="store_true",
+        help="continue when requested accessions have no sequence (T-c rows become no_sequence)",
+    )
+    parser.add_argument(
+        "--allow-missing-seed-sequences",
+        action="store_true",
+        help="continue when a literature seed has no sequence; disables the hash rule for it",
+    )
     args = parser.parse_args(argv)
     work = Path(args.work_dir) if args.work_dir else paths.workdir()
 
@@ -177,10 +230,10 @@ def main(argv=None) -> int:
         surface_rows = truth_table.read_tsv(args.surface)
         seeds = keyword_tier.read_seed_accessions(args.seeds)
         seq_path = work / "keyword_sequences.fasta.gz"
+        wanted = sorted({r["accession"] for r in surface_rows} | set(seeds))
         if seq_path.exists():
-            meta = check_cached(seq_path)
+            meta = check_cached(seq_path, wanted)
         elif args.fetch:
-            wanted = sorted({r["accession"] for r in surface_rows} | set(seeds))
             meta = fetch_sequences(wanted, seq_path)
         else:
             raise manifest.DownloadError(f"{seq_path} missing; rerun with --fetch")
@@ -191,6 +244,22 @@ def main(argv=None) -> int:
             sequences.fasta_key(h, "uniprot"): s
             for h, s in sequences.read_fasta(seq_path)
             if sequences.fasta_key(h, "uniprot")
+        }
+        missing = [a for a in wanted if a not in seq_by_acc]
+        if missing and not args.allow_missing_sequences:
+            raise manifest.DownloadError(
+                f"{len(missing)} of {len(wanted)} requested accessions have no sequence "
+                f"(first {min(20, len(missing))}: {', '.join(missing[:20])}); "
+                "use --allow-missing-sequences to continue"
+            )
+        missing_seeds = [a for a in seeds if a not in seq_by_acc]
+        if missing_seeds and not args.allow_missing_seed_sequences:
+            raise manifest.DownloadError(
+                f"literature seeds without a sequence: {', '.join(missing_seeds[:20])}; the "
+                "hash rule needs them; use --allow-missing-seed-sequences to disable it for them"
+            )
+        tc_accessions = {
+            r["accession"] for r in surface_rows if r["source"] == keyword_tier.TC_SOURCE
         }
         truth_seq_path = work / "truth_sequences.tsv.gz"
         species_rows = truth_table.read_tsv(args.species)
@@ -207,6 +276,15 @@ def main(argv=None) -> int:
                 "keyword_sequences": meta["sha256"],
             },
             "uniprot_release": meta["uniprot_release"],
+            "missing_sequences": missing,
+            "seeds": {
+                a: {
+                    "gene": g,
+                    "in_keyword_tier": a in tc_accessions,
+                    "has_sequence": a in seq_by_acc,
+                }
+                for a, g in sorted(seeds.items())
+            },
             "kept": len(kept),
             "removed": len(removed),
             "git_commit": git_commit(),

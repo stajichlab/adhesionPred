@@ -133,13 +133,28 @@ TRUTH_SEQ = (
 )
 
 
+WANTED = ["O14000", "Q4WAAA", "Q4WCCC", "Q4WDDD", "Q8NK60"]
+
+
+def write_sidecar(work, seq_path, wanted, release="2026_03"):
+    build = load_script("04_build_keyword_tier")
+    meta = {
+        "sha256": manifest.sha256_file(seq_path),
+        "uniprot_release": release,
+        "accessions": sorted(wanted),
+        "accessions_sha256": build.accessions_digest(wanted),
+        "requested": len(wanted),
+        "returned": len(wanted),
+    }
+    (work / "keyword_sequences.json").write_text(json.dumps(meta))
+
+
 def make_work(tmp_path, extract_all=True, sequence_all=True, with_logs=True):
     work = tmp_path / "work"
     work.mkdir()
     seq_path = work / "keyword_sequences.fasta.gz"
     seq_path.write_bytes(gzip.compress(FASTA.encode()))
-    meta = {"sha256": manifest.sha256_file(seq_path), "uniprot_release": "2026_03"}
-    (work / "keyword_sequences.json").write_text(json.dumps(meta))
+    write_sidecar(work, seq_path, WANTED)
     with gzip.open(work / "truth_sequences.tsv.gz", "wt") as handle:
         handle.write(TRUTH_SEQ)
     if with_logs:
@@ -301,7 +316,9 @@ def test_fetch_sequences_writes_file_and_sidecar_with_release(tmp_path):
 
     dest = tmp_path / "keyword_sequences.fasta.gz"
     meta = build.fetch_sequences(["P1", "P2"], dest, opener=opener)
-    assert meta["uniprot_release"] == "2026_03" and meta["accessions"] == "2"
+    assert meta["uniprot_release"] == "2026_03"
+    assert meta["accessions"] == ["P1", "P2"] and meta["requested"] == 2 and meta["returned"] == 1
+    assert meta["accessions_sha256"] == build.accessions_digest(["P2", "P1"])
     assert build.check_cached(dest)["sha256"] == manifest.sha256_file(dest)
     assert not list(tmp_path.glob("*.part"))
 
@@ -323,3 +340,154 @@ def test_network_error_during_fetch_is_a_stop_with_no_files(tmp_path, capsys, mo
     assert not (work / "keyword_sequences.fasta.gz").exists()
     assert not [p for p in work.iterdir() if p.name.endswith(".part")]
     assert not (work / "keyword_tier.tsv.gz").exists()
+
+
+# ---- review round 1: precedence, cleaning, stale cache, missing sequences ----
+
+
+def reasons(surface, seqs, seeds=None, held_acc=None, held_hash=None):
+    _, removed = keyword_tier.build_keyword_tier(
+        surface, seqs, seeds or {}, held_acc or {}, held_hash or {}
+    )
+    return {r["accession"]: r["reason"] for r in removed}
+
+
+def test_precedence_literature_accession_before_spombe_taxon():
+    out = reasons([srow("Q8NK60", taxon="4896")], {"Q8NK60": "MKS"}, {"Q8NK60": "SOW"})
+    assert out == {"Q8NK60": "literature_accession"}
+
+
+def test_precedence_spombe_taxon_before_heldout_accession():
+    out = reasons([srow("O1", taxon="284812")], {"O1": "MK"}, held_acc={"O1": "Afum:O1"})
+    assert out == {"O1": "spombe_taxon"}
+
+
+def test_precedence_heldout_accession_before_no_sequence():
+    out = reasons([srow("Q4WAAA")], {}, held_acc={"Q4WAAA": "Afum_ASPFU:Q4WAAA"})
+    assert out == {"Q4WAAA": "heldout_accession"}
+
+
+def test_unremoved_protein_without_sequence_is_no_sequence():
+    assert reasons([srow("Q9XXXX")], {}) == {"Q9XXXX": "no_sequence"}
+
+
+def test_precedence_literature_hash_before_heldout_hash():
+    digest = seqhash.seq_sha256("MKSOW")
+    out = reasons(
+        [srow("A0ACG8")],
+        {"Q8NK60": "MKSOW", "A0ACG8": "MKSOW"},
+        seeds={"Q8NK60": "SOWgp58"},
+        held_hash={digest: "Afum_ASPFU:Q4WZZZ"},
+    )
+    assert out == {"A0ACG8": "literature_hash"}
+
+
+def test_heldout_hash_matches_after_cleaning_case_star_and_j(tmp_path):
+    # Held-out hash is stored from 'mkcjc*'; the keyword row has 'MKCLC'. Cleaned forms are equal.
+    build = load_script("04_build_keyword_tier")
+    import truth_table
+
+    work = make_work(tmp_path)
+    fasta = FASTA + ">sp|Q4WEEE|X\nMKCLC\n"
+    seq_path = work / "keyword_sequences.fasta.gz"
+    seq_path.write_bytes(gzip.compress(fasta.encode()))
+    write_sidecar(work, seq_path, [*WANTED, "Q4WEEE"])
+    (tmp_path / "surface.tsv").write_text(
+        SURFACE_HEADER + SURFACE_ROWS + "Q4WEEE\tE\tG\t330879\tuniprot_surface_kw\n"
+    )
+    with gzip.open(work / "truth_sequences.tsv.gz", "at") as handle:
+        handle.write(f"Afum_ASPFU\tQ4WYYY\tN-int\t{seqhash.seq_sha256('mkcjc*')}\n")
+    assert build.main(argv_for(tmp_path, work)) == 0
+    removed = read_removed(work)
+    assert removed["Q4WEEE"]["reason"] == "heldout_hash"
+    assert removed["Q4WEEE"]["matched"] == "Afum_ASPFU:Q4WYYY"
+    assert "Q4WEEE" not in {
+        r["accession"] for r in truth_table.read_tsv(work / "keyword_tier.tsv.gz")
+    }
+
+
+@pytest.mark.parametrize("role", ["alternate_file", "undecided", "test_species", "test_clade"])
+def test_every_non_train_role_is_held_out(role):
+    build = load_script("04_build_keyword_tier")
+    species = [{"source_id": "S", "role": role, "id_mapping": "uniprot"}]
+    rows = [{"source_id": "S", "gene_id": "Q1", "label": "ambiguous", "seq_sha256": "h"}]
+    accessions, hashes = build.heldout_sets(species, rows)
+    assert accessions == {"Q1": "S:Q1"} and hashes == {"h": "S:Q1"}
+
+
+def test_cache_for_a_different_accession_list_is_refused(tmp_path, capsys):
+    build = load_script("04_build_keyword_tier")
+    work = make_work(tmp_path)
+    seq_path = work / "keyword_sequences.fasta.gz"
+    write_sidecar(work, seq_path, [*WANTED, "Q4WOLD"])  # list differs from the current surface
+    assert build.main(argv_for(tmp_path, work)) == 2
+    err = capsys.readouterr().err
+    assert "different accession list" in err and "--fetch" in err
+
+
+def test_cache_with_old_string_accessions_is_refused_with_a_clear_message(tmp_path, capsys):
+    build = load_script("04_build_keyword_tier")
+    work = make_work(tmp_path)
+    seq_path = work / "keyword_sequences.fasta.gz"
+    meta = {"sha256": manifest.sha256_file(seq_path), "uniprot_release": "2026_03"}
+    meta["accessions"] = "5"
+    (work / "keyword_sequences.json").write_text(json.dumps(meta))
+    assert build.main(argv_for(tmp_path, work)) == 2
+    assert "old format" in capsys.readouterr().err
+
+
+def drop_from_fasta(work, accession):
+    seq_path = work / "keyword_sequences.fasta.gz"
+    records = [r for r in FASTA.split(">") if r and f"|{accession}|" not in r]
+    seq_path.write_bytes(gzip.compress(("".join(">" + r for r in records)).encode()))
+    write_sidecar(work, seq_path, WANTED)
+
+
+def test_missing_sequences_stop_and_name_accessions(tmp_path, capsys):
+    build = load_script("04_build_keyword_tier")
+    work = make_work(tmp_path)
+    drop_from_fasta(work, "Q4WDDD")
+    assert build.main(argv_for(tmp_path, work)) == 2
+    err = capsys.readouterr().err
+    assert "Q4WDDD" in err and "--allow-missing-sequences" in err
+    assert not (work / "keyword_tier.tsv.gz").exists()
+
+
+def test_missing_sequences_allowed_are_listed_in_removal_log(tmp_path):
+    build = load_script("04_build_keyword_tier")
+    work = make_work(tmp_path)
+    drop_from_fasta(work, "Q4WDDD")
+    assert build.main(argv_for(tmp_path, work, "--allow-missing-sequences")) == 0
+    assert read_removed(work)["Q4WDDD"]["reason"] == "no_sequence"
+    assert json.loads((work / "keyword_tier_run.json").read_text())["missing_sequences"] == [
+        "Q4WDDD"
+    ]
+
+
+def test_missing_sequence_list_is_capped_at_20(tmp_path, capsys):
+    build = load_script("04_build_keyword_tier")
+    work = make_work(tmp_path)
+    many = [f"Q9{i:04d}" for i in range(30)]
+    (tmp_path / "surface.tsv").write_text(
+        SURFACE_HEADER + SURFACE_ROWS + "".join(f"{a}\tg\tG\t1\tuniprot_surface_kw\n" for a in many)
+    )
+    write_sidecar(work, work / "keyword_sequences.fasta.gz", [*WANTED, *many])
+    assert build.main(argv_for(tmp_path, work)) == 2
+    err = capsys.readouterr().err
+    assert "30 of 35" in err and "Q90019" in err and "Q90020" not in err
+
+
+def test_seed_without_sequence_stops_unless_allowed(tmp_path, capsys):
+    build = load_script("04_build_keyword_tier")
+    work = make_work(tmp_path)
+    drop_from_fasta(work, "Q8NK60")
+    argv = argv_for(tmp_path, work, "--allow-missing-sequences")
+    assert build.main(argv) == 2
+    assert "literature seeds without a sequence: Q8NK60" in capsys.readouterr().err
+    assert build.main([*argv, "--allow-missing-seed-sequences"]) == 0
+    run = json.loads((work / "keyword_tier_run.json").read_text())
+    assert run["seeds"]["Q8NK60"] == {
+        "gene": "SOWgp58",
+        "in_keyword_tier": True,
+        "has_sequence": False,
+    }

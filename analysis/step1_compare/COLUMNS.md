@@ -98,3 +98,26 @@ The file does not exist after a STOP. A STOP happens when a source matches no ge
 ## sequence_run.json (02_attach_sequences.py)
 
 Keys: `sources` (selected source ids), `all_sources` (`true` when all sources of `species.tsv` were selected), `truth_set_sha256`, `fasta_sha256` (per source), `git_commit` (or `unknown`), `python`, `arguments`. It has no time stamp. A run with `--sources` replaces the full outputs with partial ones. Check `all_sources` before you use `truth_sequences.tsv.gz`. 02 refuses a `truth_set.tsv.gz` unless `extract_log.json` says `all_sources: true`; `--allow-partial-truth-set` overrides this.
+
+## keyword_tier.tsv.gz (04_build_keyword_tier.py, one row per kept T-c protein)
+
+| Column | Meaning |
+|---|---|
+| accession, gene, genome, taxon_id | Copied from `data/curated/surface/surface.tsv`. |
+| length | Length of the cleaned sequence. |
+| seq_sha256 | SHA-256 of the cleaned sequence (`seqhash.seq_sha256`). |
+| tier | Always `T-c`. |
+
+## keyword_tier_removed.tsv (04_build_keyword_tier.py, one row per removed T-c protein)
+
+`reason` is the first matching rule: `literature_accession`, `spombe_taxon`, `heldout_accession`, `no_sequence`, `literature_hash`, `heldout_hash`. `matched` names the matched protein (seed gene, taxon id, or `source_id:gene_id`). Held-out proteins are the labelled genes (`ambiguous` included, `unlabelled` excluded) of every source whose role is not `train`.
+
+Limitation: removal is by accession and by exact cleaned-sequence hash only. Near-identical orthologs or paralogs under other accessions remain in the training table. Homology clustering in the later dataset plan must remove them.
+
+## keyword_sequences.json (04_build_keyword_tier.py)
+
+Keys: `sha256` of `keyword_sequences.fasta.gz`, `uniprot_release`, `accessions` (sorted list of the requested accessions), `accessions_sha256` (SHA-256 of that list joined by newlines), `requested`, `returned`, `fetched_on`. A cache is refused if the list differs from the current `surface.tsv` and seeds file.
+
+## keyword_tier_run.json (04_build_keyword_tier.py)
+
+Keys: `inputs_sha256`, `uniprot_release`, `kept`, `removed`, `missing_sequences`, `seeds` (per literature-seed accession: `gene`, `in_keyword_tier`, `has_sequence`), `git_commit`, `python`, `arguments`. It has no time stamp. The run STOPs when a requested accession or a seed has no sequence, unless `--allow-missing-sequences` or `--allow-missing-seed-sequences` is given (the second disables the hash rule for those seeds). A seed that is not a T-c row needs no hash rule for removal of itself, but its sequence still defines the literature hash.

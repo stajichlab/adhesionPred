@@ -7,6 +7,14 @@ A T-c row is removed when it is a test protein (spec 2.3, Q4 and Q7). Reasons, f
 4. no_sequence            no sequence was found, so the hash rule cannot be checked
 5. literature_hash        exact cleaned sequence equals a literature row's sequence
 6. heldout_hash           exact cleaned sequence equals a non-training truth protein
+
+Held-out proteins are the labelled genes of every source whose role is not `train` (test_species,
+test_clade, alternate_file, undecided). Genes labelled `ambiguous` count as held out. Genes
+labelled `unlabelled` do not.
+
+Limitation: removal is by accession and by exact cleaned-sequence hash only. Near-identical
+orthologs or paralogs under other accessions remain in the training table. Homology clustering
+in the later dataset plan must remove them.
 """
 
 import csv
