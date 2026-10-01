@@ -1,0 +1,26 @@
+#!/bin/bash
+# Test stub of SignalP 6: writes the real output layout and calls every protein OTHER,
+# except ids that start with "c", which get a 24-residue signal peptide.
+while [ $# -gt 0 ]; do
+  case "$1" in
+    --fastafile) fasta=$2; shift 2 ;;
+    --output_dir) out=$2; shift 2 ;;
+    *) shift ;;
+  esac
+done
+if [ "${STUB_SIGNALP_FAIL:-0}" = 1 ]; then echo "stub signalp6 failure" >&2; exit 1; fi
+mkdir -p "$out"
+{
+  printf '# SignalP-6.0\tOrganism: Eukarya\tTimestamp: 0\n'
+  printf '# ID\tPrediction\tOTHER\tSP(Sec/SPI)\tCS Position\n'
+  awk '/^>/ { id = substr($1, 2)
+              if (id ~ /^c/) printf "%s\tSP\t0.001000\t0.999000\tCS pos: 24-25. Pr: 0.9000\n", id
+              else printf "%s\tOTHER\t1.000000\t0.000000\t\n", id }' "$fasta"
+} > "$out/prediction_results.txt"
+{
+  echo '## gff-version 3'
+  awk '/^>/ { id = substr($1, 2)
+              if (id ~ /^c/) printf "%s\tSignalP-6.0\tsignal_peptide\t1\t24\t0.999\t.\t.\t.\n", id }' "$fasta"
+} > "$out/output.gff3"
+echo '## gff-version 3' > "$out/region_output.gff3"
+echo "stub signalp6 done"
