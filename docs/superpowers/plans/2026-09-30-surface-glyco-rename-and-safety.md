@@ -21,7 +21,8 @@
 - **No release is cut here.** The 0.2.0 tag is made later, when a validated model ships, through the `version_bump` workflow (`bump_type=minor`). The version comes from git tags (setuptools-scm).
 - **Do not edit historical documents:** `docs/superpowers/plans/2026-09-04-*`, `docs/superpowers/specs/2026-09-04-*`, `Changes.md`, `docs/model-review/*`, `analysis/embedding_clustering/REPORT.md` (generated), and `analysis/chytrid_batrach/*` (one-off analyses of frozen old result files).
 - Each commit message ends with: `Co-Authored-By: Claude Sonnet 5.5 <noreply@anthropic.com>`.
-- Until Task 1 step 7 reinstalls the package, run tests with `PYTHONPATH=$PWD/src`. Another checkout in the same conda environment may have an editable `adhesion_predict` install; do not uninstall it (Task 1 handles this in the test).
+- **Python environment.** `requires-python` becomes `>=3.11`, and the owner's default `python` is 3.9, which cannot `pip install -e .` this package. Use the conda environment `adhesionPred` (Python 3.14, torch, fair-esm, pandas): `PY=/rhome/jstajich/.conda/envs/adhesionPred/bin/python`. Run tests as `PYTHONPATH=$PWD/src $PY -m pytest ...`. That environment has an editable `adhesion_predict` install pointing at another checkout; do not uninstall it. Steps that need the console scripts or a wheel (Task 1 step 7, Task 7 step 6, Task 9 step 3) use a throwaway venv created from `$PY` (`$PY -m venv --system-site-packages /tmp/sg_venv`) or run in CI. On Python 3.9 `test_package.py` is skipped (no `tomllib`), so test counts below are for 3.11+.
+- **Ruff target changes with `requires-python`.** With `>=3.11`, ruff 0.3.5 reports 7 new auto-fixable findings in files outside this plan's rename: UP007 in `analysis/kingdom_survey/figures.py` (lines 57, 71, 233), `analysis/kingdom_survey/join.py:38`, `analysis/adhesion_properties/figures_ext.py:32`; B905 in `analysis/adhesion_properties/domains.py:39` and `src/surface_glyco/embeddings.py:175`. The first `pre-commit run --all-files` in Task 1 rewrites them and exits non-zero; run it again until it passes, review the diff, and include those files in the Task 1 commit.
 
 ## Review Focus
 
@@ -58,7 +59,7 @@
 
 **Files:**
 - Rename: `src/adhesion_predict/` to `src/surface_glyco/`; `tests/adhesion_predict/` to `tests/surface_glyco/`
-- Modify: `pyproject.toml` (name, scripts, package-data, `requires-python`, drop the dead `importlib-metadata` line), `.coveragerc:3`, `CITATION.cff` (title; add `version:` and `date-released:` lines), `.github/workflows/build_and_test.yml` (2 lines), `src/surface_glyco/__init__.py`, imports in `src/`, `tests/surface_glyco/`, `analysis/embedding_clustering/{00_feasibility_check,embed,recover_missing_esm2_embeddings}.py`, `analysis/model_review/02_cv_and_proteome_eval.py:21-23`
+- Modify: `pyproject.toml` (name, scripts, package-data, `requires-python`, drop the dead `importlib-metadata` line, add `[tool.ruff.lint.isort] known-first-party = ["surface_glyco"]`), `.coveragerc:3`, `CITATION.cff` (title; add `version:` and `date-released:` lines), `.github/workflows/build_and_test.yml` (2 lines), `src/surface_glyco/__init__.py`, imports in `src/`, `tests/surface_glyco/`, `analysis/embedding_clustering/{00_feasibility_check,embed,recover_missing_esm2_embeddings}.py`, `analysis/model_review/02_cv_and_proteome_eval.py:21-23`
 - Test: `tests/surface_glyco/test_package.py` (new)
 
 **Interfaces:**
@@ -111,7 +112,7 @@ def test_pyproject_names_match_the_decision():
 
 - [ ] **Step 2: Record the baseline**
 
-Run: `PYTHONPATH=$PWD/src python -m pytest tests/adhesion_predict -q -p no:cacheprovider`
+Run: `PYTHONPATH=$PWD/src $PY -m pytest tests/adhesion_predict -q -p no:cacheprovider`
 Expected: 12 passed. After step 3 and before step 4, `import surface_glyco` raises `PackageNotFoundError` (version lookup) or `ModuleNotFoundError`; either is the expected failing state.
 
 - [ ] **Step 3: Move the folders and add the test**
@@ -134,6 +135,9 @@ Do not run sed over `analysis/embedding_clustering/REPORT.md` (the glob above is
 `pyproject.toml`:
 ```toml
 requires-python = ">=3.11"
+
+[tool.ruff.lint.isort]
+known-first-party = ["surface_glyco"]
 
 [project]
 name = "surface_glyco"
@@ -171,8 +175,8 @@ In `analysis/model_review/02_cv_and_proteome_eval.py` the `features.py` path (li
 
 - [ ] **Step 5: Run tests**
 
-Run: `PYTHONPATH=$PWD/src python -m pytest tests/surface_glyco -q -p no:cacheprovider`
-Expected: 15 passed (12 existing + 3 new).
+Run: `PYTHONPATH=$PWD/src $PY -m pytest tests/surface_glyco -q -p no:cacheprovider`
+Expected: 15 passed (12 existing + 3 new) on Python >= 3.11.
 
 - [ ] **Step 6: Stale-reference scan of code**
 
@@ -182,16 +186,16 @@ Expected: only the strings Task 4 and Task 3 change later (result suffix, pickle
 - [ ] **Step 7: Reinstall in a throwaway environment and run the entry points**
 
 ```bash
-python -m venv /tmp/sg_venv --system-site-packages && /tmp/sg_venv/bin/pip install -e . --no-deps -q
+$PY -m venv /tmp/sg_venv --system-site-packages && /tmp/sg_venv/bin/pip install -e . --no-deps -q
 /tmp/sg_venv/bin/surface_glyco_predict --help | head -3
 /tmp/sg_venv/bin/python -c "import surface_glyco; print(surface_glyco.__version__)"
 ```
-Expected: help prints; a version string prints (not `0+unknown`). Using a throwaway environment leaves other checkouts' editable installs alone.
+Expected: help prints; a version string prints (not `0+unknown`). Using a throwaway environment leaves other checkouts' editable installs alone. `$PY` is Python 3.14, so the venv satisfies `requires-python`.
 
 - [ ] **Step 8: Commit**
 
 ```bash
-pre-commit run --all-files
+pre-commit run --all-files   # first run rewrites the 7 files listed under Global Constraints; run again until it passes
 git add -A
 git commit -m "rename: package adhesion_predict to surface_glyco, with new entry points
 
@@ -301,7 +305,6 @@ Co-Authored-By: Claude Sonnet 5.5 <noreply@anthropic.com>"
 """Model directory lookup, file names, and the no-model case."""
 
 import sys
-from pathlib import Path
 
 import pytest
 
@@ -339,8 +342,17 @@ def test_predict_without_a_model_explains_what_to_do(tmp_path, monkeypatch, caps
     with pytest.raises(SystemExit) as e:
         predict_mod.cli()
     assert e.value.code == 1
-    err = capsys.readouterr().out + capsys.readouterr().err
-    assert "surface_glyco_train" in err or "--model" in err
+    captured = capsys.readouterr()  # read once: a second call returns empty
+    assert "surface_glyco_train" in captured.err and "--model" in captured.err
+
+
+def test_train_default_output_is_not_inside_the_package(tmp_path, monkeypatch):
+    from surface_glyco.scripts.train import default_output_path
+
+    monkeypatch.chdir(tmp_path)
+    out = default_output_path("esm2_t6_8M_UR50D")
+    assert out == tmp_path / "models" / "surface_glyco_model_esm2_t6_8M_UR50D.pkl"
+    assert config.PACKAGED_MODELS_DIR not in out.parents
 ```
 (`config.MODELS_DIR` is read at import time; `cli()` must call `get_models_dir()` at run time, not use the import-time constant, for the last test to work. Step 3 does this.)
 
@@ -387,7 +399,7 @@ def model_filename(esm_model):
     """File name of the model trained on embeddings from esm_model."""
     return f"surface_glyco_model_{esm_model}.pkl"
 ```
-In `predict.py`, `train.py`, `evaluate.py`: import `get_models_dir`, `model_filename`; compute the default path inside `cli()` as `get_models_dir() / model_filename(args.model_name or DEFAULT_MODEL)` (train uses `args.model`). When the file does not exist, `predict` and `evaluate` print `Error: model file not found at <path>. Train one with surface_glyco_train, or pass --model.` and `sys.exit(1)`. In `analysis/model_review/02_cv_and_proteome_eval.py` wrap the `shipped = pickle.load(...)` block in `if SHIPPED.exists():` where `SHIPPED = REPO / "src/surface_glyco/models/surface_glyco_model_esm2_t6_8M_UR50D.pkl"`, with a comment that the model was removed on 2026-09-30 and can be restored from git history (`git show 7f97c9a:models/adhesion_model_esm2_t6_8M_UR50D.pkl`).
+In `predict.py`, `train.py`, `evaluate.py`: import `get_models_dir`, `model_filename`; compute the default path inside `cli()` as `get_models_dir() / model_filename(args.model_name or DEFAULT_MODEL)` (train uses `args.model`). When the file does not exist, `predict` and `evaluate` print `Error: model file not found at <path>. Train one with surface_glyco_train, or pass --model.` to **stderr** and `sys.exit(1)`. In `train.py` add `default_output_path(esm_model) -> Path` returning `Path.cwd() / "models" / model_filename(esm_model)`; `train.cli` uses it when `--output` is omitted (it must not write into the installed package directory, which is read-only in a normal install). `analysis/model_review/02_cv_and_proteome_eval.py` compares three S288C score columns (`p_shipped`, `p_retrained`, `p_aacomp`). The shipped model is gone, so make the first optional: read its path from the environment variable `SHIPPED_MODEL` (unset by default); when set, load it and add `p_shipped`; otherwise skip it. Build `cols = [c for c in ("p_shipped", "p_retrained", "p_aacomp") if c in sc]` and use `cols` at the two places that currently name all three (the summary lines and the table printout around lines 141 and 154). Add a comment: the 0.1.0 model was removed on 2026-09-30; restore it with `git show 7f97c9a:models/adhesion_model_esm2_t6_8M_UR50D.pkl > /tmp/old.pkl` and set `SHIPPED_MODEL=/tmp/old.pkl`. The script cannot run in this repo without its `.npy` inputs (see `analysis/model_review/run.sh`), so verify with `python -m py_compile` and by reading the diff.
 
 - [ ] **Step 4: Run tests**
 
@@ -461,7 +473,7 @@ def test_old_schema_is_rejected_with_the_file_name(tmp_path):
 def test_read_all_returns_every_row(tmp_path):
     assert read_all(_write(tmp_path, NEW))[1] == ("B", "other", 0.1)
 ```
-In `tests/kingdom_survey/test_join.py` and `tests/adhesion_properties/test_universe.py`: change every result file name from `.adhesion_predict.csv` to `.surface_glyco.csv`, every header `id,prediction,probability_adhesion` to `id,prediction,surface_glycoprotein_score`, and every label `Adhesion` to `surface_glycoprotein` in those fixtures. Add to `test_join.py` (use that file's existing import alias for `join`):
+In `tests/kingdom_survey/test_join.py` and `tests/adhesion_properties/test_universe.py`: change every result file name from `.adhesion_predict.csv` to `.surface_glyco.csv`, every header `id,prediction,probability_adhesion` to `id,prediction,surface_glycoprotein_score`, and every label `Adhesion` to `surface_glycoprotein` in those fixtures. Add to `test_join.py` (that file imports `from join import (...)`; add `import join` at the top so the name is available):
 ```python
 def test_count_result_rows_counts_calls_not_all_rows(tmp_path):
     p = tmp_path / "r.surface_glyco.csv"
@@ -532,6 +544,14 @@ pytest tests/kingdom_survey -q
 pytest tests/adhesion_properties -q
 ```
 Expected: PASS. These analysis modules now import `surface_glyco`; the package must be installed in the environment (CI does `pip install -e .`). Add one line to `analysis/kingdom_survey/README.md` and `analysis/adhesion_properties/README.md` (create if absent): "Requires `pip install -e .` from the repository root (imports `surface_glyco.results`)."
+
+- [ ] **Step 4b: Rename the leftover column in the property analyses**
+
+`analysis/adhesion_properties/universe.py` writes `probability_adhesion` into its universe table (lines ~99, 111), `01_build_protein_universe.py:32,48` declares it, `figures_ext.py:122-125` plots it, and `tests/adhesion_properties/test_figures_ext.py:22` and `test_universe.py` use it. Rename it to `surface_glycoprotein_score` everywhere in those files (code, axis label text "Surface glycoprotein score", tests). Also change the text mentions of the column in `analysis/kingdom_survey/04_generate_report.py:92`, `analysis/embedding_clustering/07_generate_report.py:188` and `analysis/model_review/01_embed_esm2_8M.py:2` (docstring). Do not edit the generated `REPORT.md` files. Run:
+```bash
+pytest tests/adhesion_properties tests/kingdom_survey -q
+```
+Expected: PASS (the two `test_stats.py` failures on numpy/statsmodels exist on an untouched checkout; note them, do not fix here).
 
 - [ ] **Step 5: Commit**
 
@@ -812,9 +832,9 @@ Co-Authored-By: Claude Sonnet 5.5 <noreply@anthropic.com>"
 - Produces:
   - `predict.main(input_path, model_path, output_file, model_name=None, silent=False, show_all=False, max_workers=None)`; on `ModelCardError` prints `Error: <message>` to stderr and exits 1 before reading FASTA or embedding.
   - `--model-name` defaults to `None` on `predict` and `evaluate`.
-  - `train.dedupe_sequences(sequences)` drops empty sequences, exact duplicates within a class (first id kept) and every copy of a sequence present in both classes.
-  - `train.prepare_data` returns `(sequences, n_duplicates_removed, n_conflicting_removed)`.
-  - A trained model's card is `new_card(...)` plus `n_duplicates_removed`, `n_conflicting_removed`, `n_not_embedded`, `training_sequences_sha256`, `positive_dir`, `negative_dir`, `holdout_accuracy`, `classifier`, and `environment` (`numpy`, `scikit_learn`, `torch`, `fair_esm` version strings, `"unknown"` if not installed).
+  - `train.dedupe_with_counts(sequences) -> (unique, counts)` where `counts` is a dict `{"n_empty_removed", "n_conflicting_removed", "n_duplicates_removed"}`; `train.dedupe_sequences(sequences)` returns only `unique`. Empty sequences are counted first; conflicts (a non-empty sequence present with both labels, every copy dropped) are counted over non-empty records only; exact duplicates within a class (first id kept) are what remains. The three counts and `len(unique)` sum to the input length.
+  - `train.prepare_data` returns `(sequences, counts)` with the dict above.
+  - A trained model's card is `new_card(...)` plus `n_empty_removed`, `n_duplicates_removed`, `n_conflicting_removed`, `n_not_embedded`, `training_sequences_sha256`, `positive_dir`, `negative_dir`, `holdout_accuracy`, `classifier`, and `environment` (`numpy`, `scikit_learn`, `torch`, `fair_esm` version strings, `"unknown"` if not installed).
 
 - [ ] **Step 1: Write the failing tests**
 
@@ -922,6 +942,19 @@ def test_empty_sequences_are_not_trained_on():
     assert [s["id"] for s in train_mod.dedupe_sequences(seqs)] == ["b"]
 
 
+def test_removal_counts_are_attributed_correctly_and_sum_to_the_input():
+    def rec(i, seq, label):
+        return {"id": i, "sequence": seq, "label": label}
+
+    # empties in both classes must not count as conflicts; one empty must not count as a duplicate
+    seqs = [rec("e1", "", 1), rec("e2", "", 0), rec("a", "MK", 1), rec("b", "MK", 0),
+            rec("c", "MKT", 1), rec("d", "MKT", 1), rec("f", "MKTA", 0)]
+    unique, counts = train_mod.dedupe_with_counts(seqs)
+    assert [s["id"] for s in unique] == ["c", "f"]
+    assert counts == {"n_empty_removed": 2, "n_conflicting_removed": 2, "n_duplicates_removed": 1}
+    assert len(unique) + sum(counts.values()) == len(seqs)
+
+
 def test_end_to_end_with_real_embeddings(tmp_path):
     from surface_glyco.embeddings import get_esm_embeddings
 
@@ -948,8 +981,9 @@ def test_trained_model_card_has_environment_and_counts(tmp_path, monkeypatch):
     # this pins what train.main writes to the card
     from surface_glyco.model import load_model_card
 
+    counts = {"n_empty_removed": 1, "n_conflicting_removed": 2, "n_duplicates_removed": 3}
     monkeypatch.setattr(train_mod, "prepare_data", lambda p, n: (
-        [{"id": f"s{i}", "sequence": "MK" * (i + 2), "label": i % 2} for i in range(40)], 3, 2))
+        [{"id": f"s{i}", "sequence": "MK" * (i + 2), "label": i % 2} for i in range(40)], counts))
     monkeypatch.setattr(train_mod, "get_esm_embeddings", lambda seqs, **kw: (
         np.random.default_rng(1).normal(size=(len(seqs), 4)), [s["id"] for s in seqs],
         list(range(len(seqs)))))
@@ -957,7 +991,7 @@ def test_trained_model_card_has_environment_and_counts(tmp_path, monkeypatch):
     train_mod.main(tmp_path, tmp_path, out, ESM, 0.2)
     card = load_model_card(out)
     assert card["card_version"] == 2 and card["pooling"] == POOLING_RESIDUE_MEAN
-    assert (card["n_duplicates_removed"], card["n_conflicting_removed"]) == (3, 2)
+    assert (card["n_empty_removed"], card["n_conflicting_removed"], card["n_duplicates_removed"]) == (1, 2, 3)
     assert set(card["environment"]) == {"numpy", "scikit_learn", "torch", "fair_esm"}
 ```
 
@@ -1009,7 +1043,38 @@ def dedupe_sequences(sequences):
         unique.append(seq)
     return unique
 ```
-`prepare_data` computes `n_conflicting_removed = sum(len(labels_by_seq[s["sequence"]]) > 1 for s in all_sequences)` (records, not sequences) and `n_duplicates_removed = len(all_sequences) - len(unique) - n_conflicting_removed_empty_adjusted`; simplest and testable: `n_duplicates_removed = len(all_sequences) - len(unique) - n_conflicting_removed`, so that the two counts and the kept count sum to the input. It returns `(unique, n_duplicates_removed, n_conflicting_removed)`. `main` unpacks the three and builds the card with `new_card(model_name, DEFAULT_REPR_LAYER, POOLING_RESIDUE_MEAN, int(labels.sum()), int(len(labels) - labels.sum()), classifier=type(classifier).__name__, n_duplicates_removed=..., n_conflicting_removed=..., n_not_embedded=len(sequences) - len(kept), training_sequences_sha256=sequences_sha256(sequences), positive_dir=str(positive_dir), negative_dir=str(negative_dir), holdout_accuracy=float(test_acc), environment=_environment())` with
+`dedupe_with_counts` implements the attribution described under Interfaces:
+```python
+def dedupe_with_counts(sequences):
+    """Return (unique, counts); see the module docs for what each count means."""
+    non_empty = [s for s in sequences if s["sequence"]]
+    labels_by_seq = {}
+    for seq in non_empty:
+        labels_by_seq.setdefault(seq["sequence"], set()).add(seq["label"])
+    seen = set()
+    unique = []
+    n_conflicting = 0
+    for seq in non_empty:
+        if len(labels_by_seq[seq["sequence"]]) > 1:
+            n_conflicting += 1
+            continue
+        key = (seq["label"], seq["sequence"])
+        if key not in seen:
+            seen.add(key)
+            unique.append(seq)
+    counts = {
+        "n_empty_removed": len(sequences) - len(non_empty),
+        "n_conflicting_removed": n_conflicting,
+        "n_duplicates_removed": len(non_empty) - n_conflicting - len(unique),
+    }
+    return unique, counts
+
+
+def dedupe_sequences(sequences):
+    """Drop empty sequences, sequences present in both classes, and in-class duplicates."""
+    return dedupe_with_counts(sequences)[0]
+```
+(delete the earlier single-function version of `dedupe_sequences` above). `prepare_data` returns `(unique, counts)`. `main` unpacks them and builds the card with `new_card(model_name, DEFAULT_REPR_LAYER, POOLING_RESIDUE_MEAN, int(labels.sum()), int(len(labels) - labels.sum()), classifier=type(classifier).__name__, **counts, n_not_embedded=len(sequences) - len(kept), training_sequences_sha256=sequences_sha256(sequences), positive_dir=str(positive_dir), negative_dir=str(negative_dir), holdout_accuracy=float(test_acc), environment=_environment())` with
 ```python
 def _environment():
     """Versions of the libraries a model's scores depend on."""
@@ -1024,12 +1089,12 @@ def _environment():
             out[key] = "unknown"
     return out
 ```
-Add `a one-line assertion test` that `n_duplicates_removed + n_conflicting_removed + len(unique) == len(all_sequences)` using a small fixture in `test_scripts_cards.py`.
+
 
 - [ ] **Step 5: Run tests**
 
 Run: `pytest tests/surface_glyco -q`
-Expected: PASS (about 48 tests).
+Expected: PASS (about 50 tests on Python >= 3.11).
 
 - [ ] **Step 6: Manual check of the refusal path with a real, tiny model**
 
@@ -1063,7 +1128,7 @@ Co-Authored-By: Claude Sonnet 5.5 <noreply@anthropic.com>"
 ### Task 8: Docs and decision records
 
 **Files:**
-- Modify: `CHANGELOG.md`, `README.md`, `AGENTS.md`, `docs/TOOL-ARCHITECTURE.md` (section 2.0 and line ~47 "keep old entry points as deprecated aliases"), `docs/PLAN-2026-09-30-pipeline-and-decisions.md`, `analysis/chytrid_batrach/NOTES.md`, `docs/plans/2026-09-30-model-bundle-issue-9.md` (banner)
+- Modify: `CHANGELOG.md`, `README.md`, `AGENTS.md`, `docs/TOOL-ARCHITECTURE.md` (section 2.0 and line ~47 "keep old entry points as deprecated aliases"), `docs/PLAN-2026-09-30-pipeline-and-decisions.md`, `analysis/chytrid_batrach/NOTES.md`
 - Test: `tests/surface_glyco/test_docs.py` (new)
 
 - [ ] **Step 1: Write the failing test**
@@ -1126,7 +1191,7 @@ and append at the end of the file (so a later `bump minor` has a base release):
 
 Initial tagged version (`v0.1.0`).
 ```
-`README.md`: replace old names with the new ones, state that no model ships yet and how to train one, and keep the scope paragraph from PR #28. `AGENTS.md`: replace the thread-safety claim with "the model cache is a module-level dict and is not thread-safe". `docs/TOOL-ARCHITECTURE.md` section 2.0: rename the table heading to "Names (implemented, unreleased)", mark rows done, and change the "keep old entry points as deprecated aliases" row to "no aliases (decision 4)". `analysis/chytrid_batrach/NOTES.md`: add "These scripts read frozen result files written by `adhesion_predict` 0.1.0 (`*.adhesion_predict.csv`, column `probability_adhesion`) and were not updated." `docs/plans/2026-09-30-model-bundle-issue-9.md`: extend the banner with "The legacy-pooling emulation, `--allow-legacy-pooling` and the cards for the old pickles were dropped on 2026-09-30 (later): the old models were deleted instead."
+`README.md`: replace old names with the new ones, state that no model ships yet and how to train one, and keep the scope paragraph from PR #28. `AGENTS.md`: replace the thread-safety claim with "the model cache is a module-level dict and is not thread-safe". `docs/TOOL-ARCHITECTURE.md` section 2.0: rename the table heading to "Names (implemented, unreleased)", mark rows done, and change the "keep old entry points as deprecated aliases" row to "no aliases (decision 4)". `analysis/chytrid_batrach/NOTES.md`: add "These scripts read frozen result files written by `adhesion_predict` 0.1.0 (`*.adhesion_predict.csv`, column `probability_adhesion`) and were not updated."
 
 `docs/PLAN-2026-09-30-pipeline-and-decisions.md`: add a section **"Changes made later on 2026-09-30"** after section 4:
 ```markdown
@@ -1171,15 +1236,15 @@ Expected: no output. A hit is fixed, or added to the exclusion list with a reaso
 - [ ] **Step 2: All test folders, one process each**
 
 ```bash
-for d in surface_glyco kingdom_survey adhesion_properties embedding_clustering; do pytest tests/$d -q || exit 1; done
+for d in surface_glyco kingdom_survey adhesion_properties embedding_clustering; do PYTHONPATH=$PWD/src $PY -m pytest tests/$d -q || exit 1; done
 ```
 Expected: all PASS.
 
 - [ ] **Step 3: Build a wheel and check its contents**
 
 ```bash
-pip wheel . --no-deps -w /tmp/wheel_check -q
-python - <<'E'
+/tmp/sg_venv/bin/pip wheel . --no-deps -w /tmp/wheel_check -q
+$PY - <<'E'
 import glob, zipfile
 w = glob.glob("/tmp/wheel_check/surface_glyco-*.whl")[0]
 names = zipfile.ZipFile(w).namelist()
@@ -1220,3 +1285,25 @@ Comment on issue #25: the old pickles were deleted instead of emulated, with the
 ## What changed from revision 1
 
 Removed (owner decisions of 2026-09-30, later): legacy pooling mode, `--allow-legacy-pooling`, cards for the old pickles, old-schema result reader, the 0.2.0 release steps, the pickle-checksum test. Added from the independent review of revision 1: B1 `count_truncated` test fixed; B4 result discovery and suffix (three files); S1 environment-independent old-package test; S2 `requires-python >=3.11`; S3 `02_cv_and_proteome_eval.py` features path; S4 card edge cases (missing `esm_model`, bad `repr_layer`, malformed JSON); S5 `cli()` test; S6 README note on `pip install -e .`; S7 `CITATION.cff` version lines; S8 import only what each task uses; register item 2 retry test; Task 1 expected-failure text corrected.
+
+## Changes after the second independent review (revision 3)
+
+Verdict of the second review: not ready until items 1-4 were fixed; all applied here. The second
+review ran revision 2's tests in a scratch copy: 45 passed and 1 skipped on Python 3.9 (the skip is
+`tomllib`), the package test passed on 3.12, and the survey and property suites passed with the new
+fixtures. The fixes below have **not** been run or re-reviewed.
+
+1. `02_cv_and_proteome_eval.py`: `p_shipped` is optional via `SHIPPED_MODEL`; columns are built from
+   what exists (Task 3).
+2. Removal counts: empties are counted first, conflicts are counted over non-empty records, and a
+   test with empties in both classes pins the attribution and the sum (Task 7).
+3. The edit to `docs/plans/2026-09-30-model-bundle-issue-9.md` is removed (that file is not on `main`).
+4. Environment prerequisite stated: use `$PY` (the `adhesionPred` conda env, Python 3.14) and a
+   throwaway venv for console scripts and the wheel; test counts are for Python >= 3.11.
+5. The no-model test reads `capsys` once; the message goes to stderr (Task 3).
+6. The 7 ruff findings that `requires-python >= 3.11` introduces are listed (Global Constraints, Task 1).
+7. isort `known-first-party` added (Task 1).
+8. The leftover `probability_adhesion` column in `adhesion_properties` and the report generators is
+   renamed (Task 4 step 4b); generated `REPORT.md` files are left alone.
+9. `surface_glyco_train` writes to `./models` by default, not into the package directory (Task 3).
+10. Smaller: test counts, `import join`, the unused `Path` import.
