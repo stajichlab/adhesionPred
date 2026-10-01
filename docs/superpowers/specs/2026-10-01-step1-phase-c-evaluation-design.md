@@ -1,6 +1,6 @@
 # Design spec: step 1 Phase C, the rule-versus-ML comparison
 
-*2026-10-01. Status: draft for owner review. Parent spec:
+*2026-10-01. Status: owner answers recorded (section 9); final preview pending. Parent spec:
 `docs/superpowers/specs/2026-09-30-surface-glycoprotein-model-design.md` (called "the parent spec";
 sections 4 to 6 and 8 to 11 apply and are not repeated here). No code exists for Phase C. This spec
 submits no job.*
@@ -250,19 +250,21 @@ goes into a README or card unless it comes from `metrics.json`.
 | SignalP under-calls *C. immitis* RS (460 of 9,910, 4.6%) and no truth shows whether that is wrong | the Onygenales literature rows (recall only) and the named panel; stated as unverified |
 | T-c helps because keywords share inputs with the rule | V-kw minus V-go; T-c never test truth |
 
-## 9. Open questions for the owner
+## 9. Decisions (owner, 2026-10-01)
 
-1. **The rule's logic.** R2 = SP and (GPI call at or above `g`, or Ser+Thr at or above `t`). Is this what
-   you mean by "SignalP + GPI + Ser/Thr"? Recommended: yes, keep R0 and R1 as context.
-2. **Basidiomycota as a test clade.** Phase C scores *U. maydis* (59 P-ext, role undecided) and H99 (7)
-   but labels them smoke tests and does not call the result the Q8 validation. Recommended: yes.
-3. **Operating point.** Youden's J for all binary calls (ruling C-3). Alternative: fixed recall 0.9.
-   Recommended: Youden's J, with precision at recall 0.8 and 0.9 reported beside it.
-4. **Rulings C-1 (pm-unresolved excluded), C-4 (identity strata) and C-5 (cluster-mate removal from
-   T-c).** Each is cheap to reverse.
+| Question | Decision | Consequence |
+|---|---|---|
+| 1. Rule logic | A protein must have a signal peptide (SP). It is then a candidate if it has a GPI call at or above class `g`, or Ser+Thr at or above `t`. This is R2 | R2 is "the rule" (ruling C-2). R0 and R1 stay as context |
+| 2. Basidiomycota | *U. maydis* and H99 are scored as smoke tests. They are not the Q8 validation | Section 4 label rule; the report says so |
+| 3. Operating point | Recall minus FPR (Youden's J) for all binary calls | Ruling C-3. Precision at recall 0.8 and 0.9 is reported beside it |
+| 4. Rulings C-1, C-4, C-5 | Accepted | pm-unresolved excluded; maximum-identity strata; T-c cluster-mate removal |
 
-## 10. Rulings in this draft
+No open question remains for Phase C. Open items outside Phase C (Basidiomycota truth curation,
+`curated_gpi.tsv` curation, merge order of the open PRs) are unchanged.
 
-C-1 pm-unresolved excluded; C-2 R2 is "the rule"; C-3 Youden's J operating point; C-4 maximum-identity
-strata for S2 and S3; C-5 T-c rows removed when any cluster mate is in the test fold. Each states its
-cost if wrong in the section where it appears.
+## 10. Rulings
+
+C-1 pm-unresolved excluded; C-2 R2 is "the rule" (confirmed by the owner); C-3 Youden's J operating
+point (confirmed); C-4 maximum-identity strata for S2 and S3 (confirmed); C-5 T-c rows removed when any
+cluster mate is in the test fold (confirmed). Each states its cost if wrong in the section where it
+appears.
