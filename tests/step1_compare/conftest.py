@@ -10,12 +10,22 @@ STEP1_DIR = Path(__file__).resolve().parents[2] / "analysis" / "step1_compare"
 TESTS_DIR = Path(__file__).resolve().parent
 sys.path.insert(0, str(STEP1_DIR))
 sys.path.insert(0, str(STEP1_DIR / "jobs"))
+sys.path.insert(0, str(STEP1_DIR / "phasec"))
 sys.path.insert(0, str(TESTS_DIR))
 
 
 def load_script(name: str):
     """Import a numbered script such as 01_extract_go_truth.py as a module."""
     spec = importlib.util.spec_from_file_location(f"step1_{name}", STEP1_DIR / f"{name}.py")
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+def load_phasec(name: str):
+    """Import a numbered Phase C script such as 08_build_eval_tables.py as a module."""
+    path = STEP1_DIR / "phasec" / f"{name}.py"
+    spec = importlib.util.spec_from_file_location(f"phasec_{name}", path)
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
     return module
