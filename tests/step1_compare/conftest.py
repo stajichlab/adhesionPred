@@ -9,6 +9,7 @@ import pytest
 STEP1_DIR = Path(__file__).resolve().parents[2] / "analysis" / "step1_compare"
 TESTS_DIR = Path(__file__).resolve().parent
 sys.path.insert(0, str(STEP1_DIR))
+sys.path.insert(0, str(STEP1_DIR / "jobs"))
 sys.path.insert(0, str(TESTS_DIR))
 
 
