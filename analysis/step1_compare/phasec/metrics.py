@@ -3,7 +3,8 @@
 Every function takes a weight matrix W of shape (B, n) (or a vector of length n, read as one
 row) and returns one value per row of W. A row of W holds the number of times each protein is
 in one bootstrap resample; a row of ones gives the point estimate. A metric that is not defined
-for a row (no positives, no negatives, no positive calls) is NaN for that row.
+for a row (no positives, no negatives, no positive calls) is NaN for that row. Non-finite
+scores and scores whose shape differs from the label shape raise ValueError.
 
 Definitions (thresholds are the distinct scores; a protein is called when score >= threshold):
 - recall = TP / P; precision = TP / (TP + FP); FPR = FP / N (binary calls).
@@ -69,6 +70,8 @@ def curve(W, y, score, extra=None):
     (shape (B, G)) or None."""
     y = _bool(y)
     score = np.asarray(score, dtype=np.float64)
+    if score.shape != y.shape:
+        raise ValueError(f"score shape {score.shape} differs from label shape {y.shape}")
     if not np.isfinite(score).all():
         raise ValueError("scores must be finite")
     W = as_weights(W, len(y))
@@ -168,6 +171,8 @@ def fpr_at_recall(W, y, score, level, neg_mask) -> np.ndarray:
 def brier(W, y, prob) -> np.ndarray:
     y = _bool(y).astype(np.float64)
     prob = np.asarray(prob, dtype=np.float64)
+    if prob.shape != y.shape:
+        raise ValueError(f"prob shape {prob.shape} differs from label shape {y.shape}")
     W = as_weights(W, len(y))
     return _div(W @ (prob - y) ** 2, W.sum(axis=1))
 

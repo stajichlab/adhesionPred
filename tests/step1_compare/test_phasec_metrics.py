@@ -133,3 +133,64 @@ def test_scored_summary_equals_the_single_functions():
     assert got["pr_auc"] == pytest.approx(m.pr_auc(W, Y, S))
     assert got["precision_at_recall_0.9"] == pytest.approx(m.precision_at_recall(W, Y, S, 0.9))
     assert got["recall_at_fpr_0.01"] == pytest.approx(m.recall_at_fpr(W, Y, S, 0.01))
+
+
+def test_shape_mismatch_is_refused():
+    # fix round 1, I-1: a score shorter than y must not be broadcast or truncated silently
+    s3 = np.array([0.1, 0.2, 0.3])
+    for f in (m.roc_auc, m.pr_auc):
+        with pytest.raises(ValueError, match=r"\(3,\).*\(10,\)|\(10,\).*\(3,\)"):
+            f(ONE, Y, s3)
+    with pytest.raises(ValueError, match="shape"):
+        m.scored_summary(ONE, Y, s3)
+    with pytest.raises(ValueError, match="shape"):
+        m.brier(np.ones(4), np.array([1, 0, 1, 0]), np.array([0.5]))  # would broadcast
+
+
+def test_multi_row_curve_metrics_equal_single_row_calls():
+    W = np.stack([ONE, np.array([2, 1, 1, 3, 1, 0, 1, 2, 1, 1], dtype=float)])
+    for f in (m.roc_auc, m.pr_auc):
+        got = f(W, Y, S)
+        assert got[0] == pytest.approx(f(W[0], Y, S)[0], abs=1e-15)
+        assert got[1] == pytest.approx(f(W[1], Y, S)[0], abs=1e-15)
+
+
+def test_levels_are_inclusive_at_the_boundary():
+    assert m.recall_at_fpr(ONE, Y, S, 1 / 6)[0] == 0.75  # FPR is exactly 1/6 at 0.7
+    assert m.precision_at_recall(ONE, Y, S, 0.75)[0] == 0.75  # recall is exactly 0.75 at 0.7
+
+
+def test_weighted_brier_and_neg_mask_with_positive_rows():
+    got = m.brier(np.array([2.0, 1.0]), [1, 0], [0.9, 0.4])[0]
+    assert got == pytest.approx((2 * 0.01 + 0.16) / 3, abs=1e-15)
+    # a mask that also covers positive rows must be cut to the negatives
+    assert m.fpr_at_recall(ONE, Y, S, 0.75, np.ones(10, dtype=bool))[0] == pytest.approx(1 / 6)
+
+
+def test_per_resample_levels_for_fpr_functions():
+    W = np.stack([ONE, ONE])
+    got = m.recall_at_fpr(W, Y, S, np.array([0.01, 0.17]))
+    assert got == pytest.approx([0.25, 0.75])
+    nsec = np.zeros(10, dtype=bool)
+    nsec[[4, 5]] = True
+    got = m.fpr_at_recall(W, Y, S, np.array([0.5, 1.0]), nsec)
+    assert got == pytest.approx([0.0, 1.0])
+
+
+def test_fpr_at_recall_without_negatives_is_nan():
+    pos = np.ones(4, dtype=bool)
+    got = m.fpr_at_recall(np.ones(4), pos, np.array([0.1, 0.2, 0.3, 0.4]), 0.5, pos)
+    assert math.isnan(got[0])
+
+
+def test_tolerance_absorbs_float_rounding_in_cumulative_weights():
+    s = np.array([0.9, 0.8, 0.7, 0.6, 0.5])
+    # cumulative positive weight 0.1 + 0.4 + 0.1 = 0.6 of 0.8: recall 0.7499999999999999 < 0.75
+    y = np.array([1, 1, 1, 0, 1], dtype=bool)
+    w = np.array([0.1, 0.4, 0.1, 1.0, 0.2])
+    assert m.precision_at_recall(w, y, s, 0.75)[0] == 1.0
+    assert m.fpr_at_recall(w, y, s, 0.75, ~y)[0] == 0.0
+    # cumulative negative weight 0.1 x 3 = 0.30000000000000004 of 0.4: FPR 0.7500000000000001
+    y = np.array([0, 0, 0, 1, 0], dtype=bool)
+    w = np.array([0.1, 0.1, 0.1, 1.0, 0.1])
+    assert m.recall_at_fpr(w, y, s, 0.75)[0] == 1.0
