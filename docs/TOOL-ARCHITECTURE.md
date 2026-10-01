@@ -21,19 +21,19 @@ adhesion. It is detecting repeats.
 
 ### 2.0 Steps and names (clarified 2026-09-30)
 
-The shipped `adhesion_predict` CLI is **not** an adhesin predictor. It is the first step of a
-multi-step pipeline, and it answers a different question from its name.
+The `surface_glyco_predict` CLI (formerly `adhesion_predict`) is **not** an adhesin predictor. It is the first step of a
+multi-step pipeline. No trained model ships with it.
 
 | Step | Question | What implements it today | Correct name |
 |---|---|---|---|
-| **1** | Is this a secreted, cell-surface glycoprotein? | The shipped `adhesion_predict` CLI (ESM-2 embeddings + logistic regression). Evidence: ~12% adhesin precision on S288C; behaves as a cell-surface glycoprotein detector (`docs/model-review/2026-09-27-review-and-framework-plan.md`). | **surface glycoprotein predictor** |
+| **1** | Is this a secreted, cell-surface glycoprotein? | The `surface_glyco_predict` CLI (formerly `adhesion_predict`; ESM-2 embeddings + logistic regression). No model ships. Evidence for the removed 0.1.0 models: ~12% adhesin precision on S288C; behaves as a cell-surface glycoprotein detector (`docs/model-review/2026-09-27-review-and-framework-plan.md`). | **surface glycoprotein predictor** |
 | **2** | Which adhesion *mechanism*, if any? | Not one tool. 2a repeat detector (scripts in `analysis/cocci_repeats/`); 2b/2c HMM scans; 2d out of scope. A stage-2 classifier exists only as a script (`stage2_proof_of_concept.py`). | per-class names in the table below |
 | **3** | Is it useful for a specific purpose (antigen, biofilm)? | *Coccidioides* antigen tool only | purpose-specific predictor |
 
 Consequences for wording:
 - Output of step 1 is a **surface glycoprotein score**. It must not be reported as an
-  "adhesion probability". The CLI still prints `probability_adhesion` and the label `Adhesion`;
-  that wording is wrong and is tracked for change (see the open items in the #9 plan).
+  "adhesion probability". The CLI writes the column `surface_glycoprotein_score` and the
+  label `surface_glycoprotein`. The old column `probability_adhesion` and label `Adhesion` are removed.
 - The `Adhesion` / `Non-adhesion` labels in `data/` mean "FLO/ALS-like surface glycoprotein" versus
   random proteins, not "demonstrated to bind a ligand".
 - This document's Stage 1 (section below) defines the same question but names SignalP/NetGPI as

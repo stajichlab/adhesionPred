@@ -69,7 +69,7 @@ Points that are easy to get wrong:
 
 | Piece | State |
 |---|---|
-| Step 1: SignalP + GPI + Ser/Thr rule | decided, to build. SignalP under-calls in *Coccidioides* (4% of proteins; SOWgp has no call) |
+| Step 1: SignalP + GPI + Ser/Thr rule | decided, to build. A direct SignalP 6 run calls 460 of 9,910 *C. immitis* RS proteins (4.6%). It calls SOWgp (CIMG_04613) with probability 0.9998. No truth data show whether 4.6% is an under-call. See `docs/TOOL-ARCHITECTURE.md`, Stage 1 |
 | 2a repeat detector | works. Two detectors; `02` reaches 50% recall at ~75% unit identity, `14` at ~35%. Neither supersedes the other. Validated only in Saccharomycotina |
 | 2b-i CFEM (PF05730), 2b-iii Bys1 (PF04681), 2c hydrophobin | HMMs exist. A scan wrapper and a specificity test are missing (for Bys1: the *A. fumigatus* paralogs calB and calC) |
 | 2b-ii Cys-knot (PRA3) | one protein; not a tool |
@@ -143,8 +143,8 @@ This is new code, so it needs a design spec and an independent review before any
 
 ## 7. Work, in order
 
-1. **Legacy rename and safety fixes.** In progress (PR for `rename-plan`). Touches 46 files: package, tests, `kingdom_survey`, analysis
-   scripts, HPCC scripts, docs. Needs a CHANGELOG entry and a version bump. Existing Fungi_5k CSVs are
+1. **Legacy rename and safety fixes.** In progress (branch `surface-glyco-rename`). Touches 46 files: package, tests, `kingdom_survey`, analysis
+   scripts, HPCC scripts, docs. The CHANGELOG entry exists. No version bump until a validated model ships (section 4a). Existing Fungi_5k CSVs are
    labelled legacy. Shrinks the #9 plan to the card, the pooling flag, refusal on mismatch, and tests.
 2. **GO truth-set extraction** for step 1 (S288C, *C. albicans*), plus the literature rows.
 3. **Step 1 rule and its baseline measurement**, per clade with confidence intervals. Then freeze the gates.
@@ -172,7 +172,7 @@ JSON the model card reads. Accuracy results enter a card only through that harne
 | Item | Location |
 |---|---|
 | This plan | `docs/PLAN-2026-09-30-pipeline-and-decisions.md` |
-| Steps and proposed names | `docs/TOOL-ARCHITECTURE.md` section 2.0 |
+| Steps and names (implemented, unreleased) | `docs/TOOL-ARCHITECTURE.md` section 2.0 |
 | #9 plan, with Opus review (section 7) | `docs/plans/2026-09-30-model-bundle-issue-9.md` (branch `issue-9-plan`) |
 | Independent design and test review (Fable) | `docs/plans/2026-09-30-design-review-fable.md` (branch `issue-9-plan`) |
 | Step 1 measurement records | `analysis/model_review/results/step1/` (branch `issue-9-plan`) |

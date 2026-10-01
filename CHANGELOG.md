@@ -19,7 +19,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - `requires-python` is now `>=3.11`.
 - `kingdom_survey` counts called proteins instead of all rows in a result file, and finds `*.surface_glyco.csv`.
 - `predict` writes the score of every sequence to the output CSV. `--show-all` now only controls what is printed (PR #23).
-- Embeddings average over residue tokens only, so a sequence's embedding no longer depends on the other sequences in its batch (PR #18). Models trained before this change (`models/*.pkl`) were trained on the old pooling; see issue #25.
+- Embeddings average over residue tokens only, so a sequence's embedding no longer depends on the other sequences in its batch (PR #18). The models trained before this change (`models/*.pkl`) are removed (see the BREAKING entry above and issue #25).
 
 ### Fixed
 - Training drops sequences that occur in both classes and empty sequences.
