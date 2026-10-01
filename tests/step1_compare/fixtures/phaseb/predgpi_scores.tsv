@@ -1,0 +1,5 @@
+id	length	gpi_call	gpi_prob	omega	fpr	svm
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa	104	weakly	0.55	80	0.0095988	-0.708166
+bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb	84	none	0		0.878876	-1.68145
+cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc	1537	highly_probable	1.0	1512	2.07693e-08	1.21144
+dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd	30	too_short	0			
