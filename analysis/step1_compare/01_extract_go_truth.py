@@ -8,6 +8,9 @@ against manifest.tsv before it is read; a strict-mode SHA-256 mismatch stops the
 import argparse
 import csv
 import json
+import os
+import platform
+import subprocess
 import sys
 from pathlib import Path
 
@@ -17,10 +20,38 @@ import manifest
 import paths
 import truth_table
 
+OUTPUT_NAMES = ("truth_set.tsv.gz", "counts.tsv", "extract_log.json")
+
+EPILOG = """\
+Columns are listed in COLUMNS.md. The nohom_* columns of counts.tsv reproduce d1_count.py and
+are NOT used as truth. The direct_* columns (label unchanged without homology codes) are the
+direct-evidence truth.
+"""
+
 
 def read_species(path: str | Path) -> list[dict[str, str]]:
     with open(path, encoding="utf-8", newline="") as handle:
         return list(csv.DictReader(handle, delimiter="\t"))
+
+
+def _manifest_row(by_file: dict[str, dict[str, str]], name: str) -> dict[str, str]:
+    if name not in by_file:
+        raise manifest.DownloadError(f"{name}: no manifest row")
+    return by_file[name]
+
+
+def git_commit() -> str:
+    """HEAD commit of the repository, or 'unknown'. Does not depend on the time."""
+    try:
+        done = subprocess.run(
+            ["git", "-C", str(paths.repo_root()), "rev-parse", "HEAD"],
+            capture_output=True,
+            text=True,
+            check=True,
+        )
+        return done.stdout.strip() or "unknown"
+    except (OSError, subprocess.CalledProcessError):
+        return "unknown"
 
 
 def run(
@@ -29,16 +60,30 @@ def run(
     input_dir: Path,
     out_dir: Path,
     obo_name: str = "go-basic.obo",
+    provenance: dict | None = None,
 ) -> tuple[list[dict[str, str]], list[dict[str, str]]]:
+    """Build the truth table and counts. Nothing is written until every source has succeeded."""
+    if not species_rows:
+        raise manifest.DownloadError("no sources selected")
     by_file = {r["file"]: r for r in manifest_rows}
     obo_path = input_dir / obo_name
-    obo_sha = manifest.verify_against_manifest(obo_path, by_file[obo_name])
+    obo_sha = manifest.verify_against_manifest(obo_path, _manifest_row(by_file, obo_name))
     ontology = go_obo.parse_obo(obo_path)
-    truth_rows, count_rows, log = [], [], {"obo": obo_name, "obo_sha256": obo_sha, "sources": []}
+    truth_rows, count_rows = [], []
+    log = {
+        "obo": obo_name,
+        "obo_sha256": obo_sha,
+        "input_dir": str(input_dir),
+        "git_commit": git_commit(),
+        "python": platform.python_version(),
+        "sources": [],
+    }
+    log.update(provenance or {})
     for sp in species_rows:
         gaf_path = input_dir / sp["gaf_file"]
-        sha = manifest.verify_against_manifest(gaf_path, by_file[sp["gaf_file"]])
+        sha = manifest.verify_against_manifest(gaf_path, _manifest_row(by_file, sp["gaf_file"]))
         filtered = gaf.filter_gaf(gaf_path, ontology, sp["taxon_filter"] or None)
+        date = gaf.header_value(gaf_path, "date-generated")
         info = truth_table.SourceInfo(
             source_id=sp["source_id"],
             species=sp["species"],
@@ -47,24 +92,44 @@ def run(
             role=sp["role"],
             source_file=sp["gaf_file"],
             source_sha256=sha,
-            source_date=gaf.header_value(gaf_path, "date-generated"),
+            source_date=date,
             obo_sha256=obo_sha,
         )
         rows = truth_table.build_truth_rows(filtered, ontology, info)
         truth_rows.extend(rows)
         count_rows.append(truth_table.count_rows(rows, filtered, sp["source_id"]))
         log["sources"].append(
-            {"source_id": sp["source_id"], "sha256": sha, "dropped": dict(filtered.dropped)}
+            {
+                "source_id": sp["source_id"],
+                "sha256": sha,
+                "date_generated": date,
+                "unknown_term_rows": filtered.unknown_term_rows,
+                "dropped": dict(filtered.dropped),
+            }
         )
-    out_dir.mkdir(parents=True, exist_ok=True)
-    truth_table.write_tsv(out_dir / "truth_set.tsv.gz", truth_table.TRUTH_COLUMNS, truth_rows)
-    truth_table.write_tsv(out_dir / "counts.tsv", truth_table.COUNT_COLUMNS, count_rows)
-    (out_dir / "extract_log.json").write_text(json.dumps(log, indent=2, sort_keys=True) + "\n")
+    _write_outputs(out_dir, truth_rows, count_rows, log)
     return truth_rows, count_rows
 
 
+def _write_outputs(out_dir: Path, truth_rows, count_rows, log) -> None:
+    """Write all outputs to temp names, then os.replace them. A failure keeps old outputs."""
+    out_dir.mkdir(parents=True, exist_ok=True)
+    temps = {name: out_dir / f".tmp.{name}" for name in OUTPUT_NAMES}
+    try:
+        truth_table.write_tsv(temps["truth_set.tsv.gz"], truth_table.TRUTH_COLUMNS, truth_rows)
+        truth_table.write_tsv(temps["counts.tsv"], truth_table.COUNT_COLUMNS, count_rows)
+        temps["extract_log.json"].write_text(json.dumps(log, indent=2, sort_keys=True) + "\n")
+        for name in OUTPUT_NAMES:
+            os.replace(temps[name], out_dir / name)
+    finally:
+        for temp in temps.values():
+            temp.unlink(missing_ok=True)
+
+
 def main(argv=None) -> int:
-    parser = argparse.ArgumentParser(description=__doc__)
+    parser = argparse.ArgumentParser(
+        description=__doc__, epilog=EPILOG, formatter_class=argparse.RawDescriptionHelpFormatter
+    )
     parser.add_argument("--species", default=str(paths.STEP1_DIR / "species.tsv"))
     parser.add_argument("--manifest", default=str(paths.STEP1_DIR / "manifest.tsv"))
     parser.add_argument("--input-dir", default=None, help="default: $STEP1_WORKDIR/downloads")
@@ -72,13 +137,32 @@ def main(argv=None) -> int:
     parser.add_argument("--sources", nargs="*", default=None, help="source_id values to run")
     args = parser.parse_args(argv)
     species_rows = read_species(args.species)
-    if args.sources:
+    if args.sources is not None:
+        valid = [r["source_id"] for r in species_rows]
+        for source_id in args.sources:
+            if source_id not in valid:
+                print(
+                    f"STOP: unknown source {source_id}; valid ids: {', '.join(valid)}",
+                    file=sys.stderr,
+                )
+                return 2
         species_rows = [r for r in species_rows if r["source_id"] in args.sources]
     input_dir = Path(args.input_dir) if args.input_dir else paths.downloads_dir()
     out_dir = Path(args.out_dir) if args.out_dir else paths.workdir()
     try:
-        _, counts = run(species_rows, manifest.read_manifest(args.manifest), input_dir, out_dir)
-    except manifest.DownloadError as exc:
+        provenance = {
+            "species_sha256": manifest.sha256_file(args.species),
+            "manifest_sha256": manifest.sha256_file(args.manifest),
+            "arguments": list(argv) if argv is not None else sys.argv[1:],
+        }
+        _, counts = run(
+            species_rows,
+            manifest.read_manifest(args.manifest),
+            input_dir,
+            out_dir,
+            provenance=provenance,
+        )
+    except (manifest.DownloadError, gaf.GafFormatError) as exc:
         print(f"STOP: {exc}", file=sys.stderr)
         return 2
     for c in counts:
