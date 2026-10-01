@@ -7,8 +7,8 @@ import sys
 from pathlib import Path
 
 import numpy as np
-import sklearn
 
+from surface_glyco.card import DEFAULT_REPR_LAYER, POOLING_RESIDUE_MEAN, new_card
 from surface_glyco.config import (
     DEFAULT_MODEL,
     DEFAULT_TEST_SIZE,
@@ -16,13 +16,7 @@ from surface_glyco.config import (
     POSITIVE_DIR,
     model_filename,
 )
-from surface_glyco.embeddings import (
-    DEFAULT_REPR_LAYER,
-    ESM2_MODEL_CHOICES,
-    MAX_RESIDUES,
-    POOLING,
-    get_esm_embeddings,
-)
+from surface_glyco.embeddings import ESM2_MODEL_CHOICES, get_esm_embeddings
 from surface_glyco.io import load_sequences_from_dir
 from surface_glyco.model import save_model, save_model_card, train_classifier
 
@@ -36,19 +30,58 @@ def sequences_sha256(sequences):
     return h.hexdigest()
 
 
-def dedupe_sequences(sequences):
-    """Drop records whose (label, sequence) was already seen; keep the first id.
+def dedupe_with_counts(sequences):
+    """Return (unique, counts).
 
-    Exact duplicates inflate the positive class and leak across the train/test split.
+    Empty sequences are counted first. A conflict is a non-empty sequence present with both
+    labels; every copy is dropped, because it cannot be learned and leaks across any split.
+    What remains are exact duplicates within a class; the first id is kept. The three counts
+    and len(unique) sum to len(sequences).
     """
+    non_empty = [s for s in sequences if s["sequence"]]
+    labels_by_seq = {}
+    for seq in non_empty:
+        labels_by_seq.setdefault(seq["sequence"], set()).add(seq["label"])
     seen = set()
     unique = []
-    for seq in sequences:
+    n_conflicting = 0
+    for seq in non_empty:
+        if len(labels_by_seq[seq["sequence"]]) > 1:
+            n_conflicting += 1
+            continue
         key = (seq["label"], seq["sequence"])
         if key not in seen:
             seen.add(key)
             unique.append(seq)
-    return unique
+    counts = {
+        "n_empty_removed": len(sequences) - len(non_empty),
+        "n_conflicting_removed": n_conflicting,
+        "n_duplicates_removed": len(non_empty) - n_conflicting - len(unique),
+    }
+    return unique, counts
+
+
+def dedupe_sequences(sequences):
+    """Drop empty sequences, sequences present in both classes, and in-class duplicates."""
+    return dedupe_with_counts(sequences)[0]
+
+
+def _environment():
+    """Versions of the libraries a model's scores depend on."""
+    from importlib.metadata import PackageNotFoundError, version
+
+    out = {}
+    for key, dist in (
+        ("numpy", "numpy"),
+        ("scikit_learn", "scikit-learn"),
+        ("torch", "torch"),
+        ("fair_esm", "fair-esm"),
+    ):
+        try:
+            out[key] = version(dist)
+        except PackageNotFoundError:
+            out[key] = "unknown"
+    return out
 
 
 def prepare_data(positive_dir, negative_dir):
@@ -75,11 +108,15 @@ def prepare_data(positive_dir, negative_dir):
         seq["label"] = 0
         all_sequences.append(seq)
 
-    unique = dedupe_sequences(all_sequences)
+    unique, counts = dedupe_with_counts(all_sequences)
     n_removed = len(all_sequences) - len(unique)
     if n_removed:
-        print(f"  Removed {n_removed} exact-duplicate sequences ({len(unique)} remain)")
-    return unique, n_removed
+        print(
+            f"  Removed {counts['n_empty_removed']} empty, "
+            f"{counts['n_conflicting_removed']} in-both-classes and "
+            f"{counts['n_duplicates_removed']} duplicate sequences ({len(unique)} remain)"
+        )
+    return unique, counts
 
 
 def main(positive_dir, negative_dir, output_model, model_name, test_size):
@@ -88,7 +125,7 @@ def main(positive_dir, negative_dir, output_model, model_name, test_size):
     print("Surface glycoprotein classifier training")
     print("=" * 50)
 
-    sequences, n_duplicates_removed = prepare_data(positive_dir, negative_dir)
+    sequences, counts = prepare_data(positive_dir, negative_dir)
 
     embeddings, seq_ids, kept = get_esm_embeddings(
         sequences, model_name=model_name, return_indices=True
@@ -105,24 +142,24 @@ def main(positive_dir, negative_dir, output_model, model_name, test_size):
     classifier, test_acc = train_classifier(embeddings, labels, test_size=test_size)
 
     save_model(classifier, output_model)
+    n_positive = int(labels.sum())
     save_model_card(
         output_model,
-        {
-            "esm_model": model_name,
-            "repr_layer": DEFAULT_REPR_LAYER,
-            "pooling": POOLING,
-            "max_residues": MAX_RESIDUES,
-            "classifier": type(classifier).__name__,
-            "sklearn_version": sklearn.__version__,
-            "n_positive": int(labels.sum()),
-            "n_negative": int(len(labels) - labels.sum()),
-            "n_duplicates_removed": n_duplicates_removed,
-            "n_not_embedded": len(sequences) - len(kept),
-            "training_sequences_sha256": sequences_sha256(sequences),
-            "positive_dir": str(positive_dir),
-            "negative_dir": str(negative_dir),
-            "holdout_accuracy": float(test_acc),
-        },
+        new_card(
+            model_name,
+            DEFAULT_REPR_LAYER,
+            POOLING_RESIDUE_MEAN,
+            n_positive,
+            int(len(labels) - n_positive),
+            classifier=type(classifier).__name__,
+            **counts,
+            n_not_embedded=len(sequences) - len(kept),
+            training_sequences_sha256=sequences_sha256(sequences),
+            positive_dir=str(positive_dir),
+            negative_dir=str(negative_dir),
+            holdout_accuracy=float(test_acc),
+            environment=_environment(),
+        ),
     )
 
     print("=" * 50)

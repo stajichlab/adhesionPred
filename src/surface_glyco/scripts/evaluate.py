@@ -8,6 +8,7 @@ from pathlib import Path
 import numpy as np
 from sklearn.metrics import classification_report, confusion_matrix, roc_auc_score
 
+from surface_glyco.card import ModelCardError, resolve_embedding_settings
 from surface_glyco.config import (
     DEFAULT_MODEL,
     NEGATIVE_DIR,
@@ -17,14 +18,28 @@ from surface_glyco.config import (
 )
 from surface_glyco.embeddings import ESM2_MODEL_CHOICES, get_esm_embeddings
 from surface_glyco.io import load_sequences_from_dir
-from surface_glyco.model import load_model, predict, predict_proba
+from surface_glyco.model import (
+    load_model,
+    load_model_card,
+    predict,
+    predict_proba,
+    require_model_file,
+)
 
 
-def main(positive_dir, negative_dir, model_path, model_name):
-    """Evaluate model on test data."""
+def main(positive_dir, negative_dir, model_path, model_name=None):
+    """Evaluate model on test data. model_name None uses the model card's variant."""
     print("=" * 50)
     print("Model Evaluation")
     print("=" * 50)
+
+    try:
+        settings = resolve_embedding_settings(
+            load_model_card(model_path), model_name, DEFAULT_MODEL
+        )
+    except ModelCardError as e:
+        print(f"Error: {e}", file=sys.stderr)
+        sys.exit(1)
 
     print("Loading sequences...")
     positive_seqs = load_sequences_from_dir(positive_dir)
@@ -41,9 +56,12 @@ def main(positive_dir, negative_dir, model_path, model_name):
     print(f"Loading model from {model_path}...")
     classifier = load_model(model_path)
 
-    print(f"Extracting embeddings using {model_name}...")
+    print(f"Extracting embeddings using {settings.esm_model}...")
     embeddings, seq_ids, kept = get_esm_embeddings(
-        all_sequences, model_name=model_name, return_indices=True
+        all_sequences,
+        model_name=settings.esm_model,
+        repr_layer=settings.repr_layer,
+        return_indices=True,
     )
 
     if len(embeddings) == 0:
@@ -103,23 +121,17 @@ def cli():
     )
     parser.add_argument(
         "--model-name",
-        default=DEFAULT_MODEL,
+        default=None,
         choices=ESM2_MODEL_CHOICES,
-        help="ESM-2 model variant (must match training)",
+        help="ESM-2 model variant; defaults to the model card's, and must match it if given",
     )
 
     args = parser.parse_args()
 
     if args.model is None:
-        args.model = get_models_dir() / model_filename(args.model_name)
+        args.model = get_models_dir() / model_filename(args.model_name or DEFAULT_MODEL)
 
-    if not args.model.exists():
-        print(
-            f"Error: model file not found at {args.model}. "
-            "Train one with surface_glyco_train, or pass --model.",
-            file=sys.stderr,
-        )
-        sys.exit(1)
+    require_model_file(args.model)
 
     main(args.positive, args.negative, args.model, args.model_name)
 

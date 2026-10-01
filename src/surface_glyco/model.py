@@ -82,9 +82,23 @@ def load_model_card(model_path):
         return None
     try:
         with open(path) as f:
-            return json.load(f)
+            card = json.load(f)
     except json.JSONDecodeError as e:
         raise ModelCardError(f"{path}: not valid JSON ({e})") from e
+    if not isinstance(card, dict):
+        raise ModelCardError(f"{path}: the card must be a JSON object, not {type(card).__name__}")
+    return card
+
+
+def require_model_file(model_path):
+    """Exit 1 with a message on stderr when the model file does not exist."""
+    if not Path(model_path).exists():
+        print(
+            f"Error: model file not found at {model_path}. "
+            "Train one with surface_glyco_train, or pass --model.",
+            file=sys.stderr,
+        )
+        sys.exit(1)
 
 
 def load_model(model_path):

@@ -73,3 +73,12 @@ def test_malformed_card_json_names_the_file(tmp_path):
         load_model_card(model)
     (tmp_path / "m.json").unlink()
     assert load_model_card(model) is None
+
+
+@pytest.mark.parametrize("content", ["[]", "3"])
+def test_non_object_card_json_names_the_file(tmp_path, content):
+    model = tmp_path / "m.pkl"
+    model.write_bytes(b"x")
+    (tmp_path / "m.json").write_text(content)
+    with pytest.raises(ModelCardError, match="m.json"):
+        load_model_card(model)

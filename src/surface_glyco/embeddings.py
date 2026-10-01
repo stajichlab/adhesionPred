@@ -5,13 +5,11 @@ import numpy as np
 import torch
 from tqdm import tqdm
 
-from surface_glyco.card import DEFAULT_REPR_LAYER, MAX_RESIDUES, POOLING_RESIDUE_MEAN
+from surface_glyco.card import DEFAULT_REPR_LAYER, MAX_RESIDUES
 
 # Global model cache to avoid reloading models
 _MODEL_CACHE = {}
 
-# Kept for train.py until Task 7 removes its import.
-POOLING = POOLING_RESIDUE_MEAN
 # Residue characters the ESM-2 alphabet accepts; anything else becomes 'X'.
 ESM_RESIDUES = set("ACDEFGHIKLMNPQRSTVWYXBUZO")
 STRIP_CHARS = "*-."

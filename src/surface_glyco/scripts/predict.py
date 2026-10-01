@@ -6,10 +6,17 @@ import csv
 import sys
 from pathlib import Path
 
+from surface_glyco.card import ModelCardError, resolve_embedding_settings
 from surface_glyco.config import DEFAULT_MODEL, get_models_dir, model_filename
-from surface_glyco.embeddings import ESM2_MODEL_CHOICES, get_esm_embeddings
+from surface_glyco.embeddings import ESM2_MODEL_CHOICES, count_truncated, get_esm_embeddings
 from surface_glyco.io import find_fasta_files, process_fasta_file, process_fasta_files_parallel
-from surface_glyco.model import load_model, load_model_card, predict, predict_proba
+from surface_glyco.model import (
+    load_model,
+    load_model_card,
+    predict,
+    predict_proba,
+    require_model_file,
+)
 
 LABEL_POSITIVE = "surface_glycoprotein"
 LABEL_NEGATIVE = "other"
@@ -45,7 +52,13 @@ def build_results(seq_ids, predictions, probabilities):
 
 
 def main(
-    input_path, model_path, output_file, model_name, silent=False, show_all=False, max_workers=None
+    input_path,
+    model_path,
+    output_file,
+    model_name=None,
+    silent=False,
+    show_all=False,
+    max_workers=None,
 ):
     """Run prediction on input sequences.
 
@@ -53,7 +66,8 @@ def main(
         input_path: Path to a FASTA file or directory containing FASTA files.
         model_path: Path to trained model.
         output_file: Optional output CSV file path.
-        model_name: ESM-2 model variant to use.
+        model_name: Optional ESM-2 variant from --model-name. None uses the model card; a value
+            that differs from the card is refused.
         silent: Suppress per-sequence output to stdout.
         show_all: Print all predictions to stdout, not just positive calls. The output
             CSV always contains every sequence.
@@ -65,14 +79,12 @@ def main(
 
     print(f"Loading model from {model_path}...")
     classifier = load_model(model_path)
-    card = load_model_card(model_path)
-    if card is None:
-        print("  No model card found; assuming the model was trained with --model-name embeddings")
-    elif card.get("esm_model") != model_name:
-        print(
-            f"Error: model was trained on {card.get('esm_model')} embeddings, "
-            f"but --model-name is {model_name}"
+    try:
+        settings = resolve_embedding_settings(
+            load_model_card(model_path), model_name, DEFAULT_MODEL
         )
+    except ModelCardError as e:
+        print(f"Error: {e}", file=sys.stderr)
         sys.exit(1)
 
     # Handle both file and directory inputs
@@ -109,8 +121,17 @@ def main(
 
     print(f"Total sequences to predict: {len(all_sequences)}")
 
-    print(f"Extracting ESM-2 embeddings using {model_name}...")
-    embeddings, seq_ids = get_esm_embeddings(all_sequences, model_name=model_name)
+    n_trunc = count_truncated(all_sequences)
+    if n_trunc:
+        print(
+            f"{n_trunc} of {len(all_sequences)} sequences are longer than "
+            f"{settings.max_residues} residues and will be truncated"
+        )
+
+    print(f"Extracting ESM-2 embeddings using {settings.esm_model}...")
+    embeddings, seq_ids = get_esm_embeddings(
+        all_sequences, model_name=settings.esm_model, repr_layer=settings.repr_layer
+    )
 
     if len(embeddings) == 0:
         print("Error: No embeddings extracted")
@@ -169,9 +190,9 @@ def cli():
     )
     parser.add_argument(
         "--model-name",
-        default=DEFAULT_MODEL,
+        default=None,
         choices=ESM2_MODEL_CHOICES,
-        help="ESM-2 model variant (must match training)",
+        help="ESM-2 model variant; defaults to the model card's, and must match it if given",
     )
     parser.add_argument(
         "--silent",
@@ -197,15 +218,9 @@ def cli():
         sys.exit(1)
 
     if args.model is None:
-        args.model = get_models_dir() / model_filename(args.model_name)
+        args.model = get_models_dir() / model_filename(args.model_name or DEFAULT_MODEL)
 
-    if not args.model.exists():
-        print(
-            f"Error: model file not found at {args.model}. "
-            "Train one with surface_glyco_train, or pass --model.",
-            file=sys.stderr,
-        )
-        sys.exit(1)
+    require_model_file(args.model)
 
     main(
         args.input,
