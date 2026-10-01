@@ -59,3 +59,137 @@ def test_assemble_stops_on_a_stale_plan(tmp_path, capsys):
     assert "re-run 06_plan_embedding.py" in capsys.readouterr().err
     assert not (out / "emb" / f"{MODEL}.nterm.npy").exists()
     assert not (out / "emb" / "embedding_run.json").exists()
+
+
+# --- fix round 1 (coordinator rulings) ---------------------------------------------------
+
+
+def _custom_plan(work, seqs, chunk_residues):
+    """Like phaseb_fixture.make_plan, but for a given list of sequences."""
+    import seqhash
+    import seqsets
+    from conftest import load_script
+
+    out = work / "phaseb"
+    out.mkdir(parents=True)
+    unique = seqsets.unique_rows({seqhash.seq_sha256(s): s for s in seqs})
+    truth_table.write_tsv(out / "unique_sequences.tsv.gz", seqsets.UNIQUE_COLUMNS, unique)
+    plan = load_script("06_plan_embedding")
+    argv = ["--work-dir", str(work), "--rate", "100", "--models", MODEL]
+    assert plan.main(argv + ["--chunk-residues", str(chunk_residues)]) == 0
+    return out, unique
+
+
+def _assemble(work, *models):
+    return assemble_embeddings.main(["--work-dir", str(work), "--models", *(models or [MODEL])])
+
+
+def test_stray_tmp_files_are_never_read(tmp_path):
+    work = tmp_path / "w"
+    out, _ = make_plan(work)
+    run_cpu(work, tmp_path / "scratch")
+    assert _assemble(work) == 0
+    emb = out / "emb"
+    base = {w: (emb / f"{MODEL}.{w}.npy").read_bytes() for w in ("nterm", "cterm")}
+    stray = emb / MODEL / ".tmp.nterm_0000.npy"
+    for payload in (b"not an npy file", None):
+        if payload is None:
+            with open(stray, "wb") as handle:
+                np.save(handle, np.full((3, 320), np.nan, dtype=np.float32))
+        else:
+            stray.write_bytes(payload)
+        assert _assemble(work) == 0
+        for w in ("nterm", "cterm"):
+            mat = np.load(emb / f"{MODEL}.{w}.npy")
+            assert mat.dtype == np.float32 and np.isfinite(mat).all()
+            assert (emb / f"{MODEL}.{w}.npy").read_bytes() == base[w]
+
+
+def test_each_cterm_row_holds_the_embedding_of_its_own_last_1022_residues(tmp_path):
+    import seqwindow
+    import torch
+    from embed_chunks import embed_window_sequences
+
+    longs = [
+        "MKLSTA" + "STPSSTSAGN" * 130,
+        "MQQ" + "AVLGSTNPEK" * 125,
+        "MRR" + "TTSSEDPKQV" * 140,
+        "MSN" + "GGSTPAEEKL" * 120,
+    ]
+    seqs = ["MKTLLVAGLLSSAAFA", longs[0], "MSTTSSTTSTPSSTSA" * 4, *longs[1:]]
+    work = tmp_path / "w"
+    out, unique = _custom_plan(work, seqs, chunk_residues=2100)
+    run_cpu(work, tmp_path / "scratch")
+    assert _assemble(work) == 0
+    cterm = np.load(out / "emb" / f"{MODEL}.cterm.npy")
+    long_rows = [u for u in unique if u["cterm_row"] != ""]
+    assert len(long_rows) == 4 and cterm.shape[0] == 4
+    # Two cterm chunks: the position inside a chunk differs from cterm_row for the later one.
+    assert len([c for c in chunk_plan.read_plan(out) if c.window == "cterm"]) == 2
+    for u in long_rows:
+        window = seqwindow.window(u["sequence"], "cterm")
+        assert len(window) == 1022
+        direct = embed_window_sequences([window], MODEL, 1, torch.device("cpu"), 6)[0]
+        np.testing.assert_allclose(cterm[int(u["cterm_row"])], direct, atol=1e-5, rtol=0)
+
+
+def test_missing_chunk_of_the_second_model_stops_with_no_output(tmp_path, capsys):
+    import shutil
+
+    work = tmp_path / "w"
+    out, _ = make_plan(work)
+    run_cpu(work, tmp_path / "scratch")
+    second = "esm2_copy"  # assembly only reads files; no weights are needed for a copy
+    shutil.copytree(out / "emb" / MODEL, out / "emb" / second)
+    chunk_id = chunk_plan.read_plan(out)[-1].chunk_id
+    embed_store.chunk_paths(out / "emb", second, chunk_id)[0].unlink()
+    assert _assemble(work, MODEL, second) == 2
+    err = capsys.readouterr().err
+    assert "STOP:" in err and second in err and chunk_id in err
+    assert sorted(p.name for p in (out / "emb").iterdir()) == sorted([MODEL, second])
+
+
+def test_chunk_file_of_another_window_or_chunk_id_stops(tmp_path, capsys):
+    import shutil
+
+    work = tmp_path / "w"
+    out, _ = make_plan(work)
+    run_cpu(work, tmp_path / "scratch")
+    plan = chunk_plan.read_plan(out)
+    cterm = next(c for c in plan if c.window == "cterm")
+    twin = next(c for c in plan if c.window == "nterm" and c.hashes == cterm.hashes)
+    assert twin.members_sha256 == cterm.members_sha256
+    for src, dst in zip(
+        embed_store.chunk_paths(out / "emb", MODEL, twin.chunk_id),
+        embed_store.chunk_paths(out / "emb", MODEL, cterm.chunk_id),
+        strict=True,
+    ):
+        shutil.copyfile(src, dst)
+    assert _assemble(work) == 2
+    err = capsys.readouterr().err
+    assert cterm.chunk_id in err and "window" in err
+    assert not (out / "emb" / f"{MODEL}.nterm.npy").exists()
+
+
+def test_manifest_has_members_sha256_in_plan_order(tmp_path):
+    work = tmp_path / "w"
+    out, _ = make_plan(work)
+    run_cpu(work, tmp_path / "scratch")
+    assert _assemble(work) == 0
+    plan = chunk_plan.read_plan(out)
+    manifest = truth_table.read_tsv(out / "emb" / "chunk_manifest.tsv")
+    assert [(m["chunk_id"], m["window"], m["n_seqs"], m["members_sha256"]) for m in manifest] == [
+        (c.chunk_id, c.window, str(len(c.rows)), c.members_sha256) for c in plan
+    ]
+
+
+def test_empty_plan_stops_with_a_clear_message(tmp_path, capsys):
+    work = tmp_path / "w"
+    out, _ = make_plan(work)
+    header = (out / "chunk_plan.tsv").read_text().splitlines()[0]
+    (out / "chunk_plan.tsv").write_text(header + "\n")
+    truth_table.write_tsv(out / "chunk_members.tsv.gz", chunk_plan.MEMBER_COLUMNS, [])
+    assert _assemble(work) == 2
+    err = capsys.readouterr().err
+    assert err.startswith("STOP:") and "no chunks" in err and "06_plan_embedding.py" in err
+    assert not (out / "emb").exists()

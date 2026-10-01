@@ -11,8 +11,9 @@ Writes to phaseb/emb/:
 
 A sequence of 1,022 aa or less has no C-terminal row: its C-terminal window is the whole
 sequence, so the M8-C and M35-C candidates use its `nterm` row (see `window_matrix`).
-STOP (exit 2, no output): the plan was made from another unique_sequences.tsv.gz or a row
-holds another sequence than planned (re-run 06); a chunk is missing, fails its hash, or holds other members than the
+STOP (exit 2, no output): the plan has no chunks; the plan was made from another
+unique_sequences.tsv.gz or a row holds another sequence than planned (re-run 06); a chunk is
+missing, fails its hash, or holds other members, another window or another chunk id than the
 plan; a matrix row is filled twice or not at all; NaN or inf; a row count that is not the
 unique sequence count.
 """
@@ -58,6 +59,11 @@ def assemble_model(publish: Path, model: str, chunks, unique, manifest_rows: lis
             raise AssembleError(f"{model}/{chunk.chunk_id}: {exc}") from exc
         if meta.get("members_sha256") != chunk.members_sha256 or arr.shape[0] != len(chunk.rows):
             raise AssembleError(f"{model}/{chunk.chunk_id}: members differ from the plan")
+        if meta.get("chunk_id") != chunk.chunk_id or meta.get("window") != chunk.window:
+            raise AssembleError(
+                f"{model}/{chunk.chunk_id}: the file records chunk {meta.get('chunk_id')!r} "
+                f"window {meta.get('window')!r}, the plan has window {chunk.window!r}"
+            )
         manifest_rows.append(
             {
                 "model": model,
@@ -91,6 +97,8 @@ def run(work: Path, models) -> dict:
     publish = out / "emb"
     unique = truth_table.read_tsv(out / "unique_sequences.tsv.gz")
     chunks = chunk_plan.read_plan(out)
+    if not chunks:
+        raise AssembleError("chunk_plan.tsv has no chunks; re-run 06_plan_embedding.py")
     seq_by_row = {int(r["row"]): r["sequence"] for r in unique}
     chunk_plan.check_plan_is_current(out, chunks, seq_by_row)
     log = {"models": {}, "unique_sequences": len(unique), "chunks": len(chunks)}
