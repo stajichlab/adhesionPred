@@ -9,6 +9,7 @@ from conftest import load_script
 
 LONG = "MKV" + "ST" * 600  # 1,203 aa: has a C-terminal window
 SHARED = "MKTAYIAKQRQISFVKSHFSRQ"
+TRUTH_SHA = "5" * 64
 
 
 def _truth_rows():
@@ -47,8 +48,10 @@ def _phaseb_inputs(tmp_path, truth_rows=None):
     site = tmp_path / "site"
     site.mkdir()
     (site / "rs.fasta").write_text(">CIMG_1-t1-p1 | gene=CIMG_1\nMPPPP\n")
-    for name in ("sequence_run.json", "keyword_tier_run.json"):
-        (work / name).write_text(json.dumps({"all_sources": True}))
+    (work / "sequence_run.json").write_text(
+        json.dumps({"all_sources": True, "truth_set_sha256": TRUTH_SHA})
+    )
+    (work / "keyword_tier_run.json").write_text(json.dumps({"all_sources": True}))
     sets = [
         {"set_id": "truth", "kind": "truth", "location": "truth_sequences.tsv.gz", "note": ""},
         {"set_id": "kw", "kind": "keyword", "location": "keyword_sequences.fasta.gz", "note": ""},
@@ -85,6 +88,47 @@ def test_prepare_dedupes_by_hash_across_sets(tmp_path, monkeypatch):
     assert log["all_sources"] is True
     assert log["inputs"]["Scer_proteome"]["empty_records"] == 1
     assert log["over_max_residues"] == 1
+
+
+def test_prepare_copies_the_truth_set_hash_and_records_the_truth_file_hash(tmp_path, monkeypatch):
+    import manifest
+
+    work, downloads, site, sets_path = _phaseb_inputs(tmp_path)
+    prepare = load_script("05_prepare_sequences")
+    monkeypatch.setattr(prepare.paths, "site_value", lambda key: str(site))
+    argv = ["--sets", str(sets_path), "--work-dir", str(work), "--input-dir", str(downloads)]
+    assert prepare.main(argv) == 0
+    log = json.loads((work / "phaseb" / "prepare_run.json").read_text())
+    assert log["truth_set_sha256"] == TRUTH_SHA
+    truth_file = work / "truth_sequences.tsv.gz"
+    assert log["inputs"]["truth"]["sha256"] == manifest.sha256_file(truth_file)
+
+
+def test_prepare_without_a_readable_sequence_run_records_an_empty_truth_hash(tmp_path, monkeypatch):
+    work, downloads, site, sets_path = _phaseb_inputs(tmp_path)
+    (work / "sequence_run.json").write_text(json.dumps({"all_sources": True}))
+    prepare = load_script("05_prepare_sequences")
+    monkeypatch.setattr(prepare.paths, "site_value", lambda key: str(site))
+    argv = ["--sets", str(sets_path), "--work-dir", str(work), "--input-dir", str(downloads)]
+    assert prepare.main(argv) == 0
+    assert json.loads((work / "phaseb" / "prepare_run.json").read_text())["truth_set_sha256"] == ""
+
+
+def test_repeated_identical_gene_records_are_counted(tmp_path, monkeypatch):
+    work, downloads, site, sets_path = _phaseb_inputs(tmp_path)
+    (downloads / "prot.fasta").write_text(
+        f">YAL001C a\n{SHARED}\n>YAL001C b\n{SHARED}\n>YAL001C c\n{SHARED.lower()}\n"
+        ">YAL002W\nMKLLV\n"
+    )
+    members, _, empty, dropped = seqsets.fasta_members("x", downloads / "prot.fasta", "download")
+    assert (len(members), empty, dropped) == (2, 0, 2)
+    prepare = load_script("05_prepare_sequences")
+    monkeypatch.setattr(prepare.paths, "site_value", lambda key: str(site))
+    argv = ["--sets", str(sets_path), "--work-dir", str(work), "--input-dir", str(downloads)]
+    assert prepare.main(argv) == 0
+    log = json.loads((work / "phaseb" / "prepare_run.json").read_text())
+    assert log["inputs"]["Scer_proteome"]["dropped_duplicate_records"] == 2
+    assert log["inputs"]["truth"]["dropped_duplicate_records"] == 0
 
 
 def test_cterm_row_numbers_only_long_sequences(tmp_path):

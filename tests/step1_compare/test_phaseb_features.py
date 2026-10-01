@@ -66,7 +66,19 @@ def _work(tmp_path, fixtures_dir, drop_gpi=None):
     (work / "sequence_run.json").write_text(
         json.dumps({"all_sources": True, "truth_set_sha256": TRUTH_SHA})
     )
-    (out / "prepare_run.json").write_text(json.dumps({"all_sources": True}))
+    truth_file = work / "truth_sequences.tsv.gz"
+    truth_table.write_tsv(
+        truth_file, ["source_id", "gene_id"], [{"source_id": "s", "gene_id": "g"}]
+    )
+    (out / "prepare_run.json").write_text(
+        json.dumps(
+            {
+                "all_sources": True,
+                "truth_set_sha256": TRUTH_SHA,
+                "inputs": {"truth": {"sha256": manifest.sha256_file(truth_file)}},
+            }
+        )
+    )
     fx = fixtures_dir / "phaseb"
     sp = out / "signalp" / "part_000"
     sp.mkdir(parents=True)
@@ -235,6 +247,70 @@ def test_stale_truth_set_stops(tmp_path, fixtures_dir, capsys):
     assert build.main(["--work-dir", str(work)]) == 2
     assert "truth_set_sha256" in capsys.readouterr().err
     assert not (out / "features.tsv.gz").exists()
+
+
+def _prepare_edit(out, **changes):
+    path = out / "prepare_run.json"
+    log = json.loads(path.read_text())
+    log.update(changes)
+    path.write_text(json.dumps(log))
+    return log
+
+
+def test_prepare_from_another_truth_set_stops(tmp_path, fixtures_dir, capsys):
+    work, out = _work(tmp_path, fixtures_dir)
+    _prepare_edit(out, truth_set_sha256="8" * 64)
+    build = load_script("07_build_features")
+    assert build.main(["--work-dir", str(work)]) == 2
+    err = capsys.readouterr().err
+    assert "prepare_run.json truth_set_sha256" in err and "re-run 05" in err
+    assert not (out / "features.tsv.gz").exists()
+    _prepare_edit(out, truth_set_sha256="")  # 05 could not read sequence_run.json
+    assert build.main(["--work-dir", str(work)]) == 2
+
+
+def test_truth_sequences_file_changed_after_prepare_stops(tmp_path, fixtures_dir, capsys):
+    work, out = _work(tmp_path, fixtures_dir)
+    truth_table.write_tsv(
+        work / "truth_sequences.tsv.gz",
+        ["source_id", "gene_id"],
+        [{"source_id": "s", "gene_id": "other"}],
+    )
+    build = load_script("07_build_features")
+    assert build.main(["--work-dir", str(work)]) == 2
+    err = capsys.readouterr().err
+    assert "truth sequences" in err and "re-run 05" in err
+    assert not (out / "features.tsv.gz").exists()
+
+
+def test_prepare_without_a_record_of_the_truth_file_stops(tmp_path, fixtures_dir, capsys):
+    work, out = _work(tmp_path, fixtures_dir)
+    _prepare_edit(out, inputs={})
+    build = load_script("07_build_features")
+    assert build.main(["--work-dir", str(work)]) == 2
+    assert "truth sequences" in capsys.readouterr().err
+
+
+def test_truth_set_id_comes_from_sequence_sets(tmp_path, fixtures_dir):
+    work, out = _work(tmp_path, fixtures_dir)
+    _rewrite(
+        out / "sequence_members.tsv.gz",
+        lambda rows: [
+            {**r, "set_id": "gold" if r["set_id"] == "truth" else r["set_id"]} for r in rows
+        ],
+    )
+    log = _prepare_edit(out)
+    _prepare_edit(out, inputs={"gold": log["inputs"]["truth"]})
+    sets = tmp_path / "sets.tsv"
+    sets.write_text(
+        "set_id\tkind\tlocation\tnote\n"
+        "gold\ttruth\ttruth_sequences.tsv.gz\t\nCimm\tsite\tx:y\t\n"
+    )
+    build = load_script("07_build_features")
+    assert build.main(["--work-dir", str(work), "--sets", str(sets)]) == 0
+    rows = truth_table.read_tsv(out / "features.tsv.gz")
+    s1 = next(r for r in rows if r["gene_id"] == "S1")
+    assert s1["set_id"] == "gold" and s1["label"] == "P-ext" and s1["role"] == "train"
 
 
 def test_partial_prepare_is_refused(tmp_path, fixtures_dir, capsys):

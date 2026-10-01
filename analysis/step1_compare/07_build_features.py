@@ -3,7 +3,8 @@
 
 Reads from $STEP1_WORKDIR/phaseb/: unique_sequences.tsv.gz, sequence_members.tsv.gz,
 signalp/part_*/prediction_results.txt.gz and output.gff3.gz, predgpi/part_*.tsv.gz (all from
-J1). Reads $STEP1_WORKDIR/truth_set_triaged.tsv.gz (03) for the truth columns. Writes to
+J1). Reads $STEP1_WORKDIR/truth_set_triaged.tsv.gz (03) for the truth columns. The truth sets are
+the sets with kind `truth` in sequence_sets.tsv (--sets). Writes to
 $STEP1_WORKDIR/phaseb/:
 
   features_unique.tsv.gz  one row per unique sequence (row, seq_sha256, features)
@@ -16,7 +17,9 @@ $STEP1_WORKDIR/phaseb/:
 
 STOP (exit 2, no output): a tool output id that is not a unique seq_sha256 (stale output); an id
 in two parts; SignalP prediction_results and output.gff3 that disagree; a truth member with no
-row in truth_set_triaged.tsv.gz; d8_run.json without all_sources: true (unless
+row in truth_set_triaged.tsv.gz; a prepare_run.json whose truth_set_sha256 differs from
+d8_run.json, or whose recorded sha256 of the truth sequences file differs from the file now
+(05 ran on another truth set; re-run 02, 03 and 05); d8_run.json without all_sources: true (unless
 --allow-partial-truth-set); a unique sequence without a SignalP or PredGPI call (unless
 --allow-missing-calls, which writes empty feature fields and counts them in the coverage).
 """
@@ -32,6 +35,7 @@ import manifest
 import paths
 import runinfo
 import seqhash
+import seqsets
 import truth_table
 
 OUTPUT_NAMES = (
@@ -130,8 +134,15 @@ def check_inputs(unique, members, truth_rows) -> dict:
     return truth_by_key
 
 
-def check_truth_set_current(work: Path) -> str:
-    """The truth set that 03 triaged must be the one that 02 attached sequences to."""
+def truth_sets(set_rows) -> dict[str, Path]:
+    """set_id -> location (relative to the work dir) of every set with kind `truth`."""
+    return {r["set_id"]: Path(r["location"]) for r in set_rows if r["kind"] == "truth"}
+
+
+def check_truth_set_current(work: Path, truth_locations: dict[str, Path]) -> str:
+    """The truth set that 03 triaged must be the one that 02 attached sequences to and that
+    05 put into the unique sequences."""
+    work = Path(work)
     triaged = json.loads((work / "d8_run.json").read_text()).get("truth_set_sha256")
     attached = json.loads((work / "sequence_run.json").read_text()).get("truth_set_sha256")
     if not triaged or triaged != attached:
@@ -139,6 +150,20 @@ def check_truth_set_current(work: Path) -> str:
             f"d8_run.json truth_set_sha256 ({triaged}) differs from sequence_run.json "
             f"({attached}); re-run 02, 03 and 05 on the same truth set"
         )
+    prepare = json.loads((work / "phaseb" / "prepare_run.json").read_text())
+    if prepare.get("truth_set_sha256") != triaged:
+        raise FeatureError(
+            f"prepare_run.json truth_set_sha256 ({prepare.get('truth_set_sha256')!r}) differs "
+            f"from d8_run.json ({triaged}); re-run 05_prepare_sequences.py after 02 and 03"
+        )
+    for set_id, location in truth_locations.items():
+        recorded = prepare.get("inputs", {}).get(set_id, {}).get("sha256")
+        current = manifest.sha256_file(work / location)
+        if recorded != current:
+            raise FeatureError(
+                f"prepare_run.json has sha256 {recorded!r} for the truth sequences of set "
+                f"{set_id}, {work / location} has {current}; re-run 05_prepare_sequences.py"
+            )
     return triaged
 
 
@@ -184,12 +209,12 @@ def feature_rows(unique, sp_calls, gpi_calls, allow_missing: bool):
     return rows
 
 
-def member_rows(members, features_by_hash, truth_by_key):
+def member_rows(members, features_by_hash, truth_by_key, truth_ids=("truth",)):
     out = []
     for m in members:
         f = features_by_hash[m["seq_sha256"]]
         truth = {c: "" for c in TRUTH_COLUMNS}
-        if m["set_id"] == "truth":
+        if m["set_id"] in truth_ids:
             t = truth_by_key.get((m["source_id"], m["gene_id"]))
             if t is None:
                 raise FeatureError(
@@ -251,17 +276,20 @@ def read_tool_outputs(out: Path) -> tuple[dict, dict, dict]:
     return merge_parts(sp_parts, "SignalP"), merge_parts(gpi_parts, "PredGPI"), hashes
 
 
-def run(work: Path, allow_missing: bool, provenance: dict | None = None):
+def run(work: Path, allow_missing: bool, provenance: dict | None = None, set_rows=None):
+    if set_rows is None:
+        set_rows = seqsets.read_sets(paths.STEP1_DIR / "sequence_sets.tsv")
+    truth_locations = truth_sets(set_rows)
     out = Path(work) / "phaseb"
     unique = truth_table.read_tsv(out / "unique_sequences.tsv.gz")
     members = truth_table.read_tsv(out / "sequence_members.tsv.gz")
     truth_path = Path(work) / "truth_set_triaged.tsv.gz"
     truth_by_key = check_inputs(unique, members, truth_table.read_tsv(truth_path))
-    truth_set_sha256 = check_truth_set_current(Path(work))
+    truth_set_sha256 = check_truth_set_current(Path(work), truth_locations)
     sp_calls, gpi_calls, hashes = read_tool_outputs(out)
     feats = feature_rows(unique, sp_calls, gpi_calls, allow_missing)
     by_hash = {f["seq_sha256"]: f for f in feats}
-    mrows = member_rows(members, by_hash, truth_by_key)
+    mrows = member_rows(members, by_hash, truth_by_key, set(truth_locations))
     cov = coverage_rows(members, by_hash)
     log = {
         "tool_outputs_sha256": hashes,
@@ -300,6 +328,7 @@ def run(work: Path, allow_missing: bool, provenance: dict | None = None):
 def main(argv=None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--work-dir", default=None, help="default: $STEP1_WORKDIR")
+    parser.add_argument("--sets", default=str(paths.STEP1_DIR / "sequence_sets.tsv"))
     parser.add_argument("--allow-missing-calls", action="store_true")
     parser.add_argument("--allow-partial-truth-set", action="store_true")
     args = parser.parse_args(argv)
@@ -318,7 +347,9 @@ def main(argv=None) -> int:
             and runinfo.says_all_sources(work / "phaseb" / "prepare_run.json"),
             "arguments": list(argv) if argv is not None else sys.argv[1:],
         }
-        _, _, cov, log = run(work, args.allow_missing_calls, provenance)
+        _, _, cov, log = run(
+            work, args.allow_missing_calls, provenance, seqsets.read_sets(args.sets)
+        )
     except (FeatureError, fp.OutputFormatError, ValueError, OSError, KeyError) as exc:
         print(f"STOP: {exc}", file=sys.stderr)
         return 2

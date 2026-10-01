@@ -77,13 +77,14 @@ def truth_members(rows: Iterable[dict[str, str]], set_id: str = "truth"):
 
 
 def fasta_members(set_id: str, path: str | Path, kind: str):
-    """Members from a FASTA file. Return (members, sequences by hash, empty records).
+    """Members from a FASTA file. Return (members, sequences by hash, empty records, dropped).
 
     gene_id is the UniProt accession for kind `keyword`, else the first header token.
-    A gene_id that occurs twice with the same cleaned sequence is kept once; with a different
-    sequence it raises SequenceSetError."""
+    A gene_id that occurs twice with the same cleaned sequence is kept once and counted in
+    `dropped` (dropped_duplicate_records in prepare_run.json); with a different sequence it
+    raises SequenceSetError."""
     members, seqs, by_gene = [], {}, {}
-    empty = 0
+    empty = dropped = 0
     for header, raw in sequences.read_fasta(path):
         seq = seqhash.clean(raw)
         if not seq:
@@ -104,12 +105,13 @@ def fasta_members(set_id: str, path: str | Path, kind: str):
                         "suffix ('-<n>') is removed, and their sequences differ"
                     )
                 raise SequenceSetError(f"{set_id}: {gene_id} has two different sequences")
+            dropped += 1
             continue
         _check(seq, f"{set_id} {gene_id}")
         by_gene[gene_id] = digest
         members.append(_member(set_id, set_id, gene_id, digest, seq))
         seqs[digest] = seq
-    return members, seqs, empty
+    return members, seqs, empty, dropped
 
 
 def _member(set_id, source_id, gene_id, digest, seq) -> dict[str, str]:

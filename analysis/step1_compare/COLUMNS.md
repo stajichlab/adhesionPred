@@ -232,6 +232,7 @@ The unique sequences as FASTA, in `row` order. The header is the `seq_sha256`. J
 - `unique_residues`
 - `over_max_residues` unique sequences longer than 1,022 aa
 - `all_sources` `true` when `sequence_run.json` and `keyword_tier_run.json` both say `all_sources: true`
+- `truth_set_sha256` copied from `sequence_run.json` (empty if the log cannot be read); 07 stops if it differs from `d8_run.json`
 - `git_commit`
 - `python`
 - `arguments`
@@ -242,6 +243,7 @@ The unique sequences as FASTA, in `row` order. The header is the `seq_sha256`. J
 - `sha256`
 - `members`
 - `empty_records`
+- `dropped_duplicate_records` records whose `gene_id` occurred before in the same set with the same sequence (kept once; 0 for the truth set)
 
 No time stamp.
 
@@ -453,7 +455,7 @@ SignalP 6 output for one part of `unique_sequences.fasta.gz`: `prediction_result
 - `sequence_members.tsv.gz`
 - `unique_sequences.tsv.gz`
 
-Script 07 reads `sequence_run.json` and `d8_run.json`. It stops if their `truth_set_sha256` values differ. Script 07 does not need J2 or the assembly step.
+Script 07 reads `sequence_run.json`, `d8_run.json` and `phaseb/prepare_run.json`. It stops if the `truth_set_sha256` values of the three differ. It also stops if the `sha256` that `prepare_run.json` records for the truth sequences file (`inputs.<truth set id>.sha256`) differs from the file now. The truth set ids are the sets with kind `truth` in `sequence_sets.tsv` (`--sets`). Script 07 does not need J2 or the assembly step.
 
 ## emb/<model>/<chunk_id>.npy (jobs/embed_chunks.py, J2)
 

@@ -9,7 +9,8 @@ from config/site.yaml). Writes to $STEP1_WORKDIR/phaseb/:
   unique_sequences.tsv.gz   one row per unique sequence (row, seq_sha256, length, cterm_row,
                             sequence), sorted by seq_sha256
   unique_sequences.fasta.gz the same sequences as FASTA; the header is the seq_sha256
-  prepare_run.json          input hashes, counts, all_sources, git commit, arguments
+  prepare_run.json          input hashes, counts, all_sources, truth_set_sha256 (copied from
+                            sequence_run.json), git commit, arguments
 
 STOP (exit 2, no output written): a missing input; a run log (sequence_run.json,
 keyword_tier_run.json) that does not say all_sources: true, unless --allow-partial-truth-set;
@@ -19,6 +20,7 @@ one gene_id with two different sequences in one set. Columns are listed in COLUM
 
 import argparse
 import gzip
+import json
 import sys
 from pathlib import Path
 
@@ -47,6 +49,18 @@ def write_fasta_gz(path: Path, rows) -> None:
         gz.write(data)
 
 
+def _truth_set_sha256(work: Path) -> str:
+    """truth_set_sha256 of sequence_run.json (02), or "" if the log cannot be read.
+
+    07 compares it with d8_run.json; an empty value makes 07 stop."""
+    try:
+        return str(
+            json.loads((Path(work) / "sequence_run.json").read_text()).get("truth_set_sha256", "")
+        )
+    except (OSError, ValueError, AttributeError):
+        return ""
+
+
 def run(set_rows, work: Path, downloads: Path, site_value, provenance: dict | None = None):
     members, seqs, inputs = [], {}, {}
     for row in set_rows:
@@ -55,9 +69,9 @@ def run(set_rows, work: Path, downloads: Path, site_value, provenance: dict | No
             raise seqsets.SequenceSetError(f"set {row['set_id']}: {path} not found")
         if row["kind"] == "truth":
             got, got_seqs = seqsets.truth_members(truth_table.read_tsv(path), row["set_id"])
-            empty = 0
+            empty = dropped = 0
         else:
-            got, got_seqs, empty = seqsets.fasta_members(row["set_id"], path, row["kind"])
+            got, got_seqs, empty, dropped = seqsets.fasta_members(row["set_id"], path, row["kind"])
         if not got:
             raise seqsets.SequenceSetError(f"set {row['set_id']}: {path} gave no sequence")
         members += got
@@ -67,6 +81,7 @@ def run(set_rows, work: Path, downloads: Path, site_value, provenance: dict | No
             "sha256": manifest.sha256_file(path),
             "members": len(got),
             "empty_records": empty,
+            "dropped_duplicate_records": dropped,
         }
     unique = seqsets.unique_rows(seqs)
     lengths = [int(r["length"]) for r in unique]
@@ -77,6 +92,7 @@ def run(set_rows, work: Path, downloads: Path, site_value, provenance: dict | No
         "unique_residues": sum(lengths),
         "over_max_residues": sum(r["cterm_row"] != "" for r in unique),
         "all_sources": None,
+        "truth_set_sha256": "",
         "git_commit": runinfo.git_commit(),
         "python": runinfo.python_version(),
         "arguments": [],
@@ -125,6 +141,7 @@ def main(argv=None) -> int:
             runinfo.require_full(work / name, name, allow)
         provenance = {
             "all_sources": all(runinfo.says_all_sources(work / n) for n in logs),
+            "truth_set_sha256": _truth_set_sha256(work) if "truth" in kinds else "",
             "arguments": list(argv) if argv is not None else sys.argv[1:],
         }
         _, unique, log = run(set_rows, work, downloads, paths.site_value, provenance)

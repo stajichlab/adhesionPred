@@ -98,8 +98,11 @@ def test_j1_runs_resumes_and_feeds_07(tmp_path):
     run = json.dumps({"all_sources": True, "truth_set_sha256": "0" * 64})
     (work / "d8_run.json").write_text(run)
     (work / "sequence_run.json").write_text(run)  # 07 checks that both name the same truth set
+    prepare = json.loads((out / "prepare_run.json").read_text())
+    prepare["truth_set_sha256"] = "0" * 64  # 05 copies this from sequence_run.json
+    (out / "prepare_run.json").write_text(json.dumps(prepare))
     build = load_script("07_build_features")
-    assert build.main(["--work-dir", str(work)]) == 0
+    assert build.main(["--work-dir", str(work), "--sets", str(work.parent / "sets.tsv")]) == 0
     cov = truth_table.read_tsv(out / "feature_coverage.tsv")
     assert cov == [
         {

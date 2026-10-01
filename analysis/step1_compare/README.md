@@ -267,8 +267,10 @@ J2 needs two more arguments (see "Rules for the jobs").
   records `rate_source: assumed`.
 - J1 and J2 resume: a finished part or chunk is skipped after its hash is checked.
 - 07 does not need J2 or assemble.
-- Script 07 reads `sequence_run.json` and `d8_run.json`. It stops if their `truth_set_sha256`
-  values differ. Re-run 02, 03 and 05 on the same truth set.
+- Script 07 reads `sequence_run.json`, `d8_run.json` and `phaseb/prepare_run.json`. It stops
+  if their `truth_set_sha256` values differ. It also stops if the SHA-256 of the truth sequences
+  file recorded in `prepare_run.json` differs from the file now. Re-run 02, 03 and 05 on the
+  same truth set.
 - Embedding tests need torch and fair-esm:
   `PYTHONPATH=src /rhome/jstajich/.conda/envs/adhesionPred/bin/python -m pytest tests/step1_compare -q`.
   With `/usr/bin/python3.12` those test files are skipped.
