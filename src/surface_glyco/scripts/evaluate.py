@@ -59,7 +59,7 @@ def main(positive_dir, negative_dir, model_path, model_name):
     print(f"  FN: {cm[1][0]:4d}  TP: {cm[1][1]:4d}")
 
     print("\nClassification Report:")
-    target_names = ["Non-adhesion", "Adhesion"]
+    target_names = ["other", "surface_glycoprotein"]
     print(classification_report(labels, predictions, target_names=target_names))
 
     try:
@@ -76,7 +76,7 @@ def main(positive_dir, negative_dir, model_path, model_name):
 
 def cli():
     """Command-line interface entry point."""
-    parser = argparse.ArgumentParser(description="Evaluate trained adhesion protein model")
+    parser = argparse.ArgumentParser(description="Evaluate a surface glycoprotein model")
     parser.add_argument(
         "--positive",
         type=Path,

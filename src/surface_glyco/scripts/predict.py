@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-"""Prediction script for classifying adhesion proteins."""
+"""Prediction script for scoring fungal cell-surface glycoproteins."""
 
 import argparse
 import csv
@@ -11,25 +11,34 @@ from surface_glyco.embeddings import ESM2_MODEL_CHOICES, get_esm_embeddings
 from surface_glyco.io import find_fasta_files, process_fasta_file, process_fasta_files_parallel
 from surface_glyco.model import load_model, load_model_card, predict, predict_proba
 
+LABEL_POSITIVE = "surface_glycoprotein"
+LABEL_NEGATIVE = "other"
+SCORE_COLUMN = "surface_glycoprotein_score"
+
+
+def default_output_path(input_path):
+    """Output CSV in the current directory, named after the input."""
+    input_path = Path(input_path)
+    stem = input_path.name if input_path.is_dir() else input_path.stem
+    return Path.cwd() / f"{stem}.surface_glyco.csv"
+
 
 def write_results(results, output_file):
     """Write prediction rows as CSV (ids containing commas or quotes are quoted)."""
     with open(output_file, "w", newline="") as f:
         writer = csv.writer(f, lineterminator="\n")
-        writer.writerow(["id", "prediction", "probability_adhesion"])
+        writer.writerow(["id", "prediction", SCORE_COLUMN])
         for result in results:
-            writer.writerow(
-                [result["id"], result["prediction"], f"{result['probability_adhesion']:.4f}"]
-            )
+            writer.writerow([result["id"], result["prediction"], f"{result[SCORE_COLUMN]:.4f}"])
 
 
 def build_results(seq_ids, predictions, probabilities):
-    """Return one result row per sequence (every score, not only adhesion calls)."""
+    """Return one result row per sequence (every score, not only positive calls)."""
     return [
         {
             "id": seq_id,
-            "prediction": "Adhesion" if predictions[i] == 1 else "Non-adhesion",
-            "probability_adhesion": probabilities[i][1],
+            "prediction": LABEL_POSITIVE if predictions[i] == 1 else LABEL_NEGATIVE,
+            SCORE_COLUMN: probabilities[i][1],
         }
         for i, seq_id in enumerate(seq_ids)
     ]
@@ -46,12 +55,12 @@ def main(
         output_file: Optional output CSV file path.
         model_name: ESM-2 model variant to use.
         silent: Suppress per-sequence output to stdout.
-        show_all: Print all predictions to stdout, not just adhesion calls. The output
+        show_all: Print all predictions to stdout, not just positive calls. The output
             CSV always contains every sequence.
         max_workers: Maximum number of workers for parallel file processing.
     """
     print("=" * 50)
-    print("Adhesion Protein Prediction")
+    print("Surface glycoprotein scoring")
     print("=" * 50)
 
     print(f"Loading model from {model_path}...")
@@ -117,19 +126,12 @@ def main(
         print("\nResults:")
         print("-" * 50)
         for result in results:
-            # only print adhesion calls by default; the output file always has every score
-            if show_all or result["prediction"] == "Adhesion":
-                print(
-                    f"{result['id']}: {result['prediction']} "
-                    f"(p={result['probability_adhesion']:.3f})"
-                )
+            # only print positive calls by default; the output file always has every score
+            if show_all or result["prediction"] == LABEL_POSITIVE:
+                print(f"{result['id']}: {result['prediction']} " f"(p={result[SCORE_COLUMN]:.3f})")
 
     if output_file is None:
-        output_dir = Path.cwd()
-        if input_path.is_dir():
-            output_file = output_dir / f"{input_path.name}.surface_glyco.csv"
-        else:
-            output_file = output_dir / f"{input_path.stem}.surface_glyco.csv"
+        output_file = default_output_path(input_path)
 
     print(f"\nSaving results to {output_file}...")
     write_results(results, output_file)
@@ -141,7 +143,9 @@ def main(
 
 def cli():
     """Command-line interface entry point."""
-    parser = argparse.ArgumentParser(description="Predict adhesion proteins using trained model")
+    parser = argparse.ArgumentParser(
+        description="Score proteins as fungal cell-surface glycoproteins"
+    )
     parser.add_argument(
         "--input",
         type=Path,
@@ -197,7 +201,7 @@ def cli():
 
     if not args.model.exists():
         print(f"Error: Model file not found at {args.model}")
-        print("Run training first: adhesion_train")
+        print("Run training first: surface_glyco_train")
         sys.exit(1)
 
     main(

@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-"""Training script for adhesion protein classifier."""
+"""Training script for the surface glycoprotein classifier."""
 
 import argparse
 import hashlib
@@ -85,7 +85,7 @@ def prepare_data(positive_dir, negative_dir):
 def main(positive_dir, negative_dir, output_model, model_name, test_size):
     """Main training pipeline using ESM-2 embeddings."""
     print("=" * 50)
-    print("Adhesion Protein Classification - LLM Training")
+    print("Surface glycoprotein classifier training")
     print("=" * 50)
 
     sequences, n_duplicates_removed = prepare_data(positive_dir, negative_dir)
@@ -133,7 +133,7 @@ def main(positive_dir, negative_dir, output_model, model_name, test_size):
 def cli():
     """Command-line interface entry point."""
     parser = argparse.ArgumentParser(
-        description="Train adhesion protein classifier using ESM-2 embeddings"
+        description="Train a surface glycoprotein classifier using ESM-2 embeddings"
     )
     parser.add_argument(
         "--positive",
