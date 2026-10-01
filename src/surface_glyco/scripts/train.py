@@ -9,22 +9,22 @@ from pathlib import Path
 import numpy as np
 import sklearn
 
-from adhesion_predict.config import (
+from surface_glyco.config import (
     DEFAULT_MODEL,
     DEFAULT_TEST_SIZE,
     MODELS_DIR,
     NEGATIVE_DIR,
     POSITIVE_DIR,
 )
-from adhesion_predict.embeddings import (
+from surface_glyco.embeddings import (
     DEFAULT_REPR_LAYER,
     ESM2_MODEL_CHOICES,
     MAX_RESIDUES,
     POOLING,
     get_esm_embeddings,
 )
-from adhesion_predict.io import load_sequences_from_dir
-from adhesion_predict.model import save_model, save_model_card, train_classifier
+from surface_glyco.io import load_sequences_from_dir
+from surface_glyco.model import save_model, save_model_card, train_classifier
 
 
 def sequences_sha256(sequences):

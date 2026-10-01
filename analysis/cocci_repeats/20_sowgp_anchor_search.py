@@ -115,8 +115,8 @@ def main():
         for name, seq in sorted(hits):
             a = al.align(seq, ref)[0]
             rs, re_ = a.aligned[1][0][0], a.aligned[1][-1][1]
-            ident = sum(1 for x, y in zip(a[0], a[1]) if x == y and x != "-")
-            alen = sum(1 for x, y in zip(a[0], a[1]) if x != "-" and y != "-")
+            ident = sum(1 for x, y in zip(a[0], a[1], strict=False) if x == y and x != "-")
+            alen = sum(1 for x, y in zip(a[0], a[1], strict=False) if x != "-" and y != "-")
             pct = 100 * ident / max(alen, 1)
             span = f"{rs + 1}-{re_}"
             print(

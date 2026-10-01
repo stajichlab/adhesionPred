@@ -5,7 +5,7 @@ import pytest
 
 pytest.importorskip("esm")
 
-from adhesion_predict.embeddings import get_esm_embeddings, sanitize_sequence  # noqa: E402
+from surface_glyco.embeddings import get_esm_embeddings, sanitize_sequence  # noqa: E402
 
 SHORT = "MKTLLVAGLLSSAAFA"
 LONG = "MSTTSSTTSTPSSTSA" * 40

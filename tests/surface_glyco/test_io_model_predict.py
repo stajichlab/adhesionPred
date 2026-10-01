@@ -2,11 +2,12 @@
 
 import csv
 
-from adhesion_predict.features import extract_sequence_features
-from adhesion_predict.io import find_fasta_files, load_sequences_from_dir
-from adhesion_predict.model import load_model_card, save_model, save_model_card
-from adhesion_predict.scripts.predict import build_results, write_results
 from sklearn.linear_model import LogisticRegression
+
+from surface_glyco.features import extract_sequence_features
+from surface_glyco.io import find_fasta_files, load_sequences_from_dir
+from surface_glyco.model import load_model_card, save_model, save_model_card
+from surface_glyco.scripts.predict import build_results, write_results
 
 
 def test_find_fasta_files_returns_each_file_once(tmp_path):
@@ -48,7 +49,7 @@ def test_extract_sequence_features_treats_j_as_l():
 
 
 def test_dedupe_sequences_keeps_first_id_per_label():
-    from adhesion_predict.scripts.train import dedupe_sequences
+    from surface_glyco.scripts.train import dedupe_sequences
 
     seqs = [
         {"id": "a", "sequence": "MK", "label": 1},

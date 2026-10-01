@@ -8,10 +8,10 @@ from pathlib import Path
 import numpy as np
 from sklearn.metrics import classification_report, confusion_matrix, roc_auc_score
 
-from adhesion_predict.config import DEFAULT_MODEL, MODELS_DIR, NEGATIVE_DIR, POSITIVE_DIR
-from adhesion_predict.embeddings import ESM2_MODEL_CHOICES, get_esm_embeddings
-from adhesion_predict.io import load_sequences_from_dir
-from adhesion_predict.model import load_model, predict, predict_proba
+from surface_glyco.config import DEFAULT_MODEL, MODELS_DIR, NEGATIVE_DIR, POSITIVE_DIR
+from surface_glyco.embeddings import ESM2_MODEL_CHOICES, get_esm_embeddings
+from surface_glyco.io import load_sequences_from_dir
+from surface_glyco.model import load_model, predict, predict_proba
 
 
 def main(positive_dir, negative_dir, model_path, model_name):

@@ -9,7 +9,6 @@ first-row LOCUSTAG used as a cross-check that catches annotation mismatches.
 import csv
 import statistics
 from pathlib import Path
-from typing import Optional
 
 RESULT_SUFFIX = ".adhesion_predict.csv"
 FAI_SUFFIX = ".proteins.fa.fai"
@@ -33,7 +32,7 @@ def count_fai_lines(fai_path: Path) -> int:
         return sum(1 for _ in fh)
 
 
-def first_id_from_result_csv(result_csv_path: Path) -> Optional[str]:
+def first_id_from_result_csv(result_csv_path: Path) -> str | None:
     """Return the id in the first data row of a result CSV, or None if header-only."""
     with open(result_csv_path, newline="") as fh:
         reader = csv.DictReader(fh)

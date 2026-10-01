@@ -39,12 +39,12 @@ pf = con.execute(
 ).fetchdf()
 
 doms = defaultdict(set)
-for p, d in zip(pf.p, pf.pfam_id):
+for p, d in zip(pf.p, pf.pfam_id, strict=False):
     doms[p].add(d)
 ln = con.execute(
     f"SELECT replace(protein_id,'.protein','') p, length FROM gene_proteins WHERE protein_id LIKE '{RS}%'"
 ).fetchdf()
-length = dict(zip(ln.p, ln.length))
+length = dict(zip(ln.p, ln.length, strict=False))
 tpm = {}
 with open("RS1_kallisto.TPM.csv") as f:
     rd = csv.reader(f)

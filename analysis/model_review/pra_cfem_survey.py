@@ -35,7 +35,7 @@ CFEM_PFAM = "PF05730"
 def load_onygenales_prefixes():
     df = pd.read_csv(FUNGI5K_SAMPLES)
     ony = df[df["ORDER"] == "Onygenales"]
-    return dict(zip(ony["LOCUSTAG"], ony["SPECIESIN"]))
+    return dict(zip(ony["LOCUSTAG"], ony["SPECIESIN"], strict=False))
 
 
 def main():

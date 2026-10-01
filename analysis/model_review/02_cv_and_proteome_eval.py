@@ -18,7 +18,7 @@ warnings.filterwarnings("ignore")
 
 REPO = Path(__file__).resolve().parents[2]
 _sp = importlib.util.spec_from_file_location(
-    "features", str(REPO) + "/src/adhesion_predict/features.py"
+    "features", str(REPO) + "/src/surface_glyco/features.py"
 )
 _f = importlib.util.module_from_spec(_sp)
 _sp.loader.exec_module(_f)

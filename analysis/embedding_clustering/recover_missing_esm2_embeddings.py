@@ -5,7 +5,7 @@ additional chunk (chunk_00150) alongside chunks 0-149.
 
 Background (see task-3-report.md's dated addendum and progress.md's
 "Task 3 CORRECTION" entries for the full investigation): the classifier's
-own `get_esm_embeddings` (src/adhesion_predict/embeddings.py) wraps each
+own `get_esm_embeddings` (src/surface_glyco/embeddings.py) wraps each
 batch of sequences in a bare `except Exception: continue`, which drops
 the ENTIRE BATCH -- not just the offending sequence -- if any sequence in
 it fails to tokenize. The real 749,697-protein run was missing 176
@@ -41,9 +41,10 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "adhesion_properties"))
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "src"))
 
-from adhesion_predict.embeddings import get_esm_embeddings  # noqa: E402
 from db import connect, fetch_lengths  # noqa: E402
 from embed import save_embeddings_chunk  # noqa: E402
+
+from surface_glyco.embeddings import get_esm_embeddings  # noqa: E402
 
 ESM2_DIR = Path(__file__).resolve().parent / "tables" / "esm2_classifier"
 ESMC_DIR = Path(__file__).resolve().parent / "tables" / "esmc300m"

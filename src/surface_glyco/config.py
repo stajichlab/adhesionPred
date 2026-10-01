@@ -10,7 +10,7 @@ def get_models_dir():
     """
     Get models directory with search hierarchy:
     1. Current working directory: ./models
-    2. System installation: site-packages/adhesion_predict/models
+    2. System installation: site-packages/surface_glyco/models
     """
     # First priority: current directory
     current_dir_models = Path.cwd() / "models"
@@ -18,7 +18,7 @@ def get_models_dir():
         return current_dir_models
 
     # Second priority: system installation directory
-    # Look for adhesion_predict package in site-packages
+    # Look for surface_glyco package in site-packages
     package_root = Path(__file__).parent
     system_models = package_root / "models"
     if system_models.exists():

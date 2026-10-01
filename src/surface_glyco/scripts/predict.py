@@ -6,10 +6,10 @@ import csv
 import sys
 from pathlib import Path
 
-from adhesion_predict.config import DEFAULT_MODEL, MODELS_DIR
-from adhesion_predict.embeddings import ESM2_MODEL_CHOICES, get_esm_embeddings
-from adhesion_predict.io import find_fasta_files, process_fasta_file, process_fasta_files_parallel
-from adhesion_predict.model import load_model, load_model_card, predict, predict_proba
+from surface_glyco.config import DEFAULT_MODEL, MODELS_DIR
+from surface_glyco.embeddings import ESM2_MODEL_CHOICES, get_esm_embeddings
+from surface_glyco.io import find_fasta_files, process_fasta_file, process_fasta_files_parallel
+from surface_glyco.model import load_model, load_model_card, predict, predict_proba
 
 
 def write_results(results, output_file):
@@ -127,9 +127,9 @@ def main(
     if output_file is None:
         output_dir = Path.cwd()
         if input_path.is_dir():
-            output_file = output_dir / f"{input_path.name}.adhesion_predict.csv"
+            output_file = output_dir / f"{input_path.name}.surface_glyco.csv"
         else:
-            output_file = output_dir / f"{input_path.stem}.adhesion_predict.csv"
+            output_file = output_dir / f"{input_path.stem}.surface_glyco.csv"
 
     print(f"\nSaving results to {output_file}...")
     write_results(results, output_file)

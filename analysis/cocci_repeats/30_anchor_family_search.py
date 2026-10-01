@@ -324,8 +324,8 @@ def align_to_ref(aligner, query, ref):
     qb, rb = a.aligned[0], a.aligned[1]
     rs, re_ = int(rb[0][0]), int(rb[-1][1])
     qs, qe = int(qb[0][0]), int(qb[-1][1])
-    ident = sum(1 for x, y in zip(a[0], a[1]) if x == y and x != "-")
-    alen = sum(1 for x, y in zip(a[0], a[1]) if x != "-" and y != "-")
+    ident = sum(1 for x, y in zip(a[0], a[1], strict=False) if x == y and x != "-")
+    alen = sum(1 for x, y in zip(a[0], a[1], strict=False) if x != "-" and y != "-")
     max_del = 0
     for i in range(len(rb) - 1):
         rgap = int(rb[i + 1][0] - rb[i][1])

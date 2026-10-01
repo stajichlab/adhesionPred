@@ -162,13 +162,13 @@ def main():
     for sp in su.SPECIES_INK:
         sub = D[(D.clade_species == sp) & (D.status == "full-length")]
         for trait in ("n_units", "flank_haplotype"):
-            state = dict(zip(sub.tip, sub[trait].astype(int)))
+            state = dict(zip(sub.tip, sub[trait].astype(int), strict=False))
             obs = fitch_changes(tree, state)
             vals = list(state.values())
             null = []
             for _ in range(args.perm):
                 rng.shuffle(vals)
-                null.append(fitch_changes(tree, dict(zip(state.keys(), vals))))
+                null.append(fitch_changes(tree, dict(zip(state.keys(), vals, strict=False))))
             null = np.array(null)
             p = (np.sum(null <= obs) + 1) / (len(null) + 1)
             stats.append(
@@ -225,7 +225,7 @@ def main():
         if not cl.is_terminal():
             ys = [draw(c) for c in cl.clades]
             tx.plot([x, x], [min(ys), max(ys)], color=su.MUTED, lw=0.5)
-            for c, yy in zip(cl.clades, ys):
+            for c, yy in zip(cl.clades, ys, strict=False):
                 tx.plot(
                     [x, depth[c] if not c.is_terminal() else maxd],
                     [yy, yy],

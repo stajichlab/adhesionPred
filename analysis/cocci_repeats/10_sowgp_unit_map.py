@@ -30,7 +30,7 @@ H = su.distinct_alleles(HERE / "sowgp_repeat_viz.copies.tsv")
 # modal sequence per (species, class), weighted by strain count
 mode = {}
 for _, r in H.iterrows():
-    for u, c in zip(r.unit_seqs, r.classes):
+    for u, c in zip(r.unit_seqs, r.classes, strict=False):
         mode.setdefault((r.species, c), Counter())[u] += r.n
 mode = {k: v.most_common(1)[0][0] for k, v in mode.items()}
 
@@ -44,7 +44,7 @@ for i, r in H.iterrows():
     last_end = r.units[-1][0] + len(r.unit_seqs[-1])
     ax.plot([0, first], [y, y], color="#c9c8c1", lw=3, solid_capstyle="butt")
     ax.plot([last_end, L], [y, y], color="#c9c8c1", lw=3, solid_capstyle="butt")
-    for (p, inferred), u, c in zip(r.units, r.unit_seqs, r.classes):
+    for (p, inferred), u, c in zip(r.units, r.unit_seqs, r.classes, strict=False):
         known = c in su.CLASS_COLOR
         ax.barh(
             y,

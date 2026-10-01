@@ -171,7 +171,9 @@ def get_esm_embeddings(
         batch = [(str(k), cleaned[k]) for k in idx]
         try:
             for k, vec in zip(
-                idx, _embed_batch(model, alphabet, batch_converter, batch, repr_layer, device)
+                idx,
+                _embed_batch(model, alphabet, batch_converter, batch, repr_layer, device),
+                strict=False,
             ):
                 pooled[k] = vec
         except Exception as e:

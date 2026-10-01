@@ -36,7 +36,7 @@ for tag, (lt, fn) in SP.items():
     pf = con.execute(f"""SELECT DISTINCT replace(protein_id,'.protein','') protein_id, pfam_id
                        FROM pfam WHERE protein_id LIKE '{lt}%'""").fetchdf()
     bydom = defaultdict(set)
-    for pid, dom in zip(pf.protein_id, pf.pfam_id):
+    for pid, dom in zip(pf.protein_id, pf.pfam_id, strict=False):
         bydom[dom].add(pid)
     rows = []
     for dom, prots in bydom.items():

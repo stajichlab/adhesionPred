@@ -349,7 +349,7 @@ def unit_level_period(seq, starts, p):
         return 0, 0.0
 
     def ident(a, b):
-        return sum(x == y for x, y in zip(a, b)) / max(len(a), len(b), 1)
+        return sum(x == y for x, y in zip(a, b, strict=False)) / max(len(a), len(b), 1)
 
     allpairs = [ident(units[i], units[j]) for i in range(n) for j in range(i + 1, n)]
     base = float(np.mean(allpairs)) if allpairs else 0.0

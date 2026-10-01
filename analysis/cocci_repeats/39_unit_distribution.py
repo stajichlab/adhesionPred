@@ -123,7 +123,7 @@ def main():
                 qb, rb = aln.aligned
                 ident = sum(
                     1
-                    for (q0, q1), (r0, r1) in zip(qb, rb)
+                    for (q0, q1), (r0, r1) in zip(qb, rb, strict=False)
                     for i in range(q1 - q0)
                     if seg[q0 + i] == modal[r0 + i]
                 )

@@ -86,7 +86,7 @@ def project_to_reference(seqs, ref):
     for s in seqs:
         a = pa.align(ref, s)[0]
         col = ["-"] * len(ref)
-        for (r0, r1), (q0, _q1) in zip(*a.aligned):
+        for (r0, r1), (q0, _q1) in zip(*a.aligned, strict=False):
             for k in range(r1 - r0):
                 col[r0 + k] = s[q0 + k]
         out.append("".join(col))
@@ -192,7 +192,7 @@ def main():
     unit_rows = []
     for _, row in df.iterrows():
         us = su.anchor_units(row["seq"])
-        for i, ((p, inferred), u) in enumerate(zip(us, su.unit_seqs(row["seq"], us))):
+        for i, ((p, inferred), u) in enumerate(zip(us, su.unit_seqs(row["seq"], us), strict=False)):
             unit_rows.append(
                 {
                     "protein": row["protein"],
@@ -271,7 +271,7 @@ def main():
         vals = [cnt.get(x, 0) for x in ks]
         xs = [x + (k - 0.5) * (w + 0.02) for x in ks]
         bx.bar(xs, vals, width=w, color=su.SPECIES_INK[sp], label=f"{sp} (n={sum(vals)})")
-        for x, v in zip(xs, vals):
+        for x, v in zip(xs, vals, strict=False):
             if v:
                 bx.text(x, v + 0.8, str(v), ha="center", fontsize=7, color=su.MUTED)
     bx.set_xticks(list(ks))
@@ -316,7 +316,7 @@ def main():
     # species / class boundaries
     lab = udf.loc[order, ["species", "unit_class"]].agg(" ".join, axis=1).tolist()
     edges = [0] + [r for r in range(1, len(lab)) if lab[r] != lab[r - 1]] + [len(lab)]
-    for a, b in zip(edges, edges[1:]):
+    for a, b in zip(edges, edges[1:], strict=False):
         dx.axhline(a - 0.5, color="white", lw=1)
         if b - a >= 8:
             dx.text(

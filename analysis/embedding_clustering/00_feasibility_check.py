@@ -27,7 +27,7 @@ import torch
 
 def step1_confirm_esm2():
     sys.path.insert(0, "src")
-    from adhesion_predict.embeddings import get_esm_embeddings
+    from surface_glyco.embeddings import get_esm_embeddings
 
     sequences = [
         {

@@ -8,7 +8,6 @@ de-emphasized/reference states.
 
 import sys
 from pathlib import Path
-from typing import Optional
 
 import matplotlib
 
@@ -29,7 +28,7 @@ def paired_boxplot_by_rank(
     rank_col: str,
     value_col: str,
     out_path: Path,
-    top_n: Optional[int] = None,
+    top_n: int | None = None,
 ) -> None:
     """Boxplot of value_col by rank_col, adhesion vs. background as paired
     boxes per clade (hue='group'), ordered by adhesion-group median."""
