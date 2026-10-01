@@ -56,6 +56,8 @@ def test_dedupe_sequences_keeps_first_id_per_label():
         {"id": "c", "sequence": "MK", "label": 0},
     ]
     assert [s["id"] for s in dedupe_sequences(seqs)] == ["a", "c"]
+
+
 def test_build_results_keeps_non_adhesion_rows():
     rows = build_results(["a", "b"], [1, 0], [[0.1, 0.9], [0.8, 0.2]])
     assert [r["prediction"] for r in rows] == ["Adhesion", "Non-adhesion"]

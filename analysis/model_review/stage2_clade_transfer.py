@@ -34,7 +34,9 @@ CLADE = {
 
 
 def clf():
-    return make_pipeline(StandardScaler(), LogisticRegression(max_iter=5000, class_weight="balanced"))
+    return make_pipeline(
+        StandardScaler(), LogisticRegression(max_iter=5000, class_weight="balanced")
+    )
 
 
 def score(Xtr, ytr, Xte, yte):
@@ -71,12 +73,16 @@ def main():
     for gg in sorted(set(g)):
         te = g == gg
         if y[te].sum() == 0 or (y[te] == 0).sum() == 0:
-            print(f"{gg[:33]:<34}{CLADE.get(gg,'?'):<19}{int(y[te].sum()):>4}"
-                  f"{int((y[te]==0).sum()):>5}{'n/a':>8}{'(one class)':>12}")
+            print(
+                f"{gg[:33]:<34}{CLADE.get(gg,'?'):<19}{int(y[te].sum()):>4}"
+                f"{int((y[te]==0).sum()):>5}{'n/a':>8}{'(one class)':>12}"
+            )
             continue
         a, p = score(X[~te], y[~te], X[te], y[te])
-        print(f"{gg[:33]:<34}{CLADE.get(gg,'?'):<19}{int(y[te].sum()):>4}"
-              f"{int((y[te]==0).sum()):>5}{a:>8.3f}{p:>8.3f}")
+        print(
+            f"{gg[:33]:<34}{CLADE.get(gg,'?'):<19}{int(y[te].sum()):>4}"
+            f"{int((y[te]==0).sum()):>5}{a:>8.3f}{p:>8.3f}"
+        )
 
     print("\nB) leave-one-clade-out")
     cross = {}
@@ -87,30 +93,37 @@ def main():
             continue
         a, p = score(X[~te], y[~te], X[te], y[te])
         cross[c] = (a, p)
-        print(f"{c:<22}{int(y[te].sum()):>4} pos {int((y[te]==0).sum()):>4} neg"
-              f"   ROC {a:.3f}  PR {p:.3f}")
+        print(
+            f"{c:<22}{int(y[te].sum()):>4} pos {int((y[te]==0).sum()):>4} neg"
+            f"   ROC {a:.3f}  PR {p:.3f}"
+        )
 
     if "Saccharomycotina" not in cross:
         return
     n_pos = int((y[cl != "Saccharomycotina"] == 1).sum())
     n_neg = int((y[cl != "Saccharomycotina"] == 0).sum())
-    print(f"\nC) size-matched control: train on {n_pos} pos + {n_neg} neg drawn from WITHIN "
-          f"Saccharomycotina, {args.resamples} resamples")
+    print(
+        f"\nC) size-matched control: train on {n_pos} pos + {n_neg} neg drawn from WITHIN "
+        f"Saccharomycotina, {args.resamples} resamples"
+    )
     m = cl == "Saccharomycotina"
     Xs, ys = X[m], y[m]
     rng = np.random.default_rng(0)
     pos, neg = np.where(ys == 1)[0], np.where(ys == 0)[0]
     rocs, prs = [], []
     for _ in range(args.resamples):
-        tr = np.concatenate([rng.choice(pos, n_pos, replace=False),
-                             rng.choice(neg, n_neg, replace=False)])
+        tr = np.concatenate(
+            [rng.choice(pos, n_pos, replace=False), rng.choice(neg, n_neg, replace=False)]
+        )
         te = np.setdiff1d(np.arange(len(ys)), tr)
         a, p = score(Xs[tr], ys[tr], Xs[te], ys[te])
         rocs.append(a)
         prs.append(p)
     ca = cross["Saccharomycotina"][0]
-    print(f"   within-clade ROC {np.mean(rocs):.3f} (5-95%: {np.percentile(rocs,5):.3f}-"
-          f"{np.percentile(rocs,95):.3f})   PR {np.mean(prs):.3f}")
+    print(
+        f"   within-clade ROC {np.mean(rocs):.3f} (5-95%: {np.percentile(rocs,5):.3f}-"
+        f"{np.percentile(rocs,95):.3f})   PR {np.mean(prs):.3f}"
+    )
     print(f"   cross-clade  ROC {ca:.3f}")
     print(f"   resamples scoring <= cross-clade: {np.mean(np.array(rocs) <= ca):.1%}")
 
