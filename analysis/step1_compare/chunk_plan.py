@@ -9,7 +9,10 @@ A job is a group of chunks. Job count and chunk size come from the measured J0 t
   chunk_residues = max(MIN_CHUNK, floor(min_m(r_m) * CHUNK_SECONDS / 10,000) * 10,000)
   T_total        = sum_m (R / r_m + load_m)          R = residues of all windows to embed
   n_jobs         = max(1, ceil(T_total * SAFETY / TARGET_SECONDS))
-  time_minutes   = ceil((T_total / n_jobs * 1.5 + 600) / 60)
+  time_minutes   = ceil((T_longest * 1.5 + 600) / 60)
+
+T_longest is the work of the largest job (round-robin chunks) and n_jobs is at most the
+chunk count.
 
 r_m is residues per second of model m at its best batch size, and load_m its load time, both
 from the J0 throughput JSON. Chunk k of the plan goes to job k mod n_jobs.
@@ -83,18 +86,36 @@ def chunk_residues_from_rate(min_rate: float) -> int:
     return max(MIN_CHUNK, int(min_rate * CHUNK_SECONDS // 10_000) * 10_000)
 
 
-def plan_jobs(rates: dict[str, float], load_s: dict[str, float], residues: int) -> dict:
-    """Job count and wall time for embedding `residues` residues with every model in `rates`."""
+def plan_jobs(
+    rates: dict[str, float],
+    load_s: dict[str, float],
+    residues: int,
+    chunk_residues: list[int] | None = None,
+) -> dict:
+    """Job count and wall time for embedding `residues` residues with every model in `rates`.
+
+    Without `chunk_residues` the time limit comes from the average job. With it (the residues of
+    each chunk, in plan order) the chunks go to jobs round-robin, n_jobs is capped at the chunk
+    count, and the time limit comes from the LARGEST job: its chunk residues times
+    sum_m(1 / r_m), plus the load time of every model."""
     if not rates:
         raise ValueError("no model rates")
     total = sum(residues / rates[m] + load_s.get(m, 0.0) for m in rates)
     n_jobs = max(1, math.ceil(total * SAFETY / TARGET_SECONDS))
     per_job = total / n_jobs
+    longest = per_job
+    if chunk_residues is not None:
+        n_jobs = max(1, min(n_jobs, len(chunk_residues)))
+        per_job = total / n_jobs
+        inv = sum(1.0 / r for r in rates.values())
+        load = sum(load_s.get(m, 0.0) for m in rates)
+        longest = max(sum(chunk_residues[j::n_jobs]) * inv + load for j in range(n_jobs))
     return {
         "total_seconds": round(total, 1),
         "n_jobs": n_jobs,
         "seconds_per_job": round(per_job, 1),
-        "time_minutes": math.ceil((per_job * 1.5 + 600) / 60),
+        "longest_job_seconds": round(longest, 1),
+        "time_minutes": math.ceil((longest * 1.5 + 600) / 60),
     }
 
 
