@@ -1,35 +1,30 @@
 """Configuration constants for adhesionPredict."""
 
+import os
 from pathlib import Path
 
 PROJECT_ROOT = Path(__file__).parent.parent.parent
 
 
-# Model directory search hierarchy
+PACKAGED_MODELS_DIR = Path(__file__).parent / "models"
+
+
 def get_models_dir():
-    """
-    Get models directory with search hierarchy:
-    1. Current working directory: ./models
-    2. System installation: site-packages/surface_glyco/models
-    """
-    # First priority: current directory
-    current_dir_models = Path.cwd() / "models"
-    if current_dir_models.exists():
-        return current_dir_models
+    """Directory holding trained models.
 
-    # Second priority: system installation directory
-    # Look for surface_glyco package in site-packages
-    package_root = Path(__file__).parent
-    system_models = package_root / "models"
-    if system_models.exists():
-        return system_models
+    The packaged directory is used unless SURFACE_GLYCO_MODELS_DIR is set. A ./models directory
+    in the working directory is deliberately ignored so a stray folder cannot replace a model.
+    """
+    override = os.environ.get("SURFACE_GLYCO_MODELS_DIR")
+    return Path(override) if override else PACKAGED_MODELS_DIR
 
-    # Fallback: return current directory (will be created if needed)
-    return current_dir_models
+
+def model_filename(esm_model):
+    """File name of the model trained on embeddings from esm_model."""
+    return f"surface_glyco_model_{esm_model}.pkl"
 
 
 DATA_DIR = Path.cwd() / "data"
-MODELS_DIR = get_models_dir()
 
 POSITIVE_DIR = DATA_DIR / "positive"
 NEGATIVE_DIR = DATA_DIR / "negative"
@@ -37,13 +32,6 @@ NEGATIVE_DIR = DATA_DIR / "negative"
 DEFAULT_MODEL = "esm2_t6_8M_UR50D"
 DEFAULT_TEST_SIZE = 0.2
 DEFAULT_BATCH_SIZE = 8
-
-ESM2_MODELS = {
-    "esm2_t6_8M_UR50D": {"params": "8M", "layers": 6},
-    "esm2_t6_35M_UR50D": {"params": "35M", "layers": 6},
-    "esm2_t6_150M_UR50D": {"params": "150M", "layers": 6},
-    "esm2_t12_35M_UR50D": {"params": "35M", "layers": 12},
-}
 
 FASTA_EXTENSIONS = [
     ".aa",

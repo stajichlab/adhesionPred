@@ -6,7 +6,7 @@ import csv
 import sys
 from pathlib import Path
 
-from surface_glyco.config import DEFAULT_MODEL, MODELS_DIR
+from surface_glyco.config import DEFAULT_MODEL, get_models_dir, model_filename
 from surface_glyco.embeddings import ESM2_MODEL_CHOICES, get_esm_embeddings
 from surface_glyco.io import find_fasta_files, process_fasta_file, process_fasta_files_parallel
 from surface_glyco.model import load_model, load_model_card, predict, predict_proba
@@ -197,11 +197,14 @@ def cli():
         sys.exit(1)
 
     if args.model is None:
-        args.model = MODELS_DIR / f"adhesion_model_{args.model_name}.pkl"
+        args.model = get_models_dir() / model_filename(args.model_name)
 
     if not args.model.exists():
-        print(f"Error: Model file not found at {args.model}")
-        print("Run training first: surface_glyco_train")
+        print(
+            f"Error: model file not found at {args.model}. "
+            "Train one with surface_glyco_train, or pass --model.",
+            file=sys.stderr,
+        )
         sys.exit(1)
 
     main(

@@ -12,9 +12,9 @@ import sklearn
 from surface_glyco.config import (
     DEFAULT_MODEL,
     DEFAULT_TEST_SIZE,
-    MODELS_DIR,
     NEGATIVE_DIR,
     POSITIVE_DIR,
+    model_filename,
 )
 from surface_glyco.embeddings import (
     DEFAULT_REPR_LAYER,
@@ -130,6 +130,14 @@ def main(positive_dir, negative_dir, output_model, model_name, test_size):
     print("=" * 50)
 
 
+def default_output_path(esm_model):
+    """Default path for a newly trained model: ./models in the working directory.
+
+    The installed package directory is not used because it is read-only in a normal install.
+    """
+    return Path.cwd() / "models" / model_filename(esm_model)
+
+
 def cli():
     """Command-line interface entry point."""
     parser = argparse.ArgumentParser(
@@ -169,7 +177,7 @@ def cli():
     args = parser.parse_args()
 
     if args.output is None:
-        args.output = MODELS_DIR / f"adhesion_model_{args.model}.pkl"
+        args.output = default_output_path(args.model)
 
     args.output.parent.mkdir(parents=True, exist_ok=True)
 

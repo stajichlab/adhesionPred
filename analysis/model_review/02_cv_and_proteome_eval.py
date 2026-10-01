@@ -92,10 +92,15 @@ print("\nlong negatives (>900 aa):", long_neg.sum())
 
 
 if os.path.exists("scer_legacy.npy"):
-    shipped = pickle.load(open(str(REPO) + "/models/adhesion_model_esm2_t6_8M_UR50D.pkl", "rb"))
     sc = pd.read_csv("scer_meta.csv")
     sc["len"] = sc.seq.str.len()
-    sc["p_shipped"] = shipped.predict_proba(np.load("scer_legacy.npy"))[:, 1]
+    # The 0.1.0 model was removed on 2026-09-30. To include it, restore it with
+    #   git show 7f97c9a:models/adhesion_model_esm2_t6_8M_UR50D.pkl > /tmp/old.pkl
+    # and set SHIPPED_MODEL=/tmp/old.pkl. Without it, p_shipped is skipped.
+    if os.environ.get("SHIPPED_MODEL"):
+        with open(os.environ["SHIPPED_MODEL"], "rb") as fh:
+            shipped = pickle.load(fh)
+        sc["p_shipped"] = shipped.predict_proba(np.load("scer_legacy.npy"))[:, 1]
     sc["p_retrained"] = (
         clf().fit(X["esm2_8M_masked_pool"], y).predict_proba(np.load("scer_masked.npy"))[:, 1]
     )
@@ -138,7 +143,8 @@ if os.path.exists("scer_legacy.npy"):
         "YLR194C": "NCW2",
     }
     sc["id0"] = sc.id.str.split().str[0]
-    for col in ["p_shipped", "p_retrained", "p_aacomp"]:
+    cols = [c for c in ("p_shipped", "p_retrained", "p_aacomp") if c in sc]
+    for col in cols:
         called = sc[col] > 0.5
         print(
             f"\n[{col}] S288C ORFs={len(sc)} called={called.sum()} ({called.mean():.2%}); "
@@ -151,7 +157,7 @@ if os.path.exists("scer_legacy.npy"):
     t["gene"] = t.id0.map({**adh, **hard})
     t["class"] = np.where(t.id0.isin(adh), "adhesin", "hard_neg")
     print(
-        t[["gene", "class", "len", "p_shipped", "p_retrained", "p_aacomp"]]
+        t[["gene", "class", "len", *cols]]
         .sort_values(["class", "gene"])
         .round(3)
         .to_string(index=False)

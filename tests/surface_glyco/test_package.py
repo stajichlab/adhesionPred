@@ -18,7 +18,8 @@ def test_new_package_imports_and_has_a_version_string():
 
 
 def test_old_package_is_gone_from_this_checkout():
-    assert not (ROOT / "src" / "adhesion_predict").exists()
+    # A stale, gitignored, bytecode-only directory may remain; no source file may.
+    assert list((ROOT / "src" / "adhesion_predict").rglob("*.py")) == []
     try:
         old = importlib.import_module("adhesion_predict")
     except ModuleNotFoundError:

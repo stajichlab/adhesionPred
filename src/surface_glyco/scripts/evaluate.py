@@ -8,7 +8,13 @@ from pathlib import Path
 import numpy as np
 from sklearn.metrics import classification_report, confusion_matrix, roc_auc_score
 
-from surface_glyco.config import DEFAULT_MODEL, MODELS_DIR, NEGATIVE_DIR, POSITIVE_DIR
+from surface_glyco.config import (
+    DEFAULT_MODEL,
+    NEGATIVE_DIR,
+    POSITIVE_DIR,
+    get_models_dir,
+    model_filename,
+)
 from surface_glyco.embeddings import ESM2_MODEL_CHOICES, get_esm_embeddings
 from surface_glyco.io import load_sequences_from_dir
 from surface_glyco.model import load_model, predict, predict_proba
@@ -105,10 +111,14 @@ def cli():
     args = parser.parse_args()
 
     if args.model is None:
-        args.model = MODELS_DIR / f"adhesion_model_{args.model_name}.pkl"
+        args.model = get_models_dir() / model_filename(args.model_name)
 
     if not args.model.exists():
-        print(f"Error: Model file not found at {args.model}")
+        print(
+            f"Error: model file not found at {args.model}. "
+            "Train one with surface_glyco_train, or pass --model.",
+            file=sys.stderr,
+        )
         sys.exit(1)
 
     main(args.positive, args.negative, args.model, args.model_name)
