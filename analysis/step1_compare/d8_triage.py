@@ -32,6 +32,8 @@ class UniprotEvidence:
     accession: str
     reviewed: bool
     gpi_eco: list[str] = field(default_factory=list)
+    gpi_feature_count: int = 0  # GPI-anchor Lipidation features (with or without evidence)
+    gpi_features_without_eco: int = 0  # of those, features with no evidence code
     tm_count: int = 0
     tm_eco: list[str] = field(default_factory=list)
     xrefs: dict[str, set[str]] = field(default_factory=dict)
@@ -58,7 +60,11 @@ def parse_entry(entry: dict) -> UniprotEvidence:
         if feature.get("type") == "Lipidation" and feature.get("description", "").startswith(
             "GPI-anchor"
         ):
-            gpi.update(_eco(feature))
+            ev.gpi_feature_count += 1
+            codes = _eco(feature)
+            if not codes:
+                ev.gpi_features_without_eco += 1
+            gpi.update(codes)
         elif feature.get("type") == "Transmembrane":
             ev.tm_count += 1
             tm.update(_eco(feature))

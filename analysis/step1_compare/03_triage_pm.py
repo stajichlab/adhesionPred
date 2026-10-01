@@ -3,9 +3,9 @@
 
 Reads $STEP1_WORKDIR/truth_set.tsv.gz, species.tsv and curated_gpi.tsv. Queries UniProtKB REST.
 Writes d8_triage.tsv, d8_gpi_outside_pext.tsv, d8_counts.tsv, truth_set_triaged.tsv.gz and the
-raw UniProt JSON pages (d8_uniprot/) to the work directory. Stops (exit 2, no output tables)
-on an HTTP error, a response without the expected fields, or when PM candidates exist and none
-of them matches a UniProt entry. Outputs are written to temp names and moved with os.replace
+raw UniProt JSON pages (d8_uniprot/; pages of older runs are not deleted and can remain) to the
+work directory. Stops (exit 2, no output tables) on an HTTP error, a response without the
+expected fields, or when PM candidates exist and none of them matches a UniProt entry. Outputs are written to temp names and moved with os.replace
 after all are complete, so a failure leaves earlier outputs untouched. d8_run.json records the
 selected sources, `all_sources`, the truth set SHA-256, the UniProt release, the git commit, the
 Python version and the arguments. The script refuses a truth_set.tsv.gz whose extract_log.json
@@ -52,6 +52,8 @@ D8_COUNT_COLUMNS = (
     "p_gpi",
     "pm_tm",
     "pm_unresolved",
+    "no_uniprot_entry",
+    "gpi_feature_no_evidence",
     "organism_curated_gpi_entries",
     "curated_gpi_outside_pext",
     "uniprot_release",
@@ -87,9 +89,10 @@ def triage_source(sp, rows, literature_ids, fetch):
         raise d8_triage.UniprotError(
             f"{sp['source_id']}: none of {len(candidates)} candidates matched a UniProt entry"
         )
-    triage = []
+    triage, no_entry = [], 0
     for r in candidates:
         mine = d8_triage.entries_for_gene(r["gene_id"], mapping, entries)
+        no_entry += not mine
         d8_class, reason = d8_triage.classify_pm(
             mine, (sp["source_id"], r["gene_id"]) in literature_ids
         )
@@ -130,6 +133,10 @@ def triage_source(sp, rows, literature_ids, fetch):
         "p_gpi": str(sum(t["d8_class"] == d8_triage.P_GPI for t in triage)),
         "pm_tm": str(sum(t["d8_class"] == d8_triage.PM_TM for t in triage)),
         "pm_unresolved": str(sum(t["d8_class"] == d8_triage.PM_UNRESOLVED for t in triage)),
+        "no_uniprot_entry": str(no_entry),
+        "gpi_feature_no_evidence": str(
+            len({e.accession for e in entries if e.gpi_features_without_eco})
+        ),
         "organism_curated_gpi_entries": str(len(curated)),
         "curated_gpi_outside_pext": str(len(outside)),
         "uniprot_release": release or release2,

@@ -371,3 +371,63 @@ def test_d8_run_json_records_hash_of_current_truth_table(tmp_path):
     assert triage.main(argv, fetch=good_fetch) == 0
     run = json.loads((tmp_path / "d8_run.json").read_text())
     assert run["truth_set_sha256"] == manifest.sha256_file(tmp_path / "truth_set.tsv.gz")
+
+
+# ---- final review item 5: lipidation filter and the extra d8_counts columns ----
+
+
+def _with_features(acc, features, sgd=None):
+    e = entry(acc, True, sgd=sgd)
+    e["features"] = features
+    return e
+
+
+ECO269 = [{"evidenceCode": "ECO:0000269"}]
+
+
+def test_non_lipidation_feature_with_gpi_in_description_does_not_count():
+    feature = {"type": "Region", "description": "GPI-anchor signal", "evidences": ECO269}
+    ev = d8_triage.parse_entry(_with_features("P1", [feature]))
+    assert ev.gpi_feature_count == 0 and ev.gpi_eco == [] and not ev.curated_gpi
+
+
+def test_lipidation_not_starting_with_gpi_anchor_does_not_count():
+    feature = {"type": "Lipidation", "description": "N-myristoyl glycine; GPI", "evidences": ECO269}
+    ev = d8_triage.parse_entry(_with_features("P1", [feature]))
+    assert ev.gpi_feature_count == 0 and ev.gpi_eco == [] and not ev.curated_gpi
+
+
+def test_parser_counts_gpi_features_and_those_without_evidence():
+    features = [
+        {"type": "Lipidation", "description": "GPI-anchor amidated serine", "evidences": ECO269},
+        {"type": "Lipidation", "description": "GPI-anchor amidated glycine"},
+    ]
+    ev = d8_triage.parse_entry(_with_features("P1", features))
+    assert ev.gpi_feature_count == 2
+    assert ev.gpi_features_without_eco == 1
+    assert ev.curated_gpi  # classification unchanged: one feature has ECO:0000269
+    assert d8_triage.parse_entry(GAS1).gpi_feature_count == 1
+    assert d8_triage.parse_entry(GAS1).gpi_features_without_eco == 0
+
+
+def test_d8_counts_report_no_uniprot_entry_and_gpi_feature_no_evidence():
+    triage = load_script("03_triage_pm")
+    rows = [
+        {"source_id": "Scer", "gene_id": g, "symbol": s, "label": "P-ext", "pm_candidate": "yes"}
+        for g, s in (("S1", "NOEV"), ("S2", "MISSING"), ("S000003246", "MSB2"))
+    ]
+    no_ev = _with_features(
+        "P9", [{"type": "Lipidation", "description": "GPI-anchor amidated serine"}], sgd="S1"
+    )
+    sp = {"source_id": "Scer", "id_mapping": "sgd", "taxon_id": "559292"}
+
+    def fetch(url, tag):
+        if "organism_id" in urllib.parse.unquote_plus(url):
+            return [], "2026_03"
+        return [no_ev, MSB2], "2026_03"
+
+    t, _, counts = triage.triage_source(sp, rows, set(), fetch)
+    assert counts["no_uniprot_entry"] == "1"  # S2 only
+    assert counts["gpi_feature_no_evidence"] == "1"  # P9 only
+    assert {r["symbol"]: r["d8_class"] for r in t}["NOEV"] == "pm-unresolved"
+    assert set(triage.D8_COUNT_COLUMNS) >= {"no_uniprot_entry", "gpi_feature_no_evidence"}

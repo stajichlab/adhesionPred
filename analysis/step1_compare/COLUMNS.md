@@ -133,6 +133,8 @@ GPI-anchor Lipidation feature that has evidence ECO:0000269. The script does not
 | source_id | Identifier of the source. |
 | pm_candidates | PM candidates of the source. |
 | p_gpi, pm_tm, pm_unresolved | PM candidates in each D8 class. |
+| no_uniprot_entry | PM candidates with no matching UniProt entry (a subset of `pm_unresolved`). |
+| gpi_feature_no_evidence | UniProt entries returned for the PM candidates that have at least one GPI-anchor Lipidation feature without an evidence code. Such a feature cannot make the gene P-gpi. |
 | organism_curated_gpi_entries | Entries from the organism GPI query that are reviewed and have a GPI-anchor feature with ECO:0000269. |
 | curated_gpi_outside_pext | Rows in `d8_gpi_outside_pext.tsv` for the source. |
 | uniprot_release | `X-UniProt-Release` header of the first candidate query response (of the organism query if that is empty). |
@@ -146,6 +148,13 @@ for genes that are not PM candidates).
 - A later phase must therefore filter on `d8_class` (`P-gpi`, `PM-TM`, `pm-unresolved`) to use
   the triage, not on `label`.
 - `truth_set.tsv.gz` is not changed. It keeps the GO-only `stratum`.
+
+## d8_uniprot/ (03_triage_pm.py)
+
+Raw UniProt JSON pages, one file per page (`<source_id>_candidates_<n>_<page>.json` and
+`<source_id>_gpi_<page>.json`). A run overwrites the pages that it fetches. It does not delete
+pages from older runs, so stale pages can remain. Use the pages whose names match the current
+run, or delete the folder before a run.
 
 ## d8_run.json (03_triage_pm.py)
 
