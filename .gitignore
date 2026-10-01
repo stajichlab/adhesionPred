@@ -86,3 +86,6 @@ analysis/cocci_repeats/repeat_benchmark_calls.tsv
 analysis/cocci_repeats/sowgp_anchor_family.tsv
 analysis/cocci_repeats/sowgp_anchor_hits.tsv
 analysis/cocci_repeats/rs.dmnd
+
+# 15 MB, 644k rows. Regenerable by 37_unit_search.sh (SLURM search). Kept local on purpose, not on GitHub.
+analysis/cocci_repeats/unit_architecture_onygenales.tsv.gz

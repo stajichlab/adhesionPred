@@ -218,3 +218,5 @@ which are not tracked. To use a tracked copy, decompress it here first
 | `bad1_A4D962.fa` | 38. BAD1 sequence used as the control. | yes (plain, small) |
 | `sowgp_anchored_longread.tsv`, `sowgp_anchor_motifs.tsv` | **Origin not recorded.** No script in this folder names them. Probably `30_anchor_family_search.py` run by hand; not verified. | yes (plain, small) |
 | `rs.dmnd` | see above | no (gitignored) |
+| `unit_architecture_onygenales.tsv.gz` | 37. Repeat and composition columns (read by 38 and 39) for every Onygenales protein searched (644,399 rows, 15 MB). | **no** (gitignored on purpose; regenerate with `37_unit_search.sh`, a SLURM search over all proteomes) |
+
