@@ -104,7 +104,7 @@ recall, no precision, no AUC.
 
 - **Why R0, R1, R2.** The plan names the three rule inputs but gives no logic. Three nested rules show
   what each input adds. *Ruling C-2: R2 is "the rule"* for the agreement matrix; R0 and R1 are reported
-  for context. The owner can change the logic (open question 1).
+  for context. The owner confirmed the logic (section 9).
 - **GPI class `g`** takes the values `highly_probable`, `probable`, `weakly` (PredGPI scores 1.0, 0.70,
   0.55; proteins of 40 aa or less are never GPI). **`t`** takes 0.10 to 0.40 in steps of 0.05.
   Both are fitted on training data only (parent section 5, "Rule threshold").
@@ -245,7 +245,7 @@ goes into a README or card unless it comes from `metrics.json`.
 | Few positives in held-out sets (H99 has 7; direct-evidence sets of 9 to 113 P-ext genes) | estimate or smoke-test label; interval widths |
 | The two training yeasts share the same biology; transfer to other clades fails | S2 and S3; metrics split by maximum identity to training |
 | Ser+Thr and SignalP outputs explain most of the ML signal | B1, H, R2 in one table; N-sec FPR |
-| The rule is defined wrongly (plan gives inputs, not logic) | R0 to R2 nested; owner decides (open question 1) |
+| The rule is defined wrongly (plan gives inputs, not logic) | R0 to R2 nested; logic confirmed by the owner (section 9) |
 | Youden's J picks an operating point with high FPR on N-sec | FPR by stratum is always printed |
 | SignalP under-calls *C. immitis* RS (460 of 9,910, 4.6%) and no truth shows whether that is wrong | the Onygenales literature rows (recall only) and the named panel; stated as unverified |
 | T-c helps because keywords share inputs with the rule | V-kw minus V-go; T-c never test truth |
