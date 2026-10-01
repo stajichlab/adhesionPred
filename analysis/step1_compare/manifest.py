@@ -8,6 +8,7 @@ SHA-256 is logged, not fatal. The payload checks below still apply to both modes
 import csv
 import gzip
 import hashlib
+import os
 import re
 import urllib.request
 import zlib
@@ -42,12 +43,20 @@ def read_manifest(path: str | Path) -> list[dict[str, str]]:
 
 
 def write_manifest(path: str | Path, rows: list[dict[str, str]]) -> None:
-    with open(path, "w", encoding="utf-8", newline="") as handle:
-        writer = csv.DictWriter(
-            handle, fieldnames=list(MANIFEST_COLUMNS), delimiter="\t", lineterminator="\n"
-        )
-        writer.writeheader()
-        writer.writerows(rows)
+    """Write atomically: temp file in the same directory, then os.replace."""
+    path = Path(path)
+    tmp = path.with_name(path.name + ".tmp")
+    try:
+        with open(tmp, "w", encoding="utf-8", newline="") as handle:
+            writer = csv.DictWriter(
+                handle, fieldnames=list(MANIFEST_COLUMNS), delimiter="\t", lineterminator="\n"
+            )
+            writer.writeheader()
+            writer.writerows(rows)
+        os.replace(tmp, path)
+    except BaseException:
+        tmp.unlink(missing_ok=True)
+        raise
 
 
 def sha256_file(path: str | Path) -> str:
@@ -89,9 +98,10 @@ def verify_against_manifest(path: str | Path, row: dict[str, str]) -> str:
     """Return the file's SHA-256. Raise DownloadError on a strict-mode mismatch."""
     check_payload(path)
     actual = sha256_file(path)
-    if row["mode"] == "strict" and actual != row["sha256"]:
+    expected = row["sha256"].lower()
+    if row["mode"] == "strict" and actual.lower() != expected:
         raise DownloadError(
-            f"{Path(path).name}: SHA-256 {actual[:12]} differs from manifest {row['sha256'][:12]}"
+            f"{Path(path).name}: SHA-256 {actual[:12]} differs from manifest {expected[:12]}"
         )
     return actual
 

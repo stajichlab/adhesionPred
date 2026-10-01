@@ -9,6 +9,7 @@ $STEP1_WORKDIR/downloads. A strict-mode SHA-256 mismatch stops the run (exit 2) 
 import argparse
 import datetime
 import gzip
+import http.client
 import os
 import sys
 import urllib.error
@@ -17,6 +18,8 @@ from pathlib import Path
 
 import manifest
 import paths
+
+NET_ERRORS = (urllib.error.URLError, OSError, http.client.HTTPException)
 
 
 class NetworkError(RuntimeError):
@@ -29,21 +32,31 @@ def fetch_one(row: dict[str, str], dest_dir: Path, opener) -> dict[str, str]:
     headers: dict[str, str] = {}
     try:
         if row["kind"] == "http":
-            body, headers = manifest.http_get(row["url"], opener)
+            try:
+                body, headers = manifest.http_get(row["url"], opener)
+            except NET_ERRORS as exc:
+                raise NetworkError(f"{row['url']}: {exc!r}") from exc
             part.write_bytes(body)
         elif row["kind"] == "uniprot_fasta":
             with (
                 open(part, "wb") as raw,
                 gzip.GzipFile(filename="", mode="wb", fileobj=raw, mtime=0) as gz,
             ):
-                for body, page_headers in manifest.uniprot_pages(row["url"], opener):
+                pages = manifest.uniprot_pages(row["url"], opener)
+                while True:
+                    try:
+                        body, page_headers = next(pages)
+                    except StopIteration:
+                        break
+                    except NET_ERRORS as exc:
+                        raise NetworkError(f"{row['url']}: {exc!r}") from exc
                     gz.write(body)
                     headers = headers or page_headers
         else:
             raise ValueError(f"{row['file']}: unknown kind {row['kind']!r}")
-    except (urllib.error.URLError, TimeoutError) as exc:
+    except NetworkError:
         part.unlink(missing_ok=True)
-        raise NetworkError(f"{row['url']}: {exc}") from exc
+        raise
     try:
         manifest.check_payload(part)
     except manifest.DownloadError:
@@ -73,6 +86,11 @@ def main(argv=None, opener=None) -> int:
     dest_dir = Path(args.dest) if args.dest else paths.downloads_dir()
     dest_dir.mkdir(parents=True, exist_ok=True)
     rows = manifest.read_manifest(args.manifest)
+    known = {r["file"] for r in rows}
+    for name in args.only or []:
+        if name not in known:
+            print(f"STOP: unknown file {name}", file=sys.stderr)
+            return 2
     today = datetime.datetime.now(datetime.UTC).date().isoformat()
     log_rows, failed, changed = [], [], False
     for row in rows:
@@ -82,7 +100,7 @@ def main(argv=None, opener=None) -> int:
         if (
             dest.exists()
             and row["mode"] == "strict"
-            and manifest.sha256_file(dest) == row["sha256"]
+            and manifest.sha256_file(dest) == row["sha256"].lower()
         ):
             print(f"ok (cached) {row['file']}")
             continue
@@ -92,19 +110,23 @@ def main(argv=None, opener=None) -> int:
             print(f"STOP: {exc}", file=sys.stderr)
             return 2
         except manifest.DownloadError as exc:
-            print(f"FAILED {exc}", file=sys.stderr)
+            print(f"FAILED {row['url']} -> {row['file']}: {exc}", file=sys.stderr)
             failed.append(row["file"])
             continue
-        mismatch = got["sha256"] != row["sha256"]
-        if mismatch and row["mode"] == "strict" and not args.update_manifest:
-            Path(got["part"]).unlink()
+        # --update-manifest accepts a new strict hash: verify the payload in record mode.
+        check_row = {**row, "mode": "record"} if args.update_manifest else row
+        try:
+            manifest.verify_against_manifest(got["part"], check_row)
+        except manifest.DownloadError as exc:
+            Path(got["part"]).unlink(missing_ok=True)
             print(
-                f"FAILED {row['file']}: SHA-256 {got['sha256'][:12]} differs from manifest "
-                f"{row['sha256'][:12]}; rerun with --update-manifest to accept it",
+                f"FAILED {row['url']} -> {row['file']}: {exc}; "
+                "rerun with --update-manifest to accept it",
                 file=sys.stderr,
             )
             failed.append(row["file"])
             continue
+        mismatch = got["sha256"] != row["sha256"].lower()
         os.replace(got["part"], got["dest"])
         if mismatch:
             print(f"changed {row['file']}: {row['sha256'][:12]} -> {got['sha256'][:12]}")

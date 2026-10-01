@@ -1,5 +1,6 @@
 import gzip
 import hashlib
+import http.client
 import io
 import urllib.error
 
@@ -194,3 +195,133 @@ def test_committed_manifest_covers_species_table():
         assert rows[sp["gaf_file"]]["mode"] == "strict"
         assert len(rows[sp["gaf_file"]]["sha256"]) == 64
         assert sp["fasta_file"] in rows
+
+
+class FailingRead(FakeResponse):
+    def __init__(self, exc):
+        super().__init__(b"", {})
+        self.exc = exc
+
+    def read(self, *args):
+        raise self.exc
+
+
+def _single_row(tmp_path, kind="http", mode="strict", sha=""):
+    url = "https://example.org/x.gaf.gz"
+    if kind == "uniprot_fasta":
+        url = "https://rest.uniprot.org/uniprotkb/search?query=proteome%3AUP1&format=fasta&size=500"
+    mpath = write_manifest(
+        tmp_path / "m.tsv",
+        [{"file": "x.gaf.gz", "kind": kind, "url": url, "sha256": sha, "mode": mode}],
+    )
+    return mpath, url
+
+
+@pytest.mark.parametrize(
+    "exc",
+    [ConnectionResetError("reset by peer"), http.client.IncompleteRead(b"ab", 10), TimeoutError()],
+)
+def test_read_error_gives_stop_and_no_part_file(tmp_path, capsys, exc):
+    fetch = load_script("00_fetch_inputs")
+    mpath, url = _single_row(tmp_path)
+
+    def opener(request, timeout=None):
+        return FailingRead(exc)
+
+    dest = tmp_path / "dl"
+    assert fetch.main(["--manifest", str(mpath), "--dest", str(dest)], opener=opener) == 2
+    err = capsys.readouterr().err
+    assert "STOP:" in err
+    assert url in err
+    assert list(dest.iterdir()) == []
+
+
+def test_error_on_second_uniprot_page_leaves_no_output(tmp_path, capsys):
+    fetch = load_script("00_fetch_inputs")
+    mpath, first = _single_row(tmp_path, kind="uniprot_fasta", mode="record")
+    second = "https://rest.uniprot.org/uniprotkb/search?cursor=abc"
+
+    def opener(request, timeout=None):
+        if request.full_url == first:
+            return FakeResponse(b">sp|P1|A_B\nMK\n", {"Link": f'<{second}>; rel="next"'})
+        return FailingRead(ConnectionResetError("reset"))
+
+    dest = tmp_path / "dl"
+    assert fetch.main(["--manifest", str(mpath), "--dest", str(dest)], opener=opener) == 2
+    err = capsys.readouterr().err
+    assert "STOP:" in err
+    assert first in err
+    assert list(dest.iterdir()) == []
+
+
+def test_verify_strict_mismatch_names_file_and_hashes(tmp_path):
+    path = tmp_path / "f.gaf.gz"
+    path.write_bytes(GOOD)
+    row = {"mode": "strict", "sha256": "ab" * 32}
+    with pytest.raises(manifest.DownloadError) as info:
+        manifest.verify_against_manifest(path, row)
+    text = str(info.value)
+    assert "f.gaf.gz" in text and GOOD_SHA[:12] in text and "abababababab" in text
+
+
+def test_verify_strict_match_returns_sha(tmp_path):
+    path = tmp_path / "f.gaf.gz"
+    path.write_bytes(GOOD)
+    assert (
+        manifest.verify_against_manifest(path, {"mode": "strict", "sha256": GOOD_SHA}) == GOOD_SHA
+    )
+
+
+def test_verify_record_mode_returns_new_hash(tmp_path):
+    path = tmp_path / "f.gaf.gz"
+    path.write_bytes(GOOD)
+    row = {"mode": "record", "sha256": "0" * 64}
+    assert manifest.verify_against_manifest(path, row) == GOOD_SHA
+
+
+def test_verify_uppercase_manifest_hash_matches(tmp_path):
+    path = tmp_path / "f.gaf.gz"
+    path.write_bytes(GOOD)
+    row = {"mode": "strict", "sha256": GOOD_SHA.upper()}
+    assert manifest.verify_against_manifest(path, row) == GOOD_SHA
+
+
+def test_uppercase_hash_in_main_is_cached(tmp_path):
+    fetch = load_script("00_fetch_inputs")
+    mpath, _ = _single_row(tmp_path, sha=GOOD_SHA.upper())
+    (tmp_path / "dl").mkdir()
+    (tmp_path / "dl" / "x.gaf.gz").write_bytes(GOOD)
+    opener = fake_opener({})
+    assert (
+        fetch.main(["--manifest", str(mpath), "--dest", str(tmp_path / "dl")], opener=opener) == 0
+    )
+    assert opener.calls == []
+
+
+def test_failure_message_names_url_and_file(tmp_path, capsys):
+    fetch = load_script("00_fetch_inputs")
+    mpath, url = _single_row(tmp_path, sha="0" * 64)
+    opener = fake_opener({url: (GOOD, {})})
+    assert (
+        fetch.main(["--manifest", str(mpath), "--dest", str(tmp_path / "dl")], opener=opener) == 2
+    )
+    err = capsys.readouterr().err
+    assert f"FAILED {url} -> x.gaf.gz" in err
+
+
+def test_only_with_unknown_file_stops(tmp_path, capsys):
+    fetch = load_script("00_fetch_inputs")
+    mpath, _ = _single_row(tmp_path)
+    argv = ["--manifest", str(mpath), "--dest", str(tmp_path / "dl"), "--only", "nope.gz"]
+    assert fetch.main(argv, opener=fake_opener({})) == 2
+    assert "STOP: unknown file nope.gz" in capsys.readouterr().err
+
+
+def test_write_manifest_failure_keeps_old_file(tmp_path):
+    path = write_manifest(tmp_path / "m.tsv", [{"file": "a", "mode": "strict"}])
+    before = path.read_bytes()
+    bad = [{c: "" for c in manifest.MANIFEST_COLUMNS} | {"file": "b", "bogus": "x"}]
+    with pytest.raises(ValueError):
+        manifest.write_manifest(path, bad)
+    assert path.read_bytes() == before
+    assert [p.name for p in tmp_path.iterdir()] == ["m.tsv"]
