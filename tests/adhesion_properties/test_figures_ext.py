@@ -19,7 +19,7 @@ def _master_df():
                 "phylum": "PhylumX" if i < 6 else "PhylumY",
                 "group": "adhesion" if i % 2 == 0 else "background",
                 "length": 200 + 10 * i,
-                "probability_adhesion": 0.5 + 0.02 * i,
+                "surface_glycoprotein_score": 0.5 + 0.02 * i,
                 "locustag": f"LOC{i % 3}",
             }
         )

@@ -89,7 +89,7 @@ def main() -> None:
 - {n_matched} species successfully joined to taxonomy and proteome-size data.
 - {n_unmatched} species excluded (no LOCUSTAG match or missing .fai) — see `tables/unmatched_species.csv`.
 - {n_mismatched} species excluded for a mismatched protein-annotation source — see `tables/mismatched_locustag.csv`.
-- {n_missing} species in Fungi_5k have no `adhesion_predict` result file at all — see `tables/missing_results.csv`.
+- {n_missing} species in Fungi_5k have no `surface_glyco` result file at all — see `tables/missing_results.csv`.
 
 ## Headline findings
 

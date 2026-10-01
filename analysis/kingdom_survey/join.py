@@ -10,7 +10,9 @@ import csv
 import statistics
 from pathlib import Path
 
-RESULT_SUFFIX = ".adhesion_predict.csv"
+from surface_glyco.results import read_called
+
+RESULT_SUFFIX = ".surface_glyco.csv"
 FAI_SUFFIX = ".proteins.fa.fai"
 
 
@@ -42,22 +44,21 @@ def first_id_from_result_csv(result_csv_path: Path) -> str | None:
 
 
 def count_result_rows(result_csv_path: Path) -> int:
-    """Count adhesion-called proteins (data rows) in a result CSV."""
-    with open(result_csv_path, newline="") as fh:
-        reader = csv.DictReader(fh)
-        return sum(1 for _ in reader)
+    """Count called proteins in a result CSV."""
+    return len(read_called(result_csv_path))
 
 
 def probability_stats(result_csv_path: Path) -> tuple[float, float]:
-    """Return (mean, median) of probability_adhesion over adhesion-called proteins."""
-    probs = []
-    with open(result_csv_path, newline="") as fh:
-        reader = csv.DictReader(fh)
-        for row in reader:
-            probs.append(float(row["probability_adhesion"]))
+    """Return (mean, median) of the score over called proteins."""
+    probs = [score for _, score in read_called(result_csv_path)]
     if not probs:
         return (float("nan"), float("nan"))
     return (statistics.mean(probs), statistics.median(probs))
+
+
+def result_stems(results_dir: Path) -> set[str]:
+    """Species stems that have a result file."""
+    return {p.name[: -len(RESULT_SUFFIX)] for p in results_dir.glob(f"*{RESULT_SUFFIX}")}
 
 
 def load_samples_taxonomy(samples_csv_path: Path) -> dict[str, dict]:
@@ -158,10 +159,10 @@ def build_species_table(
 
 def find_missing_results(results_dir: Path, input_dir: Path) -> list[dict]:
     """Species with a .fai in the input dir but no corresponding result file."""
-    result_stems = {p.name[: -len(RESULT_SUFFIX)] for p in results_dir.glob(f"*{RESULT_SUFFIX}")}
+    stems = result_stems(results_dir)
     missing = []
     for fai_path in sorted(input_dir.glob(f"*{FAI_SUFFIX}")):
         stem = fai_path.name[: -len(FAI_SUFFIX)]
-        if stem not in result_stems:
+        if stem not in stems:
             missing.append({"stem": stem, "fai_path": str(fai_path)})
     return missing

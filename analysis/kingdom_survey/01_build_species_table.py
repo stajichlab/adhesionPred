@@ -56,7 +56,7 @@ def main() -> None:
     _write_csv(OUT_DIR / "mismatched_locustag.csv", mismatched, MISMATCHED_FIELDS)
     _write_csv(OUT_DIR / "missing_results.csv", missing, MISSING_FIELDS)
 
-    n_results = sum(1 for _ in RESULTS_DIR.glob("*.adhesion_predict.csv"))
+    n_results = sum(1 for _ in RESULTS_DIR.glob("*.surface_glyco.csv"))
     print(f"Result files found: {n_results}")
     print(f"Matched: {len(matched)}  Unmatched: {len(unmatched)}  Mismatched: {len(mismatched)}")
     print(f"Missing results (fai present, no result file): {len(missing)}")

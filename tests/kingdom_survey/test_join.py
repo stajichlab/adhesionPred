@@ -1,5 +1,6 @@
 """Tests for analysis/kingdom_survey/join.py."""
 
+import join
 from join import (
     build_species_table,
     count_fai_lines,
@@ -30,27 +31,29 @@ def test_count_fai_lines(tmp_path):
 
 
 def test_first_id_from_result_csv(tmp_path):
-    result = tmp_path / "sp.adhesion_predict.csv"
-    result.write_text("id,prediction,probability_adhesion\nLOC1_000002-T1,Adhesion,0.9\n")
+    result = tmp_path / "sp.surface_glyco.csv"
+    result.write_text(
+        "id,prediction,surface_glycoprotein_score\nLOC1_000002-T1,surface_glycoprotein,0.9\n"
+    )
     assert first_id_from_result_csv(result) == "LOC1_000002-T1"
 
 
 def test_count_result_rows(tmp_path):
-    result = tmp_path / "sp.adhesion_predict.csv"
+    result = tmp_path / "sp.surface_glyco.csv"
     result.write_text(
-        "id,prediction,probability_adhesion\n"
-        "LOC1_000002-T1,Adhesion,0.9\n"
-        "LOC1_000003-T1,Adhesion,0.6\n"
+        "id,prediction,surface_glycoprotein_score\n"
+        "LOC1_000002-T1,surface_glycoprotein,0.9\n"
+        "LOC1_000003-T1,surface_glycoprotein,0.6\n"
     )
     assert count_result_rows(result) == 2
 
 
 def test_probability_stats(tmp_path):
-    result = tmp_path / "sp.adhesion_predict.csv"
+    result = tmp_path / "sp.surface_glyco.csv"
     result.write_text(
-        "id,prediction,probability_adhesion\n"
-        "LOC1_000002-T1,Adhesion,0.9\n"
-        "LOC1_000003-T1,Adhesion,0.7\n"
+        "id,prediction,surface_glycoprotein_score\n"
+        "LOC1_000002-T1,surface_glycoprotein,0.9\n"
+        "LOC1_000003-T1,surface_glycoprotein,0.7\n"
     )
     mean, median = probability_stats(result)
     assert mean == 0.8
@@ -81,8 +84,8 @@ def test_build_species_table_matched(tmp_path):
         "LOC1_000003-T1\t100\t10\t60\t61\n"
         "LOC1_000004-T1\t100\t10\t60\t61\n"
     )
-    (results_dir / "Sp_one.adhesion_predict.csv").write_text(
-        "id,prediction,probability_adhesion\nLOC1_000002-T1,Adhesion,0.9\n"
+    (results_dir / "Sp_one.surface_glyco.csv").write_text(
+        "id,prediction,surface_glycoprotein_score\nLOC1_000002-T1,surface_glycoprotein,0.9\n"
     )
     taxonomy = {
         "LOC1": {
@@ -113,8 +116,8 @@ def test_build_species_table_mismatched_locustag(tmp_path):
     input_dir.mkdir()
     results_dir.mkdir()
     (input_dir / "Sp_two.proteins.fa.fai").write_text("LOC2_000001-T1\t100\t10\t60\t61\n")
-    (results_dir / "Sp_two.adhesion_predict.csv").write_text(
-        "id,prediction,probability_adhesion\nXP_999999.1,Adhesion,0.9\n"
+    (results_dir / "Sp_two.surface_glyco.csv").write_text(
+        "id,prediction,surface_glycoprotein_score\nXP_999999.1,surface_glycoprotein,0.9\n"
     )
     taxonomy = {
         "LOC2": {
@@ -141,8 +144,8 @@ def test_build_species_table_unmatched_locustag(tmp_path):
     input_dir.mkdir()
     results_dir.mkdir()
     (input_dir / "Sp_three.proteins.fa.fai").write_text("LOC3_000001-T1\t100\t10\t60\t61\n")
-    (results_dir / "Sp_three.adhesion_predict.csv").write_text(
-        "id,prediction,probability_adhesion\nLOC3_000001-T1,Adhesion,0.9\n"
+    (results_dir / "Sp_three.surface_glyco.csv").write_text(
+        "id,prediction,surface_glycoprotein_score\nLOC3_000001-T1,surface_glycoprotein,0.9\n"
     )
     matched, unmatched, mismatched = build_species_table(results_dir, input_dir, {})
     assert matched == []
@@ -157,9 +160,25 @@ def test_find_missing_results(tmp_path):
     results_dir.mkdir()
     (input_dir / "Sp_one.proteins.fa.fai").write_text("LOC1_000001-T1\t100\t10\t60\t61\n")
     (input_dir / "Sp_two.proteins.fa.fai").write_text("LOC2_000001-T1\t100\t10\t60\t61\n")
-    (results_dir / "Sp_one.adhesion_predict.csv").write_text(
-        "id,prediction,probability_adhesion\nLOC1_000001-T1,Adhesion,0.9\n"
+    (results_dir / "Sp_one.surface_glyco.csv").write_text(
+        "id,prediction,surface_glycoprotein_score\nLOC1_000001-T1,surface_glycoprotein,0.9\n"
     )
     missing = find_missing_results(results_dir, input_dir)
     assert len(missing) == 1
     assert missing[0]["stem"] == "Sp_two"
+
+
+def test_count_result_rows_counts_calls_not_all_rows(tmp_path):
+    p = tmp_path / "r.surface_glyco.csv"
+    p.write_text(
+        "id,prediction,surface_glycoprotein_score\n"
+        "A,surface_glycoprotein,0.9\nB,other,0.1\nC,other,0.2\n"
+    )
+    assert join.count_result_rows(p) == 1
+    assert join.probability_stats(p) == (0.9, 0.9)
+
+
+def test_results_are_discovered_by_the_new_suffix(tmp_path):
+    (tmp_path / "Sp_one.surface_glyco.csv").write_text("id,prediction,surface_glycoprotein_score\n")
+    (tmp_path / "Sp_old.adhesion_predict.csv").write_text("id,prediction,probability_adhesion\n")
+    assert join.result_stems(tmp_path) == {"Sp_one"}

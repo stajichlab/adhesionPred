@@ -15,7 +15,9 @@ _KINGDOM_SURVEY_DIR = Path(__file__).resolve().parent.parent / "kingdom_survey"
 sys.path.insert(0, str(_KINGDOM_SURVEY_DIR))
 from join import first_id_from_fai, locustag_from_id  # noqa: E402
 
-RESULT_SUFFIX = ".adhesion_predict.csv"
+from surface_glyco.results import read_called  # noqa: E402
+
+RESULT_SUFFIX = ".surface_glyco.csv"
 FAI_SUFFIX = ".proteins.fa.fai"
 _TAXONOMY_FIELDS = ["phylum", "class", "order", "family", "genus"]
 
@@ -32,13 +34,8 @@ def load_taxonomy_by_locustag(summary_csv_path: Path) -> dict[str, dict]:
 
 
 def read_result_ids(result_csv_path: Path) -> list[tuple[str, float]]:
-    """Return [(protein_id, probability_adhesion), ...] for one result CSV."""
-    ids = []
-    with open(result_csv_path, newline="") as fh:
-        reader = csv.DictReader(fh)
-        for row in reader:
-            ids.append((row["id"], float(row["probability_adhesion"])))
-    return ids
+    """Return [(protein_id, score), ...] for called proteins in one result CSV."""
+    return read_called(result_csv_path)
 
 
 def read_fai_ids(fai_path: Path) -> list[str]:
@@ -96,7 +93,7 @@ def build_protein_universe(
                     "locustag": locustag,
                     **tax_fields,
                     "protein_id": pid,
-                    "probability_adhesion": prob,
+                    "surface_glycoprotein_score": prob,
                 }
             )
 
@@ -108,7 +105,7 @@ def build_protein_universe(
                     "locustag": locustag,
                     **tax_fields,
                     "protein_id": pid,
-                    "probability_adhesion": None,
+                    "surface_glycoprotein_score": None,
                 }
             )
 
