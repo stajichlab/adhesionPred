@@ -120,9 +120,60 @@ def test_j1_signalp_failure_leaves_no_done_marker(tmp_path):
     run = _run_j1(work, tmp_path, STUB_SIGNALP_FAIL="1")
     assert run.returncode != 0
     assert not list((work / "phaseb" / "signalp").glob("part_*/prediction_results.txt.gz"))
+    assert "stub signalp6 failure" in run.stderr
+    assert "SignalP failed for part_000" in run.stderr
 
 
 def test_j2_script_passes_the_planned_job_count():
     text = (JOBS / "j2_embed.sh").read_text()
     assert 'JOB_COUNT="${J2_JOB_COUNT:-1}"' in text
     assert '--job-count "$JOB_COUNT"' in text and '--job-index "$JOB_INDEX"' in text
+
+
+def test_j0_keeps_throughput_when_the_diff_step_fails(tmp_path):
+    work = tmp_path / "work"
+    work.mkdir()
+    (tmp_path / "scratch").mkdir()
+    fake_py = tmp_path / "fake_python"
+    fake_py.write_text(
+        "#!/bin/bash\n"
+        'out=""; while [ $# -gt 0 ]; do [ "$1" = --out ] && out=$2; shift; done\n'
+        'case "$out" in\n'
+        '  *throughput.json) echo "{}" > "$out" ;;\n'
+        "  *) echo 'stub diff failure' >&2; exit 1 ;;\n"
+        "esac\n"
+    )
+    fake_py.chmod(0o755)
+    env = {
+        **os.environ,
+        "SCRATCH": str(tmp_path / "scratch"),
+        "PROJ_ROOT": str(paths.STEP1_DIR.parents[1]),
+        "STEP1_WORKDIR": str(work),
+        "STEP1_ENV_PY": str(fake_py),
+        "PATH": f"{STUB / 'bin'}:{os.environ['PATH']}",
+    }
+    run = subprocess.run(
+        ["bash", str(JOBS / "j0_pilot.sh")], env=env, capture_output=True, text=True
+    )
+    assert run.returncode != 0
+    assert (work / "phaseb" / "j0" / "throughput.json").exists()
+    assert (work / "phaseb" / "j0" / "nvidia_smi.csv").exists()
+    assert not (work / "phaseb" / "j0" / "gpu_cpu_diff.json").exists()
+
+
+def test_j1_stops_on_empty_input(tmp_path):
+    work = tmp_path / "work"
+    (work / "phaseb").mkdir(parents=True)
+    (work / "phaseb" / "unique_sequences.fasta.gz").write_bytes(gzip.compress(b""))
+    run = _run_j1(work, tmp_path)
+    assert run.returncode == 2
+    assert "STOP: no sequences" in run.stderr
+
+
+@needs_modules
+def test_j1_stops_without_a_gpu(tmp_path):
+    work = _tiny_work(tmp_path)
+    run = _run_j1(work, tmp_path, STUB_NVIDIA_FAIL="1")
+    assert run.returncode != 0
+    assert "No devices were found" in run.stderr
+    assert not list((work / "phaseb" / "signalp").glob("part_*/prediction_results.txt.gz"))

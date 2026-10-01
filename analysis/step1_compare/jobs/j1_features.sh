@@ -3,7 +3,7 @@
 # Submit (see the plan's run section):
 #   sbatch --export=ALL,PROJ_ROOT=...,STEP1_WORKDIR=... -o <log> -e <log> j1_features.sh
 # Input: $STEP1_WORKDIR/phaseb/unique_sequences.fasta.gz (05). The FASTA is split into
-# J1_PARTS parts (default 8; record k of N goes to part floor(k*parts/N)). SignalP runs the
+# J1_PARTS parts (default 8; record k of N, counted from 1, goes to part floor((k-1)*parts/N)). SignalP runs the
 # parts one after another on the GPU; PredGPI (CPU only, single-threaded) runs the parts in
 # parallel at the same time. Outputs go to $STEP1_WORKDIR/phaseb/signalp/part_NNN/ and
 # $STEP1_WORKDIR/phaseb/predgpi/part_NNN.tsv.gz. A part whose output exists and whose
@@ -34,7 +34,8 @@ PREDGPI_MODULE="${J1_PREDGPI_MODULE:-predgpi/202001}"
 mkdir -p "$TMP/in" "$TMP/sp" "$TMP/gpi" "$OUT/signalp" "$OUT/predgpi"
 
 zcat "$OUT/unique_sequences.fasta.gz" > "$TMP/all.fasta"
-N=$(grep -c '^>' "$TMP/all.fasta")
+N=$(grep -c '^>' "$TMP/all.fasta" || true)
+if [ "$N" -eq 0 ]; then echo "STOP: no sequences in $OUT/unique_sequences.fasta.gz" >&2; exit 2; fi
 awk -v n="$N" -v p="$PARTS" -v dir="$TMP/in" '
   /^>/ { k++; part = int((k - 1) * p / n) }
   { printf "%s\n", $0 > sprintf("%s/part_%03d.fasta", dir, part) }' "$TMP/all.fasta"
@@ -74,6 +75,7 @@ GPI_PID=$!
   set -euo pipefail
   module load "$SIGNALP_MODULE"
   command -v signalp6 >/dev/null || { echo "FATAL: signalp6 not on PATH" >&2; exit 1; }
+  nvidia-smi -L >&2  # the GPU build needs a visible GPU; fail here if there is none
   for f in "$TMP"/in/part_*.fasta; do
     part=$(basename "$f" .fasta)
     sha=$(part_sha "$part")
@@ -83,8 +85,13 @@ GPI_PID=$!
       echo "  SignalP skip $part (done)"; continue
     fi
     rm -rf "$TMP/sp/$part"
-    signalp6 --fastafile "$f" --organism eukarya --output_dir "$TMP/sp/$part" \
-      --format none --mode fast --write_procs 8 --torch_num_threads 8 2>&1 | tail -2
+    if ! signalp6 --fastafile "$f" --organism eukarya --output_dir "$TMP/sp/$part" \
+      --format none --mode fast --write_procs 8 --torch_num_threads 8 \
+      > "$TMP/sp/$part.log" 2>&1; then
+      echo "SignalP failed for $part; last 40 lines of $TMP/sp/$part.log:" >&2
+      tail -n 40 "$TMP/sp/$part.log" >&2
+      exit 1
+    fi
     mkdir -p "$dest"
     for name in prediction_results.txt output.gff3 region_output.gff3; do
       gzip -n -c "$TMP/sp/$part/$name" > "$TMP/sp/$part/$name.gz"

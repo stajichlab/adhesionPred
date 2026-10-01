@@ -1,0 +1,7 @@
+#!/bin/bash
+# Test stub of nvidia-smi. STUB_NVIDIA_FAIL=1 simulates a node without a GPU.
+if [ "${STUB_NVIDIA_FAIL:-0}" = 1 ]; then echo "No devices were found" >&2; exit 6; fi
+case "$1" in
+  -L) echo "GPU 0: stub (UUID: GPU-0)" ;;
+  *) echo "name, driver_version, memory.total [MiB]"; echo "stub, 0, 0" ;;
+esac

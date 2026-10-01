@@ -29,8 +29,10 @@ mkdir -p "$TMP" "$OUT"
 nvidia-smi --query-gpu=name,driver_version,memory.total --format=csv > "$TMP/nvidia_smi.csv"
 "$ENV_PY" "$S1/jobs/throughput_pilot.py" --work-dir "$STEP1_WORKDIR" \
   --out "$TMP/throughput.json" --device cuda --n 2000 --batch-sizes 8,16,32,64
+# copy each result at once, so a later failure or time-out keeps the earlier results
+cp "$TMP/throughput.json" "$TMP/nvidia_smi.csv" "$OUT/"
 "$ENV_PY" "$S1/jobs/gpu_cpu_diff.py" --work-dir "$STEP1_WORKDIR" \
   --out "$TMP/gpu_cpu_diff.json" --device-a cuda --device-b cpu --n 200 --n-long 20
 
-cp "$TMP/throughput.json" "$TMP/gpu_cpu_diff.json" "$TMP/nvidia_smi.csv" "$OUT/"
+cp "$TMP/gpu_cpu_diff.json" "$OUT/"
 echo "J0 done: $OUT"
