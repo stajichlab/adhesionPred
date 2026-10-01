@@ -19,7 +19,7 @@ All numbers below were computed on 2026-10-01 from the files named. Numbers mark
 | Fact | Value | Source |
 |---|---|---|
 | Phase A production run | finished 02:32:23 PDT, every script rc=0, all four run logs say `all_sources: true` | `$STEP1_WORKDIR/logs/phaseA_production.log`, `extract_log.json`, `sequence_run.json`, `d8_run.json`, `keyword_tier_run.json` |
-| `truth_sequences.tsv.gz` | 50,844 rows (51,106 truth genes minus 262 unmatched); 41,293 unique sequences; 22,247,415 residues in unique sequences; 3,920 unique sequences longer than 1,022 aa; longest 8,515 aa; shortest 4 aa; only non-standard residue: X (418 occurrences); 0 stored hashes differ from a recomputed hash | prototype count script |
+| `truth_sequences.tsv.gz` | 50,844 rows (51,106 truth genes minus 262 unmatched); 41,293 unique sequences; 22,247,415 residues in unique sequences; 3,920 unique sequences longer than 1,022 aa; longest 8,515 aa; shortest 4 aa; only non-standard residue: X (418 X residues in 85 rows; 80 unique sequences contain X, with 382 X residues); 0 stored hashes differ from a recomputed hash | prototype count script |
 | Phase B universe (05 on the production inputs, all 11 sets in `sequence_sets.tsv`) | 123,567 members; 69,941 unique sequences; 34,524,441 residues; 5,541 unique sequences longer than 1,022 aa; no character outside the ESM-2 alphabet | prototype run of `05_prepare_sequences.py` |
 | Residues to embed per model | 37,860,229 (32,197,327 N-terminal window residues + 5,541 x 1,022 C-terminal window residues) | prototype run of `06_plan_embedding.py --rate 29500` |
 | Proteome FASTA records (unique sequences) | S288C 6,722 (6,638); *C. albicans* 6,250 (6,192); *S. pombe* PomBase 5,126 (5,078); Af293 9,647; *A. nidulans* 10,561; H99 7,427; JEC21 6,740 (6,739); *U. maydis* 6,805; *C. immitis* RS 9,910 (9,875); keyword cache 3,573 (3,509) | prototype count script |
@@ -27,9 +27,9 @@ All numbers below were computed on 2026-10-01 from the files named. Numbers mark
 | conda env torch | 2.10.0+cu128; `torch.cuda.is_available()` is False on the CPU node c01. Not run on a GPU node yet | `python -c` on c01 |
 | CPU embedding rate (c01, 2 cores, 20 real truth sequences, batch 8) | 8M: 364.3 residues/s; 35M: 133.4 residues/s. At these rates 37.86 M residues take 28.9 h (8M) and 78.8 h (35M). J2 needs a GPU | `jobs/throughput_pilot.py --device cpu --n 20` |
 | GPU embedding rate for 8M and 35M | not measured. Review 9.1 gives ESM-2 150M at 60 proteins/s and 29,500 residues/s on one RTX 6000 Ada, but with bf16, HuggingFace transformers and token-budget batching, not the fp32 fair-esm code path of `get_esm_embeddings`. Used below only as an assumption for the worked example | `docs/model-review/2026-09-27-review-and-framework-plan.md` 9.1 |
-| SignalP 6 GPU build | `module load signalp/6-gpu` works only in a login shell (`bash -l`), because the module runs `conda activate`. On the CPU node c01 it stops with `RuntimeError: The model checkpoint is configured to run on GPU, but no CUDA device was found`. The CPU build has no weights (verified 2026-09-30, `analysis/cocci_repeats/01_signalp.sh`) | run on c01 |
+| SignalP 6 builds | Both `signalp/6-gpu` and `signalp/6` print `conda activate` in their modulefile, so they work only in a login shell (`bash -l`). GPU build on the CPU node c01: stops with `RuntimeError: The model checkpoint is configured to run on GPU, but no CUDA device was found`. CPU build (`signalp/6.0i/env`): now has `model_weights/distilled_model_signalp6.pt` (1,630,773,569 bytes, dated 2026-09-30 10:17); `--mode fast` with 2 threads on c01 took 15.0 s wall for 3 S288C proteins and 51.4 s for 20 (model load included; about 2.1 s per additional protein). At that rate 69,941 sequences take about 41 h, so J1 uses the GPU build (controller ruling, 2026-10-01) | runs on c01, 2026-10-01 |
 | SignalP 6 output format | `prediction_results.txt`: TAB separated, two `#` lines, header `# ID<TAB>Prediction<TAB>OTHER<TAB>SP(Sec/SPI)<TAB>CS Position`; SP rows end with `CS pos: 24-25. Pr: 0.5487`, OTHER rows with an empty field. `output.gff3`: one `signal_peptide` line per SP protein, start 1, end = first number of `CS pos`. The ID column is the whole FASTA header line, so J1 uses the 64-character `seq_sha256` as the only header token | `analysis/cocci_repeats/signalp/CimmitisRS_FungiDB/` (job 29280458) |
-| SignalP 6 GPU rate | 82,326 proteins in 6 min 16 s wall time (7 proteomes, model load included; 217 to 244 proteins/s in the progress bar) on gpu12 with 8 cores and one ada6000 | `logs/signalp.29280458.log`, `sacct -j 29280458` |
+| SignalP 6 GPU rate | 72,326 proteins (9,256 + 9,414 + 9,694 + 14,686 + 10,850 + 9,910 + 8,516) in 6 min 16 s wall time, about 192 proteins/s (7 proteomes, model load included; 217 to 244 proteins/s in the progress bar) on gpu12 with 8 cores and one ada6000 | `logs/signalp.29280458.log`, `sacct -j 29280458` |
 | PredGPI CLI | `predgpi.py -f FASTA -o OUT -m {json,gff3}`; writes one line per protein: `GPI-anchor` (omega site, score 1.0 if FPR <= 0.0015, 0.70 if <= 0.005, 0.55 if <= 0.01) or `Chain`. No continuous score. Sequences of 40 aa or less are never GPI. Duplicate FASTA IDs collapse (a dict) | `$PREDGPI_HOME/predgpi.py`, `predgpilib/utils.py` |
 | PredGPI rate | 1,000 S288C proteins (432,782 residues) in 32.5 s on one core of c01 (31 proteins/s) | `time predgpi.py` |
 | PredGPI wrapper | `jobs/predgpi_scores.py` gives the same class, omega site and score as the CLI for all 1,000 proteins (0 mismatches) and adds `fpr` and `svm`; same run time (32.3 s) | prototype comparison |
@@ -52,7 +52,7 @@ All numbers below were computed on 2026-10-01 from the files named. Numbers mark
 ## Review Focus
 
 1. **A tool silently skips sequences** (SignalP drops a record; PredGPI collapses two records with one ID). Expected: 07 stops and names the counts; with `--allow-missing-calls` the gap is in `feature_coverage.tsv`. Pinned by `test_missing_predgpi_call_stops_unless_allowed` (Task 8) and by the duplicate-id check in `jobs/predgpi_scores.py` (Task 7).
-2. **Stale outputs after 05 is re-run** (the unique set changes, old J1 parts or J2 chunks remain). Expected: 07 stops on ids that are not unique sequences; J2 recomputes a chunk whose JSON names other members; edited chunk members are refused. Pinned by `test_stale_tool_output_stops` (Task 8), `test_read_plan_detects_edited_members` (Task 3), `test_corrupted_chunk_is_recomputed_with_the_same_hash` (Task 4).
+2. **Stale outputs after 05 is re-run** (the unique set changes, old J1 parts or J2 chunks remain). Expected: 07 stops on ids that are not unique sequences; J2 recomputes a chunk whose JSON names other members; edited chunk members are refused. J2 and the assembly stop when the plan was made from another `unique_sequences.tsv.gz` or a row holds another sequence than planned (an independent review found this gap in the first version of this plan). Pinned by `test_stale_tool_output_stops` and `test_unreferenced_stale_id_stops_with_its_message` (Task 8), `test_read_plan_detects_edited_members` and the three `test_plan_check_*` tests (Task 3), `test_stale_plan_stops_the_job` and `test_chunk_json_with_other_members_is_recomputed` (Task 4), `test_assemble_stops_on_a_stale_plan` (Task 5).
 3. **A killed or failed job leaves half-written files under final names.** Expected: no done marker for an unfinished part or chunk; the rerun resumes and gives the same arrays. Pinned by `test_kill_and_resume_gives_the_same_arrays` (Task 4) and `test_j1_signalp_failure_leaves_no_done_marker` (Task 9).
 4. **A character that `sanitize_sequence` would delete** (`-`, `.`) shifts the window boundary, so the C-terminal window is not the last 1,022 model residues. Expected: 05 stops. Pinned by `test_prepare_stops_on_a_non_esm_character` (Task 2).
 5. **A GPU job without a visible GPU falls back to CPU** (28.9 h and 78.8 h at the measured CPU rates). Expected: J0, the diff harness and J2 stop with exit 2. Pinned by `test_cuda_request_without_gpu_stops` (Task 4) and `test_gpu_cpu_diff_stops_without_a_gpu` (Task 6).
@@ -93,7 +93,7 @@ r_m = residues per second of model m at its best batch size in `j0/throughput.js
 
 ### J1 sizing (one job)
 
-Measured rates: SignalP 6 on gpu12 about 219 proteins/s over a whole job (82,326 in 376 s); PredGPI 31 proteins/s per core. For 69,941 sequences: SignalP about 320 s; PredGPI 2,256 core-seconds, about 282 s per part with 8 parallel parts (assumption: gpu12 cores are as fast as c01 cores). The whole J1 work is about 10 minutes, so one job is the minimum count, and it cannot be sized up to 1 h. It runs on `exfab` with an explicit `--time=1:00:00`. `exfab` and not `short_gpu` (2 h limit, also enough): `analysis/cocci_repeats/01_signalp.sh` records that `short_gpu` scheduled about 4 h out on 2026-09-30 while `exfab` had no pending job. SignalP needs a GPU (CPU build has no weights; GPU build refuses CPU). The FASTA is cut into 8 parts so a rerun resumes per part.
+Measured rates: SignalP 6 on gpu12 about 192 proteins/s over a whole job (72,326 in 376 s); PredGPI 31 proteins/s per core. For 69,941 sequences: SignalP about 364 s; PredGPI 2,256 core-seconds, about 282 s per part with 8 parallel parts (assumption: gpu12 cores are as fast as c01 cores). The whole J1 work is about 10 minutes, so one job is the minimum count, and it cannot be sized up to 1 h. It runs on `exfab` with an explicit `--time=1:00:00`. `exfab` and not `short_gpu` (2 h limit, also enough): `analysis/cocci_repeats/01_signalp.sh` records that `short_gpu` scheduled about 4 h out on 2026-09-30 while `exfab` had no pending job. J1 uses the SignalP GPU build: the CPU build runs but needs about 2.1 s per protein on 2 threads (about 41 h for 69,941 sequences), and the GPU build refuses to run without a GPU. The FASTA is cut into 8 parts so a rerun resumes per part.
 
 ### Storage
 
@@ -460,6 +460,25 @@ def test_real_sets_file_is_valid():
     assert [r["set_id"] for r in rows][:2] == ["truth", "uniprot_kw"]
     assert sum(r["kind"] == "download" for r in rows) == 8
     assert any(r["set_id"] == "Cimm_RS_proteome" for r in rows)
+
+
+def test_truth_row_with_a_non_esm_character_stops():
+    seq = "MK-LV"  # seqhash.clean keeps '-', sanitize_sequence would delete it
+    row = {
+        "source_id": "Scer_SGD",
+        "gene_id": "S9",
+        "seq_sha256": seqhash.seq_sha256(seq),
+        "sequence": seq,
+    }
+    with pytest.raises(seqsets.SequenceSetError, match="not ESM-2 residues"):
+        seqsets.truth_members([row])
+
+
+def test_keyword_isoform_collision_names_the_cause(tmp_path):
+    path = tmp_path / "kw.fasta"
+    path.write_text(">sp|P11111|A_YEAST\nMKV\n>sp|P11111-2|A_YEAST\nMKVLL\n")
+    with pytest.raises(seqsets.SequenceSetError, match="isoform suffix"):
+        seqsets.fasta_members("uniprot_kw", path, "keyword")
 ```
 
 - [ ] **Step 2: Run the test to verify it fails**
@@ -598,6 +617,11 @@ def fasta_members(set_id: str, path: str | Path, kind: str):
         digest = seqhash.seq_sha256(seq)
         if gene_id in by_gene:
             if by_gene[gene_id] != digest:
+                if kind == "keyword":
+                    raise SequenceSetError(
+                        f"{set_id}: two records give accession {gene_id} after the isoform "
+                        "suffix ('-<n>') is removed, and their sequences differ"
+                    )
                 raise SequenceSetError(f"{set_id}: {gene_id} has two different sequences")
             continue
         _check(seq, f"{set_id} {gene_id}")
@@ -806,7 +830,7 @@ Add only the `keyword_tier_run.json` line now (the `d8_run.json` line is added i
 - [ ] **Step 7: Run the tests to verify they pass**
 
 Run: `$PY -m pytest tests/step1_compare/test_phaseb_prepare.py tests/step1_compare/test_paths.py -q`
-Expected: all pass (`test_phaseb_prepare.py`: 9 passed). `test_every_module_imports_only_stdlib_or_local` still passes.
+Expected: all pass (`test_phaseb_prepare.py`: 11 passed). `test_every_module_imports_only_stdlib_or_local` still passes.
 
 - [ ] **Step 8: Commit**
 
@@ -826,7 +850,7 @@ git commit -m "step1_compare: 05 collects the Phase B input sets and dedupes by 
 
 **Interfaces:**
 - Consumes: `seqwindow.window`, `seqwindow.needs_cterm` (Task 1); `seqsets.unique_rows`, `seqsets.UNIQUE_COLUMNS` (Task 2, tests); `truth_table`, `manifest`, `runinfo`, `paths`.
-- Produces: `chunk_plan.CHUNK_SECONDS = 300`, `MIN_CHUNK = 10_000`, `SAFETY = 1.25`, `TARGET_SECONDS = 4500`, `PLAN_COLUMNS`, `MEMBER_COLUMNS`; dataclass `Chunk(chunk_id: str, window: str, rows: list[int], hashes: list[str], residues: int)` with property `members_sha256`; `members_digest(hashes) -> str`; `window_entries(unique_rows, window) -> list[tuple[int, str, int]]`; `build_chunks(unique_rows, window, chunk_residues) -> list[Chunk]`; `chunk_residues_from_rate(min_rate: float) -> int`; `plan_jobs(rates: dict[str, float], load_s: dict[str, float], residues: int) -> dict` (keys `total_seconds`, `n_jobs`, `seconds_per_job`, `time_minutes`); `chunks_for_job(chunk_ids, job_index, job_count) -> list[str]`; `read_plan(out_dir) -> list[Chunk]`. Script `06_plan_embedding.py` with `MODELS`, `OUTPUT_NAMES`, `PlanError`, `rates_from_j0(j0, models)`, `run(...)`, `main(argv=None)`. Outputs: `chunk_plan.tsv`, `chunk_members.tsv.gz`, `job_plan.json` (keys include `batch_size[model]`, `n_jobs`, `time_minutes`, `rate_source`).
+- Produces: `chunk_plan.CHUNK_SECONDS = 300`, `MIN_CHUNK = 10_000`, `SAFETY = 1.25`, `TARGET_SECONDS = 4500`, `PLAN_COLUMNS`, `MEMBER_COLUMNS`; dataclass `Chunk(chunk_id: str, window: str, rows: list[int], hashes: list[str], residues: int)` with property `members_sha256`; `members_digest(hashes) -> str`; `window_entries(unique_rows, window) -> list[tuple[int, str, int]]`; `build_chunks(unique_rows, window, chunk_residues) -> list[Chunk]`; `chunk_residues_from_rate(min_rate: float) -> int`; `plan_jobs(rates: dict[str, float], load_s: dict[str, float], residues: int) -> dict` (keys `total_seconds`, `n_jobs`, `seconds_per_job`, `time_minutes`); `chunks_for_job(chunk_ids, job_index, job_count) -> list[str]`; `read_plan(out_dir) -> list[Chunk]`; `StalePlanError(ValueError)`; `check_plan_is_current(out_dir, chunks, seq_by_row: dict[int, str]) -> None` (raises StalePlanError when the SHA-256 of `unique_sequences.tsv.gz` differs from `job_plan.json["unique_sequences_sha256"]` or a member row holds another sequence than its planned `seq_sha256`; the message says to re-run 06). Script `06_plan_embedding.py` with `MODELS`, `OUTPUT_NAMES`, `PlanError`, `rates_from_j0(j0, models)`, `run(...)`, `main(argv=None)`. Outputs: `chunk_plan.tsv`, `chunk_members.tsv.gz`, `job_plan.json` (keys include `batch_size[model]`, `n_jobs`, `time_minutes`, `rate_source`).
 
 - [ ] **Step 1: Write the failing test**
 
@@ -961,6 +985,38 @@ def test_read_plan_detects_edited_members(tmp_path):
     truth_table.write_tsv(out / "chunk_members.tsv.gz", chunk_plan.MEMBER_COLUMNS, rows)
     with pytest.raises(ValueError, match="members differ"):
         chunk_plan.read_plan(out)
+
+
+def _planned(tmp_path):
+    out, unique = _plan_inputs(tmp_path, [50, 60, 1100])
+    plan_script = load_script("06_plan_embedding")
+    assert plan_script.main(["--work-dir", str(tmp_path), "--rate", "100"]) == 0
+    seq_by_row = {int(r["row"]): r["sequence"] for r in unique}
+    return out, unique, seq_by_row
+
+
+def test_plan_check_passes_on_the_planned_set(tmp_path):
+    out, _, seq_by_row = _planned(tmp_path)
+    chunk_plan.check_plan_is_current(out, chunk_plan.read_plan(out), seq_by_row)
+
+
+def test_plan_check_detects_another_unique_file(tmp_path):
+    out, unique, seq_by_row = _planned(tmp_path)
+    truth_table.write_tsv(out / "unique_sequences.tsv.gz", seqsets.UNIQUE_COLUMNS, unique[:2])
+    with pytest.raises(chunk_plan.StalePlanError, match="another unique_sequences"):
+        chunk_plan.check_plan_is_current(out, chunk_plan.read_plan(out), seq_by_row)
+
+
+def test_plan_check_detects_a_changed_sequence_even_with_a_matching_file_hash(tmp_path):
+    import manifest
+
+    out, _, seq_by_row = _planned(tmp_path)
+    plan = json.loads((out / "job_plan.json").read_text())
+    plan["unique_sequences_sha256"] = manifest.sha256_file(out / "unique_sequences.tsv.gz")
+    (out / "job_plan.json").write_text(json.dumps(plan))
+    seq_by_row[0] = "MKWWWW"
+    with pytest.raises(chunk_plan.StalePlanError, match="does not hold the planned sequence"):
+        chunk_plan.check_plan_is_current(out, chunk_plan.read_plan(out), seq_by_row)
 ```
 
 - [ ] **Step 2: Run the test to verify it fails**
@@ -989,10 +1045,13 @@ from the J0 throughput JSON. Chunk k of the plan goes to job k mod n_jobs.
 """
 
 import hashlib
+import json
 import math
 from dataclasses import dataclass, field
 from pathlib import Path
 
+import manifest
+import seqhash
 import seqwindow
 import truth_table
 
@@ -1091,6 +1150,35 @@ def read_plan(out_dir) -> list[Chunk]:
             raise ValueError(f"chunk {r['chunk_id']}: members differ from chunk_plan.tsv")
         chunk.residues = int(r["residues"])
     return [chunks[r["chunk_id"]] for r in plan]
+
+
+class StalePlanError(ValueError):
+    """The chunk plan was made from another unique_sequences.tsv.gz."""
+
+
+def check_plan_is_current(out_dir, chunks: list[Chunk], seq_by_row: dict[int, str]) -> None:
+    """Raise StalePlanError unless the plan matches the current unique sequences.
+
+    Two checks: the SHA-256 of unique_sequences.tsv.gz equals `unique_sequences_sha256` in
+    job_plan.json, and the hash of the sequence in each member's row equals the member's
+    planned seq_sha256."""
+    out_dir = Path(out_dir)
+    advice = "re-run 06_plan_embedding.py (and delete the old phaseb/emb/ chunks)"
+    plan = json.loads((out_dir / "job_plan.json").read_text())
+    current = manifest.sha256_file(out_dir / "unique_sequences.tsv.gz")
+    if plan.get("unique_sequences_sha256") != current:
+        raise StalePlanError(
+            f"job_plan.json was made from another unique_sequences.tsv.gz "
+            f"(recorded {plan.get('unique_sequences_sha256')!r}, current {current}); {advice}"
+        )
+    for chunk in chunks:
+        for row, digest in zip(chunk.rows, chunk.hashes, strict=True):
+            seq = seq_by_row.get(row)
+            if seq is None or seqhash.seq_sha256(seq) != digest:
+                raise StalePlanError(
+                    f"chunk {chunk.chunk_id}: row {row} does not hold the planned sequence "
+                    f"{digest[:12]}; {advice}"
+                )
 ```
 
 - [ ] **Step 4: Write `06_plan_embedding.py`**
@@ -1240,7 +1328,7 @@ if __name__ == "__main__":
 - [ ] **Step 5: Run the tests to verify they pass**
 
 Run: `$PY -m pytest tests/step1_compare/test_chunk_plan.py tests/step1_compare/test_paths.py -q`
-Expected: all pass (`test_chunk_plan.py`: 10 passed).
+Expected: all pass (`test_chunk_plan.py`: 13 passed).
 
 - [ ] **Step 6: Commit**
 
@@ -1260,7 +1348,7 @@ git commit -m "step1_compare: 06 cuts embedding chunks and sizes J2 from the J0 
 
 **Interfaces:**
 - Consumes: `chunk_plan.read_plan`, `chunk_plan.chunks_for_job`, `Chunk.members_sha256` (Task 3); `seqwindow.window` (Task 1); `06_plan_embedding.main` (tests, Task 3); `surface_glyco.embeddings.get_esm_embeddings(sequences, model_name, batch_size, device, repr_layer, return_indices=True) -> (array, ids, kept)`.
-- Produces: `embed_store.DTYPE = np.float32`; `array_sha256(arr) -> str`; `chunk_paths(publish, model, chunk_id) -> (npy, json)`; `save_chunk(publish, scratch, model, chunk_id, arr, meta) -> dict` (refuses NaN/inf and non-2-D arrays; writes to scratch, then copies npy and then json atomically to publish); `load_chunk(publish, model, chunk_id) -> (arr, meta)` (ValueError on shape, dtype or hash mismatch); `chunk_is_done(publish, model, chunk_id, members_sha256, n) -> bool`. `embed_chunks.MODELS`, `REPR_LAYER = 6`, `EmbedError(RuntimeError)`, `embed_window_sequences(seqs, model, batch_size, device, layer) -> np.ndarray`, `run_job(work, models, job_index, job_count, device, scratch, batch_size=None, stop_after=None) -> dict` (keys `done`, `skipped`, `stopped`), `main(argv=None)` (exit 0, 2 STOP, 3 test hook). Chunk files: `$STEP1_WORKDIR/phaseb/emb/<model>/<chunk_id>.npy` and `.json`. Test helper `phaseb_fixture.make_plan(work, chunk_residues=400) -> (out, unique)`, `phaseb_fixture.run_cpu(work, scratch, **kw) -> dict`, `MODEL`, `LONG`, `SEQS`.
+- Produces: `embed_store.DTYPE = np.float32`; `array_sha256(arr) -> str`; `chunk_paths(publish, model, chunk_id) -> (npy, json)`; `save_chunk(publish, scratch, model, chunk_id, arr, meta) -> dict` (refuses NaN/inf and non-2-D arrays; writes to scratch, then copies npy and then json atomically to publish); `load_chunk(publish, model, chunk_id) -> (arr, meta)` (ValueError on shape, dtype or hash mismatch); `chunk_is_done(publish, model, chunk_id, members_sha256, n) -> bool`. `embed_chunks.MODELS`, `REPR_LAYER = 6`, `EmbedError(RuntimeError)`, `embed_window_sequences(seqs, model, batch_size, device, layer) -> np.ndarray`, `run_job(work, models, job_index, job_count, device, scratch, batch_size=None, stop_after=None) -> dict` (keys `done`, `skipped`, `stopped`; raises EmbedError when `job_count != job_plan["n_jobs"]` and StalePlanError through `chunk_plan.check_plan_is_current` before any chunk is embedded), `main(argv=None)` (exit 0, 2 STOP, 3 test hook). Chunk files: `$STEP1_WORKDIR/phaseb/emb/<model>/<chunk_id>.npy` and `.json`. Test helper `phaseb_fixture.make_plan(work, chunk_residues=400) -> (out, unique)`, `phaseb_fixture.run_cpu(work, scratch, **kw) -> dict`, `phaseb_fixture.change_row0_sequence(out)` (the reviewer's probe: edits the sequence of row 0 after planning and keeps its stored hash), `MODEL`, `LONG`, `SEQS`.
 
 - [ ] **Step 1: Put `jobs/` on the test path**
 
@@ -1317,6 +1405,16 @@ def run_cpu(work, scratch, **kw):
 
     cpu = torch.device("cpu")
     return embed_chunks.run_job(work, [MODEL], 0, 1, cpu, scratch, batch_size=2, **kw)
+
+
+def change_row0_sequence(out):
+    """Replace the sequence of row 0 in unique_sequences.tsv.gz and keep its stored hash.
+
+    This is the reviewer's probe: a unique set that changed after 06 wrote the plan."""
+    unique = truth_table.read_tsv(out / "unique_sequences.tsv.gz")
+    unique[0]["sequence"] = "MKWWWWWWWWAAAA"
+    unique[0]["length"] = str(len(unique[0]["sequence"]))
+    truth_table.write_tsv(out / "unique_sequences.tsv.gz", seqsets.UNIQUE_COLUMNS, unique)
 ```
 
 - [ ] **Step 3: Write the failing test**
@@ -1338,7 +1436,7 @@ import chunk_plan  # noqa: E402
 import embed_chunks  # noqa: E402
 import embed_store  # noqa: E402
 from conftest import STEP1_DIR  # noqa: E402
-from phaseb_fixture import LONG, MODEL, make_plan, run_cpu  # noqa: E402
+from phaseb_fixture import LONG, MODEL, change_row0_sequence, make_plan, run_cpu  # noqa: E402
 
 CPU = torch.device("cpu")
 
@@ -1452,6 +1550,48 @@ def test_cuda_request_without_gpu_stops(tmp_path, capsys):
     argv = ["--work-dir", str(work), "--device", "cuda", "--scratch-dir", str(tmp_path / "s")]
     assert embed_chunks.main(argv) == 2
     assert "cuda" in capsys.readouterr().err
+
+
+def _cli(work, tmp_path, *extra):
+    argv = ["--work-dir", str(work), "--models", MODEL, "--device", "cpu", "--batch-size", "2"]
+    return embed_chunks.main(argv + ["--scratch-dir", str(tmp_path / "s"), *extra])
+
+
+def test_stale_plan_stops_the_job(tmp_path, capsys):
+    work = tmp_path / "w"
+    out, _ = make_plan(work)
+    change_row0_sequence(out)
+    assert _cli(work, tmp_path) == 2
+    assert "re-run 06_plan_embedding.py" in capsys.readouterr().err
+    assert not (out / "emb").exists()
+
+
+def test_chunk_json_with_other_members_is_recomputed(tmp_path):
+    import json
+
+    work = tmp_path / "w"
+    out, _ = make_plan(work)
+    run_cpu(work, tmp_path / "scratch")
+    chunk = chunk_plan.read_plan(out)[0]
+    _, js = embed_store.chunk_paths(out / "emb", MODEL, chunk.chunk_id)
+    meta = json.loads(js.read_text())
+    meta["members_sha256"] = "0" * 64  # array and hash stay valid; only the members differ
+    js.write_text(json.dumps(meta))
+    assert embed_store.load_chunk(out / "emb", MODEL, chunk.chunk_id)  # passes its hash check
+    done = embed_store.chunk_is_done
+    assert not done(out / "emb", MODEL, chunk.chunk_id, chunk.members_sha256, len(chunk.rows))
+    again = run_cpu(work, tmp_path / "scratch")
+    assert again["done"] == 1
+    meta = json.loads(js.read_text())
+    assert meta["members_sha256"] == chunk.members_sha256
+
+
+def test_job_count_must_match_the_plan(tmp_path, capsys):
+    work = tmp_path / "w"
+    out, _ = make_plan(work)
+    assert _cli(work, tmp_path, "--job-count", "2", "--job-index", "0") == 2
+    assert "J2_JOB_COUNT" in capsys.readouterr().err
+    assert not (out / "emb").exists()
 ```
 
 - [ ] **Step 4: Run the test to verify it fails**
@@ -1568,7 +1708,9 @@ For each model and each chunk of this job (chunk k goes to job k mod --job-count
   same members_sha256, and the array SHA-256 matches the JSON;
 - else embed it, write it under --scratch-dir, and copy it to phaseb/emb/<model>/.
 
-STOP (exit 2): the plan files disagree; --device cuda without a GPU; a sequence that
+STOP (exit 2): the plan files disagree; the plan was made from another
+unique_sequences.tsv.gz or a row holds another sequence than planned (re-run 06); --job-count
+differs from n_jobs in job_plan.json; --device cuda without a GPU; a sequence that
 get_esm_embeddings skipped; NaN or inf in a result. Exit 3: --stop-after-chunks was reached
 (test hook that simulates a killed job).
 """
@@ -1626,11 +1768,17 @@ def run_job(
     out = Path(work) / "phaseb"
     publish = out / "emb"
     chunks = {c.chunk_id: c for c in chunk_plan.read_plan(out)}
-    mine = chunk_plan.chunks_for_job(list(chunks), job_index, job_count)
     job_plan = json.loads((out / "job_plan.json").read_text())
+    if job_count != job_plan["n_jobs"]:
+        raise EmbedError(
+            f"--job-count {job_count} differs from n_jobs {job_plan['n_jobs']} in job_plan.json; "
+            "submit J2 with J2_JOB_COUNT=n_jobs"
+        )
+    mine = chunk_plan.chunks_for_job(list(chunks), job_index, job_count)
     seq_by_row = {
         int(r["row"]): r["sequence"] for r in truth_table.read_tsv(out / "unique_sequences.tsv.gz")
     }
+    chunk_plan.check_plan_is_current(out, list(chunks.values()), seq_by_row)
     done = skipped = 0
     for model in models:
         size = batch_size or int(job_plan["batch_size"][model])
@@ -1702,7 +1850,7 @@ if __name__ == "__main__":
 - [ ] **Step 7: Run the tests to verify they pass**
 
 Run: `PYTHONPATH=src $ENV_PY -m pytest tests/step1_compare/test_phaseb_embed.py -q`
-Expected: `9 passed` (the prototype ran this file and the assembly tests, 11 tests, in 80 s on 2 CPU cores; ESM-2 8M on CPU). The determinism test asserts a bit-identical recomputed chunk on CPU. The kill test runs the CLI in a subprocess, stops it after one chunk (exit 3), resumes it, and compares every chunk hash with an uninterrupted run.
+Expected: `12 passed` (the prototype ran this file with `test_chunk_plan.py` and the assembly tests, 28 tests, in 91 s on 2 CPU cores; ESM-2 8M on CPU). The determinism test asserts a bit-identical recomputed chunk on CPU. The kill test runs the CLI in a subprocess, stops it after one chunk (exit 3), resumes it, and compares every chunk hash with an uninterrupted run.
 Run: `$PY -m pytest tests/step1_compare -q`
 Expected: no failure; `test_phaseb_embed.py` is skipped (no torch), `test_every_module_imports_only_stdlib_or_local` passes (it scans the top folder only, not `jobs/`).
 
@@ -1724,7 +1872,7 @@ git commit -m "step1_compare: resumable J2 embedding runner with hashed chunk fi
 
 **Interfaces:**
 - Consumes: `embed_store.load_chunk`, `embed_store.array_sha256`, `embed_store.DTYPE` (Task 4); `chunk_plan.read_plan` (Task 3); `phaseb_fixture.make_plan`, `run_cpu` (tests, Task 4).
-- Produces: `assemble_embeddings.MODELS`, `MANIFEST_COLUMNS`, `AssembleError(ValueError)`, `window_matrix(nterm, cterm, cterm_rows: list[str]) -> np.ndarray`, `assemble_model(publish, model, chunks, unique, manifest_rows) -> dict[str, np.ndarray]`, `run(work, models) -> dict`, `main(argv=None)`. Outputs in `phaseb/emb/`: `<model>.nterm.npy`, `<model>.cterm.npy`, `chunk_manifest.tsv`, `embedding_run.json`.
+- Produces: `assemble_embeddings.MODELS`, `MANIFEST_COLUMNS`, `AssembleError(ValueError)`, `window_matrix(nterm, cterm, cterm_rows: list[str]) -> np.ndarray`, `assemble_model(publish, model, chunks, unique, manifest_rows) -> dict[str, np.ndarray]`, `run(work, models) -> dict` (calls `chunk_plan.check_plan_is_current` first), `main(argv=None)`. Outputs in `phaseb/emb/`: `<model>.nterm.npy`, `<model>.cterm.npy`, `chunk_manifest.tsv`, `embedding_run.json`.
 
 - [ ] **Step 1: Write the failing test**
 
@@ -1741,7 +1889,7 @@ import assemble_embeddings  # noqa: E402
 import chunk_plan  # noqa: E402
 import embed_store  # noqa: E402
 import truth_table  # noqa: E402
-from phaseb_fixture import MODEL, make_plan, run_cpu  # noqa: E402
+from phaseb_fixture import MODEL, change_row0_sequence, make_plan, run_cpu  # noqa: E402
 
 
 def test_assemble_builds_row_ordered_matrices(tmp_path):
@@ -1779,6 +1927,17 @@ def test_assemble_stops_on_a_missing_chunk(tmp_path, capsys):
     assert assemble_embeddings.main(["--work-dir", str(work), "--models", MODEL]) == 2
     assert chunk_id in capsys.readouterr().err
     assert not (out / "emb" / f"{MODEL}.nterm.npy").exists()
+
+
+def test_assemble_stops_on_a_stale_plan(tmp_path, capsys):
+    work = tmp_path / "w"
+    out, _ = make_plan(work)
+    run_cpu(work, tmp_path / "scratch")
+    change_row0_sequence(out)
+    assert assemble_embeddings.main(["--work-dir", str(work), "--models", MODEL]) == 2
+    assert "re-run 06_plan_embedding.py" in capsys.readouterr().err
+    assert not (out / "emb" / f"{MODEL}.nterm.npy").exists()
+    assert not (out / "emb" / "embedding_run.json").exists()
 ```
 
 - [ ] **Step 2: Run the test to verify it fails**
@@ -1802,7 +1961,8 @@ Writes to phaseb/emb/:
 
 A sequence of 1,022 aa or less has no C-terminal row: its C-terminal window is the whole
 sequence, so the M8-C and M35-C candidates use its `nterm` row (see `window_matrix`).
-STOP (exit 2, no output): a chunk is missing, fails its hash, or holds other members than the
+STOP (exit 2, no output): the plan was made from another unique_sequences.tsv.gz or a row
+holds another sequence than planned (re-run 06); a chunk is missing, fails its hash, or holds other members than the
 plan; a matrix row is filled twice or not at all; NaN or inf; a row count that is not the
 unique sequence count.
 """
@@ -1881,6 +2041,8 @@ def run(work: Path, models) -> dict:
     publish = out / "emb"
     unique = truth_table.read_tsv(out / "unique_sequences.tsv.gz")
     chunks = chunk_plan.read_plan(out)
+    seq_by_row = {int(r["row"]): r["sequence"] for r in unique}
+    chunk_plan.check_plan_is_current(out, chunks, seq_by_row)
     log = {"models": {}, "unique_sequences": len(unique), "chunks": len(chunks)}
     writers, manifest_rows = {}, []
     for model in models:
@@ -1943,7 +2105,7 @@ if __name__ == "__main__":
 - [ ] **Step 4: Run the tests to verify they pass**
 
 Run: `PYTHONPATH=src $ENV_PY -m pytest tests/step1_compare/test_phaseb_assemble.py -q`
-Expected: `2 passed`.
+Expected: `3 passed`.
 
 - [ ] **Step 5: Commit**
 
@@ -1961,7 +2123,7 @@ git commit -m "step1_compare: assemble J2 chunks into checked matrices with a ch
 
 **Interfaces:**
 - Consumes: `seqwindow.nterm_window`, `cterm_window`, `needs_cterm` (Task 1); `chunk_plan.members_digest` (Task 3); `06_plan_embedding.main` (test, Task 3); `seqsets.unique_rows` (test, Task 2); `surface_glyco.embeddings.get_cached_model`, `get_esm_embeddings`.
-- Produces: `throughput_pilot.SCHEMA = "step1-phaseb-j0-throughput/1"`, `PilotError(RuntimeError)`, `sample_sequences(truth_rows, n, seed) -> list[tuple[str, str]]`, `time_model(model, sample, batch_sizes, device) -> (runs, load_s)`, `best_runs(runs) -> dict`, `run(truth_path, out_path, models, batch_sizes, n, seed, device) -> dict`, `main(argv=None)`; JSON keys used by 06: `best[model].batch_size`, `best[model].residues_per_s`, `model_load_s[model]`. `gpu_cpu_diff.SCHEMA = "step1-phaseb-gpu-cpu-diff/1"`, `windows_for(truth_rows, n, n_long, seed) -> list[str]`, `embed(seqs, model, device, batch_size)`, `compare(a, b) -> dict` (keys `max_abs_diff`, `mean_abs_diff`, `max_rel_diff`, `min_cosine`), `run(...)`, `main(argv=None)`. Outputs: `phaseb/j0/throughput.json`, `phaseb/j0/gpu_cpu_diff.json`.
+- Produces: `throughput_pilot.SCHEMA = "step1-phaseb-j0-throughput/2"`, `BATCH_FAILED = "Warning: batch failed"`, `PilotError(RuntimeError)`, `sample_sequences(truth_rows, n, seed) -> list[tuple[str, str]]`, `time_model(model, sample, batch_sizes, device) -> (runs, load_s)`, `best_runs(runs) -> dict`, `run(truth_path, out_path, models, batch_sizes, n, seed, device) -> dict`, `main(argv=None)`; JSON keys used by 06: `best[model].batch_size`, `best[model].residues_per_s`, `model_load_s[model]`. `gpu_cpu_diff.SCHEMA = "step1-phaseb-gpu-cpu-diff/1"`, `windows_for(truth_rows, n, n_long, seed) -> list[str]`, `embed(seqs, model, device, batch_size)`, `compare(a, b) -> dict` (keys `max_abs_diff`, `mean_abs_diff`, `max_rel_diff`, `min_cosine`), `run(...)`, `main(argv=None)`. Outputs: `phaseb/j0/throughput.json`, `phaseb/j0/gpu_cpu_diff.json`.
 
 - [ ] **Step 1: Write the failing test**
 
@@ -2031,7 +2193,7 @@ def test_pilot_writes_the_throughput_schema_on_cpu(tmp_path):
     assert len(rec["sample_sha256"]) == 64 and len(rec["truth_sequences_sha256"]) == 64
     assert [r["batch_size"] for r in rec["runs"]] == [2, 4]
     for r in rec["runs"]:
-        assert r["status"] == "ok" and r["dim"] == 320
+        assert r["status"] == "ok" and r["dim"] == 320 and r["batch_failures"] == 0
         assert r["proteins_per_s"] > 0 and r["residues_per_s"] > 0
         assert r["peak_mem_bytes"] is None
     assert rec["best"][MODEL]["batch_size"] in (2, 4)
@@ -2075,6 +2237,28 @@ def test_gpu_cpu_diff_stops_without_a_gpu(tmp_path, capsys):
     _truth(tmp_path)
     assert gpu_cpu_diff.main(["--work-dir", str(tmp_path), "--models", MODEL]) == 2
     assert "cuda" in capsys.readouterr().err
+
+
+def test_batch_failures_are_counted_and_never_best(tmp_path, monkeypatch):
+    import surface_glyco.embeddings as emb
+
+    real = emb._embed_batch
+
+    def fail_big_batches(model, alphabet, bc, batch, layer, device):
+        if len(batch) > 2:
+            raise RuntimeError("CUDA out of memory (simulated)")
+        return real(model, alphabet, bc, batch, layer, device)
+
+    monkeypatch.setattr(emb, "_embed_batch", fail_big_batches)
+    _truth(tmp_path)
+    out = tmp_path / "phaseb" / "j0" / "throughput.json"
+    argv = ["--work-dir", str(tmp_path), "--device", "cpu", "--models", MODEL]
+    assert throughput_pilot.main(argv + ["--n", "8", "--batch-sizes", "2,4"]) == 0
+    rec = json.loads(out.read_text())
+    by_size = {r["batch_size"]: r for r in rec["runs"]}
+    assert by_size[2]["status"] == "ok" and by_size[2]["batch_failures"] == 0
+    assert by_size[4]["status"] == "batch_failures" and by_size[4]["batch_failures"] == 2
+    assert rec["best"][MODEL]["batch_size"] == 2
 ```
 
 - [ ] **Step 2: Run the test to verify it fails**
@@ -2094,11 +2278,17 @@ surface_glyco.embeddings.get_esm_embeddings for every model and batch size. Writ
 file (schema SCHEMA) with proteins/s, residues/s, peak GPU memory, the GPU model and, per
 model, the fastest batch size (`best`). 06_plan_embedding.py reads `best` and `model_load_s`.
 
-A batch size that runs out of GPU memory is recorded with status `oom`. STOP (exit 2): the
+get_esm_embeddings catches every batch error (out of memory included), prints
+"Warning: batch failed" and retries the batch one sequence at a time, so no exception reaches
+this script. The pilot captures that output and records `batch_failures` per run. A run with
+batch failures gets status `batch_failures` (its time includes the slow retries) and is never
+chosen as `best`. A run that lost sequences gets status `skipped_<n>`. STOP (exit 2): the
 input is missing, --device cuda without a GPU, or no model has a successful run.
 """
 
 import argparse
+import contextlib
+import io
 import json
 import random
 import sys
@@ -2112,7 +2302,8 @@ import runinfo
 import seqwindow
 import truth_table
 
-SCHEMA = "step1-phaseb-j0-throughput/1"
+SCHEMA = "step1-phaseb-j0-throughput/2"
+BATCH_FAILED = "Warning: batch failed"  # printed by surface_glyco.embeddings.get_esm_embeddings
 MODELS = ("esm2_t6_8M_UR50D", "esm2_t12_35M_UR50D")
 
 
@@ -2153,23 +2344,23 @@ def time_model(model: str, sample, batch_sizes, device) -> tuple[list[dict], flo
             torch.cuda.empty_cache()
             torch.cuda.reset_peak_memory_stats(device)
         run = {"model": model, "batch_size": size}
-        try:
-            _sync(torch, device)
-            t0 = time.time()
+        captured = io.StringIO()
+        _sync(torch, device)
+        t0 = time.time()
+        with contextlib.redirect_stdout(captured):
             arr, _, kept = embeddings.get_esm_embeddings(
                 records, model, size, device, return_indices=True
             )
-            _sync(torch, device)
-            secs = time.time() - t0
-        except torch.cuda.OutOfMemoryError:
-            runs.append({**run, "status": "oom"})
-            continue
+        _sync(torch, device)
+        secs = time.time() - t0
+        sys.stdout.write(captured.getvalue())
+        run["batch_failures"] = captured.getvalue().count(BATCH_FAILED)
         if len(kept) != len(records):
             runs.append({**run, "status": f"skipped_{len(records) - len(kept)}"})
             continue
         run.update(
             {
-                "status": "ok",
+                "status": "ok" if run["batch_failures"] == 0 else "batch_failures",
                 "seconds": round(secs, 3),
                 "proteins_per_s": round(len(records) / secs, 2),
                 "residues_per_s": round(residues / secs, 1),
@@ -2414,7 +2605,7 @@ if __name__ == "__main__":
 - [ ] **Step 5: Run the tests to verify they pass**
 
 Run: `PYTHONPATH=src $ENV_PY -m pytest tests/step1_compare/test_phaseb_pilot.py -q`
-Expected: `5 passed` (about 45 s on CPU). This is the CPU acceptance run of the J0 schema on 20 sequences.
+Expected: `6 passed`. This is the CPU acceptance run of the J0 schema on 20 sequences. `get_esm_embeddings` catches every batch error (out of memory included) and retries the batch one sequence at a time, so an `oom` status could never be set; the pilot counts the `Warning: batch failed` lines instead (`batch_failures`), and `test_batch_failures_are_counted_and_never_best` pins it.
 
 - [ ] **Step 6: Commit**
 
@@ -3041,12 +3232,25 @@ def test_missing_tool_output_folder_stops(tmp_path, fixtures_dir, capsys, name):
     build = load_script("07_build_features")
     assert build.main(["--work-dir", str(work)]) == 2
     assert "no J1 output" in capsys.readouterr().err
+
+
+def test_unreferenced_stale_id_stops_with_its_message(tmp_path, fixtures_dir, capsys):
+    work, out = _work(tmp_path, fixtures_dir)
+    part = out / "predgpi" / "part_000.tsv.gz"
+    text = gzip.decompress(part.read_bytes()).decode()
+    text += "e" * 64 + "\t50\tnone\t0\t\t0.9\t-1.7\n"  # an id that is in no member
+    part.write_bytes(gzip.compress(text.encode()))
+    build = load_script("07_build_features")
+    assert build.main(["--work-dir", str(work)]) == 2
+    err = capsys.readouterr().err
+    assert "PredGPI output has 1 ids that are not unique sequences" in err
+    assert not (out / "features.tsv.gz").exists()
 ```
 
 - [ ] **Step 2: Run the test to verify it fails**
 
 Run: `$PY -m pytest tests/step1_compare/test_phaseb_features.py -q`
-Expected (checked on the prototype with the file removed): `8 failed`, each with `FileNotFoundError` for `07_build_features.py` (raised by `conftest.load_script`).
+Expected (checked on the prototype with the file removed): `9 failed`, each with `FileNotFoundError` for `07_build_features.py` (raised by `conftest.load_script`).
 
 - [ ] **Step 3: Write `07_build_features.py`**
 
@@ -3332,7 +3536,7 @@ In `analysis/step1_compare/runinfo.py`, add the line `"d8_run.json": "03_triage_
 - [ ] **Step 5: Run the tests to verify they pass**
 
 Run: `$PY -m pytest tests/step1_compare/test_phaseb_features.py tests/step1_compare/test_runinfo.py tests/step1_compare/test_paths.py -q`
-Expected: all pass (`test_phaseb_features.py`: 8 passed).
+Expected: all pass (`test_phaseb_features.py`: 9 passed).
 
 - [ ] **Step 6: Commit**
 
@@ -3493,9 +3697,16 @@ def test_j1_runs_resumes_and_feeds_07(tmp_path):
     first = _run_j1(work, tmp_path)
     assert first.returncode == 0, first.stdout[-2000:] + first.stderr[-2000:]
     out = work / "phaseb"
-    for part in ("part_000", "part_001"):
-        assert (out / "signalp" / part / "prediction_results.txt.gz").exists()
-        assert (out / "predgpi" / f"{part}.tsv.gz").exists()
+    # Part membership: record k of N (row order) goes to part floor((k - 1) * parts / N).
+    # With 3 records and 2 parts: rows 0 and 1 in part_000, row 2 in part_001.
+    hashes = [r["seq_sha256"] for r in truth_table.read_tsv(out / "unique_sequences.tsv.gz")]
+    expected = {"part_000": hashes[:2], "part_001": hashes[2:]}
+    for part, want in expected.items():
+        sp = gzip.decompress((out / "signalp" / part / "prediction_results.txt.gz").read_bytes())
+        sp_ids = [x.split("\t")[0] for x in sp.decode().splitlines() if not x.startswith("#")]
+        gpi = gzip.decompress((out / "predgpi" / f"{part}.tsv.gz").read_bytes())
+        gpi_ids = [x.split("\t")[0] for x in gpi.decode().splitlines()[1:]]
+        assert sp_ids == want and gpi_ids == want, part
     again = _run_j1(work, tmp_path)
     assert again.returncode == 0 and again.stdout.count("skip") == 4
     header = "source_id\tgene_id\tlabel\tsubset\tstratum\td8_class\thomology_only\trole\n"
@@ -3523,12 +3734,18 @@ def test_j1_signalp_failure_leaves_no_done_marker(tmp_path):
     run = _run_j1(work, tmp_path, STUB_SIGNALP_FAIL="1")
     assert run.returncode != 0
     assert not list((work / "phaseb" / "signalp").glob("part_*/prediction_results.txt.gz"))
+
+
+def test_j2_script_passes_the_planned_job_count():
+    text = (JOBS / "j2_embed.sh").read_text()
+    assert 'JOB_COUNT="${J2_JOB_COUNT:-1}"' in text
+    assert '--job-count "$JOB_COUNT"' in text and '--job-index "$JOB_INDEX"' in text
 ```
 
 - [ ] **Step 3: Run the test to verify it fails**
 
 Run: `$PY -m pytest tests/step1_compare/test_phaseb_jobs.py -q`
-Expected (checked on the prototype with the scripts removed): `2 failed, 2 passed, 1 skipped`. `test_three_job_scripts_exist` fails (`[] == ['j0_pilot.sh', ...]`); `test_j1_runs_resumes_and_feeds_07` fails (bash exit 127, no script); `test_job_script_conventions` is skipped (empty parameter set); the stub test and the failure test pass trivially before the scripts exist.
+Expected (checked on the prototype with the scripts removed): `3 failed, 2 passed, 1 skipped`. `test_three_job_scripts_exist` fails (`[] == ['j0_pilot.sh', ...]`); `test_j1_runs_resumes_and_feeds_07` fails (bash exit 127, no script); `test_j2_script_passes_the_planned_job_count` fails (no file); `test_job_script_conventions` is skipped (empty parameter set); the stub test and the failure test pass trivially before the scripts exist.
 
 - [ ] **Step 4: Write `jobs/j0_pilot.sh`**
 
@@ -3541,13 +3758,14 @@ Expected (checked on the prototype with the scripts removed): `2 failed, 2 passe
 # PROJ_ROOT comes from the environment, never from the script location (that is wrong in
 # SLURM spool directories). Work happens in node-local $SCRATCH; results are copied to
 # $STEP1_WORKDIR/phaseb/j0/ before the job ends.
-# exfab: one node (gpu12, 2x ada6000), usually less contended than short_gpu. 1 h is far above
-# the expected run time (assumption: under 15 min, spec 8); J0 measures it.
+# exfab: one node (gpu12, 2x ada6000), usually less contended than short_gpu. The time limit
+# is 2 h: the GPU rate is not measured yet (spec 8 assumes under 15 min; an estimate is 5 min
+# at 29,500 residues/s and 48 min at 3,000 residues/s). J0 measures it.
 #SBATCH -p exfab
 #SBATCH --gres=gpu:1
 #SBATCH -c 8
 #SBATCH --mem=32G
-#SBATCH --time=1:00:00
+#SBATCH --time=2:00:00
 #SBATCH -J step1_j0
 set -euo pipefail
 
@@ -3583,11 +3801,13 @@ echo "J0 done: $OUT"
 # parallel at the same time. Outputs go to $STEP1_WORKDIR/phaseb/signalp/part_NNN/ and
 # $STEP1_WORKDIR/phaseb/predgpi/part_NNN.tsv.gz. A part whose output exists and whose
 # recorded input SHA-256 equals the current part is skipped, so a rerun resumes.
-# One job, not one job per part: measured rates (SignalP 6 fast on gpu12 about 220 proteins/s,
-# job 29280458; PredGPI about 31 proteins/s per core on c01) give minutes per part, and the
-# global job-size rule says not to split work into jobs of minutes.
-# The CPU build of SignalP 6 has no model weights on this cluster (verified 2026-09-30); the
-# GPU build refuses to run without a CUDA device (verified 2026-10-01). So the job needs a GPU.
+# One job, not one job per part: measured rates (SignalP 6 fast on gpu12 about 192 proteins/s,
+# job 29280458: 72,326 proteins in 6 min 16 s; PredGPI about 31 proteins/s per core on c01)
+# give minutes per part, and the global job-size rule says not to split work into jobs of
+# minutes. GPU build, not CPU build: the CPU build (signalp/6, weights
+# distilled_model_signalp6.pt installed 2026-09-30) ran --mode fast at about 2.1 s per protein
+# on 2 threads of c01 (2026-10-01), so 69,941 sequences would take about 41 h. The GPU build
+# refuses to run without a CUDA device (verified 2026-10-01).
 #SBATCH -p exfab
 #SBATCH --gres=gpu:1
 #SBATCH -c 16
@@ -3729,7 +3949,7 @@ exit "$STATUS"
 - [ ] **Step 7: Run the tests to verify they pass**
 
 Run: `$PY -m pytest tests/step1_compare/test_phaseb_jobs.py tests/step1_compare/test_paths.py -q`
-Expected: all pass (`test_phaseb_jobs.py`: 7 passed on the HPCC; the two J1 tests skip where the module system is missing). The J1 smoke test runs the real PredGPI on three sequences, the stub SignalP, a rerun (4 skips), and 07 on the result.
+Expected: all pass (`test_phaseb_jobs.py`: 8 passed on the HPCC; the two J1 tests skip where the module system is missing). The J1 smoke test runs the real PredGPI on three sequences, the stub SignalP, checks the part membership of both tools (rows 0 and 1 in `part_000`, row 2 in `part_001`; a round-robin split fails it), a rerun (4 skips), and 07 on the result.
 
 - [ ] **Step 8: Commit**
 
@@ -3860,11 +4080,12 @@ in the docstring of `chunk_plan.py`.
 
 ## j0/throughput.json (jobs/throughput_pilot.py, J0)
 
-Keys: `schema` (`step1-phaseb-j0-throughput/1`), `device`, `gpu_name`, `torch`, `torch_cuda`,
+Keys: `schema` (`step1-phaseb-j0-throughput/2`), `device`, `gpu_name`, `torch`, `torch_cuda`,
 `esm`, `n_proteins`, `residues`, `seed`, `sample_sha256`, `truth_sequences_sha256`,
 `batch_sizes`, `model_load_s` (per model), `runs` (one object per model and batch size:
-`model`, `batch_size`, `status` (`ok`, `oom`, or `skipped_<n>`), `seconds`, `proteins_per_s`,
-`residues_per_s`, `peak_mem_bytes`, `dim`), `best` (per model: the `ok` run with the highest
+`model`, `batch_size`, `batch_failures` (batches that `get_esm_embeddings` retried one
+sequence at a time, for example after out of memory), `status` (`ok`, `batch_failures`, or
+`skipped_<n>`), `seconds`, `proteins_per_s`, `residues_per_s`, `peak_mem_bytes`, `dim`), `best` (per model: the `ok` run with the highest
 `residues_per_s`), `git_commit`, `python`.
 
 ## j0/gpu_cpu_diff.json (jobs/gpu_cpu_diff.py, J0)
@@ -4022,9 +4243,9 @@ Keys: `models` (per model and window: `shape`, `dtype`, `array_sha256`), `unique
 - [ ] **Step 5: Run the whole suite**
 
 Run: `$PY -m pytest tests/step1_compare -q`
-Expected (prototype, 2026-10-01, `PROJ_ROOT` and `STEP1_WORKDIR` unset): `274 passed, 6 skipped`.
+Expected (prototype, 2026-10-01, `PROJ_ROOT` and `STEP1_WORKDIR` unset): `281 passed, 6 skipped`.
 Run: `module load predgpi/202001 && PYTHONPATH=src $ENV_PY -m pytest tests/step1_compare -q`
-Expected (prototype): `293 passed` (220 Phase A tests + 73 new).
+Expected (prototype): `305 passed` (220 Phase A tests + 85 new).
 
 - [ ] **Step 6: Commit**
 
@@ -4079,14 +4300,14 @@ $ENV_PY - <<'EOF'
 import json, os
 d = os.environ["STEP1_WORKDIR"] + "/phaseb/j0/"
 t = json.load(open(d + "throughput.json"))
-assert t["schema"] == "step1-phaseb-j0-throughput/1" and t["device"] == "cuda"
+assert t["schema"] == "step1-phaseb-j0-throughput/2" and t["device"] == "cuda"
 assert set(t["best"]) == {"esm2_t6_8M_UR50D", "esm2_t12_35M_UR50D"}, t["best"]
 print(t["gpu_name"], json.dumps(t["best"]), t["model_load_s"])
 g = json.load(open(d + "gpu_cpu_diff.json"))
 print(json.dumps(g["models"], indent=1))
 EOF
 ```
-Record in the run notes: the GPU name, the best batch size and residues/s per model, the run statuses (`oom` rows), `max_abs_diff`, `min_cosine` and `repeat_identical_on_a` per model. No threshold exists for the GPU-CPU difference (spec 7 says "max difference"); report the numbers.
+Record in the run notes: the GPU name, the best batch size and residues/s per model, the run statuses and `batch_failures`, `max_abs_diff`, `min_cosine` and `repeat_identical_on_a` per model. No threshold exists for the GPU-CPU difference (spec 7 says "max difference"); report the numbers.
 
 **R3. 06 (login node).**
 
@@ -4111,7 +4332,7 @@ T=$($PY -c "import json;print(json.load(open('$STEP1_WORKDIR/phaseb/job_plan.jso
 sbatch --export=ALL,PROJ_ROOT="$PROJ_ROOT",STEP1_WORKDIR="$STEP1_WORKDIR",J2_JOB_COUNT="$N" \
   --array=0-$((N - 1)) --time="$T" -o "$LOG/j2.%A_%a.log" -e "$LOG/j2.%A_%a.log" "$S1/jobs/j2_embed.sh"
 ```
-Accept: every array task log ends with `exit 0`; the number of `.json` files in `phaseb/emb/<model>/` equals `chunks` in `job_plan.json` for each model. A killed task: resubmit the same command; its finished chunks print `skip ... (done, hash verified)`.
+Accept: every array task log ends with `exit 0`; the number of `.json` files in `phaseb/emb/<model>/` equals `chunks` in `job_plan.json` for each model. A killed task: resubmit the same command; its finished chunks print `skip ... (done, hash verified)`. The runner stops with exit 2 if `J2_JOB_COUNT` differs from `n_jobs`, or if `unique_sequences.tsv.gz` changed after R3 (then re-run R1 and R3 and delete the old `phaseb/emb/` chunks).
 
 **R6. 07 (login node).**
 
@@ -4147,16 +4368,18 @@ A prototype of every file was built in a scratch copy of the worktree (outside t
 
 | Check | Result |
 |---|---|
-| `$PY -m pytest tests/step1_compare -q` (stdlib, `PROJ_ROOT`/`STEP1_WORKDIR` unset) | 274 passed, 6 skipped |
-| `module load predgpi/202001; PYTHONPATH=src $ENV_PY -m pytest tests/step1_compare -q` | 293 passed (Python 3.14.2) |
-| New tests per file | seqwindow 10, phaseb_prepare 9, chunk_plan 10, phaseb_embed 9, phaseb_assemble 2, phaseb_pilot 5, feature_parsers 12, phaseb_features 8, phaseb_jobs 7, phaseb_docs 1 (73) |
-| Cumulative after each task (full run) | 230, 239, 249, 258, 260, 265, 277, 285, 292, 293 |
+| `$PY -m pytest tests/step1_compare -q` (stdlib, `PROJ_ROOT`/`STEP1_WORKDIR` unset) | 281 passed, 6 skipped |
+| `module load predgpi/202001; PYTHONPATH=src $ENV_PY -m pytest tests/step1_compare -q` | 305 passed (Python 3.14.2) |
+| New tests per file | seqwindow 10, phaseb_prepare 11, chunk_plan 13, phaseb_embed 12, phaseb_assemble 3, phaseb_pilot 6, feature_parsers 12, phaseb_features 9, phaseb_jobs 8, phaseb_docs 1 (85) |
+| Cumulative after each task (full run) | 230, 241, 254, 266, 269, 275, 287, 296, 304, 305 |
 | `pre-commit run --all-files` on the prototype | ruff and ruff-format pass |
 | 05 on the production Phase A outputs | 123,567 members, 69,941 unique, 5,541 > 1,022 aa |
 | 06 dry plan (`--rate 29500`) on the real unique set | 5 chunks, 8,850,000 residues per chunk, 1 job, 75 min |
 | J0 pilot on CPU, 20 real truth sequences | schema written; 8M 364.3 and 35M 133.4 residues/s |
 | PredGPI wrapper versus CLI, 1,000 S288C proteins | 0 mismatches |
 | J1 script with stub SignalP and real PredGPI, 20 S288C proteins, 3 parts | exit 0; rerun skipped 6 parts; 07 coverage `no_signalp=0 no_predgpi=0` |
+| Mutation checks (review fixes) | each new check removed in a copy of the prototype makes its test fail: plan check in `run_job` and in `assemble_embeddings.run`; members test in `chunk_is_done`; job-count check; `_check` in `truth_members`; stale-id check in 07; awk part rule changed to round-robin |
+| SignalP 6 CPU build on c01 (2 threads, `--mode fast`) | 3 proteins 15.0 s, 20 proteins 51.4 s wall |
 | Not verified | any GPU run (J0, J1, J2 on gpu12); the conda env torch on the gpu12 driver (the SignalP env with the same CUDA 12.8 build ran there in job 29280458) |
 
 ## Self-review
@@ -4168,12 +4391,14 @@ A prototype of every file was built in a scratch copy of the worktree (outside t
 
 ## Spec issues found while planning
 
-1. Spec 8 says jobs copy results "to `analysis/step1_compare/`". That folder is in the repository, and the Phase A README says data never go into the repository. This plan copies to `$STEP1_WORKDIR/phaseb/`.
-2. Spec 8 says J1 is "sized to 1 to 1.5 h". With the measured rates (SignalP 6 about 219 proteins/s on gpu12; PredGPI 31 proteins/s per core), all 69,941 sequences take about 10 minutes. One job is the minimum; it cannot reach 1 h.
+1. Deviation: spec 8 says jobs copy results "to `analysis/step1_compare/`". That folder is in the repository, and the Phase A README says data never go into the repository. This plan copies to `$STEP1_WORKDIR/phaseb/`.
+2. Spec 8 says J1 is "sized to 1 to 1.5 h". With the measured rates (SignalP 6 about 192 proteins/s on gpu12; PredGPI 31 proteins/s per core), all 69,941 sequences take about 10 minutes. One job is the minimum; it cannot reach 1 h.
 3. Spec 5 lists a "GPI score" as an input of the hybrid H. The PredGPI CLI writes only a class (score 1.0, 0.70, 0.55, or a non-GPI line). This plan adds `jobs/predgpi_scores.py`, which writes the PredGPI FPR and SVM output with the CLI's classes (0 mismatches on 1,000 proteins).
 4. Spec 8 assumes 8M and 35M are "at least" as fast as ESM-2 150M at 60 proteins/s (review 9.1). That number came from bf16, HuggingFace transformers and token-budget batching; `get_esm_embeddings` uses fp32 fair-esm with a fixed number of sequences per batch. The assumption cannot be checked before J0.
 5. Spec 8 gives *S. pombe* 5,130 proteins (UniProt count). The PomBase `peptide.fa.gz` that Phase A uses has 5,126 records. The S288C (6,722), H99 (7,427), JEC21 (6,740), Af293 (9,647) and *C. immitis* RS (9,910) counts match the files.
 6. Spec 7 names `gpu_cpu_diff.py` but gives no acceptance threshold. This plan reports the numbers and applies none.
+7. Deviation: spec 8 says jobs compress large tables with `zstd`. This plan writes gzip (`.gz`): the global storage rule allows gzip for portable tables, Phase A writes gzip, and `truth_table.read_tsv` and `gaf.open_text` read gzip with the standard library only (Python 3.12 has no zstd module). Controller ruling 2026-10-01: gzip accepted.
+8. Controller ruling 2026-10-01 (owner asleep; a ruling, not an owner decision): J1 stays on the SignalP GPU build, because the CPU build now runs but is about 41 h for this set against about 6 min on the GPU.
 
 ## Assumptions
 
