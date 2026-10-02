@@ -427,7 +427,7 @@ def write_inputs(tmp_path, gz=False):
 def read_tsv_gz(path):
     with gzip.open(path, "rt") as fh:
         head = fh.readline().rstrip("\n").split("\t")
-        return [dict(zip(head, ln.rstrip("\n").split("\t"))) for ln in fh]
+        return [dict(zip(head, ln.rstrip("\n").split("\t"), strict=True)) for ln in fh]
 
 
 @pytest.mark.parametrize("gz", [False, True])

@@ -43,7 +43,10 @@ def load_table(path):
         raise cc.Stop(f"table not found: {path}")
     with gzip.open(path, "rt") as fh:
         head = fh.readline().rstrip("\n").split("\t")
-        return {r[1]: dict(zip(head, r)) for r in (ln.rstrip("\n").split("\t") for ln in fh)}
+        return {
+            r[1]: dict(zip(head, r, strict=True))
+            for r in (ln.rstrip("\n").split("\t") for ln in fh)
+        }
 
 
 def main():
