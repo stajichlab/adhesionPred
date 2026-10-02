@@ -71,7 +71,7 @@ for s in STRAINS:
                 "scaffold": sc,
                 "array_first": pos[0],
                 "genomic_units": len(pos),
-                "unit_spacing": ",".join(str(b - a) for a, b in zip(pos, pos[1:])),
+                "unit_spacing": ",".join(str(b - a) for a, b in zip(pos, pos[1:], strict=False)),
                 "funannotate_models": ";".join(f"{m[3]}:{m[1]}-{m[2]}" for m in models),
                 "n_funannotate_models": len(models),
                 "funannotate_anchors": n_anch,

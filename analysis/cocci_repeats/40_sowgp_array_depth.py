@@ -145,7 +145,7 @@ for sp in ("immitis", "posadasii"):
 
 # ---- figure
 fig, ax = plt.subplots(1, 2, figsize=(10, 4), sharey=True)
-for axi, sp in zip(ax, ("immitis", "posadasii")):
+for axi, sp in zip(ax, ("immitis", "posadasii"), strict=True):
     us = sorted({r["u"] for r in fl if r["clade"] == sp})
     data = [[r["array_flank"] for r in fl if r["clade"] == sp and r["u"] == u] for u in us]
     axi.boxplot(data, positions=us, widths=0.5, showfliers=True)
