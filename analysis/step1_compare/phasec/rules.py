@@ -9,7 +9,8 @@ in steps of 0.05 (owner decision 2026-10-01: at t = 0.10 R2 equals R0 on the rea
 96.7% of the SP proteins have ser_thr_frac >= 0.10). g and t are fitted by Youden's J (recall minus FPR) on the training rows of
 one outer training set. A rule has no fitted model, so J on the training rows equals J on the
 pooled inner out-of-fold rows. Ties in J: the first setting in grid order wins (g from
-highly_probable down, then t from 0.40 down), that is the stricter rule.
+highly_probable down, then t from 0.40 down), that is the stricter rule. fit_rule also returns
+`rule_grid`, the J of every grid cell on the same rows (10 records it in scores_run.json).
 """
 
 import numpy as np
@@ -50,17 +51,34 @@ def youden(y, call) -> float:
     return float((y & call).sum() / p - (~y & call).sum() / n)
 
 
+def grid_key(t: float) -> str:
+    """Key of a t cell in `rule_grid` (two decimals, for example "0.20")."""
+    return f"{t:.2f}"
+
+
 def fit_rule(rule: str, y, sp, rank, st) -> dict:
-    """g and t with the highest Youden's J on these rows. R0 has no parameter."""
+    """g and t with the highest Youden's J on these rows. R0 has no parameter.
+
+    `rule_grid` holds J on these rows for every cell of the grid (final review I-2): for R1
+    {g: J} (3 numbers), for R2 {g: {grid_key(t): J}} (15 numbers), null for R0. It reads the
+    training rows only and does not change which setting is fitted."""
     if rule == "R0":
-        return {"g": None, "t": None, "j": youden(y, rule_call("R0", sp, rank, st))}
+        j = youden(y, rule_call("R0", sp, rank, st))
+        return {"g": None, "t": None, "j": j, "rule_grid": None}
     best = None
+    grid: dict = {}
     t_grid = T_VALUES[::-1] if rule == "R2" else (None,)
     for g in G_VALUES:
         for t in t_grid:
             j = youden(y, rule_call(rule, sp, rank, st, g, t))
             if np.isnan(j):
                 raise ValueError("Youden's J is not defined: the rows lack a class")
+            if rule == "R2":
+                grid.setdefault(g, {})[grid_key(t)] = j
+            else:
+                grid[g] = j
             if best is None or j > best["j"]:
                 best = {"g": g, "t": t, "j": j}
-    return best
+    if rule == "R2":  # cells in grid order of t (0.20 first)
+        grid = {g: {grid_key(t): cells[grid_key(t)] for t in T_VALUES} for g, cells in grid.items()}
+    return {**best, "rule_grid": grid}

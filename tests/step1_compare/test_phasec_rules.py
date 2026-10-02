@@ -43,7 +43,8 @@ def test_t_grid_is_0_20_to_0_40():
     rank = rules.gpi_rank(["none"] * 8)
     st = np.array([0.15] * 4 + [0.05] * 4)
     fit = rules.fit_rule("R2", y, np.ones(8, dtype=bool), rank, st)
-    assert fit == {"g": "highly_probable", "t": 0.40, "j": 0.0}  # no t of the grid calls them
+    assert {k: fit[k] for k in ("g", "t", "j")} == {"g": "highly_probable", "t": 0.40, "j": 0.0}
+    assert all(j == 0.0 for cells in fit["rule_grid"].values() for j in cells.values())
 
 
 def test_too_short_is_never_gpi():
@@ -71,8 +72,16 @@ def test_fit_rule_finds_the_planted_cut_and_breaks_ties_to_the_stricter_rule():
     st = np.array([0.32] * 5 + [0.20] * 5)
     fit = rules.fit_rule("R2", y, sp, rank, st)
     # t = 0.25 and t = 0.30 both give J = 1; the grid runs from 0.40 down, so 0.30 wins
-    assert fit == {"g": "highly_probable", "t": 0.30, "j": 1.0}
-    assert rules.fit_rule("R0", y, sp, rank, st)["j"] == 0.0
+    assert {k: fit[k] for k in ("g", "t", "j")} == {"g": "highly_probable", "t": 0.30, "j": 1.0}
+    # final review I-2: J of every (g, t) cell on the training rows. t = 0.20 calls every row
+    # (recall 1, FPR 1); 0.25 and 0.30 split the classes; 0.35 and 0.40 call no row. No GPI
+    # call, so every g gives the same cells.
+    cells = {"0.20": 0.0, "0.25": 1.0, "0.30": 1.0, "0.35": 0.0, "0.40": 0.0}
+    assert fit["rule_grid"] == {g: cells for g in rules.G_VALUES}
+    assert list(fit["rule_grid"]) == list(rules.G_VALUES)
+    assert list(fit["rule_grid"]["weakly"]) == [f"{t:.2f}" for t in rules.T_VALUES]
+    r0 = rules.fit_rule("R0", y, sp, rank, st)
+    assert r0["j"] == 0.0 and r0["rule_grid"] is None
 
 
 def test_fit_rule_g_for_r1():
@@ -81,6 +90,8 @@ def test_fit_rule_g_for_r1():
     fit = rules.fit_rule("R1", y, np.ones(4, dtype=bool), rank, np.zeros(4))
     # g = probable: J = 0.5; g = weakly: J = 1 - 0.5 = 0.5; tie -> probable (stricter)
     assert fit["g"] == "probable" and fit["j"] == 0.5
+    # g = highly_probable calls no row: J = 0
+    assert fit["rule_grid"] == {"highly_probable": 0.0, "probable": 0.5, "weakly": 0.5}
 
 
 def test_fit_rule_refuses_rows_without_a_class():
@@ -88,3 +99,23 @@ def test_fit_rule_refuses_rows_without_a_class():
         rules.fit_rule(
             "R2", np.ones(3, bool), np.ones(3, bool), rules.gpi_rank(["none"] * 3), np.zeros(3)
         )
+
+
+def test_r2_calls_a_subset_of_r0_but_its_j_can_be_higher():
+    # final review I-2: the report sentence says recall and FPR of R2 cannot exceed those of R0
+    # (subset), and that its J can. Subset over random rows and every grid cell:
+    rng = np.random.default_rng(3)
+    sp = rng.random(500) < 0.5
+    rank = rng.integers(0, 4, size=500).astype(np.int8)
+    st = rng.random(500) * 0.5
+    r0 = rules.rule_call("R0", sp, rank, st)
+    for g in rules.G_VALUES:
+        for t in rules.T_VALUES:
+            assert not (rules.rule_call("R2", sp, rank, st, g, t) & ~r0).any(), (g, t)
+    # J: R0 calls 2 positives and 2 negatives (J = 0); R2 drops the 2 negatives (J = 1)
+    y = np.array([1, 1, 0, 0], dtype=bool)
+    sp4 = np.ones(4, dtype=bool)
+    st4 = np.array([0.30, 0.30, 0.10, 0.10])
+    rank4 = rules.gpi_rank(["none"] * 4)
+    assert rules.youden(y, rules.rule_call("R0", sp4, rank4, st4)) == 0.0
+    assert rules.youden(y, rules.rule_call("R2", sp4, rank4, st4, "weakly", 0.25)) == 1.0

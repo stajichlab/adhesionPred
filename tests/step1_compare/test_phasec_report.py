@@ -264,6 +264,9 @@ def test_decision_table_lists_every_candidate_and_glossary(reported):
         "FPR",
         "ROC-AUC",
         "PR-AUC",
+        "J",
+        "C",
+        "grid edge",
     ]
     extra.remove("Platt")
     codes = [c for c, _ in rep.GLOSSARY]
@@ -546,7 +549,33 @@ CHECKERS = {
     "agreement tables": check_agreement,
     "findings (b) and (c) tables": check_findings,
     "named-panel call and score tables": check_named_panel,
+    "fitted-settings table": None,  # set below
 }
+
+
+def check_fitted(text, m, f):
+    """Final review I-1, I-3: one row per unit and candidate, values from metrics.json."""
+    bad = []
+    ((tb, header, rows),) = _tables(_sections(text)["## Fitted settings"])
+    assert tb.startswith("Fitted settings per unit")
+    assert header == ["Unit", "Variant", "Candidate", "g", "t", "J", "C", "H variant",
+                      "Threshold", "Platt a", "Platt b", "Convergence warnings", "At grid edge"]  # fmt: skip
+    fs = m["fitted_settings"]
+    assert len(rows) == sum(len(per) for per in fs.values())
+    for r in rows:
+        e = fs[f"{r[0]}|{r[1]}"][r[2]]
+        cw = e.get("convergence_warnings")
+        edges = [k for k in ("C", "g", "t") if e["at_grid_edge"].get(k)]
+        want = [e["g"] if e.get("g") else "n/a", f3(e.get("t")), f3(e.get("j")), f3(e.get("C")),
+                e.get("h_variant") or "n/a", f3(e.get("threshold")), f3(e.get("platt_a")),
+                f3(e.get("platt_b")), "n/a" if cw is None else n3(cw),
+                ", ".join(edges) or "no"]  # fmt: skip
+        if r[3:] != want:
+            bad.append(("fitted", r[0], r[1], r[2]))
+    return bad
+
+
+CHECKERS["fitted-settings table"] = check_fitted
 
 
 @pytest.mark.parametrize("name", list(CHECKERS))
@@ -624,3 +653,52 @@ def test_null_in_a_hand_edited_input_is_a_stop(phasec_chain, tmp_path, capsys):
     err = capsys.readouterr().err
     assert err.startswith("STOP: an input has a null or a wrong type (TypeError")
     assert not (out / "report.md").exists()
+
+
+# ---- final fix wave (final review I-1, I-2, I-3) ----
+
+
+def test_fitted_settings_section_and_edge_line(reported):
+    _, text, m, _ = reported
+    rep = load_phasec("12_report")
+    sec = "\n".join(_sections(text)["## Fitted settings"])
+    ec = m["grid_edge_counts"]
+    line = (
+        "Settings at a grid edge: "
+        + "; ".join(f"{k} {ec[k]['at_edge']:,} of {ec[k]['n']:,}" for k in ("C", "g", "t"))
+        + "."
+    )
+    assert line in sec
+    assert rep.EDGE_SENTENCE in sec
+    assert "the data may prefer a value outside the grid; the report cannot say." in sec
+    # the counts are the counts of the flags
+    fs = m["fitted_settings"]
+    for k in ("C", "g", "t"):
+        flags = [e["at_grid_edge"][k] for per in fs.values() for e in per.values()
+                 if k in e["at_grid_edge"]]  # fmt: skip
+        assert ec[k] == {"at_edge": sum(flags), "n": len(flags)}, k
+    # H's variant per unit is in the table
+    rows = _tables(_sections(text)["## Fitted settings"])[0][2]
+    h = [r for r in rows if r[2] == "H"]
+    assert h and len(h) == len(fs)
+    assert all(r[7] == fs[f"{r[0]}|{r[1]}"]["H"]["h_variant"] for r in h)
+
+
+def test_rule_subset_sentence_beside_the_decision_table(reported):
+    _, text, _, _ = reported
+    rep = load_phasec("12_report")
+    dec = "\n".join(_sections(text)["## Decision table"])
+    assert rep.RULE_SUBSET in dec and text.count(rep.RULE_SUBSET) == 1
+    assert "see Fitted settings" in rep.RULE_SUBSET and "## Fitted settings" in text
+
+
+def test_edge_flag_mutation_is_seen_by_the_cell_check(reported):
+    import copy
+
+    _, text, m, f = reported
+    rep = load_phasec("12_report")
+    m2 = copy.deepcopy(m)
+    unit = next(iter(m2["fitted_settings"]))
+    e = m2["fitted_settings"][unit]["M8"]
+    e["at_grid_edge"]["C"] = not e["at_grid_edge"]["C"]
+    assert check_fitted(rep.render(m2, f), m, f) != []

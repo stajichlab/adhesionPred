@@ -15,7 +15,8 @@ Writes to $STEP1_WORKDIR/phasec/:
   scores.tsv.gz    one row per unit, candidate and scored sequence: score (decision value;
                    empty for rules), prob (Platt), call (1/0)
   scores_run.json  fitted settings per unit and candidate (C, g, t, threshold, Platt a and b,
-                   H variant, inner PR-AUC), seed, input hashes, library versions
+                   H variant, inner PR-AUC), the training-row J of every rule grid cell
+                   (`rule_grid` of R1 and R2), seed, input hashes, library versions
 
 A hash that is in two scored parts of one unit (for example a GO `test` row and a `test_lit`
 row with the same sequence) is scored once; its `part` lists the parts, sorted and joined with

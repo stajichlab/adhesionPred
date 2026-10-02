@@ -17,7 +17,8 @@ Writes to $STEP1_WORKDIR/phasec/:
 
   metrics.json           values with 95% intervals per test set, truth, stratum, variant,
                          candidate; estimate or smoke-test label; variant effect; comparison
-                         with the rule; prevalence table; calibration; agreement; named panel
+                         with the rule; prevalence table; calibration; agreement; named panel;
+                         fitted settings per unit (from scores_run.json) with grid-edge flags
   findings.json          findings (a), (b), (c) of spec 4 as booleans with their numbers
   proteome_calls.tsv.gz  one row per protein of every proteome set: call and score of every
                          candidate and variant, score_source
@@ -42,8 +43,10 @@ import evalio
 import findings
 import manifest
 import metrics
+import models
 import numpy as np
 import paths
+import rules
 import runinfo
 import splits
 import truth_table
@@ -98,6 +101,14 @@ SCORE_COLUMNS = (
     "split_id", "fold", "variant", "candidate", "seq_sha256", "part", "score", "prob", "call",
 )  # fmt: skip
 LONG_CUTOFF = 1022
+# keys of a scores_run.json unit object that are not fitted settings (final review I-1)
+NOT_SETTINGS = ("rule_grid",)
+# grid ends per fitted parameter: a value here may mean the data prefer a value outside the grid
+GRID_EDGES = {
+    "C": (models.C_GRID[0], models.C_GRID[-1]),
+    "g": (rules.G_VALUES[0], rules.G_VALUES[-1]),
+    "t": (rules.T_VALUES[0], rules.T_VALUES[-1]),
+}
 
 
 def num(x):
@@ -497,6 +508,30 @@ def named_panel(seq_members, table, literature, scores, s1, full_train, cands) -
     return out
 
 
+def fitted_settings(units: dict) -> tuple[dict, dict]:
+    """Copy the fitted settings of every unit and candidate from scores_run.json `units`.
+
+    Each object keeps the keys of scores_run.json (except NOT_SETTINGS) and adds `at_grid_edge`:
+    {parameter: true or false} for every fitted grid parameter (C; g; t) that is not null.
+    Return (settings, edge counts): counts[parameter] = {"at_edge": n, "n": n}."""
+    out: dict = {}
+    counts = {k: {"at_edge": 0, "n": 0} for k in GRID_EDGES}
+    for unit, per in units.items():
+        out[unit] = {}
+        for cand, params in per.items():
+            entry = {k: v for k, v in params.items() if k not in NOT_SETTINGS}
+            edge = {}
+            for k, ends in GRID_EDGES.items():
+                if entry.get(k) is None:
+                    continue
+                edge[k] = entry[k] in ends
+                counts[k]["n"] += 1
+                counts[k]["at_edge"] += int(edge[k])
+            entry["at_grid_edge"] = edge
+            out[unit][cand] = entry
+    return out, counts
+
+
 def build_findings(test_blocks: dict) -> dict:
     s2 = sorted(n for n, b in test_blocks.items() if b["split"].startswith("S2-"))
     if len(s2) != findings.N_S2:  # review M-1
@@ -607,6 +642,7 @@ def run(work: Path, sets_path: Path, species_path: Path, n_resamples: int, argum
         if m["part"] == "train_tc"
         and set(table[m["seq_sha256"]]["taxon_ids"].split(",")) & set(ONYGENALES_TC_TAXA)
     )  # fmt: skip
+    fitted, edge_counts = fitted_settings(score_log["units"])
     metrics_json = {
         "schema": METRICS_SCHEMA,
         "settings": {
@@ -634,6 +670,8 @@ def run(work: Path, sets_path: Path, species_path: Path, n_resamples: int, argum
         "named_panel": named_panel(seq_members, table, literature, scores, s1, full_train, cands),
         "context": {"onygenales_tc_rows_in_vkw_training": dict(sorted(onygenales.items()))},
         "tc_removed": split_log["tc_removed_by_split_fold_rule"],
+        "fitted_settings": fitted,
+        "grid_edge_counts": edge_counts,
     }
     findings_json = build_findings(blocks)
     log = {

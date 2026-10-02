@@ -73,6 +73,20 @@ def test_fitted_settings_are_recorded(phasec_chain):
     assert units["S1|0|V-kw"]["M8"]["n_train_pos"] > unit["M8"]["n_train_pos"]  # T-c positives
 
 
+def test_rule_grid_is_recorded_for_every_unit(phasec_chain):
+    # final review I-2: 15 cells of R2 and 3 of R1 per unit; the fitted cell has the highest J
+    import rules
+
+    for key, unit in _units(phasec_chain["work"]).items():
+        r1, r2 = unit["R1"]["rule_grid"], unit["R2"]["rule_grid"]
+        assert unit["R0"]["rule_grid"] is None, key
+        assert list(r1) == list(rules.G_VALUES) and list(r2) == list(rules.G_VALUES), key
+        assert all(list(c) == [f"{t:.2f}" for t in rules.T_VALUES] for c in r2.values()), key
+        assert r2[unit["R2"]["g"]][f"{unit['R2']['t']:.2f}"] == unit["R2"]["j"]
+        assert unit["R2"]["j"] == max(j for c in r2.values() for j in c.values())
+        assert r1[unit["R1"]["g"]] == unit["R1"]["j"] == max(r1.values())
+
+
 def test_training_rows_keep_homology_only_rows(phasec_chain):
     # spec 3.2: the direct-evidence filter applies to test rows only (11 applies it)
     out = phasec_chain["work"] / "phasec"

@@ -56,11 +56,27 @@ CELL_CHECKED = (
     "agreement tables",
     "findings (b) and (c) tables",
     "named-panel call and score tables",
+    "fitted-settings table",
 )
 OPERATING_POINT = (
     "Operating point: ML candidates at their own fitted call threshold, rules (R0, R1, R2) at "
     "their fitted setting, B0 and B1 at their own fitted call."
 )
+# final review I-2. R2 calls a subset of the proteins that R0 calls (tests/step1_compare/
+# test_phasec_rules.py checks the subset and shows that J of R2 can still exceed J of R0).
+RULE_SUBSET = (
+    "R2 is R0 restricted by g and t: R0 calls every protein that R2 calls. So the recall and the "
+    "FPR of R2 cannot exceed those of R0; its recall minus FPR can. When the fitted g and t are "
+    "the loosest cell of the grid (g weakly and the lowest t; see Fitted settings), the rule was "
+    "set to the loosest value the grid allows."
+)
+EDGE_SENTENCE = (
+    "A setting at a grid edge means the data may prefer a value outside the grid; the report "
+    "cannot say."
+)
+FITTED_HEADER = ["Unit", "Variant", "Candidate", "g", "t", "J", "C", "H variant", "Threshold",
+                 "Platt a", "Platt b", "Convergence warnings", "At grid edge"]  # fmt: skip
+EDGE_PARAMETERS = ("C", "g", "t")
 ZERO_WIDTH = (
     "Zero-width recall interval lists the candidates whose recall interval has the same lower "
     "and upper bound."
@@ -124,6 +140,9 @@ GLOSSARY = (
     ("pos", "positive protein (wall or extracellular)."),
     ("neg", "negative protein."),
     ("FPR", "false-positive rate."),
+    ("J", "Youden's J: recall minus FPR."),
+    ("C", "inverse regularisation strength of a logistic regression, fitted on the inner folds."),
+    ("grid edge", "the first or the last value of the grid of a fitted setting."),
     ("ROC-AUC", "area under the receiver operating characteristic curve."),
     ("PR-AUC", "area under the precision-recall curve."),
     ("oof", "score from a model that did not train on the protein or its cluster."),
@@ -235,6 +254,24 @@ def nsec_fpr(m: dict, name: str, cand: str) -> str:
     return ci(block.get("V-go", {}).get("fpr", {}).get(cand))
 
 
+def edge_words(entry: dict) -> str:
+    """The fitted settings of one candidate that sit at a grid edge, or `no`."""
+    return ", ".join(k for k, v in entry["at_grid_edge"].items() if v) or "no"
+
+
+def fitted_rows(m: dict) -> list[list[str]]:
+    rows = []
+    for key, per in m["fitted_settings"].items():
+        unit, _, variant = key.rpartition("|")
+        for c, e in per.items():
+            text = "n/a" if e.get("g") is None else e["g"]
+            rows.append([unit, variant, c, text, fmt(e.get("t")), fmt(e.get("j")),
+                         fmt(e.get("C")), e.get("h_variant") or "n/a", fmt(e.get("threshold")),
+                         fmt(e.get("platt_a")), fmt(e.get("platt_b")),
+                         fmt(e.get("convergence_warnings")), edge_words(e)])  # fmt: skip
+    return rows
+
+
 def finding_rows(m: dict, name: str, entries: dict) -> list[list[str]]:
     label = m["test_sets"][name]["label"]
     return [[name, label, c, nsec_fpr(m, name, "B1"), nsec_fpr(m, name, "R2"),
@@ -273,6 +310,7 @@ def render(m: dict, f: dict) -> str:
         "is listed. The report names no best candidate: a choice among ML candidates on the "
         "test data would use the test data twice.",
         OPERATING_POINT,
+        RULE_SUBSET,
         "",
     ]
     rows = []
@@ -459,6 +497,16 @@ def render(m: dict, f: dict) -> str:
     for name, entry in c3["test_sets"].items():
         rows += finding_rows(m, name, entry["candidates"])
     lines += table(FINDING_HEADER, rows)
+    lines += ["## Fitted settings", ""]
+    lines += ["Fitted settings per unit (from scores_run.json, copied by 11). g, t and J are for "
+              "the rules; C, the H variant, the threshold and Platt a and b are for the "
+              "logistic regressions. metrics.json also holds the inner out-of-fold PR-AUC of "
+              "each C.", ""]  # fmt: skip
+    lines += table(FITTED_HEADER, fitted_rows(m))
+    ec = m["grid_edge_counts"]
+    lines += ["Settings at a grid edge: " + "; ".join(
+        f"{k} {fmt(ec[k]['at_edge'])} of {fmt(ec[k]['n'])}" for k in EDGE_PARAMETERS) + ".",
+        EDGE_SENTENCE, ""]  # fmt: skip
     lines += ["## Context", ""]
     lines += ["Number of C. immitis and C. posadasii keyword-only (T-c) rows in the V-kw training "
               "of each unit. A unit is one fitted model. S1 fold k is the model without fold k "

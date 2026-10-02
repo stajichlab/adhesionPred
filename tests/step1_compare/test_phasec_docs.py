@@ -160,6 +160,70 @@ def test_metrics_and_findings_keys_equal_the_code(phasec_chain):
         assert key_names("phasec/findings.json", marker) == set(f[key]), key
 
 
+def test_fitted_settings_keys_equal_the_code(phasec_chain):
+    # final review I-1, I-3: metrics.json copies the fitted settings with grid-edge flags
+    m = _json(phasec_chain["work"], "metrics.json")
+    units = _json(phasec_chain["work"], "scores_run.json")["units"]
+    fs = m["fitted_settings"]
+    assert set(fs) == set(units)
+    heading = "phasec/metrics.json"
+    rule = key_names(heading, "**Keys of a rule object in `fitted_settings`:**")
+    lr = key_names(heading, "**Keys of a logistic-regression object in `fitted_settings`:**")
+    for unit, per in fs.items():
+        assert set(per) == set(units[unit])
+        for c, e in per.items():
+            assert set(e) == (rule if c in ("R0", "R1", "R2") else lr), (unit, c)
+            src = {k: v for k, v in units[unit][c].items() if k != "rule_grid"}
+            assert {k: v for k, v in e.items() if k != "at_grid_edge"} == src, (unit, c)
+    edge = {k for per in fs.values() for e in per.values() for k in e["at_grid_edge"]}
+    marker = "**Keys of `at_grid_edge` (only the parameters that are not null for the candidate):**"
+    assert key_names(heading, marker) == edge
+    assert key_names(heading, "**Keys of `grid_edge_counts`:**") == set(m["grid_edge_counts"])
+
+
+def test_at_grid_edge_values_in_columns_md_equal_the_code():
+    import models
+    import rules
+
+    s11 = load_phasec("11_evaluate")
+    assert s11.GRID_EDGES == {
+        "C": (models.C_GRID[0], models.C_GRID[-1]),
+        "g": (rules.G_VALUES[0], rules.G_VALUES[-1]),
+        "t": (rules.T_VALUES[0], rules.T_VALUES[-1]),
+    }
+    c_line = _bullet("phasec/metrics.json", "C")
+    assert f"{models.C_GRID[0]:g} or {models.C_GRID[-1]:g}" in c_line
+    g_line = _bullet("phasec/metrics.json", "g")
+    assert f"`{rules.G_VALUES[0]}` or `{rules.G_VALUES[-1]}`" in g_line
+    t_line = _bullet("phasec/metrics.json", "t")
+    assert f"{rules.T_VALUES[0]:g} or {rules.T_VALUES[-1]:g}" in t_line
+
+
+def test_strata_in_columns_md_equal_the_code(phasec_chain):
+    # Task 12 Important 1: the strata of metrics.json, set equality with STRATA
+    s11 = load_phasec("11_evaluate")
+    marker = (
+        "**Strata (keys of `n` and of `metrics` of a truth object; `STRATA` in `11_evaluate.py`):**"
+    )
+    assert key_names("phasec/metrics.json", marker) == set(s11.STRATA)
+    m = _json(phasec_chain["work"], "metrics.json")
+    for name, ts in m["test_sets"].items():
+        got = set(ts["truth"]["direct"]["n"])
+        want = set(s11.STRATA) - ({"identity_below_0.3"} if name.startswith("S1:") else set())
+        assert got == want == set(ts["truth"]["direct"]["metrics"]), name
+    long_line = _bullet("phasec/metrics.json", "long")
+    assert f"{s11.LONG_CUTOFF:,} aa" in long_line
+
+
+def test_context_key_in_columns_md_equals_the_code(phasec_chain):
+    s11 = load_phasec("11_evaluate")
+    m = _json(phasec_chain["work"], "metrics.json")
+    assert key_names("phasec/metrics.json", "**Keys of `context`:**") == set(m["context"])
+    line = _bullet("phasec/metrics.json", "onygenales_tc_rows_in_vkw_training")
+    for taxon in s11.ONYGENALES_TC_TAXA:
+        assert taxon in line
+
+
 def test_findings_candidate_keys_equal_the_code(phasec_chain):
     f = _json(phasec_chain["work"], "findings.json")
     one = next(iter(f["b_ml_beats_b1_and_r2_on_nsec_s1"]["candidates"].values()))

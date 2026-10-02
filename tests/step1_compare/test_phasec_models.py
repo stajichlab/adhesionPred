@@ -152,6 +152,9 @@ def test_rule_settings_come_from_training_rows_only():
     # g and t equal fit_rule on the training rows
     want = rules.fit_rule("R2", y[train], u.sp[train], u.rank[train], u.st[train])
     assert (params["R2"]["g"], params["R2"]["t"]) == (want["g"], want["t"])
+    # final review I-2: the 15 grid cells are recorded, from the training rows only (p2 below)
+    assert params["R2"]["rule_grid"] == want["rule_grid"]
+    assert sum(len(c) for c in params["R2"]["rule_grid"].values()) == 15
     # test rows are not an input: changing their features or labels changes nothing
     u2 = toy_universe(n, 3, seed=5, y=y)
     r2 = np.random.default_rng(99)

@@ -745,6 +745,11 @@ hash, or when `splits_run.json` `input_sha256` differs from `build_run.json` `ou
 - `g` PredGPI class cut (null for R0)
 - `t` Ser+Thr cut, 0.20 to 0.40 in steps of 0.05 (null for R0 and R1)
 - `j` Youden's J on the training rows
+- `rule_grid` Youden's J on the training rows (no test data) for every grid cell: R1 `{g: J}` (3 numbers), R2 `{g: {t: J}}` with t keys `0.20` to `0.40` (15 numbers); null for R0
+
+`rule_grid` (final review I-2) shows how J changes over the grid. The fitted cell is the cell
+with the highest J (ties: the stricter cell). R2 calls a subset of the proteins that R0 calls,
+so its recall and FPR cannot exceed those of R0 on the same rows; its J can.
 
 **Keys of a logistic-regression object in `units`:**
 
@@ -775,8 +780,10 @@ without positives or without negatives has `null` for the metrics that need them
 - `agreement` R2 against each ML candidate per proteome set and per truth class; see below
 - `score_sources` per proteome set: counts of `oof`, `in_sample`, `final`
 - `named_panel` one object per panel protein (parent spec section 6); see below
-- `context` T-c rows of C. immitis and C. posadasii in V-kw training, per split and fold
+- `context` T-c rows of C. immitis and C. posadasii in V-kw training, per split and fold; see below
 - `tc_removed` as `tc_removed_by_split_fold_rule` in `splits_run.json`
+- `fitted_settings` key `<split>|<fold>|<variant>` (the keys of `units` in `scores_run.json`), one object per candidate; see below
+- `grid_edge_counts` per grid parameter: `at_edge` (fitted values at the first or last grid value) and `n` (fitted values); see below
 
 **Keys of `settings`:**
 
@@ -821,6 +828,61 @@ without positives or without negatives has `null` for the metrics that need them
 - `vs_rule` precision at the recall of R2 and recall at the FPR of R2 per ML candidate
 - `prevalence` precision at assumed prevalence 0.01, 0.03, 0.05, 0.1 (assumed, not measured)
 - `nsec_fpr_at_rule_recall` N-sec FPR at the recall of R2 and the paired differences
+
+**Strata (keys of `n` and of `metrics` of a truth object; `STRATA` in `11_evaluate.py`):**
+
+- `all` every row of the truth
+- `wall` positives with subset `wall` (positives only)
+- `extracellular-only` positives with subset `extracellular-only` (positives only)
+- `N-int` negatives of stratum `N-int` (negatives only)
+- `N-sec` negatives of stratum `N-sec` (negatives only)
+- `PM-TM` negatives of stratum `PM-TM` (negatives only)
+- `long` proteins longer than `long_cutoff` (1,022 aa)
+- `identity_below_0.3` proteins whose maximum identity to the GO training proteins is below 0.3
+
+Every test set has the first seven strata. `identity_below_0.3` exists only for the S2 and S3
+test sets (also `S3-Eurotiomycetes:literature`), because 09 writes `max_identity.tsv.gz` rows
+for S2 and S3 splits only; the S1 test sets do not have it.
+
+**Keys of `context`:**
+
+- `onygenales_tc_rows_in_vkw_training` key `<split>|<fold>`: number of T-c rows with taxon 246410 (C. immitis RS) or 443226 (C. posadasii) in the V-kw training of that unit; a unit without such rows is absent
+
+**Keys of a rule object in `fitted_settings`:**
+
+- `n_train`
+- `n_train_pos`
+- `g`
+- `t`
+- `j`
+- `at_grid_edge`
+
+**Keys of a logistic-regression object in `fitted_settings`:**
+
+- `n_train`
+- `n_train_pos`
+- `C`
+- `h_variant`
+- `threshold`
+- `platt_a`
+- `platt_b`
+- `inner_pr_auc`
+- `convergence_warnings`
+- `at_grid_edge`
+
+The values are those of the unit object in `scores_run.json` (its `rule_grid` is not copied).
+
+**Keys of `at_grid_edge` (only the parameters that are not null for the candidate):**
+
+- `C` `true` when C is 0.001 or 10 (the ends of `c_grid`)
+- `g` `true` when g is `highly_probable` or `weakly` (the ends of the g grid)
+- `t` `true` when t is 0.2 or 0.4 (the ends of the t grid)
+
+**Keys of `grid_edge_counts`:**
+
+- `C`
+- `g`
+- `t`
 
 **Keys of `agreement`:**
 
@@ -937,8 +999,9 @@ or 09, 10 is broken.
 The owner's report. Every number in it is a value of `metrics.json` or `findings.json`.
 12 checks this before it writes. The check is a guard against typing errors and has cell-level
 tests; it cannot detect a value that comes from another cell. The report has a decision table of
-all candidates per test set, a glossary, fixed caveat lines and the finding tables; it prints
-`n/a` for a `null` value.
+all candidates per test set, a glossary, fixed caveat lines, the finding tables and the table
+`Fitted settings per unit` with a line that counts the settings at a grid edge; it prints `n/a`
+for a `null` value.
 
 ## phasec/report_run.json (12_report.py)
 
