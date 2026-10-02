@@ -111,6 +111,12 @@ SIGN = (
     "candidate has the higher N-sec false-positive rate (the baseline is better). The finding "
     "holds only when the paired {level}% interval is entirely above zero."
 )
+# final review M-3; {fraction} is min_defined_fraction of findings.json
+DEFINED_RULE = (
+    "A comparator counts as beaten only when its difference is defined in at least a fraction "
+    "{fraction} of the resamples. A cell shows (n_defined k of B) when its interval rests on "
+    "k of the B resamples only."
+)
 # (code, meaning); "{long}" is the long-protein cut-off from settings
 GLOSSARY = (
     ("B0", "baseline: logistic regression on log protein length."),
@@ -249,9 +255,18 @@ def unit_words(key: str) -> str:
     return f"{name} training set"
 
 
+def ci_n(m: dict, d: dict | None) -> str:
+    """ci() plus `(n_defined k of B)` when the interval rests on fewer than all B resamples."""
+    text = ci(d)
+    n_res = m["settings"]["n_resamples"]
+    if text != "n/a" and d.get("n_defined") is not None and d["n_defined"] < n_res:
+        text += f" (n_defined {fmt(d['n_defined'])} of {fmt(n_res)})"
+    return text
+
+
 def nsec_fpr(m: dict, name: str, cand: str) -> str:
     block = m["test_sets"][name]["truth"]["direct"]["nsec_fpr_at_rule_recall"]
-    return ci(block.get("V-go", {}).get("fpr", {}).get(cand))
+    return ci_n(m, block.get("V-go", {}).get("fpr", {}).get(cand))
 
 
 def edge_words(entry: dict) -> str:
@@ -275,7 +290,7 @@ def fitted_rows(m: dict) -> list[list[str]]:
 def finding_rows(m: dict, name: str, entries: dict) -> list[list[str]]:
     label = m["test_sets"][name]["label"]
     return [[name, label, c, nsec_fpr(m, name, "B1"), nsec_fpr(m, name, "R2"),
-             nsec_fpr(m, name, c), ci(e["B1"]), ci(e["R2"]), fmt(e["beats_B1"]),
+             nsec_fpr(m, name, c), ci_n(m, e["B1"]), ci_n(m, e["R2"]), fmt(e["beats_B1"]),
              fmt(e["beats_R2"]), fmt(e["holds"])] for c, e in entries.items()]  # fmt: skip
 
 
@@ -475,6 +490,8 @@ def render(m: dict, f: dict) -> str:
         lines += table(["Protein", *cands], rows)
     a, b, c3 = f["a_b1_not_saturated"], f["b_ml_beats_b1_and_r2_on_nsec_s1"], f["c_same_under_s2"]
     sign = SIGN.format(level=fmt(st["ci_level"]))
+    frac = f["b_ml_beats_b1_and_r2_on_nsec_s1"]["min_defined_fraction"]
+    defined_rule = DEFINED_RULE.format(fraction=fmt(frac))
     lines += ["## Findings (quoted from findings.json)", ""]
     lines += ["- (a) B1 ROC-AUC is below the saturation threshold on S1 and S2 "
               f"(direct truth, V-go): holds = {fmt(a['holds'])}."]  # fmt: skip
@@ -486,13 +503,13 @@ def render(m: dict, f: dict) -> str:
     lab_b = m["test_sets"][b["test_set"]]["label"]
     lines += [f"- (b) Any ML candidate beats B1 and R2 on N-sec FPR at the recall of R2 "
               f"({b['test_set']}, {lab_b}): holds for "
-              f"{', '.join(b['holds_for']) or 'no ML candidate'}.", sign, ""]  # fmt: skip
+              f"{', '.join(b['holds_for']) or 'no ML candidate'}.", sign, defined_rule, ""]  # fmt: skip
     lines += table(FINDING_HEADER, finding_rows(m, b["test_set"], b["candidates"]))
     n_found = f"{fmt(c3['n_s2'])} of {fmt(c3['expected_s2'])} expected S2 test sets"
     labelled = ", ".join(f"{k} ({m['test_sets'][k]['label']})" for k in c3["test_sets"])
     lines += [f"- (c) Any ML candidate, the same on every S2 test set: holds for "
               f"{', '.join(c3['holds_for']) or 'no ML candidate'}.",
-              f"  Found {n_found}: {labelled}.", sign, ""]  # fmt: skip
+              f"  Found {n_found}: {labelled}.", sign, defined_rule, ""]  # fmt: skip
     rows = []
     for name, entry in c3["test_sets"].items():
         rows += finding_rows(m, name, entry["candidates"])

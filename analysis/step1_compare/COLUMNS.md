@@ -932,13 +932,16 @@ The values are those of the unit object in `scores_run.json` (its `rule_grid` is
 - `test_set` `S1:all`
 - `candidates` one object per ML candidate, see below
 - `holds_for` the ML candidates whose `holds` is `true`
+- `n_resamples` the number of bootstrap resamples
+- `min_defined_fraction` 0.95: a difference counts only when it is defined in at least this fraction of `n_resamples` (final review M-3)
 
 **Keys of a candidate object in `b_ml_beats_b1_and_r2_on_nsec_s1`:**
 
 - `B1` the difference as `{value, lo, hi, n_defined}`
 - `R2` the same
-- `beats_B1` `true` when `lo` of `B1` is above 0
-- `beats_R2` `true` when `lo` of `R2` is above 0
+- `n_defined` `{B1: n, R2: n}`: the resamples in which each difference is defined
+- `beats_B1` `true` when `lo` of `B1` is above 0 and `n_defined` of `B1` is at least `min_defined_fraction` x `n_resamples`
+- `beats_R2` the same for `R2`
 - `holds` both `true`
 
 **Keys of `c_same_under_s2`:**
@@ -1001,7 +1004,8 @@ The owner's report. Every number in it is a value of `metrics.json` or `findings
 tests; it cannot detect a value that comes from another cell. The report has a decision table of
 all candidates per test set, a glossary, fixed caveat lines, the finding tables and the table
 `Fitted settings per unit` with a line that counts the settings at a grid edge; it prints `n/a`
-for a `null` value.
+for a `null` value. A finding-table interval that rests on fewer resamples than `n_resamples`
+shows `(n_defined k of B)`.
 
 ## phasec/report_run.json (12_report.py)
 

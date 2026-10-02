@@ -178,12 +178,12 @@ def test_findings_booleans():
     assert findings.finding_a({"S1:all": 0.97, "S2-x:x": 0.95})["holds"] is True
     assert findings.finding_a({"S1:all": None})["holds"] is False
     assert findings.finding_a({})["holds"] is False
-    up = {"value": 0.2, "lo": 0.05, "hi": 0.3}
-    zero = {"value": 0.1, "lo": -0.01, "hi": 0.3}
-    b = findings.finding_b({"M8": {"B1": up, "R2": up}, "M35": {"B1": up, "R2": zero}})
+    up = {"value": 0.2, "lo": 0.05, "hi": 0.3, "n_defined": 100}
+    zero = {"value": 0.1, "lo": -0.01, "hi": 0.3, "n_defined": 100}
+    b = findings.finding_b({"M8": {"B1": up, "R2": up}, "M35": {"B1": up, "R2": zero}}, 100)
     assert b["holds_for"] == ["M8"] and b["candidates"]["M35"]["beats_R2"] is False
     c = findings.finding_c(
-        {"S2-a:a": b, "S2-b:b": findings.finding_b({"M8": {"B1": zero, "R2": up}})}
+        {"S2-a:a": b, "S2-b:b": findings.finding_b({"M8": {"B1": zero, "R2": up}}, 100)}
     )
     assert c["holds_for"] == []
     c = findings.finding_c({"S2-a:a": b, "S2-b:b": b, "S2-c:c": b})
@@ -520,13 +520,13 @@ def test_finding_b_hand_built_beats_and_mirror():
     # comparator N-sec FPR minus ML: R2 calls all N-sec (1.0), B1 puts all at one score (1.0), M8 0.0
     assert diff["M8"]["R2"]["value"] == 1.0 and diff["M8"]["B1"]["value"] == 1.0
     assert diff["M8"]["R2"]["lo"] > 0 and diff["M8"]["B1"]["lo"] > 0
-    f = findings.finding_b(diff)
+    f = findings.finding_b(diff, 200)
     assert f["holds_for"] == ["M8"] and f["candidates"]["M8"]["beats_B1"] is True
     assert f["candidates"]["M8"]["beats_R2"] is True
     mirror, *_ = _hand_block(_ml_loses_case())
     diff = mirror["nsec_fpr_at_rule_recall"]["V-go"]["diff"]
     assert diff["M8"]["R2"]["value"] == -1.0 and diff["M8"]["B1"]["value"] == -1.0
-    f = findings.finding_b(diff)
+    f = findings.finding_b(diff, 200)
     assert f["holds_for"] == [] and f["candidates"]["M8"]["beats_R2"] is False
     assert f["candidates"]["M8"]["beats_B1"] is False
     assert ev.findings is findings
@@ -634,3 +634,34 @@ def test_fitted_settings_flags_both_grid_ends_and_counts_them():
     assert "rule_grid" not in u0["R2"] and u0["R2"]["j"] == 0.1
     assert counts == {"C": {"at_edge": 3, "n": 5}, "g": {"at_edge": 3, "n": 4},
                       "t": {"at_edge": 1, "n": 2}}  # fmt: skip
+
+
+def test_finding_b_needs_95_percent_defined_resamples():
+    # final review M-3: an interval above 0 that rests on 90% of the resamples does not count
+    up = {"value": 0.2, "lo": 0.05, "hi": 0.3, "n_defined": 100}
+    part = {"value": 0.2, "lo": 0.05, "hi": 0.3, "n_defined": 90}
+    edge = {"value": 0.2, "lo": 0.05, "hi": 0.3, "n_defined": 95}
+    b = findings.finding_b({"M8": {"B1": up, "R2": part}, "M35": {"B1": up, "R2": edge}}, 100)
+    m8, m35 = b["candidates"]["M8"], b["candidates"]["M35"]
+    assert m8["beats_B1"] is True and m8["beats_R2"] is False and m8["holds"] is False
+    assert m8["n_defined"] == {"B1": 100, "R2": 90}
+    assert m35["beats_R2"] is True and m35["holds"] is True  # 95 of 100 is enough
+    assert b["holds_for"] == ["M35"]
+    assert b["n_resamples"] == 100 and b["min_defined_fraction"] == findings.MIN_DEFINED_FRACTION
+    assert findings.MIN_DEFINED_FRACTION == 0.95
+    # no n_defined at all: not beaten
+    assert findings.beats({"value": 0.2, "lo": 0.05, "hi": 0.3}, 100) is False
+
+
+def test_findings_json_records_the_defined_rule(phasec_chain):
+    f = json.loads((phasec_chain["work"] / "phasec" / "findings.json").read_text())
+    m = _metrics(phasec_chain["work"])
+    n = m["settings"]["n_resamples"]
+    blocks = [f["b_ml_beats_b1_and_r2_on_nsec_s1"], *f["c_same_under_s2"]["test_sets"].values()]
+    for b in blocks:
+        assert b["n_resamples"] == n and b["min_defined_fraction"] == 0.95
+        for e in b["candidates"].values():
+            for c in ("B1", "R2"):
+                assert e["n_defined"][c] == e[c]["n_defined"]
+                want = e[c]["lo"] is not None and e[c]["lo"] > 0 and e[c]["n_defined"] >= 0.95 * n
+                assert e[f"beats_{c}"] is want

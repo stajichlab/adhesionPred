@@ -11,6 +11,9 @@ LABEL_CANDIDATES = ("R2", "M8", "M35", "M8-C", "M35-C", "H")  # ruling C-8
 ML = ("M8", "M35", "M8-C", "M35-C", "H")
 COMPARATORS = ("B1", "R2")
 N_S2 = 3  # S2-Calb_CGD, S2-Scer_SGD, S2-Spom_PomBase
+# final review M-3: a difference interval counts only when the difference is defined in at
+# least this fraction of the resamples (else the interval rests on a selected subset)
+MIN_DEFINED_FRACTION = 0.95
 
 
 def floor_met(n_direct_positives: int) -> bool:
@@ -36,25 +39,36 @@ def finding_a(b1_auc: dict) -> dict:
     return {"threshold": SATURATION_AUC, "b1_roc_auc": b1_auc, "holds": holds}
 
 
-def beats(diff: dict) -> bool:
-    """The comparator's N-sec FPR minus the ML candidate's: the interval lies above 0."""
+def beats(diff: dict, n_resamples: int) -> bool:
+    """The comparator's N-sec FPR minus the ML candidate's: the interval lies above 0 and the
+    difference is defined in at least MIN_DEFINED_FRACTION of the n_resamples resamples."""
+    defined = diff.get("n_defined") or 0
+    if defined < MIN_DEFINED_FRACTION * n_resamples:
+        return False
     return diff.get("lo") is not None and diff["lo"] > 0
 
 
-def finding_b(diffs: dict) -> dict:
-    """(b) for one test set: diffs[ml][comparator] = {value, lo, hi}. ML beats B1 and R2 when
-    both intervals lie above 0."""
+def finding_b(diffs: dict, n_resamples: int) -> dict:
+    """(b) for one test set: diffs[ml][comparator] = {value, lo, hi, n_defined}. ML beats B1
+    and R2 when both intervals lie above 0 and both are defined in at least
+    MIN_DEFINED_FRACTION of the resamples."""
     out = {}
     for ml in ML:
         if ml not in diffs:
             continue
-        flags = {f"beats_{c}": beats(diffs[ml].get(c, {})) for c in COMPARATORS}
+        flags = {f"beats_{c}": beats(diffs[ml].get(c) or {}, n_resamples) for c in COMPARATORS}
         out[ml] = {
             **{c: diffs[ml].get(c) for c in COMPARATORS},
+            "n_defined": {c: (diffs[ml].get(c) or {}).get("n_defined") for c in COMPARATORS},
             **flags,
             "holds": all(flags.values()),
         }
-    return {"candidates": out, "holds_for": [m for m in out if out[m]["holds"]]}
+    return {
+        "candidates": out,
+        "holds_for": [m for m in out if out[m]["holds"]],
+        "n_resamples": n_resamples,
+        "min_defined_fraction": MIN_DEFINED_FRACTION,
+    }
 
 
 def finding_c(per_test_set: dict) -> dict:

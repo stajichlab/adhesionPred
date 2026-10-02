@@ -532,7 +532,7 @@ def fitted_settings(units: dict) -> tuple[dict, dict]:
     return out, counts
 
 
-def build_findings(test_blocks: dict) -> dict:
+def build_findings(test_blocks: dict, n_resamples: int) -> dict:
     s2 = sorted(n for n, b in test_blocks.items() if b["split"].startswith("S2-"))
     if len(s2) != findings.N_S2:  # review M-1
         raise evalio.StopError(f"finding (c) needs {findings.N_S2} S2 test sets, found {len(s2)}")
@@ -551,9 +551,11 @@ def build_findings(test_blocks: dict) -> dict:
         "a_b1_not_saturated": findings.finding_a(b1),
         "b_ml_beats_b1_and_r2_on_nsec_s1": {
             "test_set": "S1:all",
-            **findings.finding_b(diffs("S1:all") if "S1:all" in test_blocks else {}),
+            **findings.finding_b(diffs("S1:all") if "S1:all" in test_blocks else {}, n_resamples),
         },
-        "c_same_under_s2": findings.finding_c({n: findings.finding_b(diffs(n)) for n in s2}),
+        "c_same_under_s2": findings.finding_c(
+            {n: findings.finding_b(diffs(n), n_resamples) for n in s2}
+        ),
     }
 
 
@@ -673,7 +675,7 @@ def run(work: Path, sets_path: Path, species_path: Path, n_resamples: int, argum
         "fitted_settings": fitted,
         "grid_edge_counts": edge_counts,
     }
-    findings_json = build_findings(blocks)
+    findings_json = build_findings(blocks, n_resamples)
     log = {
         "all_sources": build["all_sources"],
         "truth_set_sha256": build["truth_set_sha256"],

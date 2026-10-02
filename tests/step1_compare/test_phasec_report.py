@@ -190,6 +190,8 @@ def test_label_beside_every_number_of_a_test_set(reported):
             continue
         if line.startswith("The difference is"):  # sign sentence: the interval level only
             continue
+        if line.startswith("A comparator counts as beaten"):  # rule: findings.json fraction
+            continue
         assert any(lab in line for lab in labels), line
 
 
@@ -318,6 +320,14 @@ def iv(d):
     if d is None or d.get("value") is None:
         return "n/a"
     return f"{d['value']:.3f} [{d['lo']:.3f}, {d['hi']:.3f}]"
+
+
+def ivn(d, n_res):
+    """iv() plus the defined-resample count when it is below the number of resamples."""
+    text = iv(d)
+    if text != "n/a" and d.get("n_defined") is not None and d["n_defined"] < n_res:
+        text += f" (n_defined {d['n_defined']:,} of {n_res:,})"
+    return text
 
 
 def yn(x):
@@ -505,9 +515,10 @@ def check_findings(text, m, f):
     assert len(rows) == len(wanted)
     for r, (name, c, e) in zip(rows, wanted, strict=True):
         fp = _truth_block(m, name)["nsec_fpr_at_rule_recall"]["V-go"]["fpr"]
-        want = [name, m["test_sets"][name]["label"], c, iv(fp["B1"]), iv(fp["R2"]), iv(fp[c]),
-                iv(e["B1"]), iv(e["R2"]), yn(e["beats_B1"]), yn(e["beats_R2"]),
-                yn(e["holds"])]  # fmt: skip
+        n = m["settings"]["n_resamples"]
+        want = [name, m["test_sets"][name]["label"], c, ivn(fp["B1"], n), ivn(fp["R2"], n),
+                ivn(fp[c], n), ivn(e["B1"], n), ivn(e["R2"], n), yn(e["beats_B1"]),
+                yn(e["beats_R2"]), yn(e["holds"])]  # fmt: skip
         if r != want:
             bad.append(("findings", name, c))
     return bad
@@ -702,3 +713,30 @@ def test_edge_flag_mutation_is_seen_by_the_cell_check(reported):
     e = m2["fitted_settings"][unit]["M8"]
     e["at_grid_edge"]["C"] = not e["at_grid_edge"]["C"]
     assert check_fitted(rep.render(m2, f), m, f) != []
+
+
+def _finding_row(text, cand):
+    sec = _sections(text)["## Findings (quoted from findings.json)"]
+    return next(r for r in sec if r.startswith("| S1:all |") and f"| {cand} |" in r)
+
+
+def test_finding_rows_print_n_defined_below_the_resample_count(reported):
+    # final review M-3: a hand edit puts one difference at 90% defined resamples
+    import copy
+
+    _, _, m, f = reported
+    rep = load_phasec("12_report")
+    n = m["settings"]["n_resamples"]
+    f2 = copy.deepcopy(f)
+    b = f2["b_ml_beats_b1_and_r2_on_nsec_s1"]
+    cand, e = next(iter(b["candidates"].items()))
+    e["B1"].update(value=0.2, lo=0.05, hi=0.3, n_defined=int(0.9 * n))
+    text = rep.render(m, f2)
+    row = _finding_row(text, cand)
+    assert f"0.200 [0.050, 0.300] (n_defined {int(0.9 * n):,} of {n:,})" in row
+    e["B1"]["n_defined"] = n
+    text = rep.render(m, f2)
+    row = _finding_row(text, cand)
+    assert "0.200 [0.050, 0.300] |" in row and "0.200 [0.050, 0.300] (n_defined" not in row
+    rule = rep.DEFINED_RULE.format(fraction=f"{b['min_defined_fraction']:.3f}")
+    assert text.count(rule) == 2
