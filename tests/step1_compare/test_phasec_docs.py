@@ -335,3 +335,86 @@ def test_key_parser_sees_a_missing_key_and_an_extra_key():
     assert "labelled_genes_without_sequence" not in key_names(heading, text=missing)
     extra = COLUMNS.replace(line, line + "\n- `not_written_by_the_code`", 1)
     assert "not_written_by_the_code" in key_names(heading, text=extra)
+
+
+# ---- final fix wave: README memory text, 09 resources, STOP sentence (Task 12 I-2, M-1, M-2) ----
+
+
+def _sbatch(path):
+    return dict(
+        re.match(r"#SBATCH (\S+)[ =](\S+)", ln).groups()
+        for ln in path.read_text().splitlines()
+        if ln.startswith("#SBATCH ")
+    )
+
+
+def test_readme_memory_bound_equals_the_job_script():
+    job_path = paths.STEP1_DIR / "phasec" / "c1_evaluate.sh"
+    job = " ".join(job_path.read_text().replace("#", " ").split())
+    flat = " ".join(README.split())
+    cpus = int(_sbatch(job_path)["-c"])
+    per_worker = re.search(r"universe load ([0-9.]+) GB peak per worker", job).group(1)
+    per_fit = re.search(r"one full fit_unit ([0-9.]+) GB peak", job).group(1)
+    bound = f"{(cpus + 1) * float(per_fit):.1f}"
+    assert bound == "13.3"
+    expr = f"({cpus} + 1) x {per_fit} GB = {bound} GB"
+    assert expr in job and expr in flat
+    assert f"{per_worker} GB peak per worker for the universe load on the real Phase B data" in flat
+    assert f"{per_fit} GB peak for one full fit_unit on synthetic data (1 BLAS thread)" in flat
+    mem = _sbatch(job_path)["--mem"]
+    assert f"`--mem={mem}` is a margin above this bound" in flat
+    assert (
+        "not measured on the C1 job itself" in flat
+        and "not measured on the c1 job itself" in job.lower()
+    )
+    assert "comments at the top of `phasec/c1_evaluate.sh`" in flat
+
+
+def test_readme_names_the_own_resources_of_09():
+    sb = _sbatch(paths.STEP1_DIR / "phasec" / "09_cluster_and_split.sh")
+    flat = " ".join(README.split())
+    sec = flat.split("`phasec/09_cluster_and_split.sh` has its own `#SBATCH` lines:")[1][:300]
+    assert f"partition {sb['-p']}" in sec
+    for key in ("--constraint", "--mem", "--time"):
+        assert f"`{key}={sb[key]}`" in sec, key
+    assert f"`-c {sb['-c']}`" in sec
+    assert "used only if 09 is submitted alone" in sec
+
+
+def test_readme_says_a_stop_keeps_old_outputs_and_no_c1_after_a_stop_in_08():
+    flat = " ".join(README.split())
+    assert (
+        "A STOP leaves the previous outputs in place. After a STOP in 08, do not submit C1." in flat
+    )
+    assert "09 also makes the Phase B checks of 10" in flat
+
+
+@pytest.mark.parametrize("step", ["08", "09", "10", "11"])
+def test_a_stop_leaves_the_previous_outputs_in_place(phasec_chain, tmp_path, step):
+    # the README sentence, for 08 to 11 (12 removes its report; test_phasec_report.py)
+    import phasec_fixture as pf
+
+    fx = pf.copy_work(phasec_chain, tmp_path)
+    w = fx["work"]
+    out = w / "phasec"
+    before = {p.name: p.read_bytes() for p in out.iterdir() if p.is_file()}
+    if step == "08":
+        tampered = w / "truth_set_triaged.tsv.gz"
+        argv = pf.build_argv(fx)
+    elif step in ("09", "10"):
+        tampered = w / "phaseb" / "features_unique.tsv.gz"
+        argv = ["--work-dir", str(w)]
+        if step == "09":
+            argv += ["--species", str(fx["species"]), "--mmseqs", str(pf.STUB_MMSEQS),
+                     "--tmp-dir", str(tmp_path / "scratch")]  # fmt: skip
+    else:
+        tampered = out / "scores.tsv.gz"
+        argv = pf.eval_argv(fx)
+    tampered.write_bytes(tampered.read_bytes() + b"\n")
+    name = {"08": "08_build_eval_tables", "09": "09_make_splits", "10": "10_fit_and_score",
+            "11": "11_evaluate"}[step]  # fmt: skip
+    assert load_phasec(name).main(argv) == 2
+    if step == "11":
+        before["scores.tsv.gz"] = tampered.read_bytes()
+    after = {p.name: p.read_bytes() for p in out.iterdir() if p.is_file()}
+    assert after == before

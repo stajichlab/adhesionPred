@@ -342,6 +342,12 @@ $ENV_PY "$S1/phasec/12_report.py"
   `unique_sequences_sha256` and the current file.
 - Every script checks the hashes of the files that the earlier scripts wrote (08, then 09, then
   10, then 11, then 12). A changed file stops the next script. Re-run the scripts in order.
+  09 also makes the Phase B checks of 10 (`phaseb/features_unique.tsv.gz`,
+  `phaseb/unique_sequences.tsv.gz` and `embedding_run.json` against `build_run.json`) before
+  MMseqs2 runs. So a Phase B file that changed after 08 stops C1 before step 09, which took
+  21 to 25 minutes in the reviews.
+- A STOP leaves the previous outputs in place. After a STOP in 08, do not submit C1. The
+  exception is 12: a STOP in 12 removes its older `report.md` and `report_run.json`.
 - Every T-c `taxon_id` needs a row in `phasec/tc_taxon_clades.tsv`. Add the clade (or
   `other`) when `keyword_tier.tsv.gz` gains a taxon.
 - `module load MMseqs2/17-b804f` puts an AVX2 build on PATH. It stops with "Illegal
@@ -355,9 +361,16 @@ $ENV_PY "$S1/phasec/12_report.py"
   them. `test_avx2_tools_have_a_cpu_constraint` checks every `*.sh` file.
 - `phasec/c1_evaluate.sh` requests partition epyc, `--constraint=ryzen`, `-c 16`, `--mem=32G`
   and `--time=4:00:00`. These values are review estimates, not measurements. The first run is a
-  pilot. Size later runs from its `wall_seconds` lines. The memory estimate is (workers + 1)
-  times the size of one universe (reviewers measured 0.40 GB per worker and 0.78 GB peak for
-  one full fit on a synthetic unit; not measured on C1).
+  pilot. Size later runs from its `wall_seconds` lines.
+- Memory of C1: step 10 runs one worker process per CPU, and each worker loads the universe.
+  Reviewers measured 0.40 GB peak per worker for the universe load on the real Phase B data,
+  and 0.78 GB peak for one full fit_unit on synthetic data (1 BLAS thread). The upper bound is
+  (16 + 1) x 0.78 GB = 13.3 GB. `--mem=32G` is a margin above this bound. The memory is not
+  measured on the C1 job itself.
+- The timings from the reviews are in the comments at the top of `phasec/c1_evaluate.sh`.
+- `phasec/09_cluster_and_split.sh` has its own `#SBATCH` lines: partition epyc,
+  `--constraint=ryzen`, `-c 2`, `--mem=16G` and `--time=2:00:00`. They are used only if 09 is
+  submitted alone; inside C1 the values of `c1_evaluate.sh` apply.
 - C1 prints `C1 step <step> wall_seconds=<seconds>` per step and copies these lines to
   `phasec/logs/` on every exit, also after a failed step. `C1_STEPS` (default `09 10 11`) runs
   a subset of the steps. Step 11 runs one process with one BLAS thread.
