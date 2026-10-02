@@ -57,6 +57,14 @@ def test_c1_requests_cpu_on_an_avx2_partition_with_a_time_limit():
     assert "wall_seconds=" in text
 
 
+@pytest.mark.parametrize("script", SCRIPTS, ids=lambda p: p.name)
+def test_every_sbatch_script_has_an_explicit_resource_request(script):
+    # fix round 1: -c, --mem and --time on both scripts, partition and AVX2 feature kept
+    text = script.read_text()
+    for opt in (r"-p epyc", r"--constraint=ryzen", r"-c \d+", r"--mem=\d+G", r"--time=\S+"):
+        assert re.search(rf"^#SBATCH {opt}$", text, flags=re.M), opt
+
+
 def test_avx2_tools_have_a_cpu_constraint():
     # owner rule: a job that runs an AVX2 tool must request a node feature that has AVX2
     scripts = sorted(paths.STEP1_DIR.rglob("*.sh"))
@@ -148,4 +156,59 @@ def test_c1_keeps_the_wall_times_after_a_failed_step(tmp_path):
     assert run.returncode == 2 and "unknown candidates ['XGB']" in run.stderr
     assert "C1 step 09 wall_seconds=" in run.stdout and "C1 done" not in run.stdout
     wall = (fx["work"] / "phasec" / "logs" / "wall.m1test.txt").read_text()
-    assert wall.startswith("C1 step 09 wall_seconds=") and "step 10" not in wall
+    # fix round 1: a start line precedes each step, so the failed step 10 is visible
+    assert wall.startswith("C1 step 09 start seconds=")
+    assert "C1 step 09 wall_seconds=" in wall and "C1 step 10 start seconds=" in wall
+    assert "C1 step 10 wall_seconds" not in wall
+
+
+def test_c1_start_line_for_a_step_that_fails(tmp_path):
+    pytest.importorskip("sklearn")
+    import phasec_fixture as pf
+    from conftest import load_phasec
+
+    fx = pf.make_work(tmp_path)
+    assert load_phasec("08_build_eval_tables").main(pf.build_argv(fx)) == 0
+    env = _env(tmp_path, fx, SLURM_JOB_ID="s1test", STUB_MMSEQS_FAIL="easy-cluster")
+    run = subprocess.run(["bash", str(PHASEC / "c1_evaluate.sh")], env=env,
+                         capture_output=True, text=True)  # fmt: skip
+    assert run.returncode == 2
+    wall = (fx["work"] / "phasec" / "logs" / "wall.s1test.txt").read_text()
+    assert wall.startswith("C1 step 09 start seconds=") and "wall_seconds" not in wall
+    assert (fx["work"] / "phasec" / "logs" / "mmseqs.log").is_file()
+
+
+def test_c1_checks_all_step_names_before_it_runs_a_step(tmp_path):
+    pytest.importorskip("sklearn")
+    import phasec_fixture as pf
+
+    fx = pf.make_work(tmp_path)
+    run = subprocess.run(["bash", str(PHASEC / "c1_evaluate.sh")],
+                         env=_env(tmp_path, fx, C1_STEPS="09 99"),
+                         capture_output=True, text=True)  # fmt: skip
+    assert run.returncode == 2 and "STOP: C1_STEPS names an unknown step: 99" in run.stderr
+    assert "C1 step" not in run.stdout
+    assert not (fx["work"] / "phasec" / "logs").exists()
+
+
+def _no_module_env(tmp_path, fx, fake_module):
+    env = {k: v for k, v in _env(tmp_path, fx).items() if not k.startswith("BASH_FUNC_")}
+    del env["STEP1_MMSEQS"]
+    empty = tmp_path / "emptybin"
+    empty.mkdir()
+    env["PATH"] = str(empty)
+    if fake_module:
+        env["BASH_FUNC_module%%"] = "() { :; }"
+    return env
+
+
+@pytest.mark.parametrize("fake_module, text", [(False, "module load"), (True, "not on PATH")])
+def test_09_stops_when_mmseqs_cannot_be_started(tmp_path, fake_module, text):
+    import phasec_fixture as pf
+
+    fx = pf.make_work(tmp_path)
+    env = _no_module_env(tmp_path, fx, fake_module)
+    run = subprocess.run(["/bin/bash", str(PHASEC / "09_cluster_and_split.sh")], env=env,
+                         capture_output=True, text=True)  # fmt: skip
+    assert run.returncode == 2, run.stderr
+    assert "\nSTOP: " in "\n" + run.stderr and text in run.stderr

@@ -442,3 +442,30 @@ def test_avx2_message_for_exit_132_and_sigill(tmp_path, capsys, how):
     assert "AVX2" in err and "132 or -4" in err
     code = "132" if how == "exit 132" else "-4"
     assert f"exited with {code}" in err
+
+
+def test_mmseqs_log_survives_a_failed_command(tmp_path, monkeypatch, capsys):
+    # fix round 1: the log is under <work>/phasec/logs, and the STOP message names that path
+    fx = _built(tmp_path)
+    monkeypatch.setenv("STUB_MMSEQS_FAIL", "easy-cluster")
+    assert _run09(fx, tmp_path) == 2
+    log = fx["work"] / "phasec" / "logs" / "mmseqs.log"
+    assert f"see {log}" in capsys.readouterr().err
+    assert "stub failure" in log.read_text()
+    assert list((tmp_path / "scratch").iterdir()) == []  # the temp dir is still removed
+
+
+def test_mmseqs_log_exists_after_success(tmp_path):
+    fx = _built(tmp_path)
+    assert _run09(fx, tmp_path) == 0
+    assert (fx["work"] / "phasec" / "logs" / "mmseqs.log").is_file()
+    assert list((tmp_path / "scratch").iterdir()) == []
+
+
+def test_avx2_message_names_the_non_avx2_binary(tmp_path, capsys):
+    fx = _built(tmp_path)
+    bad = tmp_path / "mmseqs_bad"
+    bad.write_text("#!/bin/bash\nexit 132\n")
+    bad.chmod(0o755)
+    assert _run09(fx, tmp_path, bad) == 2
+    assert "/opt/linux/rocky/8.x/x86_64/pkgs/mmseqs2/17-b804f/bin/mmseqs" in capsys.readouterr().err

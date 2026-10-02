@@ -10,8 +10,14 @@
 # skips the module (tests pass the stub there). A job that runs an AVX2 tool must request a node
 # feature that has AVX2; the two #SBATCH lines below keep this script on such nodes if it is
 # ever submitted alone (c1_evaluate.sh requests the same).
+# The -c, --mem and --time lines are bounds from the reviews, not measurements: step 09 took
+# 25 min 20 s with 2 CPUs on c01 (review estimate; no run on epyc yet).
 #SBATCH -p epyc
 #SBATCH --constraint=ryzen
+#SBATCH -c 2
+#SBATCH --mem=16G
+#SBATCH --time=2:00:00
+#SBATCH -J step1_09
 set -euo pipefail
 
 : "${PROJ_ROOT:?export PROJ_ROOT (repository root)}"
@@ -21,8 +27,14 @@ ENV_PY="${STEP1_ENV_PY:-/rhome/jstajich/.conda/envs/adhesionPred/bin/python}"
 S1="$PROJ_ROOT/analysis/step1_compare"
 export PYTHONPATH="$PROJ_ROOT/src:$S1:$S1/phasec"
 if [ -z "${STEP1_MMSEQS:-}" ]; then
-  module load "${PHASEC_MMSEQS_MODULE:-MMseqs2/17-b804f}"
-  STEP1_MMSEQS=$(command -v mmseqs)
+  if ! module load "${PHASEC_MMSEQS_MODULE:-MMseqs2/17-b804f}"; then
+    echo "STOP: module load ${PHASEC_MMSEQS_MODULE:-MMseqs2/17-b804f} failed" >&2
+    exit 2
+  fi
+  if ! STEP1_MMSEQS=$(command -v mmseqs); then
+    echo "STOP: mmseqs is not on PATH after module load; set STEP1_MMSEQS" >&2
+    exit 2
+  fi
 fi
 "$ENV_PY" "$S1/phasec/09_make_splits.py" --work-dir "$STEP1_WORKDIR" \
   --species "${PHASEC_SPECIES:-$S1/species.tsv}" --mmseqs "$STEP1_MMSEQS" \

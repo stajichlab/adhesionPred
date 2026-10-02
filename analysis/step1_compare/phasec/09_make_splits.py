@@ -12,7 +12,7 @@ Reads $STEP1_WORKDIR/phasec/eval_table.tsv.gz, eval_literature.tsv and eval_sequ
                                                                training proteins (same for
                                                                V-go and V-kw)
 
-Writes to $STEP1_WORKDIR/phasec/:
+Writes to $STEP1_WORKDIR/phasec/ (mmseqs.log goes to logs/mmseqs.log there, also after a STOP):
 
   clusters.tsv.gz       seq_sha256 -> cluster_id (the representative's hash)
   split_members.tsv.gz  one row per split, fold and sequence: part, origin, class, cluster
@@ -49,6 +49,7 @@ OUTPUT_NAMES = (
     "max_identity.tsv.gz",
     "splits_run.json",
 )
+NON_AVX2_MMSEQS = "/opt/linux/rocky/8.x/x86_64/pkgs/mmseqs2/17-b804f/bin/mmseqs"
 CLUSTER_ARGS = ("--min-seq-id", "0.3", "-c", "0.5", "--cov-mode", "0")
 SEARCH_ARGS = (
     "-s",
@@ -73,7 +74,7 @@ def mmseqs_version(mmseqs: str) -> str:
         raise evalio.StopError(
             f"`{mmseqs} version` exited with {done.returncode} (132 or -4 = illegal instruction: an "
             "AVX2 build on a CPU without AVX2; run on partition epyc or set STEP1_MMSEQS to "
-            "the non-AVX2 binary)"
+            f"the non-AVX2 binary {NON_AVX2_MMSEQS})"
         )
     return done.stdout.strip()
 
@@ -124,7 +125,10 @@ def _run(work: Path, species_path: Path, mmseqs: str, tmp: Path, threads: int, a
     if manifest.sha256_file(species_path) != build["input_sha256"]["species.tsv"]:
         raise evalio.StopError(f"{species_path} differs from the species.tsv that 08 used")
     version = mmseqs_version(mmseqs)
-    log_path = tmp / "mmseqs.log"
+    # the log lives on /bigdata, not in the temp dir that run() removes, so a STOP can name it
+    log_path = out / "logs" / "mmseqs.log"
+    log_path.parent.mkdir(parents=True, exist_ok=True)
+    log_path.write_text("")
     seqs = read_fasta_gz(out / "eval_sequences.fasta.gz")
     fasta = tmp / "all.fasta"
     write_fasta(fasta, seqs, seqs)

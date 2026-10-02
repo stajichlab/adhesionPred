@@ -11,25 +11,28 @@
 # estimates, NOT measurements of C1): step 09 25 min 20 s with 2 CPUs on c01; one fit_unit per
 # candidate 61 to 81 s at 5,600 rows on 1 BLAS thread; step 11 about 41 s per 1,000 test rows
 # at 2,000 resamples on 1 process (about 18 min for the real run, an estimate).
-# Memory (estimate, not measured): step 10 runs WORKERS worker processes and each holds a full
-# copy of the universe, so memory is (workers + 1) x universe size. Embeddings alone are
-# 69,941 x (320 + 480) float32 = about 0.22 GB; with the feature table and the long-sequence
-# arrays a reviewer measured about 1.2 GB peak RSS for step 11 at 7,150 rows. Estimate for
-# step 10: (16 + 1) x 1.2 GB = about 20 GB. --mem=48G keeps a margin of more than 2 x.
+# Memory: step 10 runs WORKERS worker processes and each loads the universe. Reviewer
+# measurements on the real Phase B data: universe load 0.40 GB peak per worker (0.236 GB of it
+# shared mmap), parent with verification 0.56 GB, one full fit_unit 0.78 GB peak (measured on
+# one synthetic fit_unit, 1 BLAS thread). Upper bound (16 + 1) x 0.78 GB = 13.3 GB. --mem=32G
+# keeps a margin of more than 2 x. Not measured on the C1 job itself.
 # A job that runs an AVX2 tool must request a node feature that has AVX2 (--constraint=ryzen on
 # partition epyc). Partition epyc and constraint ryzen (ruling C-15): the epyc nodes carry the
 # features ryzen, amd, milan; their CPUs have AVX2, which the MMseqs2 module build needs (it
 # stops with exit 132 on the abu_dhabi Opterons of partition batch). Step 11 runs one process
 # with one BLAS thread, so its wall time is a one-core number, not a 16-core number.
 # Step 09 gets --threads from the SLURM allocation. Every step stops with exit code 2 on a
-# STOP; set -e passes that code on, so no step masks a failure of an earlier one.
+# STOP (also 09 when the MMseqs2 module or binary is missing); set -e passes that code on, so
+# no step masks a failure of an earlier one. C1_STEPS is checked before any step starts.
+# wall.<job>.txt gets a "start seconds" line before each step, so a step that the time limit
+# kills is visible.
 # PROJ_ROOT comes from the environment, never from the script location. Temp files go to
 # node-local $SCRATCH; the scripts write their outputs to $STEP1_WORKDIR/phasec/ (on /bigdata)
 # with temp names and os.replace, so the results are on /bigdata when the job ends.
 #SBATCH -p epyc
 #SBATCH --constraint=ryzen
 #SBATCH -c 16
-#SBATCH --mem=48G
+#SBATCH --mem=32G
 #SBATCH --time=4:00:00
 #SBATCH -J step1_c1
 set -euo pipefail
@@ -44,6 +47,12 @@ export PYTHONPATH="$PROJ_ROOT/src:$S1:$S1/phasec"
 export OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1
 CPUS="${SLURM_CPUS_PER_TASK:-4}"
 STEPS="${C1_STEPS:-09 10 11}"
+for step in $STEPS; do
+  case "$step" in
+    09 | 10 | 11) ;;
+    *) echo "STOP: C1_STEPS names an unknown step: $step (use 09, 10, 11)" >&2; exit 2 ;;
+  esac
+done
 LOGDIR="$STEP1_WORKDIR/phasec/logs"
 mkdir -p "$TMP" "$LOGDIR"
 : > "$TMP/wall.txt"
@@ -54,6 +63,7 @@ trap 'cp "$TMP/wall.txt" "$WALL_OUT"' EXIT
 timed() {  # timed NAME CMD...: run CMD and record its wall time
   local name=$1 t0=$SECONDS
   shift
+  echo "C1 step $name start seconds=$SECONDS" >> "$TMP/wall.txt"
   "$@"
   echo "C1 step $name wall_seconds=$((SECONDS - t0))" | tee -a "$TMP/wall.txt"
 }
