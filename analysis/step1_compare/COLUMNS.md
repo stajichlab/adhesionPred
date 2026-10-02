@@ -829,9 +829,28 @@ without positives or without negatives has `null` for the metrics that need them
 - `n` positives and negatives per stratum
 - `metrics` per stratum, variant and candidate
 - `variant_effect` V-kw minus V-go per stratum, candidate and metric (paired)
-- `vs_rule` precision at the recall of R2 and recall at the FPR of R2 per ML candidate
+- `vs_rules` B1 and each ML candidate against R0, R1 and R2, each rule at its own operating point (ruling C-16); key rule, then variant, then candidate
 - `prevalence` precision at assumed prevalence 0.01, 0.03, 0.05, 0.1 (assumed, not measured)
 - `nsec_fpr_at_rule_recall` N-sec FPR at the recall of R2 and the paired differences
+
+**Keys of `vs_rules` (one per rule that 10 fitted; `VS_RULES` in `11_evaluate.py`):**
+
+- `R0` SignalP calls a signal peptide
+- `R1` R0 and a GPI call at or above g
+- `R2` the rule
+
+Each rule object has one object per variant. A variant object has one object per candidate of
+`VS_RULE_CANDIDATES` (B1, M8, M35, M8-C, M35-C, H) that 10 scored. The rule's own recall and FPR
+are in `metrics` (stratum `all`). A test set without negatives (the literature set) stores the
+precision and the FPR as null.
+
+**Keys of a candidate object in `vs_rules`:**
+
+- `precision_at_rule_recall` highest precision of the candidate at a recall at or above the rule's recall
+- `recall_at_rule_fpr` highest recall of the candidate at an FPR at or below the rule's FPR
+- `fpr_at_rule_recall` FPR of the candidate at the first threshold where its recall reaches the rule's recall
+
+Each value is `{value, lo, hi, n_defined}`; the rule's recall and FPR are read per resample.
 
 **Strata (keys of `n` and of `metrics` of a truth object; `STRATA` in `11_evaluate.py`):**
 
@@ -1006,7 +1025,8 @@ or 09, 10 is broken.
 The owner's report. Every number in it is a value of `metrics.json` or `findings.json`.
 12 checks this before it writes. The check is a guard against typing errors and has cell-level
 tests; it cannot detect a value that comes from another cell. The report has a decision table of
-all candidates per test set, a glossary, fixed caveat lines, the finding tables and the table
+all candidates per test set, a glossary, fixed caveat lines, per test set one table of B1 and
+the ML candidates against each rule (R0, R1, R2; ruling C-16), the finding tables and the table
 `Fitted settings per unit` with a line that counts the settings at a grid edge; it prints `n/a`
 for a `null` value. A finding-table interval that rests on fewer resamples than `n_resamples`
 shows `(n_defined k of B)`.

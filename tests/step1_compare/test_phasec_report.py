@@ -427,16 +427,35 @@ def check_variant_effect(text, m, f):
 
 
 def check_vs_rule(text, m, f):
+    """Round 3 (ruling C-16): one table per rule (R0, R1, R2) per test set; B1 and ML rows."""
     bad = []
+    n = m["settings"]["n_resamples"]
     for name, ts in m["test_sets"].items():
-        for tb, _, rows in _tables(_sec(text, name, ts)):
-            if not tb.startswith("ML against the rule"):
+        b = _truth_block(m, name)
+        seen = []
+        for tb, header, rows in _tables(_sec(text, name, ts)):
+            hit = re.match(r"B1 and ML against the rule (R[0-2]) at its own operating point", tb)
+            if not hit:
                 continue
-            b = _truth_block(m, name)
+            rule = hit.group(1)
+            seen.append(rule)
+            assert header == ["Candidate", "Variant", "Label", f"{rule} recall", f"{rule} FPR",
+                              f"Recall at {rule} FPR", f"FPR at {rule} recall",
+                              f"Precision at {rule} recall"]  # fmt: skip
+            want_rows = [(c, v) for v in ("V-go", "V-kw") for c in b["vs_rules"][rule][v]]
+            if [(r[0], r[1]) for r in rows] != want_rows:
+                bad.append(("vs_rules rows", name, rule))
             for r in rows:
-                vr = b["vs_rule"][r[1]][r[0]]
-                if r[3:] != [iv(vr["precision_at_rule_recall"]), iv(vr["recall_at_rule_fpr"])]:
-                    bad.append(("vs_rule", name, r[0], r[1]))
+                own = b["metrics"]["all"][r[1]][rule]
+                vr = b["vs_rules"][rule][r[1]][r[0]]
+                want = [ts["label"], ivn(own["recall"], n), ivn(own["fpr"], n),
+                        ivn(vr["recall_at_rule_fpr"], n), ivn(vr["fpr_at_rule_recall"], n),
+                        ivn(vr["precision_at_rule_recall"], n)]  # fmt: skip
+                if r[2:] != want:
+                    bad.append(("vs_rules", name, rule, r[0], r[1]))
+        want_rules = [] if ts["kind"] == "literature" else list(b["vs_rules"])
+        if seen != want_rules:
+            bad.append(("vs_rules tables", name, seen))
     return bad
 
 
@@ -553,7 +572,7 @@ CHECKERS = {
     "metric tables of each test set (direct and all truth)": check_metric_tables,
     "strata tables": check_strata,
     "variant-effect tables": check_variant_effect,
-    "ML-against-rule tables": check_vs_rule,
+    "B1-and-ML-against-rule tables (R0, R1, R2)": check_vs_rule,
     "prevalence tables": check_prevalence,
     "Brier tables": check_brier,
     "reliability tables": check_reliability,
@@ -740,3 +759,44 @@ def test_finding_rows_print_n_defined_below_the_resample_count(reported):
     assert "0.200 [0.050, 0.300] |" in row and "0.200 [0.050, 0.300] (n_defined" not in row
     rule = rep.DEFINED_RULE.format(fraction=f"{b['min_defined_fraction']:.3f}")
     assert text.count(rule) == 2
+
+
+# ---- round 3: B1 and ML against R0, R1 and R2 (ruling C-16) ----
+
+
+def test_one_vs_rule_table_per_rule_with_b1_and_ml_rows(reported):
+    _, text, m, _ = reported
+    rep = load_phasec("12_report")
+    for name, ts in m["test_sets"].items():
+        tabs = [(tb, h, rows) for tb, h, rows in _tables(_sec(text, name, ts))
+                if tb.startswith("B1 and ML against the rule")]  # fmt: skip
+        if ts["kind"] == "literature":
+            assert tabs == [], name
+            continue
+        assert [tb.split()[6] for tb, _, _ in tabs] == ["R0", "R1", "R2"], name
+        for tb, header, rows in tabs:
+            rule = tb.split()[6]
+            assert tb == rep.VS_RULE_INTRO.format(rule=rule, label=ts["label"])
+            assert header == rep.vs_rule_header(rule)
+            got = {r[0] for r in rows}
+            assert got == {"B1", "M8", "M35", "M8-C", "M35-C", "H"}, (name, rule)
+            assert all(r[2] == ts["label"] for r in rows)
+            assert "best" not in tb
+
+
+def test_vs_rule_cell_check_sees_a_swapped_rule(reported):
+    # a report that prints the R1 values in the R0 table must fail the cell check
+    import copy
+
+    _, _, m, f = reported
+    rep = load_phasec("12_report")
+    m2 = copy.deepcopy(m)
+    block = m2["test_sets"]["S1:all"]["truth"]["direct"]["vs_rules"]
+    assert block["R0"] != block["R1"]  # the fixture gives the two rules other values
+    block["R0"], block["R1"] = block["R1"], block["R0"]
+    assert check_vs_rule(rep.render(m2, f), m, f) != []
+    m3 = copy.deepcopy(m)
+    own = m3["test_sets"]["S1:all"]["truth"]["direct"]["metrics"]["all"]["V-go"]
+    assert own["R0"]["fpr"] != own["R2"]["fpr"]
+    own["R0"]["fpr"] = own["R2"]["fpr"]  # the R0 table prints the FPR of R2
+    assert check_vs_rule(rep.render(m3, f), m, f) != []

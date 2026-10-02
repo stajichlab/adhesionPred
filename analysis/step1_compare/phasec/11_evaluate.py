@@ -10,7 +10,8 @@ Test sets: S1:all (out-of-fold, all folds pooled) and S1:<source>; S2-<source>:<
 S3-<clade>:clade, S3-<clade>:<source>, S3-Eurotiomycetes:literature. Truth `direct` =
 homology_only no (headline); `all` = all non-IEA labels (beside it). Literature rows have
 positives only: a truth block without negatives stores precision, PR-AUC, precision at recall
-and precision at the rule's recall as null (spec 3.2: recall only). The bootstrap weights (bootstrap.py) are drawn once per test set and truth and
+and precision at the rule's recall as null (spec 3.2: recall only). `vs_rules` compares B1
+and each ML candidate with R0, R1 and R2 at the rule's recall and FPR (ruling C-16). The bootstrap weights (bootstrap.py) are drawn once per test set and truth and
 serve every candidate, variant and stratum (paired).
 
 Writes to $STEP1_WORKDIR/phasec/:
@@ -82,6 +83,10 @@ STRATA = (
     "identity_below_0.3",
 )
 TRUTHS = ("direct", "all")
+# ruling C-16 (owner, 2026-10-02): B1 and every ML candidate against R0, R1 and R2, each rule
+# at its own fitted operating point (its recall and its FPR on the test set)
+VS_RULES = ("R0", "R1", "R2")
+VS_RULE_CANDIDATES = ("B1", *findings.ML)
 PREVALENCES = (0.01, 0.03, 0.05, 0.10)
 CALIBRATION_BINS = 10
 QUANTILES = (0.1, 0.25, 0.5, 0.75, 0.9)
@@ -314,11 +319,29 @@ def evaluate_truth(ts, truth, scores, cands, n_resamples, seed):
             }
             for c in cands
         }
-    block["vs_rule"], block["prevalence"], block["nsec_fpr_at_rule_recall"] = {}, {}, {}
+    block["vs_rules"], block["prevalence"], block["nsec_fpr_at_rule_recall"] = {}, {}, {}
+    for rule in VS_RULES:  # ruling C-16: each rule at its own fitted operating point
+        if ("all", "V-go", rule, "recall") not in arrays:
+            continue
+        block["vs_rules"][rule] = {}
+        for v in evalio.VARIANTS:
+            rule_rec = arrays[("all", v, rule, "recall")]
+            rule_fpr = arrays[("all", v, rule, "fpr")]
+            per = block["vs_rules"][rule][v] = {}
+            for c in cands:
+                s = data[(v, c)][0]
+                if c not in VS_RULE_CANDIDATES or np.isnan(s).any():
+                    continue
+                prec = metrics.precision_at_recall(Wx, y, s, rule_rec)
+                if no_negatives:
+                    prec = np.full(len(Wx), np.nan)
+                per[c] = {
+                    "precision_at_rule_recall": summary(prec),
+                    "recall_at_rule_fpr": summary(metrics.recall_at_fpr(Wx, y, s, rule_fpr)),
+                    "fpr_at_rule_recall": summary(metrics.fpr_at_recall(Wx, y, s, rule_rec, ~y)),
+                }  # fmt: skip
     for v in evalio.VARIANTS:
         rule_rec = arrays.get(("all", v, "R2", "recall"))
-        rule_fpr = arrays.get(("all", v, "R2", "fpr"))
-        block["vs_rule"][v] = {}
         block["prevalence"][v] = {
             c: {
                 f"{pi}": summary(metrics.precision_at_prevalence(
@@ -335,14 +358,6 @@ def evaluate_truth(ts, truth, scores, cands, n_resamples, seed):
             s = data[(v, c)][0]
             if c == "R2" or np.isnan(s).any():
                 continue
-            if c in findings.ML:
-                prec = metrics.precision_at_recall(Wx, y, s, rule_rec)
-                if no_negatives:
-                    prec = np.full(len(Wx), np.nan)
-                block["vs_rule"][v][c] = {
-                    "precision_at_rule_recall": summary(prec),
-                    "recall_at_rule_fpr": summary(metrics.recall_at_fpr(Wx, y, s, rule_fpr)),
-                }  # fmt: skip
             comp[c] = metrics.fpr_at_recall(Wx, y, s, rule_rec, nsec)
         block["nsec_fpr_at_rule_recall"][v] = {
             "fpr": {c: summary(a) for c, a in comp.items()},

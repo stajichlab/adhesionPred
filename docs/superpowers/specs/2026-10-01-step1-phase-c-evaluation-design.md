@@ -245,8 +245,10 @@ Follows parent section 6. Phase C adds these definitions.
 - **Metrics per test set and stratum:** recall, precision, FPR (binary call), ROC-AUC, PR-AUC (scored
   candidates), precision at recall 0.8 and 0.9, recall at FPR 0.01. Precision at a recall level reads
   the step-function precision-recall curve (the highest precision at any threshold with recall at or
-  above the level). R0 to R2 have a binary call only. For comparison the report gives each ML
-  candidate's precision at the rule's recall and recall at the rule's FPR.
+  above the level). R0 to R2 have a binary call only. For comparison the report gives, for B1 and
+  each ML candidate and for each rule R0, R1 and R2 at the rule's own operating point: the rule's
+  recall and FPR, the candidate's recall at the rule's FPR, its FPR at the rule's recall and its
+  precision at the rule's recall (ruling C-16). Findings (b) and (c) stay based on R2.
 - **Estimate or smoke test** (parent section 6, written before any run). Truth = direct-evidence rows.
   Variant = V-go. Candidates = R2 and every ML candidate (M8, M35, M8-C, M35-C, H); B0, B1, R0 and R1
   are baselines and are left out. The half-width is (97.5th percentile minus 2.5th percentile) / 2 of
@@ -432,6 +434,7 @@ open PRs) are unchanged.
 | C-13 | No headline ML candidate is named; findings (b) and (c) report `holds_for` per candidate, and the report says "any" | plan review | the owner reads a per-candidate table |
 | C-14 | A positive or negative that shares a sequence with an excluded gene becomes `excluded`; the pool counts 308 / 6,842 differ from 313 / 6,951 by this rule, by merges and by 75 labelled negatives without a feature row | plan review | 2 positives missing from training (1 *C. albicans*, 1 S288C) |
 | C-15 | The SLURM job requests `-p epyc --constraint=ryzen`; every job that runs an AVX2 tool requests an AVX2 node feature | plan review; owner suggestion | fewer eligible nodes (19 epyc nodes) |
+| C-16 | B1 and every ML candidate are compared with R0, R1 and R2, each rule at its own operating point (its recall and FPR on the test set); one report table per rule and test set; findings (b) and (c) stay R2-based | owner, 2026-10-02 | three tables per test set instead of one; no candidate is named best |
 | C-17 | The logistic-regression `C` grid goes down to 0.0001: 0.0001, 0.0003, 0.001, 0.003, 0.01, 0.1, 1, 10 | owner, 2026-10-02 | in the first real run every ML candidate chose 0.001, the old lower edge; two more `C` values per candidate and unit |
 
 C-6 to C-11 came from the first independent review. The owner asked on 2026-10-01 to go forward with

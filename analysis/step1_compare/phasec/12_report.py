@@ -49,7 +49,7 @@ CELL_CHECKED = (
     "metric tables of each test set (direct and all truth)",
     "strata tables",
     "variant-effect tables",
-    "ML-against-rule tables",
+    "B1-and-ML-against-rule tables (R0, R1, R2)",
     "prevalence tables",
     "Brier tables",
     "reliability tables",
@@ -294,6 +294,19 @@ def finding_rows(m: dict, name: str, entries: dict) -> list[list[str]]:
              fmt(e["beats_R2"]), fmt(e["holds"])] for c, e in entries.items()]  # fmt: skip
 
 
+VS_RULE_INTRO = (
+    "B1 and ML against the rule {rule} at its own operating point (direct truth; {label}). The "
+    "{rule} recall and FPR columns are the rule's own values; the other columns read the "
+    "candidate's score curve at that recall or FPR:"
+)
+
+
+def vs_rule_header(rule: str) -> list[str]:
+    return ["Candidate", "Variant", "Label", f"{rule} recall", f"{rule} FPR",
+            f"Recall at {rule} FPR", f"FPR at {rule} recall",
+            f"Precision at {rule} recall"]  # fmt: skip
+
+
 FINDING_HEADER = ["Test set", "Label", "ML candidate", "B1 N-sec FPR", "R2 N-sec FPR",
                   "ML N-sec FPR", "B1 minus ML", "R2 minus ML", "Beats B1", "Beats R2",
                   "Holds"]  # fmt: skip
@@ -398,20 +411,18 @@ def render(m: dict, f: dict) -> str:
                   f"high-throughput-only internal evidence: {fmt(ts['ambiguous_htp_only']['n'])}.", ""]  # fmt: skip
         if lit:
             continue  # no negatives: no comparison at the rule's FPR, no prevalence table
-        rows = []
-        for v in variants:
-            for c, vr in block["vs_rule"].get(v, {}).items():
-                rows.append([c, v, lab, ci(vr["precision_at_rule_recall"]),
-                             ci(vr["recall_at_rule_fpr"])])  # fmt: skip
-        if rows:
-            lines += [
-                "ML against the rule R2 (precision at the rule's recall, recall at the rule's FPR):",
-                "",
-            ]
-            lines += table(
-                ["Candidate", "Variant", "Label", "Precision at R2 recall", "Recall at R2 FPR"],
-                rows,
-            )
+        for rule, per_v in block["vs_rules"].items():
+            rows = []
+            for v in variants:
+                own = block["metrics"]["all"][v][rule]
+                for c, vr in per_v.get(v, {}).items():
+                    rows.append([c, v, lab, ci_n(m, own["recall"]), ci_n(m, own["fpr"]),
+                                 ci_n(m, vr["recall_at_rule_fpr"]),
+                                 ci_n(m, vr["fpr_at_rule_recall"]),
+                                 ci_n(m, vr["precision_at_rule_recall"])])  # fmt: skip
+            if rows:
+                lines += [VS_RULE_INTRO.format(rule=rule, label=lab), ""]
+                lines += table(vs_rule_header(rule), rows)
         rows = []
         keys = list(next(iter(block["prevalence"]["V-go"].values())))
         for c in cands:
