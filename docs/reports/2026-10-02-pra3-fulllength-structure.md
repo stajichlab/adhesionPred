@@ -193,7 +193,7 @@ the same job.
 |---|---|---|---|---|
 | PRA3 core (E9CRM7) | D4ALI1, *T. benhamiae* ARB_05178 | 0.74 (3Di), 0.82 (TM-align) | 0.74, 0.76 | 3e-4 |
 | PRA3 core, next hit | P28799 human progranulin | 0.44 | 0.48 | 5.3 |
-| PRA3 full model | none above E 6 (human and mouse proteins) | 0.09 to 0.11 | 0.57 to 0.59 | 6.6 to 9.6 |
+| PRA3 full model | two weak hits only (human and mouse proteins) | 0.09 to 0.11 | 0.57 to 0.59 | 6.6 to 9.6 |
 | Ag2/PRA core (CFEM control) | D4B2Q8, Q4WMA6 | 0.97 | 0.95 | 4e-6 to 2e-5 |
 | RodA core (hydrophobin control) | RodA itself and *Penicillium* hydrophobins | 0.98 to 0.99 | 0.96 to 0.98 | 1e-9 to 3e-11 |
 
