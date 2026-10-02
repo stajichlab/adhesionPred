@@ -54,7 +54,7 @@ jobs:
       matrix:
         # One pytest process per folder: each conftest.py puts its own analysis/ directory on
         # sys.path, and module names such as figures_ext exist in more than one of them.
-        suite: [adhesion_properties, embedding_clustering, kingdom_survey]
+        suite: [adhesion_properties, embedding_clustering, kingdom_survey, step1_compare]
     steps:
       - uses: actions/checkout@v7
         with:

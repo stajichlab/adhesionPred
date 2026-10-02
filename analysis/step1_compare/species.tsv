@@ -1,0 +1,11 @@
+source_id	species	taxon_id	taxon_filter	in_clade	role	role_note	gaf_file	fasta_file	id_mapping
+Scer_SGD	Saccharomyces cerevisiae S288C	559292		Saccharomycotina	train	Q6	sgd.gaf.gz	orf_trans_all.fasta.gz	sgd
+Calb_CGD	Candida albicans SC5314	237561	237561	Saccharomycotina	train	Q6	cgd.gaf.gz	C_albicans_SC5314_A22_current_default_protein.fasta.gz	cgd
+Spom_PomBase	Schizosaccharomyces pombe 972h-	284812		Taphrinomycotina	test_species	Q6	pombase.gaf.gz	peptide.fa.gz	pombase
+Spom_SCHPO-mod	Schizosaccharomyces pombe 972h-	284812		Taphrinomycotina	alternate_file	spec 3.2	SCHPO-mod.gaf.gz	peptide.fa.gz	pombase
+Afum_ASPFU	Aspergillus fumigatus Af293	330879		Eurotiomycetes	test_clade	Q7	ASPFU-uniprot.gaf.gz	UP000002530.fasta.gz	uniprot
+Anid_EMENI	Aspergillus nidulans FGSC A4	227321		Eurotiomycetes	test_clade	decided 2026-10-01: second Eurotiomycetes test species	EMENI-uniprot.gaf.gz	UP000000560.fasta.gz	uniprot
+Cneo_H99_GOA	Cryptococcus neoformans H99	235443		Basidiomycota	test_clade	decided 2026-10-01: Cryptococcus reference; pending curation (separate work)	313589.C_neoformans_var_grubii_H99.goa	UP000010091.fasta.gz	uniprot
+Cneo_JEC21_GOA	Cryptococcus deneoformans JEC21	214684		Basidiomycota	alternate_file	H99 is the reference; JEC21 kept for comparison	20846.C_neoformans_JEC21.goa	UP000002149.fasta.gz	uniprot
+Cneo_CRYD1	Cryptococcus deneoformans JEC21	214684		Basidiomycota	alternate_file	same genome as Cneo_JEC21_GOA	CRYD1-uniprot.gaf.gz	UP000002149.fasta.gz	uniprot
+Umay_MYCMD	Ustilago maydis 521	5270		Basidiomycota	undecided	Basidiomycota truth option is open	MYCMD-uniprot.gaf.gz	UP000000561.fasta.gz	uniprot

@@ -1,0 +1,4 @@
+#%Module1.0
+## Test stub: puts a fake signalp6 on PATH (tests/step1_compare/test_phaseb_jobs.py).
+set here [file dirname [file dirname [file dirname $ModulesCurrentModulefile]]]
+prepend-path PATH $here/bin

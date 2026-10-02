@@ -1,0 +1,63 @@
+#!/usr/bin/env python3
+"""Test stub of MMseqs2 (runs with Python 3.6 or later): version, easy-cluster, easy-search.
+
+easy-cluster: sequences with the same first 6 residues form one cluster; the representative is
+the smallest id. easy-search: a query hits every target with the same first 6 residues;
+fident = identical positions / longer length. STUB_MMSEQS_FAIL=<command> makes it exit 1;
+STUB_MMSEQS_LOG=<file> appends each argument list to that file.
+"""
+
+import os
+import sys
+
+
+def read_fasta(path):
+    seqs, head = {}, None
+    with open(path) as handle:
+        for line in handle:
+            line = line.strip()
+            if line.startswith(">"):
+                head = line[1:].split()[0]
+                seqs[head] = ""
+            elif head:
+                seqs[head] += line
+    return seqs
+
+
+def main(argv):
+    if os.environ.get("STUB_MMSEQS_LOG"):
+        with open(os.environ["STUB_MMSEQS_LOG"], "a") as log:
+            log.write("\t".join(argv) + "\n")
+    cmd = argv[0]
+    if cmd == "version":
+        print("stub-17")
+        return 0
+    if os.environ.get("STUB_MMSEQS_FAIL") == cmd:
+        print("stub failure", file=sys.stderr)
+        return 1
+    if cmd == "easy-cluster":
+        seqs = read_fasta(argv[1])
+        groups = {}
+        for h, s in seqs.items():
+            groups.setdefault(s[:6], []).append(h)
+        with open(argv[2] + "_cluster.tsv", "w") as out:
+            for members in groups.values():
+                rep = min(members)
+                for m in sorted(members):
+                    out.write(rep + "\t" + m + "\n")
+        return 0
+    if cmd == "easy-search":
+        query, target = read_fasta(argv[1]), read_fasta(argv[2])
+        with open(argv[3], "w") as out:
+            for q, qs in sorted(query.items()):
+                for t, ts in sorted(target.items()):
+                    if qs[:6] == ts[:6]:
+                        same = sum(a == b for a, b in zip(qs, ts))  # noqa: B905
+                        out.write("%s\t%s\t%.3f\n" % (q, t, same / max(len(qs), len(ts))))  # noqa: UP031
+        return 0
+    print("unknown command " + cmd, file=sys.stderr)
+    return 1
+
+
+if __name__ == "__main__":
+    sys.exit(main(sys.argv[1:]))

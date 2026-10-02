@@ -1,0 +1,12 @@
+set_id	kind	location	note
+truth	truth	truth_sequences.tsv.gz	02_attach_sequences.py output; one row per matched truth gene
+uniprot_kw	keyword	keyword_sequences.fasta.gz	04_build_keyword_tier.py cache; surface.tsv accessions and literature seeds
+Scer_proteome	download	orf_trans_all.fasta.gz	whole proteome for the agreement matrix (spec 6)
+Calb_proteome	download	C_albicans_SC5314_A22_current_default_protein.fasta.gz	whole proteome for the agreement matrix (spec 6)
+Spom_proteome	download	peptide.fa.gz	whole proteome for the agreement matrix (spec 6)
+Afum_proteome	download	UP000002530.fasta.gz	whole proteome of a truth species
+Anid_proteome	download	UP000000560.fasta.gz	whole proteome of a truth species
+Cneo_H99_proteome	download	UP000010091.fasta.gz	whole proteome of a truth species
+Cneo_JEC21_proteome	download	UP000002149.fasta.gz	whole proteome of a truth species
+Umay_proteome	download	UP000000561.fasta.gz	whole proteome of a truth species
+Cimm_RS_proteome	site	cocci_pangenome:input_run2/CimmitisRS_FungiDB.fasta	C. immitis RS (spec 5, 6, D2); FungiDB file used by analysis/cocci_repeats
