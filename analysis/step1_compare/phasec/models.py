@@ -31,7 +31,16 @@ CANDIDATES = ("B0", "B1", "R0", "R1", "R2", "M8", "M35", "M8-C", "M35-C", "H")
 LR_CANDIDATES = ("B0", "B1", "M8", "M35", "M8-C", "M35-C")
 ML_CANDIDATES = ("M8", "M35", "M8-C", "M35-C", "H")
 H_VARIANTS = ("M8", "M35", "M8-C", "M35-C")
-C_GRID = (0.001, 0.003, 0.01, 0.1, 1.0, 10.0)  # ruling C-12: S1 fold 0 chose 0.01, the old edge
+C_GRID = (
+    0.0001,
+    0.0003,
+    0.001,
+    0.003,
+    0.01,
+    0.1,
+    1.0,
+    10.0,
+)  # widened 2026-10-02: every ML model chose 0.001, the old lower edge
 INNER_FOLDS = 3
 MAX_ITER = 5000
 SCORE_CHUNK = 20000

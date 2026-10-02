@@ -723,7 +723,7 @@ hash, or when `splits_run.json` `input_sha256` differs from `build_run.json` `ou
 - `embedding_array_sha256` key `<model>.<window>`
 - `seed` 20261001
 - `candidates`
-- `c_grid` values of C tried: 0.001, 0.003, 0.01, 0.1, 1, 10 (ruling C-12)
+- `c_grid` values of C tried: 0.0001, 0.0003, 0.001, 0.003, 0.01, 0.1, 1, 10 (rulings C-12 and C-16)
 - `inner_folds`
 - `units` key `<split>|<fold>|<variant>`, one object per candidate
 - `git_commit`
@@ -878,7 +878,7 @@ The values are those of the unit object in `scores_run.json` (its `rule_grid` is
 
 **Keys of `at_grid_edge` (only the parameters that are not null for the candidate):**
 
-- `C` `true` when C is 0.001 or 10 (the ends of `c_grid`)
+- `C` `true` when C is 0.0001 or 10 (the ends of `c_grid`)
 - `g` `true` when g is `highly_probable` or `weakly` (the ends of the g grid)
 - `t` `true` when t is 0.2 or 0.4 (the ends of the t grid)
 
