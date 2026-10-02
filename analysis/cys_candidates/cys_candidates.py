@@ -43,6 +43,7 @@ FAMILY_OF_PFAM = {
     "PF04681": "bys1",
     "PF01185": "hydrophobin",
     "PF06766": "hydrophobin",
+    "PF28987": "hydrophobin",  # DewD, "Unclassified hydrophobin dewD"
     "PF28404": "pra3_like_family",
 }
 FAMILIES = ("cfem", "bys1", "hydrophobin", "pra3_like_family")
@@ -81,6 +82,14 @@ COLUMNS = (
     "pra3_like_family_evalue",
     "tier",
 )
+
+
+class StopArgParser(argparse.ArgumentParser):
+    """argparse that reports 'STOP: ...' and exits 2 (the STOP contract)."""
+
+    def error(self, message):
+        print(f"STOP: {message}", file=sys.stderr)
+        sys.exit(2)
 
 
 class Stop(Exception):  # noqa: N818
@@ -136,7 +145,18 @@ def read_fasta(path):
             raise Stop(f"duplicate id {sid!r} in {path}")
         seen_full.add(header)
         seen_short.add(sid)
-        seq = "".join(parts).upper().rstrip("*")
+        # Rule: lowercase is uppercased; ONE trailing '*' (stop symbol) is removed; any other
+        # non-letter (internal '*', '-', digit, space) or an empty sequence is a STOP.
+        seq = "".join(parts).upper()
+        if seq.endswith("*"):
+            seq = seq[:-1]
+        if not seq:
+            raise Stop(f"{path}: empty sequence for {sid!r}")
+        bad = re.search(r"[^A-Z]", seq)
+        if bad:
+            raise Stop(
+                f"{path}: non-letter {bad.group()!r} at position {bad.start() + 1} in {sid!r}"
+            )
         records.append((header, seq))
 
     with open_text(path) as fh:
@@ -401,6 +421,8 @@ def read_manifest(path):
     """Manifest TSV: name<TAB>fasta<TAB>signalp<TAB>domtbl ('-' or empty for none)."""
     jobs = []
     names = set()
+    if not Path(path).is_file():
+        raise Stop(f"manifest not found: {path}")
     with open(path, encoding="utf-8") as fh:
         for line in fh:
             line = line.rstrip("\r\n")
@@ -420,7 +442,29 @@ def read_manifest(path):
     return jobs
 
 
-def run(jobs, out_dir, params, repo):
+def read_provenance(path, missing_models):
+    """Read the pfam_provenance.json written by 01_known_family_hmm.sh. STOP if absent or
+    if a model needed for a searched family is not listed."""
+    if not path or not Path(path).is_file():
+        raise Stop(
+            "a domtbl was given but pfam_provenance.json is missing; "
+            "pass --pfam-provenance (written by 01_known_family_hmm.sh)"
+        )
+    try:
+        prov = json.loads(Path(path).read_text(encoding="utf-8"))
+        accs = {m["acc"].split(".")[0] for m in prov["models"]}
+        for key in ("pfam_release_dir", "pfam_hmm_resolved", "known_families_sha256"):
+            if not prov[key]:
+                raise KeyError(key)
+    except (ValueError, KeyError, TypeError) as exc:
+        raise Stop(f"bad pfam provenance file {path}: {exc!r}") from exc
+    for acc, fam in FAMILY_OF_PFAM.items():
+        if acc not in accs and fam not in missing_models:
+            raise Stop(f"{path}: model {acc} ({fam}) is not in the provenance model list")
+    return prov
+
+
+def run(jobs, out_dir, params, repo, provenance=None):
     out_dir = Path(out_dir)
     all_rows = []
     per = {}
@@ -448,17 +492,32 @@ def run(jobs, out_dir, params, repo):
         n_sp = sum(1 for r in rows if r["sp_call"] == "SP")
         summary.append(f"{name}\t{len(rows)}\t{n_sp}\t" + "\t".join(str(counts[t]) for t in TIERS))
     run_json = {
+        "pfam": provenance,
         "inputs": inputs,
         "parameters": params,
         "git_commit": git_commit(repo),
         "python": sys.version.split()[0],
         "library": "none",
     }
-    out_dir.mkdir(parents=True, exist_ok=True)
     finals = {}
     for name, rows in per.items():
         finals[out_dir / f"{name}.tsv.gz"] = ("gz", rows_to_text(rows))
     finals[out_dir / "candidates.tsv.gz"] = ("gz", rows_to_text(cands))
+    if out_dir.is_dir():
+        stale = sorted(f.name for f in out_dir.glob("*.tsv.gz") if f not in finals)
+        if stale:
+            raise Stop(
+                f"stale per-proteome files from an earlier run in {out_dir}: "
+                + ", ".join(stale)
+                + "; remove them or use a new --out-dir"
+            )
+    try:
+        out_dir.mkdir(parents=True, exist_ok=True)
+        probe = out_dir / ".write_test.tmp"
+        probe.write_text("")
+        probe.unlink()
+    except OSError as exc:
+        raise Stop(f"cannot write to --out-dir {out_dir}: {exc}") from exc
     finals[out_dir / "summary.tsv"] = ("txt", "\n".join(summary) + "\n")
     finals[out_dir / "run.json"] = (
         "txt",
@@ -483,7 +542,7 @@ def run(jobs, out_dir, params, repo):
 
 
 def parse_args(argv):
-    ap = argparse.ArgumentParser(
+    ap = StopArgParser(
         description="Tier short, Cys-rich, secreted proteins. Read-only; no model.",
     )
     ap.add_argument("--manifest", help="TSV: name, fasta, signalp, domtbl ('-' for none)")
@@ -516,6 +575,10 @@ def parse_args(argv):
         help="comma list of families with no HMM search (for example pra3_like_family); "
         "their flag columns are NA",
     )
+    ap.add_argument(
+        "--pfam-provenance",
+        help="pfam_provenance.json from 01_known_family_hmm.sh (required with a domtbl)",
+    )
     ap.add_argument("--repo", default=".", help="git checkout recorded in run.json")
     return ap.parse_args(argv)
 
@@ -541,7 +604,10 @@ def main(argv=None):
             "window": args.window,
             "missing_models": missing,
         }
-        run(jobs, args.out_dir, params, args.repo)
+        prov = None
+        if any(j[3] for j in jobs):
+            prov = read_provenance(args.pfam_provenance, missing)
+        run(jobs, args.out_dir, params, args.repo, prov)
     except Stop as exc:
         print(f"STOP: {exc}", file=sys.stderr)
         return 2

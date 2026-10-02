@@ -63,6 +63,26 @@ def make_domtbl(path, hits):
     return path
 
 
+def write_provenance(path, drop=None):
+    models = [
+        ("PF05730.17", "CFEM"),
+        ("PF04681.18", "Bys1"),
+        ("PF01185.24", "Hydrophobin"),
+        ("PF06766.17", "Hydrophobin_2"),
+        ("PF28987.1", "DewD"),
+        ("PF28404.1", "ARB_05178"),
+    ]
+    prov = {
+        "pfam_hmm_path": "/db/current/Pfam-A.hmm",
+        "pfam_hmm_resolved": "/db/2026-01-27-Pfam38.2/Pfam-A.hmm",
+        "pfam_release_dir": "2026-01-27-Pfam38.2",
+        "known_families_sha256": "abc123",
+        "models": [{"acc": a, "name": n} for a, n in models if a != drop],
+    }
+    Path(path).write_text(json.dumps(prov))
+    return path
+
+
 def rows_for(tmp_path, recs, sp_rows, dom_hits=None, params=None):
     fa = make_fasta(tmp_path / "p.fa", recs)
     sp = cc.read_signalp(make_signalp(tmp_path / "sp.txt", sp_rows))
@@ -400,6 +420,7 @@ def write_inputs(tmp_path, gz=False):
         gz=gz,
     )
     dom = make_domtbl(tmp_path / "d.txt", [("cfem1", "PF05730.20", "CFEM", "1e-9")])
+    write_provenance(tmp_path / "prov.json")
     return fa, sp, dom
 
 
@@ -423,6 +444,8 @@ def test_main_end_to_end(tmp_path, gz):
             str(sp),
             "--domtbl",
             str(dom),
+            "--pfam-provenance",
+            str(tmp_path / "prov.json"),
             "--out-dir",
             str(out),
             "--repo",
@@ -450,6 +473,9 @@ def test_main_end_to_end(tmp_path, gz):
     assert summ[1].split("\t") == ["P", "4", "3", "1", "1", "1", "1"]
     meta = json.loads((out / "run.json").read_text())
     assert meta["library"] == "none"
+    assert meta["pfam"]["pfam_release_dir"] == "2026-01-27-Pfam38.2"
+    assert meta["pfam"]["known_families_sha256"] == "abc123"
+    assert {m["acc"] for m in meta["pfam"]["models"]} >= {"PF28404.1", "PF28987.1"}
     assert meta["parameters"]["max_mature_len"] == 300
     assert meta["inputs"]["P"]["fasta"]["sha256"] == cc.sha256_of(fa)
     assert not any("time" in k.lower() or "date" in k.lower() for k in meta)
@@ -458,7 +484,7 @@ def test_main_end_to_end(tmp_path, gz):
 def test_output_is_deterministic(tmp_path):
     fa, sp, dom = write_inputs(tmp_path)
     args = ["--name", "P", "--fasta", str(fa), "--signalp", str(sp), "--domtbl", str(dom),
-            "--repo", str(tmp_path)]  # fmt: skip
+            "--pfam-provenance", str(tmp_path / "prov.json"), "--repo", str(tmp_path)]  # fmt: skip
     assert cc.main(args + ["--out-dir", str(tmp_path / "o1")]) == 0
     assert cc.main(args + ["--out-dir", str(tmp_path / "o2")]) == 0
     for name in ("P.tsv.gz", "candidates.tsv.gz", "summary.tsv"):
@@ -561,16 +587,17 @@ RS_FASTA = Path(
 )
 RS_SP = PRIMARY / "analysis/cocci_repeats/signalp/CimmitisRS_FungiDB/prediction_results.txt"
 RS_DOM = PRIMARY / "_workdir/cys_candidates/CimmitisRS_FungiDB.domtbl.gz"
+RS_PROV = PRIMARY / "_workdir/cys_candidates/pfam_provenance.json"
 FASTA_DIR = PRIMARY / "_workdir/class2b_structure/fasta"
 needs_rs = pytest.mark.skipif(
-    not (RS_FASTA.is_file() and RS_SP.is_file() and RS_DOM.is_file()),
+    not (RS_FASTA.is_file() and RS_SP.is_file() and RS_DOM.is_file() and RS_PROV.is_file()),
     reason="real C. immitis RS files absent",
 )
 
 
 @pytest.fixture(scope="module")
 def rs_rows(tmp_path_factory):
-    if not (RS_FASTA.is_file() and RS_SP.is_file() and RS_DOM.is_file()):
+    if not (RS_FASTA.is_file() and RS_SP.is_file() and RS_DOM.is_file() and RS_PROV.is_file()):
         pytest.skip("real C. immitis RS files absent")
     out = tmp_path_factory.mktemp("rs")
     rc = cc.main(
@@ -585,8 +612,8 @@ def rs_rows(tmp_path_factory):
             str(RS_DOM),
             "--out-dir",
             str(out),
-            "--missing-models",
-            "pra3_like_family",
+            "--pfam-provenance",
+            str(RS_PROV),
         ]  # fmt: skip
     )
     assert rc == 0
@@ -639,3 +666,220 @@ def test_write_failure_removes_temp_files(tmp_path, monkeypatch):
     with pytest.raises(OSError):
         cc.run([("P", str(fa), str(sp), None)], out, PARAMS, tmp_path)
     assert list(out.iterdir()) == []
+
+
+# ------------------------------------------------- fix round 1: additional tests
+
+
+def test_tier_uses_mature_length_not_full_length(tmp_path):
+    # SP of 15 residues; full length L+5 = 305, mature length L-10 = 290.
+    seq = "MKLLVLSLLAAAVSA" + cys_rich(12, 290)
+    assert len(seq) == 305
+    rows = rows_for(
+        tmp_path,
+        [("m", seq)],
+        [("m", "SP", 0.99, "CS pos: 15-16. Pr: 0.9")],
+    )
+    assert rows["m"]["length"] == 305
+    assert rows["m"]["mature_length"] == 290
+    assert rows["m"]["tier"] == "cys_rich_sp_unassigned"
+
+
+def test_dewd_counts_as_hydrophobin(tmp_path):
+    rows = rows_for(
+        tmp_path,
+        [("d", sp_protein())],
+        [("d", "SP", 0.99, "CS pos: 19-20. Pr: 0.9")],
+        [("d", "PF28987.1", "DewD", "1e-9")],
+    )
+    assert rows["d"]["hydrophobin"] == 1
+    assert rows["d"]["tier"] == "cys_rich_sp_known_family"
+
+
+def test_internal_stop_symbol_stops(tmp_path):
+    fa = make_fasta(tmp_path / "s.fa", [("p1 x", "MAAA*CCC")])
+    with pytest.raises(cc.Stop, match="p1"):
+        cc.read_fasta(fa)
+
+
+@pytest.mark.parametrize("bad", ["MAA-CC", "MAA CC", "MAA1CC"])
+def test_non_letter_stops(tmp_path, bad):
+    fa = tmp_path / "s.fa"
+    fa.write_text(f">p1\n{bad}\n")
+    with pytest.raises(cc.Stop, match="non-letter"):
+        cc.read_fasta(fa)
+
+
+def test_empty_sequence_stops(tmp_path):
+    fa = tmp_path / "s.fa"
+    fa.write_text(">p1\n>p2\nMAAA\n")
+    with pytest.raises(cc.Stop, match="empty sequence"):
+        cc.read_fasta(fa)
+    fa.write_text(">p1\n*\n")
+    with pytest.raises(cc.Stop, match="empty sequence"):
+        cc.read_fasta(fa)
+
+
+def test_lowercase_and_single_trailing_stop_are_normalised(tmp_path):
+    fa = tmp_path / "s.fa"
+    fa.write_text(">p1\nmaacc\ncc*\n")
+    assert cc.read_fasta(fa) == [("p1", "MAACCCC")]
+
+
+def test_provenance_required_with_domtbl(tmp_path, capsys):
+    fa, sp, dom = write_inputs(tmp_path)
+    rc = cc.main(
+        [
+            "--name",
+            "P",
+            "--fasta",
+            str(fa),
+            "--signalp",
+            str(sp),
+            "--domtbl",
+            str(dom),
+            "--out-dir",
+            str(tmp_path / "o"),
+        ]  # fmt: skip
+    )
+    assert rc == 2
+    assert "pfam_provenance" in capsys.readouterr().err
+    assert not (tmp_path / "o").exists()
+
+
+def test_provenance_missing_model_stops(tmp_path, capsys):
+    fa, sp, dom = write_inputs(tmp_path)
+    write_provenance(tmp_path / "prov.json", drop="PF28404.1")
+    args = ["--name", "P", "--fasta", str(fa), "--signalp", str(sp), "--domtbl", str(dom),
+            "--pfam-provenance", str(tmp_path / "prov.json"),
+            "--out-dir", str(tmp_path / "o")]  # fmt: skip
+    assert cc.main(args) == 2
+    assert "PF28404" in capsys.readouterr().err
+    # the same run is allowed when the family is declared as not searched
+    assert cc.main(args + ["--missing-models", "pra3_like_family"]) == 0
+
+
+def test_stale_per_proteome_files_stop(tmp_path, capsys):
+    fa, sp, dom = write_inputs(tmp_path)
+    out = tmp_path / "out"
+    out.mkdir()
+    (out / "OLD.tsv.gz").write_bytes(b"x")
+    rc = cc.main(["--name", "P", "--fasta", str(fa), "--signalp", str(sp), "--out-dir", str(out)])
+    err = capsys.readouterr().err
+    assert rc == 2
+    assert "STOP:" in err and "OLD.tsv.gz" in err
+    assert sorted(p.name for p in out.iterdir()) == ["OLD.tsv.gz"]
+
+
+def test_rerun_same_names_is_allowed(tmp_path):
+    fa, sp, dom = write_inputs(tmp_path)
+    args = ["--name", "P", "--fasta", str(fa), "--signalp", str(sp), "--out-dir",
+            str(tmp_path / "o")]  # fmt: skip
+    assert cc.main(args) == 0
+    assert cc.main(args) == 0
+
+
+def test_argparse_error_is_stop(capsys):
+    with pytest.raises(SystemExit) as e:
+        cc.main(["--max-mature-len", "abc", "--out-dir", "x"])
+    assert e.value.code == 2
+    assert capsys.readouterr().err.startswith("STOP: ")
+    with pytest.raises(SystemExit) as e:
+        cc.main([])
+    assert e.value.code == 2
+
+
+def test_missing_manifest_stops(tmp_path, capsys):
+    rc = cc.main(["--manifest", str(tmp_path / "nope.tsv"), "--out-dir", str(tmp_path / "o")])
+    assert rc == 2
+    assert "STOP: manifest not found" in capsys.readouterr().err
+
+
+def test_no_input_arguments_stops(tmp_path, capsys):
+    assert cc.main(["--out-dir", str(tmp_path / "o")]) == 2
+    assert capsys.readouterr().err.startswith("STOP: ")
+
+
+def test_unwritable_out_dir_stops(tmp_path, capsys):
+    fa, sp, _ = write_inputs(tmp_path)
+    blocker = tmp_path / "afile"
+    blocker.write_text("x")
+    rc = cc.main(
+        [
+            "--name",
+            "P",
+            "--fasta",
+            str(fa),
+            "--signalp",
+            str(sp),
+            "--out-dir",
+            str(blocker / "sub"),
+        ]  # fmt: skip
+    )
+    assert rc == 2
+    assert "STOP: cannot write" in capsys.readouterr().err
+
+
+# ------------------------------------------------------- 01_known_family_hmm.sh
+
+SCRIPT_01 = Path(cc.__file__).parent / "01_known_family_hmm.sh"
+
+
+def run_01(tmp_path, env_extra, with_out_dir=True):
+    import os
+    import subprocess
+
+    env = {k: v for k, v in os.environ.items() if k not in ("OUT_DIR", "PFAM_HMM", "MANIFEST")}
+    if with_out_dir:
+        env["OUT_DIR"] = str(tmp_path / "out")
+    env.update(env_extra)
+    return subprocess.run(["bash", "-l", str(SCRIPT_01)], capture_output=True, text=True, env=env)
+
+
+def test_01_stops_without_out_dir(tmp_path):
+    res = run_01(tmp_path, {}, with_out_dir=False)
+    assert res.returncode == 2
+    assert res.stderr.startswith("STOP: OUT_DIR")
+
+
+def test_01_stops_on_unreadable_database_and_leaves_nothing(tmp_path):
+    import shutil
+
+    probe = shutil.which("bash")
+    assert probe
+    bad = tmp_path / "bad.hmm"
+    bad.write_text(
+        "garbage\n"
+        + "".join(
+            f"ACC   {a}\n"
+            for a in (
+                "PF05730.17",
+                "PF04681.18",
+                "PF01185.24",
+                "PF06766.17",
+                "PF28987.1",
+                "PF28404.1",
+            )
+        )
+    )
+    man = tmp_path / "m.tsv"
+    man.write_text("A\t/dev/null\n")
+    res = run_01(tmp_path, {"PFAM_HMM": str(bad), "MANIFEST": str(man)})
+    if "cannot load hmmer" in res.stderr:
+        pytest.skip("hmmer module not available")
+    assert res.returncode == 2
+    assert "STOP:" in res.stderr
+    out = tmp_path / "out"
+    assert not out.exists() or [p.name for p in out.iterdir()] == []
+
+
+def test_01_stops_when_model_missing(tmp_path):
+    db = tmp_path / "db.hmm"
+    db.write_text("ACC   PF05730.17\n")
+    man = tmp_path / "m.tsv"
+    man.write_text("A\t/dev/null\n")
+    res = run_01(tmp_path, {"PFAM_HMM": str(db), "MANIFEST": str(man)})
+    if "cannot load hmmer" in res.stderr:
+        pytest.skip("hmmer module not available")
+    assert res.returncode == 2
+    assert "STOP:" in res.stderr and "PF04681" in res.stderr
