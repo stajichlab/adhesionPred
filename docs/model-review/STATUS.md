@@ -31,10 +31,16 @@ No model ships. Version 0.2.0 is cut only after a validated surface-glycoprotein
 
 Report: `_workdir/step1_compare/phasec/report.md`. Intervals are 95% cluster bootstrap
 (2,000 resamples). Truth is direct GO evidence. Candidates: B0 and B1 (baselines), R0, R1, R2
-(rules), M8, M35, M8-C, M35-C and H (ESM-2 8M and 35M models; -C adds composition features; H is
-a hybrid). R2 is "signal peptide and (GPI call or Ser+Thr fraction at or above t)".
+(rules), M8, M35, M8-C, M35-C and H. M8 and M35 are logistic regressions on ESM-2 8M and 35M
+embeddings of the N-terminal window. The -C variants use the C-terminal window for proteins over
+1,022 aa. H is a hybrid: embedding, SignalP probability, GPI score and Ser+Thr in one regression.
+B0 uses log length only. B1 uses amino-acid fractions and log length. R0 is "SignalP calls a signal
+peptide". R1 is R0 plus a GPI call. R2 is "signal peptide and (GPI call or Ser+Thr fraction at or above t)".
 A test set is an *estimate* when the recall half-width is at most 0.10 and it has at least
 20 direct positives. Otherwise it is a *smoke test*.
+
+The S1 set is homology-grouped cross-validation. The Eurotiomycetes and Basidiomycota rows come
+from models that did not train on that clade (leave one clade out).
 
 | Test set | Label | Positives / negatives | R0 recall / FPR | R2 recall / FPR | B1 recall / FPR | M8 recall / FPR |
 |---|---|---|---|---|---|---|
