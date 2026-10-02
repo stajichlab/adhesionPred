@@ -42,6 +42,29 @@ STRATA_COLUMNS = ("recall", "fpr", "roc_auc")
 EFFECT_COLUMNS = ("recall", "fpr", "roc_auc", "pr_auc")
 DECISION_COLUMNS = ("recall", "fpr", "roc_auc")
 SOURCES = ("oof", "final", "in_sample")
+# Tables whose cells tests/step1_compare/test_phasec_report.py compares with metrics.json and
+# findings.json one by one. The third caveat names exactly this list.
+CELL_CHECKED = (
+    "decision table",
+    "metric tables of each test set (direct and all truth)",
+    "strata tables",
+    "variant-effect tables",
+    "ML-against-rule tables",
+    "prevalence tables",
+    "Brier tables",
+    "reliability tables",
+    "agreement tables",
+    "findings (b) and (c) tables",
+    "named-panel call and score tables",
+)
+OPERATING_POINT = (
+    "Operating point: ML candidates at their own fitted call threshold, rules (R0, R1, R2) at "
+    "their fitted setting, B0 and B1 at their own fitted call."
+)
+ZERO_WIDTH = (
+    "Zero-width recall interval lists the candidates whose recall interval has the same lower "
+    "and upper bound."
+)
 CAVEATS = (
     "The pooled S1:all ROC-AUC and PR-AUC rank decision values from five fold models. Each "
     "fold model has its own score scale, so the pooled values mix scales (plan review item "
@@ -50,10 +73,11 @@ CAVEATS = (
     "predictions and then applied to the model refitted on all training rows. The refitted "
     "model can have another score scale, so binary calls and calibrated probabilities can "
     "shift (plan review item M-4; not measured).",
-    "The report-number check is set membership: each printed number equals some value in "
-    "metrics.json or findings.json. The check does not show that a number is in the correct "
-    "cell. Cell-level tests check a sample of cells against metrics.json (plan review item "
-    "M-7).",
+    "The report-number check is a typo guard: each printed number equals some value in "
+    "metrics.json or findings.json. It does not show that a number is in the correct cell. "
+    "Cell-level tests compare every cell of these tables with the JSON files: "
+    + "; ".join(CELL_CHECKED)
+    + ". Every other number is checked only by the typo guard (plan review item M-7).",
 )
 CANNOT_SHOW = (
     "The whole-proteome prevalence of surface proteins. It is not measured. The prevalence "
@@ -105,6 +129,27 @@ GLOSSARY = (
     ("oof", "score from a model that did not train on the protein or its cluster."),
     ("in_sample", "score from a model that trained on the protein."),
     ("final", "score from the FULL model for a protein outside every training table."),
+    ("g", "cut-off class of the GPI call, fitted on the training rows."),
+    ("t", "cut-off of the Ser+Thr fraction, fitted on the training rows."),
+    ("T-c", "keyword-only training tier: proteins labelled surface by UniProt keywords, not GO."),
+    ("P-gpi", "plasma-membrane protein with curated GPI evidence; a list, not scored."),
+    ("homology_only", "yes when every supporting GO code is a homology-transfer code."),
+    ("direct", "truth of the genes with homology_only = no; the headline truth."),
+    ("all", "truth of all non-IEA labelled genes; shown beside direct."),
+    ("Platt scaling", "logistic fit that turns a decision value into a probability."),
+    ("Brier score", "mean squared difference of probability and label; lower is better."),
+    ("half-width", "half of the width of an interval: (upper bound minus lower bound) / two."),
+    (
+        "paired interval",
+        "interval of a difference, with both terms resampled on the same " "clusters.",
+    ),  # fmt: skip
+    ("S1:all", "S1 test set pooled over all folds; S1:<source> is one source of it."),
+    ("S2-<source>:<source>", "S2 test set: the left-out species."),
+    (
+        "S3-<clade>:clade",
+        "S3 test set: all sources of the left-out clade; S3-<clade>:<source> " "is one source.",
+    ),  # fmt: skip
+    ("literature", "S3-Eurotiomycetes:literature, curated literature rows (positives only)."),
     ("estimate", "test set with enough direct-evidence positives and narrow recall intervals."),
     ("smoke test", "test set that does not meet the estimate rule; it checks the pipeline only."),
 )
@@ -227,6 +272,7 @@ def render(m: dict, f: dict) -> str:
         "V-go, direct truth, stratum all except the N-sec column (N-sec stratum). Every candidate "
         "is listed. The report names no best candidate: a choice among ML candidates on the "
         "test data would use the test data twice.",
+        OPERATING_POINT,
         "",
     ]
     rows = []
@@ -240,7 +286,7 @@ def render(m: dict, f: dict) -> str:
                          cell(block, "all", "V-go", c, "roc_auc")])  # fmt: skip
     lines += table(["Test set", "Label", "Candidate", "recall", "FPR", "N-sec FPR", "ROC-AUC"],
                    rows)  # fmt: skip
-    lines += ["## Estimate or smoke test", ""]
+    lines += ["## Estimate or smoke test", "", ZERO_WIDTH, ""]
     rows = []
     for name, ts in m["test_sets"].items():
         n = ts["truth"]["direct"]["n"]["all"]
@@ -419,12 +465,9 @@ def render(m: dict, f: dict) -> str:
               "of S1. FULL is the model fitted on the whole training pool. The other names are "
               "the model fitted for that split.", ""]  # fmt: skip
     for key, n in m["context"]["onygenales_tc_rows_in_vkw_training"].items():
-        lines += [f"- {unit_words(key)} (key {key}): {fmt(n)} rows, both species together."]
-    by_species = m["context"].get("onygenales_tc_rows_by_species")
-    if by_species:
-        lines += [f"- By species, {key}: {fmt(n)}" for key, n in by_species.items()]
-    else:
-        lines += ["", "The counts per species (C. immitis, C. posadasii) are not in metrics.json."]
+        unit = "row" if n == 1 else "rows"
+        lines += [f"- {unit_words(key)} (key {key}): {fmt(n)} {unit}."]
+    lines += ["", "Each count covers the C. immitis and C. posadasii rows together."]
     lines += ["", "## What the data cannot show", ""]
     lines += [f"- {x}" for x in CANNOT_SHOW]
     return "\n".join(lines) + "\n"

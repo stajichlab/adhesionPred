@@ -80,6 +80,10 @@ def test_report_states_the_caveats(reported):
     assert len(rep.CAVEATS) == 3
     for line in rep.CAVEATS:
         assert f"- {line}" in caveats
+    # the list of cell-checked tables comes from the constant that the cell tests use
+    assert "; ".join(rep.CELL_CHECKED) in caveats
+    assert "checked only by the typo guard" in caveats
+    assert set(CHECKERS) == set(rep.CELL_CHECKED)
     for review in ("M-3", "M-4", "M-7"):
         assert review in caveats
     floor = m["settings"]["estimate_min_direct_positives"]
@@ -247,9 +251,42 @@ def test_decision_table_lists_every_candidate_and_glossary(reported):
     ).split() + ["smoke test"]
     for code in wanted:
         assert f"- {code}: " in gl, code
-    assert [c for c, _ in rep.GLOSSARY if c in wanted] == wanted or set(wanted) <= {
-        c for c, _ in rep.GLOSSARY
-    }
+    extra = "g t T-c P-gpi homology_only direct all Platt".split() + [
+        "Platt scaling",
+        "Brier score",
+        "half-width",
+        "paired interval",
+        "S1:all",
+        "S2-<source>:<source>",
+        "S3-<clade>:clade",
+        "literature",
+        "ML",
+        "FPR",
+        "ROC-AUC",
+        "PR-AUC",
+    ]
+    extra.remove("Platt")
+    codes = [c for c, _ in rep.GLOSSARY]
+    assert len(codes) == len(set(codes))
+    assert set(codes) == set(wanted) | set(extra)  # exact content
+    for code in extra:
+        assert f"- {code}: " in gl, code
+    # a jargon term used outside the glossary is defined in it
+    outside = "\n".join(ln for h, lines in secs.items() if h != "## Glossary" for ln in lines)
+    for pattern, term in (
+        (r"\bPlatt\b", "Platt scaling"),
+        (r"\bBrier\b", "Brier score"),
+        (r"half-width", "half-width"),
+        (r"\bpaired\b", "paired interval"),
+        (r"\bT-c\b", "T-c"),
+        (r"\bP-gpi\b", "P-gpi"),
+        (r"homology_only", "homology_only"),
+    ):
+        if re.search(pattern, outside):
+            assert f"- {term}: " in gl, term
+    assert rep.OPERATING_POINT in text
+    assert text.count(rep.OPERATING_POINT) == 1
+    assert rep.ZERO_WIDTH in text
     # every code in a table header is in the glossary
     code_re = re.compile(r"^(?:[A-Z]+[0-9]*(?:-[A-Za-z]+)?|oof|final|in_sample)$")
     defined = {c for c, _ in rep.GLOSSARY}
@@ -261,88 +298,265 @@ def test_decision_table_lists_every_candidate_and_glossary(reported):
                         assert tok in defined, (tok, header)
 
 
-def _expected(m, name, truth, stratum, v, c, key):
-    block = m["test_sets"][name]["truth"][truth]
-    mm = block["metrics"][stratum][v][c].get(key)
-    rep = load_phasec("12_report")
-    return rep.ci(mm)
+# ---- cell-level checks (review M-7) ----
+# The expected text is built here from the raw values of metrics.json and findings.json with
+# its own formatter. It does not call the report's fmt() or ci().
 
 
-def check_cells(text, m):
-    """Mismatches between report cells and metrics.json (cell-level check, review M-7)."""
-    rep = load_phasec("12_report")
+def f3(x):
+    return "n/a" if x is None else f"{x:.3f}"
+
+
+def n3(x):
+    return f"{x:,}"
+
+
+def iv(d):
+    if d is None or d.get("value") is None:
+        return "n/a"
+    return f"{d['value']:.3f} [{d['lo']:.3f}, {d['hi']:.3f}]"
+
+
+def yn(x):
+    return "yes" if x else "no"
+
+
+def _truth_block(m, name, truth="direct"):
+    return m["test_sets"][name]["truth"][truth]
+
+
+def _met(block, stratum, v, c, k):
+    return block["metrics"].get(stratum, {}).get(v, {}).get(c, {}).get(k)
+
+
+def _sec(text, name, ts):
+    return _sections(text)[f"## {name} ({ts['label']})"]
+
+
+def check_decision(text, m, f):
     bad = []
-    secs = _sections(text)
-    for name, ts in m["test_sets"].items():
-        lit = ts["kind"] == "literature"
-        heads = rep.LITERATURE_HEADLINE if lit else rep.HEADLINE
-        for tb, header, rows in _tables(secs[f"## {name} ({ts['label']})"]):
-            truth = next((t for t in ("direct", "all") if tb.startswith(f"Truth `{t}`")), None)
-            if truth:
-                assert header[3:] == list(heads)
-                for r in rows:
-                    for k, got in zip(heads, r[3:], strict=True):
-                        if got != _expected(m, name, truth, "all", r[1], r[0], k):
-                            bad.append((name, truth, r[0], r[1], k))
-            elif tb.startswith("Strata"):
-                cols = header[5:]
-                for r in rows:
-                    for k, got in zip(cols, r[5:], strict=True):
-                        if got != _expected(m, name, "direct", r[0], "V-go", r[1], k):
-                            bad.append((name, "strata", r[0], r[1], k))
-    ((_, _, drows),) = _tables(secs["## Decision table"])
-    for r in drows:
-        for k, got in zip(("recall", "fpr", None, "roc_auc"), r[3:], strict=True):
-            stratum = "N-sec" if k is None else "all"
-            key = "fpr" if k is None else k
-            if got != _expected(m, r[0], "direct", stratum, "V-go", r[2], key):
-                bad.append((r[0], "decision", r[2], key, stratum))
+    ((_, header, rows),) = _tables(_sections(text)["## Decision table"])
+    assert header == ["Test set", "Label", "Candidate", "recall", "FPR", "N-sec FPR", "ROC-AUC"]
+    for r in rows:
+        b = _truth_block(m, r[0])
+        want = [
+            iv(_met(b, "all", "V-go", r[2], "recall")),
+            iv(_met(b, "all", "V-go", r[2], "fpr")),
+            iv(_met(b, "N-sec", "V-go", r[2], "fpr")),
+            iv(_met(b, "all", "V-go", r[2], "roc_auc")),
+        ]
+        if r[3:] != want:
+            bad.append(("decision", r[0], r[2]))
     return bad
 
 
-def _mutated(m, fn):
-    import copy
+def check_metric_tables(text, m, f):
+    bad = []
+    head = [
+        "recall",
+        "precision",
+        "fpr",
+        "roc_auc",
+        "pr_auc",
+        "precision_at_recall_0.8",
+        "precision_at_recall_0.9",
+        "recall_at_fpr_0.01",
+    ]
+    for name, ts in m["test_sets"].items():
+        heads = ["recall"] if ts["kind"] == "literature" else head
+        for tb, header, rows in _tables(_sec(text, name, ts)):
+            truth = next((t for t in ("direct", "all") if tb.startswith(f"Truth `{t}`")), None)
+            if not truth:
+                continue
+            assert header == ["Candidate", "Variant", "Label", *heads]
+            b = _truth_block(m, name, truth)
+            for r in rows:
+                want = [iv(_met(b, "all", r[1], r[0], k)) for k in heads]
+                if r[3:] != want:
+                    bad.append(("metric", name, truth, r[0], r[1]))
+    return bad
 
-    m2 = copy.deepcopy(m)
-    for ts in m2["test_sets"].values():
-        for truth in ts["truth"].values():
-            for stratum in truth["metrics"].values():
-                fn(stratum)
-    return m2
+
+def check_strata(text, m, f):
+    bad = []
+    for name, ts in m["test_sets"].items():
+        cols = ["recall"] if ts["kind"] == "literature" else ["recall", "fpr", "roc_auc"]
+        for tb, header, rows in _tables(_sec(text, name, ts)):
+            if not tb.startswith("Strata"):
+                continue
+            assert header[5:] == cols
+            b = _truth_block(m, name)
+            for r in rows:
+                n = b["n"][r[0]]
+                want = [n3(n["pos"]), n3(n["neg"])] + [
+                    iv(_met(b, r[0], "V-go", r[1], k)) for k in cols
+                ]
+                if r[3:] != want:
+                    bad.append(("strata", name, r[0], r[1]))
+    return bad
 
 
-def test_cells_equal_metrics_json_and_mutations_are_caught(reported):
+def check_variant_effect(text, m, f):
+    bad = []
+    for name, ts in m["test_sets"].items():
+        for tb, header, rows in _tables(_sec(text, name, ts)):
+            if not tb.startswith("Variant effect"):
+                continue
+            cols = header[2:]
+            assert cols == (["recall"] if ts["kind"] == "literature" else
+                            ["recall", "fpr", "roc_auc", "pr_auc"])  # fmt: skip
+            b = _truth_block(m, name)
+            for r in rows:
+                eff = b["variant_effect"]["all"][r[0]]
+                if r[2:] != [iv(eff.get(k)) for k in cols]:
+                    bad.append(("variant_effect", name, r[0]))
+    return bad
+
+
+def check_vs_rule(text, m, f):
+    bad = []
+    for name, ts in m["test_sets"].items():
+        for tb, _, rows in _tables(_sec(text, name, ts)):
+            if not tb.startswith("ML against the rule"):
+                continue
+            b = _truth_block(m, name)
+            for r in rows:
+                vr = b["vs_rule"][r[1]][r[0]]
+                if r[3:] != [iv(vr["precision_at_rule_recall"]), iv(vr["recall_at_rule_fpr"])]:
+                    bad.append(("vs_rule", name, r[0], r[1]))
+    return bad
+
+
+def check_prevalence(text, m, f):
+    bad = []
+    for name, ts in m["test_sets"].items():
+        for tb, header, rows in _tables(_sec(text, name, ts)):
+            if not tb.startswith("Precision at assumed prevalence"):
+                continue
+            b = _truth_block(m, name)
+            for r in rows:
+                pv = b["prevalence"]["V-go"][r[0]]
+                keys = list(pv)
+                assert header[2:] == [f"{float(k) * 100:g}% prevalence" for k in keys]
+                if r[2:] != [iv(pv[k]) for k in keys]:
+                    bad.append(("prevalence", name, r[0]))
+    return bad
+
+
+def check_brier(text, m, f):
+    bad = []
+    for name, ts in m["test_sets"].items():
+        for _, header, rows in _tables(_sec(text, name, ts)):
+            if header == ["Candidate", "Variant", "Label", "Brier"]:
+                for r in rows:
+                    if r[3] != f3(ts["calibration"][r[1]][r[0]]["brier"]):
+                        bad.append(("brier", name, r[0], r[1]))
+    return bad
+
+
+def check_reliability(text, m, f):
+    bad = []
+    for name, ts in m["test_sets"].items():
+        for tb, header, rows in _tables(_sec(text, name, ts)):
+            if not tb.startswith("Reliability"):
+                continue
+            for r in rows:
+                bins = ts["calibration"][r[1]][r[0]]["bins"]
+                if header[3:] != [f"{f3(x['lo'])} to {f3(x['hi'])}" for x in bins]:
+                    bad.append(("reliability header", name, r[0], r[1]))
+                if r[3:] != [f"{f3(x['frac_pos'])} ({n3(x['n'])})" for x in bins]:
+                    bad.append(("reliability", name, r[0], r[1]))
+    return bad
+
+
+def check_agreement(text, m, f):
+    bad = []
+    ag = m["agreement"]
+    for sec_name, lines in _sections(text).items():
+        if not sec_name.startswith("## Agreement"):
+            continue
+        for _, header, rows in _tables(lines):
+            assert header[3:] == ["both", "rule only", "ML only", "neither", "oof", "final",
+                                  "in_sample"]  # fmt: skip
+            proteome = header[0] == "Set"
+            for r in rows:
+                grp = ag["proteomes"] if proteome else ag["truth"]
+                k = grp[r[0]][r[2]][r[1]]
+                have = ag["score_source_counts"]["proteomes" if proteome else "truth"][r[0]]
+                want = [n3(k["rule1_ml1"]), n3(k["rule1_ml0"]), n3(k["rule0_ml1"]),
+                        n3(k["rule0_ml0"])] + [n3(have[s]) if s in have else "none"
+                                               for s in ("oof", "final", "in_sample")]  # fmt: skip
+                if r[3:] != want:
+                    bad.append(("agreement", r[0], r[1], r[2]))
+    return bad
+
+
+def check_findings(text, m, f):
+    bad = []
+    tabs = _tables(_sections(text)["## Findings (quoted from findings.json)"])
+    b = f["b_ml_beats_b1_and_r2_on_nsec_s1"]
+    wanted = [(b["test_set"], c, e) for c, e in b["candidates"].items()]
+    for name, entry in f["c_same_under_s2"]["test_sets"].items():
+        wanted += [(name, c, e) for c, e in entry["candidates"].items()]
+    rows = [r for _, _, tab in tabs for r in tab]
+    assert len(rows) == len(wanted)
+    for r, (name, c, e) in zip(rows, wanted, strict=True):
+        fp = _truth_block(m, name)["nsec_fpr_at_rule_recall"]["V-go"]["fpr"]
+        want = [name, m["test_sets"][name]["label"], c, iv(fp["B1"]), iv(fp["R2"]), iv(fp[c]),
+                iv(e["B1"]), iv(e["R2"]), yn(e["beats_B1"]), yn(e["beats_R2"]),
+                yn(e["holds"])]  # fmt: skip
+        if r != want:
+            bad.append(("findings", name, c))
+    return bad
+
+
+def check_named_panel(text, m, f):
+    bad = []
+    cands = m["settings"]["candidates"]
+    found = {p["name"]: p for p in m["named_panel"] if p["found"]}
+    for tb, header, rows in _tables(_sections(text)["## Named panel"]):
+        field = {"Calls (V-go / V-kw):": "calls", "Scores (V-go / V-kw):": "scores"}.get(tb)
+        if not field:
+            continue
+        assert header == ["Protein", *cands]
+        assert [r[0] for r in rows] == list(found)
+        for r in rows:
+            p = found[r[0]]
+            want = []
+            for c in cands:
+                pair = []
+                for v in ("V-go", "V-kw"):
+                    x = p[field].get(f"{c}|{v}")
+                    pair.append(f3(x) if field == "scores" else ("n/a" if x is None else str(x)))
+                want.append(" / ".join(pair))
+            if r[1:] != want:
+                bad.append(("panel", field, r[0]))
+    return bad
+
+
+CHECKERS = {
+    "decision table": check_decision,
+    "metric tables of each test set (direct and all truth)": check_metric_tables,
+    "strata tables": check_strata,
+    "variant-effect tables": check_variant_effect,
+    "ML-against-rule tables": check_vs_rule,
+    "prevalence tables": check_prevalence,
+    "Brier tables": check_brier,
+    "reliability tables": check_reliability,
+    "agreement tables": check_agreement,
+    "findings (b) and (c) tables": check_findings,
+    "named-panel call and score tables": check_named_panel,
+}
+
+
+@pytest.mark.parametrize("name", list(CHECKERS))
+def test_cells_equal_json_values(reported, name):
     _, text, m, f = reported
-    rep = load_phasec("12_report")
-    assert check_cells(text, m) == []
-    n_cells = sum(1 for _ in rep.NUMBER.finditer(text))
-    assert n_cells > 100
+    assert CHECKERS[name](text, m, f) == []
 
-    def swap_variants(stratum):
-        stratum["V-go"], stratum["V-kw"] = stratum["V-kw"], stratum["V-go"]
 
-    def swap_columns(stratum):
-        for per in stratum.values():
-            for mm in per.values():
-                if "recall" in mm and "fpr" in mm:
-                    mm["recall"], mm["fpr"] = mm["fpr"], mm["recall"]
-
-    def shift(stratum):
-        for per in stratum.values():
-            for mm in per.values():
-                for d in mm.values():
-                    if d.get("value") is not None:
-                        d["value"] += 0.0123
-
-    def swap_bounds(stratum):
-        for per in stratum.values():
-            for mm in per.values():
-                for d in mm.values():
-                    d["lo"], d["hi"] = d["hi"], d["lo"]
-
-    for fn in (swap_variants, swap_columns, shift, swap_bounds):
-        mutated_text = rep.render(_mutated(m, fn), f)
-        assert check_cells(mutated_text, m), fn.__name__
+def test_checker_names_equal_the_report_constant():
+    assert list(CHECKERS) == list(load_phasec("12_report").CELL_CHECKED)
 
 
 def test_named_panel_agreement_context_and_prevalence_text(reported):
@@ -350,7 +564,9 @@ def test_named_panel_agreement_context_and_prevalence_text(reported):
     # context keys in words, species counts absent from metrics.json
     assert "- S1 fold 0 (key S1|0): " in text
     assert "FULL model (whole training pool) (key FULL|0)" in text
-    assert "The counts per species (C. immitis, C. posadasii) are not in metrics.json." in text
+    assert "Each count covers the C. immitis and C. posadasii rows together." in text
+    assert "not in metrics.json" not in text
+    assert "1 rows" not in text and "(key S1|4): 1 row." in text
     # prevalence columns
     assert "| 1% prevalence | 3% prevalence | 5% prevalence | 10% prevalence |" in text
     # agreement: score-source counts
