@@ -17,7 +17,7 @@ Spec: `docs/superpowers/specs/2026-09-30-surface-glycoprotein-model-design.md`.
 | `surface_glyco` package (ESM-2 + logistic regression, legacy code only) | renamed from `adhesion_predict` (PR #31). The two old pickles are deleted. `predict` and `evaluate` read the model, layer and pooling from a model card and refuse on mismatch | `src/surface_glyco/` on `main` |
 | Residue-only pooling, no silent batch drops, all scores written, duplicate positives dropped | on `main` (PRs #18, #23, #24) | |
 | CI: lint (ruff 0.3.5) and unit tests | on `main` (PR #27). The Lint job passes on PR #36 after `zip(strict=True)` | `.github/workflows/` |
-| Step 1 truth set (Phase A), features and embeddings (Phase B), rule-versus-ML evaluation (Phase C) | built and run on HPCC. **Not on `main`.** PRs #33, #34 and #35 were stacked and each merged into its parent branch, not into `main`. The code is on branch `step1-features` | `analysis/step1_compare/` (branch), outputs in `_workdir/step1_compare/` (git-ignored) |
+| Step 1 truth set (Phase A), features and embeddings (Phase B), rule-versus-ML evaluation (Phase C) | built, run on HPCC, and on `main` since PR #38 (2026-10-02). The reported numbers come from the run with the widened C grid | `analysis/step1_compare/`, outputs in `_workdir/step1_compare/` (git-ignored) |
 | Step 2a repeat detectors | two detectors, validated only in Saccharomycotina | `analysis/cocci_repeats/` |
 | Step 2b/2c HMM scans (CFEM, Bys1, hydrophobin) | HMMs exist. No scan wrapper, no specificity test | |
 | Step 3 antigen layer | *Coccidioides* only | `analysis/cocci_antigens/` |
@@ -91,7 +91,7 @@ the narrower grid. They have not been re-run.
 
 ## 4. Remaining work
 
-1. **Get the Phase A–C code onto `main`.** Open one PR from `step1-features` to `main`.
+1. ~~Get the Phase A–C code onto `main`.~~ Done, PR #38.
 2. **Owner decisions:** rule, ML or hybrid for step 1; whether to change the Youden criterion
    (R2 cannot beat R0 on it); gate values after review; whether to fund curation of GPI and
    Basidiomycota truth.
