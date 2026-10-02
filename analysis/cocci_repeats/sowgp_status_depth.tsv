@@ -1,0 +1,560 @@
+strain	sowgp_status	mean_depth	genome_mean	ratio
+1M0	no SOWgp gene model	28.65	25.71	1.114
+21SD	fragment only	75.27	78.88	0.954
+3M3	fragment only	57.87	60.24	0.961
+407-0_S_OLD_CPA0002	fragment only	104.13	76.97	1.353
+407-1_S_OLD_CPA0004	full-length	61.17	55.45	1.103
+409B-0_L_OLD_CPA0011	fragment only	100.71	86.29	1.167
+409B-0_S_OLD_CPA0012	fragment only	90.27	68.23	1.323
+4545-MICE	fragment only	175.05	170.18	1.029
+485B-0_S_OLD_CPA0021	fragment only	100.14	89.52	1.119
+485B-1_L_OLD_CPA0023	fragment only	104.96	90.87	1.155
+485B-4_S_NEW_CPA0029	fragment only	144.94	119.43	1.214
+4M3	fragment only	38.6	38.46	1.004
+4SD	fragment only	17.67	13.37	1.322
+573-1_L_NEW_CPA0031	fragment only	149.23	116.43	1.282
+573-1_S_NEW_CPA0033	full-length	74.07	59.43	1.246
+574-0_L_OLD_CPA0038	fragment only	125.67	104.55	1.202
+574-0_S_OLD_CPA0039	full-length	88.57	65.97	1.343
+574-1_L_NEW_CPA0040	fragment only	144.24	124.33	1.16
+578-1_A_NEW_CPA0048	fragment only	75.86	65.84	1.152
+578-1_L_NEW_CPA0049	fragment only	72.82	60.98	1.194
+578-1_L_NEW_CPA0049_alt	fragment only	68.66	55.56	1.236
+582-1_L_NEW_CPA0064	fragment only	211.3	179.63	1.176
+5SD	full-length	70.94	72.32	0.981
+730332_Guatemala	fragment only	24.09	22.63	1.065
+730333_Guatemala	fragment only	19.3	21.24	0.909
+730334_Guatemala	fragment only	29.61	29.56	1.002
+A391	full-length	52.2	45.2	1.155
+A432	full-length	56.85	48.43	1.174
+A502-1	full-length	40.59	40.49	1.002
+A502-2	full-length	62.43	52.76	1.183
+B0727_Argentina	full-length	19.95	31.23	0.639
+B0858-Guatemala	fragment only	36.16	41.75	0.866
+B10757_Nevada	fragment only	27.64	34.7	0.797
+B10813_Texas	fragment only	66.44	63.03	1.054
+B10917	full-length	36.33	40.02	0.908
+B10918	full-length	54.99	50.65	1.086
+B10919	fragment only	34.48	38.96	0.885
+B11002	fragment only	12.33	13.85	0.89
+B11019	full-length	149.47	171.73	0.87
+B11034	full-length	181.66	194.58	0.934
+B11035	full-length	85.56	94.82	0.902
+B11036	fragment only	120.65	104.33	1.156
+B11057	full-length	89.8	86.22	1.042
+B11058	full-length	33.11	30.29	1.093
+B11080	full-length	29.68	31.14	0.953
+B11198	fragment only	129.1	125.29	1.03
+B11199	fragment only	70.08	93.01	0.753
+B11232	full-length	44.88	51.15	0.877
+B11299	fragment only	84.64	79.04	1.071
+B11300	full-length	76.93	83.44	0.922
+B11343	full-length	52.86	52.16	1.013
+B11400	fragment only	56.79	49.07	1.157
+B11517	full-length	160.66	178.43	0.9
+B11518	full-length	19.22	24.09	0.798
+B11587	full-length	42.54	56.21	0.757
+B11863	fragment only	21.56	25.47	0.846
+B11871	fragment only	88.33	91.85	0.962
+B11872	full-length	121.34	100.19	1.211
+B11873	fragment only	26.32	34.25	0.768
+B11877	full-length	84.13	82.39	1.021
+B12202	full-length	83.03	84.74	0.98
+B12216	fragment only	86.02	97.7	0.88
+B12218	full-length	85.71	78.99	1.085
+B12219	fragment only	109.14	98.26	1.111
+B12220	full-length	78.83	93.37	0.844
+B12226	fragment only	86.52	88.14	0.982
+B12397	full-length	101.54	77.97	1.302
+B12398	fragment only	33.91	31.28	1.084
+B12399	fragment only	97.49	108.8	0.896
+B12400	full-length	112.44	100.73	1.116
+B12402	full-length	33.51	39.43	0.85
+B12471	fragment only	98.33	87.24	1.127
+B12475	full-length	105.96	101.63	1.043
+B12495	fragment only	80.36	92.56	0.868
+B12496	full-length	95.32	106.95	0.891
+B12498	full-length	97.16	87.75	1.107
+B1249_Guatemala	fragment only	32.08	41.51	0.773
+B12526	full-length	89.65	89.49	1.002
+B12527	fragment only	93.61	105.55	0.887
+B13534	fragment only	112.89	101.5	1.112
+B13535	full-length	81.95	71.3	1.149
+B13956	full-length	118.44	113.42	1.044
+B13981	full-length	69.9	78.27	0.893
+B14104	full-length	122.63	108.97	1.125
+B14130	fragment only	128.03	111.97	1.143
+B14131	full-length	84.86	100.42	0.845
+B14132	full-length	125.15	121.84	1.027
+B14133	full-length	129.18	126.87	1.018
+B14134	no SOWgp gene model	118.71	105.03	1.13
+B14135	fragment only	139.91	129.81	1.078
+B14286	fragment only	61.02	67.2	0.908
+B14288	full-length	58.99	70.12	0.841
+B14291	full-length	33.4	33.09	1.009
+B14292	full-length	56.59	65.97	0.858
+B14298	full-length	87.87	83.1	1.057
+B15142	full-length	73.99	74.27	0.996
+B15145	full-length	86.37	94.64	0.913
+B15146	fragment only	71.76	84.17	0.853
+B15257	full-length	60.32	61.79	0.976
+B15317	full-length	16.05	20.71	0.775
+B15368	fragment only	100.6	106.41	0.945
+B15369	fragment only	77.93	81.69	0.954
+B16293	full-length	98.94	92.04	1.075
+B16294	fragment only	64.57	72.96	0.885
+B16338	full-length	72.06	70.04	1.029
+B16339	full-length	104.76	107.19	0.977
+B16364	full-length	95.46	86.07	1.109
+B16531	full-length	78.33	87.92	0.891
+B16536	full-length	59.44	89.42	0.665
+B16692	fragment only	96.28	95.55	1.008
+B16712	full-length	81.69	84.09	0.971
+B17554	full-length	78.67	73.05	1.077
+B17567	fragment only	67.88	66.6	1.019
+B17635	fragment only	56.36	62.75	0.898
+B3203	fragment only	75.87	74.44	1.019
+B3213	fragment only	75.06	74.35	1.01
+B3215	full-length	84.74	85.14	0.995
+B3220	fragment only	68.21	75.41	0.905
+B3221	fragment only	91.32	85.81	1.064
+B3222	full-length	89.07	79.32	1.123
+B3224	full-length	84.41	74.53	1.133
+B3226	full-length	89.76	87.32	1.028
+B3227	fragment only	86.91	77.32	1.124
+B3228	full-length	83.69	79.53	1.052
+B3236	fragment only	66.36	74.57	0.89
+B3242	full-length	79.22	81.53	0.972
+B3244	fragment only	76.81	77.26	0.994
+B3245	full-length	97.41	88.15	1.105
+B3246	full-length	86.58	86.28	1.003
+B3251	full-length	72.08	67.41	1.069
+B3256	fragment only	83.32	87.34	0.954
+B3269	full-length	81.61	79.86	1.022
+B3276	fragment only	150.59	134.42	1.12
+B3284	full-length	72.89	66.89	1.09
+B3286	full-length	86.06	78.36	1.098
+B3290	full-length	91.09	77.85	1.17
+B3291	full-length	82.62	79.53	1.039
+B3292	full-length	90.84	80.93	1.122
+B3301	full-length	84.69	69.98	1.21
+B3310	full-length	89.11	79.62	1.119
+B3313	full-length	73.03	61.73	1.183
+B3314	full-length	111.95	97.31	1.15
+B3315	full-length	67.35	71.64	0.94
+B3326	fragment only	84.71	81.57	1.038
+B3335	fragment only	78.86	76.99	1.024
+B3341	fragment only	77.55	77.56	1.0
+B3344	full-length	87.36	72.12	1.211
+B3345	fragment only	65.78	76.08	0.865
+B3347	fragment only	128.4	109.03	1.178
+B3348	full-length	70.49	73.79	0.955
+B3352	full-length	77.07	76.29	1.01
+B3353	full-length	66.94	72.04	0.929
+B3358	full-length	82.97	81.46	1.019
+B3359	fragment only	76.57	86.19	0.888
+B3368	fragment only	79.96	77.05	1.038
+B3374	full-length	72.52	79.74	0.909
+B3375	full-length	84.52	84.06	1.005
+B3382	full-length	86.88	81.45	1.067
+B3391	fragment only	93.05	96.85	0.961
+B3395	fragment only	83.64	79.76	1.049
+B3398	full-length	67.69	79.3	0.854
+B3409	fragment only	74.36	70.95	1.048
+B3411	full-length	70.93	74.26	0.955
+B3413	fragment only	75.57	83.05	0.91
+B3417	full-length	91.27	84.62	1.079
+B3420	full-length	88.83	85.53	1.039
+B3439	full-length	91.79	83.92	1.094
+B3440	full-length	85.97	75.8	1.134
+B3453	full-length	98.36	84.51	1.164
+B3457	full-length	80.88	75.74	1.068
+B3476	fragment only	124.11	134.86	0.92
+B3482	full-length	59.79	64.03	0.934
+B3489	fragment only	66.09	69.19	0.955
+B3491	fragment only	77.41	71.47	1.083
+B3492	fragment only	75.43	68.17	1.106
+B5773_Brazil	full-length	32.43	34.42	0.942
+BFF340	fragment only	109.19	101.08	1.08
+Beeville	fragment only	15.52	11.52	1.347
+C735-TKO	fragment only	58.15	51.57	1.128
+CA1	full-length	32.96	26.38	1.249
+CA10	not in tree	0.12	1.34	0.09
+CA12	not in tree	0.0	0.27	0.0
+CA14	fragment only	62.04	40.08	1.548
+CA15	fragment only	1036.04	874.56	1.185
+CA17	full-length	196.22	162.89	1.205
+CA2	fragment only	77.99	57.18	1.364
+CA20	no SOWgp gene model	60.92	47.39	1.286
+CA22	fragment only	29.68	30.78	0.964
+CA23	no SOWgp gene model	25.39	27.62	0.919
+CA24	fragment only	212.47	190.69	1.114
+CA25	fragment only	289.51	320.3	0.904
+CA26	no SOWgp gene model	45.58	35.47	1.285
+CA27	full-length	74.74	65.97	1.133
+CA28	full-length	43.76	37.22	1.176
+CA29	no SOWgp gene model	39.62	39.49	1.003
+CA3	fragment only	142.61	143.86	0.991
+CA30	fragment only	133.86	123.47	1.084
+CA4	fragment only	74.21	66.65	1.113
+CA5	fragment only	226.72	239.32	0.947
+CA6	full-length	215.74	187.54	1.15
+CA7	fragment only	160.72	115.58	1.391
+CA8	full-length	77.24	69.46	1.112
+CA9	full-length	42.13	43.23	0.975
+CDC-202	full-length	44.3	51.36	0.863
+CDC-205	full-length	42.88	49.11	0.873
+CDC-212	full-length	52.89	54.89	0.964
+COCPO_103715	not in tree	10.86	11.5	0.944
+COCPO_103716	not in tree	2.63	4.42	0.595
+COCPO_103717	not in tree	6.95	13.92	0.499
+COCPO_103718	fragment only	32.07	27.44	1.169
+COCPO_103720	fragment only	38.87	33.86	1.148
+COCPO_103721	fragment only	127.64	94.19	1.355
+COCPO_103744	fragment only	82.46	63.72	1.294
+COCPO_103745	no SOWgp gene model	18.66	17.39	1.073
+COCPO_103827	fragment only	45.99	37.91	1.213
+COCPO_114029	no SOWgp gene model	59.5	55.45	1.073
+COCPO_114072	fragment only	93.61	85.71	1.092
+COCPO_175712	fragment only	111.59	76.63	1.456
+COCPO_175714	full-length	106.91	74.55	1.434
+COCPO_175715	fragment only	81.96	63.88	1.283
+COCPO_175716	no SOWgp gene model	336.44	249.38	1.349
+COCPO_185672	fragment only	131.62	102.11	1.289
+COCPO_195880	fragment only	100.32	85.07	1.179
+COCPO_195881	fragment only	18.77	24.14	0.778
+COCPO_195884	fragment only	18.94	18.47	1.025
+COCPO_34698	not in tree	24.47	22.26	1.099
+COCPO_4545	fragment only	67.33	58.64	1.148
+COCPO_Galgiani	full-length	214.16	209.3	1.023
+COCSP-2006	full-length	202.1	174.31	1.159
+COCSP-3478	full-length	76.9	59.86	1.285
+COCSP-3505	fragment only	13.94	17.81	0.783
+COCSP-8945	fragment only	38.95	42.56	0.915
+COCSP_8725	fragment only	58.16	48.68	1.195
+Coahuila_1	full-length	61.78	54.62	1.131
+Coahuila_2	not in tree	98.57	95.26	1.035
+Cocci_1400035797	full-length	18.98	14.78	1.284
+Colorado_Springs_1	full-length	60.11	59.04	1.018
+EMS	full-length	59.78	55.93	1.069
+FMC233	full-length	54.44	59.56	0.914
+FMC234	fragment only	61.33	58.71	1.045
+FMC235	fragment only	45.16	36.95	1.222
+FMC449	full-length	32.08	34.52	0.929
+FMC588	fragment only	39.16	42.07	0.931
+FMC718	fragment only	22.72	21.76	1.044
+FMC778	not in tree	25.39	41.39	0.613
+GT-002	fragment only	49.74	49.13	1.012
+GT-017	fragment only	18.69	26.16	0.714
+GT-100	fragment only	34.13	27.44	1.244
+GT-101	fragment only	72.8	59.34	1.227
+GT-102	full-length	424.11	372.79	1.138
+GT-103	no SOWgp gene model	76.08	69.18	1.1
+GT-104	fragment only	101.83	96.87	1.051
+GT-105	fragment only	78.65	62.76	1.253
+GT-106	no SOWgp gene model	94.06	77.01	1.221
+GT-107	fragment only	79.39	70.03	1.134
+GT-108	full-length	74.48	65.4	1.139
+GT-109	no SOWgp gene model	45.46	31.73	1.433
+GT-110	fragment only	153.11	131.58	1.164
+GT-111	fragment only	81.53	72.34	1.127
+GT-112	not in tree	2.52	2.26	1.115
+GT-113	full-length	193.84	168.77	1.149
+GT-114	fragment only	46.77	39.48	1.185
+GT-115	fragment only	74.37	68.27	1.089
+GT-116	no SOWgp gene model	103.6	85.21	1.216
+GT-117	fragment only	42.08	34.39	1.224
+GT-118	fragment only	39.38	31.64	1.245
+GT-119	no SOWgp gene model	44.5	44.15	1.008
+GT-120	fragment only	102.67	88.93	1.155
+GT-121	no SOWgp gene model	189.43	169.61	1.117
+GT-122	not in tree	34.7	28.24	1.229
+GT-123	fragment only	28.51	26.93	1.059
+GT-124	fragment only	81.9	68.71	1.192
+GT-125	full-length	110.34	96.6	1.142
+GT-126	full-length	41.15	33.23	1.238
+GT-127	fragment only	312.46	235.07	1.329
+GT-128	fragment only	83.33	70.23	1.187
+GT-129	fragment only	27.07	27.0	1.003
+GT-130	full-length	52.25	54.82	0.953
+GT-131	fragment only	43.96	37.72	1.165
+GT-132	full-length	59.88	57.42	1.043
+GT-133	fragment only	38.59	31.04	1.243
+GT-134	fragment only	128.66	110.28	1.167
+GT-136	no SOWgp gene model	79.61	55.96	1.423
+GT-139	fragment only	35.67	27.45	1.299
+GT-140	no SOWgp gene model	34.22	25.93	1.32
+GT-141	fragment only	61.52	51.47	1.195
+GT-142	fragment only	78.31	68.56	1.142
+GT-143	no SOWgp gene model	19.89	15.51	1.282
+GT-144	full-length	95.87	75.77	1.265
+GT-145	full-length	57.64	42.19	1.366
+GT-146	fragment only	118.65	88.77	1.337
+GT-147	fragment only	16.45	14.86	1.107
+GT-148	fragment only	61.19	45.22	1.353
+GT-149	full-length	105.37	77.38	1.362
+GT-150	fragment only	55.95	50.76	1.102
+GT-151	fragment only	48.74	40.45	1.205
+GT-153	fragment only	19.15	13.92	1.376
+GT-154	no SOWgp gene model	84.2	80.92	1.041
+GT-155	no SOWgp gene model	37.04	33.43	1.108
+GT-156	fragment only	28.61	26.81	1.067
+GT-157	fragment only	280.04	308.88	0.907
+GT-158	fragment only	35.08	29.56	1.187
+GT-159	no SOWgp gene model	95.7	73.57	1.301
+GT-160	fragment only	41.24	33.15	1.244
+GT-161	fragment only	71.86	45.3	1.586
+GT-162	full-length	63.71	52.73	1.208
+GT-163	fragment only	12.48	13.35	0.935
+GT-164	fragment only	40.08	32.19	1.245
+GT-165	fragment only	87.32	69.56	1.255
+GT-166	no SOWgp gene model	91.94	67.36	1.365
+GT-167	full-length	106.47	77.43	1.375
+GT-168	fragment only	74.37	61.38	1.212
+GT-169	no SOWgp gene model	41.01	37.77	1.086
+GT-171	fragment only	119.41	92.11	1.296
+Guerrero_1	fragment only	39.17	31.35	1.249
+IL1	fragment only	41.36	29.87	1.385
+J_TORRES	fragment only	78.34	81.97	0.956
+KJH004	full-length	25.64	22.21	1.154
+M153	not in tree	6.43	10.46	0.615
+M158	fragment only	47.54	55.9	0.85
+M191	fragment only	54.53	59.43	0.918
+M192	not in tree	63.39	58.0	1.093
+M195	fragment only	65.34	69.8	0.936
+M196	full-length	82.23	79.65	1.032
+M197	fragment only	55.39	51.86	1.068
+M198	fragment only	56.05	58.2	0.963
+M199	fragment only	74.73	69.52	1.075
+M1_5	fragment only	49.84	36.6	1.362
+M200	fragment only	54.02	48.5	1.114
+M201	full-length	274.2	265.34	1.033
+M204	full-length	61.97	59.22	1.046
+M205	full-length	39.08	38.27	1.021
+M206	fragment only	40.89	40.27	1.015
+M207	full-length	63.81	48.44	1.317
+M208	fragment only	44.13	44.6	0.989
+M211	fragment only	58.55	52.25	1.121
+M213	full-length	69.37	54.09	1.282
+M214	full-length	260.4	272.25	0.956
+M215	fragment only	190.55	175.12	1.088
+M216	not in tree	72.89	81.11	0.899
+M219	fragment only	50.21	49.72	1.01
+M220	full-length	78.55	64.76	1.213
+M221	full-length	197.89	179.0	1.106
+M222	fragment only	133.39	152.22	0.876
+M223	full-length	46.27	44.47	1.04
+MJS	full-length	97.97	82.15	1.193
+Michoacan_1	fragment only	60.79	59.01	1.03
+Michoacan_2	no SOWgp gene model	21.96	19.81	1.109
+NACVFR_2566	no SOWgp gene model	17.98	17.86	1.007
+NACVFR_4542	fragment only	43.27	41.14	1.052
+NM_0071	not in tree	57.34	51.59	1.111
+NM_0317	not in tree	4.35	20.84	0.209
+NM_0369	fragment only	43.41	41.81	1.038
+NM_3006	fragment only	70.97	58.04	1.223
+NM_3894	not in tree	1.94	21.52	0.09
+NM_3957	not in tree	3.23	15.33	0.211
+NM_4233	full-length	57.17	48.09	1.189
+NM_4297	not in tree	0.39	10.54	0.037
+NM_459	fragment only	17.69	64.24	0.275
+NM_4708	full-length	63.87	63.01	1.014
+NM_5945	full-length	54.25	49.14	1.104
+NM_7898	not in tree	0.0	2.62	0.0
+NM_9837	fragment only	39.93	44.27	0.902
+NM_9861	not in tree	6.1	48.18	0.127
+Nuevo_Leon_1	fragment only	47.23	44.2	1.069
+Nuevo_Leon_2	fragment only	67.43	64.35	1.048
+Phoenix_1	fragment only	33.85	34.5	0.981
+Phoenix_2	fragment only	89.41	74.57	1.199
+Phoenix_3	full-length	70.88	65.24	1.086
+Phoenix_4	no SOWgp gene model	40.18	41.6	0.966
+Phoenix_5	no SOWgp gene model	68.54	58.32	1.175
+Phoenix_6	fragment only	40.27	33.29	1.21
+Phoenix_7	fragment only	47.27	43.98	1.075
+Phoenix_8	fragment only	43.34	35.63	1.216
+Phoenix_9	fragment only	54.08	44.06	1.227
+RS	fragment only	42.85	44.46	0.964
+SA12	fragment only	35.63	33.2	1.073
+SA14	fragment only	80.08	71.61	1.118
+SA2	fragment only	88.58	72.53	1.221
+SD7	no SOWgp gene model	9.71	8.02	1.211
+SD8	not in tree	4.55	6.1	0.746
+SDVA1	full-length	92.1	91.35	1.008
+SDVA10	fragment only	59.18	58.15	1.018
+SDVA14	full-length	75.97	66.78	1.138
+SDVA15	full-length	74.62	77.13	0.967
+SDVA16	full-length	70.78	78.84	0.898
+SDVA17	full-length	134.35	147.68	0.91
+SDVA2	full-length	101.26	105.85	0.957
+SDVA20	full-length	68.47	77.94	0.878
+SDVA25	fragment only	111.4	94.25	1.182
+SDVA26	fragment only	71.36	93.57	0.763
+SDVA27	fragment only	46.8	48.36	0.968
+SDVA3	full-length	93.78	92.5	1.014
+SDVA36	full-length	56.03	62.1	0.902
+SDVA38	full-length	195.89	192.62	1.017
+SDVA39	full-length	115.26	124.44	0.926
+SDVA4	full-length	89.04	97.84	0.91
+SDVA41	fragment only	40.68	35.18	1.156
+SDVA42	full-length	59.14	59.07	1.001
+SDVA44	full-length	19.11	29.05	0.658
+SDVA45	full-length	50.83	59.31	0.857
+SDVA47	full-length	50.51	49.36	1.023
+SDVA48	full-length	46.62	52.93	0.881
+SDVA5	full-length	106.19	122.57	0.866
+SDVA6	full-length	64.15	74.23	0.864
+SDVA7	fragment only	76.22	72.5	1.051
+SDVA8	full-length	57.67	59.85	0.964
+SJV_1	fragment only	30.68	22.47	1.365
+SJV_10	full-length	50.7	50.3	1.008
+SJV_11	fragment only	33.3	34.21	0.973
+SJV_2	fragment only	67.68	63.99	1.058
+SJV_3	no SOWgp gene model	27.88	20.11	1.386
+SJV_4	full-length	73.9	75.3	0.981
+SJV_5	full-length	59.52	52.67	1.13
+SJV_6	full-length	19.83	18.12	1.094
+SJV_7	no SOWgp gene model	109.59	91.76	1.194
+SJV_8	no SOWgp gene model	36.04	30.48	1.182
+SJV_9	fragment only	22.9	24.26	0.944
+SOIL_407-0_L_OLD_CPA0001	fragment only	47.02	30.21	1.556
+SOIL_485B-0_L_OLD_CPA0020	no SOWgp gene model	45.89	37.72	1.217
+SOIL_573-2_L_NEW_CPA0035	no SOWgp gene model	56.69	41.2	1.376
+SOIL_574-2_L_NEW_CPA0042	fragment only	73.02	58.37	1.251
+SOIL_574-4_S_NEW_CPA0047	not in tree	44.72	32.8	1.363
+SOIL_578-1_A_NEW_CPA0048	no SOWgp gene model	66.75	47.73	1.398
+SOIL_580-1_L_NEW_CPA0055	fragment only	24.86	21.24	1.17
+SOIL_580-2_L_NEW_CPA0060	no SOWgp gene model	70.17	49.58	1.415
+SOIL_580-2_S_NEW_CPA0061	not in tree	18.91	16.0	1.182
+SOIL_580-4_L_NEW_CPA0062	fragment only	97.46	72.82	1.338
+SOIL_582-1_S_NEW_CPA0065	fragment only	18.37	14.09	1.304
+SOIL_604-1_L_OLD_CPA066	fragment only	31.89	23.08	1.382
+S_670	fragment only	73.9	66.98	1.103
+S_671	full-length	58.6	54.85	1.068
+S_672	full-length	68.86	63.34	1.087
+S_673	full-length	75.41	68.02	1.109
+S_674	fragment only	91.57	75.95	1.206
+S_675	fragment only	44.15	44.05	1.002
+S_676	fragment only	63.67	54.3	1.173
+S_739	full-length	81.68	76.63	1.066
+S_740	full-length	95.42	89.67	1.064
+S_741	full-length	63.1	61.61	1.024
+S_742	full-length	104.5	93.64	1.116
+San_Antonio_1	no SOWgp gene model	80.36	70.78	1.135
+San_Diego_1	full-length	48.29	47.27	1.022
+Sonora_1	fragment only	42.26	39.53	1.069
+Sonora_2	fragment only	30.55	28.67	1.066
+TX1	full-length	133.89	112.49	1.19
+TX10	not in tree	18.45	15.45	1.194
+TX11	full-length	30.39	22.59	1.345
+TX12	fragment only	49.28	37.88	1.301
+TX13	not in tree	0.18	2.76	0.065
+TX14	full-length	52.17	41.36	1.261
+TX17	full-length	195.34	160.66	1.216
+TX2	fragment only	170.29	140.45	1.212
+TX3	full-length	144.01	119.76	1.202
+TX4	fragment only	105.88	91.79	1.154
+TX5	full-length	206.81	168.5	1.227
+TX6	fragment only	94.15	69.25	1.36
+TX7	not in tree	34.46	26.1	1.32
+TX8	fragment only	61.69	37.47	1.646
+TX9	fragment only	88.45	57.22	1.546
+Tucson_1	fragment only	62.8	54.44	1.154
+Tucson_10	full-length	85.86	87.81	0.978
+Tucson_11	fragment only	137.67	115.43	1.193
+Tucson_12	fragment only	106.01	90.42	1.172
+Tucson_13	fragment only	55.87	47.83	1.168
+Tucson_14	fragment only	30.96	31.88	0.971
+Tucson_15	full-length	38.67	30.5	1.268
+Tucson_16	full-length	61.99	61.08	1.015
+Tucson_17	fragment only	57.22	49.84	1.148
+Tucson_18	fragment only	38.6	33.3	1.159
+Tucson_19	fragment only	72.28	62.12	1.164
+Tucson_2	full-length	63.69	58.39	1.091
+Tucson_20	no SOWgp gene model	60.14	46.72	1.287
+Tucson_21	full-length	118.02	113.47	1.04
+Tucson_22	full-length	34.61	29.87	1.159
+Tucson_23	no SOWgp gene model	61.89	53.01	1.168
+Tucson_24	full-length	144.57	141.82	1.019
+Tucson_3	fragment only	242.34	202.67	1.196
+Tucson_4	fragment only	98.34	86.97	1.131
+Tucson_5	fragment only	80.86	77.37	1.045
+Tucson_6	fragment only	59.71	47.08	1.268
+Tucson_7	fragment only	103.89	91.8	1.132
+Tucson_8	fragment only	98.36	88.24	1.115
+Tucson_9	fragment only	112.22	99.43	1.129
+UCSF_10AZ	full-length	68.79	61.19	1.124
+UCSF_3490AZ	full-length	72.56	66.79	1.086
+UCSF_5AZ	full-length	70.8	72.63	0.975
+UCSF_9AZ	full-length	61.97	62.58	0.99
+UCSF_Cp_Silveira	fragment only	274.64	304.35	0.902
+UTAH_20380X1	not in tree	105.38	103.42	1.019
+UTAH_20380X10	not in tree	145.19	130.0	1.117
+UTAH_20380X16	not in tree	140.69	136.18	1.033
+UTAH_20380X2	not in tree	92.18	83.49	1.104
+UTAH_20380X5	not in tree	132.13	109.3	1.209
+UTAH_23742X111	not in tree	169.25	162.42	1.042
+UTAH_23742X12	not in tree	267.06	228.94	1.167
+UTAH_23742X123	not in tree	172.75	163.92	1.054
+UTAH_23742X138	not in tree	187.44	169.1	1.108
+UTAH_23742X144	not in tree	209.67	167.43	1.252
+UTAH_23742X153	not in tree	231.96	198.05	1.171
+UTAH_23742X160	not in tree	91.94	79.21	1.161
+UTAH_23742X162	not in tree	52.69	58.99	0.893
+UTAH_23742X163	not in tree	199.82	178.48	1.12
+UTAH_23742X165	not in tree	165.77	150.34	1.103
+UTAH_23742X168	not in tree	314.66	222.09	1.417
+UTAH_23742X170	not in tree	211.52	196.2	1.078
+UTAH_23742X18	not in tree	249.52	233.95	1.067
+UTAH_23742X189	not in tree	328.06	218.54	1.501
+UTAH_23742X19	not in tree	283.05	211.96	1.335
+UTAH_23742X195	not in tree	234.37	223.11	1.05
+UTAH_23742X199	not in tree	248.64	197.41	1.26
+UTAH_23742X205	not in tree	414.59	371.11	1.117
+UTAH_23742X206	not in tree	206.63	220.52	0.937
+UTAH_23742X208	not in tree	180.41	177.71	1.015
+UTAH_23742X209	not in tree	222.49	210.12	1.059
+UTAH_23742X211	not in tree	141.91	181.83	0.78
+UTAH_23742X214	not in tree	184.88	186.45	0.992
+UTAH_23742X223	not in tree	253.61	246.88	1.027
+UTAH_23742X225	not in tree	175.7	169.2	1.038
+UTAH_23742X227	not in tree	139.39	135.17	1.031
+UTAH_23742X235	not in tree	211.08	173.33	1.218
+UTAH_23742X241	not in tree	254.59	259.46	0.981
+UTAH_23742X242	not in tree	200.39	222.27	0.902
+UTAH_23742X246	not in tree	192.84	183.81	1.049
+UTAH_23742X253	not in tree	230.94	239.98	0.962
+UTAH_23742X255	not in tree	205.79	214.26	0.96
+UTAH_23742X257	not in tree	211.81	197.58	1.072
+UTAH_23742X260	not in tree	184.08	200.62	0.918
+UTAH_23742X31	not in tree	136.78	143.94	0.95
+UTAH_23742X38	not in tree	233.36	197.59	1.181
+UTAH_23742X40	not in tree	106.02	117.1	0.905
+UTAH_23742X44	not in tree	211.27	169.44	1.247
+UTAH_23742X51	not in tree	216.39	179.1	1.208
+UTAH_23742X6	not in tree	281.71	255.15	1.104
+UTAH_23742X7	not in tree	279.1	256.85	1.087
+UTAH_23742X71	not in tree	256.7	246.46	1.042
+UTAH_23742X83	not in tree	158.38	205.31	0.771
+UTAH_23742X84	not in tree	199.77	225.23	0.887
+UTAH_31331	full-length	48.68	48.47	1.004
+UTAH_350355	full-length	73.17	71.49	1.023
+UTAH_9443	full-length	67.23	72.2	0.931
+UTAH_9737	fragment only	48.49	42.06	1.153
+VFC043	fragment only	95.06	71.3	1.333
+VFC052	fragment only	74.88	62.85	1.191
+VFC054_7SA	fragment only	9.16	7.55	1.213
+VFC083	fragment only	21.84	32.45	0.673
+VFC084_CPA0067	fragment only	23.98	29.01	0.827
+VFC085_CPA0068	no SOWgp gene model	74.73	58.27	1.282
+VFC087	fragment only	69.18	69.93	0.989
+VFC088	full-length	94.55	82.58	1.145
+VFC090	fragment only	30.85	31.11	0.992
+VFC091	full-length	20.96	25.55	0.82
+VFC092	fragment only	20.2	16.13	1.252
+VFC093	fragment only	59.42	51.7	1.149
+WA31	full-length	220.87	185.01	1.194
+WA_211	full-length	43.47	47.86	0.908
+WA_221	full-length	25.22	22.23	1.135
+Washington_1	full-length	45.64	43.41	1.051
+h5384	fragment only	17.95	13.13	1.367
