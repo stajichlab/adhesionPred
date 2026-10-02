@@ -883,3 +883,15 @@ def test_01_stops_when_model_missing(tmp_path):
         pytest.skip("hmmer module not available")
     assert res.returncode == 2
     assert "STOP:" in res.stderr and "PF04681" in res.stderr
+
+
+@needs_rs
+def test_real_pra3_family_flag_and_dewd(rs_rows):
+    # PF28404 flags the PRA3 ortholog and the 3 paralog-like proteins found by mmseqs.
+    for pid in ("CIMG_02492", "CIMG_07303", "CIMG_05560", "CIMG_07843"):
+        r = rs_rows[f"{pid}-t26_1-p1"]
+        assert r["pra3_like_family"] == "1"
+        assert r["tier"] == "cys_rich_sp_unassigned"
+    # DewD (PF28987) is counted as a hydrophobin: the protein leaves the candidate tier.
+    assert rs_rows["CIMG_03068-t26_1-p1"]["hydrophobin"] == "1"
+    assert rs_rows["CIMG_03068-t26_1-p1"]["tier"] == "cys_rich_sp_known_family"
