@@ -1,0 +1,51 @@
+           features                     cv  roc_auc  pr_auc  recall   fpr
+        length_only random_5fold (current)    0.841   0.709   0.596 0.085
+        length_only homology_grouped_5fold    0.818   0.640   0.434 0.085
+        length_only       leave_family_out    0.820   0.659   0.428 0.075
+     aa_comp+length random_5fold (current)    0.999   0.998   0.981 0.006
+     aa_comp+length homology_grouped_5fold    0.998   0.995   0.945 0.005
+     aa_comp+length       leave_family_out    0.995   0.990   0.945 0.014
+esm2_8M_legacy_pool random_5fold (current)    1.000   0.999   0.993 0.005
+esm2_8M_legacy_pool homology_grouped_5fold    0.999   0.998   0.947 0.004
+esm2_8M_legacy_pool       leave_family_out    0.999   0.998   0.981 0.009
+esm2_8M_masked_pool random_5fold (current)    1.000   1.000   0.995 0.004
+esm2_8M_masked_pool homology_grouped_5fold    0.999   0.995   0.983 0.003
+esm2_8M_masked_pool       leave_family_out    0.999   0.998   0.990 0.013
+
+long negatives (>900 aa): 160
+
+[p_shipped] S288C ORFs=6722 called=77 (1.15%); known adhesins called 8/9; hard negatives called 12/20; median len called=341.0 vs all=357.0; spearman(score,len)=-0.07
+
+[p_retrained] S288C ORFs=6722 called=64 (0.95%); known adhesins called 9/9; hard negatives called 8/20; median len called=368.5 vs all=357.0; spearman(score,len)=-0.00
+
+[p_aacomp] S288C ORFs=6722 called=124 (1.84%); known adhesins called 9/9; hard negatives called 8/20; median len called=153.0 vs all=357.0; spearman(score,len)=0.15
+  gene    class  len  p_shipped  p_retrained  p_aacomp
+  AGA1  adhesin  725      1.000        1.000     1.000
+  AGA2  adhesin   87      0.406        0.547     0.909
+  FIG2  adhesin 1609      0.999        1.000     1.000
+  FLO1  adhesin 1537      0.998        1.000     1.000
+ FLO10  adhesin 1169      0.999        1.000     1.000
+ FLO11  adhesin 1367      1.000        1.000     1.000
+  FLO5  adhesin 1075      0.999        1.000     1.000
+  FLO9  adhesin 1322      0.999        1.000     1.000
+  SAG1  adhesin  650      0.959        0.999     0.742
+ CCW12 hard_neg  133      0.840        0.999     0.893
+ CCW22 hard_neg  135      0.896        1.000     0.972
+  CIS3 hard_neg  227      0.562        0.028     0.236
+  CRH1 hard_neg  507      0.713        0.424     0.525
+  CWP1 hard_neg  239      0.245        0.006     0.009
+  CWP2 hard_neg   92      0.142        0.003     0.001
+  DAN1 hard_neg  298      0.768        0.296     0.204
+ ECM33 hard_neg  429      0.033        0.000     0.006
+  EXG1 hard_neg  448      0.011        0.000     0.002
+  GAS1 hard_neg  559      0.030        0.000     0.227
+  HKR1 hard_neg 1802      0.998        1.000     0.994
+HSP150 hard_neg  413      0.756        0.605     0.444
+  MSB2 hard_neg 1306      0.999        1.000     0.973
+  NCW2 hard_neg  254      0.975        1.000     0.983
+  PIR1 hard_neg  341      0.691        0.371     0.184
+  SED1 hard_neg  338      0.999        1.000     1.000
+  TIR1 hard_neg  254      0.197        0.027     0.000
+  TIR3 hard_neg  269      0.089        0.000     0.000
+  TIR4 hard_neg  487      0.997        1.000     0.776
+  YPS1 hard_neg  569      0.141        0.007     0.385

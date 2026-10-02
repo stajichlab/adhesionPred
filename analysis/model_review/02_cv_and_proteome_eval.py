@@ -40,8 +40,14 @@ X = {
 }
 
 
+# ADH_SCALER=0 fits the unscaled classifier that src/adhesion_predict/model.py ships;
+# the default (1) is the scaled pipeline the 2026-09-27 review used.
+SCALED = os.environ.get("ADH_SCALER", "1") != "0"
+
+
 def clf():
-    return make_pipeline(StandardScaler(), LogisticRegression(max_iter=5000, C=1.0))
+    lr = LogisticRegression(max_iter=5000, C=1.0)
+    return make_pipeline(StandardScaler(), lr) if SCALED else lr
 
 
 def run(Xf, splits):
