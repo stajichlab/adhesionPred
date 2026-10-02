@@ -188,11 +188,20 @@ of 153, measured for each ortholog: QVM06151.1 (Silveira) 153, CPOS3700_005120 1
 residues before the offset contain 4 Cys (none in the 19-residue SP) and account for the
 difference between 8 and 12 Cys.
 
-Hypothesis, not tested here: the UniProt entry starts at a downstream Met and lacks about 67
-N-terminal residues. Because Q2TVJ9 is `PE=2`, this analysis does not show which start is
-correct. The earlier structure survey ("38 aa, 7 Cys" confident core, no fold) used the 153-aa
-model. This observation does not overturn that result. Only a new fold of the 201-aa mature form
-can test it.
+The UniProt entry starts at a downstream Met and lacks about 67 N-terminal residues. Because
+Q2TVJ9 is `PE=2`, this analysis does not show which start is correct. The earlier structure
+survey ("38 aa, 7 Cys" confident core, no fold) used the 153-aa model.
+
+Follow-up (2026-10-02, branch `pra3-fulllength`, report
+`docs/reports/2026-10-02-pra3-fulllength-structure.md`): the survey was re-run on the AlphaFold
+DB full-length model of UniProt E9CRM7 (Silveira, 220 aa, mean pLDDT 62.2; no new folding).
+The hypothesis that the earlier "no fold" result came from the truncated model is not supported.
+The pLDDT >= 70 core grows from 38 aa (7 Cys) to 67 aa (11 Cys), and the old core lies inside the
+new one. No Foldseek search reaches TM 0.5. Pairwise TM-align against four reference structures
+gives query TM 0.31 to 0.38 with LDDT 0.30 to 0.35 (genuine relationships in the same run reach
+LDDT 0.76 to 0.77). This is no evidence of a fold in the experimental PDB; it is not evidence
+that there is none. The AFDB model is low-confidence (66% of mature residues are below 70) and
+only pdb100 and four references were searched.
 
 ## What the cys_rich_no_sp tier holds
 
