@@ -10,6 +10,7 @@ SATURATION_AUC = 0.99
 LABEL_CANDIDATES = ("R2", "M8", "M35", "M8-C", "M35-C", "H")  # ruling C-8
 ML = ("M8", "M35", "M8-C", "M35-C", "H")
 COMPARATORS = ("B1", "R2")
+N_S2 = 3  # S2-Calb_CGD, S2-Scer_SGD, S2-Spom_PomBase
 
 
 def floor_met(n_direct_positives: int) -> bool:
@@ -59,5 +60,9 @@ def finding_b(diffs: dict) -> dict:
 def finding_c(per_test_set: dict) -> dict:
     """(c) the statement of (b) on every S2 test set. per_test_set[ts] = finding_b(...)."""
     names = sorted(per_test_set)
-    holds_for = [m for m in ML if names and all(m in per_test_set[ts]["holds_for"] for ts in names)]
-    return {"test_sets": per_test_set, "holds_for": holds_for}
+    complete = len(names) == N_S2  # fewer S2 sets than expected: the statement does not hold
+    holds_for = [
+        m for m in ML if complete and all(m in per_test_set[ts]["holds_for"] for ts in names)
+    ]
+    return {"test_sets": per_test_set, "n_s2": len(names), "expected_s2": N_S2,
+            "holds_for": holds_for}  # fmt: skip

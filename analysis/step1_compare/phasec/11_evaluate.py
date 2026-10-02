@@ -135,8 +135,11 @@ def read_scores(path: Path) -> dict:
             d[3].append(call == "1")
     out = {}
     for key, (hs, s, p, c) in raw.items():
+        index = {h: i for i, h in enumerate(hs)}
+        if len(index) != len(hs):  # review M-4: one row per hash and unit
+            raise evalio.StopError(f"{path}: a hash occurs twice in unit {'|'.join(key)}")
         out[key] = {
-            "index": {h: i for i, h in enumerate(hs)},
+            "index": index,
             "score": np.array(s),
             "prob": np.array(p),
             "call": np.array(c, dtype=bool),
@@ -282,7 +285,9 @@ def evaluate_truth(ts, truth, scores, cands, n_resamples, seed):
                         "fpr": metrics.fpr(Wm, ym, call[mask])}  # fmt: skip
                 if not np.isnan(s).any():
                     vals.update(metrics.scored_summary(Wm, ym, s[mask], RECALL_LEVELS, FPR_LEVEL))
-                if no_negatives:
+                if not (ym.any() and (~ym).any()):
+                    # review fix 1: precision without negatives is 1 by construction, and
+                    # without positives it is 0 by construction; neither is a result
                     for name in PRECISION_METRICS:
                         if name in vals:
                             vals[name] = np.full(len(Wm), np.nan)
@@ -433,11 +438,14 @@ def proteome_columns(cands) -> tuple:
     )
 
 
-def agreement_block(prows, table, scores, s1, cands) -> dict:
-    out = {"proteomes": {}, "truth": {}}
+def agreement_block(prows, table, scores, s1, full_train, cands) -> dict:
+    out = {"proteomes": {}, "truth": {}, "score_source_counts": {"proteomes": {}, "truth": {}}}
     ml = [c for c in cands if c in findings.ML]
     for set_id in sorted({r["set_id"] for r in prows}):
         rows = [r for r in prows if r["set_id"] == set_id]
+        out["score_source_counts"]["proteomes"][set_id] = dict(
+            sorted(Counter(r["score_source"] for r in rows).items())
+        )
         out["proteomes"][set_id] = {
             v: {c: agreement.agreement_counts([r[f"call_R2_{v}"] == "1" for r in rows],
                                               [r[f"call_{c}_{v}"] == "1" for r in rows])
@@ -447,6 +455,9 @@ def agreement_block(prows, table, scores, s1, cands) -> dict:
     for cls in ("pos", "neg"):
         hashes = [h for h, t in table.items() if t["origin"] == "go" and t["class"] == cls]
         out["truth"][cls] = {}
+        out["score_source_counts"]["truth"][cls] = dict(
+            sorted(Counter(agreement.score_source(h, s1, full_train) for h in hashes).items())
+        )
         for v in evalio.VARIANTS:
             rule = [hash_score(scores, s1, h, v, "R2")[1] for h in hashes]
             out["truth"][cls][v] = {
@@ -488,6 +499,8 @@ def named_panel(seq_members, table, literature, scores, s1, full_train, cands) -
 
 def build_findings(test_blocks: dict) -> dict:
     s2 = sorted(n for n, b in test_blocks.items() if b["split"].startswith("S2-"))
+    if len(s2) != findings.N_S2:  # review M-1
+        raise evalio.StopError(f"finding (c) needs {findings.N_S2} S2 test sets, found {len(s2)}")
     b1 = {}
     for name in ["S1:all", *s2]:
         if name in test_blocks:
@@ -613,7 +626,7 @@ def run(work: Path, sets_path: Path, species_path: Path, n_resamples: int, argum
             "variants": list(evalio.VARIANTS),
         },  # fmt: skip
         "test_sets": blocks,
-        "agreement": agreement_block(prows, table, scores, s1, cands),
+        "agreement": agreement_block(prows, table, scores, s1, full_train, cands),
         "score_sources": {
             s: dict(sorted(Counter(r["score_source"] for r in prows if r["set_id"] == s).items()))
             for s in sorted(proteome_sets)
@@ -632,6 +645,10 @@ def run(work: Path, sets_path: Path, species_path: Path, n_resamples: int, argum
             "eval_table.tsv.gz": build["outputs_sha256"]["eval_table.tsv.gz"],
             "sequence_members.tsv.gz": fr["input_sha256"]["sequence_members.tsv.gz"],
             "sequence_sets.tsv": manifest.sha256_file(sets_path),
+            "eval_literature.tsv": manifest.sha256_file(out / "eval_literature.tsv"),
+            "clusters.tsv.gz": manifest.sha256_file(out / "clusters.tsv.gz"),
+            "max_identity.tsv.gz": manifest.sha256_file(out / "max_identity.tsv.gz"),
+            "species.tsv": manifest.sha256_file(species_path),
         },
         "seed": evalio.SEED,
         "n_resamples": n_resamples,

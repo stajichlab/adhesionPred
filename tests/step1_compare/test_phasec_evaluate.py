@@ -68,6 +68,18 @@ def test_undefined_metrics_are_null(phasec_chain):
     lit_truth = m["test_sets"]["S3-Eurotiomycetes:literature"]["truth"]["direct"]
     vs_rule = lit_truth["vs_rule"]["V-go"]["M8"]["precision_at_rule_recall"]
     assert vs_rule["value"] is None
+    # review fix 1: strata with one class only (wall and extracellular-only: positives;
+    # N-int, N-sec, PM-TM: negatives) have no precision, PR-AUC or precision at recall
+    mets = m["test_sets"]["S1:all"]["truth"]["direct"]["metrics"]
+    for stratum in ("wall", "extracellular-only"):
+        c = mets[stratum]["V-go"]["M8"]
+        assert c["precision"]["value"] is None and c["pr_auc"]["value"] is None, stratum
+        assert c["precision_at_recall_0.8"]["value"] is None, stratum
+        assert c["recall"]["value"] is not None, stratum
+    assert mets["wall"]["V-go"]["M8"]["fpr"]["value"] is None
+    nsec_m8 = mets["N-sec"]["V-go"]["M8"]
+    assert nsec_m8["precision"]["value"] is None and nsec_m8["pr_auc"]["value"] is None
+    assert nsec_m8["fpr"]["value"] is not None
     # a test set with negatives keeps its precision
     s1 = m["test_sets"]["S1:all"]["truth"]["direct"]["metrics"]["all"]["V-go"]["M8"]
     assert s1["precision"]["value"] is not None and s1["pr_auc"]["value"] is not None
@@ -174,8 +186,11 @@ def test_findings_booleans():
         {"S2-a:a": b, "S2-b:b": findings.finding_b({"M8": {"B1": zero, "R2": up}})}
     )
     assert c["holds_for"] == []
+    c = findings.finding_c({"S2-a:a": b, "S2-b:b": b, "S2-c:c": b})
+    assert c["holds_for"] == ["M8"] and c["n_s2"] == 3
+    # review M-1: fewer than three S2 sets never holds
     c = findings.finding_c({"S2-a:a": b, "S2-b:b": b})
-    assert c["holds_for"] == ["M8"]
+    assert c["holds_for"] == [] and c["n_s2"] == 2 and c["expected_s2"] == 3
 
 
 def test_findings_json_reads_metrics_json(phasec_chain):
@@ -320,7 +335,6 @@ def test_link_09_to_10_stops_on_other_clusters(phasec_chain, tmp_path, capsys):
     log = json.loads((out / "scores_run.json").read_text())
     log["input_sha256"]["clusters.tsv.gz"] = "0" * 64
     (out / "scores_run.json").write_text(json.dumps(log))
-    pf.fix_recorded_hash(out / "evaluate_run.json", "metrics.json", out / "metrics.json")
     (out / "metrics.json").unlink()
     assert _run11(fx) == 2
     assert "clusters.tsv.gz" in capsys.readouterr().err
@@ -389,3 +403,192 @@ def test_proteome_hash_that_is_tc_truth_and_proteome_at_once():
     assert by["A"]["score_M8_V-go"] == "0.5" and by["B"]["score_M8_V-go"] == "0.5"
     assert by["C"]["score_M8_V-go"] == "9" and by["D"]["call_M8_V-kw"] == "1"
     assert by["A"]["origin"] == "tc" and by["C"]["origin"] == ""
+
+
+# ---- fix round 1 tests ----
+
+
+def _hand_rows():
+    """42 rows: 12 positives (6 wall, 6 extracellular-only), 20 N-sec and 10 N-int negatives;
+    clusters of 2 rows."""
+    rows = []
+
+    def add(i, cls, subset, stratum, cluster):
+        rows.append({"label": "", "subset": subset, "stratum": stratum, "d8_class": "",
+                     "homology_only": "no", "internal_evidence_htp_only": "no",
+                     "source_ids": "x", "gene_ids": "g", "length": 100, "seq_sha256": f"h{i}",
+                     "split": "S1", "fold": "0", "class": cls, "cluster": cluster,
+                     "part": "test", "below": ""})  # fmt: skip
+
+    i = 0
+    for k in range(12):
+        add(i, "pos", "wall" if k < 6 else "extracellular-only", "", f"p{k // 2}")
+        i += 1
+    for k in range(20):
+        add(i, "neg", "", "N-sec", f"n{k // 2}")
+        i += 1
+    for k in range(10):
+        add(i, "neg", "", "N-int", f"m{k // 2}")
+        i += 1
+    return rows
+
+
+def _hand_scores(rows, spec):
+    """spec[cand] = (score_fn(row_index, row) -> float, call_fn(...) -> bool); both variants
+    get the same values."""
+    out = {}
+    for v in ("V-go", "V-kw"):
+        for cand, (sf, cf) in spec.items():
+            s = np.array([sf(i, r) for i, r in enumerate(rows)])
+            out[("S1", "0", v, cand)] = {
+                "index": {r["seq_sha256"]: i for i, r in enumerate(rows)},
+                "score": s, "prob": s.copy(),
+                "call": np.array([cf(i, r) for i, r in enumerate(rows)], dtype=bool),
+            }  # fmt: skip
+    return out
+
+
+def _ml_beats_case():
+    rows = _hand_rows()
+    pos_i = lambda r: int(r["seq_sha256"][1:])  # noqa: E731
+    spec = {
+        # R2 finds 10 of 12 positives and calls every negative
+        "R2": (lambda i, r: 1.0 if r["class"] == "neg" or pos_i(r) < 10 else 0.0,
+               lambda i, r: r["class"] == "neg" or pos_i(r) < 10),
+        # M8 separates the classes; it calls every positive
+        "M8": (lambda i, r: 1.0 if r["class"] == "pos" else 0.0, lambda i, r: r["class"] == "pos"),
+        "B1": (lambda i, r: 0.5, lambda i, r: False),
+    }  # fmt: skip
+    return rows, _hand_scores(rows, spec)
+
+
+def _ml_loses_case():
+    rows = _hand_rows()
+    spec = {
+        "R2": (lambda i, r: 1.0 if r["class"] == "pos" else 0.0, lambda i, r: r["class"] == "pos"),
+        "M8": (lambda i, r: 0.5, lambda i, r: False),
+        "B1": (lambda i, r: 1.0 if r["class"] == "pos" else 0.0, lambda i, r: r["class"] == "pos"),
+    }  # fmt: skip
+    return rows, _hand_scores(rows, spec)
+
+
+def _hand_block(case, truth="direct", n=200):
+    ev = load_phasec("11_evaluate")
+    rows, scores = case
+    ts = ev.TestSet("S1:all", "S1", "pooled", rows)
+    return ev.evaluate_truth(ts, truth, scores, ("B1", "R2", "M8"), n, 1)
+
+
+def test_hand_built_by_construction_values_are_null():
+    block, *_ = _hand_block(_ml_beats_case())
+    m = block["metrics"]
+    for stratum in ("wall", "extracellular-only"):  # positives only
+        c = m[stratum]["V-go"]["M8"]
+        assert c["precision"]["value"] is None and c["pr_auc"]["value"] is None
+        assert c["precision_at_recall_0.8"]["value"] is None
+        assert c["precision_at_recall_0.9"]["value"] is None
+        assert c["recall"]["value"] == 1.0 and c["fpr"]["value"] is None
+    for stratum in ("N-sec", "N-int"):  # negatives only
+        c = m[stratum]["V-go"]["R2"]
+        assert c["precision"]["value"] is None and c["pr_auc"]["value"] is None
+        assert c["recall"]["value"] is None and c["fpr"]["value"] == 1.0
+        assert c["roc_auc"]["value"] is None
+    assert m["all"]["V-go"]["M8"]["precision"]["value"] == 1.0  # defined with both classes
+
+
+def test_variant_effect_of_identical_scores_is_exactly_zero():
+    # kills a bootstrap weight matrix that is redrawn per candidate or variant
+    block, *_ = _hand_block(_ml_beats_case())
+    for stratum in ("all", "wall", "N-sec"):
+        for cand in ("R2", "M8", "B1"):
+            for name, e in block["variant_effect"][stratum][cand].items():
+                if e["value"] is None:
+                    continue
+                assert e["value"] == 0.0 and e["lo"] == 0.0 and e["hi"] == 0.0, (
+                    stratum,
+                    cand,
+                    name,
+                )
+    e = block["variant_effect"]["all"]["M8"]["recall"]
+    assert e["value"] == 0.0 and e["lo"] == 0.0 and e["hi"] == 0.0
+
+
+def test_finding_b_hand_built_beats_and_mirror():
+    ev = load_phasec("11_evaluate")
+    block, *_ = _hand_block(_ml_beats_case())
+    diff = block["nsec_fpr_at_rule_recall"]["V-go"]["diff"]
+    # comparator N-sec FPR minus ML: R2 calls all N-sec (1.0), B1 puts all at one score (1.0), M8 0.0
+    assert diff["M8"]["R2"]["value"] == 1.0 and diff["M8"]["B1"]["value"] == 1.0
+    assert diff["M8"]["R2"]["lo"] > 0 and diff["M8"]["B1"]["lo"] > 0
+    f = findings.finding_b(diff)
+    assert f["holds_for"] == ["M8"] and f["candidates"]["M8"]["beats_B1"] is True
+    assert f["candidates"]["M8"]["beats_R2"] is True
+    mirror, *_ = _hand_block(_ml_loses_case())
+    diff = mirror["nsec_fpr_at_rule_recall"]["V-go"]["diff"]
+    assert diff["M8"]["R2"]["value"] == -1.0 and diff["M8"]["B1"]["value"] == -1.0
+    f = findings.finding_b(diff)
+    assert f["holds_for"] == [] and f["candidates"]["M8"]["beats_R2"] is False
+    assert f["candidates"]["M8"]["beats_B1"] is False
+    assert ev.findings is findings
+
+
+def test_comparison_level_is_the_rule_recall_per_resample(monkeypatch):
+    # kills "FPR at the ML threshold": the level passed to fpr_at_recall is R2's recall in each
+    # resample, not the ML candidate's (M8 recall is 1.0 here, R2's is about 0.83)
+    import bootstrap
+
+    ev = load_phasec("11_evaluate")
+    rows, scores = _ml_beats_case()
+    seen = []
+    real = ev.metrics.fpr_at_recall
+
+    def spy(W, y, score, level, mask):
+        seen.append(np.array(level, dtype=float))
+        return real(W, y, score, level, mask)
+
+    monkeypatch.setattr(ev.metrics, "fpr_at_recall", spy)
+    ts = ev.TestSet("S1:all", "S1", "pooled", rows)
+    ev.evaluate_truth(ts, "direct", scores, ("B1", "R2", "M8"), 200, 1)
+    y = np.array([r["class"] == "pos" for r in rows])
+    W = bootstrap.cluster_weights([r["cluster"] for r in rows], 200,
+                                  bootstrap.seed_for(1, "S1:all|direct"))  # fmt: skip
+    Wx = np.vstack([np.ones((1, len(rows))), W])
+    r2 = scores[("S1", "0", "V-go", "R2")]["call"]
+    want = np.asarray(mt.recall(Wx, y, r2), dtype=float)
+    assert len(seen) == 4  # B1 and M8, two variants
+    for level in seen:
+        assert np.allclose(level, want, equal_nan=True)
+    assert not np.allclose(want, 1.0)
+
+
+def test_read_scores_stops_on_a_duplicate_hash(tmp_path):
+    ev = load_phasec("11_evaluate")
+    path = tmp_path / "scores.tsv.gz"
+    row = ["S1", "0", "V-go", "R2", "hh", "test", "0.5", "0.5", "1"]
+    truth_table.write_tsv(
+        path, ev.SCORE_COLUMNS, [dict(zip(ev.SCORE_COLUMNS, row, strict=True))] * 2
+    )
+    with pytest.raises(ev.evalio.StopError, match="twice"):
+        ev.read_scores(path)
+
+
+def test_evaluate_run_records_every_input_hash(phasec_chain):
+    import manifest
+
+    out = phasec_chain["work"] / "phasec"
+    got = json.loads((out / "evaluate_run.json").read_text())["input_sha256"]
+    for name in ("eval_literature.tsv", "clusters.tsv.gz", "max_identity.tsv.gz"):
+        assert got[name] == manifest.sha256_file(out / name), name
+    assert got["species.tsv"] == manifest.sha256_file(phasec_chain["species"])
+
+
+def test_agreement_records_score_source_counts(phasec_chain):
+    m = _metrics(phasec_chain["work"])
+    counts = m["agreement"]["score_source_counts"]
+    assert counts["proteomes"] == m["score_sources"]
+    out = phasec_chain["work"] / "phasec"
+    table = truth_table.read_tsv(out / "eval_table.tsv.gz")
+    for cls in ("pos", "neg"):
+        n = sum(1 for r in table if r["origin"] == "go" and r["class"] == cls)
+        assert sum(counts["truth"][cls].values()) == n
+        assert counts["truth"][cls].get("oof", 0) > 0 and "in_sample" not in counts["truth"][cls]
