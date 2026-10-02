@@ -1,4 +1,108 @@
-# Where the tools stand — 2026-09-27
+# Where the tools stand — 2026-10-02
+
+*Rewritten 2026-10-02. The 2026-09-27 text is kept at the end as history. It describes the
+tool before the rename and before step 1 was measured.*
+
+Short answer: **the shipped CLI is step 1 (surface glycoprotein prediction), not an adhesin
+predictor. No trained model ships. Step 1 has now been measured, but the choice between a rule
+and an ML model is not made. Step 2 (adhesion mechanism classes) is mostly unbuilt.**
+
+Plan and decisions: `docs/PLAN-2026-09-30-pipeline-and-decisions.md`.
+Spec: `docs/superpowers/specs/2026-09-30-surface-glycoprotein-model-design.md`.
+
+## 1. What exists
+
+| component | state | where |
+|---|---|---|
+| `surface_glyco` package (ESM-2 + logistic regression, legacy code only) | renamed from `adhesion_predict` (PR #31). The two old pickles are deleted. `predict` and `evaluate` read the model, layer and pooling from a model card and refuse on mismatch | `src/surface_glyco/` on `main` |
+| Residue-only pooling, no silent batch drops, all scores written, duplicate positives dropped | on `main` (PRs #18, #23, #24) | |
+| CI: lint (ruff 0.3.5) and unit tests | on `main` (PR #27). The Lint job passes on PR #36 after `zip(strict=True)` | `.github/workflows/` |
+| Step 1 truth set (Phase A), features and embeddings (Phase B), rule-versus-ML evaluation (Phase C) | built and run on HPCC. **Not on `main`.** PRs #33, #34 and #35 were stacked and each merged into its parent branch, not into `main`. The code is on branch `step1-features` | `analysis/step1_compare/` (branch), outputs in `_workdir/step1_compare/` (git-ignored) |
+| Step 2a repeat detectors | two detectors, validated only in Saccharomycotina | `analysis/cocci_repeats/` |
+| Step 2b/2c HMM scans (CFEM, Bys1, hydrophobin) | HMMs exist. No scan wrapper, no specificity test | |
+| Step 3 antigen layer | *Coccidioides* only | `analysis/cocci_antigens/` |
+| Cysteine-rich secreted candidates (PRA3-like) | on `main` (PR #36). Full-length PRA3 structure re-run found no fold (branch `pra3-fulllength`, not merged) | `analysis/cys_candidates/` |
+| Orchestrator (one table, one column per tool) | proposal only, no spec | plan §6 |
+| Stage-2 adhesin classifier prototype (ESM C 300M) | prototype, not packaged | `analysis/model_review/stage2_proof_of_concept.py` |
+
+No model ships. Version 0.2.0 is cut only after a validated surface-glycoprotein model exists.
+
+## 2. Step 1 measurement (Phase C, run 2026-10-01)
+
+Report: `_workdir/step1_compare/phasec/report.md`. Intervals are 95% cluster bootstrap
+(2,000 resamples). Truth is direct GO evidence. Candidates: B0 and B1 (baselines), R0, R1, R2
+(rules), M8, M35, M8-C, M35-C and H (ESM-2 8M and 35M models; -C adds composition features; H is
+a hybrid). R2 is "signal peptide and (GPI call or Ser+Thr fraction at or above t)".
+A test set is an *estimate* when the recall half-width is at most 0.10 and it has at least
+20 direct positives. Otherwise it is a *smoke test*.
+
+| Test set | Label | Positives / negatives | R0 recall / FPR | R2 recall / FPR | B1 recall / FPR | M8 recall / FPR |
+|---|---|---|---|---|---|---|
+| S1:all (S288C + *C. albicans*, cross-validated) | estimate | 232 / 4,244 | 0.603 / 0.037 | 0.418 / 0.006 | 0.763 / 0.130 | 0.759 / 0.088 |
+| Eurotiomycetes clade (*A. fumigatus* + *A. nidulans*) | estimate | 128 / 208 | 0.727 / 0.010 | 0.227 / 0.005 | 0.859 / 0.168 | 0.914 / 0.058 |
+| *A. nidulans* alone | estimate | 109 / 164 | 0.688 / 0.012 | 0.165 / 0.006 | not read | 0.899 / 0.037 |
+| Basidiomycota (*Cryptococcus*, *Ustilago*) | smoke test | 16 / 60 | 0.938 / 0.083 | 0.125 / 0.017 | 0.625 / 0.283 | 0.875 / 0.167 |
+
+Findings stored in `findings.json`:
+- **(a)** B1 is not saturated: ROC-AUC 0.894 on S1:all, 0.736 to 0.957 on the three S2 sets.
+  The comparison is not trivially won by a baseline.
+- **(b)** No ML candidate beats both B1 and R2 on the false-positive rate for non-secreted
+  proteins at the recall of R2 (S1:all). M8 beats B1 only.
+- **(c)** The same holds on each of the three S2 sets (train on one species, test on another).
+
+What this means, in plain terms:
+- The rule R2 is precise and misses more than half of the surface proteins in S1:all, and about
+  three quarters in Eurotiomycetes. R0 recalls more at a higher FPR.
+- The ML models recall more than R2, with an FPR of 6 to 9% in the estimate sets. Within the
+  confidence intervals, they are not shown to be better than R2 on non-secreted false positives.
+- The choice of rule, ML or hybrid is the owner's. No gate values are set.
+
+Literature rows (19 Onygenales and Eurotiales adhesins, positives only, smoke test): recall 1.00
+for R0, B1, M8, M8-C and H; 0.947 for M35 and M35-C; 0.684 for R2; 0.632 for R1. SOWgp, CspA
+and CBP1 are called by nearly all candidates. R1 and R2 miss CBP1, CTS1, abr2 and aspf2. HSP60
+is missed by all candidates, as expected, since it has no signal peptide.
+
+In the named panel, MSB2, HKR1 and SAP9 are labelled negative and most candidates call them
+positive. This was not analysed.
+
+## 3. What the data cannot show
+
+From the report:
+- Basidiomycota performance. *Cryptococcus* (7 positives) and *Ustilago* (9) are smoke tests.
+  Curated truth does not exist.
+- Performance on GPI-anchored proteins. `curated_gpi.tsv` has no literature rows.
+- Whether SignalP under-calls in *C. immitis*. No truth set tests it.
+- Whole-proteome prevalence of surface proteins. The prevalence table uses assumed values.
+- Variance from refitting the models. The intervals describe test-set sampling only.
+- Pooled S1:all ROC-AUC mixes the score scales of five fold models. The ML threshold and
+  Platt scaling are fitted on out-of-fold predictions and applied to a refitted model. The
+  effect was not measured.
+
+Also, from the fitted-settings table: the C value of every ML candidate is at the lower edge of
+the grid (0.001). Per the owner's decision of 2026-10-02 the grid was widened to 0.0001 and
+0.0003. The report on disk was written before that change, so the ML numbers above come from
+the narrower grid. They have not been re-run.
+
+## 4. Remaining work
+
+1. **Get the Phase A–C code onto `main`.** Open one PR from `step1-features` to `main`.
+2. **Owner decisions:** rule, ML or hybrid for step 1; whether to change the Youden criterion
+   (R2 cannot beat R0 on it); gate values after review; whether to fund curation of GPI and
+   Basidiomycota truth.
+3. Re-run Phase C with the widened C grid, if the owner wants ML numbers from the wider grid.
+4. Train and validate the chosen step 1 model, then ship it with a card (0.2.0).
+5. Orchestrator design spec and independent review.
+6. Step 2 scan wrappers (CFEM, Bys1, hydrophobin) with specificity tests.
+7. Step 3: antigen beyond *Coccidioides*; biofilm (blocked on phenotype data).
+
+Open issues: #9 to #17, #19, #25 and #26. See the issue tracker for the current order.
+
+---
+
+# History: where the tools stood on 2026-09-27
+
+*This section is the earlier text, kept unchanged. It uses the old names (`adhesion_predict`,
+"stage 1", "stage 2") and the old shipped models, which no longer exist.*
 
 *Updated after the Onygenales/Eurotiales curation (§7). The label gap is partly closed;
 the measurement it enabled is the important part.*
