@@ -89,3 +89,19 @@ analysis/cocci_repeats/rs.dmnd
 
 # 15 MB, 644k rows. Regenerable by 37_unit_search.sh (SLURM search). Kept local on purpose, not on GitHub.
 analysis/cocci_repeats/unit_architecture_onygenales.tsv.gz
+
+# Scratch and regenerable downloads (issue #26). Tracked files in these folders stay tracked.
+validate/
+query/
+stage/ncbi_dataset/
+stage/FLO11_*
+stage/scer_proteins.faa*
+stage/negtraining/*.fasta
+stage/negtraining/*.fasta.fai
+stage/negtraining/*.negative.pep
+stage/negtraining/*.positivesearch.FASTA.tab
+stage/negtraining/positive_to_skip.pep
+stage/negtraining/models
+# stage/negtraining/*.sampled_ids.txt is NOT ignored: it records which negatives were drawn.
+# Symlink to an absolute path on shared storage.
+idp_summary.csv.gz
