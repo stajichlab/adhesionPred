@@ -20,7 +20,9 @@ Writes to $STEP1_WORKDIR/phasec/ (mmseqs.log goes to logs/mmseqs.log there, also
   max_identity.tsv.gz   one row per S2/S3 split and test sequence; no hit = below 0.3
   splits_run.json       MMseqs2 version and commands, seed, counts, input hashes
 
-STOP (exit 2, no output): stale 08 outputs; another species.tsv than 08 used; `mmseqs version`
+STOP (exit 2, no output): stale 08 outputs; another species.tsv than 08 used; changed Phase B
+files (the checks of 10: phaseb/features_unique.tsv.gz and unique_sequences.tsv.gz against
+build_run.json, embedding_run.json against build_run.json; before any MMseqs2 call); `mmseqs version`
 fails (exit 132 means an AVX2 build on a CPU without AVX2: run on partition epyc or set
 STEP1_MMSEQS to a non-AVX2 binary); an MMseqs2 command fails; a sequence without a cluster; a
 split that breaks a leakage rule (splits.check_*).
@@ -103,6 +105,20 @@ def read_fasta_gz(path: Path) -> dict[str, str]:
     return seqs
 
 
+def check_phaseb(work: Path, build: dict) -> None:
+    """The two Phase B hash checks of 10_fit_and_score.py run() (final review M-1): 09 stops
+    before MMseqs2 runs, not 10 after a 20-minute 09."""
+    phaseb = Path(work) / "phaseb"
+    for name in ("features_unique.tsv.gz", "unique_sequences.tsv.gz"):
+        if manifest.sha256_file(phaseb / name) != build["input_sha256"][name]:
+            raise evalio.StopError(f"phaseb/{name} changed after 08 read it; re-run 08 to 10")
+    emb_run = evalio.read_json(phaseb / "emb" / "embedding_run.json")
+    if emb_run.get("unique_sequences_sha256") != build["input_sha256"]["unique_sequences.tsv.gz"]:
+        raise evalio.StopError(
+            "embedding_run.json names another unique_sequences.tsv.gz than 08 read"
+        )
+
+
 def run(work: Path, species_path: Path, mmseqs: str, tmp: Path, threads: int, arguments=()):
     """Run in a fresh directory made inside `tmp`; only that directory is removed (never `tmp`)."""
     tmp = Path(tmp)
@@ -124,6 +140,7 @@ def _run(work: Path, species_path: Path, mmseqs: str, tmp: Path, threads: int, a
     )
     if manifest.sha256_file(species_path) != build["input_sha256"]["species.tsv"]:
         raise evalio.StopError(f"{species_path} differs from the species.tsv that 08 used")
+    check_phaseb(work, build)
     version = mmseqs_version(mmseqs)
     # the log lives on /bigdata, not in the temp dir that run() removes, so a STOP can name it
     log_path = out / "logs" / "mmseqs.log"

@@ -469,3 +469,26 @@ def test_avx2_message_names_the_non_avx2_binary(tmp_path, capsys):
     bad.chmod(0o755)
     assert _run09(fx, tmp_path, bad) == 2
     assert "/opt/linux/rocky/8.x/x86_64/pkgs/mmseqs2/17-b804f/bin/mmseqs" in capsys.readouterr().err
+
+
+@pytest.mark.parametrize("change", ["features_unique.tsv.gz", "unique_sequences.tsv.gz", "emb"])
+def test_changed_phaseb_file_stops_09_before_any_mmseqs_call(tmp_path, monkeypatch, capsys, change):
+    # final review M-1: 09 repeats the Phase B hash checks of 10 before MMseqs2 runs
+    fx = _built(tmp_path)
+    phaseb = fx["work"] / "phaseb"
+    if change == "emb":
+        emb = phaseb / "emb" / "embedding_run.json"
+        obj = json.loads(emb.read_text())
+        obj["unique_sequences_sha256"] = "0" * 64
+        emb.write_text(json.dumps(obj))
+        want = "embedding_run.json names another unique_sequences.tsv.gz than 08 read"
+    else:
+        path = phaseb / change
+        path.write_bytes(path.read_bytes() + b"\n")
+        want = f"phaseb/{change} changed after 08 read it; re-run 08 to 10"
+    log_file = tmp_path / "stub.log"
+    monkeypatch.setenv("STUB_MMSEQS_LOG", str(log_file))
+    assert _run09(fx, tmp_path) == 2
+    assert want in capsys.readouterr().err
+    assert not log_file.exists() or log_file.read_text() == ""  # no mmseqs call, not even version
+    assert not (fx["work"] / "phasec" / "splits_run.json").exists()

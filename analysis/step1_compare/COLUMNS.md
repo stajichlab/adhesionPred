@@ -655,6 +655,10 @@ a STOP. It is not a hashed output and no later script reads it.
 
 ## phasec/splits_run.json (09_make_splits.py)
 
+09 stops before any MMseqs2 call when `phaseb/features_unique.tsv.gz` or
+`phaseb/unique_sequences.tsv.gz` differs from `build_run.json` `input_sha256`, or when
+`embedding_run.json` names another `unique_sequences.tsv.gz` (the same checks as 10).
+
 **Keys:**
 
 - `all_sources`
