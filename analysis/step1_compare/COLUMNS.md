@@ -512,3 +512,528 @@ Evaluation scripts must check that `features_run.json` `input_sha256["unique_seq
 - `shape`
 - `dtype`
 - `array_sha256`
+
+# Phase C outputs (evaluation)
+
+Scripts 08 to 12 in `phasec/` write to `$STEP1_WORKDIR/phasec/`. Each run JSON records
+`outputs_sha256` for its other outputs; the next script stops when a file differs from it.
+Tables join on `seq_sha256`. List columns hold sorted unique values, comma separated.
+No Phase C job has been run on the real data; the tests run these scripts on a small fixture.
+
+## phasec/eval_table.tsv.gz (08_build_eval_tables.py, one row per unique sequence)
+
+| Column | Meaning |
+|---|---|
+| seq_sha256 | Hash of the sequence (Phase A `seqhash.seq_sha256`). |
+| origin | `go` (truth genes) or `tc` (keyword tier T-c rows that survive ruling C-6). |
+| class | `pos`, `neg` or `excluded` (`labelmap.class_of`). A hash with a `pos` or `neg` member and an excluded member is `excluded` (ruling C-14). |
+| label | Truth labels of the members (list); `T-c` for T-c rows. |
+| subset | `wall` or `extracellular-only` of the members (list); empty for T-c rows. |
+| stratum | Reporting strata of the members (list, `labelmap.stratum_of`): `wall`, `extracellular-only`, `PM-TM`, `pm-unresolved`, `N-int`, `N-sec`, `ambiguous`; `T-c` for T-c rows. |
+| d8_class | D8 classes of the members (list). |
+| homology_only | `no` when any member has the label without homology codes (direct evidence); `yes` otherwise; empty for T-c rows. |
+| internal_evidence_htp_only | `yes` when any member says so, else `no`; empty for T-c rows. |
+| source_ids | Truth sources of the members (list); `T-c` for T-c rows. |
+| gene_ids | Gene IDs of the members, or the UniProt accessions of the T-c rows (list). |
+| species | Species (truth) or genome (T-c) names (list). |
+| roles | Source roles from `species.tsv` (list); `tc` for T-c rows. |
+| clades | `in_clade` of the sources, or the clade from `phasec/tc_taxon_clades.tsv` (list). |
+| taxon_ids | NCBI taxon IDs (list). |
+| length | Sequence length. |
+| emb_row, emb_cterm_row | As in `features.tsv.gz`. |
+
+## phasec/eval_literature.tsv (08_build_eval_tables.py, one row per literature seed with an accession)
+
+| Column | Meaning |
+|---|---|
+| accession | UniProt accession from `uniprot_query` of `eurotiomycetes_seeds.tsv`. |
+| gene, moonlighting, species, order | From `eurotiomycetes_seeds.tsv`. |
+| lit_class | The seed file's `class` (`adhesin`, `hard_negative`). It describes adhesion, not location. |
+| seq_sha256, length, emb_row, emb_cterm_row | From the `uniprot_kw` member; empty without a sequence. |
+| literature_positive | `yes` when the row has a sequence and `moonlighting` is not `YES` (spec 3.2; `hard_negative` rows count, ruling C-9 amended); else `no`. |
+
+## phasec/eval_dedupe_log.tsv (08_build_eval_tables.py, one row per dropped or reclassified member)
+
+| Column | Meaning |
+|---|---|
+| origin | `go` or `tc`. |
+| source_id, gene_id | Truth source and gene, or `T-c` and the accession. |
+| seq_sha256 | Hash of the member. |
+| class | Class of the member. |
+| reason | `both_classes` (hash dropped), `class_and_excluded` (row becomes excluded), `go_label_wins` (T-c row dropped, ruling C-6). |
+| detail | The classes of the GO members with this hash. |
+
+## phasec/eval_sequences.fasta.gz (08_build_eval_tables.py)
+
+One record per hash of `eval_table.tsv.gz` and `eval_literature.tsv`, sorted by hash. The header
+is the `seq_sha256`. The MMseqs2 input of 09.
+
+## phasec/build_run.json (08_build_eval_tables.py)
+
+**Keys:**
+
+- `all_sources` `true` (08 stops otherwise)
+- `truth_set_sha256` shared by `d8_run.json`, `features_run.json`, `keyword_tier_run.json`
+- `input_sha256` see below
+- `go_members_by_source_class` GO members per source and class, before dedupe
+- `labelled_genes_without_sequence` per source
+- `table_rows_by_origin_class` key `<origin>:<class>`
+- `log_rows_by_reason`
+- `tc_rows` rows of `keyword_tier.tsv.gz`
+- `tc_rows_dropped_by_go_class` T-c rows dropped by ruling C-6, by the classes of the GO members
+- `go_members_sharing_a_tc_hash` key `<class>:<label>:<d8_class>`
+- `literature_rows`
+- `literature_positives`
+- `literature_no_accession` seed genes without an accession
+- `sequences` records in `eval_sequences.fasta.gz`
+- `git_commit`
+- `library_versions` Python, numpy, scipy, scikit-learn
+- `arguments`
+- `outputs_sha256` see below
+
+**Keys of `input_sha256`:**
+
+- `truth_set_triaged.tsv.gz`
+- `features.tsv.gz`
+- `features_unique.tsv.gz`
+- `unique_sequences.tsv.gz`
+- `keyword_tier.tsv.gz`
+- `species.tsv`
+- `eurotiomycetes_seeds.tsv`
+- `tc_taxon_clades.tsv`
+
+**Keys of `outputs_sha256`:**
+
+- `eval_table.tsv.gz`
+- `eval_literature.tsv`
+- `eval_dedupe_log.tsv`
+- `eval_sequences.fasta.gz`
+
+## phasec/clusters.tsv.gz (09_make_splits.py, one row per sequence)
+
+| Column | Meaning |
+|---|---|
+| seq_sha256 | Hash of a sequence of `eval_sequences.fasta.gz`. |
+| cluster_id | Hash of the MMseqs2 cluster representative (`easy-cluster --min-seq-id 0.3 -c 0.5 --cov-mode 0`). |
+
+## phasec/split_members.tsv.gz (09_make_splits.py, one row per split, fold, sequence and part)
+
+A sequence can have two rows in one split with different parts (for example `test` and `test_lit`).
+
+| Column | Meaning |
+|---|---|
+| split_id | `S1`, `S2-<source>`, `S3-<clade>` or `FULL` (`splits.py`). |
+| fold | S1 fold 0 to 4; `0` for the other splits. |
+| seq_sha256 | Hash of the sequence. |
+| part | `train`, `train_tc` (V-kw only), `test`, `test_tc` (S1, scored, never truth), `test_lit`. |
+| origin | `go`, `tc` or `lit`. |
+| class | `pos`, `neg` or `excluded`. |
+| cluster_id | As in `clusters.tsv.gz`. |
+
+## phasec/tc_removed.tsv (09_make_splits.py, one row per T-c row removed from a split)
+
+| Column | Meaning |
+|---|---|
+| split_id, fold | As in `split_members.tsv.gz`. |
+| seq_sha256 | Hash of the T-c row. |
+| gene_ids, taxon_ids | As in `eval_table.tsv.gz`. |
+| rule | `a_test_protein`, `b_cluster_mate` (ruling C-5), `c_test_taxon` (ruling C-7). |
+
+## phasec/max_identity.tsv.gz (09_make_splits.py, one row per S2 or S3 split and test sequence)
+
+| Column | Meaning |
+|---|---|
+| split_id | An S2 or S3 split. |
+| seq_sha256 | A test or literature sequence. |
+| max_identity | Highest `fident` against the GO training proteins of the split (`easy-search -s 7.5 -c 0.5 --cov-mode 0`); empty when there is no hit. Self hits are skipped. |
+| below_0.3 | `yes` when there is no hit or the identity is below 0.3 (ruling C-4). |
+
+## phasec/logs/mmseqs.log (09_make_splits.py)
+
+The output of the MMseqs2 calls. 09 writes it to `phasec/logs/` (on shared storage), also after
+a STOP. It is not a hashed output and no later script reads it.
+
+## phasec/splits_run.json (09_make_splits.py)
+
+09 stops before any MMseqs2 call when `phaseb/features_unique.tsv.gz` or
+`phaseb/unique_sequences.tsv.gz` differs from `build_run.json` `input_sha256`, or when
+`embedding_run.json` names another `unique_sequences.tsv.gz` (the same checks as 10).
+
+**Keys:**
+
+- `all_sources`
+- `truth_set_sha256`
+- `input_sha256` see below
+- `mmseqs_version` output of `mmseqs version`
+- `mmseqs_commands` the two MMseqs2 commands without paths and threads
+- `cluster_tsv_sha256` the raw MMseqs2 cluster table
+- `seed` 20261001
+- `sequences`
+- `clusters`
+- `splits` split ids in order
+- `members_by_split_fold_part` key `<split>|<fold>|<part>`
+- `tc_removed_by_split_fold_rule` key `<split>|<fold>|<rule>`
+- `identity_below_0.3_by_split`
+- `git_commit`
+- `library_versions`
+- `arguments`
+- `outputs_sha256` see below
+
+**Keys of `input_sha256`:**
+
+- `eval_table.tsv.gz`
+- `eval_literature.tsv`
+- `eval_sequences.fasta.gz`
+- `species.tsv`
+
+**Keys of `outputs_sha256`:**
+
+- `clusters.tsv.gz`
+- `split_members.tsv.gz`
+- `tc_removed.tsv`
+- `max_identity.tsv.gz`
+
+## phasec/scores.tsv.gz (10_fit_and_score.py, one row per unit, candidate and scored sequence)
+
+A sequence that is in two scored parts of one unit is scored once. Its `part` lists the parts,
+sorted and comma joined (for example `test,test_lit`).
+
+| Column | Meaning |
+|---|---|
+| split_id, fold | The outer training set (unit). |
+| variant | `V-go` or `V-kw`. |
+| candidate | `B0` (log length), `B1` (amino-acid composition and log length), `R0`, `R1`, `R2`, `M8`, `M35`, `M8-C`, `M35-C`, `H`. |
+| seq_sha256 | The scored sequence. |
+| part | Its part in the split; `all` for FULL (every Phase B unique sequence). |
+| score | Logistic-regression decision value; empty for rules. |
+| prob | Platt probability (ruling C-10); empty for rules. |
+| call | `1` when score >= the unit's threshold (Youden's J), or the rule call; else `0`. |
+
+## phasec/scores_run.json (10_fit_and_score.py)
+
+10 stops when a file that `build_run.json` or `splits_run.json` lists differs from its recorded
+hash, or when `splits_run.json` `input_sha256` differs from `build_run.json` `outputs_sha256`
+(the hash chain 08, 09, 10).
+
+**Keys:**
+
+- `all_sources`
+- `truth_set_sha256`
+- `input_sha256` see below
+- `embedding_array_sha256` key `<model>.<window>`
+- `seed` 20261001
+- `candidates`
+- `c_grid` values of C tried: 0.001, 0.003, 0.01, 0.1, 1, 10 (ruling C-12)
+- `inner_folds`
+- `units` key `<split>|<fold>|<variant>`, one object per candidate
+- `git_commit`
+- `library_versions`
+- `arguments`
+- `outputs_sha256` see below
+
+**Keys of `input_sha256`:**
+
+- `split_members.tsv.gz`
+- `clusters.tsv.gz`
+- `features_unique.tsv.gz`
+- `unique_sequences.tsv.gz`
+
+**Keys of `outputs_sha256`:**
+
+- `scores.tsv.gz`
+
+**Keys of a rule object in `units`:**
+
+- `n_train`
+- `n_train_pos`
+- `g` PredGPI class cut (null for R0)
+- `t` Ser+Thr cut, 0.20 to 0.40 in steps of 0.05 (null for R0 and R1)
+- `j` Youden's J on the training rows
+- `rule_grid` Youden's J on the training rows (no test data) for every grid cell: R1 `{g: J}` (3 numbers), R2 `{g: {t: J}}` with t keys `0.20` to `0.40` (15 numbers); null for R0
+
+`rule_grid` (final review I-2) shows how J changes over the grid. The fitted cell is the cell
+with the highest J (ties: the stricter cell). R2 calls a subset of the proteins that R0 calls,
+so its recall and FPR cannot exceed those of R0 on the same rows; its J can.
+
+**Keys of a logistic-regression object in `units`:**
+
+- `n_train`
+- `n_train_pos`
+- `C`
+- `h_variant` the ESM variant of H; null for the other candidates
+- `threshold` decision value cut (Youden's J on the inner out-of-fold values)
+- `platt_a`
+- `platt_b`
+- `inner_pr_auc` inner out-of-fold PR-AUC per setting (key `<C>`, or `<variant>:<C>` for H)
+- `convergence_warnings`
+
+## phasec/metrics.json (11_evaluate.py)
+
+Values are objects `{value, lo, hi, n_defined}`: the point value, the 2.5th and 97.5th
+percentiles over the resamples where the metric is defined, and their number. The default is
+2,000 cluster-bootstrap resamples. `null` means not defined (for example recall without
+positives). A truth block without negatives (the literature set) has `null` precision, PR-AUC,
+precision at recall and precision at the rule's recall (spec 3.2: recall only). A stratum
+without positives or without negatives has `null` for the metrics that need them.
+
+**Keys:**
+
+- `schema` `step1-phasec-metrics/1`
+- `settings` resamples, seed, cut-offs, candidates, variants; see below
+- `test_sets` key = test set name, see below
+- `agreement` R2 against each ML candidate per proteome set and per truth class; see below
+- `score_sources` per proteome set: counts of `oof`, `in_sample`, `final`
+- `named_panel` one object per panel protein (parent spec section 6); see below
+- `context` T-c rows of C. immitis and C. posadasii in V-kw training, per split and fold; see below
+- `tc_removed` as `tc_removed_by_split_fold_rule` in `splits_run.json`
+- `fitted_settings` key `<split>|<fold>|<variant>` (the keys of `units` in `scores_run.json`), one object per candidate; see below
+- `grid_edge_counts` per grid parameter: `at_edge` (fitted values at the first or last grid value) and `n` (fitted values); see below
+
+**Keys of `settings`:**
+
+- `calibration_bins`
+- `candidates`
+- `ci_level`
+- `estimate_half_width` recall half-width limit of the label `estimate` (ruling C-8)
+- `estimate_min_direct_positives` count floor of 20 direct-evidence positives (ruling C-8)
+- `fpr_level`
+- `identity_cutoff`
+- `long_cutoff`
+- `n_resamples`
+- `prevalences`
+- `recall_levels`
+- `saturation_auc`
+- `seed` 20261001
+- `variants`
+
+**Keys of a test set object:**
+
+- `split`
+- `kind` `pooled`, `species`, `clade` or `literature`
+- `truth` key `direct` or `all`, see below
+- `recall_half_width` per label candidate (R2 and ML; V-go; direct truth)
+- `fpr_half_width`
+- `n_direct_positives` positives of the direct truth (stratum `all`)
+- `floor_met` `true` when `n_direct_positives` is at least 20 (ruling C-8)
+- `label` `estimate` (every recall half-width at most 0.10 and `floor_met`) or `smoke test` (ruling C-8)
+- `max_recall_half_width`
+- `max_fpr_half_width`
+- `zero_width_recall_interval` label candidates whose recall interval has lo equal to hi
+- `ambiguous` score distribution of the ambiguous genes
+- `ambiguous_htp_only` the same for the high-throughput-only sub-stratum
+- `lists` `pm-unresolved` and `P-gpi` genes with their calls
+- `calibration` S2 test sets only: Brier score and 10 reliability bins per ML candidate
+
+**Keys of a truth object:**
+
+- `n` positives and negatives per stratum
+- `metrics` per stratum, variant and candidate
+- `variant_effect` V-kw minus V-go per stratum, candidate and metric (paired)
+- `vs_rule` precision at the recall of R2 and recall at the FPR of R2 per ML candidate
+- `prevalence` precision at assumed prevalence 0.01, 0.03, 0.05, 0.1 (assumed, not measured)
+- `nsec_fpr_at_rule_recall` N-sec FPR at the recall of R2 and the paired differences
+
+**Strata (keys of `n` and of `metrics` of a truth object; `STRATA` in `11_evaluate.py`):**
+
+- `all` every row of the truth
+- `wall` positives with subset `wall` (positives only)
+- `extracellular-only` positives with subset `extracellular-only` (positives only)
+- `N-int` negatives of stratum `N-int` (negatives only)
+- `N-sec` negatives of stratum `N-sec` (negatives only)
+- `PM-TM` negatives of stratum `PM-TM` (negatives only)
+- `long` proteins longer than `long_cutoff` (1,022 aa)
+- `identity_below_0.3` proteins whose maximum identity to the GO training proteins is below 0.3
+
+Every test set has the first seven strata. `identity_below_0.3` exists only for the S2 and S3
+test sets (also `S3-Eurotiomycetes:literature`), because 09 writes `max_identity.tsv.gz` rows
+for S2 and S3 splits only; the S1 test sets do not have it.
+
+**Keys of `context`:**
+
+- `onygenales_tc_rows_in_vkw_training` key `<split>|<fold>`: number of T-c rows with taxon 246410 (C. immitis RS) or 443226 (C. posadasii) in the V-kw training of that unit; a unit without such rows is absent
+
+**Keys of a rule object in `fitted_settings`:**
+
+- `n_train`
+- `n_train_pos`
+- `g`
+- `t`
+- `j`
+- `at_grid_edge`
+
+**Keys of a logistic-regression object in `fitted_settings`:**
+
+- `n_train`
+- `n_train_pos`
+- `C`
+- `h_variant`
+- `threshold`
+- `platt_a`
+- `platt_b`
+- `inner_pr_auc`
+- `convergence_warnings`
+- `at_grid_edge`
+
+The values are those of the unit object in `scores_run.json` (its `rule_grid` is not copied).
+
+**Keys of `at_grid_edge` (only the parameters that are not null for the candidate):**
+
+- `C` `true` when C is 0.001 or 10 (the ends of `c_grid`)
+- `g` `true` when g is `highly_probable` or `weakly` (the ends of the g grid)
+- `t` `true` when t is 0.2 or 0.4 (the ends of the t grid)
+
+**Keys of `grid_edge_counts`:**
+
+- `C`
+- `g`
+- `t`
+
+**Keys of `agreement`:**
+
+- `proteomes` per proteome set, variant and ML candidate: agreement counts with R2
+- `truth` per class (`pos`, `neg`), variant and ML candidate: agreement counts with R2
+- `score_source_counts` counts of `oof`, `in_sample`, `final` for `proteomes` and `truth`
+
+**Keys of a named panel object:**
+
+- `name`
+- `id`
+- `why`
+- `found` `true` when the protein is in a proteome set
+
+**Keys added when `found` is `true`:**
+
+- `seq_sha256`
+- `set_ids`
+- `class`
+- `label`
+- `stratum`
+- `literature_class`
+- `score_source`
+- `calls` key `<candidate>|<variant>`
+- `scores` key `<candidate>|<variant>`
+
+## phasec/findings.json (11_evaluate.py)
+
+11 stops unless exactly 3 S2 test sets exist (`findings.N_S2`); finding (c) records `n_s2` and
+`expected_s2`.
+
+**Keys:**
+
+- `schema` `step1-phasec-findings/1`
+- `a_b1_not_saturated` B1 ROC-AUC below 0.99 on S1:all and every S2 test set (direct, V-go); see below
+- `b_ml_beats_b1_and_r2_on_nsec_s1` per ML candidate: B1 and R2 N-sec FPR minus the ML N-sec FPR at the recall of R2, interval above 0; see below
+- `c_same_under_s2` the statement of (b) on every S2 test set; see below
+
+**Keys of `a_b1_not_saturated`:**
+
+- `threshold`
+- `b1_roc_auc` per test set
+- `holds`
+
+**Keys of `b_ml_beats_b1_and_r2_on_nsec_s1`:**
+
+- `test_set` `S1:all`
+- `candidates` one object per ML candidate, see below
+- `holds_for` the ML candidates whose `holds` is `true`
+- `n_resamples` the number of bootstrap resamples
+- `min_defined_fraction` 0.95: a difference counts only when it is defined in at least this fraction of `n_resamples` (final review M-3)
+
+**Keys of a candidate object in `b_ml_beats_b1_and_r2_on_nsec_s1`:**
+
+- `B1` the difference as `{value, lo, hi, n_defined}`
+- `R2` the same
+- `n_defined` `{B1: n, R2: n}`: the resamples in which each difference is defined
+- `beats_B1` `true` when `lo` of `B1` is above 0 and `n_defined` of `B1` is at least `min_defined_fraction` x `n_resamples`
+- `beats_R2` the same for `R2`
+- `holds` both `true`
+
+**Keys of `c_same_under_s2`:**
+
+- `test_sets` one object of the form of (b) per S2 test set
+- `n_s2` the number of S2 test sets found
+- `expected_s2` 3 S2 test sets
+- `holds_for` ML candidates in `holds_for` of every S2 test set (empty unless `n_s2` equals `expected_s2`)
+
+## phasec/proteome_calls.tsv.gz (11_evaluate.py, one row per protein of every proteome set)
+
+| Column | Meaning |
+|---|---|
+| set_id, source_id, gene_id, seq_sha256 | As in `sequence_members.tsv.gz`; sets with kind `download` or `site` in `sequence_sets.tsv`. |
+| class, label, origin | From `eval_table.tsv.gz` when the hash is there; else empty. |
+| score_source | `oof` (hash in an S1 fold), `in_sample` (in a FULL training table but in no S1 fold), `final` (in no training table). |
+| call_<candidate>_<variant> | `1` or `0`. |
+| score_<candidate>_<variant> | Decision value; empty for rules. |
+
+## phasec/evaluate_run.json (11_evaluate.py)
+
+11 stops when a file that `build_run.json`, `splits_run.json` or `scores_run.json` lists differs
+from its recorded hash, or when the hash chain 08, 09 (`input_sha256` against `outputs_sha256`)
+or 09, 10 is broken.
+
+**Keys:**
+
+- `all_sources`
+- `truth_set_sha256`
+- `input_sha256` see below
+- `seed` 20261001
+- `n_resamples`
+- `git_commit`
+- `library_versions`
+- `arguments`
+- `outputs_sha256` see below
+
+**Keys of `input_sha256`:**
+
+- `scores.tsv.gz`
+- `split_members.tsv.gz`
+- `clusters.tsv.gz`
+- `max_identity.tsv.gz`
+- `eval_table.tsv.gz`
+- `eval_literature.tsv`
+- `sequence_members.tsv.gz`
+- `sequence_sets.tsv`
+- `species.tsv`
+
+**Keys of `outputs_sha256`:**
+
+- `metrics.json`
+- `findings.json`
+- `proteome_calls.tsv.gz`
+
+## phasec/report.md (12_report.py)
+
+The owner's report. Every number in it is a value of `metrics.json` or `findings.json`.
+12 checks this before it writes. The check is a guard against typing errors and has cell-level
+tests; it cannot detect a value that comes from another cell. The report has a decision table of
+all candidates per test set, a glossary, fixed caveat lines, the finding tables and the table
+`Fitted settings per unit` with a line that counts the settings at a grid edge; it prints `n/a`
+for a `null` value. A finding-table interval that rests on fewer resamples than `n_resamples`
+shows `(n_defined k of B)`.
+
+## phasec/report_run.json (12_report.py)
+
+**Keys:**
+
+- `all_sources`
+- `truth_set_sha256`
+- `input_sha256` see below
+- `git_commit`
+- `library_versions`
+- `arguments`
+- `outputs_sha256` see below
+
+**Keys of `input_sha256`:**
+
+- `metrics.json`
+- `findings.json`
+
+**Keys of `outputs_sha256`:**
+
+- `report.md`
+
+## phasec/logs/wall.<job>.txt (phasec/c1_evaluate.sh)
+
+Two kinds of line per step of job C1: `C1 step <step> start seconds=<seconds>` before the step
+and `C1 step <step> wall_seconds=<seconds>` after it. A step that the time limit kills has a
+`start` line and no `wall_seconds` line. The file is copied on every exit of the job.

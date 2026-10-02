@@ -306,3 +306,76 @@ J2 needs two more arguments (see "Rules for the jobs").
   and the array width equals the model width (320 for `esm2_t6_8M_UR50D`, 480 for
   `esm2_t12_35M_UR50D`; `jobs/embed_constants.py`). The assembly applies the same checks.
 - Evaluation scripts must check that `features_run.json` `input_sha256["unique_sequences.tsv.gz"]` equals `embedding_run.json` `unique_sequences_sha256`.
+
+## Phase C: rule versus ML evaluation (E1 to E4)
+
+The spec is `docs/superpowers/specs/2026-10-01-step1-phase-c-evaluation-design.md`; the plan is
+`docs/superpowers/plans/2026-10-01-step1-phase-c-evaluation.md`. `COLUMNS.md` lists every
+Phase C output. All Phase C outputs go to `$STEP1_WORKDIR/phasec/`.
+No Phase C job has been run on the real data. The tests run the scripts on a small fixture with
+a stub MMseqs2.
+
+| Step | Where | Command | Output |
+|---|---|---|---|
+| 08 | login node | `$ENV_PY phasec/08_build_eval_tables.py` | `eval_table.tsv.gz`, `eval_sequences.fasta.gz` |
+| C1 | epyc CPU | `sbatch ... phasec/c1_evaluate.sh` | 09: `split_members.tsv.gz`; 10: `scores.tsv.gz`; 11: `metrics.json`, `findings.json`, `proteome_calls.tsv.gz` |
+| 12 | login node | `$ENV_PY phasec/12_report.py` | `report.md` |
+
+```bash
+export PROJ_ROOT=/bigdata/stajichlab/jstajich/projects/adhesionPred
+export STEP1_WORKDIR=/bigdata/stajichlab/jstajich/projects/adhesionPred/_workdir/step1_compare
+ENV_PY=/rhome/jstajich/.conda/envs/adhesionPred/bin/python
+S1=$PROJ_ROOT/analysis/step1_compare
+export PYTHONPATH=$PROJ_ROOT/src:$S1:$S1/phasec
+$ENV_PY "$S1/phasec/08_build_eval_tables.py"
+sbatch --export=ALL,PROJ_ROOT="$PROJ_ROOT",STEP1_WORKDIR="$STEP1_WORKDIR" \
+  -o "$STEP1_WORKDIR/logs/c1.%j.log" -e "$STEP1_WORKDIR/logs/c1.%j.log" "$S1/phasec/c1_evaluate.sh"
+$ENV_PY "$S1/phasec/12_report.py"
+```
+
+- The `phasec/` scripts run with the conda env Python and
+  `PYTHONPATH=$PROJ_ROOT/src:$PROJ_ROOT/analysis/step1_compare:$PROJ_ROOT/analysis/step1_compare/phasec`.
+  They may import numpy, scipy and scikit-learn; `test_phasec_imports_only_allowed` checks
+  this. The top-level modules stay standard library only.
+- 08 checks the Phase B hash chain: `features_run.json`
+  `input_sha256["unique_sequences.tsv.gz"]` must equal `embedding_run.json`
+  `unique_sequences_sha256` and the current file.
+- Every script checks the hashes of the files that the earlier scripts wrote (08, then 09, then
+  10, then 11, then 12). A changed file stops the next script. Re-run the scripts in order.
+  09 also makes the Phase B checks of 10 (`phaseb/features_unique.tsv.gz`,
+  `phaseb/unique_sequences.tsv.gz` and `embedding_run.json` against `build_run.json`) before
+  MMseqs2 runs. So a Phase B file that changed after 08 stops C1 before step 09, which took
+  21 to 25 minutes in the reviews.
+- A STOP leaves the previous outputs in place. After a STOP in 08, do not submit C1. The
+  exception is 12: a STOP in 12 removes its older `report.md` and `report_run.json`.
+- Every T-c `taxon_id` needs a row in `phasec/tc_taxon_clades.tsv`. Add the clade (or
+  `other`) when `keyword_tier.tsv.gz` gains a taxon.
+- `module load MMseqs2/17-b804f` puts an AVX2 build on PATH. It stops with "Illegal
+  instruction" (exit 132) on CPUs without AVX2, for example the abu_dhabi nodes (c01). C1 runs
+  on partition epyc. On another node set `STEP1_MMSEQS` to
+  `/opt/linux/rocky/8.x/x86_64/pkgs/mmseqs2/17-b804f/bin/mmseqs` (no AVX2 needed).
+- A job that runs an AVX2 tool must request a node feature that has AVX2 (--constraint=ryzen on
+  partition epyc). The rule covers the scripts that run MMseqs2: `phasec/c1_evaluate.sh` and
+  `phasec/09_cluster_and_split.sh`. The Phase B jobs (`jobs/j0_pilot.sh`, `jobs/j1_features.sh`,
+  `jobs/j2_embed.sh`) run on exfab GPU nodes and use no MMseqs2, so the rule does not cover
+  them. `test_avx2_tools_have_a_cpu_constraint` checks every `*.sh` file.
+- `phasec/c1_evaluate.sh` requests partition epyc, `--constraint=ryzen`, `-c 16`, `--mem=32G`
+  and `--time=4:00:00`. These values are review estimates, not measurements. The first run is a
+  pilot. Size later runs from its `wall_seconds` lines.
+- Memory of C1: step 10 runs one worker process per CPU, and each worker loads the universe.
+  Reviewers measured 0.40 GB peak per worker for the universe load on the real Phase B data,
+  and 0.78 GB peak for one full fit_unit on synthetic data (1 BLAS thread). The upper bound is
+  (16 + 1) x 0.78 GB = 13.3 GB. `--mem=32G` is a margin above this bound. The memory is not
+  measured on the C1 job itself.
+- The timings from the reviews are in the comments at the top of `phasec/c1_evaluate.sh`.
+- `phasec/09_cluster_and_split.sh` has its own `#SBATCH` lines: partition epyc,
+  `--constraint=ryzen`, `-c 2`, `--mem=16G` and `--time=2:00:00`. They are used only if 09 is
+  submitted alone; inside C1 the values of `c1_evaluate.sh` apply.
+- C1 prints `C1 step <step> wall_seconds=<seconds>` per step and copies these lines to
+  `phasec/logs/` on every exit, also after a failed step. `C1_STEPS` (default `09 10 11`) runs
+  a subset of the steps. Step 11 runs one process with one BLAS thread.
+- 09 writes the MMseqs2 output to `phasec/logs/mmseqs.log`. It never deletes a directory that you
+  give with `--tmp-dir`; it works in a new subdirectory and removes only that.
+- Phase C tests need numpy and scikit-learn:
+  `PYTHONPATH=src $ENV_PY -m pytest tests/step1_compare -q`. A Python without these libraries
+  skips those test files.
