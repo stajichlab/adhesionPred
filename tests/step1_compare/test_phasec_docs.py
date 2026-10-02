@@ -175,6 +175,17 @@ def test_fitted_settings_keys_equal_the_code(phasec_chain):
             assert set(e) == (rule if c in ("R0", "R1", "R2") else lr), (unit, c)
             src = {k: v for k, v in units[unit][c].items() if k != "rule_grid"}
             assert {k: v for k, v in e.items() if k != "at_grid_edge"} == src, (unit, c)
+    # each flag from the grid constants, not from 11's GRID_EDGES
+    import models
+    import rules
+
+    ends = {"C": {models.C_GRID[0], models.C_GRID[-1]},
+            "g": {rules.G_VALUES[0], rules.G_VALUES[-1]},
+            "t": {rules.T_VALUES[0], rules.T_VALUES[-1]}}  # fmt: skip
+    for per in fs.values():
+        for e in per.values():
+            want = {k: e[k] in v for k, v in ends.items() if e.get(k) is not None}
+            assert e["at_grid_edge"] == want
     edge = {k for per in fs.values() for e in per.values() for k in e["at_grid_edge"]}
     marker = "**Keys of `at_grid_edge` (only the parameters that are not null for the candidate):**"
     assert key_names(heading, marker) == edge

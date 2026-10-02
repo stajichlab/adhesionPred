@@ -592,3 +592,45 @@ def test_agreement_records_score_source_counts(phasec_chain):
         n = sum(1 for r in table if r["origin"] == "go" and r["class"] == cls)
         assert sum(counts["truth"][cls].values()) == n
         assert counts["truth"][cls].get("oof", 0) > 0 and "in_sample" not in counts["truth"][cls]
+
+
+def test_fitted_settings_flags_both_grid_ends_and_counts_them():
+    # final review I-1, I-3: hand-built units with first, last and interior grid values
+    import models
+    import rules
+
+    ev = load_phasec("11_evaluate")
+    lr = {"n_train": 9, "n_train_pos": 3, "h_variant": None, "threshold": 0.1, "platt_a": 1.0,
+          "platt_b": 0.0, "inner_pr_auc": {}, "convergence_warnings": 0}  # fmt: skip
+    units = {
+        "S1|0|V-go": {
+            "M8": {**lr, "C": models.C_GRID[0]},
+            "M35": {**lr, "C": models.C_GRID[-1]},
+            "B1": {**lr, "C": models.C_GRID[2]},
+            "R0": {"n_train": 9, "n_train_pos": 3, "g": None, "t": None, "j": 0.1, "rule_grid": None},
+            "R1": {"n_train": 9, "n_train_pos": 3, "g": rules.G_VALUES[1], "t": None, "j": 0.1,
+                   "rule_grid": {}},
+            "R2": {"n_train": 9, "n_train_pos": 3, "g": rules.G_VALUES[-1], "t": rules.T_VALUES[0],
+                   "j": 0.1, "rule_grid": {}},
+        },
+        "S1|1|V-go": {
+            "R2": {"n_train": 9, "n_train_pos": 3, "g": rules.G_VALUES[0], "t": rules.T_VALUES[2],
+                   "j": 0.1, "rule_grid": {}},
+            "R1": {"n_train": 9, "n_train_pos": 3, "g": rules.G_VALUES[0], "t": None, "j": 0.1,
+                   "rule_grid": {}},
+            "M8": {**lr, "C": models.C_GRID[3]},
+            "H": {**lr, "C": models.C_GRID[-1], "h_variant": "M35"},
+        },
+    }  # fmt: skip
+    fs, counts = ev.fitted_settings(units)
+    u0, u1 = fs["S1|0|V-go"], fs["S1|1|V-go"]
+    assert u0["M8"]["at_grid_edge"] == {"C": True} and u0["M35"]["at_grid_edge"] == {"C": True}
+    assert u0["B1"]["at_grid_edge"] == {"C": False} and u1["M8"]["at_grid_edge"] == {"C": False}
+    assert u0["R0"]["at_grid_edge"] == {} and u0["R1"]["at_grid_edge"] == {"g": False}
+    assert u0["R2"]["at_grid_edge"] == {"g": True, "t": True}
+    assert u1["R2"]["at_grid_edge"] == {"g": True, "t": False}
+    assert u1["R1"]["at_grid_edge"] == {"g": True}
+    assert u1["H"]["at_grid_edge"] == {"C": True} and u1["H"]["h_variant"] == "M35"
+    assert "rule_grid" not in u0["R2"] and u0["R2"]["j"] == 0.1
+    assert counts == {"C": {"at_edge": 3, "n": 5}, "g": {"at_edge": 3, "n": 4},
+                      "t": {"at_edge": 1, "n": 2}}  # fmt: skip
