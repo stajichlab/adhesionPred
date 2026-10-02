@@ -1,0 +1,4 @@
+NAME  ARB_05178
+ACC   PF28404.1
+GA    27.00 27.00
+09e658a62a54e9153c44d100c4dacb0ed891be20d125df95419cb674f94f2e45  /bigdata/stajichlab/jstajich/projects/adhesionPred/_workdir/pf28404_family/pf28404.hmm
