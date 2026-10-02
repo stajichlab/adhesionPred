@@ -28,8 +28,10 @@ posadasii* Silveira, 220 aa, v6).
     run time 32 s.
   - job 29341773: step 06 (pairwise TM-align, prefilter disabled), run time 1 s by `sacct`.
 - Step 05 was run on the login node to build the tables.
-- The UniProt FASTA fetch for E9CRM7 returned no file. The sequence in this report comes from
-  the AlphaFold mmCIF. This does not affect the structural results.
+- The UniProt FASTA fetch for E9CRM7 returned no file. The entry E9CRM7 is inactive in UniProt
+  (deleted: "Not part of a reference proteome"). Its sequence is kept in UniParc as UPI0001A7D0B4.
+  That 220 aa sequence is identical to the residue list of the AlphaFold mmCIF (checked
+  2026-10-02). The AlphaFold model is therefore a model of a real, current sequence.
 
 ## Confidence profile
 
@@ -168,3 +170,60 @@ run: Ag2_PRA to 4Y7S 0.807 / 0.77, PRA2 0.799 / 0.76, Ag2 0.797 / 0.76, CalA to 
   `plddt_per_residue.tsv`, `confidence_summary.tsv`, `foldseek/*.tsv`, `logs/`).
 - Command line used for the tables:
   `05_summarize.py --workdir _workdir/class2b_pra3_fulllength --candidates analysis/class2b_pra3_fulllength/candidates_fulllength.tsv`
+
+## Follow-up (2026-10-02, later): AlphaFold DB search, disulfide pairing, ARB_05178
+
+Questions from the first report: does a search against AlphaFold DB find anything, and does the
+core keep a consistent disulfide pattern? Scripts: `analysis/class2b_pra3_fulllength/05_afdb_search.sh`
+and `candidates_d4ali1.tsv`.
+
+### Disulfide pairing in the model
+
+All 12 Cys of E9CRM7 pair up. Six SG-SG contacts are 1.99 to 2.04 A: 43-56, 52-69, 63-78, 79-91,
+85-96 and 97-106 (pLDDT of the Cys 67 to 97). Every Cys has exactly one partner within 3.0 A.
+This is a property of the prediction. It shows that a full set of six disulfides fits the model.
+It is not experimental evidence of disulfide bonds.
+
+### Search against AlphaFold DB Swiss-Prot (v6)
+
+Foldseek 9-427df8a, 3Di+AA and TM-align modes, query = core (67 aa) and full model. Controls ran in
+the same job.
+
+| Query | Best hit | qTM | LDDT | E-value |
+|---|---|---|---|---|
+| PRA3 core (E9CRM7) | D4ALI1, *T. benhamiae* ARB_05178 | 0.74 (3Di), 0.82 (TM-align) | 0.74, 0.76 | 3e-4 |
+| PRA3 core, next hit | P28799 human progranulin | 0.44 | 0.48 | 5.3 |
+| PRA3 full model | none above E 6 (human and mouse proteins) | 0.09 to 0.11 | 0.57 to 0.59 | 6.6 to 9.6 |
+| Ag2/PRA core (CFEM control) | D4B2Q8, Q4WMA6 | 0.97 | 0.95 | 4e-6 to 2e-5 |
+| RodA core (hydrophobin control) | RodA itself and *Penicillium* hydrophobins | 0.98 to 0.99 | 0.96 to 0.98 | 1e-9 to 3e-11 |
+
+- D4ALI1 is the founding member of Pfam family PF28404 (see
+  `docs/reports/2026-10-02-pf28404-family.md`). It is an uncharacterised secreted protein
+  (Swiss-Prot A5178_ARTBC). So the one good hit of the PRA3 core is a member of the same family.
+  The structure result agrees with the sequence result. It does not give PRA3 a fold or a function.
+- Both controls find their families at LDDT 0.95 or higher, so the search works.
+- The full model finds no structural neighbour. About two thirds of it is low-confidence
+  (residues 121 to 220 are Pro/Thr/Glu rich).
+
+### The ARB_05178 core as a second query
+
+AlphaFold model of D4ALI1: 210 aa, mean pLDDT 61.2. Confident core 70 aa (residues 22-26, 51-72,
+74-116). It is as low-confidence as PRA3.
+
+- Swiss-Prot AFDB: itself only (qTM 1.0). Next hits are progranulin entries: P28797 (guinea pig,
+  qTM 0.56 in TM-align mode, LDDT 0.53, E 0.3) and P28799-3 (human, qTM 0.48, LDDT 0.50, E 2.2).
+  The PRA3 core also hit human progranulin P28799 (qTM 0.44, LDDT 0.48, E 5.3).
+- pdb100: no hit above query TM 0.26 in 3Di mode, no TM-align hit.
+- Reading: both PF28404 cores give weak hits to progranulin, which contains Cys-rich granulin
+  domains. These hits are below the LDDT 0.7 level of the genuine relationships in this survey.
+  Cys-rich small domains often match each other in structure search without a common origin. It is
+  not evidence of homology.
+
+### What was not done
+
+- The large AlphaFold DB search (UniProt50-minimal, a 114 GB download) was not run. The download
+  was stopped after the Swiss-Prot result. The reasons: the one good hit is the family founder, the
+  cores are small and low-confidence, and the sequence search already finds the family members. It
+  can be run later if a hit outside the family is wanted. It is unknown whether the "minimal"
+  database has the C-alpha data that the TM-align mode needs.
+- No claim is made about the function of PF28404 proteins.
