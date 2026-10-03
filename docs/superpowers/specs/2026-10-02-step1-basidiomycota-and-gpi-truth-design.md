@@ -253,7 +253,7 @@ the join works for each.
 | `pm_candidate` | `labels.is_pm_candidate` |
 | `evidence_codes`, `surface_evidence`, `internal_evidence`, `internal_evidence_htp_only`, `secretory_evidence` | `build_truth_rows`; the curated pair adds its `evidence_code`, so step 08 does not stop on empty evidence |
 | `source_file`, `source_sha256`, `source_date`, `obo_sha256` | GAF values when the gene has a GO row; otherwise the curated file name, its SHA-256, the latest `review_date`, and the pinned OBO hash. `SourceInfo` holds one provenance per source today, so the plan adds per-gene provenance |
-| new columns | `tier`, `surface_evidence_htp_only`, `selected_by_predictor`, `curated_pmid` |
+| new columns | `tier`, `surface_evidence_htp_only`, `selected_by_predictor`, `curated_overexpressed` (same rule as `selected_by_predictor`: `yes` when every supporting row is `yes`), `curated_pmid` |
 
 **No label override.** A curated row cannot overwrite a GO label. It adds terms, and the parent rule
 decides. Step 01 writes `curated_conflicts.tsv` for these label cases: a derived label that differs from
@@ -285,7 +285,8 @@ the stratum and whether it includes those rows. I do not propose a design here.
 | Source of each row | A PMID. The PMID must resolve in PubMed. A row with none is not accepted |
 | Quote | `evidence_note` holds the sentence from the paper that states the evidence, and the retrieval date |
 | Evidence level | `direct`: the paper measures the location or the anchor in this protein. `transfer`: the paper measures it in an ortholog. Step 01 checks that the level fits the evidence code (section 3.4). Headline metrics count a gene as direct through `homology_only=no` (step 1 spec 3.3) |
-| Predictor-selected candidates | `selected_by_predictor` is `yes`, `no` or `unknown`. Some secreted-protein papers may choose candidates with SignalP (assumption, not checked). R0 would then recall them by construction. Reports show recall with and without genes marked `yes` |
+| Predictor-selected candidates | `selected_by_predictor` is `yes`, `no` or `unknown`. Some secreted-protein papers may choose candidates with SignalP (assumption, not checked). R0 would then recall them by construction. The pilots confirmed this (many *U. maydis* effector papers chose genes by SignalP). Decision 13: genes whose every supporting row is `yes` form a report-only sub-stratum and stay out of the headline |
+| Overexpressed fusions | `overexpressed` is `yes` (strong constitutive or heterologous promoter such as otef or ACT1), `no` (native promoter and locus stated) or `unknown`. Such a row shows that the protein can reach that place, not where the native protein sits at normal levels. Decision 14 |
 | Curator and reviewer | The curator finds and writes the rows. A second reviewer checks each row. An independent model run does the first review pass, and the owner spot-checks a random sample (decision 5) |
 | Reviewer actions | The reviewer opens each PMID. The reviewer finds the quoted sentence. The reviewer records the date. A model can repeat a wrong PMID, so a model alone is not enough |
 | Accession | `gene_id` is the native identifier of the source in `species.tsv`. `uniprot_accession` is a separate column. A protein with no sequence in the reference proteome goes to `curated_unmatched.tsv` and is not in truth |
@@ -308,6 +309,7 @@ the stratum and whether it includes those rows. I do not propose a design here.
 | expected_label | The label the curator expects after the parent rule: `P-ext`, `N-int`, `N-sec` or `ambiguous`. A check, not a label |
 | evidence_level | `direct` or `transfer` (checked against `evidence_code`) |
 | selected_by_predictor | `yes`, `no` or `unknown` |
+| overexpressed | `yes`, `no` or `unknown` (section 4). Added by decision 14; the file has 15 columns |
 | pmid | PMID (several separated by `;`) |
 | evidence_note | The quoted sentence, and the retrieval date |
 | reviewer | Initials or model name of the second check |
@@ -326,7 +328,7 @@ Both files are small plain text and stay uncompressed in git.
 |---|---|---|
 | Curator sees model output. `proteome_calls.tsv.gz` holds calls and scores of every candidate for all H99 and *U. maydis* proteins | The curator (person or model) gets no read access to `_workdir/step1_compare/phasec/`. The curator logs each search query. The candidate list is hashed and committed before any join to scores. A protein found by the search is not dropped after scoring | process rule, recorded in the PR; `candidate_list.sha256` committed before the join |
 | Residual exposure: aggregate Basidiomycota results are in `docs/model-review/STATUS.md` (lines 43, 51, 93, 107, 108, 115) and in the report. A curator with repo access sees them | State this in the PR. The curator sees aggregates only. Gene-level calls stay in `_workdir` | process rule |
-| Literature chose candidates by a predictor | `selected_by_predictor` column; report with and without | report format |
+| Literature chose candidates by a predictor | `selected_by_predictor` column; sub-stratum, outside the headline (decision 13) | report format |
 | Curated test proteins in T-c | D10 removes every curated accession and exact-sequence hash from T-c. Phase C rules `a` (accession and hash), `b_cluster_mate` and `c_test_taxon` apply | extend **both** `test_tc_excludes_test_proteins` (`test_keyword_tier.py:29`, `test_phasec_splits.py:144`) |
 | Basidiomycota curated row in training | Basidiomycota stays a test clade. `splits.build` raises `SplitError` when a protein belongs to a training source and a test source | add a test on the new rows; keep the role in `species.tsv` |
 | Homology across clades. Phase C allows cluster-mates of test proteins in training by design (ruling C-4). 3 of the 16 current positives have 0.3 or more identity to training (reviewer) | Report T-b rows by maximum-identity stratum, as for GO rows | report format |
@@ -445,8 +447,22 @@ measured.
     in the headline. Reports show them as a separate sub-stratum.
 12. **Amend ruling R-B.** P-gpi stays a list in a test set until that set has at least 20 direct P-gpi
     positives. Then P-gpi is scored there and gets a C-8 label.
+13. **Predictor-selected genes are a report-only sub-stratum (owner, 2026-10-03).** A gene whose every
+    supporting curated row has `selected_by_predictor=yes` is left out of the headline recall and reported
+    beside it. Trade-off: the headline stays free of the circularity with SignalP-based gates (R0, H), and
+    the headline loses positives (in the pilots, 2 of 12 H99 P-ext genes and 8 of 15 *U. maydis* P-ext
+    genes). The pilot counts ignore GOA overlap and `pm-unresolved` exclusions. The count toward 73 uses the
+    headline positives only.
+14. **Overexpressed fusion rows stay, with a flag (owner, 2026-10-03, option B).** Add the `overexpressed`
+    column. Reports show recall with and without genes whose every supporting row is `yes`.
+    The Cpl1 row was dropped (permeabilisation not stated, faint supernatant signal). Whether such genes
+    leave the headline is open (D-E).
 
 **Open (from the reviews).**
+- **D-E. Do genes supported only by `overexpressed=yes` rows leave the headline?** Today they stay, with a
+  with/without report. In the pilots 3 H99-and-*U. maydis* genes depend on such rows (Sts2, Xyn2, Xyn11A)
+  once predictor-selected genes are removed. Recommendation: keep them in, flag them, and decide after the
+  with/without report shows how much they move recall.
 - **D-B. Pooled clade block versus "not pooled".** Phase C already reports a pooled
   `S3-Basidiomycota:clade` block, and the estimate label uses it. Recommendation: keep the clade block as
   the label unit, show each source beside it, and mark the clade block as pooled in the report.
