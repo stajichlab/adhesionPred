@@ -1,5 +1,9 @@
 # Handoff: migrating adhesionPred to run natively on HPCC
 
+> **2026-10-02:** see `docs/HANDOFF-2026-10-02.md` for the current state and worklist. This
+> document is kept for its environment notes, standing rules and known traps. Its migration task
+> is partly done (`config/site.yaml` and `analysis/_common/paths.*` exist).
+
 **Written 2026-09-28** for the agent taking over on UCR HPCC. Read this first, then
 `docs/TOOL-ARCHITECTURE.md`.
 
