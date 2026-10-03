@@ -64,6 +64,21 @@ What this means, in plain terms:
   confidence intervals, they are not shown to be better than R2 on non-secreted false positives.
 - The choice of rule, ML or hybrid is the owner's. No gate values are set.
 
+**ML against each rule at the rule's own operating point** (run 2026-10-02, job 29351331; S1:all,
+direct truth, training variant V-go, an estimate set). For each rule, the table reads the candidate's
+score curve at the rule's recall or FPR. Intervals are 95% cluster bootstrap and are not paired.
+
+| Rule (recall / FPR) | B1 FPR at that recall | ML FPR at that recall | B1 precision | ML precision |
+|---|---|---|---|---|
+| R0 (0.603 / 0.037) | 0.034 [0.021, 0.061] | 0.013 to 0.018 | 0.495 | 0.645 to 0.718 |
+| R2 (0.418 / 0.006) | 0.008 [0.005, 0.016] | 0.004 to 0.005 | 0.729 | 0.824 to 0.858 |
+
+"ML" here is the range over M8, M35, M8-C, M35-C and H. At R0's recall the ML FPR intervals lie
+below R0's own FPR interval [0.029, 0.044]. At R2's recall the ML and R2 intervals overlap
+(ML 0.001 to 0.008, R2 0.004 to 0.009), so ML is not shown to be better than R2 on this measure.
+B1 is not better than R0 at R0's recall. The same tables exist for R1 and for every test set in the
+report. The paired findings (b) and (c) are unchanged.
+
 Literature rows (19 Onygenales and Eurotiales adhesins, positives only, smoke test): recall 1.00
 for R0, B1, M8, M8-C and H; 0.947 for M35 and M35-C; 0.684 for R2; 0.632 for R1. SOWgp, CspA
 and CBP1 are called by nearly all candidates. R1 and R2 miss CBP1, CTS1, abr2 and aspf2. HSP60
