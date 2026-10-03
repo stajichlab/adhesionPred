@@ -418,3 +418,32 @@ def test_a_stop_leaves_the_previous_outputs_in_place(phasec_chain, tmp_path, ste
         before["scores.tsv.gz"] = tampered.read_bytes()
     after = {p.name: p.read_bytes() for p in out.iterdir() if p.is_file()}
     assert after == before
+
+
+# ---- round 3: vs_rules (ruling C-16) ----
+
+
+def test_vs_rules_keys_in_columns_md_equal_the_code(phasec_chain):
+    s11 = load_phasec("11_evaluate")
+    m = _json(phasec_chain["work"], "metrics.json")
+    heading = "phasec/metrics.json"
+    rules_marker = (
+        "**Keys of `vs_rules` (one per rule that 10 fitted; `VS_RULES` in `11_evaluate.py`):**"
+    )
+    assert key_names(heading, rules_marker) == set(s11.VS_RULES) == {"R0", "R1", "R2"}
+    cand_marker = "**Keys of a candidate object in `vs_rules`:**"
+    documented = key_names(heading, cand_marker)
+    sec = section(heading)
+    assert "(B1, M8, M35, M8-C, M35-C, H)" in sec
+    assert s11.VS_RULE_CANDIDATES == ("B1", "M8", "M35", "M8-C", "M35-C", "H")
+    cands = m["settings"]["candidates"]
+    for name, ts in m["test_sets"].items():
+        for truth, block in ts["truth"].items():
+            vr = block["vs_rules"]
+            assert set(vr) == set(s11.VS_RULES) & set(cands), (name, truth)
+            for rule, per_v in vr.items():
+                assert set(per_v) == {"V-go", "V-kw"}
+                for v, per in per_v.items():
+                    assert set(per) == set(s11.VS_RULE_CANDIDATES) & set(cands), (name, rule, v)
+                    for c, e in per.items():
+                        assert set(e) == documented, (name, rule, v, c)

@@ -66,8 +66,10 @@ def test_undefined_metrics_are_null(phasec_chain):
     assert lit["M8"]["precision_at_recall_0.8"]["value"] is None
     assert lit["M8"]["precision_at_recall_0.9"]["value"] is None
     lit_truth = m["test_sets"]["S3-Eurotiomycetes:literature"]["truth"]["direct"]
-    vs_rule = lit_truth["vs_rule"]["V-go"]["M8"]["precision_at_rule_recall"]
-    assert vs_rule["value"] is None
+    for rule in ("R0", "R1", "R2"):
+        vr = lit_truth["vs_rules"][rule]["V-go"]["M8"]
+        assert vr["precision_at_rule_recall"]["value"] is None, rule
+        assert vr["fpr_at_rule_recall"]["value"] is None, rule
     # review fix 1: strata with one class only (wall and extracellular-only: positives;
     # N-int, N-sec, PM-TM: negatives) have no precision, PR-AUC or precision at recall
     mets = m["test_sets"]["S1:all"]["truth"]["direct"]["metrics"]
@@ -541,9 +543,11 @@ def test_comparison_level_is_the_rule_recall_per_resample(monkeypatch):
     rows, scores = _ml_beats_case()
     seen = []
     real = ev.metrics.fpr_at_recall
+    nsec = np.array([r["stratum"] == "N-sec" for r in rows])
 
     def spy(W, y, score, level, mask):
-        seen.append(np.array(level, dtype=float))
+        if np.array_equal(np.asarray(mask, dtype=bool), nsec):  # the N-sec comparison only
+            seen.append(np.array(level, dtype=float))
         return real(W, y, score, level, mask)
 
     monkeypatch.setattr(ev.metrics, "fpr_at_recall", spy)
@@ -665,3 +669,75 @@ def test_findings_json_records_the_defined_rule(phasec_chain):
                 assert e["n_defined"][c] == e[c]["n_defined"]
                 want = e[c]["lo"] is not None and e[c]["lo"] > 0 and e[c]["n_defined"] >= 0.95 * n
                 assert e[f"beats_{c}"] is want
+
+
+# ---- round 3: B1 and ML against R0, R1 and R2 (ruling C-16) ----
+
+
+def _vs_rules_case():
+    """12 positives P0..P11 and 30 negatives N0..N29 (_hand_rows order). The rules call:
+    R0 P0..P8 and N0..N2 (recall 0.75, FPR 0.1); R1 P0..P5 and no negative (recall 0.5, FPR 0);
+    R2 every positive and N0..N5 (recall 1.0, FPR 0.2). M8 ranks P0..P5, N0, N1, P6..P8,
+    N2..N5, P9..P11, then N6..N29. B1 gives every row the same score."""
+    rows = _hand_rows()
+    order = [f"h{i}" for i in range(6)] + ["h12", "h13"] + ["h6", "h7", "h8"]
+    order += [f"h{12 + j}" for j in range(2, 6)] + ["h9", "h10", "h11"]
+    order += [f"h{12 + j}" for j in range(6, 30)]
+    rank = {h: len(order) - k for k, h in enumerate(order)}
+    idx = lambda r: int(r["seq_sha256"][1:])  # noqa: E731
+
+    def rule(n_pos, n_neg):
+        def call(i, r):
+            k = idx(r)
+            return k < n_pos if k < 12 else k - 12 < n_neg
+
+        return (lambda i, r: math.nan, call)
+
+    spec = {"R0": rule(9, 3), "R1": rule(6, 0), "R2": rule(12, 6),
+            "M8": (lambda i, r: float(rank[r["seq_sha256"]]), lambda i, r: False),
+            "B1": (lambda i, r: 0.5, lambda i, r: False)}  # fmt: skip
+    return rows, _hand_scores(rows, spec)
+
+
+def test_vs_rules_reads_each_rule_at_its_own_operating_point():
+    ev = load_phasec("11_evaluate")
+    rows, scores = _vs_rules_case()
+    ts = ev.TestSet("S1:all", "S1", "pooled", rows)
+    block, *_ = ev.evaluate_truth(ts, "direct", scores, ("B1", "R0", "R1", "R2", "M8"), 50, 1)
+    own = block["metrics"]["all"]["V-go"]
+    for rule, rec, rate in (("R0", 0.75, 0.1), ("R1", 0.5, 0.0), ("R2", 1.0, 0.2)):
+        assert own[rule]["recall"]["value"] == pytest.approx(rec), rule
+        assert own[rule]["fpr"]["value"] == pytest.approx(rate), rule
+    assert set(block["vs_rules"]) == {"R0", "R1", "R2"} and "vs_rule" not in block
+    want = {  # hand-read from the M8 ranking in _vs_rules_case
+        "R0": {"precision_at_rule_recall": 9 / 11, "recall_at_rule_fpr": 0.75,
+               "fpr_at_rule_recall": 2 / 30},
+        "R1": {"precision_at_rule_recall": 1.0, "recall_at_rule_fpr": 0.5,
+               "fpr_at_rule_recall": 0.0},
+        "R2": {"precision_at_rule_recall": 12 / 18, "recall_at_rule_fpr": 1.0,
+               "fpr_at_rule_recall": 6 / 30},
+    }  # fmt: skip
+    for rule, keys in want.items():
+        for v in ("V-go", "V-kw"):
+            per = block["vs_rules"][rule][v]
+            assert set(per) == {"B1", "M8"}, (rule, v)  # rules are not compared with rules
+            for key, value in keys.items():
+                assert per["M8"][key]["value"] == pytest.approx(value), (rule, v, key)
+            # B1 ties every row: one step from (0, 0) to (1, 1)
+            assert per["B1"]["precision_at_rule_recall"]["value"] == pytest.approx(12 / 42)
+            assert per["B1"]["fpr_at_rule_recall"]["value"] == pytest.approx(1.0)
+            assert per["B1"]["recall_at_rule_fpr"]["value"] == pytest.approx(0.0)
+            assert set(per["M8"]["recall_at_rule_fpr"]) == {"value", "lo", "hi", "n_defined"}
+    # finding (b) stays R2-based: the N-sec comparison reads the recall of R2 (1.0)
+    nsec = block["nsec_fpr_at_rule_recall"]["V-go"]["fpr"]
+    assert nsec["R2"]["value"] == pytest.approx(6 / 20)  # N0..N5 are N-sec rows
+    assert nsec["M8"]["value"] == pytest.approx(6 / 20)
+
+
+def test_vs_rules_skips_a_rule_that_was_not_fitted():
+    ev = load_phasec("11_evaluate")
+    rows, scores = _vs_rules_case()
+    ts = ev.TestSet("S1:all", "S1", "pooled", rows)
+    block, *_ = ev.evaluate_truth(ts, "direct", scores, ("B1", "R1", "M8"), 20, 1)
+    assert set(block["vs_rules"]) == {"R1"}
+    assert block["nsec_fpr_at_rule_recall"] == {}
