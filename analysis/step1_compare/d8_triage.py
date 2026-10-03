@@ -6,11 +6,15 @@ ft_lipid, ft_transmem, xref_sgd, xref_cgd, xref_pombase) and from curated_gpi.ts
 Rules (spec 2.2, Q2 and Q3):
 - P-gpi: a literature row in curated_gpi.tsv, or a reviewed UniProt entry with a Lipidation
   feature whose description starts with "GPI-anchor" and whose evidence includes a code in
-  CURATED_GPI_ECO. Predictor output never counts.
+  CURATED_GPI_ECO. Predictor output never counts. A UniProt TM feature blocks a literature row
+  unless the row has override_tm=yes or a reviewed UniProt entry has the GPI evidence
+  (owner decision 8, 2026-10-02).
 - PM-TM: not P-gpi, and at least one UniProt Transmembrane feature (any evidence code; the
-  codes are recorded because they are often ECO:0000255, sequence analysis).
+  codes are recorded because they are often ECO:0000255, sequence analysis). This includes a
+  literature row that a TM feature blocks.
 - pm-unresolved: neither. The spec does not define this case; it stays P-ext and is listed.
-P-gpi is reported as a list, not a scored stratum, until curated_gpi.tsv has literature rows.
+P-gpi is reported as a list, not a scored stratum, until a test set has 20 direct P-gpi
+positives (owner decision 12, 2026-10-02).
 """
 
 import urllib.parse
@@ -105,16 +109,36 @@ def entries_for_gene(gene_id: str, mapping: str, entries: list[UniprotEvidence])
     return [e for e in entries if gene_id in e.xrefs.get(db, set())]
 
 
-def classify_pm(entries: list[UniprotEvidence], literature: bool) -> tuple[str, str]:
-    if literature:
-        return P_GPI, "literature row in curated_gpi.tsv"
-    for e in entries:
-        if e.curated_gpi:
-            return P_GPI, f"{e.accession} reviewed GPI-anchor {','.join(e.gpi_eco)}"
+def classify_pm(
+    entries: list[UniprotEvidence], literature: bool, override_tm: bool = False
+) -> tuple[str, str]:
+    """Class and reason for one P-ext gene with a plasma-membrane term.
+
+    A literature row gives P-gpi, except when a UniProt TM feature blocks it: the gene has a TM
+    feature, `override_tm` is false, and no reviewed UniProt entry has experimental GPI evidence.
+    A blocked gene stays PM-TM (owner decision 8, 2026-10-02). The reason says so. When a literature
+    row and a reviewed UniProt entry both give P-gpi, the reason names both."""
     with_tm = [e for e in entries if e.tm_count > 0]
+    curated = [e for e in entries if e.curated_gpi]
+    blocked = literature and bool(with_tm) and not override_tm and not curated
+    if literature and not blocked:
+        reason = "literature row in curated_gpi.tsv"
+        if override_tm:
+            reason += "; override_tm=yes"
+            if not with_tm:
+                reason += " not needed (no TM feature)"
+        if curated:
+            reason += f"; {curated[0].accession} reviewed GPI-anchor {','.join(curated[0].gpi_eco)}"
+        return P_GPI, reason
+    if curated:
+        e = curated[0]
+        return P_GPI, f"{e.accession} reviewed GPI-anchor {','.join(e.gpi_eco)}"
     if with_tm:
         e = with_tm[0]
-        return PM_TM, f"{e.accession} {e.tm_count} TM {','.join(e.tm_eco) or 'no ECO'}"
+        reason = f"{e.accession} {e.tm_count} TM {','.join(e.tm_eco) or 'no ECO'}"
+        if blocked:
+            reason += "; literature row blocked by the TM feature (override_tm=no)"
+        return PM_TM, reason
     if not entries:
         return PM_UNRESOLVED, "no UniProt entry found"
     return PM_UNRESOLVED, "no curated GPI evidence and no TM feature"

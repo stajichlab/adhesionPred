@@ -67,6 +67,38 @@ def test_classify_pm():
     assert d8_triage.classify_pm([], False) == ("pm-unresolved", "no UniProt entry found")
 
 
+def test_classify_pm_literature_row_is_blocked_by_tm_unless_override():
+    p = d8_triage.parse_entry
+    cls, reason = d8_triage.classify_pm([p(MSB2)], True)
+    assert cls == "PM-TM"
+    assert "blocked" in reason and "P32334 1 TM ECO:0000255" in reason
+    assert d8_triage.classify_pm([p(MSB2)], True, override_tm=True) == (
+        "P-gpi",
+        "literature row in curated_gpi.tsv; override_tm=yes",
+    )
+    assert d8_triage.classify_pm([p(YPS1)], True) == ("P-gpi", "literature row in curated_gpi.tsv")
+    stale = d8_triage.classify_pm([p(YPS1)], True, override_tm=True)  # no TM feature
+    assert stale[0] == "P-gpi" and stale[1].endswith("override_tm=yes not needed (no TM feature)")
+    assert d8_triage.classify_pm([], True)[0] == "P-gpi"  # no UniProt entry at all
+
+
+def test_classify_pm_uniprot_experimental_gpi_still_wins_over_tm():
+    both = d8_triage.parse_entry(entry("P5", True, gpi_eco=["ECO:0000269"], tm=["ECO:0000255"]))
+    assert d8_triage.classify_pm([both], False)[0] == "P-gpi"
+    assert d8_triage.classify_pm([both], True)[0] == "P-gpi"
+    assert d8_triage.classify_pm([both], True)[1] == (
+        "literature row in curated_gpi.tsv; P5 reviewed GPI-anchor ECO:0000269"
+    )
+
+
+def test_classify_pm_unreviewed_gpi_evidence_does_not_beat_tm():
+    unreviewed = d8_triage.parse_entry(
+        entry("P6", False, gpi_eco=["ECO:0000269"], tm=["ECO:0000255"])
+    )
+    assert d8_triage.classify_pm([unreviewed], True)[0] == "PM-TM"
+    assert d8_triage.classify_pm([unreviewed], False)[0] == "PM-TM"
+
+
 def test_query_urls():
     terms = d8_triage.query_terms([{"gene_id": "S000003246"}], "sgd")
     assert terms == {"xref:sgd-S000003246": "S000003246"}
