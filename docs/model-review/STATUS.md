@@ -21,7 +21,8 @@ Spec: `docs/superpowers/specs/2026-09-30-surface-glycoprotein-model-design.md`.
 | Step 2a repeat detectors | two detectors, validated only in Saccharomycotina | `analysis/cocci_repeats/` |
 | Step 2b/2c HMM scans (CFEM, Bys1, hydrophobin) | HMMs exist. No scan wrapper, no specificity test | |
 | Step 3 antigen layer | *Coccidioides* only | `analysis/cocci_antigens/` |
-| Cysteine-rich secreted candidates (PRA3-like) | on `main` (PR #36). Full-length PRA3 structure re-run found no fold (branch `pra3-fulllength`, not merged) | `analysis/cys_candidates/` |
+| Cysteine-rich secreted candidates (PRA3-like) | on `main` (PR #36). Full-length PRA3 structure re-run found no fold (PR #42, merged) | `analysis/cys_candidates/` |
+| PF28404 (ARB_05178) family | search of 831 proteomes and a 217-protein tree (PR #44, merged). Not specific to *Coccidioides*; four paralog groups older than the genus. Function unknown | `analysis/pf28404_family/`, `docs/reports/2026-10-02-pf28404-family.md` |
 | Orchestrator (one table, one column per tool) | proposal only, no spec | plan §6 |
 | Stage-2 adhesin classifier prototype (ESM C 300M) | prototype, not packaged | `analysis/model_review/stage2_proof_of_concept.py` |
 
