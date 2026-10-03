@@ -74,8 +74,8 @@ score curve at the rule's recall or FPR. Intervals are 95% cluster bootstrap and
 | R2 (0.418 / 0.006) | 0.008 [0.005, 0.016] | 0.004 to 0.005 | 0.729 | 0.824 to 0.858 |
 
 "ML" here is the range over M8, M35, M8-C, M35-C and H. At R0's recall the ML FPR intervals lie
-mostly below R0's own FPR interval [0.029, 0.044]. At R2's recall the ML and R2 intervals overlap
-(ML 0.002 to 0.008, R2 0.004 to 0.009), so ML is not shown to be better than R2 on this measure.
+below R0's own FPR interval [0.029, 0.044]. At R2's recall the ML and R2 intervals overlap
+(ML 0.001 to 0.008, R2 0.004 to 0.009), so ML is not shown to be better than R2 on this measure.
 B1 is not better than R0 at R0's recall. The same tables exist for R1 and for every test set in the
 report. The paired findings (b) and (c) are unchanged.
 
