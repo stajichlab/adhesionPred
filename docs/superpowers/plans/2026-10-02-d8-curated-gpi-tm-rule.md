@@ -41,7 +41,7 @@ Each line has a test in the task named in brackets.
 8. A file saved with a UTF-8 byte order mark (spreadsheet export) is accepted. [Task 2]
 9. A row with too few or too many fields stops the run with a message about the field count, and the message names the physical line of the file. [Task 2]
 10. `override_tm=yes` on a gene that has no TM feature still gives P-gpi, and the reason says that the override was not needed. A stale override is then visible. [Task 1]
-11. A run with `--sources` that selects a subset: a curated row of a source that was not selected is not triaged in that run, and the documentation says so. [Task 4]
+11. A run with `--sources` that selects a subset triages only the selected sources, but `curated_gpi_unmatched.tsv` still covers all sources of the truth set. [Task 3, Task 4]
 
 ## File Structure
 
@@ -176,6 +176,8 @@ positives (owner decision 12, 2026-10-02).
 Run: `PYTHONPATH=src python3.12 -m pytest tests/step1_compare/test_d8.py -q -k "classify_pm or pm_tm_needs"`
 Expected: PASS (the existing `test_classify_pm` and `test_pm_tm_needs_a_tm_feature` still pass, because they use `literature=False` or an entry without TM).
 
+The whole file is not green yet. `test_literature_row_makes_p_gpi_and_missing_curated_file_stops` fails until Task 3 replaces it: MSB2 has a TM feature, so the new rule blocks its literature row. If CI runs on every commit, commit Tasks 1 to 3 together.
+
 - [ ] **Step 5: Commit.**
 
 ```bash
@@ -190,7 +192,7 @@ Co-Authored-By: Claude Sonnet 5.5 <noreply@anthropic.com>"
 ### Task 2: reader, match check and conflict helper in `d8_triage.py`
 
 **Files:**
-- Modify: `analysis/step1_compare/d8_triage.py` (imports at lines 16-17; add code at the end of the file)
+- Modify: `analysis/step1_compare/d8_triage.py` (the imports; add code at the end of the file)
 - Test: `tests/step1_compare/test_d8.py` (add after the tests of Task 1)
 
 **Interfaces:**
@@ -278,6 +280,8 @@ def test_read_curated_gpi_reports_the_physical_line_number(tmp_path):
         (CURATED_HEADER + curated_row("G1", "A", evidence_level="maybe"), "evidence_level"),
         (CURATED_HEADER + curated_row("G1", "A", pmid=""), "pmid"),
         (CURATED_HEADER + curated_row("G1", "A", pmid="PMID:1"), "pmid"),
+        (CURATED_HEADER + curated_row("G1", "A", pmid="\u0661\u0662"), "pmid"),
+        (CURATED_HEADER.rstrip("\n") + "\tpmid\n", "duplicate column"),
         (CURATED_HEADER + curated_row("G1", "A", reviewer=""), "reviewer"),
         (CURATED_HEADER + curated_row("G1", "A", evidence_note=""), "evidence_note"),
         (CURATED_HEADER + curated_row("G1", "A", review_date=""), "review_date"),
@@ -343,7 +347,7 @@ def test_tm_conflicts_lists_only_blocked_literature_genes():
 Run: `PYTHONPATH=src python3.12 -m pytest tests/step1_compare/test_d8.py -q -k "curated_gpi or tm_conflicts"`
 Expected: ERROR at collection with `AttributeError: module 'd8_triage' has no attribute 'CURATED_GPI_COLUMNS'`. The helper at the top of the file needs the new constant, so the whole file fails to import.
 
-- [ ] **Step 3: Write the implementation.** In `analysis/step1_compare/d8_triage.py`, change the imports and add the code. Replace lines 16-17:
+- [ ] **Step 3: Write the implementation.** In `analysis/step1_compare/d8_triage.py`, change the imports and add the code. Replace the two lines `import urllib.parse` and `from dataclasses import dataclass, field` (lines 20-21 after Task 1 added four docstring lines) with:
 
 ```python
 import csv
@@ -402,6 +406,8 @@ def read_curated_gpi(path) -> list[dict[str, str]]:
         missing = [c for c in CURATED_GPI_COLUMNS if c not in (reader.fieldnames or [])]
         if missing:
             raise CuratedGpiError(f"{path}: missing columns {missing}")
+        if len(set(reader.fieldnames)) != len(reader.fieldnames):
+            raise CuratedGpiError(f"{path}: duplicate column names")
         for row in reader:
             where = f"{path} line {reader.line_num}"
             if None in row or None in row.values():
@@ -423,9 +429,9 @@ def read_curated_gpi(path) -> list[dict[str, str]]:
             for column in CURATED_GPI_REQUIRED:
                 if not row[column]:
                     raise CuratedGpiError(f"{where}: {column} is required")
-            if not re.fullmatch(r"\d+(;\d+)*", row["pmid"]):
+            if not re.fullmatch(r"[0-9]+(;[0-9]+)*", row["pmid"]):
                 raise CuratedGpiError(f"{where}: pmid must be digits, joined with ';'")
-            if not re.fullmatch(r"\d{4}-\d{2}-\d{2}", row["review_date"]):
+            if not re.fullmatch(r"[0-9]{4}-[0-9]{2}-[0-9]{2}", row["review_date"]):
                 raise CuratedGpiError(f"{where}: review_date must be YYYY-MM-DD")
             try:
                 datetime.date.fromisoformat(row["review_date"])
@@ -487,7 +493,7 @@ def tm_conflicts(triage_rows, literature) -> list[dict[str, str]]:
 - [ ] **Step 4: Run the tests to verify they pass.**
 
 Run: `PYTHONPATH=src python3.12 -m pytest tests/step1_compare/test_d8.py -q -k "curated_gpi or tm_conflicts or classify_pm"`
-Expected: PASS. Other tests in the file may fail until Task 3 changes `_work` (they still use the old header). Do not run the whole file yet.
+Expected: PASS (27 passed with this selection). Do not run the whole file yet: `test_literature_row_makes_p_gpi_and_missing_curated_file_stops` still fails until Task 3, because the TM feature of MSB2 blocks the literature row.
 
 - [ ] **Step 5: Commit.**
 
@@ -504,7 +510,7 @@ Co-Authored-By: Claude Sonnet 5.5 <noreply@anthropic.com>"
 
 **Files:**
 - Modify: `analysis/step1_compare/03_triage_pm.py` (lines 41-48, 77-98, 197-234)
-- Modify: `tests/step1_compare/test_d8.py` (five existing places, found by their content, not by line number: Tasks 1 and 2 add about 127 lines first)
+- Modify: `tests/step1_compare/test_d8.py` (five existing places, found by their content, not by line number: Tasks 1 and 2 add about 160 lines first)
 - Test: `tests/step1_compare/test_d8.py` (new tests at the end)
 
 **Interfaces:**
@@ -513,7 +519,7 @@ Co-Authored-By: Claude Sonnet 5.5 <noreply@anthropic.com>"
 
 - [ ] **Step 1: Update the existing tests and write the new failing tests.** In `tests/step1_compare/test_d8.py`:
 
-Find each existing edit point by its content (the line numbers of the original file are about 127 lines lower than in the file after Tasks 1 and 2: the original lines were 118, 142, 181-187, 334-344 and 429).
+Find each existing edit point by its content (the line numbers of the original file are about 160 lines lower than in the file after Tasks 1 and 2: the original lines were 118, 142, 181-187, 334-344 and 429).
 
 1. In `test_triage_source_and_apply`: replace `triage.triage_source(sp, rows, set(), fake_fetch)` with `triage.triage_source(sp, rows, {}, fake_fetch)`.
 2. In `test_d8_counts_report_no_uniprot_entry_and_gpi_feature_no_evidence`: replace `triage.triage_source(sp, rows, set(), fetch)` with `triage.triage_source(sp, rows, {}, fetch)`.
@@ -630,6 +636,40 @@ def test_curated_rows_that_cannot_act_are_listed_and_the_run_succeeds(tmp_path, 
     assert "curated_gpi_unmatched.tsv" in capsys.readouterr().err
 
 
+def test_sources_subset_triages_only_selected_sources_but_checks_all_curated_rows(tmp_path):
+    triage = load_script("03_triage_pm")
+    argv = _work(tmp_path)
+
+    def gene(source_id, gene_id, symbol, label, candidate, stratum):
+        return {
+            "source_id": source_id,
+            "gene_id": gene_id,
+            "symbol": symbol,
+            "label": label,
+            "pm_candidate": candidate,
+            "stratum": stratum,
+        }
+
+    truth = [
+        gene("Scer", "S000003246", "MSB2", "P-ext", "yes", "extracellular-only"),
+        gene("Other", "S000000007", "CCC", "ambiguous", "no", "ambiguous"),
+    ]
+    truth_table.write_tsv(tmp_path / "truth_set.tsv.gz", list(truth[0]), truth)
+    species = [
+        {"source_id": "Scer", "id_mapping": "sgd", "taxon_id": "559292"},
+        {"source_id": "Other", "id_mapping": "sgd", "taxon_id": "1"},
+    ]
+    truth_table.write_tsv(tmp_path / "species.tsv", list(species[0]), species)
+    (tmp_path / "curated_gpi.tsv").write_text(
+        CURATED_HEADER + curated_row("S000000007", "CCC", source_id="Other")
+    )
+    assert triage.main([*argv, "--sources", "Scer"], fetch=good_fetch) == 0
+    triaged = truth_table.read_tsv(tmp_path / "d8_triage.tsv")
+    assert [r["source_id"] for r in triaged] == ["Scer"]
+    got = truth_table.read_tsv(tmp_path / "curated_gpi_unmatched.tsv")
+    assert [(r["source_id"], r["reason"]) for r in got] == [("Other", "outside_p_ext")]
+
+
 def test_old_five_column_curated_file_stops_and_writes_nothing(tmp_path, capsys):
     triage = load_script("03_triage_pm")
     argv = _work(tmp_path)
@@ -650,7 +690,7 @@ def test_header_only_curated_file_gives_empty_review_files(tmp_path, capsys):
 - [ ] **Step 2: Run the tests to verify they fail.**
 
 Run: `PYTHONPATH=src python3.12 -m pytest tests/step1_compare/test_d8.py -q`
-Expected: FAIL. Several tests fail because step 03 does not yet write the two files or read the new columns (for example `AssertionError` on `(tmp_path / name).exists()`, and a `KeyError` or wrong class for the MSB2 literature row).
+Expected: FAIL. Several tests fail because step 03 does not yet write the two files or read the new columns (for example `FileNotFoundError` on the two new files, `assert 0 == 2` in the stop tests, and a wrong class `'PM-TM' == 'P-gpi'` for a row with `override_tm=yes`).
 
 - [ ] **Step 3: Write the implementation.** In `analysis/step1_compare/03_triage_pm.py`:
 
@@ -758,7 +798,7 @@ raw UniProt JSON pages (d8_uniprot/; pages of older runs are not deleted and can
 - [ ] **Step 4: Run the tests to verify they pass.**
 
 Run: `PYTHONPATH=src python3.12 -m pytest tests/step1_compare/test_d8.py -q`
-Expected: PASS for the whole file (the dry run counted 48 passed at this point).
+Expected: PASS for the whole file (61 passed in the dry run).
 
 Do not run `tests/step1_compare/test_paths.py` yet. Its heading test fails until Task 4 adds the two `COLUMNS.md` headings. If CI runs on every commit, commit Tasks 3 and 4 together.
 
@@ -822,8 +862,8 @@ EOF
 ## curated_gpi.tsv (input of 03_triage_pm.py, one row per gene)
 
 Literature rows with experimental proof of a GPI anchor. A row acts only for a P-ext gene that is a
-plasma-membrane candidate. Step 03 stops if a column is missing, if a value is invalid, or if a
-`(source_id, gene_id)` pair appears twice. The file is plain tab-separated text: a double quote is an
+plasma-membrane candidate. Step 03 stops if a column is missing, if a value is invalid, if a
+`(source_id, gene_id)` pair appears twice, or if a row matches no gene of the truth set. The file is plain tab-separated text: a double quote is an
 ordinary character, and a UTF-8 byte order mark is accepted. The file in the repo has a header and no rows.
 
 | Column | Meaning |
@@ -860,8 +900,9 @@ when no row is blocked.
 D8 reads a `curated_gpi.tsv` row only for a P-ext gene that is a plasma-membrane candidate. This file
 lists the rows that fail that condition. The run still succeeds. The file is empty when every row
 can act. A row that matches no gene of the truth set is not listed here: it stops the run. The file
-covers all sources of the truth set. A run with `--sources` triages only the selected sources, so a
-row of a source that was not selected is neither listed nor triaged in that run.
+covers all sources of the truth set, also in a run with `--sources`. A run with `--sources` triages
+only the selected sources: a row that can act, of a source that was not selected, is not triaged in
+that run.
 
 | Column | Meaning |
 |---|---|
