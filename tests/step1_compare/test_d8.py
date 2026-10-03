@@ -43,6 +43,27 @@ MSB2 = entry("P32334", True, tm=["ECO:0000255"], sgd="S000003246")
 TREMBL_GPI = entry("A0A000", False, gpi_eco=["ECO:0000269"], sgd="S000000009")
 BARE = entry("Q00001", True, sgd="S000000010")
 
+CURATED_HEADER = "\t".join(d8_triage.CURATED_GPI_COLUMNS) + "\n"
+
+
+def curated_row(gene_id, symbol, override="no", source_id="Scer", **changes):
+    values = {
+        "source_id": source_id,
+        "gene_id": gene_id,
+        "symbol": symbol,
+        "pmid": "12345678",
+        "note": "n",
+        "species": "Saccharomyces cerevisiae",
+        "uniprot_accession": "",
+        "evidence_level": "direct",
+        "evidence_note": "quoted sentence; retrieved 2026-10-02",
+        "reviewer": "test",
+        "review_date": "2026-10-02",
+        "override_tm": override,
+    }
+    values.update(changes)
+    return "\t".join(values[c] for c in d8_triage.CURATED_GPI_COLUMNS) + "\n"
+
 
 def test_parse_entry_records_eco_and_review_state():
     ev = d8_triage.parse_entry(MSB2)
@@ -65,6 +86,148 @@ def test_classify_pm():
     assert d8_triage.classify_pm([p(YPS1)], False)[0] == "pm-unresolved"
     assert d8_triage.classify_pm([p(YPS1)], True)[0] == "P-gpi"  # literature row
     assert d8_triage.classify_pm([], False) == ("pm-unresolved", "no UniProt entry found")
+
+
+def test_classify_pm_literature_row_is_blocked_by_tm_unless_override():
+    p = d8_triage.parse_entry
+    cls, reason = d8_triage.classify_pm([p(MSB2)], True)
+    assert cls == "PM-TM"
+    assert "blocked" in reason and "P32334 1 TM ECO:0000255" in reason
+    assert d8_triage.classify_pm([p(MSB2)], True, override_tm=True) == (
+        "P-gpi",
+        "literature row in curated_gpi.tsv; override_tm=yes",
+    )
+    assert d8_triage.classify_pm([p(YPS1)], True) == ("P-gpi", "literature row in curated_gpi.tsv")
+    stale = d8_triage.classify_pm([p(YPS1)], True, override_tm=True)  # no TM feature
+    assert stale[0] == "P-gpi" and stale[1].endswith("override_tm=yes not needed (no TM feature)")
+    assert d8_triage.classify_pm([], True)[0] == "P-gpi"  # no UniProt entry at all
+
+
+def test_classify_pm_uniprot_experimental_gpi_still_wins_over_tm():
+    both = d8_triage.parse_entry(entry("P5", True, gpi_eco=["ECO:0000269"], tm=["ECO:0000255"]))
+    assert d8_triage.classify_pm([both], False)[0] == "P-gpi"
+    assert d8_triage.classify_pm([both], True)[0] == "P-gpi"
+    assert d8_triage.classify_pm([both], True)[1] == (
+        "literature row in curated_gpi.tsv; P5 reviewed GPI-anchor ECO:0000269"
+    )
+
+
+def test_classify_pm_unreviewed_gpi_evidence_does_not_beat_tm():
+    unreviewed = d8_triage.parse_entry(
+        entry("P6", False, gpi_eco=["ECO:0000269"], tm=["ECO:0000255"])
+    )
+    assert d8_triage.classify_pm([unreviewed], True)[0] == "PM-TM"
+    assert d8_triage.classify_pm([unreviewed], False)[0] == "PM-TM"
+
+
+def test_read_curated_gpi_accepts_a_valid_file_and_a_header_only_file(tmp_path):
+    path = tmp_path / "curated_gpi.tsv"
+    path.write_text(CURATED_HEADER)
+    assert d8_triage.read_curated_gpi(path) == []
+    path.write_text(CURATED_HEADER + curated_row("S000003246", "MSB2", "yes"))
+    rows = d8_triage.read_curated_gpi(path)
+    assert [(r["gene_id"], r["override_tm"]) for r in rows] == [("S000003246", "yes")]
+
+
+@pytest.mark.parametrize("note", ['"Gas1p is GPI-anchored" retrieved 2026-10-02', "plain note"])
+def test_read_curated_gpi_keeps_quote_characters_in_the_note(tmp_path, note):
+    path = tmp_path / "curated_gpi.tsv"
+    path.write_text(CURATED_HEADER + curated_row("G1", "A", evidence_note=note))
+    assert d8_triage.read_curated_gpi(path)[0]["evidence_note"] == note
+
+
+def test_read_curated_gpi_accepts_a_utf8_byte_order_mark(tmp_path):
+    path = tmp_path / "curated_gpi.tsv"
+    path.write_text(CURATED_HEADER + curated_row("G1", "A"), encoding="utf-8-sig")
+    assert [r["gene_id"] for r in d8_triage.read_curated_gpi(path)] == ["G1"]
+
+
+def test_read_curated_gpi_allows_the_same_gene_id_in_two_sources(tmp_path):
+    path = tmp_path / "curated_gpi.tsv"
+    path.write_text(
+        CURATED_HEADER + curated_row("G1", "A") + curated_row("G1", "A", source_id="Calb")
+    )
+    assert len(d8_triage.read_curated_gpi(path)) == 2
+
+
+def test_read_curated_gpi_reports_the_physical_line_number(tmp_path):
+    path = tmp_path / "curated_gpi.tsv"
+    path.write_text(
+        CURATED_HEADER + curated_row("G1", "A") + "\n\n" + curated_row("G2", "B", override="maybe")
+    )
+    with pytest.raises(d8_triage.CuratedGpiError, match="line 5"):
+        d8_triage.read_curated_gpi(path)
+
+
+@pytest.mark.parametrize(
+    "text, message",
+    [
+        ("source_id\tgene_id\tsymbol\tpmid\tnote\n", "missing columns"),  # old header
+        (CURATED_HEADER + curated_row("G1", "A", override="Yes"), "override_tm"),
+        (CURATED_HEADER + curated_row("G1", "A", override=""), "override_tm"),
+        (CURATED_HEADER + curated_row("G1", "A", evidence_level="maybe"), "evidence_level"),
+        (CURATED_HEADER + curated_row("G1", "A", pmid=""), "pmid"),
+        (CURATED_HEADER + curated_row("G1", "A", pmid="PMID:1"), "pmid"),
+        (CURATED_HEADER + curated_row("G1", "A", pmid="\u0661\u0662"), "pmid"),
+        (CURATED_HEADER.rstrip("\n") + "\tpmid\n", "duplicate column"),
+        (CURATED_HEADER + curated_row("G1", "A", reviewer=""), "reviewer"),
+        (CURATED_HEADER + curated_row("G1", "A", evidence_note=""), "evidence_note"),
+        (CURATED_HEADER + curated_row("G1", "A", review_date=""), "review_date"),
+        (CURATED_HEADER + curated_row("G1", "A", review_date="yesterday"), "review_date"),
+        (CURATED_HEADER + "Scer\tG1\tA\t1\tn\n", "wrong number of fields"),
+        (
+            CURATED_HEADER + curated_row("G1", "A").rstrip("\n") + "\textra\n",
+            "wrong number of fields",
+        ),
+        (CURATED_HEADER + curated_row("", "A"), "source_id and gene_id"),
+        (CURATED_HEADER + curated_row("G1", "A") + curated_row("G1", "A"), "twice"),
+    ],
+)
+def test_read_curated_gpi_rejects_bad_input(tmp_path, text, message):
+    path = tmp_path / "curated_gpi.tsv"
+    path.write_text(text)
+    with pytest.raises(d8_triage.CuratedGpiError, match=message):
+        d8_triage.read_curated_gpi(path)
+
+
+def test_check_curated_gpi_lists_rows_that_cannot_act():
+    truth = [
+        {"source_id": "Scer", "gene_id": "G1", "label": "P-ext", "pm_candidate": "yes"},
+        {"source_id": "Scer", "gene_id": "G2", "label": "P-ext", "pm_candidate": "no"},
+        {"source_id": "Scer", "gene_id": "G3", "label": "ambiguous", "pm_candidate": "no"},
+    ]
+    curated = [
+        {"source_id": "Scer", "gene_id": g, "symbol": g.lower()} for g in ("G1", "G2", "G3", "G4")
+    ]
+    got = d8_triage.check_curated_gpi(curated, truth)
+    assert [(r["gene_id"], r["reason"], r["label"]) for r in got] == [
+        ("G2", "not_pm_candidate", "P-ext"),
+        ("G3", "outside_p_ext", "ambiguous"),
+        ("G4", "no_truth_gene", ""),
+    ]
+
+
+def test_tm_conflicts_lists_only_blocked_literature_genes():
+    def triage_row(gene_id, symbol, d8_class, accession, tm_count, tm_eco):
+        return {
+            "source_id": "Scer",
+            "gene_id": gene_id,
+            "symbol": symbol,
+            "d8_class": d8_class,
+            "uniprot_accessions": accession,
+            "tm_count": tm_count,
+            "tm_eco": tm_eco,
+            "d8_reason": "r",
+        }
+
+    triage = [
+        triage_row("G1", "A", "PM-TM", "P1", "1", "ECO:0000255"),
+        triage_row("G2", "B", "PM-TM", "P2", "2", "ECO:0000255"),
+        triage_row("G3", "C", "P-gpi", "P3", "0", ""),
+    ]
+    literature = {("Scer", "G1"): False, ("Scer", "G3"): True}
+    got = d8_triage.tm_conflicts(triage, literature)
+    assert [(r["gene_id"], r["override_tm"]) for r in got] == [("G1", "no")]
 
 
 def test_query_urls():
@@ -115,7 +278,7 @@ def test_triage_source_and_apply(tmp_path):
             return [GAS1, YPS1], "2026_03"
         return [MSB2, YPS1], "2026_03"
 
-    t, outside, counts = triage.triage_source(sp, rows, set(), fake_fetch)
+    t, outside, counts = triage.triage_source(sp, rows, {}, fake_fetch)
     assert {r["symbol"]: r["d8_class"] for r in t} == {"MSB2": "PM-TM", "YPS1": "pm-unresolved"}
     assert [o["symbol"] for o in outside] == ["GAS1"]
     assert (counts["pm_tm"], counts["pm_unresolved"], counts["p_gpi"]) == ("1", "1", "0")
@@ -139,7 +302,7 @@ def _work(tmp_path):
     truth_table.write_tsv(tmp_path / "truth_set.tsv.gz", list(truth[0]), truth)
     species = [{"source_id": "Scer", "id_mapping": "sgd", "taxon_id": "559292"}]
     truth_table.write_tsv(tmp_path / "species.tsv", list(species[0]), species)
-    (tmp_path / "curated_gpi.tsv").write_text("source_id\tgene_id\tsymbol\tpmid\tnote\n")
+    (tmp_path / "curated_gpi.tsv").write_text(CURATED_HEADER)
     # Hardening: main() refuses a truth table without a full-run marker.
     (tmp_path / "extract_log.json").write_text(json.dumps({"all_sources": True}))
     return [
@@ -181,6 +344,8 @@ def test_entry_without_expected_fields_raises():
 OUTPUTS = (
     "d8_triage.tsv",
     "d8_gpi_outside_pext.tsv",
+    "d8_curated_conflicts.tsv",
+    "curated_gpi_unmatched.tsv",
     "d8_counts.tsv",
     "truth_set_triaged.tsv.gz",
     "d8_run.json",
@@ -331,14 +496,15 @@ def test_sources_subset_marks_run_partial(tmp_path):
     assert run["sources"] == ["Scer"] and run["all_sources"] is False
 
 
-def test_literature_row_makes_p_gpi_and_missing_curated_file_stops(tmp_path, capsys):
+def test_literature_row_with_override_makes_p_gpi_and_missing_curated_file_stops(tmp_path, capsys):
     triage = load_script("03_triage_pm")
     argv = _work(tmp_path)
     (tmp_path / "curated_gpi.tsv").write_text(
-        "source_id\tgene_id\tsymbol\tpmid\tnote\nScer\tS000003246\tMSB2\t1\tx\n"
+        CURATED_HEADER + curated_row("S000003246", "MSB2", override="yes")
     )
     assert triage.main(argv, fetch=good_fetch) == 0
     assert truth_table.read_tsv(tmp_path / "d8_triage.tsv")[0]["d8_class"] == "P-gpi"
+    assert truth_table.read_tsv(tmp_path / "d8_curated_conflicts.tsv") == []
     (tmp_path / "curated_gpi.tsv").unlink()
     assert triage.main(argv, fetch=good_fetch) == 2
     assert "STOP:" in capsys.readouterr().err
@@ -426,8 +592,143 @@ def test_d8_counts_report_no_uniprot_entry_and_gpi_feature_no_evidence():
             return [], "2026_03"
         return [no_ev, MSB2], "2026_03"
 
-    t, _, counts = triage.triage_source(sp, rows, set(), fetch)
+    t, _, counts = triage.triage_source(sp, rows, {}, fetch)
     assert counts["no_uniprot_entry"] == "1"  # S2 only
     assert counts["gpi_feature_no_evidence"] == "1"  # P9 only
     assert {r["symbol"]: r["d8_class"] for r in t}["NOEV"] == "pm-unresolved"
     assert set(triage.D8_COUNT_COLUMNS) >= {"no_uniprot_entry", "gpi_feature_no_evidence"}
+
+
+def test_literature_row_on_a_tm_gene_stays_pm_tm_and_is_reported(tmp_path, capsys):
+    triage = load_script("03_triage_pm")
+    argv = _work(tmp_path)
+    (tmp_path / "curated_gpi.tsv").write_text(
+        CURATED_HEADER + curated_row("S000003246", "MSB2", override="no")
+    )
+    assert triage.main(argv, fetch=good_fetch) == 0
+    row = truth_table.read_tsv(tmp_path / "d8_triage.tsv")[0]
+    assert row["d8_class"] == "PM-TM" and "blocked" in row["d8_reason"]
+    conflicts = truth_table.read_tsv(tmp_path / "d8_curated_conflicts.tsv")
+    assert [(c["gene_id"], c["override_tm"], c["tm_count"]) for c in conflicts] == [
+        ("S000003246", "no", "1")
+    ]
+    counts = truth_table.read_tsv(tmp_path / "d8_counts.tsv")[0]
+    assert (counts["p_gpi"], counts["pm_tm"]) == ("0", "1")
+    assert "d8_curated_conflicts.tsv" in capsys.readouterr().err
+
+
+def test_literature_row_on_a_tm_gene_with_uniprot_gpi_evidence_gives_p_gpi_without_conflict(
+    tmp_path,
+):
+    triage = load_script("03_triage_pm")
+    argv = _work(tmp_path)
+    (tmp_path / "curated_gpi.tsv").write_text(
+        CURATED_HEADER + curated_row("S000003246", "MSB2", override="no")
+    )
+    both = entry("P32334", True, gpi_eco=["ECO:0000269"], tm=["ECO:0000255"], sgd="S000003246")
+
+    def fetch(url, tag):
+        return [both], "2026_03"
+
+    assert triage.main(argv, fetch=fetch) == 0
+    assert truth_table.read_tsv(tmp_path / "d8_triage.tsv")[0]["d8_class"] == "P-gpi"
+    assert truth_table.read_tsv(tmp_path / "d8_curated_conflicts.tsv") == []
+
+
+def test_curated_row_without_a_truth_gene_stops_and_writes_nothing(tmp_path, capsys):
+    triage = load_script("03_triage_pm")
+    argv = _work(tmp_path)
+    (tmp_path / "curated_gpi.tsv").write_text(CURATED_HEADER + curated_row("S999999999", "NOPE"))
+    assert triage.main(argv, fetch=good_fetch) == 2
+    err = capsys.readouterr().err
+    assert "match no truth gene" in err and "S999999999" in err
+    assert not [n for n in OUTPUTS if (tmp_path / n).exists()]
+
+
+def test_curated_rows_that_cannot_act_are_listed_and_the_run_succeeds(tmp_path, capsys):
+    triage = load_script("03_triage_pm")
+    argv = _work(tmp_path)
+
+    def gene(gene_id, symbol, label, candidate, stratum):
+        return {
+            "source_id": "Scer",
+            "gene_id": gene_id,
+            "symbol": symbol,
+            "label": label,
+            "pm_candidate": candidate,
+            "stratum": stratum,
+        }
+
+    truth = [
+        gene("S000003246", "MSB2", "P-ext", "yes", "extracellular-only"),
+        gene("S000000001", "AAA", "P-ext", "no", "wall"),
+        gene("S000000002", "BBB", "ambiguous", "no", "ambiguous"),
+    ]
+    truth_table.write_tsv(tmp_path / "truth_set.tsv.gz", list(truth[0]), truth)
+    (tmp_path / "curated_gpi.tsv").write_text(
+        CURATED_HEADER + curated_row("S000000001", "AAA") + curated_row("S000000002", "BBB")
+    )
+    assert triage.main(argv, fetch=good_fetch) == 0
+    got = truth_table.read_tsv(tmp_path / "curated_gpi_unmatched.tsv")
+    assert [(r["gene_id"], r["reason"]) for r in got] == [
+        ("S000000001", "not_pm_candidate"),
+        ("S000000002", "outside_p_ext"),
+    ]
+    assert "curated_gpi_unmatched.tsv" in capsys.readouterr().err
+
+
+def test_sources_subset_triages_only_selected_sources_but_checks_all_curated_rows(tmp_path):
+    triage = load_script("03_triage_pm")
+    argv = _work(tmp_path)
+
+    def gene(source_id, gene_id, symbol, label, candidate, stratum):
+        return {
+            "source_id": source_id,
+            "gene_id": gene_id,
+            "symbol": symbol,
+            "label": label,
+            "pm_candidate": candidate,
+            "stratum": stratum,
+        }
+
+    truth = [
+        gene("Scer", "S000003246", "MSB2", "P-ext", "yes", "extracellular-only"),
+        gene("Other", "S000000007", "CCC", "ambiguous", "no", "ambiguous"),
+    ]
+    truth_table.write_tsv(tmp_path / "truth_set.tsv.gz", list(truth[0]), truth)
+    species = [
+        {"source_id": "Scer", "id_mapping": "sgd", "taxon_id": "559292"},
+        {"source_id": "Other", "id_mapping": "sgd", "taxon_id": "1"},
+    ]
+    truth_table.write_tsv(tmp_path / "species.tsv", list(species[0]), species)
+    (tmp_path / "curated_gpi.tsv").write_text(
+        CURATED_HEADER + curated_row("S000000007", "CCC", source_id="Other")
+    )
+    assert triage.main([*argv, "--sources", "Scer"], fetch=good_fetch) == 0
+    triaged = truth_table.read_tsv(tmp_path / "d8_triage.tsv")
+    assert [r["source_id"] for r in triaged] == ["Scer"]
+    got = truth_table.read_tsv(tmp_path / "curated_gpi_unmatched.tsv")
+    assert [(r["source_id"], r["reason"]) for r in got] == [("Other", "outside_p_ext")]
+
+
+def test_old_five_column_curated_file_stops_and_writes_nothing(tmp_path, capsys):
+    triage = load_script("03_triage_pm")
+    argv = _work(tmp_path)
+    (tmp_path / "curated_gpi.tsv").write_text("source_id\tgene_id\tsymbol\tpmid\tnote\n")
+    assert triage.main(argv, fetch=good_fetch) == 2
+    assert "missing columns" in capsys.readouterr().err
+    assert not [n for n in OUTPUTS if (tmp_path / n).exists()]
+
+
+def test_header_only_curated_file_gives_empty_review_files(tmp_path, capsys):
+    triage = load_script("03_triage_pm")
+    assert triage.main(_work(tmp_path), fetch=good_fetch) == 0
+    assert truth_table.read_tsv(tmp_path / "d8_curated_conflicts.tsv") == []
+    assert truth_table.read_tsv(tmp_path / "curated_gpi_unmatched.tsv") == []
+    assert "need review" not in capsys.readouterr().err
+
+
+def test_tracked_curated_gpi_file_passes_the_reader():
+    from conftest import STEP1_DIR
+
+    assert d8_triage.read_curated_gpi(STEP1_DIR / "curated_gpi.tsv") == []

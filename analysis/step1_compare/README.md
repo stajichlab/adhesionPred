@@ -48,6 +48,7 @@ $PY 01_extract_go_truth.py             # truth_set.tsv.gz, counts.tsv, extract_l
 $PY 02_attach_sequences.py             # truth_sequences.tsv.gz, unmatched_ids.tsv,
                                        #   sequence_counts.tsv, sequence_run.json
 $PY 03_triage_pm.py                    # d8_triage.tsv, d8_gpi_outside_pext.tsv, d8_counts.tsv,
+                                       #   d8_curated_conflicts.tsv, curated_gpi_unmatched.tsv,
                                        #   truth_set_triaged.tsv.gz, d8_uniprot/, d8_run.json
 $PY 04_build_keyword_tier.py --fetch   # keyword_tier.tsv.gz, keyword_tier_removed.tsv,
                                        #   keyword_tier_run.json, keyword_sequences.fasta.gz,
@@ -193,7 +194,11 @@ extraction.
 - P-gpi is a list, not a scored stratum. The lists are `d8_triage.tsv` and
   `d8_gpi_outside_pext.tsv`.
 - `curated_gpi.tsv` has only a header row. This is by design. Literature curation fills it
-  later as separate work.
+  later as separate work (issue #50). Step 03 stops if a column is missing, a value is invalid,
+  or a row matches no gene of the truth set. A row gives P-gpi unless a UniProt TM feature blocks
+  it. The owner reviews blocked rows in `d8_curated_conflicts.tsv` and sets `override_tm=yes` to
+  allow a row. Rows that cannot act (the gene is not P-ext, or not a plasma-membrane candidate) are
+  listed in `curated_gpi_unmatched.tsv`. A run with `--sources` triages only the selected sources.
 - Genes with GPI evidence whose label is not P-ext go to `d8_gpi_outside_pext.tsv`. The script
   does not relabel them. The D8 test fixture shows this for GAS1. No real-data run of
   script 03 was checked for GAS1 or TIP1.
