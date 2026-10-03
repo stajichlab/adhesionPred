@@ -45,7 +45,7 @@ Each line has a test in the task named in brackets.
 | `analysis/step1_compare/03_triage_pm.py` | read validated rows; dictionary instead of set; write `d8_curated_conflicts.tsv` and `curated_gpi_unmatched.tsv` |
 | `analysis/step1_compare/curated_gpi.tsv` | new header (no rows) |
 | `analysis/step1_compare/COLUMNS.md`, `README.md` | document the two new files and the new columns |
-| `tests/step1_compare/test_d8.py` | new tests; changes to the tests at lines 118, 142, 181-187, 334-341, 429 |
+| `tests/step1_compare/test_d8.py` | new tests; five changes to existing tests, found by content (see Task 3) |
 
 ---
 
@@ -87,7 +87,7 @@ def test_classify_pm_uniprot_experimental_gpi_still_wins_over_tm():
 - [ ] **Step 2: Run the test to verify it fails.**
 
 Run: `PYTHONPATH=src python3.12 -m pytest tests/step1_compare/test_d8.py::test_classify_pm_literature_row_is_blocked_by_tm_unless_override -q`
-Expected: FAIL with `TypeError: classify_pm() got an unexpected keyword argument 'override_tm'`.
+Expected: FAIL with `AssertionError` (`assert 'P-gpi' == 'PM-TM'`), because the old `classify_pm` returns P-gpi for any literature row. The keyword argument is not reached.
 
 - [ ] **Step 3: Write the implementation.** Replace `classify_pm` in `analysis/step1_compare/d8_triage.py`:
 
@@ -225,13 +225,22 @@ def test_check_curated_gpi_lists_rows_that_cannot_act():
 
 
 def test_tm_conflicts_lists_only_blocked_literature_genes():
+    def triage_row(gene_id, symbol, d8_class, accession, tm_count, tm_eco):
+        return {
+            "source_id": "Scer",
+            "gene_id": gene_id,
+            "symbol": symbol,
+            "d8_class": d8_class,
+            "uniprot_accessions": accession,
+            "tm_count": tm_count,
+            "tm_eco": tm_eco,
+            "d8_reason": "r",
+        }
+
     triage = [
-        {"source_id": "Scer", "gene_id": "G1", "symbol": "A", "d8_class": "PM-TM",
-         "uniprot_accessions": "P1", "tm_count": "1", "tm_eco": "ECO:0000255", "d8_reason": "r"},
-        {"source_id": "Scer", "gene_id": "G2", "symbol": "B", "d8_class": "PM-TM",
-         "uniprot_accessions": "P2", "tm_count": "2", "tm_eco": "ECO:0000255", "d8_reason": "r"},
-        {"source_id": "Scer", "gene_id": "G3", "symbol": "C", "d8_class": "P-gpi",
-         "uniprot_accessions": "P3", "tm_count": "0", "tm_eco": "", "d8_reason": "r"},
+        triage_row("G1", "A", "PM-TM", "P1", "1", "ECO:0000255"),
+        triage_row("G2", "B", "PM-TM", "P2", "2", "ECO:0000255"),
+        triage_row("G3", "C", "P-gpi", "P3", "0", ""),
     ]
     literature = {("Scer", "G1"): False, ("Scer", "G3"): True}
     got = d8_triage.tm_conflicts(triage, literature)
@@ -385,7 +394,7 @@ Co-Authored-By: Claude Sonnet 5.5 <noreply@anthropic.com>"
 
 **Files:**
 - Modify: `analysis/step1_compare/03_triage_pm.py` (lines 41-48, 77-98, 197-234)
-- Modify: `tests/step1_compare/test_d8.py` (lines 118, 142, 181-187, 334-341, 429)
+- Modify: `tests/step1_compare/test_d8.py` (five existing places, found by their content, not by line number: Tasks 1 and 2 add about 127 lines first)
 - Test: `tests/step1_compare/test_d8.py` (new tests at the end)
 
 **Interfaces:**
@@ -394,10 +403,12 @@ Co-Authored-By: Claude Sonnet 5.5 <noreply@anthropic.com>"
 
 - [ ] **Step 1: Update the existing tests and write the new failing tests.** In `tests/step1_compare/test_d8.py`:
 
-1. Line 118: replace `triage.triage_source(sp, rows, set(), fake_fetch)` with `triage.triage_source(sp, rows, {}, fake_fetch)`.
-2. Line 429: replace `triage.triage_source(sp, rows, set(), fetch)` with `triage.triage_source(sp, rows, {}, fetch)`.
-3. Line 142: replace `(tmp_path / "curated_gpi.tsv").write_text("source_id\tgene_id\tsymbol\tpmid\tnote\n")` with `(tmp_path / "curated_gpi.tsv").write_text(CURATED_HEADER)`.
-4. Replace the `OUTPUTS` tuple (lines 181-187) with:
+Find each existing edit point by its content (the line numbers of the original file are about 127 lines lower than in the file after Tasks 1 and 2: the original lines were 118, 142, 181-187, 334-344 and 429).
+
+1. In `test_triage_source_and_apply`: replace `triage.triage_source(sp, rows, set(), fake_fetch)` with `triage.triage_source(sp, rows, {}, fake_fetch)`.
+2. In `test_d8_counts_report_no_uniprot_entry_and_gpi_feature_no_evidence`: replace `triage.triage_source(sp, rows, set(), fetch)` with `triage.triage_source(sp, rows, {}, fetch)`.
+3. In `_work`: replace `(tmp_path / "curated_gpi.tsv").write_text("source_id\tgene_id\tsymbol\tpmid\tnote\n")` with `(tmp_path / "curated_gpi.tsv").write_text(CURATED_HEADER)`.
+4. Replace the `OUTPUTS` tuple (after the comment `# ---- hardening tests`) with:
 
 ```python
 OUTPUTS = (
@@ -411,12 +422,10 @@ OUTPUTS = (
 )
 ```
 
-5. Replace `test_literature_row_makes_p_gpi_and_missing_curated_file_stops` (lines 334-344) with:
+5. Replace the whole function `test_literature_row_makes_p_gpi_and_missing_curated_file_stops` (it runs from its `def` line to the `assert "STOP:" in capsys.readouterr().err` line; 11 lines in the original file) with:
 
 ```python
-def test_literature_row_with_override_makes_p_gpi_and_missing_curated_file_stops(
-    tmp_path, capsys
-):
+def test_literature_row_with_override_makes_p_gpi_and_missing_curated_file_stops(tmp_path, capsys):
     triage = load_script("03_triage_pm")
     argv = _work(tmp_path)
     (tmp_path / "curated_gpi.tsv").write_text(
@@ -457,9 +466,7 @@ def test_literature_row_on_a_tm_gene_with_uniprot_gpi_evidence_gives_p_gpi_witho
     (tmp_path / "curated_gpi.tsv").write_text(
         CURATED_HEADER + curated_row("S000003246", "MSB2", override="no")
     )
-    both = entry(
-        "P32334", True, gpi_eco=["ECO:0000269"], tm=["ECO:0000255"], sgd="S000003246"
-    )
+    both = entry("P32334", True, gpi_eco=["ECO:0000269"], tm=["ECO:0000255"], sgd="S000003246")
 
     def fetch(url, tag):
         return [both], "2026_03"
@@ -472,9 +479,7 @@ def test_literature_row_on_a_tm_gene_with_uniprot_gpi_evidence_gives_p_gpi_witho
 def test_unmatched_curated_rows_are_listed_and_the_run_succeeds(tmp_path, capsys):
     triage = load_script("03_triage_pm")
     argv = _work(tmp_path)
-    (tmp_path / "curated_gpi.tsv").write_text(
-        CURATED_HEADER + curated_row("S999999999", "NOPE")
-    )
+    (tmp_path / "curated_gpi.tsv").write_text(CURATED_HEADER + curated_row("S999999999", "NOPE"))
     assert triage.main(argv, fetch=good_fetch) == 0
     got = truth_table.read_tsv(tmp_path / "curated_gpi_unmatched.tsv")
     assert [(r["gene_id"], r["reason"]) for r in got] == [("S999999999", "no_truth_gene")]
@@ -527,10 +532,28 @@ def triage_source(sp, rows, literature, fetch):
 
 ```python
         key = (sp["source_id"], r["gene_id"])
-        d8_class, reason = d8_triage.classify_pm(mine, key in literature, literature.get(key, False))
+        d8_class, reason = d8_triage.classify_pm(
+            mine, key in literature, literature.get(key, False)
+        )
 ```
 
-Also update the docstring of the script (top of file, line 4) so that it reads `Reads $STEP1_WORKDIR/truth_set.tsv.gz, species.tsv and curated_gpi.tsv (checked by d8_triage.read_curated_gpi).`
+Also update the docstring of the script (lines 4-6). Replace these three lines:
+
+```
+Reads $STEP1_WORKDIR/truth_set.tsv.gz, species.tsv and curated_gpi.tsv. Queries UniProtKB REST.
+Writes d8_triage.tsv, d8_gpi_outside_pext.tsv, d8_counts.tsv, truth_set_triaged.tsv.gz and the
+raw UniProt JSON pages (d8_uniprot/; pages of older runs are not deleted and can remain) to the
+```
+
+with:
+
+```
+Reads $STEP1_WORKDIR/truth_set.tsv.gz, species.tsv and curated_gpi.tsv (checked by
+d8_triage.read_curated_gpi). Queries UniProtKB REST.
+Writes d8_triage.tsv, d8_gpi_outside_pext.tsv, d8_curated_conflicts.tsv,
+curated_gpi_unmatched.tsv, d8_counts.tsv, truth_set_triaged.tsv.gz and the
+raw UniProt JSON pages (d8_uniprot/; pages of older runs are not deleted and can remain) to the
+```
 
 (c) In `main`, replace the block that builds `literature_ids` (lines 199-201):
 
@@ -574,7 +597,9 @@ Also update the docstring of the script (top of file, line 4) so that it reads `
 - [ ] **Step 4: Run the tests to verify they pass.**
 
 Run: `PYTHONPATH=src python3.12 -m pytest tests/step1_compare/test_d8.py -q`
-Expected: PASS for the whole file.
+Expected: PASS for the whole file (the dry run counted 48 passed at this point).
+
+Do not run `tests/step1_compare/test_paths.py` yet. Its heading test fails until Task 4 adds the two `COLUMNS.md` headings. If CI runs on every commit, commit Tasks 3 and 4 together.
 
 - [ ] **Step 5: Commit.**
 
@@ -632,6 +657,27 @@ EOF
 - [ ] **Step 3: Write the documentation.** In `analysis/step1_compare/COLUMNS.md`, insert this text after the table of the `d8_gpi_outside_pext.tsv` section (after the line that starts `| gpi_eco | ECO codes of the GPI-anchor features of that entry`):
 
 ```markdown
+
+## curated_gpi.tsv (input of 03_triage_pm.py, one row per gene)
+
+Literature rows with experimental proof of a GPI anchor. A row acts only for a P-ext gene that is a
+plasma-membrane candidate. Step 03 stops if a column is missing, if a value is invalid, or if a
+`(source_id, gene_id)` pair appears twice. The file in the repo has a header and no rows.
+
+| Column | Meaning |
+|---|---|
+| source_id | Source in `species.tsv`. |
+| gene_id | The native identifier of the source (for example SGD `S000004924`). D8 matches on `(source_id, gene_id)`. |
+| symbol | Gene symbol. |
+| pmid | PubMed identifier. Required. The reviewer opens it and checks that it resolves. |
+| note | Free text. |
+| species | Species name, for readability. |
+| uniprot_accession | UniProt accession. |
+| evidence_level | `direct` (the paper measures the anchor in this protein) or `transfer` (in an ortholog). |
+| evidence_note | The sentence of the paper that states the evidence, and the retrieval date. Required. |
+| reviewer | Initials or model name of the second check. Required. |
+| review_date | `YYYY-MM-DD`. Required. |
+| override_tm | `no` (default) or `yes`. With `no`, a UniProt TM feature blocks the row and the gene stays `PM-TM`. The owner sets `yes` after review. |
 
 ## d8_curated_conflicts.tsv (03_triage_pm.py, one row per gene)
 
@@ -730,7 +776,7 @@ Co-Authored-By: Claude Sonnet 5.5 <noreply@anthropic.com>"
 - `d8_curated_conflicts.tsv` written by step 03: Task 3.
 - New columns, `evidence_level`, `override_tm` default, header check: Task 2, Task 4.
 - Match check and `curated_gpi_unmatched.tsv` with the three reasons: Task 2, Task 3.
-- Changes to `test_d8.py:334-341`, `:142`, `:338`, `:118`, `:429`: Task 3.
+- Changes to the five existing test places in `test_d8.py` (original lines 118, 142, 181-187, 334-344, 429): Task 3.
 - COLUMNS.md headings required by `test_paths.py`: Task 4.
 - Not covered here, by design: step 01 merge, `curated_basidiomycota.tsv`, new truth columns, Phase C tiers, `dedupe.merge_group` (plan 2).
 
