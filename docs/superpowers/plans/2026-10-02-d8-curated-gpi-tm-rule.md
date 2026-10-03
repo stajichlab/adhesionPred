@@ -24,7 +24,8 @@
 - New output files need a heading in `analysis/step1_compare/COLUMNS.md` (`tests/step1_compare/test_paths.py::test_every_output_file_has_a_columns_md_heading` checks this).
 - Documents use Simplified Technical English: short sentences, active voice, no idioms.
 - Lint with `uvx ruff@0.3.5 check analysis tests` (CI pins ruff 0.3.5). The pre-commit hook may reformat a file and fail the commit once. Stage and commit again.
-- Every commit message ends with: `Co-Authored-By: Claude Sonnet 5.5 <noreply@anthropic.com>`.
+- Every commit message ends with the attribution line that the executing session is told to use. The examples below show `Co-Authored-By: Claude Sonnet 5.5 <noreply@anthropic.com>`.
+- A curated row whose `(source_id, gene_id)` matches no gene of the truth set stops step 03 (spec section 3.2, B2: every row must match a truth gene). A row whose gene is outside P-ext, or is not a plasma-membrane candidate, is only listed in `curated_gpi_unmatched.tsv`.
 
 ## Review Focus
 
@@ -33,9 +34,14 @@ Each line has a test in the task named in brackets.
 1. A `curated_gpi.tsv` with the old five-column header stops step 03 with a clear message, and writes no output. [Task 2, Task 3]
 2. `override_tm` with any value other than `yes` or `no` (for example `Yes` or empty) stops the run. [Task 2]
 3. The same `(source_id, gene_id)` twice stops the run. [Task 2]
-4. A row whose gene is missing from the truth set, outside P-ext, or not a plasma-membrane candidate is listed in `curated_gpi_unmatched.tsv`, and the run still succeeds. [Task 2, Task 3]
+4. A row whose gene is missing from the truth set stops the run, and writes no output. A row whose gene is outside P-ext, or not a plasma-membrane candidate, is listed in `curated_gpi_unmatched.tsv` and the run succeeds. [Task 2, Task 3]
 5. A literature row on a gene that has a TM feature **and** a reviewed UniProt ECO:0000269 GPI entry gives P-gpi and no conflict row. [Task 1, Task 3]
 6. A literature row on a TM gene with `override_tm=no` gives PM-TM and one conflict row. With `override_tm=yes` it gives P-gpi and no conflict row. [Task 1, Task 3]
+7. An `evidence_note` that starts with a double quote (a quoted sentence from a paper) is read back unchanged. [Task 2]
+8. A file saved with a UTF-8 byte order mark (spreadsheet export) is accepted. [Task 2]
+9. A row with too few or too many fields stops the run with a message about the field count, and the message names the physical line of the file. [Task 2]
+10. `override_tm=yes` on a gene that has no TM feature still gives P-gpi, and the reason says that the override was not needed. A stale override is then visible. [Task 1]
+11. A run with `--sources` that selects a subset: a curated row of a source that was not selected is not triaged in that run, and the documentation says so. [Task 4]
 
 ## File Structure
 
@@ -69,9 +75,11 @@ def test_classify_pm_literature_row_is_blocked_by_tm_unless_override():
     assert "blocked" in reason and "P32334 1 TM ECO:0000255" in reason
     assert d8_triage.classify_pm([p(MSB2)], True, override_tm=True) == (
         "P-gpi",
-        "literature row in curated_gpi.tsv",
+        "literature row in curated_gpi.tsv; override_tm=yes",
     )
-    assert d8_triage.classify_pm([p(YPS1)], True)[0] == "P-gpi"  # no TM feature
+    assert d8_triage.classify_pm([p(YPS1)], True) == ("P-gpi", "literature row in curated_gpi.tsv")
+    stale = d8_triage.classify_pm([p(YPS1)], True, override_tm=True)  # no TM feature
+    assert stale[0] == "P-gpi" and stale[1].endswith("override_tm=yes not needed (no TM feature)")
     assert d8_triage.classify_pm([], True)[0] == "P-gpi"  # no UniProt entry at all
 
 
@@ -79,9 +87,17 @@ def test_classify_pm_uniprot_experimental_gpi_still_wins_over_tm():
     both = d8_triage.parse_entry(entry("P5", True, gpi_eco=["ECO:0000269"], tm=["ECO:0000255"]))
     assert d8_triage.classify_pm([both], False)[0] == "P-gpi"
     assert d8_triage.classify_pm([both], True)[0] == "P-gpi"
-    assert d8_triage.classify_pm([both], True, override_tm=False)[1] == (
-        "literature row in curated_gpi.tsv"
+    assert d8_triage.classify_pm([both], True)[1] == (
+        "literature row in curated_gpi.tsv; P5 reviewed GPI-anchor ECO:0000269"
     )
+
+
+def test_classify_pm_unreviewed_gpi_evidence_does_not_beat_tm():
+    unreviewed = d8_triage.parse_entry(
+        entry("P6", False, gpi_eco=["ECO:0000269"], tm=["ECO:0000255"])
+    )
+    assert d8_triage.classify_pm([unreviewed], True)[0] == "PM-TM"
+    assert d8_triage.classify_pm([unreviewed], False)[0] == "PM-TM"
 ```
 
 - [ ] **Step 2: Run the test to verify it fails.**
@@ -99,15 +115,23 @@ def classify_pm(
 
     A literature row gives P-gpi, except when a UniProt TM feature blocks it: the gene has a TM
     feature, `override_tm` is false, and no reviewed UniProt entry has experimental GPI evidence.
-    A blocked gene stays PM-TM (owner decision 8, 2026-10-02). The reason says so."""
+    A blocked gene stays PM-TM (owner decision 8, 2026-10-02). The reason says so. When a literature
+    row and a reviewed UniProt entry both give P-gpi, the reason names both."""
     with_tm = [e for e in entries if e.tm_count > 0]
-    uniprot_curated = any(e.curated_gpi for e in entries)
-    blocked = literature and bool(with_tm) and not override_tm and not uniprot_curated
+    curated = [e for e in entries if e.curated_gpi]
+    blocked = literature and bool(with_tm) and not override_tm and not curated
     if literature and not blocked:
-        return P_GPI, "literature row in curated_gpi.tsv"
-    for e in entries:
-        if e.curated_gpi:
-            return P_GPI, f"{e.accession} reviewed GPI-anchor {','.join(e.gpi_eco)}"
+        reason = "literature row in curated_gpi.tsv"
+        if override_tm:
+            reason += "; override_tm=yes"
+            if not with_tm:
+                reason += " not needed (no TM feature)"
+        if curated:
+            reason += f"; {curated[0].accession} reviewed GPI-anchor {','.join(curated[0].gpi_eco)}"
+        return P_GPI, reason
+    if curated:
+        e = curated[0]
+        return P_GPI, f"{e.accession} reviewed GPI-anchor {','.join(e.gpi_eco)}"
     if with_tm:
         e = with_tm[0]
         reason = f"{e.accession} {e.tm_count} TM {','.join(e.tm_eco) or 'no ECO'}"
@@ -117,6 +141,34 @@ def classify_pm(
     if not entries:
         return PM_UNRESOLVED, "no UniProt entry found"
     return PM_UNRESOLVED, "no curated GPI evidence and no TM feature"
+```
+
+Then update the module docstring of `d8_triage.py` (lines 6-13). Replace:
+
+```
+- P-gpi: a literature row in curated_gpi.tsv, or a reviewed UniProt entry with a Lipidation
+  feature whose description starts with "GPI-anchor" and whose evidence includes a code in
+  CURATED_GPI_ECO. Predictor output never counts.
+- PM-TM: not P-gpi, and at least one UniProt Transmembrane feature (any evidence code; the
+  codes are recorded because they are often ECO:0000255, sequence analysis).
+- pm-unresolved: neither. The spec does not define this case; it stays P-ext and is listed.
+P-gpi is reported as a list, not a scored stratum, until curated_gpi.tsv has literature rows.
+```
+
+with:
+
+```
+- P-gpi: a literature row in curated_gpi.tsv, or a reviewed UniProt entry with a Lipidation
+  feature whose description starts with "GPI-anchor" and whose evidence includes a code in
+  CURATED_GPI_ECO. Predictor output never counts. A UniProt TM feature blocks a literature row
+  unless the row has override_tm=yes or a reviewed UniProt entry has the GPI evidence
+  (owner decision 8, 2026-10-02).
+- PM-TM: not P-gpi, and at least one UniProt Transmembrane feature (any evidence code; the
+  codes are recorded because they are often ECO:0000255, sequence analysis). This includes a
+  literature row that a TM feature blocks.
+- pm-unresolved: neither. The spec does not define this case; it stays P-ext and is listed.
+P-gpi is reported as a list, not a scored stratum, until a test set has 20 direct P-gpi
+positives (owner decision 12, 2026-10-02).
 ```
 
 - [ ] **Step 4: Run the tests to verify they pass.**
@@ -187,6 +239,36 @@ def test_read_curated_gpi_accepts_a_valid_file_and_a_header_only_file(tmp_path):
     assert [(r["gene_id"], r["override_tm"]) for r in rows] == [("S000003246", "yes")]
 
 
+@pytest.mark.parametrize("note", ['"Gas1p is GPI-anchored" retrieved 2026-10-02', "plain note"])
+def test_read_curated_gpi_keeps_quote_characters_in_the_note(tmp_path, note):
+    path = tmp_path / "curated_gpi.tsv"
+    path.write_text(CURATED_HEADER + curated_row("G1", "A", evidence_note=note))
+    assert d8_triage.read_curated_gpi(path)[0]["evidence_note"] == note
+
+
+def test_read_curated_gpi_accepts_a_utf8_byte_order_mark(tmp_path):
+    path = tmp_path / "curated_gpi.tsv"
+    path.write_text(CURATED_HEADER + curated_row("G1", "A"), encoding="utf-8-sig")
+    assert [r["gene_id"] for r in d8_triage.read_curated_gpi(path)] == ["G1"]
+
+
+def test_read_curated_gpi_allows_the_same_gene_id_in_two_sources(tmp_path):
+    path = tmp_path / "curated_gpi.tsv"
+    path.write_text(
+        CURATED_HEADER + curated_row("G1", "A") + curated_row("G1", "A", source_id="Calb")
+    )
+    assert len(d8_triage.read_curated_gpi(path)) == 2
+
+
+def test_read_curated_gpi_reports_the_physical_line_number(tmp_path):
+    path = tmp_path / "curated_gpi.tsv"
+    path.write_text(
+        CURATED_HEADER + curated_row("G1", "A") + "\n\n" + curated_row("G2", "B", override="maybe")
+    )
+    with pytest.raises(d8_triage.CuratedGpiError, match="line 5"):
+        d8_triage.read_curated_gpi(path)
+
+
 @pytest.mark.parametrize(
     "text, message",
     [
@@ -195,7 +277,16 @@ def test_read_curated_gpi_accepts_a_valid_file_and_a_header_only_file(tmp_path):
         (CURATED_HEADER + curated_row("G1", "A", override=""), "override_tm"),
         (CURATED_HEADER + curated_row("G1", "A", evidence_level="maybe"), "evidence_level"),
         (CURATED_HEADER + curated_row("G1", "A", pmid=""), "pmid"),
+        (CURATED_HEADER + curated_row("G1", "A", pmid="PMID:1"), "pmid"),
         (CURATED_HEADER + curated_row("G1", "A", reviewer=""), "reviewer"),
+        (CURATED_HEADER + curated_row("G1", "A", evidence_note=""), "evidence_note"),
+        (CURATED_HEADER + curated_row("G1", "A", review_date=""), "review_date"),
+        (CURATED_HEADER + curated_row("G1", "A", review_date="yesterday"), "review_date"),
+        (CURATED_HEADER + "Scer\tG1\tA\t1\tn\n", "wrong number of fields"),
+        (
+            CURATED_HEADER + curated_row("G1", "A").rstrip("\n") + "\textra\n",
+            "wrong number of fields",
+        ),
         (CURATED_HEADER + curated_row("", "A"), "source_id and gene_id"),
         (CURATED_HEADER + curated_row("G1", "A") + curated_row("G1", "A"), "twice"),
     ],
@@ -250,12 +341,14 @@ def test_tm_conflicts_lists_only_blocked_literature_genes():
 - [ ] **Step 2: Run the tests to verify they fail.**
 
 Run: `PYTHONPATH=src python3.12 -m pytest tests/step1_compare/test_d8.py -q -k "curated_gpi or tm_conflicts"`
-Expected: FAIL with `AttributeError: module 'd8_triage' has no attribute 'CURATED_GPI_COLUMNS'` (the whole file fails at import of the helper line).
+Expected: ERROR at collection with `AttributeError: module 'd8_triage' has no attribute 'CURATED_GPI_COLUMNS'`. The helper at the top of the file needs the new constant, so the whole file fails to import.
 
 - [ ] **Step 3: Write the implementation.** In `analysis/step1_compare/d8_triage.py`, change the imports and add the code. Replace lines 16-17:
 
 ```python
 import csv
+import datetime
+import re
 import urllib.parse
 from dataclasses import dataclass, field
 ```
@@ -299,29 +392,46 @@ class CuratedGpiError(ValueError):
 def read_curated_gpi(path) -> list[dict[str, str]]:
     """Read and check curated_gpi.tsv. A header-only file gives an empty list.
 
-    The PMID is checked for presence only. The reviewer opens each PMID (spec section 4)."""
-    with open(path, newline="", encoding="utf-8") as handle:
-        reader = csv.DictReader(handle, delimiter="\t")
+    The file is plain tab-separated text: a double quote is an ordinary character, so a quoted
+    sentence in `evidence_note` stays as written. A UTF-8 byte order mark is accepted. Messages
+    name the physical line of the file. The PMID is checked for its form only. The reviewer opens
+    each PMID and checks that it resolves (spec section 4)."""
+    rows, seen = [], set()
+    with open(path, newline="", encoding="utf-8-sig") as handle:
+        reader = csv.DictReader(handle, delimiter="\t", quoting=csv.QUOTE_NONE)
         missing = [c for c in CURATED_GPI_COLUMNS if c not in (reader.fieldnames or [])]
         if missing:
             raise CuratedGpiError(f"{path}: missing columns {missing}")
-        rows = list(reader)
-    seen = set()
-    for number, row in enumerate(rows, start=2):
-        where = f"{path} line {number}"
-        key = (row["source_id"], row["gene_id"])
-        if not all(key):
-            raise CuratedGpiError(f"{where}: source_id and gene_id are required")
-        if key in seen:
-            raise CuratedGpiError(f"{where}: {key[0]} {key[1]} appears twice")
-        seen.add(key)
-        if row["override_tm"] not in ("yes", "no"):
-            raise CuratedGpiError(f"{where}: override_tm must be yes or no")
-        if row["evidence_level"] not in EVIDENCE_LEVELS:
-            raise CuratedGpiError(f"{where}: evidence_level must be direct or transfer")
-        for column in CURATED_GPI_REQUIRED:
-            if not row[column]:
-                raise CuratedGpiError(f"{where}: {column} is required")
+        for row in reader:
+            where = f"{path} line {reader.line_num}"
+            if None in row or None in row.values():
+                raise CuratedGpiError(
+                    f"{where}: wrong number of fields (the header has {len(reader.fieldnames)})"
+                )
+            key = (row["source_id"], row["gene_id"])
+            if not all(key):
+                raise CuratedGpiError(f"{where}: source_id and gene_id are required")
+            if key in seen:
+                raise CuratedGpiError(f"{where}: {key[0]} {key[1]} appears twice")
+            seen.add(key)
+            if row["override_tm"] not in ("yes", "no"):
+                raise CuratedGpiError(
+                    f"{where}: override_tm must be yes or no, not {row['override_tm']!r}"
+                )
+            if row["evidence_level"] not in EVIDENCE_LEVELS:
+                raise CuratedGpiError(f"{where}: evidence_level must be direct or transfer")
+            for column in CURATED_GPI_REQUIRED:
+                if not row[column]:
+                    raise CuratedGpiError(f"{where}: {column} is required")
+            if not re.fullmatch(r"\d+(;\d+)*", row["pmid"]):
+                raise CuratedGpiError(f"{where}: pmid must be digits, joined with ';'")
+            if not re.fullmatch(r"\d{4}-\d{2}-\d{2}", row["review_date"]):
+                raise CuratedGpiError(f"{where}: review_date must be YYYY-MM-DD")
+            try:
+                datetime.date.fromisoformat(row["review_date"])
+            except ValueError as exc:
+                raise CuratedGpiError(f"{where}: review_date is not a date: {exc}") from exc
+            rows.append(row)
     return rows
 
 
@@ -455,6 +565,8 @@ def test_literature_row_on_a_tm_gene_stays_pm_tm_and_is_reported(tmp_path, capsy
     assert [(c["gene_id"], c["override_tm"], c["tm_count"]) for c in conflicts] == [
         ("S000003246", "no", "1")
     ]
+    counts = truth_table.read_tsv(tmp_path / "d8_counts.tsv")[0]
+    assert (counts["p_gpi"], counts["pm_tm"]) == ("0", "1")
     assert "d8_curated_conflicts.tsv" in capsys.readouterr().err
 
 
@@ -476,13 +588,45 @@ def test_literature_row_on_a_tm_gene_with_uniprot_gpi_evidence_gives_p_gpi_witho
     assert truth_table.read_tsv(tmp_path / "d8_curated_conflicts.tsv") == []
 
 
-def test_unmatched_curated_rows_are_listed_and_the_run_succeeds(tmp_path, capsys):
+def test_curated_row_without_a_truth_gene_stops_and_writes_nothing(tmp_path, capsys):
     triage = load_script("03_triage_pm")
     argv = _work(tmp_path)
     (tmp_path / "curated_gpi.tsv").write_text(CURATED_HEADER + curated_row("S999999999", "NOPE"))
+    assert triage.main(argv, fetch=good_fetch) == 2
+    err = capsys.readouterr().err
+    assert "match no truth gene" in err and "S999999999" in err
+    assert not [n for n in OUTPUTS if (tmp_path / n).exists()]
+
+
+def test_curated_rows_that_cannot_act_are_listed_and_the_run_succeeds(tmp_path, capsys):
+    triage = load_script("03_triage_pm")
+    argv = _work(tmp_path)
+
+    def gene(gene_id, symbol, label, candidate, stratum):
+        return {
+            "source_id": "Scer",
+            "gene_id": gene_id,
+            "symbol": symbol,
+            "label": label,
+            "pm_candidate": candidate,
+            "stratum": stratum,
+        }
+
+    truth = [
+        gene("S000003246", "MSB2", "P-ext", "yes", "extracellular-only"),
+        gene("S000000001", "AAA", "P-ext", "no", "wall"),
+        gene("S000000002", "BBB", "ambiguous", "no", "ambiguous"),
+    ]
+    truth_table.write_tsv(tmp_path / "truth_set.tsv.gz", list(truth[0]), truth)
+    (tmp_path / "curated_gpi.tsv").write_text(
+        CURATED_HEADER + curated_row("S000000001", "AAA") + curated_row("S000000002", "BBB")
+    )
     assert triage.main(argv, fetch=good_fetch) == 0
     got = truth_table.read_tsv(tmp_path / "curated_gpi_unmatched.tsv")
-    assert [(r["gene_id"], r["reason"]) for r in got] == [("S999999999", "no_truth_gene")]
+    assert [(r["gene_id"], r["reason"]) for r in got] == [
+        ("S000000001", "not_pm_candidate"),
+        ("S000000002", "outside_p_ext"),
+    ]
     assert "curated_gpi_unmatched.tsv" in capsys.readouterr().err
 
 
@@ -537,7 +681,20 @@ def triage_source(sp, rows, literature, fetch):
         )
 ```
 
-Also update the docstring of the script (lines 4-6). Replace these three lines:
+Also update the docstring of the script (lines 4-8). Replace the stop sentence first. Replace:
+
+```
+work directory. Stops (exit 2, no output tables) on an HTTP error, a response without the
+```
+
+with:
+
+```
+work directory. Stops (exit 2, no output tables) on an invalid curated_gpi.tsv (missing column,
+bad value, or a row that matches no truth gene), on an HTTP error, a response without the
+```
+
+Then replace these three lines (4-6):
 
 ```
 Reads $STEP1_WORKDIR/truth_set.tsv.gz, species.tsv and curated_gpi.tsv. Queries UniProtKB REST.
@@ -555,13 +712,18 @@ curated_gpi_unmatched.tsv, d8_counts.tsv, truth_set_triaged.tsv.gz and the
 raw UniProt JSON pages (d8_uniprot/; pages of older runs are not deleted and can remain) to the
 ```
 
-(c) In `main`, replace the block that builds `literature_ids` (lines 199-201):
+(c) In `main`, replace the block that builds `literature_ids` (lines 199-201). The match check runs here, before the UniProt queries, so that a mistyped `gene_id` stops the run early:
 
 ```python
         curated_rows = d8_triage.read_curated_gpi(args.curated_gpi)
         literature = {
             (r["source_id"], r["gene_id"]): r["override_tm"] == "yes" for r in curated_rows
         }
+        unmatched = d8_triage.check_curated_gpi(curated_rows, truth_rows)
+        no_gene = [u for u in unmatched if u["reason"] == "no_truth_gene"]
+        if no_gene:
+            names = ", ".join(f"{u['source_id']} {u['gene_id']}" for u in no_gene[:10])
+            raise d8_triage.CuratedGpiError(f"curated_gpi.tsv rows match no truth gene: {names}")
 ```
 
 (d) Change the call (line 207) to `t, o, c = triage_source(sp, rows, literature, fetch)`.
@@ -570,7 +732,6 @@ raw UniProt JSON pages (d8_uniprot/; pages of older runs are not deleted and can
 
 ```python
         conflicts = d8_triage.tm_conflicts(triage, literature)
-        unmatched = d8_triage.check_curated_gpi(curated_rows, truth_rows)
 ```
 
 (f) In the `tables` dictionary (line 223), add two entries after `"d8_gpi_outside_pext.tsv"`:
@@ -589,7 +750,7 @@ raw UniProt JSON pages (d8_uniprot/; pages of older runs are not deleted and can
     ):
         if rows_for_review:
             print(
-                f"NOTE: {len(rows_for_review)} rows need review; see {name}",
+                f"NOTE: {len(rows_for_review)} row(s) need review; see {name}",
                 file=sys.stderr,
             )
 ```
@@ -662,14 +823,15 @@ EOF
 
 Literature rows with experimental proof of a GPI anchor. A row acts only for a P-ext gene that is a
 plasma-membrane candidate. Step 03 stops if a column is missing, if a value is invalid, or if a
-`(source_id, gene_id)` pair appears twice. The file in the repo has a header and no rows.
+`(source_id, gene_id)` pair appears twice. The file is plain tab-separated text: a double quote is an
+ordinary character, and a UTF-8 byte order mark is accepted. The file in the repo has a header and no rows.
 
 | Column | Meaning |
 |---|---|
 | source_id | Source in `species.tsv`. |
 | gene_id | The native identifier of the source (for example SGD `S000004924`). D8 matches on `(source_id, gene_id)`. |
 | symbol | Gene symbol. |
-| pmid | PubMed identifier. Required. The reviewer opens it and checks that it resolves. |
+| pmid | PubMed identifier or identifiers, digits only, joined with `;`. Required. The reviewer opens each one and checks that it resolves. |
 | note | Free text. |
 | species | Species name, for readability. |
 | uniprot_accession | UniProt accession. |
@@ -697,13 +859,15 @@ when no row is blocked.
 
 D8 reads a `curated_gpi.tsv` row only for a P-ext gene that is a plasma-membrane candidate. This file
 lists the rows that fail that condition. The run still succeeds. The file is empty when every row
-can act.
+can act. A row that matches no gene of the truth set is not listed here: it stops the run. The file
+covers all sources of the truth set. A run with `--sources` triages only the selected sources, so a
+row of a source that was not selected is neither listed nor triaged in that run.
 
 | Column | Meaning |
 |---|---|
 | source_id, gene_id, symbol | From the `curated_gpi.tsv` row. |
-| reason | `no_truth_gene` (no gene with this `source_id` and `gene_id` in `truth_set.tsv.gz`), `outside_p_ext` (the gene is not P-ext) or `not_pm_candidate` (the gene is P-ext without a non-IEA plasma-membrane term). |
-| label | The label of the gene in `truth_set.tsv.gz`. Empty for `no_truth_gene`. |
+| reason | `outside_p_ext` (the gene is not P-ext) or `not_pm_candidate` (the gene is P-ext without a non-IEA plasma-membrane term). |
+| label | The label of the gene in `truth_set.tsv.gz`. |
 ```
 
 In `analysis/step1_compare/README.md`, replace lines 50-51:
@@ -732,9 +896,11 @@ with:
 
 ```
 - `curated_gpi.tsv` has only a header row. This is by design. Literature curation fills it
-  later as separate work (issue #50). Step 03 stops if a column is missing or a value is invalid.
-  A row gives P-gpi unless a UniProt TM feature blocks it. The owner reviews blocked rows in
-  `d8_curated_conflicts.tsv` and sets `override_tm=yes` to allow a row.
+  later as separate work (issue #50). Step 03 stops if a column is missing, a value is invalid,
+  or a row matches no gene of the truth set. A row gives P-gpi unless a UniProt TM feature blocks
+  it. The owner reviews blocked rows in `d8_curated_conflicts.tsv` and sets `override_tm=yes` to
+  allow a row. Rows that cannot act (the gene is not P-ext, or not a plasma-membrane candidate) are
+  listed in `curated_gpi_unmatched.tsv`. A run with `--sources` triages only the selected sources.
 ```
 
 - [ ] **Step 4: Run all checks.**
@@ -775,7 +941,8 @@ Co-Authored-By: Claude Sonnet 5.5 <noreply@anthropic.com>"
 - UniProt ECO:0000269 behaviour unchanged: Task 1 (second test), Task 3.
 - `d8_curated_conflicts.tsv` written by step 03: Task 3.
 - New columns, `evidence_level`, `override_tm` default, header check: Task 2, Task 4.
-- Match check and `curated_gpi_unmatched.tsv` with the three reasons: Task 2, Task 3.
+- Match check: a row without a truth gene stops the run (spec 3.2, B2); rows outside P-ext or not plasma-membrane candidates are listed in `curated_gpi_unmatched.tsv`: Task 2, Task 3.
+- Input checks beyond the spec text, from the independent review: quote characters, byte order mark, field count, physical line numbers, PMID and date format: Task 2.
 - Changes to the five existing test places in `test_d8.py` (original lines 118, 142, 181-187, 334-344, 429): Task 3.
 - COLUMNS.md headings required by `test_paths.py`: Task 4.
 - Not covered here, by design: step 01 merge, `curated_basidiomycota.tsv`, new truth columns, Phase C tiers, `dedupe.merge_group` (plan 2).
@@ -784,4 +951,4 @@ Co-Authored-By: Claude Sonnet 5.5 <noreply@anthropic.com>"
 
 **Type consistency:** `literature` is `dict[tuple[str, str], bool]` in `triage_source`, `main` and `tm_conflicts`. `classify_pm(entries, literature, override_tm)` is called with `(mine, key in literature, literature.get(key, False))`. `CURATED_GPI_COLUMNS` has 12 names and `curated_row` in the tests uses the same keys. `CONFLICT_COLUMNS` and `UNMATCHED_COLUMNS` are used in Task 2 and Task 3 with the same names.
 
-**Known limits.** `read_curated_gpi` checks that `pmid` is present, not that it resolves in PubMed. The reviewer does that (spec section 4). The new required fields (`evidence_note`, `reviewer`, `review_date`) make a draft row fail the reader. Draft rows belong in a separate file until a reviewer checks them.
+**Known limits.** `read_curated_gpi` checks that `pmid` is digits, not that it resolves in PubMed. The reviewer does that (spec section 4). `truth_table.read_tsv` uses the default quoting of the `csv` module. A quote character in another input file would be altered the same way. This plan does not change that function. The new required fields (`evidence_note`, `reviewer`, `review_date`) make a draft row fail the reader. Draft rows belong in a separate file until a reviewer checks them.
