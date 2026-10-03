@@ -460,7 +460,7 @@ measured.
 
 **Open (from the reviews).**
 - **D-E. Do genes supported only by `overexpressed=yes` rows leave the headline?** Today they stay, with a
-  with/without report. In the pilots 3 H99-and-*U. maydis* genes depend on such rows (Sts2, Xyn2, Xyn11A)
+  with/without report. In the pilots 3 *U. maydis* genes depend on such rows (Sts2, Xyn2, Xyn11A)
   once predictor-selected genes are removed. Recommendation: keep them in, flag them, and decide after the
   with/without report shows how much they move recall.
 - **D-B. Pooled clade block versus "not pooled".** Phase C already reports a pooled
