@@ -726,3 +726,9 @@ def test_header_only_curated_file_gives_empty_review_files(tmp_path, capsys):
     assert truth_table.read_tsv(tmp_path / "d8_curated_conflicts.tsv") == []
     assert truth_table.read_tsv(tmp_path / "curated_gpi_unmatched.tsv") == []
     assert "need review" not in capsys.readouterr().err
+
+
+def test_tracked_curated_gpi_file_passes_the_reader():
+    from conftest import STEP1_DIR
+
+    assert d8_triage.read_curated_gpi(STEP1_DIR / "curated_gpi.tsv") == []

@@ -1,1 +1,1 @@
-source_id	gene_id	symbol	pmid	note
+source_id	gene_id	symbol	pmid	note	species	uniprot_accession	evidence_level	evidence_note	reviewer	review_date	override_tm

@@ -126,6 +126,58 @@ GPI-anchor Lipidation feature that has evidence ECO:0000269. The script does not
 | uniprot_accession | The matched UniProt entry. |
 | gpi_eco | ECO codes of the GPI-anchor features of that entry, separated by `,`. |
 
+## curated_gpi.tsv (input of 03_triage_pm.py, one row per gene)
+
+Literature rows with experimental proof of a GPI anchor. A row acts only for a P-ext gene that is a
+plasma-membrane candidate. Step 03 stops if a column is missing, if a value is invalid, if a
+`(source_id, gene_id)` pair appears twice, or if a row matches no gene of the truth set. The file is
+plain tab-separated text: a double quote is an ordinary character, and a UTF-8 byte order mark is
+accepted. The file in the repo has a header and no rows.
+
+| Column | Meaning |
+|---|---|
+| source_id | Source in `species.tsv`. |
+| gene_id | The native identifier of the source (for example SGD `S000004924`). D8 matches on `(source_id, gene_id)`. |
+| symbol | Gene symbol. |
+| pmid | PubMed identifier or identifiers, digits only, joined with `;`. Required. The reviewer opens each one and checks that it resolves. |
+| note | Free text. |
+| species | Species name, for readability. |
+| uniprot_accession | UniProt accession. |
+| evidence_level | `direct` (the paper measures the anchor in this protein) or `transfer` (in an ortholog). |
+| evidence_note | The sentence of the paper that states the evidence, and the retrieval date. Required. |
+| reviewer | Initials or model name of the second check. Required. |
+| review_date | `YYYY-MM-DD`. Required. |
+| override_tm | `no` (default) or `yes`. With `no`, a UniProt TM feature blocks the row and the gene stays `PM-TM`. The owner sets `yes` after review. |
+
+## d8_curated_conflicts.tsv (03_triage_pm.py, one row per gene)
+
+Genes that have a row in `curated_gpi.tsv` and a UniProt TM feature, with `override_tm` equal to `no`
+and no reviewed UniProt entry with experimental GPI evidence. The TM feature blocks the row, so the
+gene stays `PM-TM`. The owner reviews this file. If the owner agrees that the gene is GPI-anchored,
+the owner sets `override_tm` to `yes` in `curated_gpi.tsv` and re-runs step 03. The file is empty
+when no row is blocked.
+
+| Column | Meaning |
+|---|---|
+| source_id, gene_id, symbol | As in `d8_triage.tsv`. |
+| uniprot_accessions, tm_count, tm_eco, d8_reason | As in `d8_triage.tsv`. |
+| override_tm | Always `no` in this file. |
+
+## curated_gpi_unmatched.tsv (03_triage_pm.py, one row per curated row that cannot act)
+
+D8 reads a `curated_gpi.tsv` row only for a P-ext gene that is a plasma-membrane candidate. This file
+lists the rows that fail that condition. The run still succeeds. The file is empty when every row
+can act. A row that matches no gene of the truth set is not listed here: it stops the run. The file
+covers all sources of the truth set, also in a run with `--sources`. A run with `--sources` triages
+only the selected sources: a row that can act, of a source that was not selected, is not triaged in
+that run.
+
+| Column | Meaning |
+|---|---|
+| source_id, gene_id, symbol | From the `curated_gpi.tsv` row. |
+| reason | `outside_p_ext` (the gene is not P-ext) or `not_pm_candidate` (the gene is P-ext without a non-IEA plasma-membrane term). |
+| label | The label of the gene in `truth_set.tsv.gz`. |
+
 ## d8_counts.tsv (03_triage_pm.py, one row per source with at least one PM candidate)
 
 | Column | Meaning |
