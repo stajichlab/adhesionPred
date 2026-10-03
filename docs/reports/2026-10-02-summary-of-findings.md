@@ -85,7 +85,8 @@ below come from the commit message of PR #43. I did not re-check the numbers.
 ## 4. What is open
 
 - Owner decisions: step 1 choice and gates; curation of Basidiomycota truth and GPI rows.
-- Step 1 work: the Phase C comparison with R0, R1 and R2 at each rule's operating point is coded
-  but needs a re-run on HPCC (steps 11 and 12) to give numbers.
+- Step 1 work: the comparison with R0, R1 and R2 at each rule's operating point has run (see
+  `docs/model-review/STATUS.md`). At R0's recall the ML models have a lower FPR than R0. At R2's
+  recall they are not shown to differ from R2.
 - Step 2 and 3 of the pipeline (mechanism classes, antigen and biofilm layers) are not built.
 - Issues #9, #10, #12 to #16, #19 and #26 remain open.
