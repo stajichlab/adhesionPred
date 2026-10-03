@@ -30,7 +30,7 @@ No model ships. Version 0.2.0 is cut only after a validated surface-glycoprotein
 
 ## 2. Step 1 measurement (Phase C, run 2026-10-01)
 
-Report: `_workdir/step1_compare/phasec/report.md`. Intervals are 95% cluster bootstrap
+Report: `_workdir/step1_compare/phasec/report.md`. Run 2026-10-02 (job 29350110) with the C grid 0.0001 to 10. The first run (2026-10-01, grid 0.001 to 10) is kept in `phasec/prev_grid_0.001/`. Intervals are 95% cluster bootstrap
 (2,000 resamples). Truth is direct GO evidence. Candidates: B0 and B1 (baselines), R0, R1, R2
 (rules), M8, M35, M8-C, M35-C and H. M8 and M35 are logistic regressions on ESM-2 8M and 35M
 embeddings of the N-terminal window. The -C variants use the C-terminal window for proteins over
@@ -45,10 +45,10 @@ from models that did not train on that clade (leave one clade out).
 
 | Test set | Label | Positives / negatives | R0 recall / FPR | R2 recall / FPR | B1 recall / FPR | M8 recall / FPR |
 |---|---|---|---|---|---|---|
-| S1:all (S288C + *C. albicans*, cross-validated) | estimate | 232 / 4,244 | 0.603 / 0.037 | 0.418 / 0.006 | 0.763 / 0.130 | 0.759 / 0.088 |
-| Eurotiomycetes clade (*A. fumigatus* + *A. nidulans*) | estimate | 128 / 208 | 0.727 / 0.010 | 0.227 / 0.005 | 0.859 / 0.168 | 0.914 / 0.058 |
-| *A. nidulans* alone | estimate | 109 / 164 | 0.688 / 0.012 | 0.165 / 0.006 | not read | 0.899 / 0.037 |
-| Basidiomycota (*Cryptococcus*, *Ustilago*) | smoke test | 16 / 60 | 0.938 / 0.083 | 0.125 / 0.017 | 0.625 / 0.283 | 0.875 / 0.167 |
+| S1:all (S288C + *C. albicans*, cross-validated) | estimate | 232 / 4,244 | 0.603 / 0.037 | 0.418 / 0.006 | 0.763 / 0.130 | 0.772 / 0.084 |
+| Eurotiomycetes clade (*A. fumigatus* + *A. nidulans*) | estimate | 128 / 208 | 0.727 / 0.010 | 0.227 / 0.005 | 0.859 / 0.168 | 0.898 / 0.034 |
+| *A. nidulans* alone | estimate | 109 / 164 | 0.688 / 0.012 | 0.165 / 0.006 | not read | 0.881 / 0.024 |
+| Basidiomycota (*Cryptococcus*, *Ustilago*) | smoke test | 16 / 60 | 0.938 / 0.083 | 0.125 / 0.017 | 0.625 / 0.283 | 0.750 / 0.133 |
 
 Findings stored in `findings.json`:
 - **(a)** B1 is not saturated: ROC-AUC 0.894 on S1:all, 0.736 to 0.957 on the three S2 sets.
@@ -85,10 +85,12 @@ From the report:
   Platt scaling are fitted on out-of-fold predictions and applied to a refitted model. The
   effect was not measured.
 
-Also, from the fitted-settings table: the C value of every ML candidate is at the lower edge of
-the grid (0.001). Per the owner's decision of 2026-10-02 the grid was widened to 0.0001 and
-0.0003. The report on disk was written before that change, so the ML numbers above come from
-the narrower grid. They have not been re-run.
+Widening the C grid changed the ML numbers by little. In the first run every ML candidate chose
+the grid edge 0.001. After widening, the full-pool ML models chose 0.0003 or lower, and 7 of 154
+fitted C values are at the new lower edge. Recall and FPR moved by at most a few points. Example,
+S1:all M8: recall 0.759 to 0.772, FPR 0.088 to 0.084. Findings (b) and (c) are unchanged: no ML
+candidate beats both B1 and R2 on N-sec FPR. The Basidiomycota smoke test is the most sensitive:
+M8 recall 0.875 to 0.750 on 16 positives.
 
 ## 4. Remaining work
 
@@ -96,7 +98,7 @@ the narrower grid. They have not been re-run.
 2. **Owner decisions:** rule, ML or hybrid for step 1; whether to change the Youden criterion
    (R2 cannot beat R0 on it); gate values after review; whether to fund curation of GPI and
    Basidiomycota truth.
-3. Re-run Phase C with the widened C grid, if the owner wants ML numbers from the wider grid.
+3. Done 2026-10-02: Phase C re-run with the widened C grid (section 3).
 4. Train and validate the chosen step 1 model, then ship it with a card (0.2.0).
 5. Orchestrator design spec and independent review.
 6. Step 2 scan wrappers (CFEM, Bys1, hydrophobin) with specificity tests.
