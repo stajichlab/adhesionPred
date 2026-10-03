@@ -43,6 +43,27 @@ MSB2 = entry("P32334", True, tm=["ECO:0000255"], sgd="S000003246")
 TREMBL_GPI = entry("A0A000", False, gpi_eco=["ECO:0000269"], sgd="S000000009")
 BARE = entry("Q00001", True, sgd="S000000010")
 
+CURATED_HEADER = "\t".join(d8_triage.CURATED_GPI_COLUMNS) + "\n"
+
+
+def curated_row(gene_id, symbol, override="no", source_id="Scer", **changes):
+    values = {
+        "source_id": source_id,
+        "gene_id": gene_id,
+        "symbol": symbol,
+        "pmid": "12345678",
+        "note": "n",
+        "species": "Saccharomyces cerevisiae",
+        "uniprot_accession": "",
+        "evidence_level": "direct",
+        "evidence_note": "quoted sentence; retrieved 2026-10-02",
+        "reviewer": "test",
+        "review_date": "2026-10-02",
+        "override_tm": override,
+    }
+    values.update(changes)
+    return "\t".join(values[c] for c in d8_triage.CURATED_GPI_COLUMNS) + "\n"
+
 
 def test_parse_entry_records_eco_and_review_state():
     ev = d8_triage.parse_entry(MSB2)
@@ -97,6 +118,116 @@ def test_classify_pm_unreviewed_gpi_evidence_does_not_beat_tm():
     )
     assert d8_triage.classify_pm([unreviewed], True)[0] == "PM-TM"
     assert d8_triage.classify_pm([unreviewed], False)[0] == "PM-TM"
+
+
+def test_read_curated_gpi_accepts_a_valid_file_and_a_header_only_file(tmp_path):
+    path = tmp_path / "curated_gpi.tsv"
+    path.write_text(CURATED_HEADER)
+    assert d8_triage.read_curated_gpi(path) == []
+    path.write_text(CURATED_HEADER + curated_row("S000003246", "MSB2", "yes"))
+    rows = d8_triage.read_curated_gpi(path)
+    assert [(r["gene_id"], r["override_tm"]) for r in rows] == [("S000003246", "yes")]
+
+
+@pytest.mark.parametrize("note", ['"Gas1p is GPI-anchored" retrieved 2026-10-02', "plain note"])
+def test_read_curated_gpi_keeps_quote_characters_in_the_note(tmp_path, note):
+    path = tmp_path / "curated_gpi.tsv"
+    path.write_text(CURATED_HEADER + curated_row("G1", "A", evidence_note=note))
+    assert d8_triage.read_curated_gpi(path)[0]["evidence_note"] == note
+
+
+def test_read_curated_gpi_accepts_a_utf8_byte_order_mark(tmp_path):
+    path = tmp_path / "curated_gpi.tsv"
+    path.write_text(CURATED_HEADER + curated_row("G1", "A"), encoding="utf-8-sig")
+    assert [r["gene_id"] for r in d8_triage.read_curated_gpi(path)] == ["G1"]
+
+
+def test_read_curated_gpi_allows_the_same_gene_id_in_two_sources(tmp_path):
+    path = tmp_path / "curated_gpi.tsv"
+    path.write_text(
+        CURATED_HEADER + curated_row("G1", "A") + curated_row("G1", "A", source_id="Calb")
+    )
+    assert len(d8_triage.read_curated_gpi(path)) == 2
+
+
+def test_read_curated_gpi_reports_the_physical_line_number(tmp_path):
+    path = tmp_path / "curated_gpi.tsv"
+    path.write_text(
+        CURATED_HEADER + curated_row("G1", "A") + "\n\n" + curated_row("G2", "B", override="maybe")
+    )
+    with pytest.raises(d8_triage.CuratedGpiError, match="line 5"):
+        d8_triage.read_curated_gpi(path)
+
+
+@pytest.mark.parametrize(
+    "text, message",
+    [
+        ("source_id\tgene_id\tsymbol\tpmid\tnote\n", "missing columns"),  # old header
+        (CURATED_HEADER + curated_row("G1", "A", override="Yes"), "override_tm"),
+        (CURATED_HEADER + curated_row("G1", "A", override=""), "override_tm"),
+        (CURATED_HEADER + curated_row("G1", "A", evidence_level="maybe"), "evidence_level"),
+        (CURATED_HEADER + curated_row("G1", "A", pmid=""), "pmid"),
+        (CURATED_HEADER + curated_row("G1", "A", pmid="PMID:1"), "pmid"),
+        (CURATED_HEADER + curated_row("G1", "A", pmid="\u0661\u0662"), "pmid"),
+        (CURATED_HEADER.rstrip("\n") + "\tpmid\n", "duplicate column"),
+        (CURATED_HEADER + curated_row("G1", "A", reviewer=""), "reviewer"),
+        (CURATED_HEADER + curated_row("G1", "A", evidence_note=""), "evidence_note"),
+        (CURATED_HEADER + curated_row("G1", "A", review_date=""), "review_date"),
+        (CURATED_HEADER + curated_row("G1", "A", review_date="yesterday"), "review_date"),
+        (CURATED_HEADER + "Scer\tG1\tA\t1\tn\n", "wrong number of fields"),
+        (
+            CURATED_HEADER + curated_row("G1", "A").rstrip("\n") + "\textra\n",
+            "wrong number of fields",
+        ),
+        (CURATED_HEADER + curated_row("", "A"), "source_id and gene_id"),
+        (CURATED_HEADER + curated_row("G1", "A") + curated_row("G1", "A"), "twice"),
+    ],
+)
+def test_read_curated_gpi_rejects_bad_input(tmp_path, text, message):
+    path = tmp_path / "curated_gpi.tsv"
+    path.write_text(text)
+    with pytest.raises(d8_triage.CuratedGpiError, match=message):
+        d8_triage.read_curated_gpi(path)
+
+
+def test_check_curated_gpi_lists_rows_that_cannot_act():
+    truth = [
+        {"source_id": "Scer", "gene_id": "G1", "label": "P-ext", "pm_candidate": "yes"},
+        {"source_id": "Scer", "gene_id": "G2", "label": "P-ext", "pm_candidate": "no"},
+        {"source_id": "Scer", "gene_id": "G3", "label": "ambiguous", "pm_candidate": "no"},
+    ]
+    curated = [
+        {"source_id": "Scer", "gene_id": g, "symbol": g.lower()} for g in ("G1", "G2", "G3", "G4")
+    ]
+    got = d8_triage.check_curated_gpi(curated, truth)
+    assert [(r["gene_id"], r["reason"], r["label"]) for r in got] == [
+        ("G2", "not_pm_candidate", "P-ext"),
+        ("G3", "outside_p_ext", "ambiguous"),
+        ("G4", "no_truth_gene", ""),
+    ]
+
+
+def test_tm_conflicts_lists_only_blocked_literature_genes():
+    def triage_row(gene_id, symbol, d8_class, accession, tm_count, tm_eco):
+        return {
+            "source_id": "Scer",
+            "gene_id": gene_id,
+            "symbol": symbol,
+            "d8_class": d8_class,
+            "uniprot_accessions": accession,
+            "tm_count": tm_count,
+            "tm_eco": tm_eco,
+            "d8_reason": "r",
+        }
+
+    triage = [
+        triage_row("G1", "A", "PM-TM", "P1", "1", "ECO:0000255"),
+        triage_row("G2", "B", "PM-TM", "P2", "2", "ECO:0000255"),
+        triage_row("G3", "C", "P-gpi", "P3", "0", ""),
+    ]
+    literature = {("Scer", "G1"): False, ("Scer", "G3"): True}
+    got = d8_triage.tm_conflicts(triage, literature)
+    assert [(r["gene_id"], r["override_tm"]) for r in got] == [("G1", "no")]
 
 
 def test_query_urls():
