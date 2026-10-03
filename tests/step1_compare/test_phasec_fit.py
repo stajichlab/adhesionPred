@@ -64,12 +64,14 @@ def test_scores_cover_every_unit_candidate_and_scored_row(phasec_chain):
 def test_fitted_settings_are_recorded(phasec_chain):
     units = _units(phasec_chain["work"])
     unit = units["S1|0|V-go"]
-    assert unit["M8"]["C"] in (0.001, 0.003, 0.01, 0.1, 1.0, 10.0)  # ruling C-12
+    assert unit["M8"]["C"] in (0.0001, 0.0003, 0.001, 0.003, 0.01, 0.1, 1.0, 10.0)  # ruling C-12
     assert unit["H"]["h_variant"] in ("M8", "M35", "M8-C", "M35-C")
     assert unit["R2"]["g"] in ("highly_probable", "probable", "weakly")
     assert unit["R2"]["t"] in (0.20, 0.25, 0.30, 0.35, 0.40)  # owner decision 2026-10-01
-    assert set(unit["M35"]["inner_pr_auc"]) == {"0.001", "0.003", "0.01", "0.1", "1.0", "10.0"}
-    assert len(unit["H"]["inner_pr_auc"]) == 4 * 6  # (ESM variant, C) pairs
+    assert set(unit["M35"]["inner_pr_auc"]) == {
+        "0.0001", "0.0003", "0.001", "0.003", "0.01", "0.1", "1.0", "10.0"
+    }  # fmt: skip
+    assert len(unit["H"]["inner_pr_auc"]) == 4 * 8  # (ESM variant, C) pairs
     assert units["S1|0|V-kw"]["M8"]["n_train_pos"] > unit["M8"]["n_train_pos"]  # T-c positives
 
 

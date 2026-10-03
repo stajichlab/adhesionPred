@@ -90,7 +90,7 @@ and all of them are IBA-only (parent section 3.3), so they are not headline test
 | **T-c** | Keyword-only training tier: proteins labelled surface only by UniProt keywords, not by GO (3,092 rows kept). Training only, never test truth (parent spec section 2.3). |
 | **V-go** | Training variant 1. Positives are GO-labelled proteins (P-ext and P-gpi). No T-c rows. |
 | **V-kw** | Training variant 2. V-go plus the T-c rows that survive the leakage controls of section 3.4. Both variants are scored on the same GO test truth. |
-| **`C`** | Regularisation strength of the logistic regression (smaller means stronger regularisation). Values tried: 0.001, 0.003, 0.01, 0.1, 1, 10 (ruling C-12). Chosen on the inner folds by the highest inner out-of-fold PR-AUC. |
+| **`C`** | Regularisation strength of the logistic regression (smaller means stronger regularisation). Values tried: 0.0001, 0.0003, 0.001, 0.003, 0.01, 0.1, 1, 10 (rulings C-12 and C-17). Chosen on the inner folds by the highest inner out-of-fold PR-AUC. |
 | **`g`** | GPI class cut for the rule. A protein counts as GPI-anchored when its PredGPI class is at or above `g`. Values: `highly_probable`, `probable`, `weakly`. Fitted on the inner folds. |
 | **`t`** | Ser+Thr cut for the rule. A protein counts as Ser/Thr-rich when `ser_thr_frac` is at or above `t`. Values: 0.20 to 0.40 in steps of 0.05 (owner, 2026-10-01). Fitted on the inner folds. |
 | **R0, R1, R2** | The three nested rules of section 3.3. R2 (SP and either GPI at or above `g` or Ser+Thr at or above `t`) is "the rule". |
@@ -167,12 +167,15 @@ recall as `null` for this set, and `report.md` does not print them.
   0.10, so at `t` = 0.10 R2 equals R0 on the real data; 0.10 and 0.15 are therefore not in the grid.
 - **M8-C and M35-C** differ from M8 and M35 only on proteins longer than 1,022 aa (5,541 unique
   sequences in the Phase B sets). The long subset is reported alone (parent section 5).
-- **Hyper-parameters.** Logistic regression `C` in {0.001, 0.003, 0.01, 0.1, 1, 10},
+- **Hyper-parameters.** Logistic regression `C` in {0.0001, 0.0003, 0.001, 0.003, 0.01, 0.1, 1, 10},
   `class_weight="balanced"`. `C` is the value with the highest inner out-of-fold PR-AUC (ties: the
   smaller `C`). *Ruling C-12:* the grid goes down to 0.001, because on the real S1 fold 0 every
   logistic-regression candidate chose 0.01, the lowest value of the old grid. The choice stays on the
   inner folds, so the extension adds no leakage. It costs two more `C` values per candidate and unit
   (six more inner fits; for H, eight more (variant, `C`) settings).
+  *Ruling C-17 (owner, 2026-10-02):* the grid goes down to 0.0001, because in the first real run (grid
+  0.001 to 10) every logistic-regression candidate chose 0.001, the new lower edge. The choice stays on
+  the inner folds.
 - **Nested protocol (one rule for every fitted quantity).** The fitted quantities are: scaler, `C`,
   `g`, `t`, the ML decision threshold and H's ESM variant. For each outer training set they are fitted
   on the **inner** 3-fold `StratifiedGroupKFold` (groups = clusters) of that training set only. The
@@ -429,6 +432,7 @@ open PRs) are unchanged.
 | C-13 | No headline ML candidate is named; findings (b) and (c) report `holds_for` per candidate, and the report says "any" | plan review | the owner reads a per-candidate table |
 | C-14 | A positive or negative that shares a sequence with an excluded gene becomes `excluded`; the pool counts 308 / 6,842 differ from 313 / 6,951 by this rule, by merges and by 75 labelled negatives without a feature row | plan review | 2 positives missing from training (1 *C. albicans*, 1 S288C) |
 | C-15 | The SLURM job requests `-p epyc --constraint=ryzen`; every job that runs an AVX2 tool requests an AVX2 node feature | plan review; owner suggestion | fewer eligible nodes (19 epyc nodes) |
+| C-17 | The logistic-regression `C` grid goes down to 0.0001: 0.0001, 0.0003, 0.001, 0.003, 0.01, 0.1, 1, 10 | owner, 2026-10-02 | in the first real run every ML candidate chose 0.001, the old lower edge; two more `C` values per candidate and unit |
 
 C-6 to C-11 came from the first independent review. The owner asked on 2026-10-01 to go forward with
 the plan; C-6 to C-11 were not reviewed one by one.

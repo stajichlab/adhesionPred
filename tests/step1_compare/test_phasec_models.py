@@ -264,9 +264,9 @@ def test_ties_go_to_the_smaller_c_and_the_first_variant():
     groups = np.array([f"c{i // 2}" for i in train])
     params, _ = models.fit_unit(u, train, y[train], groups, test, 3, ("M8", "H"))
     assert set(params["M8"]["inner_pr_auc"].values()) == {1.0}
-    assert params["M8"]["C"] == 0.001
+    assert params["M8"]["C"] == 0.0001
     assert set(params["H"]["inner_pr_auc"].values()) == {1.0}
-    assert (params["H"]["h_variant"], params["H"]["C"]) == ("M8", 0.001)
+    assert (params["H"]["h_variant"], params["H"]["C"]) == ("M8", 0.0001)
 
 
 def test_youden_tie_goes_to_the_higher_threshold():
