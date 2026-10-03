@@ -1,10 +1,13 @@
 #!/usr/bin/env python3
 """D8: triage P-ext genes with a non-IEA plasma-membrane term (P-gpi, PM-TM, pm-unresolved).
 
-Reads $STEP1_WORKDIR/truth_set.tsv.gz, species.tsv and curated_gpi.tsv. Queries UniProtKB REST.
-Writes d8_triage.tsv, d8_gpi_outside_pext.tsv, d8_counts.tsv, truth_set_triaged.tsv.gz and the
+Reads $STEP1_WORKDIR/truth_set.tsv.gz, species.tsv and curated_gpi.tsv (checked by
+d8_triage.read_curated_gpi). Queries UniProtKB REST.
+Writes d8_triage.tsv, d8_gpi_outside_pext.tsv, d8_curated_conflicts.tsv,
+curated_gpi_unmatched.tsv, d8_counts.tsv, truth_set_triaged.tsv.gz and the
 raw UniProt JSON pages (d8_uniprot/; pages of older runs are not deleted and can remain) to the
-work directory. Stops (exit 2, no output tables) on an HTTP error, a response without the
+work directory. Stops (exit 2, no output tables) on an invalid curated_gpi.tsv (missing column,
+bad value, or a row that matches no truth gene), on an HTTP error, a response without the
 expected fields, or when PM candidates exist and none of them matches a UniProt entry. Outputs are written to temp names and moved with os.replace
 after all are complete, so a failure leaves earlier outputs untouched. d8_run.json records the
 selected sources, `all_sources`, the truth set SHA-256, the UniProt release, the git commit, the
@@ -42,6 +45,8 @@ OUTSIDE_COLUMNS = ("source_id", "gene_id", "symbol", "label", "uniprot_accession
 OUTPUT_NAMES = (
     "d8_triage.tsv",
     "d8_gpi_outside_pext.tsv",
+    "d8_curated_conflicts.tsv",
+    "curated_gpi_unmatched.tsv",
     "d8_counts.tsv",
     "truth_set_triaged.tsv.gz",
     "d8_run.json",
@@ -74,7 +79,7 @@ def uniprot_fetch(url: str, raw_dir: Path, tag: str) -> tuple[list[dict], str]:
     return entries, release
 
 
-def triage_source(sp, rows, literature_ids, fetch):
+def triage_source(sp, rows, literature, fetch):
     mapping = sp["id_mapping"]
     candidates = [r for r in rows if r["pm_candidate"] == "yes"]
     entries, release = [], ""
@@ -93,8 +98,9 @@ def triage_source(sp, rows, literature_ids, fetch):
     for r in candidates:
         mine = d8_triage.entries_for_gene(r["gene_id"], mapping, entries)
         no_entry += not mine
+        key = (sp["source_id"], r["gene_id"])
         d8_class, reason = d8_triage.classify_pm(
-            mine, (sp["source_id"], r["gene_id"]) in literature_ids
+            mine, key in literature, literature.get(key, False)
         )
         triage.append(
             {
@@ -196,19 +202,26 @@ def main(argv=None, fetch=None) -> int:
         )
         truth_path = work / "truth_set.tsv.gz"
         truth_rows = truth_table.read_tsv(truth_path)
-        literature_ids = {
-            (r["source_id"], r["gene_id"]) for r in truth_table.read_tsv(args.curated_gpi)
+        curated_rows = d8_triage.read_curated_gpi(args.curated_gpi)
+        literature = {
+            (r["source_id"], r["gene_id"]): r["override_tm"] == "yes" for r in curated_rows
         }
+        unmatched = d8_triage.check_curated_gpi(curated_rows, truth_rows)
+        no_gene = [u for u in unmatched if u["reason"] == "no_truth_gene"]
+        if no_gene:
+            names = ", ".join(f"{u['source_id']} {u['gene_id']}" for u in no_gene[:10])
+            raise d8_triage.CuratedGpiError(f"curated_gpi.tsv rows match no truth gene: {names}")
         triage, outside, counts = [], [], []
         for sp in species_rows:
             rows = [r for r in truth_rows if r["source_id"] == sp["source_id"]]
             if not any(r["pm_candidate"] == "yes" for r in rows):
                 continue
-            t, o, c = triage_source(sp, rows, literature_ids, fetch)
+            t, o, c = triage_source(sp, rows, literature, fetch)
             triage += t
             outside += o
             counts.append(c)
         triaged = apply_triage(truth_rows, triage)
+        conflicts = d8_triage.tm_conflicts(triage, literature)
         selected = [r["source_id"] for r in species_rows]
         run_log = {
             "sources": selected,
@@ -223,6 +236,8 @@ def main(argv=None, fetch=None) -> int:
         tables = {
             "d8_triage.tsv": (TRIAGE_COLUMNS, triage),
             "d8_gpi_outside_pext.tsv": (OUTSIDE_COLUMNS, outside),
+            "d8_curated_conflicts.tsv": (d8_triage.CONFLICT_COLUMNS, conflicts),
+            "curated_gpi_unmatched.tsv": (d8_triage.UNMATCHED_COLUMNS, unmatched),
             "d8_counts.tsv": (D8_COUNT_COLUMNS, counts),
             "truth_set_triaged.tsv.gz": (columns, triaged),
         }
@@ -242,6 +257,15 @@ def main(argv=None, fetch=None) -> int:
     ) as exc:
         print(f"STOP: {exc}", file=sys.stderr)
         return 2
+    for name, rows_for_review in (
+        ("d8_curated_conflicts.tsv", conflicts),
+        ("curated_gpi_unmatched.tsv", unmatched),
+    ):
+        if rows_for_review:
+            print(
+                f"NOTE: {len(rows_for_review)} row(s) need review; see {name}",
+                file=sys.stderr,
+            )
     for c in counts:
         print("\t".join(f"{k}={c[k]}" for k in D8_COUNT_COLUMNS))
     return 0

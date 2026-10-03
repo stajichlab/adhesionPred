@@ -278,7 +278,7 @@ def test_triage_source_and_apply(tmp_path):
             return [GAS1, YPS1], "2026_03"
         return [MSB2, YPS1], "2026_03"
 
-    t, outside, counts = triage.triage_source(sp, rows, set(), fake_fetch)
+    t, outside, counts = triage.triage_source(sp, rows, {}, fake_fetch)
     assert {r["symbol"]: r["d8_class"] for r in t} == {"MSB2": "PM-TM", "YPS1": "pm-unresolved"}
     assert [o["symbol"] for o in outside] == ["GAS1"]
     assert (counts["pm_tm"], counts["pm_unresolved"], counts["p_gpi"]) == ("1", "1", "0")
@@ -302,7 +302,7 @@ def _work(tmp_path):
     truth_table.write_tsv(tmp_path / "truth_set.tsv.gz", list(truth[0]), truth)
     species = [{"source_id": "Scer", "id_mapping": "sgd", "taxon_id": "559292"}]
     truth_table.write_tsv(tmp_path / "species.tsv", list(species[0]), species)
-    (tmp_path / "curated_gpi.tsv").write_text("source_id\tgene_id\tsymbol\tpmid\tnote\n")
+    (tmp_path / "curated_gpi.tsv").write_text(CURATED_HEADER)
     # Hardening: main() refuses a truth table without a full-run marker.
     (tmp_path / "extract_log.json").write_text(json.dumps({"all_sources": True}))
     return [
@@ -344,6 +344,8 @@ def test_entry_without_expected_fields_raises():
 OUTPUTS = (
     "d8_triage.tsv",
     "d8_gpi_outside_pext.tsv",
+    "d8_curated_conflicts.tsv",
+    "curated_gpi_unmatched.tsv",
     "d8_counts.tsv",
     "truth_set_triaged.tsv.gz",
     "d8_run.json",
@@ -494,14 +496,15 @@ def test_sources_subset_marks_run_partial(tmp_path):
     assert run["sources"] == ["Scer"] and run["all_sources"] is False
 
 
-def test_literature_row_makes_p_gpi_and_missing_curated_file_stops(tmp_path, capsys):
+def test_literature_row_with_override_makes_p_gpi_and_missing_curated_file_stops(tmp_path, capsys):
     triage = load_script("03_triage_pm")
     argv = _work(tmp_path)
     (tmp_path / "curated_gpi.tsv").write_text(
-        "source_id\tgene_id\tsymbol\tpmid\tnote\nScer\tS000003246\tMSB2\t1\tx\n"
+        CURATED_HEADER + curated_row("S000003246", "MSB2", override="yes")
     )
     assert triage.main(argv, fetch=good_fetch) == 0
     assert truth_table.read_tsv(tmp_path / "d8_triage.tsv")[0]["d8_class"] == "P-gpi"
+    assert truth_table.read_tsv(tmp_path / "d8_curated_conflicts.tsv") == []
     (tmp_path / "curated_gpi.tsv").unlink()
     assert triage.main(argv, fetch=good_fetch) == 2
     assert "STOP:" in capsys.readouterr().err
@@ -589,8 +592,137 @@ def test_d8_counts_report_no_uniprot_entry_and_gpi_feature_no_evidence():
             return [], "2026_03"
         return [no_ev, MSB2], "2026_03"
 
-    t, _, counts = triage.triage_source(sp, rows, set(), fetch)
+    t, _, counts = triage.triage_source(sp, rows, {}, fetch)
     assert counts["no_uniprot_entry"] == "1"  # S2 only
     assert counts["gpi_feature_no_evidence"] == "1"  # P9 only
     assert {r["symbol"]: r["d8_class"] for r in t}["NOEV"] == "pm-unresolved"
     assert set(triage.D8_COUNT_COLUMNS) >= {"no_uniprot_entry", "gpi_feature_no_evidence"}
+
+
+def test_literature_row_on_a_tm_gene_stays_pm_tm_and_is_reported(tmp_path, capsys):
+    triage = load_script("03_triage_pm")
+    argv = _work(tmp_path)
+    (tmp_path / "curated_gpi.tsv").write_text(
+        CURATED_HEADER + curated_row("S000003246", "MSB2", override="no")
+    )
+    assert triage.main(argv, fetch=good_fetch) == 0
+    row = truth_table.read_tsv(tmp_path / "d8_triage.tsv")[0]
+    assert row["d8_class"] == "PM-TM" and "blocked" in row["d8_reason"]
+    conflicts = truth_table.read_tsv(tmp_path / "d8_curated_conflicts.tsv")
+    assert [(c["gene_id"], c["override_tm"], c["tm_count"]) for c in conflicts] == [
+        ("S000003246", "no", "1")
+    ]
+    counts = truth_table.read_tsv(tmp_path / "d8_counts.tsv")[0]
+    assert (counts["p_gpi"], counts["pm_tm"]) == ("0", "1")
+    assert "d8_curated_conflicts.tsv" in capsys.readouterr().err
+
+
+def test_literature_row_on_a_tm_gene_with_uniprot_gpi_evidence_gives_p_gpi_without_conflict(
+    tmp_path,
+):
+    triage = load_script("03_triage_pm")
+    argv = _work(tmp_path)
+    (tmp_path / "curated_gpi.tsv").write_text(
+        CURATED_HEADER + curated_row("S000003246", "MSB2", override="no")
+    )
+    both = entry("P32334", True, gpi_eco=["ECO:0000269"], tm=["ECO:0000255"], sgd="S000003246")
+
+    def fetch(url, tag):
+        return [both], "2026_03"
+
+    assert triage.main(argv, fetch=fetch) == 0
+    assert truth_table.read_tsv(tmp_path / "d8_triage.tsv")[0]["d8_class"] == "P-gpi"
+    assert truth_table.read_tsv(tmp_path / "d8_curated_conflicts.tsv") == []
+
+
+def test_curated_row_without_a_truth_gene_stops_and_writes_nothing(tmp_path, capsys):
+    triage = load_script("03_triage_pm")
+    argv = _work(tmp_path)
+    (tmp_path / "curated_gpi.tsv").write_text(CURATED_HEADER + curated_row("S999999999", "NOPE"))
+    assert triage.main(argv, fetch=good_fetch) == 2
+    err = capsys.readouterr().err
+    assert "match no truth gene" in err and "S999999999" in err
+    assert not [n for n in OUTPUTS if (tmp_path / n).exists()]
+
+
+def test_curated_rows_that_cannot_act_are_listed_and_the_run_succeeds(tmp_path, capsys):
+    triage = load_script("03_triage_pm")
+    argv = _work(tmp_path)
+
+    def gene(gene_id, symbol, label, candidate, stratum):
+        return {
+            "source_id": "Scer",
+            "gene_id": gene_id,
+            "symbol": symbol,
+            "label": label,
+            "pm_candidate": candidate,
+            "stratum": stratum,
+        }
+
+    truth = [
+        gene("S000003246", "MSB2", "P-ext", "yes", "extracellular-only"),
+        gene("S000000001", "AAA", "P-ext", "no", "wall"),
+        gene("S000000002", "BBB", "ambiguous", "no", "ambiguous"),
+    ]
+    truth_table.write_tsv(tmp_path / "truth_set.tsv.gz", list(truth[0]), truth)
+    (tmp_path / "curated_gpi.tsv").write_text(
+        CURATED_HEADER + curated_row("S000000001", "AAA") + curated_row("S000000002", "BBB")
+    )
+    assert triage.main(argv, fetch=good_fetch) == 0
+    got = truth_table.read_tsv(tmp_path / "curated_gpi_unmatched.tsv")
+    assert [(r["gene_id"], r["reason"]) for r in got] == [
+        ("S000000001", "not_pm_candidate"),
+        ("S000000002", "outside_p_ext"),
+    ]
+    assert "curated_gpi_unmatched.tsv" in capsys.readouterr().err
+
+
+def test_sources_subset_triages_only_selected_sources_but_checks_all_curated_rows(tmp_path):
+    triage = load_script("03_triage_pm")
+    argv = _work(tmp_path)
+
+    def gene(source_id, gene_id, symbol, label, candidate, stratum):
+        return {
+            "source_id": source_id,
+            "gene_id": gene_id,
+            "symbol": symbol,
+            "label": label,
+            "pm_candidate": candidate,
+            "stratum": stratum,
+        }
+
+    truth = [
+        gene("Scer", "S000003246", "MSB2", "P-ext", "yes", "extracellular-only"),
+        gene("Other", "S000000007", "CCC", "ambiguous", "no", "ambiguous"),
+    ]
+    truth_table.write_tsv(tmp_path / "truth_set.tsv.gz", list(truth[0]), truth)
+    species = [
+        {"source_id": "Scer", "id_mapping": "sgd", "taxon_id": "559292"},
+        {"source_id": "Other", "id_mapping": "sgd", "taxon_id": "1"},
+    ]
+    truth_table.write_tsv(tmp_path / "species.tsv", list(species[0]), species)
+    (tmp_path / "curated_gpi.tsv").write_text(
+        CURATED_HEADER + curated_row("S000000007", "CCC", source_id="Other")
+    )
+    assert triage.main([*argv, "--sources", "Scer"], fetch=good_fetch) == 0
+    triaged = truth_table.read_tsv(tmp_path / "d8_triage.tsv")
+    assert [r["source_id"] for r in triaged] == ["Scer"]
+    got = truth_table.read_tsv(tmp_path / "curated_gpi_unmatched.tsv")
+    assert [(r["source_id"], r["reason"]) for r in got] == [("Other", "outside_p_ext")]
+
+
+def test_old_five_column_curated_file_stops_and_writes_nothing(tmp_path, capsys):
+    triage = load_script("03_triage_pm")
+    argv = _work(tmp_path)
+    (tmp_path / "curated_gpi.tsv").write_text("source_id\tgene_id\tsymbol\tpmid\tnote\n")
+    assert triage.main(argv, fetch=good_fetch) == 2
+    assert "missing columns" in capsys.readouterr().err
+    assert not [n for n in OUTPUTS if (tmp_path / n).exists()]
+
+
+def test_header_only_curated_file_gives_empty_review_files(tmp_path, capsys):
+    triage = load_script("03_triage_pm")
+    assert triage.main(_work(tmp_path), fetch=good_fetch) == 0
+    assert truth_table.read_tsv(tmp_path / "d8_curated_conflicts.tsv") == []
+    assert truth_table.read_tsv(tmp_path / "curated_gpi_unmatched.tsv") == []
+    assert "need review" not in capsys.readouterr().err
