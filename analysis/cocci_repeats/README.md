@@ -150,6 +150,13 @@ still read its output.
 | `37_unit_search.sh` | HMM, anchor and architecture searches over 6,313 proteomes. The unit HMM scores no hit outside *Coccidioides* above 19.7. See `REPORT_2026-09-30_sowgp_architecture_relatives.md`. | `sbatch 37_unit_search.sh` | `unit_hmm_hits.tsv.gz`, `unit_anchor_hits.tsv.gz`, `unit_architecture_onygenales.tsv.gz` |
 | `38_unit_bad1_control.py`, `.sh` | BAD1 control. **Written, not yet run.** | `sbatch 38_unit_bad1_control.sh` | — |
 | `39_unit_distribution.py`, `.sh` | Copy-number summary. **Written, not yet run.** | `sbatch 39_unit_distribution.sh` | `unit_copynumber.tsv`, `unit_hits_by_protein.tsv` |
+| `40_sowgp_array_depth.py` | Read depth over the SOWgp repeat array vs unit count (needs Genotyping mosdepth output) | `/usr/bin/python3.12 40_sowgp_array_depth.py` | `sowgp_array_depth.{tsv,png}` |
+| `41_sowgp_status_depth.py` | Pangenome SOWgp status (full-length / fragment / no model) vs read depth at CIMG_04613 | `/usr/bin/python3.12 41_sowgp_status_depth.py` | `sowgp_status_depth.tsv`, `sowgp_missing_model_depth.tsv` |
+| `42_sowgp_gene_depth_vs_units.py` | Whole-gene depth vs unit count | `/usr/bin/python3.12 42_sowgp_gene_depth_vs_units.py` | stdout |
+| `run_depth_stats.sh` | Runs 41, 42 and 40 | `./run_depth_stats.sh` | `*.log` |
+| `43_longread_sowgp_miniprot.sh` | miniprot of SOWgp seed proteins to the 5 long-read assemblies | `./43_longread_sowgp_miniprot.sh` (needs `module load`) | `longread_miniprot/*.sowgp.gff` |
+| `44_longread_unit_tblastn.sh` | tblastn of one RS unit to the 5 assemblies (units counted in DNA) | `./44_longread_unit_tblastn.sh` (needs `$SCRATCH`) | `longread_unit_tblastn/*.tsv` |
+| `45_longread_locus_summary.py` | DNA unit count vs funannotate and miniprot models at each long-read locus | `/usr/bin/python3.12 45_longread_locus_summary.py` | `longread_locus_summary.tsv` |
 
 Run order: 15, 16, then `sbatch 17`, then 18. Results and limits are in
 `REPORT_2026-09-29_repeat_detector_divergence.md`.

@@ -88,7 +88,7 @@ a liability for a diagnostic.
 | protein | locus (*C. immitis* RS) | prevalence | copy no. (mean, CV) | max ident. to confounder | signal peptide | interpretation |
 |---|---|---|---|---|---|---|
 | **PRA3** | CIMG_02492 | 98.0% | 1.00, 0.00 | **0%** | yes | near-universal, single-copy, specific — **cleanest profile** |
-| **SOWgp** | CIMG_04613 | **92.0%** | 1.09, **0.26** | **0%** | *not annotated* | specific, but **absent from 8% of isolates**, copy-variable |
+| **SOWgp** | CIMG_04613 | **92.0%** | 1.09, **0.26** | **0%** | *not annotated* | specific, but **absent from 8% of isolates**, copy-variable (assembly-derived; read-depth check in §4.4) |
 | Ag2/PRA | CIMG_09696 | 98.8% | 1.00, 0.00 | 60% | yes | universal, single-copy, but **cross-reactive** |
 | PRA2 | CIMG_09560 | 98.8% | 1.00, 0.00 | 69% | yes | as Ag2/PRA |
 | CF antigen (CiX1/CTS1) | CIMG_02795 | 99.8% | 1.00, 0.04 | 64% | yes | the clinical antigen: universal but **cross-reactive** |
@@ -133,6 +133,27 @@ Pro/Asp-rich repeat; Hung et al. 2002) appearing directly in the alignment.
 > collapse or fragment. **SOWgp's 92% prevalence and CV 0.26 must be confirmed from read depth**
 > (402 *Coccidioides* WGS runs are in SRA) before being relied on. An absence call from a
 > fragmented assembly is usually a gap, not a deletion.
+
+> **Update 2026-10-01 — read-depth check at CIMG_04613 (the 8% figure is unchanged in the table,
+> but the check below shows it measures a gene-model gap).** Read depth over the RS gene
+> (`GG704914:970,094..971,690`) was measured with mosdepth 0.3.12 in 559 CRAMs aligned to the
+> *C. immitis* RS reference. Full method, paths and tables:
+> `analysis/cocci_repeats/REPORT_2026-10-01_sowgp_depth_vs_repeats.md`. Ratio = gene depth /
+> strain genome-wide depth.
+>
+> - **The 39 of 488 strains with no SOWgp gene model (8.0%) all have normal depth.** Ratios are
+>   0.92 to 1.43, median 1.19. Reads cover the locus in every one of them. The 8% is a gene-model
+>   gap, not a measured absence. It matches the count of tree tips with no gene model.
+> - **Strains with low depth are a different set.** 7 strains have a ratio below 0.5 and
+>   genome-wide depth of 10x or more (NM_4297, NM_3894, NM_9861, NM_0317, NM_3957, NM_459,
+>   COCPO_103717). Six of them are not in the pangenome. Low depth fits a deletion. It also fits a
+>   divergent allele that does not map to RS. This was not tested. These 7 are 1.3% of 559.
+> - Four more strains (CA12, CA10, NM_7898, TX13) have genome depth below 3x. Their low gene
+>   depth reflects too few reads.
+> - **Not changed:** the 92.0% prevalence and the "absent from 8%" wording in section 4.1. They
+>   describe the assembly-derived orthogroup table. Read the 8% as "no gene model", not as
+>   "deleted". The two strain sets (488 proteomes, 559 CRAMs) overlap in 484 strains. 75 CRAM
+>   strains have no proteome.
 
 ### 4.5 Spherule-phase expression
 
