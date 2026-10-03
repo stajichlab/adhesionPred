@@ -800,3 +800,28 @@ def test_vs_rule_cell_check_sees_a_swapped_rule(reported):
     assert own["R0"]["fpr"] != own["R2"]["fpr"]
     own["R0"]["fpr"] = own["R2"]["fpr"]  # the R0 table prints the FPR of R2
     assert check_vs_rule(rep.render(m3, f), m, f) != []
+
+
+def test_vs_rule_cells_print_n_defined_below_the_resample_count(reported):
+    # the rule tables follow the n_defined rule of the finding tables (round 3, item 1)
+    import copy
+
+    _, _, m, f = reported
+    rep = load_phasec("12_report")
+    n = m["settings"]["n_resamples"]
+    m2 = copy.deepcopy(m)
+    block = m2["test_sets"]["S1:all"]["truth"]["direct"]
+    for key in ("precision_at_rule_recall", "recall_at_rule_fpr", "fpr_at_rule_recall"):
+        block["vs_rules"]["R1"]["V-go"]["M8"][key] = {
+            "value": 0.2, "lo": 0.05, "hi": 0.3, "n_defined": int(0.9 * n)
+        }  # fmt: skip
+    block["metrics"]["all"]["V-go"]["R1"]["recall"]["n_defined"] = int(0.9 * n)
+    text = rep.render(m2, f)
+    assert check_vs_rule(text, m2, f) == []
+    sec = _sections(text)[f"## S1:all ({m2['test_sets']['S1:all']['label']})"]
+    tabs = [t for t in _tables(sec) if t[0].startswith("B1 and ML against the rule R1 ")]
+    ((_, _, rows),) = tabs
+    row = next(r for r in rows if r[:2] == ["M8", "V-go"])
+    tail = f"(n_defined {int(0.9 * n):,} of {n:,})"
+    assert row[3].endswith(tail)  # the rule's own recall
+    assert all(cell_ == f"0.200 [0.050, 0.300] {tail}" for cell_ in row[5:])
