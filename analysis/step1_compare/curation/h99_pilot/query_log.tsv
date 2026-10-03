@@ -1,0 +1,68 @@
+n	tool	query_or_id	n_results	note
+1	PubMed search_articles	Cryptococcus neoformans GPI-anchored cell wall protein localization	5	
+2	PubMed search_articles	Cryptococcus neoformans cell wall proteome mass spectrometry	9	
+3	PubMed search_articles	Cryptococcus chitin deacetylase localization cell wall Cda1 Cda2 Cda3	1	
+4	PubMed search_articles	Cryptococcus neoformans Qsp1 Pqp1 quorum sensing peptide cell wall localization	0	
+5	PubMed get_article_metadata	15 PMIDs from queries 1-3	15	titles/abstracts screened
+6	PubMed get_full_text_article	PMC3280450	1	
+7	PubMed get_full_text_article	PMC1180731	1	full_text empty, abstract only
+8	PubMed get_full_text_article	PMC1398056	1	full_text empty, abstract only
+9	PubMed get_full_text_article	PMC2224146	1	full_text empty, abstract only
+10	PubMed get_full_text_article	PMC6247093	1	
+11	PubMed search_articles	Cryptococcus neoformans laccase cell wall localization immunogold Lac1	0	
+12	PubMed search_articles	Cryptococcus Qsp1 quorum sensing peptide Pqp1 protease secreted	1	
+13	PubMed search_articles	Cryptococcus neoformans secretome proteomics extracellular proteins	8	
+14	PubMed search_articles	Cryptococcus neoformans extracellular vesicles proteome	21	15 returned
+15	PubMed search_articles	Cryptococcus neoformans mannoprotein MP88 cell wall protein immunolocalization	0	
+16	PubMed get_article_metadata	16 PMIDs from queries 12-14	16	
+17	PubMed get_full_text_article	PMC5186401	1	
+18	PubMed get_full_text_article	PMC5158083	1	
+19	PubMed get_full_text_article	PMC4600298	1	
+20	PubMed get_full_text_article	PMC4172073	1	
+21	PubMed search_articles	Cryptococcus neoformans laccase Lac1 cell wall associated GPI anchor	0	
+22	PubMed search_articles	Cryptococcus neoformans urease localization cell surface secreted Ure1	0	
+23	PubMed search_articles	Cryptococcus neoformans Cpl1 cell wall protein Cpl1 secreted	1	
+24	PubMed search_articles	Cryptococcus neoformans Yor1 ABC transporter localization plasma membrane GFP	0	
+25	PubMed search_articles	Cryptococcus neoformans cell wall protein GFP fusion localization H99 Ecm33 OR Gas1 OR Pda1	619	10 returned, not screened (noisy)
+26	PubMed search_articles	Cryptococcus neoformans capsule-associated protein surface localization immunofluorescence	0	
+27	PubMed search_articles	Cryptococcus laccase cell wall	33	10 returned
+28	PubMed search_articles	Cryptococcus urease	168	10 returned, newest, not screened
+29	PubMed search_articles	Cryptococcus mannoprotein cell wall protein	23	12 returned
+30	PubMed search_articles	Cryptococcus neoformans GFP localization plasma membrane protein	7	
+31	PubMed get_article_metadata	25261494	1	Cpl1 var. neoformans
+32	PubMed get_article_metadata	19 PMIDs from queries 25-30 (selected)	19	
+33	curl Europe PMC fullTextXML	PMC7309605	1	not available (150 byte reply)
+34	curl Europe PMC fullTextXML	PMC6854031	1	retrieved
+35	curl Europe PMC fullTextXML	PMC5917426	1	retrieved
+36	curl Europe PMC fullTextXML	PMC8374607	1	retrieved
+37	curl Europe PMC fullTextXML	PMC2756870	1	not available
+38	curl Europe PMC fullTextXML	PMC2969852	1	not available
+39	curl Europe PMC fullTextXML	PMC3318296	1	not available
+40	curl Europe PMC fullTextXML	PMC1398056	1	not available
+41	curl Europe PMC fullTextXML	PMC1180731	1	not available
+42	curl Europe PMC fullTextXML	PMC2224146	1	not available
+43	PubMed search_articles	Waterman laccase Cryptococcus neoformans C-terminal cell wall localization	1	
+44	PubMed search_articles	Cryptococcus neoformans two laccase genes LAC2 melanin	2	
+45	PubMed search_articles	Cryptococcus neoformans phospholipase B1 cell wall secreted	8	
+46	PubMed search_articles	Cryptococcus neoformans cytoplasmic nuclear localization GFP-tagged protein H99 fluorescence microscopy	0	
+47	PubMed get_article_metadata	17101662, 15643075, 15643074, 28976803, 21453402, 18532984, 17947228, 16919392	8	
+48	PubMed search_articles	Cryptococcus neoformans Crz1 nuclear localization calcineurin GFP	1	
+49	PubMed search_articles	Cryptococcus neoformans chitin synthase Chs3 Csr2 localization	0	
+50	PubMed search_articles	Cryptococcus neoformans aspartyl protease secreted Cnap1 OR May1 OR Apa1 cell surface	90	8 returned, not screened
+51	PubMed search_articles	Cryptococcus neoformans superoxide dismutase Sod1 localization	3	
+52	PubMed search_articles	Cryptococcus neoformans mitochondrial protein localization H99 mitochondria	1	result irrelevant (mtDNA organisation)
+53	PubMed get_article_metadata	23251520, 34210104, 33567338, 16284931	4	
+54	curl Europe PMC fullTextXML	PMC544170	1	not available
+55	curl Europe PMC fullTextXML	PMC1828480	1	not available
+56	PubMed search_articles	Cryptococcus Yor1	1	
+57	PubMed search_articles	Cryptococcus neoformans H99 extracellular vesicles proteomic analysis protein composition	0	
+58	PubMed search_articles	Cryptococcus GPI anchor biosynthesis mutant cell wall protein mislocalization	0	
+59	PubMed get_article_metadata	36247839	1	Yor1 paper
+60	curl Europe PMC fullTextXML	PMC9552768	1	retrieved; Yor1 localisation unsuccessful
+61	curl Europe PMC fullTextXML	PMC3280450 (quote verification)	1	retrieved
+62	curl Europe PMC fullTextXML	PMC5186401 (quote verification)	1	not available
+63	curl UniProt REST	proteome UP000010091 gene CNAG_02944 OR CNAG_05312 OR CIG1	2	CIG1 not found
+64	curl UniProt REST	organism_id 235443 gene CFO1 OR CFO2 OR MPK1 OR CIG1	0	
+65	curl UniProt REST	Cig1 AND organism_id:235443	0	
+66	curl UniProt REST	CNAG_01872 OR CNAG_02944	2	
+67	local FASTA grep	UP000010091.fasta.gz accession and gene-name lookups	0	several greps for seed and candidate proteins

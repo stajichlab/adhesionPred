@@ -1,0 +1,5 @@
+source_pass	source_line	symbol	reason
+H99	22	SOD1	SOD1 N-int: GOA already gives N-sec (PM and raft, PMID 16524904); a curated row cannot override GOA (reviewer)
+H99	24	CIG1	CIG1 plasma membrane: C-terminal mCherry on a GPI protein, ACT1 overexpression, no membrane marker (reviewer)
+H99	33	VCX1	VCX1: sentence reports vacuole shape, not Vcx1 location (reviewer)
+UM	31	Cpl1	Cpl1: permeabilisation not stated and a faint supernatant signal; owner ruling 2026-10-03

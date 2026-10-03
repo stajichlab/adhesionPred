@@ -1,0 +1,5 @@
+symbol	uniprot_accession	how_found	pmids	status	reason
+Mer1	A0A0D1CND6	Pleiades secretion statement found while checking PMC8224859 (34166468) after the main candidate hash was written	34166468	row_written	UMAG_03753; apoplast plasmolysis; added after candidate_list.sha256
+Tay1	A0A0D1C393	same	34166468	row_written	UMAG_03752; same
+Stp4 (second paper, as Cce1)	A0A0D1C5E3	found by grep of PMC6638113 after hash	29745456	row_written	UMAG_12197; added after candidate_list.sha256
+Cpl1	A0A0D1E4Q7	found by grep of PMC10257043 after hash	37171083	row_written	UMAG_01820; added after candidate_list.sha256

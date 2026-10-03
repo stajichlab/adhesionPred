@@ -1,0 +1,27 @@
+source_pass	source_line	symbol	field	old	new	reason
+H99	5	CDA1	note	text checked: PMC6247093 EuropePMC XML; retrieved 2026-10-02	CDA1 is P-ext only through GOA homology (ISS) terms; the curated row adds GO:0016020 (membrane), which counts as neither surface nor secretory; not a direct P-ext gene (reviewer)	reviewer
+H99	6	CDA1	note	ext checked: PMC12113280 EuropePMC XML; retrieved 2026-10-02	CDA1 is P-ext only through GOA homology (ISS) terms; the curated row adds GO:0016020 (membrane), which counts as neither surface nor secretory; not a direct P-ext gene (reviewer)	reviewer
+H99	10	PLB1	selected_by_predictor	unknown	no	reviewer: should be no, not unknown
+H99	25	BIM1	note	text checked: PMC7036007 EuropePMC XML; retrieved 2026-10-02	parent strain of the tagged mutants is named only in Supplementary Dataset 1 (not read); wild-type H99 is the control in every figure (reviewer)	reviewer
+H99	26	BIM1	note	text checked: PMC7036007 EuropePMC XML; retrieved 2026-10-02	parent strain of the tagged mutants is named only in Supplementary Dataset 1 (not read); wild-type H99 is the control in every figure (reviewer)	reviewer
+H99	27	BIM1	note	text checked: PMC7036007 EuropePMC XML; retrieved 2026-10-02	parent strain of the tagged mutants is named only in Supplementary Dataset 1 (not read); wild-type H99 is the control in every figure (reviewer)	reviewer
+H99	30	MNS1	note	ext checked: PMC12113280 EuropePMC XML; retrieved 2026-10-02	tagged in 'the WT strain'; H99 not named in the sentence (reviewer)	reviewer
+H99	31	MNS101	note	ext checked: PMC12113280 EuropePMC XML; retrieved 2026-10-02	tagged in 'the WT strain'; H99 not named in the sentence (reviewer)	reviewer
+UM	2	Rsp3	note	text checked: PMC5923269 EuropePMC XML; retrieved 2026-10-02	wall term rests on the figure title plus 'around the outside of fungal hyphae'; strong for P-ext, weak for the wall subset (reviewer)	reviewer
+UM	4	Stp1	note	text checked: PMC8159752 EuropePMC XML; retrieved 2026-10-02	panel b (SG200 delta kex2); this panel mapping is the reviewer's reading	reviewer: panel map
+UM	5	Stp2	note	text checked: PMC8159752 EuropePMC XML; retrieved 2026-10-02	panel a (AB33-derived strains, otef), stated in the Methods	reviewer: panel map
+UM	6	Stp3	note	text checked: PMC8159752 EuropePMC XML; retrieved 2026-10-02	panel a (AB33-derived strains, otef), stated in the Methods	reviewer: panel map
+UM	7	Stp4	note	text checked: PMC8159752 EuropePMC XML; retrieved 2026-10-02	panel a (AB33-derived strains, otef), stated in the Methods	reviewer: panel map
+UM	10	Stp5	note	text checked: PMC8159752 EuropePMC XML; retrieved 2026-10-02	debatable negative: membrane protein in a surface-exposed complex; panel c or d is the reviewer's inference, the legend does not say	reviewer
+UM	11	Stp6	note	text checked: PMC8159752 EuropePMC XML; retrieved 2026-10-02	debatable negative: membrane protein in a surface-exposed complex; surface speckles map to GO:0009986 (no label change); panel c or d is the reviewer's inference	reviewer
+UM	12	Pep1	selected_by_predictor	unknown	yes	reviewer: the paper chose genes for a secretion signal (SignalP, Fig. 1A)
+UM	13	Pit2	note	text checked: PMC9556619 EuropePMC XML; retrieved 2026-10-02	UMAG ID comes from UniProt REST (UMAG_01375); proteome FASTA headers carry no UMAG ID	reviewer: accession note
+UM	14	Pit2	note	text checked: PMC8159752 EuropePMC XML; retrieved 2026-10-02	UMAG ID comes from UniProt REST (UMAG_01375); proteome FASTA headers carry no UMAG ID	reviewer: accession note
+UM	17	Cmu1	note	text checked: PMC5923269 EuropePMC XML; retrieved 2026-10-02	UMAG ID comes from UniProt REST (UMAG_05731); proteome FASTA headers carry no UMAG ID	reviewer: accession note
+UM	20	Xyn2	note	text checked: PMC8706147 EuropePMC XML; retrieved 2026-10-02	Table 1 shows the fusion is expressed from the otef promoter (overexpression)	reviewer: promoter
+UM	21	Xyn11A	note	text checked: PMC8706147 EuropePMC XML; retrieved 2026-10-02	Table 1 shows the fusion is expressed from the otef promoter (overexpression)	reviewer: promoter
+UM	23	Pdi1	note	text checked: PMC6881057 EuropePMC XML; retrieved 2026-10-02	risk: PMID 34947062 neighbour paper (Cpl1) says Pdi1 is also in the cell wall; Pdi1 S1 Table (cell-wall extract) not read; if listed, this row becomes a conflict	reviewer
+UM	24	Sir2	note	ext checked: PMC10126416 EuropePMC XML; retrieved 2026-10-02	strain stated in the Methods: all strains used derive from the haploid SG200 strain (reviewer, full text)	sirtuin strain
+UM	25	Hst4	note	ext checked: PMC10126416 EuropePMC XML; retrieved 2026-10-02	strain stated in the Methods: all strains used derive from the haploid SG200 strain (reviewer, full text)	sirtuin strain
+UM	26	Hst5	note	ext checked: PMC10126416 EuropePMC XML; retrieved 2026-10-02	strain stated in the Methods: all strains used derive from the haploid SG200 strain (reviewer, full text)	sirtuin strain
+UM	27	Hst6	note	ext checked: PMC10126416 EuropePMC XML; retrieved 2026-10-02	strain stated in the Methods: all strains used derive from the haploid SG200 strain (reviewer, full text)	sirtuin strain
