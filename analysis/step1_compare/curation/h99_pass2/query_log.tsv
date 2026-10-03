@@ -1,0 +1,37 @@
+n	date	tool	query_or_id	n_results	status	action_note
+1	2026-10-02	PubMed search_articles	Cryptococcus neoformans Ecm33	0	no_usable_evidence	0 PubMed hits (screened: none to screen)
+2	2026-10-02	PubMed search_articles	Cryptococcus neoformans Gas1	0	no_usable_evidence	0 PubMed hits
+3	2026-10-02	PubMed search_articles	Cryptococcus neoformans Pda1 polysaccharide deacetylase	0	no_usable_evidence	0 PubMed hits
+4	2026-10-02	EuropePMC search	Cryptococcus AND Ecm33	82	no_usable_evidence	25 titles screened; reviews and non-Cryptococcus papers; no H99 Ecm33 localisation experiment
+5	2026-10-02	EuropePMC search	Cryptococcus AND (Gas1 OR "GAS1") AND neoformans AND "cell wall"	66	no_usable_evidence	25 titles screened; reviews and unrelated; no H99 Gas1 localisation paper
+6	2026-10-02	EuropePMC search	Cryptococcus neoformans AND (Pda1 OR "polysaccharide deacetylase")	58	no_usable_evidence	25 titles screened; chitin deacetylase papers already known (22354955, 30459196); 36670130 (MP98/MP84 glycan) full text read: no Cda3 localisation experiment; no Pda1 paper found
+7	2026-10-02	EuropePMC search	Cryptococcus AND (Ecm33 OR Gas1 OR Pda1) AND (localization OR GFP OR proteomic)	124	no_usable_evidence	25 titles screened; reviews/unrelated. Replaces pass-1 query 25 (619 hits, not screened). Remaining ~99 hits not screened by title
+8	2026-10-02	EuropePMC search	Cryptococcus neoformans AND H99 AND (cell wall proteome...) AND (mass spectrometry OR proteomic)	468	row_written_partial	25 titles screened; none gave a new cell-wall localisation experiment except as noted in other entries; 442 hits not screened
+9	2026-10-02	EuropePMC search	Cryptococcus neoformans AND (GFP OR mCherry OR immunogold) AND localization AND H99 AND plasma membrane	144	row_written	25 titles screened; leads PMC13220255 (organelle markers; rows written Nop1, Vcx1), PMC12797982 (Cig1 row), PMC13535237 (S. pombe heterologous: skipped), PMC13092842 (Ricin B: no localisation experiment, skipped); 119 hits not screened
+10	2026-10-02	EuropePMC search	Cryptococcus AND cell surface shaving OR surface proteome	54369	skipped_with_reason	query too broad (OR precedence); 25 titles screened; 41596691 is a methods review of shaving proteomics, not an H99 experiment
+11	2026-10-02	EuropePMC search	Cryptococcus neoformans AND extracellular vesicles AND proteomic AND H99	43	skipped_with_reason	25 titles screened; mostly reviews or EV methods; 40543703 (Apt1/Apt2 EV cargo) full text not obtainable (429 and not in EPMC OA); no EV protein table accessible
+12	2026-10-02	EuropePMC search	Cryptococcus neoformans AND secretome AND (H99 OR KN99)	42	no_usable_evidence	25 titles screened; 25841021 (strain secretomes) full text not in EPMC OA, efetch empty; 34903172 Wos2 secretome: proteome, no per-protein location statement read; 40777840 Cig1 targeting: H99 text read, uses Cig1 as surface-expressed target but no localisation experiment on tagged Cig1 quoted
+13	2026-10-02	EuropePMC fullTextXML	PMC12797982 (PMID 41313167) Cig1/Fbp1	1	row_written	Cig1:mCherry plasma membrane; H99 stated
+14	2026-10-02	EuropePMC fullTextXML	PMC4600298 (PMID 26453029) re-read for CIG1	1	row_written	CNAG_01653 secretome sentence and table
+15	2026-10-02	EuropePMC fullTextXML	PMC7961099 (PMID 33567338) re-read for SOD1, SOD2 strain	1	row_written	SOD1 cytosol and SOD2 fractionation sentences
+16	2026-10-02	NCBI efetch + PMC HTML	PMC3318296 (PMID 22327008) RAC1	1	skipped_with_reason	EPMC has no full text. PMC HTML page read: Methods state JEC21 (serotype D) was the parental strain. Not H99. No CNAG ID found. RAC1 skipped
+17	2026-10-02	PubMed get_full_text_article	PMC3318296	1	skipped_with_reason	empty full_text
+18	2026-10-02	UniProt/local proteome headers	UP000010091 headers for Nop1, Dcp1, Dnj1, Cap6, Ktr3, Vcx1, Rab5, Mjr1, Ant1, Atg8, Pma1, fibrillarin	1	partial	Unique accession by name: Vcx1 J9VDQ4 (GN=VCX1), fibrillarin J9VR32 (CNAG_06919, name-based). Not unique or not found: Pma1 (two Plasma membrane ATPase entries), Dnj1, Dcp1, Cap6, Ktr3, Rab5, Mjr1, Ant1, Atg8: no row
+19	2026-10-02	EuropePMC fullTextXML	PMC13220255 organelle marker toolkit (efetch fallback)	1	row_written	H99/KN99 markers; rows for Nop1 and Vcx1
+20	2026-10-02	EuropePMC fullTextXML	PMC7692273 Cmp1 (PMID 33114434)	1	see_candidates	GFP-Cmp1 cytoplasm/vacuole in cmp1 mutants; strain check below
+21	2026-10-02	EuropePMC fullTextXML	PMC7036007 Bim1 (PMID 31932719)	1	row_written	Bim1-HA fractionation: PM, wall, supernatant; wild-type H99 DTY758
+22	2026-10-02	EuropePMC fullTextXML	PMC12113280 (PMID 40424315) N-glycan QC; Cda1 fraction	1	see_candidates	Cda1 insoluble fraction; ER-QC GFP proteins
+23	2026-10-02	EuropePMC fullTextXML	PMC10166503, PMC11237595, PMC8461255, PMC11302251, PMC7694259, PMC9258870, PMC11306161	7	see_candidates	localisation statements screened
+24	2026-10-02	curl PMC HTML page	PMC1828480 (PMID 17101662, LAC1)	1	row_written	full text obtained from PMC HTML (EuropePMC and PubMed tool had none); strain H99 lac1 ura5 recipient
+25	2026-10-02	curl PMC HTML page	PMC1398056 (PMID 16524904, PLB1 rafts)	1	row_written	full text; H99 stated
+26	2026-10-02	curl PMC HTML page	PMC98673 (PMID 11500433, laccase cell wall)	1	row_written	new LAC1 row; H99 stated in abstract
+27	2026-10-02	curl PMC HTML page	PMC4452572 (PMID 25841021, strain secretomes)	1	skipped_with_reason	secretome is of KN99alpha and others; text has no CNAG IDs for the protein lists; no per-protein rows written
+28	2026-10-02	curl PMC HTML page	PMC5311391 (PMID 28039134, Cfl1 family)	1	skipped_with_reason	Cfl1 (CNAG_00795) has no UniProt entry found by GN in the proteome headers; homolog secretion strain not resolved; no row
+29	2026-10-02	EuropePMC search	Cryptococcus neoformans AND (zymolyase OR glucanase OR "lytic enzymes") AND (FLAG OR HA-tagged OR tagged) AND "cell wall" AND H99	28	row_written	title screen of 25; leads: Cel1 37099613 (row), Bim1 31932719 (row), Wos2 and Pbx not pursued
+30	2026-10-02	EuropePMC search	Cryptococcus neoformans AND (supernatant OR secreted) AND (immunoblot OR western blot) AND (FLAG OR HA-tagged OR mCherry) AND H99 AND secretion	0	skipped_with_reason	title screen of 25; leads Cfl1 family 28039134 (skipped), others unrelated or not full-text read
+31	2026-10-02	EuropePMC search	Cryptococcus AND (PI-PLC OR Triton X-114) AND GPI	68	skipped_with_reason	title screen of 25; only known papers (22354955, 17947228, 15826239, 31932719)
+32	2026-10-02	EuropePMC search	Cryptococcus neoformans AND (Chs3 OR Chs4 OR Csr2 OR Chs5) AND localization	134	skipped_with_reason	title screen of 25; no chitin synthase localisation paper in H99 found; 38742885 May1 paper full text fetched, no new location statement read
+33	2026-10-02	EuropePMC search	Cryptococcus neoformans AND (chitinase OR chitin synthase) AND (GFP OR localiz) AND (H99 OR KN99)	44	row_written	title screen of 25; lead 40424315 for Cda1 and ER-QC rows
+34	2026-10-02	EuropePMC search	Cryptococcus neoformans AND GPI-anchored AND (localization OR localized) AND (H99 OR KN99)	60	row_written	title screen of 25; leads Cig1 41313167 (row)
+35	2026-10-02	EuropePMC search	Cryptococcus neoformans AND (H99 OR KN99) AND cell wall AND (GFP OR mCherry) AND mannoprotein/GPI	25	row_written	title screen of 25; Cmp1 33114434 skipped (no CNAG ID in text), Dnj1 8461255 skipped (accession not unique)
+36	2026-10-02	Local proteome FASTA headers	UP000010091 accession checks J9VLJ9 J9VUB8 J9VHN6 J9VH79 J9VG93 J9VN97 J9VSV0 J9VR32 J9VDQ4 and pass-1 accessions	15	done	all accessions present with matching names

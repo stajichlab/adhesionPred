@@ -1,0 +1,51 @@
+symbol	uniprot_accession	how_found	pmids	status	reason
+Rsp3	A0A0D1DYI3	seed list (Rsp1/Rsp3 family) and EuropePMC immunogold query	29703884	row_planned	UMAG_03274; immunogold, non-permeabilised immunostain, supernatant western; SG200
+Stp1	A0A0D1CU07	EuropePMC secreted/localisation query	33941900	row_planned	UMAG_02475; immuno-EM outside hyphal wall; supernatant western
+Stp2	A0A0D1E167	same	33941900	row_planned	UMAG_10067; supernatant western
+Stp3	A0A0D1EAN2	same	33941900	row_planned	UMAG_00715; immuno-EM; supernatant western
+Stp4	A0A0D1C5E3	same	33941900	row_planned	UMAG_12197; supernatant western
+Stp5	A0A0D1CK59	same	33941900	row_planned	UMAG_04342; plasma membrane fraction with markers
+Stp6	A0A0D1E805	same	33941900	row_planned	UMAG_01695; plasma membrane fraction with markers
+Pep1	G0X7E8	seed list	19197359	row_planned	UMAG_01987; Pep1-mCherry in apoplast, native promoter, SG200
+Pit2	A0A0D1EAR7	seed list	36224193;33941900	row_planned	exact gene name PIT2 in proteome header; used as secreted control in two papers
+Cmu1	A0A0D1DWQ2	seed list	29703884	row_planned	exact gene name CMU1 in proteome header; apoplastic fluid western
+Erc1	A0A0D1E3H5	EuropePMC immunogold query	36224193	row_planned	UMAG_01829; immunogold TEM and plasmolysis
+Sts2	A0A0D1BWA6	EuropePMC nuclear/effector query	37872143	row_planned	UMAG_05318; Sts2-mCherry at hyphal edge
+Llp1	A0A0D1E6R1	EuropePMC secreted query	39997458	row_planned	UMAG_00027; immunostain of native-locus HA strain
+Xyn2	Q4P902	EuropePMC secreted query	34947062	row_planned	UMAG_03411; colony secretion assay
+Xyn11A	Q4P0L3	same	34947062	row_planned	UMAG_06350; colony secretion assay and apoplast western
+Pdi1	A0A0D1E191	EuropePMC GPI/glyco query	31730668	row_planned	UMAG_10156; Pdi1:GFP with mRFP:HDEL
+Sir2	A0A0D1CD62	EuropePMC nucleus/mito query	37113216	row_planned	UMAG_00963; eGFP at locus, nuclear; strain unnamed
+Hst4	A0A0D1DSY4	same	37113216	row_planned	UMAG_05758; nuclear
+Hst5	A0A0D1E6Y0	same	37113216	row_planned	UMAG_05239; mitochondria, MitoTracker
+Hst6	A0A0D1CIL7	same	37113216	row_planned	UMAG_12006; mitochondria, MitoTracker
+Hst2	A0A0D1DNZ2	same	37113216	skipped_with_reason	nuclear only in mitotic cells; not stated as general nuclear; no row
+Cda1	A0A0D1D1F2	seed list; AFP1 paper	36946727	skipped_with_reason	UMAG_00638; internal HA tag, overexpressed; reported as cell surface or periphery, which has no wall or extracellular GO term; label not derivable
+Cda2	A0A0D1EA24	same	36946727	skipped_with_reason	UMAG_01143; puncta on cell periphery; same reason
+Cda4	A0A0D1CW71	same	36946727	skipped_with_reason	UMAG_01788; localised to cell periphery; same reason
+Cda7	A0A0D1CTP0	same	36946727	skipped_with_reason	UMAG_02381; GFP internal fusion at periphery and septa; same reason
+PR-1La	A0A0D1E5M0	EuropePMC GPI query	37716995	skipped_with_reason	UMAG_01204; surface by non-permeabilised immunostain of otef-overexpressed C-terminal HA; GO cell surface only
+Cts1	A0A0D1DVM8	seed list	21808052;32733418;40348193	skipped_with_reason	UMAG_10419; evidence is enzyme activity and reporter fusions (Gus/LacZ-Cts1); Rrm4 paper states wall association only as "probably"
+Jps1	not looked up	unconventional secretion query	40348193	skipped_with_reason	membrane localisation is stated in a review sentence; no direct experiment read
+Chs5	O13394	seed list; chitin synthase query	16314447;17042749	skipped_with_reason	UMAG_10277; abstract says GFP at septa and growth regions; no PM or wall term; no full text
+Chs6	not looked up	same	16314447	skipped_with_reason	same reason
+Chs7	not looked up	same	16314447	skipped_with_reason	same reason
+Mcs1 (Chs)	not looked up	same	16314447;20663961;27563844	skipped_with_reason	abstract-only; vesicle and growth-region localisation; no PM or wall term; no full text
+Chs3/Chs4/Chs6/Chs8 antibodies	not looked up	chitin synthase query	17042749	skipped_with_reason	abstract-only; antibody cross-reacts with two paralogs each; surface and cytoplasm, gene not unique
+Lep1	not looked up	hydrophobin query	33843063	skipped_with_reason	abstract says bound to cell wall; no full text; strain not in abstract
+Sta1	not looked up	EuropePMC title search	32112567	skipped_with_reason	abstract says attached to wall of filaments; no full text; strain not in abstract
+Vp1	not looked up	EuropePMC secreted query	34436129	skipped_with_reason	secretion shown, but paper gives no UMAG ID; accession not verifiable
+Lip3	not looked up	EuropePMC secreted query	42093215	skipped_with_reason	secretion shown, but paper gives no UMAG ID; accession not verifiable
+Xyn1	A0A0D1C055	EuropePMC secreted query	34947062	skipped_with_reason	UMAG_04422; secretion cited from earlier paper; apoplast western band size unexpected
+Xyn3	A0A0D1DRR4	same	34947062	skipped_with_reason	UMAG_04897; not secreted; no cytosol claim, label not derivable
+Msb2	not looked up	seed list	20587773	skipped_with_reason	no PMC full text; abstract not read for localisation
+Sho1	not looked up	seed list	20587773	skipped_with_reason	same
+Pit1	not looked up	seed list	33941900	skipped_with_reason	used as plasma membrane control only; location rests on a cited paper
+Tin2	not looked up	seed list	30510169;40891345	skipped_with_reason	30510169 no full text; 40891345 studies plant-side localisation
+Hum2/Hum3/Rep1	Hum3 header present	seed list; hydrophobin query	none found	no_usable_evidence	no U. maydis hydrophobin localisation paper among 20 titles read
+Mig1/Mig2/Um05505/Rbf1/Mfa1/Pra1/Gas1/Ecm33/Ssr1/Cel1/Cbh/Egl1/Pel1	not looked up	seed list	none found	no_usable_evidence	no hit in titles screened; not individually searched in PubMed
+Sod1 (Cu/Zn) and generic cytosolic markers (actin, tubulin)	not looked up	seed list	29703884;42093215	skipped_with_reason	actin and tubulin used only as lysis controls on pellet versus supernatant; pellet is not cytosol; named by protein name only
+Pex/peroxisomal proteins	not looked up	EuropePMC organelle query	39979331	skipped_with_reason	peroxisome is not in INTERNAL or SECRETORY sets; label would be unlabelled
+Sei1/Per1/Erg6 (lipid droplet)	not looked up	EuropePMC organelle query	41132896	skipped_with_reason	lipid droplet is not in label sets; fusions only partly full length
+Yup1 endosome and ER-GFP	not looked up	EuropePMC organelle query	10790364;11907275	skipped_with_reason	endosome not in label sets; ER-GFP is a reporter, not a native protein
+Abc1 and Mmf1	not looked up	EuropePMC nucleus/mito query	39487654;36069442	skipped_with_reason	Abc1 cell surface punctate (no wall or extracellular term); Mmf1 PM statement is cited from an earlier paper

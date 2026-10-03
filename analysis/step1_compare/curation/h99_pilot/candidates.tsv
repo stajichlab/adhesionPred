@@ -1,0 +1,27 @@
+symbol	uniprot_accession	how_found	pmids	status	reason
+PQP1	J9VDC2	seed; search: Qsp1 Pqp1 protease secreted	27212659	row_written	Pqp1 activity is cell associated (about 90% of activity on intact cells, KN99alpha); one row, cell surface
+CDA2	J9VND2	seed; search: chitin deacetylase localization	22354955	row_written	Western blots of fractions: membrane, cell wall, secreted; GPI anchor shown by PI-PLC. Cytosol band is called a shearing artifact by authors; not written as a row
+CDA1	J9VPD7	seed; search: chitin deacetylase localization	30459196	row_written	Membrane fraction by western; evidence is mostly from a catalytic mutant compared with wild type; one weak-ish row, review closely
+QSP1	J9VPP4	seed; search: Qsp1 Pqp1 protease secreted	27212659	row_written	Detected in culture supernatant by immunoblot and ELISA; peptide acts intracellularly after import
+CPL1	J9VQE5	seed; search: Cpl1 cell wall secreted	25261494	no_usable_evidence	Only paper found is on var. neoformans (serotype D) Cpl1, abstract only, not H99; no H99 localisation data found
+YOR1	J9VQH1	seed; search: Yor1 localization (and Cryptococcus Yor1)	36247839	no_usable_evidence	Full text (PMC9552768) states fluorescent localisation was unsuccessful; protein only detected in macrophage lysates; no location experiment
+LAC2	J9VQZ4	seed; search: laccase cell wall	15643075;31787940	skipped	Missall 2005 abstract says laccases are differentially localised by GFP fusion but gives no location; the location statements in PMC6854031 are secondary citations; no full text of Missall available
+cnap1	J9VS02	seed; search: secretome proteomics	27977806	row_written	May1 immunoblot of tagged protein in supernatant; mapped to J9VS02 by protein name Major aspartyl peptidase 1
+LAC1	J9VY90	seed; search: laccase cell wall	17101662;31787940	row_written	Waterman 2007 abstract: GFP-laccase in cell wall at physiological pH; abstract only; strain not stated
+CDA3	P82476	seed; search: chitin deacetylase localization	30459196	no_usable_evidence	Only predicted GPI/signal sequence statements found; no experiment on Cda3 localisation
+PLB1	Q9P8P2	seed; search: phospholipase B1 cell wall secreted	17947228;16524904;15826239;25227465;20384682;18532984;21453402	row_written	Wall (glucanase release from H99 walls, GFP), plasma membrane rafts. 15826239 skipped as a row: expression in S. cerevisiae. 20384682 supports wall content but not written (reduced in kre mutants only)
+APH1 (CNAG_02944)	J9VHR6	search: secretome proteomics	25227465;26453029	row_written	H99 secretome and Aph1-GFP in vacuole, periphery, endosome-like structures; label ambiguous by my reading of the rule
+CNAG_05312	J9VPN6	search: secretome proteomics	26453029	row_written	Secretome LC-MS/MS; strain not stated in text read
+CIG1		search: secretome proteomics	26453029	skipped	Abstract says Cig1 extracellular abundance changed with Pka1, but UniProt lookup by gene name CIG1 in taxon 235443 returned no entry; no accession, so no row
+URE1	O13465	search: extracellular vesicles proteome; Cryptococcus urease	18039940	skipped	Vesicle paper abstract states urease activity in vesicles, but strain is not stated in the abstract and full text was not available; not H99-confirmed
+SOD1	J9VLJ9	search: superoxide dismutase Sod1 localization	16524904;33567338	skipped	Raft paper abstract says SOD1 is concentrated 6-9 fold in raft membrane fractions, but no explicit location statement written as a row; Smith 2021 abstract gives no SOD1 location
+CRZ1	J9VE33	search: Crz1 nuclear localization	23251520	row_written	Nuclear accumulation of Crz1-GFP under heat and calcium, calcineurin dependent; cytosolic puncta under salt and heat shock; abstract only
+SOD2	J9VWW9	search: superoxide dismutase Sod1 localization	33567338	row_written	Mitochondrial isoform and cytosolic isoform; abstract only; label N-int either way
+CNAG_00483 (actin)	P48465	control protein in the Cda2 paper (PMID 22354955)	22354955	row_written	Cytosolic marker control in the Cda2 fractionation blots
+MPK1		control protein in the Cda2 paper (PMID 22354955)	22354955	skipped	Cda2 paper says Mpk1 was in the cytosolic fraction only, but UniProt lookup by gene name MPK1 in taxon 235443 returned no entry; no accession, so no row
+KRP1 (CNAG_05595)		search: mannoprotein cell wall protein	29897877	skipped	Characterised in C. gattii R265; C. neoformans ortholog only seen in secretome and EV by others; no H99 experiment in this paper
+CFO1		search: GFP localization plasma membrane protein	19700638	skipped	Abstract: Cfo1-GFP at plasma membrane; two ferroxidases in the proteome have no CFO1 or CFO2 gene symbol (CNAG_05011, CNAG_02958); mapping not verified, so no row
+MP88		search: MP88 immunolocalization		no_usable_evidence	Search for MP88 localisation returned 0 results; no accession mapped
+Cap64		search: GFP localization plasma membrane protein	34125663	skipped	mCherry-Cap64 in intracellular patches overlapping quinacrine; strain not stated in abstract; no accession checked
+RAC1		search: GFP localization plasma membrane protein	22327008	skipped	Abstract: vacuolar membrane localisation of Rac1 depends on Wsp1; strain not stated; not pursued
+ECM33/GAS1/PDA1		search: Ecm33 OR Gas1 OR Pda1 GFP		no_usable_evidence	Search returned 619 mostly unrelated hits; not screened

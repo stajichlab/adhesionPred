@@ -105,3 +105,7 @@ stage/negtraining/models
 # stage/negtraining/*.sampled_ids.txt is NOT ignored: it records which negatives were drawn.
 # Symlink to an absolute path on shared storage.
 idp_summary.csv.gz
+
+# Saved publisher texts used to check curated quotes. Never commit (copyright, size).
+# Hashes are kept in analysis/step1_compare/curation/*/texts.sha256.
+analysis/step1_compare/curation/**/texts/

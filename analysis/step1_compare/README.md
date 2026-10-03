@@ -384,3 +384,11 @@ $ENV_PY "$S1/phasec/12_report.py"
 - Phase C tests need numpy and scikit-learn:
   `PYTHONPATH=src $ENV_PY -m pytest tests/step1_compare -q`. A Python without these libraries
   skips those test files.
+
+## `curated_basidiomycota.tsv` (draft, not read by any step yet)
+
+- 58 rows for 40 genes from two literature passes (*C. neoformans* H99, 29 rows; *U. maydis*, 29 rows). Format: spec section 5. Provenance, the pass-1 corrections and the dropped rows are in `curation/consolidated/` (`changes.tsv`, `dropped_rows.tsv`).
+- Each row was checked by an independent model pass (`reviewer`). The owner spot-checked 15 rows (`curation/spot_check/`) on 2026-10-03.
+- No pipeline step reads this file. Plan 2 (step 01 `--curated` merge) is not written. Do not use the file as truth before that plan runs and its conflict report is reviewed.
+- `selected_by_predictor=yes` rows and `overexpressed=yes` rows form report-only sub-strata (spec decisions 13 and 14).
+- The file has no double quote characters, so it is plain tab-separated text.

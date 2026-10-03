@@ -1,0 +1,44 @@
+symbol	uniprot_accession	how_found	pmids	status	origin	reason
+PQP1	J9VDC2	pass1 seed	27212659	row_written	carried over	Cell-associated protease activity, KN99alpha
+CDA2	J9VND2	pass1 seed	22354955	row_written	carried over	Fractions membrane, wall, secreted; GPI anchor by PI-PLC
+CDA1	J9VPD7	pass1 seed	30459196;40424315	row_written	carried over + new paper	Pass 1 row corrected to P-ext, GO:0016020; second paper 40424315 (insoluble fraction) added
+QSP1	J9VPP4	pass1 seed	27212659	row_written	carried over	Detected in culture supernatant
+CPL1	J9VQE5	pass1 seed	25261494	no_usable_evidence	carried over	Only var. neoformans (serotype D) paper found; the H99 LPMO paper PMC10166503 concerns CEL1 (CNAG_00601), not CPL1
+YOR1	J9VQH1	pass1 seed	36247839	no_usable_evidence	carried over	Paper states fluorescent localisation was unsuccessful
+LAC2	J9VQZ4	pass1 seed	15643075;31787940	skipped_with_reason	carried over	No location statement obtainable
+cnap1	J9VS02	pass1 seed	27977806	row_written	carried over	May1 immunoblot in supernatant; selected_by_predictor corrected to yes
+LAC1	J9VY90	pass1 seed	17101662;31787940	row_written	carried over	GFP-laccase cell wall; abstract only
+CDA3	P82476	pass1 seed	30459196;36670130	no_usable_evidence	carried over	No Cda3 localisation experiment; 36670130 full text read (MP98/MP84 glycan paper), none
+PLB1	Q9P8P2	pass1 seed	17947228;16524904;15826239;25227465	row_written	carried over	15826239 dropped as a row (S. cerevisiae experiment)
+APH1 (CNAG_02944)	J9VHR6	pass1 search	25227465;26453029	row_written	carried over	Label corrected to P-ext; selected_by_predictor yes
+CNAG_05312	J9VPN6	pass1 search	26453029	row_written	carried over	Secretome LC-MS/MS; H99 stated in Methods
+CIG1 (CNAG_01653)	J9VUB8	reviewer lead; pass2	26453029;41313167	row_written	new	Secretome HDA (26453029) and Cig1:mCherry plasma membrane (41313167)
+URE1	O13465	pass1 search	18039940	skipped_with_reason	carried over	Strain not stated; full text unavailable
+SOD1	J9VLJ9	reviewer lead; pass2	33567338	row_written	new	Cytosol with small mitochondrial fraction, fractionation, H99 (stud)
+CRZ1	J9VE33	pass1 search	23251520	row_written	carried over	Nuclear accumulation of Crz1-GFP; H99 per Methods; full text
+SOD2	J9VWW9	pass1 search	33567338	row_written	carried over	Code corrected to IDA; H99 (stud) per full text
+CNAG_00483 (actin)	P48465	pass1 control	22354955	skipped_with_reason	dropped	Pass-1 row dropped: cannot be a negative control, because H99 GOA has an IEA actin cortical patch term whose ancestors include cell periphery, so the derived label is unlabelled
+MPK1		pass1 control	22354955	skipped_with_reason	carried over	No accession by gene name; paper gives no ID
+KRP1 (CNAG_05595)		pass1 search	29897877	skipped_with_reason	carried over	C. gattii R265 data
+CFO1		pass1 search	19700638	skipped_with_reason	carried over	Mapping not verified
+MP88 (CNAG_00776)	J9VF18	pass1 search		no_usable_evidence	carried over	No localisation paper found in pass 1; not re-searched in pass 2 beyond EuropePMC screens
+Cap64		pass1 search	34125663	skipped_with_reason	carried over	Overexpressed mCherry fusion, strain not stated, accession unresolved
+RAC1		reviewer lead; pass2	22327008	skipped_with_reason	new decision	PMC HTML Methods: parental strain JEC21 (serotype D), not H99; no CNAG ID found in text
+ECM33		pass1 search; pass2		no_usable_evidence	screened	0 PubMed hits; 25 EuropePMC titles screened (reviews or unrelated); remaining hits not screened
+GAS1		pass1 search; pass2		no_usable_evidence	screened	0 PubMed hits; 25 EuropePMC titles screened; none H99 Gas1 localisation
+PDA1		pass1 search; pass2		no_usable_evidence	screened	0 PubMed hits; 25 EuropePMC titles screened; none
+BIM1 (CNAG_02775)	J9VHN6	pass2 search	31932719	row_written	new	Bim1-HA fractionation: PM, wall, culture supernatant; wild-type control H99 (DTY758)
+CEL1 (CNAG_00601)	J9VH79	pass2 search	37099613	row_written	new	Cel1-4xFLAG not secreted, wall-associated by Zymolyase; H99 background
+UGG1 (CNAG_03648)	J9VG93	pass2 search	40424315	row_written	new	GFP-Ugg1 colocalises with ER marker; H99/WT
+MNS1 (CNAG_02081)	J9VN97	pass2 search	40424315	row_written	new	Mns1-GFP colocalises with ER marker
+MNS101 (CNAG_03240)	J9VSV0	pass2 search	40424315	row_written	new	Mns101-GFP colocalises with ER marker
+NOP1 (fibrillarin)	J9VR32	pass2 search	42085564	row_written	new	Nop1 marker nucleolus, mapped to the single fibrillarin entry by protein name
+VCX1	J9VDQ4	pass2 search	42085564	row_written	new	Vacuolar marker; weak sentence (vacuole morphology under osmotic conditions)
+PMA1		pass2 search	42085564	skipped_with_reason	new	Two Plasma membrane ATPase entries (J9VWK6, J9VVZ0); paper gives no ID in text
+DNJ1; DCP1; CAP6; KTR3; RAB5; MJR1; ANT1; ATG8		pass2 search	42085564;34566931	skipped_with_reason	new	Accession not unique or not found by name; CNAG IDs are only in supplementary tables
+CMP1		pass2 search	33114434	skipped_with_reason	new	GFP-Cmp1 cytoplasm and vacuole; no CNAG ID in text; mutants in H99 and KN99a
+OLP1; WOS2; YPT7		pass2 search	33158259;38953322;39119141	skipped_with_reason	new	No unique accession and location statement not resolved in the time available
+STR1; STR3 fusions		pass2 search	42367114	skipped_with_reason	new	Expressed in S. pombe: heterologous
+Ricin B-like proteins		pass2 search	42016327	skipped_with_reason	new	No localisation experiment found in full text
+Laccase (1st report)		pass2 search	11500433	skipped_with_reason	new	Full text not obtainable; strain not confirmed H99
+Secretory protein family; strain secretomes		pass2 search	28039134;25841021	not_screened	new	Full text not obtainable (not in EuropePMC OA); abstracts not checked for H99 and location
