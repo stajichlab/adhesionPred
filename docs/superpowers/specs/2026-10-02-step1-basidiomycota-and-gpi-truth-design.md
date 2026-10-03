@@ -1,6 +1,6 @@
 # Design spec: Basidiomycota truth and curated GPI rows for step 1 validation (issue #50)
 
-*Drafted 2026-10-02. DRAFT. It needs an independent review (a different model) before any plan or
+*Drafted 2026-10-02. DRAFT, owner decisions 1 to 6 recorded (section 10). It needs an independent review (a different model) before any plan or
 code. No code, data or job exists for this spec. Owner decisions are in section 10.*
 
 Inputs: `docs/superpowers/specs/2026-09-30-surface-glycoprotein-model-design.md` ("step 1 spec",
@@ -185,6 +185,9 @@ as a normal CPU job and size it to one to 1.5 hours, as the HPCC rules require.
 | Curated rows duplicate GO rows | dedupe by accession and hash; report the overlap with T-a |
 
 ## 10. Decisions for the owner
+
+**Decided 2026-10-02: the owner accepted the recommendation for items 1 to 6.** The text of each item
+is the decision.
 
 1. **Which workstream first?** Recommendation: A1, then B1 in parallel with A2. A1 is small and sets
    the A2 scope. B1 does not depend on A.
