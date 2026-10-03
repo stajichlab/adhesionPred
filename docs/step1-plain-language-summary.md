@@ -35,23 +35,27 @@ flowchart TD
     I --> J["Model card +<br/>shipped tool"]
 ```
 
-Today we are at box H for most groups. Box I is decided in part (section 7). Box J does not exist yet:
+Section 10 shows which boxes are done. Box I is decided in part (section 6). Box J does not exist yet:
 **no trained model ships today.**
+
+*Text version:* annotations and curated rows give a truth set; we attach sequences, clean and cluster them,
+compute features, train on the training species, test on unseen proteins, measure, and then the owner
+chooses the method and sets the accuracy values; a model card and the tool follow.
 
 ## 3. Assumptions
 
 | # | Assumption | Why it matters |
 |---|---|---|
-| 1 | The label is **location**, taken from GO (Gene Ontology) "cell wall" or "extracellular region" terms. | GO has no term for glycosylation, so we cannot test glycosylation. |
+| 1 | The label is **location**, taken from GO (Gene Ontology) "cell wall" or "extracellular region" terms. | GO has no *cellular-component* term for glycosylation (it has process terms, which we do not use), so we cannot test glycosylation. |
 | 2 | We use only GO annotations that a person or an experiment supports. We drop IEA (automatic) annotations. | SignalP and InterPro feed IEA. Using them would test the rule against itself. |
-| 3 | "Direct" evidence means the evidence code is not a homology code (IBA, ISS and similar). Headline numbers use direct evidence. | Homology codes copy a label from a related gene. In species far from yeast, most labels are of this kind. |
+| 3 | "Direct" evidence means the evidence code is not a homology code (IBA, ISS and similar). The **headline numbers** (the numbers we quote as the main result) use direct evidence. | Homology codes copy a label from a related gene. In species far from yeast, most labels are of this kind. |
 | 4 | A gene with a surface term **and** an internal term is "ambiguous". We leave it out of training and out of precision. | Some enzymes (for example enolase) sit inside the cell and also on its surface. |
 | 5 | A protein with a transmembrane helix (for example MSB2, HKR1) counts as **not surface** (decision Q3). | The owner chose this. It means the model learns "a TM helix means not surface". |
-| 6 | UniProt keywords can train a model but never serve as test truth. | They use the same predictors as the rule. |
+| 6 | UniProt keywords can train a model but never serve as test truth (section 4.3). | They use the same predictors as the rule. |
 | 7 | Training uses two yeasts. All other species and clades are test-only. | We want to know if the model works outside yeast. |
 | 8 | An unlabelled protein is never a negative. | "Not annotated" does not mean "not on the surface". |
 | 9 | We set accuracy gates **after** we measure, not before. | A gate set before measurement is a guess. |
-| 10 | The ESM-2 model reads at most 1,022 amino acids. | 164 of 3,573 rows of the UniProt-keyword table are longer than that. |
+| 10 | The ESM-2 model reads at most 1,022 amino acids. | 164 of 3,573 rows of the UniProt-keyword table (section 4.3) are longer than that. |
 
 ## 4. Input data
 
@@ -73,7 +77,7 @@ not surface" is N-sec.
 | *C. deneoformans* JEC21 | comparison only | 32 | 1,813 | 817 | 0 |
 
 **What this shows.** Outside the yeasts, the number of direct-evidence surface genes is small. For
-Basidiomycota it is 9 plus 10 genes before filtering. This is why #50 exists.
+Basidiomycota it is 9 genes in H99 and 10 in *U. maydis*. Issue #50 addresses this gap.
 
 ### 4.2 The labels in plain words
 
@@ -100,9 +104,9 @@ training variant ("V-kw"). Before training, we remove every protein that is a te
 3. **Remove exact duplicates** (same SHA-256 hash). A sequence that is both a positive and a negative is
    dropped.
 4. **Group similar proteins.** MMseqs2 clusters all labelled proteins from all species together at 30%
-   identity and 50% coverage. Related proteins end up in one cluster.
-5. **Split by cluster, not by protein.** A cluster is never split between training and testing. This
-   stops the model from scoring well by remembering close relatives.
+   identity and 50% coverage. Related proteins go into one cluster.
+5. **Split by cluster, not by protein.** A cluster never goes to both training and testing. A test
+   protein then has no close relative in the training data.
 6. **Long proteins.** The first 1,022 amino acids go to the ESM-2 models (M8, M35). The last 1,022 go to
    the "-C" variants (M8-C, M35-C). Results for proteins longer than 1,022 are reported on their own.
 
@@ -112,7 +116,7 @@ We build several simple candidates and compare them on the same test data.
 
 | Candidate | What it uses | Plain description |
 |---|---|---|
-| **B0** | length | a floor: how much does length alone tell? |
+| **B0** | length | a baseline: it shows what length alone can predict |
 | **B1** | 20 amino-acid fractions + length | logistic regression on composition |
 | **R0** | SignalP 6 signal-peptide call | rule: "has a signal peptide" |
 | **R2** | signal peptide **and** (GPI call **or** Ser+Thr fraction) | stricter rule |
@@ -122,11 +126,13 @@ We build several simple candidates and compare them on the same test data.
 
 (Sources: step 1 spec section 5; `docs/model-review/STATUS.md` for R0 and R2.)
 
-**How we choose.** We do not pick by hand. We measure every candidate on the same held-out data. The
-owner then picks one. Today the owner has decided on a **hybrid**: R0 (the signal-peptide call) is the
-gate, and an ML model gives a second score. The gate values are not set.
+**How we choose.** We do not choose by judgment alone. We measure every candidate on the same held-out
+data. The owner then picks one. On 2026-10-02 the owner decided on a **hybrid** (`docs/HANDOFF-2026-10-02.md`,
+section 4a, decision 1; `STATUS.md` was written before this decision and still says the choice is open):
+R0 (the signal-peptide call) is the first filter (the "gate"), and an ML model gives a second score.
+The **gate values** (the accuracy a model must reach before it ships) are not set.
 
-**What we measured so far** (`docs/model-review/STATUS.md`, S1:all, the two yeasts, cross-validation):
+**What we measured so far** (`docs/model-review/STATUS.md`; "S1:all" is the cross-validation inside the two yeasts, explained in section 7):
 
 | Candidate | Recall (found surface proteins) | False-positive rate (non-secreted proteins called surface) |
 |---|---|---|
@@ -156,7 +162,10 @@ flowchart LR
     Train --> T3
 ```
 
-- **S1:** cross-validation inside the two yeasts, with folds built from clusters.
+*Text version:* training uses the two yeasts; tests use held-out clusters of the same yeasts (S1), other
+species (S2) and other clades (S3).
+
+- **S1:** cross-validation inside the two yeasts, with folds built from clusters. "S1:all" pools all folds.
 - **S2:** train on one species, test on another (S. cerevisiae to *C. albicans*, and back; both yeasts to
   *S. pombe*).
 - **S3:** train on both yeasts, test on a whole clade (Eurotiomycetes, Basidiomycota). This is the
@@ -187,6 +196,10 @@ flowchart TD
     O --> C["Model card checked:<br/>wrong ESM model or layer<br/>-> the tool refuses"]
 ```
 
+*Text version:* the user gives a proteome FASTA; the tool runs SignalP and the ESM-2 embedding on each
+protein; the gate and the ML score go into one output table; the model card is checked first and the
+tool refuses a mismatched model.
+
 - The output is a table with one row per protein. The tool states which clades were tested.
 - A **model card** records the ESM model, layer, truncation, data hash and the measured results. The tool
   refuses a model whose settings do not match the card (this part is already on `main`).
@@ -203,16 +216,21 @@ Two parts of step 1 have too little checked truth:
 
 **What we can and cannot promise.**
 - To call Basidiomycota an estimate, we need about 73 direct-evidence positives at today's recalls (a
-  binomial approximation; the real number can be 57 to 97). We do not know if the literature has that
+  binomial approximation; about 57 to 95 with the measured interval ratios, and up to 97 if a recall
+  moves to 0.5). We do not know if the literature has that
   many. If it has fewer, Basidiomycota stays a smoke test, and (decision 10) no model ships.
 - GPI rows will fill a list. P-gpi becomes a scored group only in a test set that has 20 or more direct
   P-gpi positives. Under the default bounds only the *C. albicans* test set (37 possible) and the pooled
   yeast cross-validation set (44 possible) can reach that, and only if curation finds enough.
 - The curation is literature work. We have no effort estimate.
 
+**Decisions still open** (the specs give a recommendation for each): D-B, whether the pooled Basidiomycota
+block stays the label unit; D-C, whether a curated row may outweigh GO transfer evidence; D-D, how to
+build the JEC21 and *U. maydis* homology-transfer strata.
+
 **Order of work** (the plan has two parts):
-1. *Plan 1* (written): step 03 reads the new `curated_gpi.tsv` columns, applies the TM rule, and writes
-   two review files.
+1. *Plan 1* (written and reviewed, not yet run): step 03 reads the new `curated_gpi.tsv` columns,
+   applies the TM rule, and writes two review files.
 2. *Curation* (not written): find and check the rows.
 3. *Plan 2* (not written): merge curated Basidiomycota rows into the truth set, and report results per
    evidence tier. We write it after the first curated rows exist, so we test it on real rows.
@@ -226,8 +244,8 @@ Two parts of step 1 have too little checked truth:
 | Evaluation of all candidates (Phase C) | done, on `main` (numbers in `STATUS.md`) |
 | Choice of rule, ML or hybrid | hybrid decided; gate values not set |
 | Trained model that ships | does not exist |
-| Basidiomycota curated truth | not started (spec and plan 1 drafted) |
-| Curated GPI rows | not started |
+| Basidiomycota curated truth | not started (spec written and reviewed; plan 2 not written) |
+| Curated GPI rows | not started (spec written; plan 1 written and reviewed, not yet run) |
 | Steps 2 and 3 (adhesion mechanism, purpose) | out of scope here |
 
 ## 11. Glossary
@@ -248,7 +266,7 @@ Two parts of step 1 have too little checked truth:
 | **Gate** | An accuracy value that a model must reach before it ships. Set after measurement. |
 | **GO (Gene Ontology)** | A vocabulary of terms for what genes do and where their products sit. |
 | **GPI anchor** | A lipid that attaches a protein to the outer face of the cell membrane. |
-| **Half-width** | Half the width of a confidence interval. 0.10 means the true value is likely within 0.10 of the estimate. |
+| **Half-width** | Half the width of a confidence interval. A half-width of 0.10 means that the 95% interval extends 0.10 on each side of the estimate. |
 | **Hash (SHA-256)** | A short fingerprint of a sequence. Same sequence, same hash. |
 | **IBA, ISS, IEA** | GO evidence codes: copied by a gene tree, copied by similarity, automatic. IBA and ISS are homology codes. |
 | **IDA, HDA** | GO evidence codes: direct assay; high-throughput direct assay. |
@@ -267,3 +285,17 @@ Two parts of step 1 have too little checked truth:
 | **TM helix** | A transmembrane helix: a stretch of a protein that crosses a membrane. |
 | **Truth set** | The table of genes with their labels. |
 | **UniProt** | A public protein database. |
+| **binomial approximation** | A simple formula for the width of an interval from the number of positives. It ignores clusters, so it is a rough guide. |
+| **D1 rule** | The exact rule that turns GO annotations into labels (step 1 spec, section 3.1). |
+| **FungiDB** | A public fungal genome database. |
+| **Gate (filter)** | A first step in the tool. Here: R0, "does SignalP call a signal peptide?". |
+| **Gate value** | The accuracy that a model must reach before it ships. Not set yet. |
+| **GOA file** | A file of GO annotations from the EBI, used for *Cryptococcus*. |
+| **Handoff** | The note `docs/HANDOFF-2026-10-02.md` that records the state of the project. |
+| **Headline numbers** | The numbers we quote as the main result. They use direct evidence only. |
+| **Orchestrator** | A proposed program that runs all tools and builds one output table. No design exists. |
+| **Pooled** | Counted together across several sources or clades. |
+| **S1, S2, S3** | The three kinds of test: held-out clusters of the training yeasts; other species; other clades (section 7). |
+| **Ser+Thr fraction** | The share of serine and threonine residues in a protein. Wall proteins are often rich in them. |
+| **Strain names (S288C, SC5314, Af293, H99, JEC21)** | The reference strains of *S. cerevisiae*, *C. albicans*, *A. fumigatus*, *C. neoformans* and *C. deneoformans*. |
+| **V-go, V-kw** | The two training variants: GO truth only; GO truth plus UniProt-keyword rows (section 4.3). |
