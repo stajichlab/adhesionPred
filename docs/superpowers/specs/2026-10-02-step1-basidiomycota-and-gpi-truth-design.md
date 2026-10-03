@@ -2,7 +2,7 @@
 
 *Drafted 2026-10-02. Revision 4 on 2026-10-02, after three independent reviews by different models
 (revision 1: 20 findings, "needs rework"; revision 2: 16 findings, "needs rework"; revision 3: 19
-findings, "ready after fixes"). DRAFT. Revision 4 applies the third review. The owner decides if a fourth
+findings, "ready after fixes"). DRAFT. Revision 4 applies the third review. Section 12 and decisions 6, 13 and 14 were added on 2026-10-03 after the literature pilots. The owner decides if a fourth
 review is needed before the plan. No code, data or job exists for this spec. Owner decisions are in
 section 10.*
 
@@ -435,7 +435,9 @@ measured.
 4. Add `evidence_level` to `curated_gpi.tsv`.
 5. An independent model run does the first review pass. The owner spot-checks a random sample.
 6. Stop curation when the clade block reaches 73 direct positives (section 7), or at a time box that
-   the owner sets later.
+   the owner sets later. **Changed 2026-10-03 (owner): curation stops after the H99 and *U. maydis*
+   pilots (section 12).** 73 stays the target for a future release. The clade block is a smoke test until
+   then.
 7. P-gpi stays a list (path b). Decision 12 sets the condition.
 8. A curated GPI row does not override a UniProt TM feature by default. The owner reviews each case and
    sets `override_tm=yes` to allow it.
@@ -486,3 +488,62 @@ measured.
 
 Done means: E1 to E6 exist; the owner has the report; the model card states the clade scope and the
 validation state of Basidiomycota and GPI proteins.
+
+## 12. Outcome of the literature pilots (2026-10-03)
+
+This section records what the curation pilots found. It replaces the effort estimate in section 8 for
+Basidiomycota. Counts come from the files named below. They are not pipeline output.
+
+**What was done.** Two curators (Sonnet) and two independent reviewers (Opus) worked on *C. neoformans* H99
+(pass 1, then pass 2) and *U. maydis*. The candidate list was hashed before rows were written. Each row has a
+PMID, a verbatim quote that was machine-checked against the retrieved text, a retrieval date and a strain
+statement. Saved publisher texts are git-ignored. Their sha256 lists are tracked
+(`analysis/step1_compare/curation/*/texts.sha256`).
+
+| Pass | Time | Rows drafted | Genes | Rows rejected by review | P-ext genes, direct |
+|---|---|---|---|---|---|
+| H99 pass 1 | not measured | 19 | 12 | 6 (4 wrong label, 2 wrong code) | 8 |
+| H99 pass 2 | about 85 min | 32 | 20 | 3 | 12 drafted; 11 if CDA1 is excluded (homology only); 10 if H99 must be named in the text |
+| *U. maydis* | about 47 min | 30 | 23 | 0 (field errors only) | 16 drafted |
+
+**After the owner's rulings (decisions 13 and 14, Cpl1 dropped)** `curated_basidiomycota.tsv` holds 58 rows
+for 40 genes (H99 29 rows, *U. maydis* 29 rows). Genes whose every supporting row has
+`selected_by_predictor=yes` form the report-only sub-stratum. By that rule, in the draft rows, 10 of 12 H99
+P-ext genes and 7 of 15 *U. maydis* P-ext genes stay in the headline. Four of the seven *U. maydis* genes do
+not depend only on overexpressed rows. These counts ignore overlap with GOA and the `pm-unresolved`
+exclusions, so they are upper bounds. The pipeline gives the real count after plan 2.
+
+**Findings that change the plan**
+1. **Yield is far below the 73 target.** About 10 to 17 headline P-ext genes per species after one 45 to
+   90 minute pass. The pool of species with this much literature is small. No data supports reaching 73 by
+   this method.
+2. **Predictor selection is common.** Many *U. maydis* effector papers chose genes by SignalP. Scoring
+   R0 or H on those genes would be circular (decision 13).
+3. **Curators misjudge several fields.** The reviewers found a wrong label, a wrong code, an unstated strain
+   resolved by the full text, a wrong `selected_by_predictor` value, and a skip reason that was wrong. A
+   second model review is needed for every row. The owner spot-check of 15 rows found no problem.
+4. **Overexpressed fusions are weak evidence for the native location** (decision 14).
+5. **GPI rows were not found.** The pilots found 3 H99 leads (CDA2 twice, PLB1) and none for *U. maydis*.
+   `gpi_leads.tsv` files are not merged into `curated_gpi.tsv`. They lack the `curated_gpi.tsv` columns, and
+   CDA1, CDA2 and PLB1 are `pm-unresolved` (section 7).
+
+**Decisions (owner, 2026-10-03)**
+- Basidiomycota curation stops here. The 58 rows stay as `curated_basidiomycota.tsv` (draft; no step reads
+  it until plan 2). Deeper curation may follow later with more time.
+- The clade block stays a smoke test. Decision 10 (Q8) still applies to a release: a release needs an
+  estimate-grade Basidiomycota set, or a new owner ruling.
+- The owner's next interest is Onygenales (*Coccidioides*, *Histoplasma*). A curation scope for them is a
+  separate spec.
+
+**Not done**
+- The Couturier 2012 *U. maydis* secretome (PMID 22300648), PR-1La and Lep1 add-on was not run (the agent
+  stopped on a usage limit). The reviewer named Couturier 2012 as a real HDA source that was not predictor
+  selected.
+- Plan 2 (step 01 `--curated` merge, new truth columns, Phase C tier strata, `species.tsv` role change for
+  `Umay_MYCMD`) is not written.
+- A1 (FungiDB versus GOA for H99) is blocked until the owner registers a FungiDB API key.
+- Not verified: the BIM1 parent strain, the Pdi1 S1 Table, supplementary tables of several papers, and the
+  full text of PMID 17947228.
+
+Files: `analysis/step1_compare/curation/{h99_pilot,h99_pass2,umay_pilot,consolidated,spot_check}/` and
+`analysis/step1_compare/curated_basidiomycota.tsv` (branch `curation-50-data`).
