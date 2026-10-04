@@ -22,6 +22,8 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 
 HERE = Path(__file__).parent
+PLOTS = HERE / "plots"
+PLOTS.mkdir(exist_ok=True)
 sys.path.insert(0, str(HERE))
 import sowgp_units as su  # noqa: E402
 
@@ -159,8 +161,8 @@ for s in ("top", "right"):
 bx.legend(frameon=False, fontsize=8, loc="upper left")
 
 fig.tight_layout()
-fig.savefig(HERE / "sowgp_unit_map.png", dpi=170, bbox_inches="tight")
-fig.savefig(HERE / "sowgp_unit_map.pdf", bbox_inches="tight")
+fig.savefig(PLOTS / "sowgp_unit_map.png", dpi=170, bbox_inches="tight")
+fig.savefig(PLOTS / "sowgp_unit_map.pdf", bbox_inches="tight")
 (
     H.assign(
         classes=H.classes.str.join(","),

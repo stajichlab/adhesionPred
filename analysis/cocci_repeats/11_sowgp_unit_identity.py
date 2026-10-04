@@ -27,6 +27,8 @@ import pandas as pd
 from matplotlib.colors import ListedColormap
 
 HERE = Path(__file__).parent
+PLOTS = HERE / "plots"
+PLOTS.mkdir(exist_ok=True)
 sys.path.insert(0, str(HERE))
 import sowgp_units as su  # noqa: E402
 
@@ -146,6 +148,6 @@ fig.text(
     color=su.MUTED,
 )
 fig.tight_layout(rect=(0, 0.015, 1, 0.975), h_pad=3)
-fig.savefig(HERE / "sowgp_unit_identity.png", dpi=170)
-fig.savefig(HERE / "sowgp_unit_identity.pdf")
+fig.savefig(PLOTS / "sowgp_unit_identity.png", dpi=170)
+fig.savefig(PLOTS / "sowgp_unit_identity.pdf")
 print(f"{len(H)} regular alleles; wrote sowgp_unit_identity.png/.tsv", file=sys.stderr)

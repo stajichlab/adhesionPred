@@ -156,4 +156,5 @@ for axi, sp in zip(ax, ("immitis", "posadasii"), strict=True):
 ax[0].set_ylabel("array depth / flank depth (CDS, RS ref)")
 ax[0].legend()
 fig.tight_layout()
-fig.savefig(a.out + ".png", dpi=150)
+os.makedirs(os.path.join(os.path.dirname(a.out) or ".", "plots"), exist_ok=True)
+fig.savefig(os.path.join(os.path.dirname(a.out) or ".", "plots", os.path.basename(a.out) + ".png"), dpi=150)

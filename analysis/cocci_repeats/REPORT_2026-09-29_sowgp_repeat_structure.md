@@ -74,9 +74,9 @@ MAFFT `--localpair` was tested and rejected. The terminal units spread that alig
 - The two species' base lengths differ by 4 aa. This difference is outside the repeat array.
 - Counts include only strains with a full-length copy. Unit-count totals by species: *immitis*
   2/3/4/5 units = 1/48/23/2; *posadasii* 2/3/4/5/6 = 2/45/62/22/1.
-- Figure: [`sowgp_unit_map.png`](sowgp_unit_map.png) panel (b). Table: [`sowgp_unit_map.tsv`](sowgp_unit_map.tsv).
+- Figure: [`plots/sowgp_unit_map.png`](plots/sowgp_unit_map.png) panel (b). Table: [`sowgp_unit_map.tsv`](sowgp_unit_map.tsv).
 
-[![Unit map](sowgp_unit_map.png)](sowgp_unit_map.png)
+[![Unit map](plots/sowgp_unit_map.png)](plots/sowgp_unit_map.png)
 
 ### 4.2 Anchored counts against report section 4.2 and the published alleles
 
@@ -99,7 +99,7 @@ MAFFT `--localpair` was tested and rejected. The terminal units spread that alig
   the *posadasii* series (281 + 47k), not the *immitis* series (277 + 47k). The seed FASTA names
   SOWgp58 and SOWgp66 as "*immitis*", after their UniProt entries.
 
-### 4.3 Unit classes and order ([`sowgp_unit_map.png`](sowgp_unit_map.png) panel a)
+### 4.3 Unit classes and order ([`plots/sowgp_unit_map.png`](plots/sowgp_unit_map.png) panel a)
 
 - Four internal classes occur: E-DDYDG, E-DYDDG, K-DYDDG, K-DDYDG. K-DDYDG occurs only in
   *posadasii* (4 strains).
@@ -112,9 +112,9 @@ MAFFT `--localpair` was tested and rejected. The terminal units spread that alig
   20 against 12 (3 units), 22 against 5 (4 units), 10 against 2 (5 units). *posadasii* also
   has more strains with a full-length copy (131 against 74).
 
-### 4.4 Identical units inside one allele ([`sowgp_unit_identity.png`](sowgp_unit_identity.png))
+### 4.4 Identical units inside one allele ([`plots/sowgp_unit_identity.png`](plots/sowgp_unit_identity.png))
 
-[![Unit identity](sowgp_unit_identity.png)](sowgp_unit_identity.png)
+[![Unit identity](plots/sowgp_unit_identity.png)](plots/sowgp_unit_identity.png)
 
 Modal (most strains) regular allele for each species and unit count:
 
@@ -136,9 +136,9 @@ Modal (most strains) regular allele for each species and unit count:
   longer *posadasii* alleles against it cannot tell which unit was copied.
 - Full pairwise table for all 74 regular alleles: [`sowgp_unit_identity.tsv`](sowgp_unit_identity.tsv).
 
-### 4.5 Self dot-plots ([`sowgp_dotplot.png`](sowgp_dotplot.png))
+### 4.5 Self dot-plots ([`plots/sowgp_dotplot.png`](plots/sowgp_dotplot.png))
 
-[![Self dot-plots](sowgp_dotplot.png)](sowgp_dotplot.png)
+[![Self dot-plots](plots/sowgp_dotplot.png)](plots/sowgp_dotplot.png)
 
 - Window 10 aa, at least 7 identical residues.
 - Each extra unit adds one more off-diagonal line at 47 aa spacing.
@@ -146,9 +146,9 @@ Modal (most strains) regular allele for each species and unit count:
   unit 1 (`…PMEPKPPKP`) resembles the end of a unit, so it is probably a partial unit. This
   was seen in the plot only. It was not tested.
 
-### 4.6 Unit count on the strain tree ([`sowgp_tree_units.png`](sowgp_tree_units.png), [`.pdf`](sowgp_tree_units.pdf))
+### 4.6 Unit count on the strain tree ([`plots/sowgp_tree_units.png`](plots/sowgp_tree_units.png), [`.pdf`](plots/sowgp_tree_units.pdf))
 
-[![Unit count on strain tree](sowgp_tree_units.png)](sowgp_tree_units.pdf)
+[![Unit count on strain tree](plots/sowgp_tree_units.png)](plots/sowgp_tree_units.pdf)
 
 Click the image for the PDF version.
 
@@ -256,11 +256,11 @@ This summarizes existing outputs. No new runs were made for this section.
 | File | Contents |
 |---|---|
 | `sowgp_units.py` | Shared code: anchors, unit classes, distinct alleles, unit differences, colours |
-| `09_sowgp_repeat_viz.py` | [`sowgp_repeat_viz.png`](sowgp_repeat_viz.png), `.copies.tsv`, `.units.tsv` |
-| `10_sowgp_unit_map.py` | [`sowgp_unit_map.png`](sowgp_unit_map.png), `.tsv` |
-| `11_sowgp_unit_identity.py` | [`sowgp_unit_identity.png`](sowgp_unit_identity.png), `.tsv` |
-| `12_sowgp_dotplot.py` | [`sowgp_dotplot.png`](sowgp_dotplot.png) |
-| `13_sowgp_tree_units.py` | [`sowgp_tree_units.png`](sowgp_tree_units.png), [`.pdf`](sowgp_tree_units.pdf), `.tsv`, `.stats.tsv` |
+| `09_sowgp_repeat_viz.py` | [`plots/sowgp_repeat_viz.png`](plots/sowgp_repeat_viz.png), `.copies.tsv`, `.units.tsv` |
+| `10_sowgp_unit_map.py` | [`plots/sowgp_unit_map.png`](plots/sowgp_unit_map.png), `.tsv` |
+| `11_sowgp_unit_identity.py` | [`plots/sowgp_unit_identity.png`](plots/sowgp_unit_identity.png), `.tsv` |
+| `12_sowgp_dotplot.py` | [`plots/sowgp_dotplot.png`](plots/sowgp_dotplot.png) |
+| `13_sowgp_tree_units.py` | [`plots/sowgp_tree_units.png`](plots/sowgp_tree_units.png), [`.pdf`](plots/sowgp_tree_units.pdf), `.tsv`, `.stats.tsv` |
 
 Run order: 09, then 10-13 in any order. Each runs in seconds with `/usr/bin/python3.12`.
 13 takes about 15 s with 1000 permutations.

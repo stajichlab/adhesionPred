@@ -37,6 +37,8 @@ import pandas as pd
 from Bio import Phylo
 
 HERE = Path(__file__).parent
+PLOTS = HERE / "plots"
+PLOTS.mkdir(exist_ok=True)
 sys.path.insert(0, str(HERE))
 import sowgp_units as su  # noqa: E402
 
@@ -324,8 +326,8 @@ def main():
         loc="left",
     )
 
-    fig.savefig(HERE / "sowgp_tree_units.png", dpi=150, bbox_inches="tight")
-    fig.savefig(HERE / "sowgp_tree_units.pdf", bbox_inches="tight")
+    fig.savefig(PLOTS / "sowgp_tree_units.png", dpi=150, bbox_inches="tight")
+    fig.savefig(PLOTS / "sowgp_tree_units.pdf", bbox_inches="tight")
     print("wrote sowgp_tree_units.png/.pdf/.tsv/.stats.tsv", file=sys.stderr)
 
 

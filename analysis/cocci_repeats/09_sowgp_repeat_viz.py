@@ -351,9 +351,12 @@ def main():
         "rows grouped by species and unit class; groups < 8 unlabelled",
     )
 
-    out = args.prefix + ".png"
+    plots = Path(args.prefix).parent / "plots"
+    plots.mkdir(exist_ok=True)
+    stem = plots / Path(args.prefix).name
+    out = f"{stem}.png"
     fig.savefig(out, dpi=170, bbox_inches="tight")
-    fig.savefig(args.prefix + ".pdf", bbox_inches="tight")
+    fig.savefig(f"{stem}.pdf", bbox_inches="tight")
     print(f"wrote {out}", file=sys.stderr)
     print(f"column consensus (all units incl. terminal): {consensus}", file=sys.stderr)
 
