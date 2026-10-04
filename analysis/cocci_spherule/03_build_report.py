@@ -22,6 +22,22 @@ def g3(x, nd=3):
     return "" if v is None else f"{v:.{nd}g}"
 
 
+def gene_link(gid):
+    """Markdown link to the FungiDB gene page for CIMG_ IDs; other IDs are returned as is."""
+    if gid.startswith("CIMG_"):
+        return f"[{gid}](https://fungidb.org/gene/{gid})"
+    return gid
+
+
+def anchor_links(anchor):
+    """Link each `ACCESSION_name` entry of a ';'-separated anchor field to its UniProt page."""
+    out = []
+    for entry in anchor.split(";"):
+        acc = entry.split("_", 1)[0]
+        out.append(f"[{entry}](https://www.uniprot.org/uniprotkb/{acc})")
+    return "; ".join(out)
+
+
 def md_table(header, rows):
     out = ["| " + " | ".join(header) + " |", "|" + "|".join("---" for _ in header) + "|"]
     out += ["| " + " | ".join(str(c) for c in r) + " |" for r in rows]
@@ -66,7 +82,7 @@ def main():
 
     def cys_row(x):
         return [
-            x["gene_id"], x["product"][:30], x["length"],
+            gene_link(x["gene_id"]), x["product"][:30], x["length"],
             round(num(x["cys_frac"]) * int(x["length"])), g3(x["cys_frac"], 2), g3(x["pro_frac"], 2),
             g3(x["tpm_spherule48h"]), g3(x["log2fc_48h"], 3), g3(x["padj_48h"], 2),
             x["signalp_call"], x["predgpi_call"].replace("highly_probable", "high"),
@@ -78,7 +94,7 @@ def main():
 
     def gene_row(x):
         return [
-            x["gene_id"], x["product"][:38], x["length"], g3(x["tpm_mycelia"]),
+            gene_link(x["gene_id"]), x["product"][:38], x["length"], g3(x["tpm_mycelia"]),
             g3(x["tpm_spherule48h"]), g3(x["log2fc_48h"], 3), g3(x["padj_48h"], 2),
             x["signalp_call"], x["predgpi_call"].replace("highly_probable", "high"),
             x["tm_helices"], g3(x["cys_frac"], 2), g3(x["prevalence"], 3),
@@ -171,8 +187,8 @@ Five characterized proteins are in the ranking as anchors. This is a sanity chec
             ["Gene", "Anchor", "log2FC 48 h", "SignalP", "PredGPI", "TM", "Specific"],
             [
                 [
-                    x["gene_id"],
-                    x["anchor"].replace(";", "; ")[:48],
+                    gene_link(x["gene_id"]),
+                    anchor_links(x["anchor"]),
                     g3(x["log2fc_48h"]),
                     x["signalp_call"],
                     x["predgpi_call"].replace("highly_probable", "high"),
