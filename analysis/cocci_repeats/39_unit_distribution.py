@@ -228,7 +228,7 @@ def main():
         print(
             f"{r['genus'][:17]:<18}{r['species'][:33]:<34}{r['protein'][:23]:<24}{r['length']:>5}"
             f"{r['n_units_hmm']:>3}{r['best_score']:>6}{r['median_unit_id47']:>6}{r['pct_pro']:>5}"
-            f"{r['pct_cys']:>5}{str(r.get('signalp_prob',''))[:5]:>6}  {r['order']}"
+            f"{r['pct_cys']:>5}{str(r.get('signalp_prob', ''))[:5]:>6}  {r['order']}"
         )
     with open(HERE / "unit_copynumber.tsv", "w") as fh:
         fh.write("group\tsowgp\tn_units_hmm\tproteins\n")

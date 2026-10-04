@@ -100,7 +100,7 @@ Three changes from 02. `02_repeat_profile.py` is untouched; 03, 05 and 09 still 
 
 ## 4. Results
 
-[![Benchmark](repeat_benchmark.png)](repeat_benchmark.png)
+[![Benchmark](plots/repeat_benchmark.png)](plots/repeat_benchmark.png)
 
 ### 4.1 The divergence floor
 
@@ -307,7 +307,7 @@ counterpart here. Re-running 01 is the next step.
 |---|---|
 | `14_repeat_detect_general.py` | The new detector. Importable (`detect(seq, mode=)`) and a CLI whose TSV columns are a superset of 02's. |
 | `15_repeat_benchmark.py` | `repeat_benchmark.fa`, `repeat_benchmark_truth.tsv` |
-| `16_repeat_benchmark_eval.py` | [`repeat_benchmark.png`](repeat_benchmark.png), `repeat_benchmark_calls.tsv`, `repeat_benchmark_metrics.tsv` |
+| `16_repeat_benchmark_eval.py` | [`plots/repeat_benchmark.png`](plots/repeat_benchmark.png), `repeat_benchmark_calls.tsv`, `repeat_benchmark_metrics.tsv` |
 | `17_repeat_detect_real.sh` | `repeat_general_longread.tsv`, `repeat_general_reference.tsv` |
 | `18_repeat_real_compare.py` | `repeat_real_compare.tsv` |
 

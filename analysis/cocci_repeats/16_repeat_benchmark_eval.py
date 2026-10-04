@@ -475,7 +475,9 @@ def main():
     calls = run(f"{args.prefix}.fa", truth)
     calls.to_csv(f"{args.prefix}_calls.tsv", sep="\t", index=False)
     m, rec, syn, neg = summarize(calls, f"{args.prefix}_metrics.tsv")
-    figure(rec, syn, neg, f"{args.prefix}.png")
+    plots = Path(args.prefix).parent / "plots"
+    plots.mkdir(exist_ok=True)
+    figure(rec, syn, neg, str(plots / Path(args.prefix).name) + ".png")
     with pd.option_context("display.max_rows", 200, "display.width", 140):
         print(m.to_string(index=False))
 

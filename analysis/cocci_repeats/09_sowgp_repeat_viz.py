@@ -111,6 +111,16 @@ def draw_letter(ax, ch, x, y, h, color):
     ax.add_patch(PathPatch(tr.transform_path(tp), color=color, lw=0))
 
 
+# more saturated than su.SPECIES_INK so filled blocks stay visible at 79 rows
+VIVID = {"immitis": "#1f6feb", "posadasii": "#e8501a"}
+
+
+def panel_title(ax, title, size=13):
+    """Left-aligned bold title; the leading "(x)" panel label is upper-cased."""
+    label, _, rest = title.partition(" ")
+    ax.set_title(f"{label.upper()} {rest}", fontsize=size, fontweight="bold", loc="left")
+
+
 def logo(ax, aln, title):
     """Information-content logo (bits) from aligned strings; gap columns >50% dropped."""
     L = len(aln[0])
@@ -132,7 +142,7 @@ def logo(ax, aln, title):
     ax.set_ylabel("bits")
     ax.set_xticks(range(0, len(cols), 5))
     ax.set_xticklabels([str(i + 1) for i in range(0, len(cols), 5)], fontsize=7)
-    ax.set_title(title, fontsize=9, loc="left")
+    panel_title(ax, title)
     for s in ("top", "right"):
         ax.spines[s].set_visible(False)
     return cols
@@ -233,11 +243,12 @@ def main():
     udf.to_csv(args.prefix + ".units.tsv", sep="\t", index=False)
 
     fig = plt.figure(figsize=(16, 12))
-    gs = fig.add_gridspec(3, 2, height_ratios=[1.3, 0.55, 0.55], hspace=0.45, wspace=0.18)
+    gs = fig.add_gridspec(3, 2, height_ratios=[1.3, 0.55, 0.55], hspace=0.7, wspace=0.18)
     fig.suptitle(
         f"SOWgp repeat array variability (full-length copies >= {args.min_len} aa; "
         f"units anchored on {su.ANCHOR}; aligned: {aln_method})",
-        fontsize=12,
+        fontsize=16,
+        fontweight="bold",
     )
 
     # (a) architecture, collapsed to distinct sequences; units drawn at their positions
@@ -249,15 +260,20 @@ def main():
     for i, r in hap.iterrows():
         y = len(hap) - 1 - i
         us = su.anchor_units(r.seq)
-        ax.plot([0, r.L], [y, y], color="#c9c8c1", lw=2, solid_capstyle="butt")
+        ax.plot([0, r.L], [y, y], color="#8a897f", lw=1, solid_capstyle="butt")
         for p, _ in us:
-            ax.barh(y, su.PERIOD - 2, left=p + 1, height=0.8, color=su.SPECIES_INK[r.species])
+            ax.barh(
+                y,
+                su.PERIOD - 2,
+                left=p + 1,
+                height=1.0,
+                color=VIVID[r.species],
+                linewidth=0,
+            )
     ax.set_yticks([])
     ax.set_xlabel("position in protein (aa)")
-    ax.set_title(
-        f"(a) {len(hap)} distinct sequences ({len(df)} copies); " "blocks = anchored 47 aa units",
-        fontsize=9,
-        loc="left",
+    panel_title(
+        ax, f"(a) {len(hap)} distinct sequences ({len(df)} copies);\nblocks = anchored 47 aa units"
     )
     for s in ("top", "right", "left"):
         ax.spines[s].set_visible(False)
@@ -270,19 +286,19 @@ def main():
         cnt = df[df.species == sp].n_units.value_counts()
         vals = [cnt.get(x, 0) for x in ks]
         xs = [x + (k - 0.5) * (w + 0.02) for x in ks]
-        bx.bar(xs, vals, width=w, color=su.SPECIES_INK[sp], label=f"{sp} (n={sum(vals)})")
+        bx.bar(xs, vals, width=w, color=VIVID[sp], label=f"{sp} (n={sum(vals)})")
         for x, v in zip(xs, vals, strict=False):
             if v:
                 bx.text(x, v + 0.8, str(v), ha="center", fontsize=7, color=su.MUTED)
     bx.set_xticks(list(ks))
     bx.set_xlabel("repeat units (PTDCYGDC anchor count)")
     bx.set_ylabel("copies (strains)")
-    bx.legend(frameon=False, fontsize=8)
+    bx.legend(frameon=False, fontsize=13)
     bx.grid(axis="y", color=su.GRID, lw=0.6)
     bx.set_axisbelow(True)
     for s in ("top", "right"):
         bx.spines[s].set_visible(False)
-    bx.set_title("(b) unit-count distribution", fontsize=9, loc="left")
+    panel_title(bx, "(b) unit-count distribution")
 
     # (c) per-species information-content logos of internal (non-terminal) units
     for k, sp in enumerate(("immitis", "posadasii")):
@@ -292,7 +308,7 @@ def main():
         logo(
             lx,
             sub,
-            f"(c{k + 1}) {sp}: internal units (n={len(sub)}), " "position within aligned unit",
+            f"(c{k + 1}) {sp}: internal units (n={len(sub)}),\nposition within aligned unit",
         )
 
     # (d) raster of aligned units vs the modal internal unit
@@ -329,16 +345,18 @@ def main():
             )
     dx.set_yticks([])
     dx.set_xlabel("aligned unit position")
-    dx.set_title(
-        "(d) aligned units vs modal internal unit: blue = same, orange = differs, "
-        "grey = gap\nrows grouped by species and unit class; groups < 8 units unlabelled",
-        fontsize=9,
-        loc="left",
+    panel_title(
+        dx,
+        "(d) aligned units vs modal internal unit:\nblue = same, orange = differs, grey = gap\n"
+        "rows grouped by species and unit class; groups < 8 unlabelled",
     )
 
-    out = args.prefix + ".png"
+    plots = Path(args.prefix).parent / "plots"
+    plots.mkdir(exist_ok=True)
+    stem = plots / Path(args.prefix).name
+    out = f"{stem}.png"
     fig.savefig(out, dpi=170, bbox_inches="tight")
-    fig.savefig(args.prefix + ".pdf", bbox_inches="tight")
+    fig.savefig(f"{stem}.pdf", bbox_inches="tight")
     print(f"wrote {out}", file=sys.stderr)
     print(f"column consensus (all units incl. terminal): {consensus}", file=sys.stderr)
 

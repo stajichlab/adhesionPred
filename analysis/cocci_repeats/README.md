@@ -18,6 +18,8 @@ The model retrain test that uses the class-2a candidates is in
 
 > **Status:** computational results only. No experimental validation.
 
+Figures are in `plots/` (PNG and PDF). `REPORT_2026-10-04_figures_and_tables.md` indexes every figure and main table.
+
 ---
 
 ## 1. Environment
@@ -94,11 +96,11 @@ starting at each `PTDCYGDC` anchor, and gives each unit a class from two diagnos
 | Script | What it does | Outputs |
 |---|---|---|
 | `sowgp_units.py` | Shared code: anchors, unit classes, distinct alleles, unit differences, colours | — |
-| `09_sowgp_repeat_viz.py` | Full-length copies (≥ 250 aa) with anchored units. Architecture, unit-count bars, per-species logos, raster against the modal unit. | `sowgp_repeat_viz.png`, `.copies.tsv`, `.units.tsv` |
-| `10_sowgp_unit_map.py` | One row per distinct sequence; units drawn as coloured blocks. Length against unit count. | `sowgp_unit_map.png`, `.tsv` |
-| `11_sowgp_unit_identity.py` | Unit-by-unit aa difference matrices, and longer alleles against the 3-unit allele | `sowgp_unit_identity.png`, `.tsv` |
-| `12_sowgp_dotplot.py` | Self dot-plots, one sequence per species and unit count | `sowgp_dotplot.png` |
-| `13_sowgp_tree_units.py` | Unit arrays on the 488-strain CDS ML tree, and a parsimony test with a within-species permutation null | `sowgp_tree_units.png`, `.pdf`, `.tsv`, `.stats.tsv` |
+| `09_sowgp_repeat_viz.py` | Full-length copies (≥ 250 aa) with anchored units. Architecture, unit-count bars, per-species logos, raster against the modal unit. | `plots/sowgp_repeat_viz.png`, `.copies.tsv`, `.units.tsv` |
+| `10_sowgp_unit_map.py` | One row per distinct sequence; units drawn as coloured blocks. Length against unit count. | `plots/sowgp_unit_map.png`, `.tsv` |
+| `11_sowgp_unit_identity.py` | Unit-by-unit aa difference matrices, and longer alleles against the 3-unit allele | `plots/sowgp_unit_identity.png`, `.tsv` |
+| `12_sowgp_dotplot.py` | Self dot-plots, one sequence per species and unit count | `plots/sowgp_dotplot.png` |
+| `13_sowgp_tree_units.py` | Unit arrays on the 488-strain CDS ML tree, and a parsimony test with a within-species permutation null | `plots/sowgp_tree_units.png`, `.pdf`, `.tsv`, `.stats.tsv` |
 
 Run 09 first. 10-13 read `sowgp_repeat_viz.copies.tsv` and can run in any order. Each finishes
 in under 20 s.
@@ -133,7 +135,7 @@ still read its output.
 |---|---|---|---|
 | `14_repeat_detect_general.py` | The new detector. BLOSUM62 similarity instead of exact match; a z-score of the chosen period against unrelated periods as the significance test (applied over the whole protein and again inside the region); integer copy counts from a consensus PSSM scanned back over the protein, with no family-specific motif. Importable (`detect(seq, mode=)`) and a drop-in CLI. | `14_repeat_detect_general.py <fasta…> --out <tsv>` | a TSV whose columns are a superset of 02's |
 | `15_repeat_benchmark.py` | Builds the benchmark: 74 real SOWgp alleles (truth from the `PTDCYGDC` anchors), 2880 synthetic arrays over a divergence sweep, 800 non-repeat controls, and the 41 class-2a candidates | `/usr/bin/python3.12 15_repeat_benchmark.py` | `repeat_benchmark.fa`, `repeat_benchmark_truth.tsv` |
-| `16_repeat_benchmark_eval.py` | Scores three arms (old, new with exact matching, new) on the benchmark | `/usr/bin/python3.12 16_repeat_benchmark_eval.py` (~4 min) | `repeat_benchmark_calls.tsv`, `repeat_benchmark_metrics.tsv`, `repeat_benchmark.png` |
+| `16_repeat_benchmark_eval.py` | Scores three arms (old, new with exact matching, new) on the benchmark | `/usr/bin/python3.12 16_repeat_benchmark_eval.py` (~4 min) | `repeat_benchmark_calls.tsv`, `repeat_benchmark_metrics.tsv`, `plots/repeat_benchmark.png` |
 | `17_repeat_detect_real.sh` | Runs 14 on the same 71,044 proteins 02 was run on, 7 proteomes in parallel in one job | `sbatch 17_repeat_detect_real.sh` (short, ~5 min) | `repeat_general_longread.tsv`, `repeat_general_reference.tsv` |
 | `18_repeat_real_compare.py` | Old calls against new calls on the real proteins; prints the gained and lost calls with region complexity for inspection | `/usr/bin/python3.12 18_repeat_real_compare.py` | `repeat_real_compare.tsv` |
 | `19_zthreshold_probe.py` | **Review probe (2026-09-30).** Calibrates 14's `Z_MIN` against its true null. The threshold is applied to the best of ~77 periods, so the per-protein null is a maximum, not a single N(0,1) draw: **1.3% of random sequences clear z >= 4**, against 0.02% per period. Prints only. | `/usr/bin/python3.12 19_zthreshold_probe.py` (~90 s) | stdout |
@@ -211,10 +213,10 @@ which are not tracked. To use a tracked copy, decompress it here first
 | `signalp/<proteome>/prediction_results.txt` | 01. One line per protein. Read by 03. | no (gitignored; regenerable, `.gz` copy written beside each) |
 | `rs.dmnd` | DIAMOND database of the RS proteome. Its timestamp matches the 04 run, but 04 writes its own database to a temp directory, so the origin is not recorded. | no |
 | `sowgp_repeat_viz.copies.tsv`, `sowgp_repeat_viz.units.tsv`, `sowgp_unit_map.tsv`, `sowgp_unit_identity.tsv`, `sowgp_tree_units.tsv`, `sowgp_tree_units.stats.tsv` | 09-13 | `.gz` only |
-| `sowgp_repeat_viz.png`, `sowgp_unit_map.png`, `sowgp_unit_identity.png`, `sowgp_dotplot.png`, `sowgp_tree_units.png`, `sowgp_tree_units.pdf` | 09-13 | yes |
+| `plots/sowgp_repeat_viz.png`, `plots/sowgp_unit_map.png`, `plots/sowgp_unit_identity.png`, `plots/sowgp_dotplot.png`, `plots/sowgp_tree_units.png`, `plots/sowgp_tree_units.pdf` | 09-13 | yes |
 | `repeat_benchmark.fa`, `repeat_benchmark_truth.tsv` | 15 | `.gz` only |
 | `repeat_benchmark_calls.tsv`, `repeat_benchmark_metrics.tsv` | 16 | `.gz` only (metrics also plain: it is small) |
-| `repeat_benchmark.png` | 16 | yes |
+| `plots/repeat_benchmark.png` | 16 | yes |
 | `repeat_general_longread.tsv`, `repeat_general_reference.tsv` | 17 | `.gz` only |
 | `repeat_real_compare.tsv` | 18 | yes (also `.gz`) |
 | `logs/17_repeat_detect_real.*.log` | 17 (SLURM) | no |

@@ -106,7 +106,7 @@ depth. Section 4.3 uses the array only.
 unit is then 0.25.
 
 Script 40. Strains: full-length copy and genome depth >= 10x (n = 202). Table:
-`sowgp_array_depth.tsv`. Figure: `sowgp_array_depth.png`.
+`sowgp_array_depth.tsv`. Figure: `plots/sowgp_array_depth.png`.
 
 | Species | Units | n | Median array/flank | IQR | Predicted |
 |---|---|---|---|---|---|
@@ -191,7 +191,7 @@ model itself is still untested. A test of explanation 2 would simulate reads fro
 
 | File | Contents |
 |---|---|
-| `40_sowgp_array_depth.py` | array depth vs unit count; writes `sowgp_array_depth.tsv`, `sowgp_array_depth.png` |
+| `40_sowgp_array_depth.py` | array depth vs unit count; writes `sowgp_array_depth.tsv`, `plots/sowgp_array_depth.png` |
 | `41_sowgp_status_depth.py` | status vs depth join; writes `sowgp_status_depth.tsv`, `sowgp_missing_model_depth.tsv` |
 | `CIMG_04613.coverage.tsv` | whole-gene depth, 559 strains |
 | `CIMG_04613_coverage_summary.md` | whole-gene depth method and outliers |

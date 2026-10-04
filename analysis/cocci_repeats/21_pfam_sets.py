@@ -33,9 +33,7 @@ import pandas as pd
 HERE = Path(__file__).parent
 COV, COP = 0.25, 2.5
 
-LR = Path(
-    "/bigdata/stajichlab/shared/projects/Onygenales/Coccidioides/" "UArizona_strains/For_Marc"
-)
+LR = Path("/bigdata/stajichlab/shared/projects/Onygenales/Coccidioides/UArizona_strains/For_Marc")
 PAN = Path(
     "/bigdata/stajichlab/shared/projects/Coccidioides/PopGenomics/"
     "2025_All_Cocci/Pangenome/input_run2"

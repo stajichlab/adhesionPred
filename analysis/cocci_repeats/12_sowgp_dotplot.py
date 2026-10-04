@@ -22,6 +22,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 HERE = Path(__file__).parent
+PLOTS = HERE / "plots"
+PLOTS.mkdir(exist_ok=True)
 sys.path.insert(0, str(HERE))
 import sowgp_units as su  # noqa: E402
 
@@ -70,7 +72,7 @@ def main():
             ax.set_ylim(Lmax, 0)
             ax.set_aspect("equal")
             ax.set_title(
-                f"{sp} {r.n_units} units, {r.length} aa\n{r.allele}, " f"{r.n} strain(s)",
+                f"{sp} {r.n_units} units, {r.length} aa\n{r.allele}, {r.n} strain(s)",
                 fontsize=8,
                 loc="left",
             )
@@ -83,8 +85,8 @@ def main():
         fontsize=10,
     )
     fig.tight_layout()
-    fig.savefig(HERE / "sowgp_dotplot.png", dpi=170)
-    fig.savefig(HERE / "sowgp_dotplot.pdf")
+    fig.savefig(PLOTS / "sowgp_dotplot.png", dpi=170)
+    fig.savefig(PLOTS / "sowgp_dotplot.pdf")
     print(f"wrote sowgp_dotplot.png ({len(reps)} panels)", file=sys.stderr)
 
 
