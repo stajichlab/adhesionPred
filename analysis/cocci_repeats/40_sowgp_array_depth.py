@@ -157,4 +157,6 @@ ax[0].set_ylabel("array depth / flank depth (CDS, RS ref)")
 ax[0].legend()
 fig.tight_layout()
 os.makedirs(os.path.join(os.path.dirname(a.out) or ".", "plots"), exist_ok=True)
-fig.savefig(os.path.join(os.path.dirname(a.out) or ".", "plots", os.path.basename(a.out) + ".png"), dpi=150)
+fig.savefig(
+    os.path.join(os.path.dirname(a.out) or ".", "plots", os.path.basename(a.out) + ".png"), dpi=150
+)

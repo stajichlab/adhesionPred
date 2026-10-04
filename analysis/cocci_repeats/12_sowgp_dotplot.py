@@ -72,7 +72,7 @@ def main():
             ax.set_ylim(Lmax, 0)
             ax.set_aspect("equal")
             ax.set_title(
-                f"{sp} {r.n_units} units, {r.length} aa\n{r.allele}, " f"{r.n} strain(s)",
+                f"{sp} {r.n_units} units, {r.length} aa\n{r.allele}, {r.n} strain(s)",
                 fontsize=8,
                 loc="left",
             )

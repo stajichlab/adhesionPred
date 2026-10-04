@@ -154,9 +154,11 @@ def main():
 
     flank_of = {t: flank(s) for t, s in full.items()}
     D["flank_haplotype"] = D.tip.map(
-        lambda t: pd.factorize(pd.Series(list(flank_of.values())))[1].get_loc(flank_of[t])
-        if t in flank_of
-        else np.nan
+        lambda t: (
+            pd.factorize(pd.Series(list(flank_of.values())))[1].get_loc(flank_of[t])
+            if t in flank_of
+            else np.nan
+        )
     )
     D.to_csv(HERE / "sowgp_tree_units.tsv", sep="\t", index=False)
     rng = random.Random(args.seed)
@@ -252,7 +254,7 @@ def main():
     tx.set_xlim(-0.5, maxd + 0.3)
     tx.axis("off")
     tx.set_title(
-        f"CDS ML tree, midpoint-rooted;\nnodes with support < " f"{args.min_support:.0f} collapsed",
+        f"CDS ML tree, midpoint-rooted;\nnodes with support < {args.min_support:.0f} collapsed",
         fontsize=8,
         loc="left",
     )
@@ -265,7 +267,7 @@ def main():
             mx.text(
                 6.3,
                 y[t],
-                f"◀ name says {r.name_species}, tree places it in " f"{r.clade_species}: {t}",
+                f"◀ name says {r.name_species}, tree places it in {r.clade_species}: {t}",
                 fontsize=6,
                 va="center",
                 color=su.INK,

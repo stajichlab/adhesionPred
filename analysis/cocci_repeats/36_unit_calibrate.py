@@ -191,7 +191,7 @@ def main():
     with open(HERE / "unit_calibration_null.tsv", "w") as fh:
         fh.write("rank\tscore\n")
         for i, x in enumerate(sc[:200]):
-            fh.write(f"{i+1}\t{x}\n")
+            fh.write(f"{i + 1}\t{x}\n")
     floor_e = args.floor_e
 
     # ---- sensitivity
@@ -240,12 +240,12 @@ def main():
                 ns.append(n_above)
                 best.append(max(sc_) if sc_ else 0.0)
             line = (
-                f"{flank:<9}{str(ident):>9}{args.n:>8}{n1/args.n:>10.3f}{nall/args.n:>12.3f}"
+                f"{flank:<9}{str(ident):>9}{args.n:>8}{n1 / args.n:>10.3f}{nall / args.n:>12.3f}"
                 f"{np.median(ns):>10.1f}{np.median(best):>12.1f}"
             )
             print(line)
             out.append(
-                f"{flank}\t{ident}\t{args.n}\t{n1/args.n:.3f}\t{nall/args.n:.3f}\t"
+                f"{flank}\t{ident}\t{args.n}\t{n1 / args.n:.3f}\t{nall / args.n:.3f}\t"
                 f"{np.median(ns):.1f}\t{np.median(best):.1f}"
             )
     (HERE / "unit_calibration_sensitivity.tsv").write_text("\n".join(out) + "\n")

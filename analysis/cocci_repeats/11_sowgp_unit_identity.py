@@ -128,7 +128,7 @@ for si, sp in enumerate(species):
 fig.text(
     0.01,
     0.985,
-    "Within-allele unit × unit aa differences " "(modal allele per species and unit count)",
+    "Within-allele unit × unit aa differences (modal allele per species and unit count)",
     fontsize=11,
     va="top",
 )

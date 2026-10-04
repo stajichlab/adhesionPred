@@ -98,10 +98,7 @@ def main():
         a = np.array(by_period[p])
         print(f"   {p:>4} {a.mean():>8.3f} {a.std():>7.3f} {(a >= m.Z_MIN).mean():>12.5f}")
     allz = np.concatenate([np.array(v) for v in by_period.values()])
-    print(
-        f"   {'all':>4} {allz.mean():>8.3f} {allz.std():>7.3f} "
-        f"{(allz >= m.Z_MIN).mean():>12.5f}"
-    )
+    print(f"   {'all':>4} {allz.mean():>8.3f} {allz.std():>7.3f} {(allz >= m.Z_MIN).mean():>12.5f}")
     print()
 
     mz = np.array(max_z)

@@ -273,10 +273,7 @@ def main():
         f"non-overlapping domains of that family, so a Pfam-measured hit-to-hit spacing"
     )
     one = ok[ok.single_unit]
-    print(
-        f"\n  spacing / period rounds to 1 (Pfam unit = detector period): "
-        f"{len(one)} / {len(ok)}"
-    )
+    print(f"\n  spacing / period rounds to 1 (Pfam unit = detector period): {len(one)} / {len(ok)}")
     print(
         f"    of those, |period - spacing| <= 1 aa : {int((one['diff'].abs() <= 1).sum())} "
         f"({100 * (one['diff'].abs() <= 1).mean():.1f}%)"
