@@ -10,15 +10,21 @@ extreme genes without a signal peptide (set A) and 25 Cys-rich spherule-up genes
 the specificity flag (set B). 6 genes are in both. All 45 pass the ranking's specificity flag
 (45 of 45).
 
-1. **The ranking's specificity flag is not reliable for these genes.** A phmmer search (E-value at most 1e-5)
-   finds a hit outside *Coccidioides* for 26 of 45 genes. 16 have a
-   hit in a dimorphic relative or an outgroup (class C1). These contradict the flag, which excludes genes
-   with a confounder-fungus hit. 10 have hits only in other Onygenales (class C2), which the flag
-   does not exclude.
-   Example: CIMG_04662 (a P-type cation ATPase, 929 aa) has a hit in
-   16 dimorphic-relative proteomes. The
-   flag called it specific. I do not know why. I did not inspect the ranking's confounder search.
-2. **19 genes have no hit outside *Coccidioides*** (class C3). Only 3 of them are
+1. **The ranking's specificity flag means "no hit at 30% identity", not "no homolog".** The flag
+   (`cocci_antigens/01_build_inputs.sh`) searched one proteome per genus (*Histoplasma*, *Blastomyces*,
+   *Paracoccidioides*, *A. fumigatus*) and human, and kept hits with at least 30% identity and 50% coverage
+   of query and target. I re-tested the 45 genes with diamond (very sensitive) against the same proteomes.
+   44 of 45 still have no hit that meets those criteria. CIMG_13156
+   meets them, so the flag missed it. Only 8 of 45 genes have any diamond hit (E-value at most 1e-3)
+   in those five proteomes, and these are distant or partial (section 2b).
+   The phmmer search (section 2) finds hits in more proteomes: 26 of 45 genes have
+   a hit outside *Coccidioides* at E-value at most 1e-5, 16 of them in a dimorphic relative or an
+   outgroup (class C1). I read these as family-level or domain-level matches. They are not orthologs.
+   Example: CIMG_04662 is a P-type cation ATPase. Its best hits in human and in *Histoplasma* are other
+   P-type ATPases at 26% to 27% identity over about 90% of the length, below the flag's cut-off. phmmer finds it
+   in 16 dimorphic-relative proteomes
+   for the same reason. Whether it has an ortholog elsewhere needs a reciprocal-best-hit or tree analysis.
+2. **19 genes have no phmmer hit outside *Coccidioides*** (class C3). This is the strongest evidence of restriction here: no match of any kind at E-value 1e-5 in 87 proteomes. Only 3 of them are
    supported by a second annotation of the same genome and are not rare in the pangenome
    (CIMG_13082, CIMG_13230, CIMG_13657).
 3. **Gene models.** Only 5 of 45 proteins have a close match (at least 95% identity and 90% coverage on
@@ -43,9 +49,29 @@ the specificity flag (set B). 6 genes are in both. All 45 pass the ranking's spe
 | Domains | hmmscan, Pfam-A, gathering thresholds | all 564 spherule-up proteins |
 | Signal peptide | Phobius 1.01 | all 564 spherule-up proteins |
 
-Class rules: C1 = strict hit in a dimorphic relative (*Histoplasma*, *Blastomyces*, *Paracoccidioides*,
+Class rules (E-value only, so family-level and domain-level matches count): C1 = strict hit in a dimorphic relative (*Histoplasma*, *Blastomyces*, *Paracoccidioides*,
 *Emergomyces*, *Emmonsia*, *Ajellomyces*) or an outgroup. C2 = strict hit only in other Onygenales. C3 = no
 strict hit outside *Coccidioides*. Model agrees = 95% identity and 90% coverage of query and subject.
+
+## 2b. The specificity flag, re-tested with its own criteria
+
+Same proteomes as the flag, diamond very-sensitive, hits kept at E-value 1e-3. The flag's criteria:
+identity at least 30%, coverage at least 50% of query and of target. The table lists every follow-up gene
+with a hit, with its best three hits.
+
+| Gene | Best hits: group identity% / query cov / target cov | Meets the flag's criteria |
+|---|---|---|
+| CIMG_04662 | human 27% / 0.90 / 0.91; human 27% / 0.90 / 0.87; human 26% / 0.91 / 0.90 | no |
+| CIMG_06250 | human 26% / 0.51 / 0.44 | no |
+| CIMG_11763 | Aspergillus_fumigatus 30% / 0.84 / 0.77; Paracoccidioides 28% / 0.33 / 0.23 | no |
+| CIMG_11958 | Blastomyces 45% / 0.29 / 0.31; Blastomyces 38% / 0.35 / 0.16 | no |
+| CIMG_12971 | Histoplasma 28% / 0.55 / 0.88; Histoplasma 35% / 0.41 / 0.62; Histoplasma 38% / 0.36 / 0.96 | no |
+| CIMG_13156 | Histoplasma 44% / 0.38 / 0.97; Blastomyces 42% / 0.43 / 0.62; Histoplasma 40% / 0.48 / 0.69 | yes |
+| CIMG_13214 | Histoplasma 43% / 0.78 / 0.12; Blastomyces 32% / 0.64 / 0.39 | no |
+| CIMG_13220 | Paracoccidioides 26% / 0.80 / 0.24; Histoplasma 27% / 0.80 / 0.24 | no |
+
+`flag_check_hits.tsv` has all 66 hits. CIMG_11763 has a hit at about 30% identity and 77% to 84%
+coverage in *A. fumigatus*. It is at the boundary, and I did not check the exact identity.
 
 ## 3. The 45 follow-up genes
 
@@ -160,7 +186,9 @@ A phmmer miss at E-value 1e-5 does not prove absence. Short proteins (under 150 
 - The outgroup set is 16 genera, one proteome each. It does not span the fungal tree.
 - Absence from the pangenome RS annotation or from Fungi5k RS means the other pipelines did not predict the
   gene. It does not show that the RefSeq model is wrong, and the reverse is also open.
-- The ranking's specificity flag was not re-derived. I only show that it disagrees with phmmer.
+- The flag uses one proteome per confounder genus and a 30% identity cut-off. That is a cross-reactivity
+  proxy for serology. It is not a test for homology or orthology, and it should not be read as "genus-specific".
+  The phmmer classes C1 and C2 are not orthology calls either.
 - Phobius-only calls can be false positives. TM-containing proteins can also be signal anchors.
 - Two replicates, one strain (first report, section 7).
 - No experiment tests any surface localisation here.
@@ -169,5 +197,6 @@ A phmmer miss at E-value 1e-5 does not prove absence. Short proteins (under 150 
 
 - Map the 19 C3 genes to the RS genome and check exon structure against the RNA-seq reads
   (the kallisto run does not show gene structure).
-- Re-run the specificity search with a profile method, and find out why CIMG_04662 passed the flag.
+- Decide whether the table's "specific" column should be renamed (for example "no 30% identity hit in four
+  confounder fungi or human") so it is not read as "no homolog". That change belongs in the first report.
 - Decide whether a hand-checked gene list is worth sending for a proteomics or localisation test.
