@@ -1,0 +1,46 @@
+gene_id	set	length	log2fc_48h	cys_frac	ranking_specific	model_pident	model_qcov	model_scov	model_call	in_fungi5k_RS_model	coccidioides_best_E	coccidioides_nsp	dimorphic_best_E	dimorphic_nsp	other_ony_best_E	other_ony_nsp	outgroup_best_E	outgroup_nsp	pfam_domains	phobius_sp	phobius_tm	signalp_sp_prob	tmhmm_helices
+CIMG_03444	B_cysrich_up_specific_noSP	133	2.27	0.0451	yes				no_hit	no		0		0		0		0		no	0	1.4e-05	0
+CIMG_03569	B_cysrich_up_specific_noSP	100	2.48	0.04	yes				no_hit	no		0		0		0		0		yes	0	0	1
+CIMG_03730	A_extreme_specific_noSP;B_cysrich_up_specific_noSP	41	6.34	0.0488	yes				no_hit	no		0		0		0		0		no	0	1.5e-05	0
+CIMG_04176	B_cysrich_up_specific_noSP	159	2.07	0.0503	yes				no_hit	no		0		0		0		0		no	0	1e-06	0
+CIMG_04662	A_extreme_specific_noSP	929	8.85	0.0183	yes	100.0	1.00	1.00	agree	yes	0e+00	2	2e-77	16	0e+00	52	1e-80	16	Cation_ATPase(PF13246);Cation_ATPase_C(PF00689);Cation_ATPase_N(PF00690);E1-E2_ATPase(PF00122);Hydrolase(PF00702)	no	10	5e-06	8
+CIMG_06250	A_extreme_specific_noSP	320	6.53	0.0187	yes	100.0	1.00	1.00	agree	yes	1e-222	2		0	3e-178	13	4e-53	3	Methyltransf_21(PF05050);Methyltransf_22(PF13383)	yes	0	0.273	1
+CIMG_07389	B_cysrich_up_specific_noSP	150	5.07	0.0533	yes	100.0	1.00	1.00	agree	no		0	3e-38	1	4e-44	5		0		no	0	0	0
+CIMG_08364	A_extreme_specific_noSP	179	7.12	0.0223	yes	100.0	1.00	0.82	partial_or_different	yes		0	6e-54	2	2e-76	3	4e-14	1		no	0	1e-06	0
+CIMG_09338	B_cysrich_up_specific_noSP	143	3.45	0.0629	yes	100.0	0.75	0.98	partial_or_different	no	3e-70	2		0	6e-07	3	5e-10	2		no	0	0	0
+CIMG_10007	A_extreme_specific_noSP	125	6.59	0.008	yes				no_hit	no		0		0		0		0		no	0	0	0
+CIMG_10013	A_extreme_specific_noSP;B_cysrich_up_specific_noSP	114	6.18	0.0439	yes				no_hit	no		0		0		0		0		no	0	1e-06	0
+CIMG_10877	A_extreme_specific_noSP	163	7.22	0.00613	yes				no_hit	no		0		0	4e-12	1		0		no	0	0.000118	0
+CIMG_11522	A_extreme_specific_noSP;B_cysrich_up_specific_noSP	85	6.62	0.0471	yes				no_hit	no		0		0		0		0		no	1	4.6e-05	1
+CIMG_11763	B_cysrich_up_specific_noSP	357	2.45	0.0448	yes	25.4	0.40	0.41	partial_or_different	yes	2e-246	2	2e-41	4	1e-74	16	4e-37	4	F-box(PF00646)	no	1	1e-06	2
+CIMG_11847	B_cysrich_up_specific_noSP	178	2.12	0.0449	yes				no_hit	no		0		0		0		0		no	1	2e-06	0
+CIMG_11958	B_cysrich_up_specific_noSP	173	4.55	0.052	yes	96.3	0.47	0.55	partial_or_different	no		0	2e-07	4	1e-19	1		0		no	0	0	0
+CIMG_12484	A_extreme_specific_noSP	124	7.16	0.0161	yes				no_hit	no		0		0		0		0		no	0	2e-06	0
+CIMG_12573	A_extreme_specific_noSP	238	6.86	0.0084	yes				no_hit	yes		0		0	2e-13	5		0		no	0	1e-05	0
+CIMG_12595	A_extreme_specific_noSP;B_cysrich_up_specific_noSP	100	6.55	0.05	yes				no_hit	no		0		0	7e-15	2		0		yes	0	0.318	0
+CIMG_12615	A_extreme_specific_noSP	301	7.19	0.0133	yes				no_hit	yes		0	3e-06	1	7e-43	8	2e-04	0		no	0	0	0
+CIMG_12625	A_extreme_specific_noSP	121	6	0.0165	yes				no_hit	yes		0	2e-04	0	2e-27	6		0		no	0	1e-06	0
+CIMG_12654	A_extreme_specific_noSP	92	6.05	0.0326	yes				no_hit	yes	3e-04	0		0		0		0		no	0	0	0
+CIMG_12716	A_extreme_specific_noSP	77	6.38	0	yes				no_hit	no		0		0		0		0		yes	0	0.00563	0
+CIMG_12808	A_extreme_specific_noSP;B_cysrich_up_specific_noSP	143	6.63	0.042	yes				no_hit	no		0		0		0		0		yes	0	0.000108	0
+CIMG_12854	A_extreme_specific_noSP	253	6.02	0.0277	yes	86.6	0.89	0.98	partial_or_different	yes	5e-49	2		0	6e-31	4		0		no	0	0.00101	0
+CIMG_12913	B_cysrich_up_specific_noSP	75	4.54	0.04	yes				no_hit	yes		0		0		0		0		no	0	1e-06	0
+CIMG_12945	B_cysrich_up_specific_noSP	130	2.91	0.0615	yes				no_hit	no		0		0		0		0		no	0	9.9e-05	0
+CIMG_12953	A_extreme_specific_noSP	170	6.4	0.0118	yes				no_hit	no		0		0		0		0		no	0	0	0
+CIMG_12971	B_cysrich_up_specific_noSP	272	3.57	0.0404	yes	37.9	0.32	0.42	partial_or_different	yes	9e-51	2	2e-10	16	2e-17	51	5e-12	15	Histone(PF00125)	no	0	0	0
+CIMG_12994	A_extreme_specific_noSP	130	6.47	0	yes				no_hit	yes		0		0	1e-10	1		0		no	0	0	0
+CIMG_12995	B_cysrich_up_specific_noSP	116	5.31	0.0431	yes				no_hit	yes	4e-35	1		0	3e-08	1		0		no	0	8.2e-05	0
+CIMG_13004	A_extreme_specific_noSP	289	6.48	0.0104	yes				no_hit	yes		0		0	1e-14	2		0		no	0	0	0
+CIMG_13082	B_cysrich_up_specific_noSP	111	2.02	0.045	yes	100.0	1.00	1.00	agree	no		0		0		0		0		yes	0	0.00077	0
+CIMG_13084	B_cysrich_up_specific_noSP	200	3.6	0.04	yes	100.0	0.82	1.00	partial_or_different	no	5e-76	1		0		0		0		no	0	1e-06	0
+CIMG_13125	A_extreme_specific_noSP	139	6.28	0.0288	yes	74.4	0.56	0.57	partial_or_different	yes	2e-28	2	2e-06	1	1e-24	6		0		no	0	1e-06	0
+CIMG_13151	B_cysrich_up_specific_noSP	280	3.41	0.0571	yes				no_hit	yes		0	1e-08	2	2e-24	5		0		no	0	0	0
+CIMG_13156	B_cysrich_up_specific_noSP	259	4.76	0.0579	yes	37.6	0.45	0.57	partial_or_different	yes	2e-43	2	6e-17	16	6e-21	51	6e-17	16	Histone(PF00125)	no	0	1e-06	0
+CIMG_13214	A_extreme_specific_noSP;B_cysrich_up_specific_noSP	133	6.26	0.0451	yes	49.5	0.80	0.27	partial_or_different	yes		0	2e-39	7	9e-38	8	5e-16	1		no	0	0	0
+CIMG_13220	B_cysrich_up_specific_noSP	198	3.79	0.0556	yes	100.0	0.54	1.00	partial_or_different	yes	3e-111	2	1e-07	12	5e-22	22	5e-05	0	F-box(PF00646)	no	0	1e-06	0
+CIMG_13230	A_extreme_specific_noSP	104	6.62	0.0192	yes	98.1	1.02	1.00	agree	yes		0		0	1e-05	0		0		no	0	1e-06	0
+CIMG_13332	A_extreme_specific_noSP	263	7.1	0.0076	yes				no_hit	yes		0		0	4e-13	5		0		no	0	0	0
+CIMG_13457	B_cysrich_up_specific_noSP	95	2.25	0.0421	yes				no_hit	no		0	7e-58	4	3e-04	0		0		no	0	1e-06	0
+CIMG_13499	A_extreme_specific_noSP	205	6.37	0.0195	yes				no_hit	yes		0		0	2e-36	1		0		no	0	1e-06	0
+CIMG_13539	B_cysrich_up_specific_noSP	116	4.16	0.0603	yes				no_hit	yes		0	5e-09	2	6e-23	4		0		no	0	2.8e-05	0
+CIMG_13657	A_extreme_specific_noSP	162	8.26	0.0123	yes				no_hit	yes		0		0		0		0		no	0	1.6e-05	0

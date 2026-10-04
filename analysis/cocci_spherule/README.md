@@ -62,3 +62,11 @@ Report with the gene tables: `docs/reports/2026-10-03-cocci-spherule-surface-tab
   Cys-rich spherule-up genes in section 6.
 - `01c_signalp_predgpi_cpu.sh` is a CPU fallback for the SignalP and PredGPI job. It was cancelled before it
   finished any part. The results come from the GPU job (`step1_compare/jobs/j1_features.sh`).
+
+## Follow-up (branch `cocci-extreme-genes`)
+
+Report: `docs/reports/2026-10-03-cocci-spherule-followup.md`. Scripts `10_select_followup.py`,
+`11_followup_job.sh` (phmmer, diamond, hmmscan Pfam-A, Phobius), `12_summarize_followup.py`,
+`13_build_followup_report.py`. Files: `followup_genes.tsv` (45 genes), `search_proteomes.tsv`,
+`followup_genes_summary.tsv`, `phobius_spherule_up.tsv`. The raw search outputs are in
+`_workdir/cocci_spherule/followup/results/` (git-ignored).
