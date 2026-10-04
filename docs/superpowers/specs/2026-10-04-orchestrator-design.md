@@ -1,6 +1,6 @@
 # Design spec: the orchestrator (one table, one column group per tool)
 
-*Drafted 2026-10-04. Revision 1. DRAFT. No independent review has run. No code, data or job exists
+*Drafted 2026-10-04. Revision 1; D2 answered by the owner the same day. DRAFT. No independent review has run. No code, data or job exists
 for this spec. Owner decisions are in section 9.*
 
 Inputs: `docs/PLAN-2026-09-30-pipeline-and-decisions.md` section 6 (the proposal this spec
@@ -57,7 +57,7 @@ proteome FASTA
    |
    v
 [ evidence modules ]  one run per module, cached by input hash
-   L  localisation      SignalP 6, GPI call, transmembrane segments, step 1 rule and ML
+   L  localisation      SignalP 6, GPI call, transmembrane segments (Phobius), step 1 rule and ML
    D  family / domain   hmmsearch against Pfam-A and a curated family table
    A  architecture      repeat detectors, composition (Ser/Thr, Pro, Cys), Cys-rich finder
    C  comparative       antigen ranking, allergen homology, expression
@@ -134,10 +134,13 @@ defined by function.
 | `antigen_candidate` | antigen rank in top tier and `surface_glycoprotein` | antigen layer | *Coccidioides* only, not calibrated |
 | `allergen_candidate` | homology to a curated allergen set, or an allergen Pfam hit | allergen module | does not exist |
 | `wall_remodeling_enzyme` | family table hit (for example PF03198, PF00704) and `surface_glycoprotein` | Pfam scan, family table, step 1 | does not exist |
-| `wall_synthesis_enzyme` | family table hit (PF01644, PF03142, PF02364, GPI biosynthesis) and transmembrane segments | Pfam scan, family table, TM call | does not exist |
+| `wall_synthesis_enzyme` | family table hit (PF01644, PF03142, PF02364, GPI biosynthesis) and at least one transmembrane segment | Pfam scan, family table, TM call (Phobius) | does not exist. Phobius was run once for the spherule follow-up (`docs/reports/2026-10-03-cocci-spherule-followup.md`). It has no validation here. |
 | `other` | all assessable categories `not_called` | all above | derived |
 
-Decision D2 (section 9) asks which of these are in version 1.
+Version 1 contains all rows of this table (decision D2, answered 2026-10-04). The two enzyme categories
+need the TM module and the family table (section 3.5) before the first release. If the specificity
+tests in section 3.5 fail for a family, that family is dropped from version 1, not shipped as
+`unvalidated`.
 
 Not categories in version 1: cell wall integrity signaling (cytosolic kinases and sensors),
 septation and polarized growth, polysaccharide chemistry, moonlighting proteins, biofilm. Reasons are
@@ -234,7 +237,8 @@ Estimates, not measurements, except where stated.
 2. Allergen scoping note: answer the open questions in issue #19 (how many fungal families, how
    many surface versus intracellular, whether homology to known allergens is the only signal).
 3. Family table, first version: CFEM, Bys1, hydrophobin, Als, GEL/GAS, GH18, chitin synthase, Fks,
-   GPI biosynthesis. Specificity tests.
+   GPI biosynthesis. Specificity tests. Pfam lookups still missing for KRE, AGS, mannosyltransferases.
+   TM module: choose and test a predictor (Phobius is the only one run so far).
 4. Module wrappers: SignalP/GPI, Pfam, repeat detector. Then the driver and report.
 5. Panel and tier harness.
 
@@ -245,10 +249,10 @@ Each has a recommendation. One question at a time, as the owner prefers.
 | # | Decision | Recommendation |
 |---|---|---|
 | D1 | Multi-label or exclusive categories | Multi-label (section 3.3). Matches issue #19 and architecture rule 4. |
-| D2 | Categories in version 1 | The five the owner named, plus `wall_remodeling_enzyme`, so that GPI-anchored enzymes are not "other". Add `wall_synthesis_enzyme` in version 2. |
+| D2 | Categories in version 1 | **Answered 2026-10-04:** the five the owner named, plus `wall_remodeling_enzyme` and `wall_synthesis_enzyme`. |
 | D3 | Name and place of the package and command | Do not add it to `surface_glyco`: that package is step 1 only. Use a new package `src/cellsurface_sort/` and a command `cellsurface_sort`. The owner may prefer another name. |
 | D4 | Does the orchestrator wait for the step 1 decision | No. Carry `step1_rule` and `step1_ml` as two modules (section 3.2). |
-| D5 | Include cell wall biosynthesis and remodeling families in version 1 | Remodeling yes (see D2). Synthases version 2. Signaling no. |
+| D5 | Include cell wall biosynthesis and remodeling families in version 1 | Follows D2: remodeling and synthases yes. Signaling no (cytosolic; the WSC domain alone is ambiguous). |
 | D6 | Allergen scope in version 1 | Homology to a curated set plus allergen Pfam models, flagged `unvalidated`. Needs the scoping note first. |
 | D7 | Out-of-scope clade handling | `not_assessable` (section 3.3). `--clade` required. |
 | D8 | Execution engine | Python driver with SLURM job scripts for version 1. Nextflow later, if the module count grows. |
