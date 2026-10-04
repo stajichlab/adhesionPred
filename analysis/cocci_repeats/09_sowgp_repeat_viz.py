@@ -338,6 +338,7 @@ def main():
 
     out = args.prefix + ".png"
     fig.savefig(out, dpi=170, bbox_inches="tight")
+    fig.savefig(args.prefix + ".pdf", bbox_inches="tight")
     print(f"wrote {out}", file=sys.stderr)
     print(f"column consensus (all units incl. terminal): {consensus}", file=sys.stderr)
 

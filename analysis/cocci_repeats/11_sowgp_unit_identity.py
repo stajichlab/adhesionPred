@@ -147,4 +147,5 @@ fig.text(
 )
 fig.tight_layout(rect=(0, 0.015, 1, 0.975), h_pad=3)
 fig.savefig(HERE / "sowgp_unit_identity.png", dpi=170)
+fig.savefig(HERE / "sowgp_unit_identity.pdf")
 print(f"{len(H)} regular alleles; wrote sowgp_unit_identity.png/.tsv", file=sys.stderr)

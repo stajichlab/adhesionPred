@@ -84,6 +84,7 @@ def main():
     )
     fig.tight_layout()
     fig.savefig(HERE / "sowgp_dotplot.png", dpi=170)
+    fig.savefig(HERE / "sowgp_dotplot.pdf")
     print(f"wrote sowgp_dotplot.png ({len(reps)} panels)", file=sys.stderr)
 
 

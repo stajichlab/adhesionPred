@@ -160,6 +160,7 @@ bx.legend(frameon=False, fontsize=8, loc="upper left")
 
 fig.tight_layout()
 fig.savefig(HERE / "sowgp_unit_map.png", dpi=170, bbox_inches="tight")
+fig.savefig(HERE / "sowgp_unit_map.pdf", bbox_inches="tight")
 (
     H.assign(
         classes=H.classes.str.join(","),

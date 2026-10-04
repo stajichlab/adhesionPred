@@ -463,6 +463,7 @@ def figure(rec, syn, neg, out_png):
     )
     fig.tight_layout(rect=[0, 0.03, 1, 0.96])
     fig.savefig(out_png, dpi=200, facecolor=SURFACE)
+    fig.savefig(out_png.replace(".png", ".pdf"), facecolor=SURFACE)
     print(f"wrote {out_png}", file=sys.stderr)
 
 
