@@ -24,7 +24,7 @@ the specificity flag (set B). 6 genes are in both. All 45 pass the ranking's spe
    P-type ATPases at 26% to 27% identity over about 90% of the length, below the flag's cut-off. phmmer finds it
    in 16 dimorphic-relative proteomes
    for the same reason. Whether it has an ortholog elsewhere needs a reciprocal-best-hit or tree analysis.
-2. **19 genes have no phmmer hit outside *Coccidioides*** (class C3). This is the strongest evidence of restriction here: no match of any kind at E-value 1e-5 in 87 proteomes. Only 3 of them are
+2. **19 genes have no phmmer hit outside *Coccidioides*** (class C3). This is the strongest evidence of restriction here: no phmmer match at E-value 1e-5 in 87 proteomes (single-sequence search; short proteins have little power). Only 3 of them are
    supported by a second annotation of the same genome and are not rare in the pangenome
    (CIMG_13082, CIMG_13230, CIMG_13657).
 3. **Gene models.** Only 5 of 45 proteins have a close match (at least 95% identity and 90% coverage on

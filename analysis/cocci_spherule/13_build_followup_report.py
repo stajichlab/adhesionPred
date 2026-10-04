@@ -172,9 +172,11 @@ the specificity flag (set B). {n_ab} genes are in both. All {n} pass the ranking
    for the same reason. Whether it has an ortholog elsewhere needs a reciprocal-best-hit or tree analysis.
 2. **{
         len(by["C3"])
-    } genes have no phmmer hit outside *Coccidioides*** (class C3). This is the strongest evidence of restriction here: no match of any kind at E-value 1e-5 in {
+    } genes have no phmmer hit outside *Coccidioides*** (class C3). This is the strongest evidence of restriction here: no phmmer match at E-value 1e-5 in {
         n_ony_f5k + n_out + 2
-    } proteomes. Only {len(c3_sup)} of them are
+    } proteomes (single-sequence search; short proteins have little power). Only {
+        len(c3_sup)
+    } of them are
    supported by a second annotation of the same genome and are not rare in the pangenome
    ({", ".join(x["gene_id"] for x in c3_sup)}).
 3. **Gene models.** Only {n_agree} of {
