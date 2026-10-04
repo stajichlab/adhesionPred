@@ -4,6 +4,9 @@
 Follows `REPORT_2026-09-29_sowgp_repeat_structure.md` and
 `docs/reports/2026-09-27-coccidioides-antigen-findings.md` (section 4.4).
 
+> **Audit 2026-10-04:** `REPORT_2026-10-04_sowgp_depth_audit.md` supersedes sections 4.1 (repeat-collapse
+> reading), 5 (explanation 2) and 6 (limits 1 and 7) of this page.
+
 > **Status: computational results only. No experimental validation.** Depth is measured against
 > the *C. immitis* RS reference. It does not show gene content in strains whose sequence differs
 > from RS.
