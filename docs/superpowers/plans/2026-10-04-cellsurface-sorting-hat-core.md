@@ -38,7 +38,8 @@ Plan 2 wrappers and the tests in this plan both rely on this contract.
 - `<workdir>/modules/<module>.tsv.gz` (always gzip): tab-separated, header row. Required columns: `id` (the FASTA ID) and `state`; a table without them, or with a duplicate `id`, stops the run. Other columns are module fields. `state` is `ok` or a non-ok value (`not_applicable`, `not_in_reference`, `na_too_short`, `na_window`, `na_invalid`, `error`). Only `state == ok` rows are used.
 - A call module has a `call` field with `called` or `not_called`. A flag module has a `hit` field with `1` or `0`. A number module has numeric fields (for example `percentile`, `identity`, `coverage`, `aligned_length`). An empty or non-numeric number is unknown. A `call` value that is not `called`/`not_called`, or a `hit` that is not `0`/`1`, makes the row state `bad_value` (unknown, counted in the report).
 - `<workdir>/modules/<module>.json`: run record with `module`, `version`, `params_hash`, `artefact_hash` and optional `run_state` (`ok`, `partial`, `unavailable`, `not_run`, `error`; `unavailable`, `not_run` and `error` make the module absent). A run record without a table is listed in the report with its state (`error` if it gives none). A table in which no ID matches a FASTA ID makes the module `error`.
-- `<workdir>/status/<module>.json`: status source with `module`, `version`, `params_hash`, `artefact_hash` and `entries`: a list of `{"taxa": [taxon IDs], "status": "estimated"|"smoke"|"unvalidated", "source": "path"}`.
+- `<workdir>/status/<module>.json`: status source with `module`, `version`, `params_hash`, `artefact_hash` and `entries`: a list of `{"taxa": [taxon IDs], "status": "estimated"|"smoke"|"unvalidated", "source": "path", "measure": {...}}`. `measure` is optional. It is where Plan 2 records the calibration: `calibration_set` (text), `truth_source` (path), `n_pos`, `n_neg` (non-negative integers), `sensitivity` and `specificity` (each `{"value", "lo", "hi"}` with 0 <= lo <= value <= hi <= 1) and `notes`. An unknown key in an entry or in `measure` is an error. The report prints a "Module calibration" table (one row per module and run taxon; "not measured" where there is no `measure`) and `run.json` carries the same rows.
+- All text inputs may start with a UTF-8 byte order mark. A module row whose field count differs from the header, a truncated gzip file, invalid JSON and a run record that is not a JSON object stop the run with exit code 2 and a message that names the file (and the line).
 - A protein that is in the FASTA but not in a module table gets a row with `state: error`, and the module's run state becomes `partial`.
 - Modules used by the packaged `categories.yaml`: `step1_rule@R0`, `step1_rule@R1`, `step1_rule@R2`, `step1_ml@card` (call); `repeat02`, `repeat14` (call); `pfam_adhesion`, `pfam_allergen` (field `hit`); `antigen_lookup` (field `percentile`); `allergen_homology` (fields `identity`, `coverage`, `aligned_length`, `allergen_name`; a protein with no hit has `0`, `0`, `0`, state `ok`).
 - Evidence fields copied to `evidence.tsv.gz` (list in `categories.yaml`): `antigen_lookup.{percentile,antigenicity,specificity,prevalence,max_crossreact}`, `allergen_homology.{allergen_name,identity,coverage,aligned_length}`, `cys_rich.tier`, `expression.log2fc`. A module that is absent contributes none.
@@ -58,7 +59,7 @@ Plan 2 wrappers and the tests in this plan both rely on this contract.
 Input classes the spec implies and the tests pin. Each has a test in the task named.
 
 1. A Windows FASTA (CRLF line ends, lowercase residues, trailing `*`) must be read, not rejected. (Task 7, `test_crlf_lowercase_trailing_stop_fasta_is_read`; Task 3)
-2. A `--taxon` that is not in the taxonomy stops the run with a message that names the taxon, exit code 2. (Task 7, `test_unknown_taxon_stops_the_run`)
+2. A `--taxon` that is not in the taxonomy stops the run with a message that names the taxon, exit code 2, also when no status file exists. (Task 7, `test_unknown_taxon_stops_the_run`, `test_an_unknown_taxon_stops_the_run_even_with_no_status_file`)
 3. A module table that lacks some proteins must make those proteins unknown (not false) and the module `partial` in the report. (Task 7, `test_partial_module_output_is_reported_and_missing_proteins_are_unknown`)
 4. Two proteins with identical sequences and different IDs must get identical calls, and the report must warn when a module gives them different rows. (Task 7, `test_identical_sequences_with_different_ids_get_identical_calls`, `test_identical_sequences_with_different_module_rows_are_flagged`; Task 3)
 5. A run with no module output at all must finish, write a report with a warning about the default gate, and write no per-variant records. (Task 7, `test_no_module_at_all_still_writes_a_report_with_a_warning`)
@@ -281,7 +282,7 @@ Co-Authored-By: Claude Sonnet 5.5 <noreply@anthropic.com>"
 **Interfaces:**
 - Consumes: nothing from earlier tasks.
 - Produces: `Lineage.from_nodes_dmp(path)`, `Lineage.ancestors(taxon) -> list[int]`, `Lineage.is_descendant_or_self(taxon, ancestor) -> bool`, `Lineage.depth(taxon) -> int`, `TaxonError`.
-- Produces: `ModuleIdentity(name, version, params_hash, artefact_hash)`, `StatusRecord(identity, entries)`, `load_status_source(path) -> StatusRecord`, `resolve_status(record_or_None, running_identity, taxon, lineage) -> (status, basis)`, `weakest(statuses) -> str`, constants `ESTIMATED`, `SMOKE`, `UNVALIDATED`.
+- Produces: `ModuleIdentity(name, version, params_hash, artefact_hash)`, `StatusEntry(taxa, status, source, measure)`, `StatusRecord(identity, entries)`, `load_status_source(path) -> StatusRecord` (validates the optional `measure` object), `resolve_entry(record_or_None, running_identity, taxon, lineage) -> (entry_or_None, tested_taxon, reason)`, `resolve_status(...) -> (status, basis)`, `weakest(statuses) -> str`, constants `ESTIMATED`, `SMOKE`, `UNVALIDATED`.
 - Produces fixtures: `nodes_dmp` (toy taxonomy file path), `write_module(workdir, name, rows, meta=None, status=None)`.
 
 - [ ] **Step 1: Write the failing tests**
@@ -350,8 +351,10 @@ import pytest
 
 from cellsurface_sorting_hat.status import (
     ModuleIdentity,
+    StatusEntry,
     StatusRecord,
     load_status_source,
+    resolve_entry,
     resolve_status,
     weakest,
 )
@@ -391,7 +394,7 @@ def test_weakest_status():
 
 
 def _record(entries, ident=IDENT):
-    return StatusRecord(ident, tuple(entries))
+    return StatusRecord(ident, tuple(StatusEntry(taxa, status) for taxa, status in entries))
 
 
 def test_status_applies_to_a_tested_taxon(lineage):
@@ -444,7 +447,7 @@ def test_load_status_source(tmp_path):
     )
     rec = load_status_source(path)
     assert rec.identity == ModuleIdentity("m", "2", "p", "a")
-    assert rec.entries == (((40, 42), "estimated"),)
+    assert rec.entries == (StatusEntry((40, 42), "estimated", "x", None),)
 
 
 def test_load_status_source_rejects_unknown_status(tmp_path):
@@ -462,6 +465,77 @@ def test_load_status_source_rejects_unknown_status(tmp_path):
     )
     with pytest.raises(ValueError):
         load_status_source(path)
+
+
+MEASURE = {
+    "calibration_set": "S1:all",
+    "truth_source": "phasec/metrics.json",
+    "n_pos": 232,
+    "n_neg": 4244,
+    "sensitivity": {"value": 0.603, "lo": 0.55, "hi": 0.65},
+    "specificity": {"value": 0.963, "lo": 0.95, "hi": 0.97},
+    "notes": "R0",
+}
+
+
+def _status_file(tmp_path, measure, extra_entry=None):
+    entry = {"taxa": [40], "status": "estimated", "source": "phasec"}
+    if measure is not None:
+        entry["measure"] = measure
+    entry.update(extra_entry or {})
+    path = tmp_path / "s.json"
+    path.write_text(
+        json.dumps(
+            {
+                "module": "m",
+                "version": "1",
+                "params_hash": "p",
+                "artefact_hash": "a",
+                "entries": [entry],
+            }
+        )
+    )
+    return path
+
+
+def test_measure_with_sensitivity_and_specificity_is_loaded_and_returned(tmp_path, lineage):
+    rec = load_status_source(_status_file(tmp_path, MEASURE))
+    ident = ModuleIdentity("m", "1", "p", "a")
+    entry, tested, reason = resolve_entry(rec, ident, 40, lineage)
+    assert (tested, reason) == (40, "")
+    assert entry.measure["sensitivity"]["value"] == 0.603 and entry.measure["n_pos"] == 232
+    assert resolve_entry(rec, ident, 41, lineage)[0] is None  # taxon 41 is not covered
+
+
+def test_an_entry_without_a_measure_is_allowed(tmp_path):
+    assert load_status_source(_status_file(tmp_path, None)).entries[0].measure is None
+
+
+@pytest.mark.parametrize(
+    "bad",
+    [
+        {**MEASURE, "sensitivity": {"value": 1.2, "lo": 1.0, "hi": 1.3}},
+        {**MEASURE, "specificity": {"value": 0.5, "lo": 0.6, "hi": 0.7}},
+        {**MEASURE, "sensitivity": {"value": 0.5}},
+        {**MEASURE, "n_pos": -1},
+        {**MEASURE, "surprise": 1},
+    ],
+)
+def test_a_bad_measure_is_refused(tmp_path, bad):
+    with pytest.raises(ValueError):
+        load_status_source(_status_file(tmp_path, bad))
+
+
+def test_an_unknown_entry_key_is_refused(tmp_path):
+    with pytest.raises(ValueError, match="unknown key"):
+        load_status_source(_status_file(tmp_path, None, {"surprise": 1}))
+
+
+def test_a_non_integer_parent_in_nodes_dmp_names_the_line(tmp_path):
+    path = tmp_path / "nodes.dmp"
+    path.write_text("1\t|\t1\t|\tno rank\t|\n2\t|\tx\t|\tno rank\t|\n")
+    with pytest.raises(TaxonError, match="nodes.dmp:2"):
+        Lineage.from_nodes_dmp(path)
 ```
 
 - [ ] **Step 2: Run the tests and confirm they fail**
@@ -491,11 +565,15 @@ class Lineage:
     def from_nodes_dmp(cls, path):
         """Read ``nodes.dmp`` (fields separated by ``\\t|\\t``; field 0 = taxid, field 1 = parent)."""
         parent = {}
-        for line in Path(path).read_text().splitlines():
+        text = Path(path).read_text(encoding="utf-8-sig", errors="replace")
+        for n, line in enumerate(text.splitlines(), 1):
             fields = line.split("\t|\t")
             if len(fields) < 2:
                 continue
-            parent[int(fields[0])] = int(fields[1].replace("\t|", "").strip())
+            try:
+                parent[int(fields[0])] = int(fields[1].replace("\t|", "").strip())
+            except ValueError:
+                raise TaxonError(f"{path}:{n}: taxon IDs are not integers") from None
         return cls(parent)
 
     def ancestors(self, taxon):
@@ -526,6 +604,9 @@ Create `src/cellsurface_sorting_hat/status.py` with exactly this content:
 
 A status applies to a protein's taxon only if that taxon is a tested taxon or a descendant of one.
 A shared broad label (for example "Eurotiomycetes") is not enough.
+
+Each entry of a status source can carry an optional ``measure`` object with the calibration set and
+the sensitivity and specificity measured on it, so reports can show them.
 """
 
 import json
@@ -534,6 +615,16 @@ from pathlib import Path
 
 ESTIMATED, SMOKE, UNVALIDATED = "estimated", "smoke", "unvalidated"
 _STRENGTH = {ESTIMATED: 2, SMOKE: 1, UNVALIDATED: 0}
+ENTRY_KEYS = {"taxa", "status", "source", "measure"}
+MEASURE_KEYS = {
+    "calibration_set",
+    "truth_source",
+    "n_pos",
+    "n_neg",
+    "sensitivity",
+    "specificity",
+    "notes",
+}
 
 
 def weakest(statuses):
@@ -556,47 +647,101 @@ class ModuleIdentity:
 
 
 @dataclass(frozen=True)
+class StatusEntry:
+    taxa: tuple
+    status: str
+    source: str = ""
+    measure: dict | None = None
+
+
+@dataclass(frozen=True)
 class StatusRecord:
     identity: ModuleIdentity
-    entries: tuple  # of (tuple of tested taxon IDs, status)
+    entries: tuple  # of StatusEntry
+
+
+def _check_rate(rate, where):
+    if (
+        not isinstance(rate, dict)
+        or set(rate) != {"value", "lo", "hi"}
+        or not all(isinstance(rate[k], int | float) for k in rate)
+        or not 0 <= rate["lo"] <= rate["value"] <= rate["hi"] <= 1
+    ):
+        raise ValueError(f"{where}: needs value, lo, hi with 0 <= lo <= value <= hi <= 1")
+
+
+def _check_measure(measure, where):
+    if not isinstance(measure, dict):
+        raise ValueError(f"{where}: measure must be an object")
+    unknown = set(measure) - MEASURE_KEYS
+    if unknown:
+        raise ValueError(f"{where}: unknown measure key(s): {sorted(unknown)}")
+    for key in ("sensitivity", "specificity"):
+        if key in measure:
+            _check_rate(measure[key], f"{where}.{key}")
+    for key in ("n_pos", "n_neg"):
+        if key in measure and not (isinstance(measure[key], int) and measure[key] >= 0):
+            raise ValueError(f"{where}.{key}: must be a non-negative integer")
 
 
 def load_status_source(path):
-    data = json.loads(Path(path).read_text())
+    data = json.loads(Path(path).read_text(encoding="utf-8-sig"))
     identity = ModuleIdentity(
         data["module"], data["version"], data["params_hash"], data["artefact_hash"]
     )
     entries = []
-    for e in data["entries"]:
+    for i, e in enumerate(data["entries"]):
+        where = f"{path} entries[{i}]"
+        unknown = set(e) - ENTRY_KEYS
+        if unknown:
+            raise ValueError(f"{where}: unknown key(s): {sorted(unknown)}")
         if e["status"] not in _STRENGTH:
             raise ValueError(f"unknown status {e['status']!r} in {path}")
-        entries.append((tuple(int(t) for t in e["taxa"]), e["status"]))
+        measure = e.get("measure")
+        if measure is not None:
+            _check_measure(measure, where)
+        entries.append(
+            StatusEntry(
+                tuple(int(t) for t in e["taxa"]), e["status"], str(e.get("source", "")), measure
+            )
+        )
     return StatusRecord(identity, tuple(entries))
 
 
-def resolve_status(record, running, taxon, lineage):
-    """Return (status, basis). Refuse a stale record: version, params or artefact must match."""
+def resolve_entry(record, running, taxon, lineage):
+    """Return (entry, tested_taxon, reason). ``entry`` is None when nothing applies.
+
+    A stale record is refused: name, version, params hash and artefact hash must match.
+    """
     if record is None:
-        return UNVALIDATED, "no status_source"
+        return None, None, "no status_source"
     for field in ("name", "version", "params_hash", "artefact_hash"):
         if getattr(record.identity, field) != getattr(running, field):
-            return UNVALIDATED, f"status_source stale: {field} differs"
-    best = None  # (depth, tested taxon, status)
-    for taxa, status in record.entries:
-        for tested in taxa:
+            return None, None, f"status_source stale: {field} differs"
+    best = None  # (depth, tested taxon, entry)
+    for entry in record.entries:
+        for tested in entry.taxa:
             if lineage.is_descendant_or_self(taxon, tested):
                 depth = lineage.depth(tested)
                 if best is None or depth > best[0]:
-                    best = (depth, tested, status)
+                    best = (depth, tested, entry)
     if best is None:
-        return UNVALIDATED, "taxon not tested"
-    return best[2], f"taxon:{best[1]}"
+        return None, None, "taxon not tested"
+    return best[2], best[1], ""
+
+
+def resolve_status(record, running, taxon, lineage):
+    """Return (status, basis)."""
+    entry, tested, reason = resolve_entry(record, running, taxon, lineage)
+    if entry is None:
+        return UNVALIDATED, reason
+    return entry.status, f"taxon:{tested}"
 ```
 
 - [ ] **Step 4: Run the tests and confirm they pass**
 
 Run: `PYTHONPATH=src /usr/bin/python3.12 -m pytest tests/cellsurface_sorting_hat/test_taxonomy_status.py -q`
-Expected: `15 passed`
+Expected: `24 passed`
 
 - [ ] **Step 5: Lint and commit**
 
@@ -713,6 +858,19 @@ def test_trailing_stop_is_flagged(tmp_path):
 def test_sequence_lines_before_the_first_header_stop_the_run(tmp_path):
     with pytest.raises(FastaError, match="before the first header"):
         read_fasta(_write(tmp_path, "MKT\n>A\nMKT\n"))
+
+
+def test_a_byte_order_mark_is_ignored(tmp_path):
+    path = tmp_path / "p.faa"
+    path.write_bytes(b"\xef\xbb\xbf>A\nMKT\n")
+    assert read_fasta(path)[0].id == "A"
+
+
+def test_bytes_that_are_not_utf8_stop_the_run_with_the_file_name(tmp_path):
+    path = tmp_path / "p.faa"
+    path.write_bytes(b">A \xe9\nMKT\n")
+    with pytest.raises(FastaError, match="p.faa: cannot be read as text"):
+        read_fasta(path)
 ```
 
 - [ ] **Step 2: Run the tests and confirm they fail**
@@ -735,6 +893,7 @@ an empty file and a file with no valid protein stop the run.
 import gzip
 import hashlib
 import subprocess
+import zlib
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -761,15 +920,18 @@ class Protein:
 
 def _lines(path):
     path = Path(path)
-    if path.suffix == ".gz":
-        with gzip.open(path, "rt") as fh:
-            yield from fh
-    elif path.suffix == ".zst":
-        out = subprocess.run(["zstd", "-dc", str(path)], capture_output=True, text=True, check=True)
-        yield from out.stdout.splitlines()
-    else:
-        with open(path) as fh:
-            yield from fh
+    try:
+        if path.suffix == ".gz":
+            with gzip.open(path, "rt", encoding="utf-8-sig") as fh:
+                yield from fh
+        elif path.suffix == ".zst":
+            out = subprocess.run(["zstd", "-dc", str(path)], capture_output=True, check=True)
+            yield from out.stdout.decode("utf-8-sig").splitlines()
+        else:
+            with open(path, encoding="utf-8-sig") as fh:
+                yield from fh
+    except (UnicodeDecodeError, EOFError, zlib.error) as err:
+        raise FastaError(f"{path}: cannot be read as text ({err.__class__.__name__})") from err
 
 
 def _records(path):
@@ -828,7 +990,7 @@ def read_fasta(path):
 - [ ] **Step 4: Run the tests and confirm they pass**
 
 Run: `PYTHONPATH=src /usr/bin/python3.12 -m pytest tests/cellsurface_sorting_hat/test_fasta.py -q`
-Expected: `13 passed` (the zstd test is skipped when `zstd` is not installed, then `12 passed, 1 skipped`)
+Expected: `15 passed` (the zstd test is skipped when `zstd` is not installed, then `14 passed, 1 skipped`)
 
 - [ ] **Step 5: Lint and commit**
 
@@ -857,6 +1019,7 @@ Co-Authored-By: Claude Sonnet 5.5 <noreply@anthropic.com>"
 Create `tests/cellsurface_sorting_hat/test_cache.py` with exactly this content:
 
 ```python
+import os
 from concurrent.futures import ProcessPoolExecutor
 
 import pytest
@@ -940,6 +1103,19 @@ def test_parallel_updates_lose_no_rows_and_leave_a_readable_table(tmp_path):
     table = ModuleCache(tmp_path, "shared").load()
     assert len(table) == 60
     assert read_verified(ModuleCache(tmp_path, "shared").path)  # data and checksum agree
+
+
+def test_a_reader_can_read_when_the_lock_file_cannot_be_opened(tmp_path):
+    cache = ModuleCache(tmp_path, "k1")
+    cache.update([{"sha256": "aa", "call": "called"}])
+    lock = cache._lock
+    lock.chmod(0o444)
+    try:
+        if os.access(lock, os.W_OK):
+            pytest.skip("this user can write to a 0444 file (for example root)")
+        assert set(cache.load()) == {"aa"}
+    finally:
+        lock.chmod(0o644)
 ```
 
 - [ ] **Step 2: Run the tests and confirm they fail**
@@ -1022,8 +1198,18 @@ def read_verified(path):
 
 @contextmanager
 def _locked(lock_path, exclusive):
-    lock_path.parent.mkdir(parents=True, exist_ok=True)
-    with open(lock_path, "a") as fh:
+    """Hold a lock on ``lock_path``. A reader that cannot open the lock file (a read-only
+    directory) reads without a lock. A steady stream of readers can delay a writer."""
+    if exclusive:
+        lock_path.parent.mkdir(parents=True, exist_ok=True)
+    try:
+        fh = open(lock_path, "a")
+    except OSError:
+        if exclusive:
+            raise
+        yield
+        return
+    with fh:
         fcntl.flock(fh, fcntl.LOCK_EX if exclusive else fcntl.LOCK_SH)
         try:
             yield
@@ -1069,7 +1255,7 @@ class ModuleCache:
 - [ ] **Step 4: Run the tests and confirm they pass**
 
 Run: `PYTHONPATH=src /usr/bin/python3.12 -m pytest tests/cellsurface_sorting_hat/test_cache.py -q`
-Expected: `6 passed`
+Expected: `7 passed`
 
 - [ ] **Step 5: Lint and commit**
 
@@ -1399,6 +1585,22 @@ def test_referenced_modules_expand_the_step1_variants():
 def test_more_bad_config_is_refused(tmp_path, mutate, message):
     with pytest.raises(ConfigError, match=message):
         load_config(_config_with(tmp_path, mutate))
+
+
+@pytest.mark.parametrize("bad", ["inf", "-inf", "Infinity"])
+def test_a_non_finite_number_is_unknown(bad):
+    mods = base_modules(antigen_lookup=table("antigen_lookup", {"P": ok(percentile=bad)}))
+    assert run(mods)[("P", "antigen_candidate", "")].value == "not_assessable"
+
+
+def test_a_false_and_takes_its_status_from_the_false_inputs_only():
+    # surface (R0) is false with status smoke; antigen is true with status estimated
+    statuses = {R0: ("smoke", "t"), "antigen_lookup": ("estimated", "t")}
+    mods = base_modules(antigen_lookup=table("antigen_lookup", {"P": ok(percentile="5")}))
+    res = run(mods, status_of=lambda m, t: statuses.get(m, ("unvalidated", "")))
+    r = res[("P", "antigen_candidate_surface", "R0")]
+    assert (r.value, r.status) == ("not_called", "smoke")
+    assert r.status_basis == "step1_rule@R0:t"
 ```
 
 - [ ] **Step 2: Run the tests and confirm they fail**
@@ -1509,6 +1711,7 @@ does no I/O except reading the config.
 """
 
 import hashlib
+import math
 import operator
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -1698,7 +1901,7 @@ def _eval(node, ctx):
             number = float(row[arg["field"]]) if row else None
         except (KeyError, TypeError, ValueError):
             number = None
-        if number is None or number != number:  # missing, empty or NaN
+        if number is None or not math.isfinite(number):  # missing, empty, NaN or infinite
             return _leaf(NOT_ASSESSABLE, arg["module"])
         return _leaf(CALLED if _OPS[arg["op"]](number, limit) else NOT_CALLED, arg["module"])
     if kind == "ref":
@@ -1843,7 +2046,7 @@ def collect_evidence(cfg, protein_ids, modules):
 - [ ] **Step 4: Run the tests and confirm they pass**
 
 Run: `PYTHONPATH=src /usr/bin/python3.12 -m pytest tests/cellsurface_sorting_hat/test_engine.py -q`
-Expected: `37 passed`
+Expected: `41 passed`
 
 - [ ] **Step 5: Lint and commit**
 
@@ -1865,7 +2068,7 @@ Co-Authored-By: Claude Sonnet 5.5 <noreply@anthropic.com>"
 
 **Interfaces:**
 - Consumes: `write_atomic` (Task 4); `CallRecord` (Task 5); the call constants (Task 1).
-- Produces: `RunInfo` (dataclass, fields as in the code), `LONG_COLUMNS`, `write_long(path, records)`, `write_wide(path, records, protein_ids)`, `write_evidence(path, rows)`, `write_proteins(path, proteins, taxa)`, `write_run_json(path, info)`, `render_report(info, records) -> str`, `write_report(path, info, records)`, `KNOWN_LIMITS`.
+- Produces: `RunInfo` (dataclass, fields as in the code, including `calibration`), `LONG_COLUMNS`, `write_atomic_text(path, text)`, `write_long(path, records)`, `write_wide(path, records, protein_ids)`, `write_evidence(path, rows)`, `write_proteins(path, proteins, taxa)`, `write_run_json(path, info)`, `render_report(info, records) -> str`, `write_report(path, info, records)`, `KNOWN_LIMITS`.
 
 - [ ] **Step 1: Write the failing tests**
 
@@ -2031,6 +2234,7 @@ class RunInfo:
     unavailable_variants: list = field(default_factory=list)
     inconsistent: dict = field(default_factory=dict)  # module -> groups of identical sequences
     map_ids_not_in_fasta: int = 0
+    calibration: list = field(default_factory=list)  # rows from cli.calibration_rows
 
 
 def _gz(text):
@@ -2165,6 +2369,22 @@ def render_report(info, records):
         ]
         for m, states in sorted(info.state_counts.items()):
             lines += [f"| {m} | {s} | {n} |" for s, n in sorted(states.items())]
+    if info.calibration:
+        lines += [
+            "",
+            "## Module calibration",
+            "",
+            "| module | taxon | status | calibration set | positives | negatives "
+            "| sensitivity [95% CI] | specificity [95% CI] |",
+            "|---|---|---|---|---|---|---|---|",
+        ]
+        for c in info.calibration:
+            n_pos = c["n_pos"] if c["n_pos"] != "" else "-"
+            n_neg = c["n_neg"] if c["n_neg"] != "" else "-"
+            lines.append(
+                f"| {c['module']} | {c['taxon']} | {c['status']} | {c['calibration_set'] or '-'} "
+                f"| {n_pos} | {n_neg} | {c['sensitivity']} | {c['specificity']} |"
+            )
     lines += [
         "",
         "## Calls",
@@ -2183,8 +2403,12 @@ def render_report(info, records):
     return "\n".join(lines) + "\n"
 
 
+def write_atomic_text(path, text):
+    write_atomic(path, text.encode())
+
+
 def write_report(path, info, records):
-    write_atomic(path, render_report(info, records).encode())
+    write_atomic_text(path, render_report(info, records))
 ```
 
 - [ ] **Step 4: Run the tests and confirm they pass**
@@ -2211,8 +2435,8 @@ Co-Authored-By: Claude Sonnet 5.5 <noreply@anthropic.com>"
 - Test: `tests/cellsurface_sorting_hat/test_cli.py`
 
 **Interfaces:**
-- Consumes: `read_fasta`, `NA_INVALID`, `FastaError` (Task 3); `Lineage`, `TaxonError` (Task 2); `ModuleIdentity`, `load_status_source`, `resolve_status`, `UNVALIDATED` (Task 2); `ConfigError`, `ModuleTable`, `evaluate`, `load_config`, `collect_evidence`, `referenced_modules` (Task 5); the writers and `RunInfo` (Task 6).
-- Produces: `main(argv=None) -> int` (0 on success, 2 on a user or input error with the message on stderr; program errors are not caught); `parse_args`, `run(args)`, `read_taxon_map`, `assign_taxa`, `load_modules`, `check_identical_sequences`, `make_status_of`, `RunError`, `InputError`.
+- Consumes: `read_fasta`, `NA_INVALID`, `FastaError` (Task 3); `Lineage`, `TaxonError` (Task 2); `ModuleIdentity`, `load_status_source`, `resolve_entry`, `UNVALIDATED` (Task 2); `ConfigError`, `ModuleTable`, `evaluate`, `load_config`, `collect_evidence`, `referenced_modules` (Task 5); the writers and `RunInfo` (Task 6).
+- Produces: `main(argv=None) -> int` (0 on success, 2 on a user or input error with the message on stderr; program errors are not caught); `parse_args`, `run(args)`, `read_taxon_map` (names file and line, refuses a repeated ID), `assign_taxa`, `load_modules`, `check_identical_sequences`, `StatusResolver(workdir, identities, lineage)` (callable `(module, taxon) -> (status, basis)`; `.entry(module, taxon)`), `calibration_rows(resolver, modules, taxa)`, `RunError`, `InputError`.
 - Output files in `--out`: `calls.long.tsv.gz` (columns `protein, call, variant, value, status, status_basis, other_basis`), `calls.wide.tsv.gz`, `evidence.tsv.gz`, `proteins.tsv.gz`, `report.md`, `run.json`.
 
 - [ ] **Step 1: Write the failing tests**
@@ -2738,6 +2962,127 @@ def test_a_program_error_is_not_hidden_as_a_user_error(
     monkeypatch.setattr(cli, "evaluate", boom)
     with pytest.raises(KeyError):
         _run(tmp_path, nodes_dmp, fasta, taxon_map, wd)
+
+
+def _module_bytes(wd, name, data):
+    with gzip.open(wd / "modules" / f"{name}.tsv.gz", "wb") as fh:
+        fh.write(data)
+
+
+@pytest.mark.parametrize(
+    "data,message",
+    [
+        (
+            b"id\tstate\tcall\nSOW1\tok\tcalled\textra\n",
+            "repeat14.tsv.gz:2: 4 fields, the header has 3",
+        ),
+        (b"id\tstate\tcall\nSOW1\tok\n", "repeat14.tsv.gz:2: 2 fields"),
+    ],
+)
+def test_a_module_row_with_the_wrong_number_of_fields_names_file_and_line(
+    tmp_path, write_module, nodes_dmp, capsys, data, message
+):
+    fasta, taxon_map, wd = build(tmp_path, write_module)
+    _module_bytes(wd, "repeat14", data)
+    code, _ = _run(tmp_path, nodes_dmp, fasta, taxon_map, wd)
+    assert code == 2 and message in capsys.readouterr().err
+
+
+def test_a_truncated_module_table_names_the_file(tmp_path, write_module, nodes_dmp, capsys):
+    fasta, taxon_map, wd = build(tmp_path, write_module)
+    path = wd / "modules" / "repeat14.tsv.gz"
+    path.write_bytes(path.read_bytes()[:20])
+    code, _ = _run(tmp_path, nodes_dmp, fasta, taxon_map, wd)
+    assert code == 2 and "repeat14.tsv.gz: cannot be read" in capsys.readouterr().err
+
+
+@pytest.mark.parametrize("text", ["{not json", "[]"])
+def test_a_bad_run_record_names_the_file(tmp_path, write_module, nodes_dmp, capsys, text):
+    fasta, taxon_map, wd = build(tmp_path, write_module)
+    (wd / "modules" / "repeat14.json").write_text(text)
+    code, _ = _run(tmp_path, nodes_dmp, fasta, taxon_map, wd)
+    assert code == 2 and "repeat14.json:" in capsys.readouterr().err
+
+
+def test_a_failed_run_leaves_no_partial_output(tmp_path, write_module, nodes_dmp):
+    fasta, taxon_map, wd = build(tmp_path, write_module)
+    _module_bytes(wd, "repeat14", b"id\tcall\nSOW1\tcalled\n")  # no state column
+    code, out = _run(tmp_path, nodes_dmp, fasta, taxon_map, wd)
+    assert code == 2 and not out.exists()
+
+
+def test_byte_order_marks_in_the_taxon_map_and_module_table_are_ignored(
+    tmp_path, write_module, nodes_dmp
+):
+    fasta, taxon_map, wd = build(tmp_path, write_module)
+    taxon_map.write_bytes(b"\xef\xbb\xbf" + taxon_map.read_bytes())
+    path = wd / "modules" / "repeat14.tsv.gz"
+    with gzip.open(path, "rb") as fh:
+        raw = fh.read()
+    _module_bytes(wd, "repeat14", b"\xef\xbb\xbf" + raw)
+    code, out = _run(tmp_path, nodes_dmp, fasta, taxon_map, wd)
+    assert code == 0
+    assert read_long(out)[("SOW1", "surface_glycoprotein", "R0")]["value"] == "called"
+
+
+def test_a_repeated_id_in_the_taxon_map_names_both_lines(tmp_path, write_module, nodes_dmp, capsys):
+    fasta, taxon_map, wd = build(tmp_path, write_module)
+    taxon_map.write_text("SOW1\t41\nENZ1\t40\nSOW1\t40\n")
+    code, _ = _run(tmp_path, nodes_dmp, fasta, taxon_map, wd)
+    assert code == 2
+    assert "taxa.tsv:3: ID 'SOW1' already on line 1" in capsys.readouterr().err
+
+
+def test_an_unknown_taxon_stops_the_run_even_with_no_status_file(tmp_path, nodes_dmp, capsys):
+    fasta = tmp_path / "p.faa"
+    fasta.write_text(">A\nMKTAYI\n")
+    (tmp_path / "wd").mkdir()
+    code = main(
+        [
+            "--fasta",
+            str(fasta),
+            "--taxon",
+            "999",
+            "--taxdump",
+            str(nodes_dmp),
+            "--workdir",
+            str(tmp_path / "wd"),
+            "--out",
+            str(tmp_path / "out"),
+        ]
+    )
+    assert code == 2 and "taxon 999" in capsys.readouterr().err
+
+
+def test_calibration_is_shown_when_the_status_source_has_a_measure(
+    tmp_path, write_module, nodes_dmp
+):
+    fasta, taxon_map, wd = build(tmp_path, write_module)
+    status = json.loads((wd / "status" / "step1_rule@R0.json").read_text())
+    status["entries"][0]["measure"] = {
+        "calibration_set": "S1:all",
+        "n_pos": 232,
+        "n_neg": 4244,
+        "sensitivity": {"value": 0.603, "lo": 0.55, "hi": 0.65},
+        "specificity": {"value": 0.963, "lo": 0.95, "hi": 0.97},
+    }
+    (wd / "status" / "step1_rule@R0.json").write_text(json.dumps(status))
+    code, out = _run(tmp_path, nodes_dmp, fasta, taxon_map, wd)
+    assert code == 0
+    report = (out / "report.md").read_text()
+    assert "## Module calibration" in report
+    assert (
+        "| step1_rule@R0 | 40 | estimated | S1:all | 232 | 4244 | 0.603 [0.550, 0.650] | 0.963 [0.950, 0.970] |"
+        in report
+    )
+    # taxon 41 is not covered by the entry; a module with no status file says so
+    assert (
+        "| step1_rule@R0 | 41 | unvalidated | - | - | - | not measured | not measured |" in report
+    )
+    assert "| repeat02 | 40 | unvalidated | - | - | - | not measured | not measured |" in report
+    run = json.loads((out / "run.json").read_text())
+    row = next(c for c in run["calibration"] if c["module"] == "step1_rule@R0" and c["taxon"] == 40)
+    assert row["n_pos"] == 232 and row["matched_taxon"] == 40
 ```
 
 - [ ] **Step 2: Run the tests and confirm they fail**
@@ -2764,6 +3109,7 @@ import hashlib
 import json
 import subprocess
 import sys
+import zlib
 from collections import Counter, defaultdict
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -2780,10 +3126,11 @@ from cellsurface_sorting_hat.engine import (
 from cellsurface_sorting_hat.fasta import NA_INVALID, FastaError, read_fasta
 from cellsurface_sorting_hat.outputs import (
     RunInfo,
+    render_report,
+    write_atomic_text,
     write_evidence,
     write_long,
     write_proteins,
-    write_report,
     write_run_json,
     write_wide,
 )
@@ -2791,7 +3138,7 @@ from cellsurface_sorting_hat.status import (
     UNVALIDATED,
     ModuleIdentity,
     load_status_source,
-    resolve_status,
+    resolve_entry,
 )
 from cellsurface_sorting_hat.taxonomy import Lineage, TaxonError
 
@@ -2821,17 +3168,27 @@ def parse_args(argv=None):
 
 
 def read_taxon_map(path):
-    out = {}
-    for n, line in enumerate(Path(path).read_text().splitlines(), 1):
+    out, first_line = {}, {}
+    try:
+        text = Path(path).read_text(encoding="utf-8-sig")
+    except UnicodeDecodeError as err:
+        raise InputError(f"{path}: cannot be read as text") from err
+    for n, line in enumerate(text.splitlines(), 1):
         if not line.strip() or line.startswith("#"):
             continue
         fields = [f.strip() for f in line.split("\t")]
         if len(fields) < 2 or not fields[0]:
             raise InputError(f"{path}:{n}: expected 'protein ID<TAB>taxon ID'")
         try:
-            out[fields[0]] = int(fields[1])
+            taxon = int(fields[1])
         except ValueError:
             raise InputError(f"{path}:{n}: taxon ID is not an integer: {fields[1]!r}") from None
+        if fields[0] in out:
+            raise InputError(
+                f"{path}:{n}: ID {fields[0]!r} already on line {first_line[fields[0]]}"
+            )
+        out[fields[0]] = taxon
+        first_line[fields[0]] = n
     return out
 
 
@@ -2854,18 +3211,36 @@ class LoadedModules:
     state_counts: dict = field(default_factory=dict)
 
 
+def _read_json(path):
+    try:
+        data = json.loads(Path(path).read_text(encoding="utf-8-sig"))
+    except (json.JSONDecodeError, UnicodeDecodeError) as err:
+        raise InputError(f"{path}: not valid JSON ({err.__class__.__name__})") from err
+    if not isinstance(data, dict):
+        raise InputError(f"{path}: must be a JSON object")
+    return data
+
+
 def _read_module_table(path):
-    with gzip.open(path, "rt") as fh:
-        reader = csv.DictReader(fh, delimiter="\t")
-        columns = reader.fieldnames or []
-        for needed in ("id", "state"):
-            if needed not in columns:
-                raise InputError(f"{path.name}: missing column {needed!r}")
-        rows = {}
-        for r in reader:
-            if r["id"] in rows:
-                raise InputError(f"{path.name}: duplicate row for ID {r['id']!r}")
-            rows[r["id"]] = r
+    rows = {}
+    try:
+        with gzip.open(path, "rt", encoding="utf-8-sig", newline="") as fh:
+            reader = csv.reader(fh, delimiter="\t")
+            columns = next(reader, [])
+            for needed in ("id", "state"):
+                if needed not in columns:
+                    raise InputError(f"{path.name}: missing column {needed!r}")
+            for n, values in enumerate(reader, 2):
+                if len(values) != len(columns):
+                    raise InputError(
+                        f"{path.name}:{n}: {len(values)} fields, the header has {len(columns)}"
+                    )
+                row = dict(zip(columns, values, strict=True))
+                if row["id"] in rows:
+                    raise InputError(f"{path.name}: duplicate row for ID {row['id']!r}")
+                rows[row["id"]] = row
+    except (OSError, EOFError, zlib.error, UnicodeDecodeError) as err:
+        raise InputError(f"{path.name}: cannot be read ({err.__class__.__name__})") from err
     return columns, rows
 
 
@@ -2882,7 +3257,7 @@ def load_modules(workdir, protein_ids, invalid_ids):
     wanted = set(protein_ids)
     for name in names:
         meta_path = folder / f"{name}.json"
-        meta = json.loads(meta_path.read_text()) if meta_path.exists() else {}
+        meta = _read_json(meta_path) if meta_path.exists() else {}
         table_path = folder / f"{name}.tsv.gz"
         loaded.identities[name] = ModuleIdentity(
             name,
@@ -2955,23 +3330,66 @@ def check_identical_sequences(proteins, tables):
     return out
 
 
-def make_status_of(workdir, identities, lineage):
-    records = {}
-    folder = Path(workdir) / "status"
+class StatusResolver:
+    """Resolve the status of a module for a taxon, and the matched calibration entry."""
 
-    def status_of(module, taxon):
-        if module not in records:
-            path = folder / f"{module}.json"
+    def __init__(self, workdir, identities, lineage):
+        self.folder = Path(workdir) / "status"
+        self.identities = identities
+        self.lineage = lineage
+        self._records = {}
+
+    def _record(self, module):
+        if module not in self._records:
+            path = self.folder / f"{module}.json"
             try:
-                records[module] = load_status_source(path) if path.exists() else None
-            except (KeyError, ValueError, json.JSONDecodeError) as err:
-                raise InputError(f"{path}: not a valid status source ({err!r})") from err
-        identity = identities.get(module)
-        if identity is None:
-            return UNVALIDATED, "no module run record"
-        return resolve_status(records[module], identity, taxon, lineage)
+                self._records[module] = load_status_source(path) if path.exists() else None
+            except (KeyError, TypeError, ValueError, json.JSONDecodeError) as err:
+                raise InputError(f"{path}: not a valid status source ({err})") from err
+        return self._records[module]
 
-    return status_of
+    def entry(self, module, taxon):
+        """(entry, tested taxon, reason); reason is empty when an entry applies."""
+        identity = self.identities.get(module)
+        if identity is None:
+            return None, None, "no module run record"
+        return resolve_entry(self._record(module), identity, taxon, self.lineage)
+
+    def __call__(self, module, taxon):
+        entry, tested, reason = self.entry(module, taxon)
+        if entry is None:
+            return UNVALIDATED, reason
+        return entry.status, f"taxon:{tested}"
+
+
+def _rate_text(rate):
+    if not rate:
+        return "not measured"
+    return f"{rate['value']:.3f} [{rate['lo']:.3f}, {rate['hi']:.3f}]"
+
+
+def calibration_rows(resolver, modules, taxa):
+    """One row per (module, taxon): status, calibration set, counts, sensitivity, specificity."""
+    rows = []
+    for module in sorted(modules):
+        for taxon in sorted(set(taxa)):
+            entry, tested, reason = resolver.entry(module, taxon)
+            measure = (entry.measure if entry else None) or {}
+            rows.append(
+                {
+                    "module": module,
+                    "taxon": taxon,
+                    "status": entry.status if entry else UNVALIDATED,
+                    "matched_taxon": tested if entry else "",
+                    "reason": reason,
+                    "calibration_set": measure.get("calibration_set", ""),
+                    "n_pos": measure.get("n_pos", ""),
+                    "n_neg": measure.get("n_neg", ""),
+                    "sensitivity": _rate_text(measure.get("sensitivity")),
+                    "specificity": _rate_text(measure.get("specificity")),
+                }
+            )
+    return rows
 
 
 def run(args):
@@ -2988,9 +3406,8 @@ def run(args):
     invalid = {p.id for p in proteins if p.state == NA_INVALID}
     loaded = load_modules(args.workdir, ids, invalid)
     tables = loaded.tables
-    records = evaluate(
-        cfg, ids, taxa, tables, make_status_of(args.workdir, loaded.identities, lineage)
-    )
+    resolver = StatusResolver(args.workdir, loaded.identities, lineage)
+    records = evaluate(cfg, ids, taxa, tables, resolver)
     out = Path(args.out)
     out.mkdir(parents=True, exist_ok=True)
     counts = Counter(taxa.values())
@@ -3016,12 +3433,14 @@ def run(args):
         unavailable_variants=[v for v in cfg.step1_variants if v not in tables],
         inconsistent=check_identical_sequences(proteins, tables),
         map_ids_not_in_fasta=len(set(taxon_map) - set(ids)),
+        calibration=calibration_rows(resolver, tables, taxa.values()),
     )
+    report = render_report(info, records)  # render first: a failure leaves no partial output
     write_long(out / "calls.long.tsv.gz", records)
     write_wide(out / "calls.wide.tsv.gz", records, ids)
     write_evidence(out / "evidence.tsv.gz", collect_evidence(cfg, ids, tables))
     write_proteins(out / "proteins.tsv.gz", proteins, taxa)
-    write_report(out / "report.md", info, records)
+    write_atomic_text(out / "report.md", report)
     write_run_json(out / "run.json", info)
     return records
 
@@ -3049,7 +3468,7 @@ if __name__ == "__main__":
 - [ ] **Step 4: Run the tests and confirm they pass**
 
 Run: `PYTHONPATH=src /usr/bin/python3.12 -m pytest tests/cellsurface_sorting_hat/test_cli.py -q`
-Expected: `25 passed`
+Expected: `35 passed`
 
 - [ ] **Step 5: Lint and commit**
 
@@ -3125,7 +3544,7 @@ In `.github/workflows/build_and_test.yml`, change the job name to `Unit tests (t
 
 - [ ] **Step 4: Add a short README section, a CHANGELOG line and an AGENTS.md entry**
 
-Append this to `README.md` (use the heading level that matches the file):
+Insert this into `README.md` before the final `# Author` heading (the file ends with that heading; text after it would nest under it). Use the heading level that matches the file:
 
 ```markdown
 ## cellsurface_sorting_hat (in development)
@@ -3153,12 +3572,12 @@ In `CHANGELOG.md`, under `## [Unreleased]` and `### Added`, add:
 - `cellsurface_sorting_hat` core engine: reads module result tables, applies three-valued category rules and writes calls, evidence, a report and run records. No module wrappers yet.
 ```
 
-In `AGENTS.md`, add a short section after the "Model Review and Framework Plan" section:
+In `AGENTS.md`, add a short section after the "Model Review and Framework Plan" section. Replace `MODEL` with the model that carries out this plan:
 
 ```markdown
 ## cellsurface_sorting_hat core engine (October 2026)
 
-### Agent: Claude Code (claude-sonnet-5-5)
+### Agent: Claude Code (MODEL)
 **Task:** Implement the core engine of the orchestrator from `docs/superpowers/plans/2026-10-04-cellsurface-sorting-hat-core.md`.
 
 - Code: `src/cellsurface_sorting_hat/`; tests: `tests/cellsurface_sorting_hat/`.
@@ -3172,7 +3591,7 @@ PYTHONPATH=src /usr/bin/python3.12 -m pytest tests/cellsurface_sorting_hat -q
 pre-commit run --files src/cellsurface_sorting_hat/*.py tests/cellsurface_sorting_hat/*.py pyproject.toml
 ```
 
-Expected: `117 passed` (or `116 passed, 1 skipped` without `zstd`); pre-commit passes. If the pinned ruff 0.3.5 reformats a file, stage the result and commit again; do not change behavior.
+Expected: `143 passed` (or `142 passed, 1 skipped` without `zstd`); pre-commit passes. If the pinned ruff 0.3.5 reformats a file, stage the result and commit again; do not change behavior.
 
 - [ ] **Step 6: Mutation checks (confirm the tests can fail)**
 
@@ -3186,6 +3605,9 @@ Make each change in turn, run `PYTHONPATH=src /usr/bin/python3.12 -m pytest test
 | In `load_modules`, replace the line `loaded.states[name] = "partial"` by `pass` | `cli.py` | `test_partial_module_output_is_reported_and_missing_proteins_are_unknown` |
 | In `_eval`, delete the two lines under `if out == NOT_ASSESSABLE:` | `engine.py` | `test_an_unknown_result_has_status_unvalidated_and_no_basis` |
 | In `_locked`, replace the `fcntl.flock(...)` line by `pass` | `cache.py` | `test_parallel_updates_lose_no_rows_and_leave_a_readable_table` (a race test; run it three times) |
+| In `run()`, replace `lineage.ancestors(taxon)` by `pass` | `cli.py` | `test_an_unknown_taxon_stops_the_run_even_with_no_status_file` |
+| In `_eval`, replace the AND `decisive` list by `list(children)` | `engine.py` | `test_a_false_and_takes_its_status_from_the_false_inputs_only` |
+| In `_eval`, replace `not math.isfinite(number)` by `number != number` | `engine.py` | `test_a_non_finite_number_is_unknown` (3 cases) |
 
 - [ ] **Step 7: Install check and commit**
 
@@ -3193,7 +3615,8 @@ Make each change in turn, run `PYTHONPATH=src /usr/bin/python3.12 -m pytest test
 
 ```bash
 /usr/bin/python3.12 -m venv "$SCRATCH/csh-venv"
-"$SCRATCH/csh-venv/bin/pip" install -e . --no-deps
+"$SCRATCH/csh-venv/bin/pip" install -e . --no-deps   # needs network access for the build tools
+"$SCRATCH/csh-venv/bin/pip" install pyyaml
 "$SCRATCH/csh-venv/bin/python" -c "from cellsurface_sorting_hat.engine import load_config; print(len(load_config().calls))"   # expected: 11
 "$SCRATCH/csh-venv/bin/cellsurface_sorting_hat" --help | head -3
 git branch --show-current   # must print sorting-hat-core
@@ -3210,7 +3633,7 @@ Co-Authored-By: Claude Sonnet 5.5 <noreply@anthropic.com>"
 
 | Spec section | Where it is implemented |
 |---|---|
-| 3.2 modules: applicability separate from status; status by (module, version, taxon); stale `status_source` refused | Task 2 (`resolve_status`), Task 7 (`make_status_of`) |
+| 3.2 modules: applicability separate from status; status by (module, version, taxon); stale `status_source` refused | Task 2 (`resolve_entry`, `resolve_status`), Task 7 (`StatusResolver`) |
 | 3.2 taxa: lineage, tested taxa only, most specific wins, `--taxon-map` overrides | Task 2, Task 7 |
 | 3.2 run states, `partial`, `unavailable`, JSON-only run records | Task 7 (`load_modules`), Task 6 (report) |
 | 3.2 kind K (`not_in_reference`, not applicable) | Contract only: the engine treats any non-`ok` state as unknown (Task 5). The lookup module and its ID mapping (95% identity and 90% mutual coverage as proposed defaults) are Plan 2. |
@@ -3219,6 +3642,7 @@ Co-Authored-By: Claude Sonnet 5.5 <noreply@anthropic.com>"
 | 3.4 known limits in the report header; thresholds printed with every run | Task 6 (`KNOWN_LIMITS`, `render_report`) |
 | 3.1 evidence output (antigen axes, allergen hit fields, Cys-rich, expression) | Task 5 (`collect_evidence`), Task 6 (`write_evidence`), Task 7 |
 | 3.6 cache key, per-sequence cache, atomic writes, lock, protein key (ID, sha256), output schema, unavailable variants omitted | Task 3, Task 4, Task 6, Task 7 (`proteins.tsv.gz`, identical-sequence check) |
+| Owner comment: where each module is calibrated and its Sn/Sp | Task 2 (`measure` in the status source), Task 7 (`calibration_rows`), Task 6 (report section "Module calibration" and `run.json`). The numbers themselves come from Plan 2. |
 | 3.8 failure modes: trailing `*` (counted), internal `*`, non-residues, ambiguous residues, empty file, duplicate IDs, partial output, no valid proteins, bad module values, no ID match, sequence before header | Task 3, Task 7 |
 | 3.8 GPU out of memory retry, module timeouts, PredGPI `too_short`, ESM window | Plan 2 (they belong to module wrappers) |
 | 4 acceptance: software correctness on fixtures, Kleene cases, lineage tests, identical sequences | Tasks 1, 2, 4, 5, 6, 7 |
@@ -3235,13 +3659,15 @@ Known gaps in this plan, stated so the reviewer can check them:
 4. `merged.dmp` of the NCBI taxonomy is not read. A retired taxon ID stops the run with the taxon named. A status entry that lists a taxon not in the taxonomy never matches and gives no warning.
 5. `fcntl` locks may not be reliable on every network file system. The lock test was run on node-local storage only.
 6. The `--taxon` value is not checked against the sequences.
+7. A steady stream of readers can delay a cache writer (shared locks are served at once). The driver does not use the cache yet.
+8. The report gives counts of `not_assessable` per call. It does not give the reason or the share per call (spec section 5, "applicability hides most of the genome"). This is a Plan 2 item.
 
 ## Plan 2 (not written)
 
 A second plan, after this one is merged, covers the pieces that need HPCC or external data:
 
 1. Wrappers that write module tables: SignalP 6 and PredGPI with the R0 rule (`step1_rule@R0`), Pfam scan with the family table (`pfam_adhesion`, `pfam_allergen`), repeat detectors (`repeat02`, `repeat14`), allergen homology against the WHO/IUIS fungal set (`allergen_homology`, with `aligned_length` and `allergen_name`), antigen lookup with ID mapping (`antigen_lookup`, with the antigen axes), the Cys-rich finder tier (`cys_rich.tier`), expression (`expression.log2fc`), TM evidence (Phobius, TMHMM).
-2. Measurement JSONs for `status_source` from the Phase C harness.
+2. Measurement JSONs for `status_source` from the Phase C harness, filled with the `measure` object (calibration set, truth source, counts, sensitivity and specificity with intervals) for every module and taxon where truth exists. For each module, Plan 2 states the calibration set, the operating point (threshold) and which taxa it covers. Where no truth exists the entry stays `unvalidated`.
 3. Download of the *A. fumigatus* A1163 (UniProt UP000001699) and W72310 (NCBI GCA_040167795.1) proteomes; check of the S288C protein count.
 4. The run-level check on *A. fumigatus* Af293 on HPCC, with wall time and resources.
 5. Report items that need truth tables: recall and false-positive rate per category and clade, kappa with 2x2 counts.
