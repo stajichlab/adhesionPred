@@ -7,6 +7,8 @@
 > run through any tool for this note. "Detectable" means the tool design fits the class. It does
 > not mean the tool has been measured on it.
 
+**Scope decision, 2026-10-04.** The owner set the synthase, glucanase and degradation-enzyme classes (sections 2 and 3) as later work. The tool's main goal is to find cell surface proteins for adhesion, antigen, allergen and surface glycoprotein questions. See the orchestrator spec, section 3.7.
+
 ## 1. Sources and how I read them
 
 | Source | What I read | Limit |

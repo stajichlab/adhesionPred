@@ -80,6 +80,9 @@ gives the same signal as a deletion. The reads at the locus have not been inspec
 - So these are not a species-label swap. The CRAM reads and the assembly probably do not come
   from the same sample, or the assemblies are not *Coccidioides* sequence. I did not find the cause.
   The strains have no tree tip, so they are in no depth model.
+- **Decision (owner, 2026-10-04):** exclude CA10 and CA12 from future analyses. They are listed in
+  `excluded_strains.tsv`. Scripts 50 to 67 were not rerun; the medians in section 6.2 still include
+  them. They have no tree tip, so no depth model in this report used them.
 
 ## 5. Depth against repeat-unit count
 
@@ -225,6 +228,7 @@ Scripts 40 to 42 ran 23 hypothesis tests. The 2026-10-01 report shows 14. The ta
 | `64_cram_readlen.sh` | read length and insert size per strain from the CRAMs |
 | `65_sim_array_depth.sh`, `65_sim_array_reads.py`, `66_sim_array_summary.py` | read simulation and summary |
 | `67_unit_depth_calibration.py` | depth-implied unit count, calibrated on the simulation |
+| `excluded_strains.tsv` | strains to leave out of future analyses (CA10, CA12) |
 | `audit_tests.tsv`, `audit_deletion_sensitivity.tsv`, `audit_adjusted_models.tsv` | audit tables |
 | `asm_locus_summary.tsv`, `asm_locus_query.fa` | per-strain locus class; query sequence |
 | `asm_vs_ref_strains.tsv`, `asm_vs_ref_strain_summary.tsv` | strain list; per-strain coverage |
