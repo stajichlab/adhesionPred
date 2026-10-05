@@ -1,9 +1,10 @@
 # Design spec: `cellsurface_sorting_hat` (the orchestrator)
 
-*Drafted 2026-10-04. Revision 3 (and revision 4 for the answers), the same day, after independent review 1
-(`2026-10-04-orchestrator-design-review-1.md`: 2 blocker, 13 major, 10 minor findings, all
-dispositioned). DRAFT. Revision 3 has not been reviewed. No code, data or job exists for this spec.
-Owner decisions are in section 9; D1 to D13 are all answered (D13 added). Revision 4 records the answers; it has not been reviewed.*
+*Drafted 2026-10-04. Revision 5, the same day, after independent review 2 (3 blocker, 9 major, 10 minor
+findings; see `2026-10-04-orchestrator-design-review-2.md`). Revision 3 answered review 1
+(`2026-10-04-orchestrator-design-review-1.md`). DRAFT. Revision 5 has not been reviewed. No code, data or
+job exists for this spec. Owner decisions D1 to D13 are answered (section 9); D6 and D7 were changed
+by review 2.*
 
 Inputs: `docs/PLAN-2026-09-30-pipeline-and-decisions.md` section 6 (the proposal this spec
 expands); `docs/TOOL-ARCHITECTURE.md`; `docs/model-review/STATUS.md` (2026-10-02);
@@ -48,7 +49,7 @@ State on 2026-10-04. Items marked (review) were checked by the independent revie
 | Cys-rich finder | No model, no training, "no accuracy claim". Thresholds from 7 controls. Calibrated on *Coccidioides* proteomes. Reads SignalP output. | `analysis/cys_candidates/` |
 | Antigen layer | *Coccidioides* only. 3 of 4 anchors pass the acceptance test (PRA3, Ag2/PRA, SOWgp pass; PRA2 fails). The script prints `NOT CALIBRATED` because one fails. Reads the Fungi_5k DuckDB (IDs `FA2214EC`), an ID map to `CIMG_` IDs, RS1 kallisto TPM and prevalence over 488 isolates. SOWgp (prevalence 0.9201) is in neither Tier 1 nor Tier 2. | `analysis/cocci_antigens/` |
 | Expression layer | One data set (*C. immitis* spherule against mycelium, 2 replicates). 21 spherule genes are absent from the Fungi_5k RS annotation. | `analysis/cocci_spherule/`, `docs/HANDOFF-2026-10-03.md` |
-| Allergen layer | **No module.** Scoping done: WHO/IUIS lists 120 fungal allergen molecules (4 Onygenales, none from *Coccidioides*). About one third have a signal peptide. Extracts exist. | `docs/reports/2026-10-04-fungal-allergen-scoping.md`; `analysis/allergen_scoping/` |
+| Allergen layer | **No module.** Scoping done: WHO/IUIS lists 120 fungal allergen molecules (4 Onygenales, none from *Coccidioides*). 30 of the 97 IUIS accessions found in UniProt (31%) have a signal peptide feature. Extracts exist. | `docs/reports/2026-10-04-fungal-allergen-scoping.md`; `analysis/allergen_scoping/` |
 | Biofilm layer | Does not exist. Blocked on phenotype data. | `docs/TOOL-ARCHITECTURE.md` |
 | Orchestrator | Does not exist. | plan section 6 |
 | Curated tables | All drafts. Rows with `needs_review=yes` (review): adhesins 224 of 268, antigens 86 of 86, biofilm 207 of 207. `surface.tsv` has about 3,573 rows and no `needs_review` column. `antigens/coccidioides_candidates.tsv` has 1,069 rows. Hard-negative seeds: 31 rows. | `data/curated/` |
@@ -89,26 +90,39 @@ Each module is a plugin with this interface.
 | `name`, `version`, `kind` | for example `signalp6`, `6.0`, L |
 | `params_hash` | hash of all parameters (cutoffs, SignalP mode, Cys-rich L/K/W, R2 g and t) |
 | `artefact_hash` | hash of the database or model it uses (Pfam release file, model weights, ranking table) |
-| `scope(taxon)` | the taxa for which the module has been measured. Free text plus NCBI taxon IDs. |
-| `status(module, version, taxon)` | one of `estimated`, `smoke`, `unvalidated` (below) |
-| `status_source` | path to the measurement JSON that supports the status. Its recorded module version must equal `version`, else the status is `unvalidated`. |
+| `applicable(taxon, input)` | whether the module can run on this input and taxon (for example the antigen lookup: *Coccidioides* only; Pfam scan: any fungus). Not a measure of quality. |
+| `status(module, version, taxon)` | one of `estimated`, `smoke`, `unvalidated` (below). Measured on the taxa listed in `status_source`. |
+| `status_source` | path to the measurement JSON that supports the status. It records module `version`, `params_hash`, `artefact_hash` and the list of tested taxa. If any of the three differs from the running module, the status is `unvalidated`. |
 | `run(inputs, workdir)` | writes a per-protein table and a run record |
 | `fields` | names and types of the output columns |
 
-**Status** is a function of module, version and clade, because one module can be an estimate in one
+**Applicability and status are two separate things** (review 2, finding 1).
+- *Applicability* says whether the module can produce a value for this protein and taxon. If it
+  cannot, the module gives U for its inputs. Examples: antigen and Cys-rich finder outside
+  *Coccidioides*; a step 1 ML variant with no model.
+- *Status* says how well the module has been measured. An applicable module with status
+  `unvalidated` still gives `called` or `not_called`. The status goes in the `_status` column.
+
+**Status** is a function of module, version and taxon, because one module can be an estimate in one
 clade and a smoke test in another (step 1: estimate in S1 and Eurotiomycetes, smoke test in
 Basidiomycota). Values: `estimated` (recall interval half-width at most 0.10 and at least 20 direct
 positives: the Phase C rule; the word replaces `validated`, which reads as "good"), `smoke` (fewer),
-`unvalidated` (no truth). **In scope** means status is `estimated` or `smoke` for the protein's taxon.
-A module run outside its scope writes values and `in_scope = false`.
+`unvalidated` (no truth).
 
-**Taxa.** Scope uses NCBI taxon IDs and lineage matching (*Coccidioides* lies inside Eurotiomycetes).
-`--taxon` sets one taxon for the whole run. A per-protein taxon map is also accepted, which a
-multi-clade test panel needs. A taxon given by the user is recorded in the report and is not
-checked against the sequences.
+**Taxa.** The orchestrator reads an NCBI taxonomy dump (the version is recorded in the report).
+A status applies to a protein's taxon only if that taxon is the tested taxon or a descendant of a
+tested taxon listed in the `status_source`. It does **not** apply to a taxon only because both share a
+broad label such as "Eurotiomycetes". Example: the step 1 estimate was measured on *A. fumigatus* and
+*A. nidulans*, so it covers those species and their descendants; *Coccidioides* (Onygenales) is not
+covered and gets `unvalidated` (or `smoke` where a smoke test lists it). When two entries match, the
+most specific one wins. The status column also records `status_basis` (the tested taxon matched).
+`--taxon` sets one taxon for the whole run. `--taxon-map FILE` sets a taxon per protein and overrides
+`--taxon` for the proteins it lists. At least one of the two is required; a protein with no taxon is
+an error. A taxon the user gives is recorded in the report and is not checked against the sequences.
 
-**Run states** (per module, per run): `ok`, `unavailable` (no frozen artefact, for example step 1 ML
-with no model), `not_run`, `error`. A protein-level value can also be `na_too_short`, `na_window`,
+**Run states** (per module, per run): `ok`, `partial` (output for some proteins only; the missing
+proteins get `error`), `unavailable` (no frozen artefact, for example step 1 ML with no model),
+`not_run`, `error`. A protein-level value can also be `na_too_short`, `na_window`,
 `na_invalid` (see section 3.8).
 
 **Rules.**
@@ -120,9 +134,16 @@ with no model), `not_run`, `error`. A protein-level value can also be `na_too_sh
 3. Detectors that make the same kind of call (the two repeat detectors) run as separate modules.
 
 **Kind K (lookup by ID).** Antigen and expression read precomputed tables keyed on database IDs, not
-on the user's sequence. Such a module needs an ID-mapping step (sequence hash first, then mmseqs)
-with a reported match rate. A protein without a match gets `not_in_reference`. This is a run state
-of the protein for that module and makes dependent categories `not_assessable`.
+on the user's sequence. Such a module needs an ID-mapping step:
+1. exact sequence sha256 match, then ID match through a stored map (for RS, `protein_map.tsv`; the
+   RS ranking IDs `CIMG_*` equal the RefSeq GCF_000149335.2 annotation per `docs/HANDOFF-2026-10-03.md`);
+2. a fuzzy match (diamond or mmseqs) is written as evidence (`idmap_method`, identity, mutual
+   coverage) and is used for a call only at identity >= 95% and mutual coverage >= 90%
+   (proposed defaults, config items, to be fixed in the plan);
+3. if two ranking rows match one protein, the better identity wins and the tie is reported.
+A protein without a usable match gets `not_in_reference`. The report prints the match rate. A
+protein from a taxon where the table does not apply gets U with the reason "not applicable"
+(*Coccidioides* only for antigen), not `not_in_reference`.
 
 ### 3.3 Category logic
 
@@ -140,8 +161,9 @@ Values: `called` (T), `not_called` (F), `not_assessable` (U, unknown). Kleene th
 | F | T | F | U |
 | U | T | U | U |
 
-NOT T = F, NOT F = T, NOT U = U. A module that is out of scope, `unavailable`, `error` or
-`not_in_reference` for a protein gives U for the inputs it provides. A rule is evaluated with these
+NOT T = F, NOT F = T, NOT U = U. A module that is not applicable, `unavailable`, `error` or
+`not_in_reference` for a protein gives U for the inputs it provides. A module that is applicable but
+`unvalidated` gives a value. A rule is evaluated with these
 tables. So a positive call is kept when another input is U (T OR U = T), and a false input makes an
 AND false whatever the other input is.
 
@@ -159,18 +181,26 @@ Calls that depend on step 1 are written once per step 1 variant, as `<call>[<var
 | Category / call | Rule | Inputs | Today |
 |---|---|---|---|
 | `surface_glycoprotein[v]` | step 1 variant `v` calls the protein | step 1 variant | R0 measured; R1, R2, ML not frozen |
-| `adhesion_repeat` (ungated) | a repeat detector calls | `repeat02` OR `repeat14` | `unvalidated` in every clade |
+| `adhesion_repeat` (ungated) | a repeat detector calls | `repeat02` OR `repeat14` | applicable to any fungus; `unvalidated` in every clade |
 | `adhesion_domain` (ungated) | Pfam hit in the adhesion table (PF05730, PF04681, PF01185, PF06766, PF28987, PF22354, ALS families) | Pfam scan | HMMs run once; no specificity test |
 | `cell_wall_adhesion_candidate[v]` | (`adhesion_repeat` OR `adhesion_domain`) AND `surface_glycoprotein[v]`; ungated form without the AND | the above | see rows |
-| `antigen_candidate` (ungated) | antigen ranking combined `percentile` (all proteins) at most P, P = 15. The columns antigenicity, specificity, prevalence and max cross-reaction identity are always written beside it. | antigen lookup | *Coccidioides* only |
+| `antigen_candidate` (ungated) | antigen ranking combined `percentile` (all 9,139 proteins; `percentile_dedup` is empty for 597 non-representatives) at most P, P = 15. The columns antigenicity, specificity, prevalence and max cross-reaction identity are always written beside it. | antigen lookup | *Coccidioides* only |
 | `antigen_candidate_surface[v]` | `antigen_candidate` AND `surface_glycoprotein[v]` | antigen lookup, step 1 | see above |
-| `allergen_candidate` | best hit to the WHO/IUIS fungal allergen set with identity and coverage at or above the report cutoffs (default 35% over 80 aa, the FAO/WHO rule), or an allergen-specific Pfam hit (PF16541, PF25312). **No surface gate**: most fungal allergens are intracellular. | allergen homology module, Pfam scan | `unvalidated`; module to be written |
-| `other_not_surface[v]` | `surface_glycoprotein[v]` is F, and no other category is T | all above | derived |
-| `other_surface_no_mechanism[v]` | `surface_glycoprotein[v]` is T, and every mechanism category (`adhesion_repeat`, `adhesion_domain`, `antigen_candidate`, `allergen_candidate`) is F | all above | derived |
+| `allergen_homolog_hit` (evidence, not a category) | best hit to the WHO/IUIS fungal allergen set at identity >= 35% over an aligned length >= 80 aa (the FAO/WHO rule). Written for every protein with such a hit: allergen name, identity, aligned length, coverage of the allergen, aligner. | allergen homology module | applicable to any fungus; `unvalidated` |
+| `allergen_candidate` | `allergen_homolog_hit` at identity >= 70% and coverage >= 80% of the allergen length (starting values, config items, chosen without a fungal non-allergen set), **or** an allergen-specific Pfam hit (PF16541, PF25312). **No surface gate**: most fungal allergens are intracellular. | allergen homology module, Pfam scan | `unvalidated`; module to be written. Decision D6 (revised). |
+| `other_not_surface[v]` | `surface_glycoprotein[v]` is F, and every mechanism call that is not U is F | `surface_glycoprotein[v]`, mechanism calls | derived |
+| `other_surface_no_mechanism[v]` | `surface_glycoprotein[v]` is T, and every mechanism call that is not U is F | `surface_glycoprotein[v]`, mechanism calls | derived |
 
-`other_*` is U whenever one of its inputs is U and none is T. So a protein is "other" only when every
-category that can be assessed is F and none is U. The report prints how many proteins are U for each
-reason. The two `other` values keep the two meanings that the plan requires.
+Mechanism calls are `adhesion_repeat`, `adhesion_domain`, `antigen_candidate` and `allergen_candidate`
+(the gated forms are implied by them; do not add them to the formulas).
+
+**`other_*` is defined over the assessable categories** (decision, review 2 finding 2). For one
+protein, the mechanism calls that are U are left out of the test, and the column `other_basis` lists
+them (for example `antigen`). `other_*` is U only when `surface_glycoprotein[v]` is U. So on
+*A. fumigatus*, `other_not_surface` means "not surface, and none of adhesion, allergen was called;
+antigen was not assessed", and `other_basis` says so. The report header prints the basis counts.
+A protein can be T for `other_*` in one step 1 variant and U in another. The two `other` values
+keep the two meanings the plan requires.
 
 Evidence columns that are **not** categories in version 1:
 - `cys_rich_sp_unassigned` (Cys-rich finder, tier named explicitly). No functional claim: the finder's
@@ -186,11 +216,18 @@ Known limits, printed in the report header:
    `surface_glycoprotein`. Non-adhesive structural wall proteins (Cwp1, Ccw12, Sed1, Pir) get the same.
    Decision D11 (answered): no `cell_wall_protein` call in version 1.
 2. `surface_glycoprotein` is defined by GO cell wall and extracellular region evidence. It is not
-   evidence of glycosylation.
+   evidence of glycosylation. With the default gate R0, the call means "SignalP calls a signal
+   peptide" and nothing more (`analysis/step1_compare/phasec/rules.py`). Secreted enzymes and ER
+   proteins with a signal peptide carry the name. The gated adhesion call is therefore close to the
+   ungated one for proteins with a signal peptide.
 3. CFEM is filed under adhesion because the 2b-i class is, but its confirmed fold is a hemophore
    (`docs/TOOL-ARCHITECTURE.md`). Binding to a host receptor is not shown.
 4. The repeat detectors have no clade truth set. Their calls are hypotheses.
-5. Cell wall integrity signaling, septation, polarized growth, polysaccharide chemistry, moonlighting
+5. The antigen call is the top 15% of a fixed *Coccidioides* ranking (1,371 of 9,139 proteins). It is a
+   weak label. The report prints the share called and carries the ranking's `NOT CALIBRATED` note
+   (3 of 4 anchors pass the top-decile test; with P = 15 all four anchors are inside the cut, so
+   they cannot test it).
+6. Cell wall integrity signaling, septation, polarized growth, polysaccharide chemistry, moonlighting
    proteins and biofilm are not categories.
 
 ### 3.5 The family table
@@ -211,14 +248,17 @@ Pfam accessions to a class. Rules:
 
 ### 3.6 Provenance, caching and files
 
-- **Cache key** for a module output: sha256 of the input, module `version`, `params_hash`, and
-  `artefact_hash` (Pfam release file, model weights, ranking table). The hash of `categories.yaml`
-  is written into `calls.tsv.gz`. A `status_source` whose module version differs from the running
-  version is refused.
+- **Cache key** for a module output: sha256 of each protein sequence, plus module `version`,
+  `params_hash`, `artefact_hash`, and tool versions (SignalP mode, PredGPI, hmmer, torch, aligner).
+  Results are cached per sequence sha256 and expanded to IDs at the end, so adding one protein does
+  not invalidate the rest, and identical sequences with different IDs are computed once. For an ML
+  step 1 variant, batch size and order are part of `params_hash`. The hash of `categories.yaml`
+  is written into `calls`. A `status_source` is refused if its recorded `version`, `params_hash` or
+  `artefact_hash` differs from the running module.
 - **Writes are atomic** (write to a temporary name, then rename), with a sha256 sidecar, as
   `j1_features.sh` does. Two runs on the same workdir do not share a partial file.
-- **Protein key** is the sequence sha256, with the user's ID kept as a label (Phase C uses
-  `seq_sha256`). Duplicate IDs are an error.
+- **Protein key** is the pair (ID, sequence sha256). Calls are per ID. Identical sequences with
+  different IDs are allowed and get identical calls. Duplicate IDs are an error.
 - **Pfam** comes from the central link, resolved, with the release and sha256 recorded. The
   funannotate copy is not used.
 - Command: `cellsurface_sorting_hat --fasta P.faa --taxon <NCBI id> --workdir W --out O`
@@ -226,6 +266,13 @@ Pfam accessions to a class. Rules:
 - Heavy modules run as SLURM jobs with `$SCRATCH` (`${SCRATCH:?}`), never with `BASH_SOURCE`.
   The driver submits jobs and reads their outputs. It sets a timeout and treats a killed or
   preempted job as `error` for that module. It does not trust queue-time estimates.
+- **Output schema.** `calls.long.tsv.gz` (protein, call, variant, value, status, status_basis, basis) is
+  the primary file. A wide `calls.wide.tsv.gz` is derived from it. Only available step 1 variants get
+  columns; `unavailable` variants are listed in the report header with the reason, not written as
+  all-U columns. The schema (call names, variants) is fixed by `categories.yaml`.
+- **Waiting and resources** (to be fixed in the plan): poll interval, resubmission on preemption (a
+  fixed maximum), resources per module (CPU, GPU, memory, time, partition), where SignalP weights
+  live, and `$SCRATCH` copy-back to `/bigdata` before a job ends.
 - Tables are `.tsv.gz`. Large intermediates may use `.zst`. Readers accept plain, `.gz`, `.zst`.
 
 ### 3.7 Later work: enzyme classes (not version 1)
@@ -247,24 +294,35 @@ Mapping of the cell wall publications to these classes:
 |---|---|---|
 | Module unavailable (no frozen artefact) | U for its inputs; run state `unavailable` | listed in the header with the reason |
 | Module job fails, times out, is preempted | run state `error` | header warning; dependent categories U |
-| Protein out of the module's scope | value written, `in_scope = false` | share per module |
+| Module not applicable to the protein or taxon | U for its inputs; no value written | share per module and reason |
 | PredGPI `too_short` | `na_too_short`; GPI input U | count |
-| Protein longer than the ESM window (1,022 aa) | `na_window` unless a window rule exists (issue #10) | count |
-| Internal `*`, invalid residues, empty sequence | `na_invalid`; protein excluded from all modules | count, list |
+| Protein longer than the ESM window (1,022 aa) | `na_window` unless a window rule exists (issue #10) | count per step 1 variant (long cell wall proteins are affected) |
+| Internal `*`, characters that are not residues, empty sequence | `na_invalid`; protein excluded from all modules | count, list |
 | FASTA header differs from the SignalP ID (Cys-rich finder needs an exact match) | `error` for that module | count |
 | Duplicate IDs | run refused | error |
+| Empty FASTA or no valid proteins | run refused | error |
+| Trailing `*` | stripped silently, counted | count |
+| `X`, `B`, `Z`, `U`, `J` residues | allowed up to a module-specific fraction; above it `na_invalid` for that module only | count per module |
+| Module finishes for some proteins only | run state `partial`; the missing proteins are `error` | header warning |
+| GPU out of memory | one retry with half the batch size, then `error` | header warning |
+| User `--taxon` does not match the proteome | not detected; recorded as given | stated in the report |
 | No ID match in a lookup table | `not_in_reference` | match rate |
 
 ## 4. Test panel and acceptance
 
 **Acceptance for version 1 is software correctness**, tested on stored module outputs (fixtures), so
 CI needs no GPU and no SignalP:
-1. Unit tests: the Kleene tables (all 27 AND and OR cases), `other_*` rules, status propagation,
+1. Unit tests: the Kleene tables (9 AND cases, 9 OR cases, 3 NOT cases), the `other_*` formulas and `other_basis` (including a T in one variant and U in another), status propagation,
    scope checks with lineage matching, cache key and refusal of a stale `status_source`, atomic
    writes, readers of `.gz` and `.zst`, every row of the failure-mode table.
 2. Golden test: a small fixed set of module-output fixtures gives a stored `calls.tsv.gz`.
-3. A slow tier harness on HPCC runs the real modules and writes the JSON that each `status_source`
+3. Lineage matching: tested taxon, descendant, sibling clade with the same broad label (no match), most specific wins, `--taxon-map` overriding `--taxon`, protein with no taxon.
+4. Identical sequences with different IDs; per-sha256 caching and expansion.
+5. A slow tier harness on HPCC runs the real modules and writes the JSON that each `status_source`
    points to. It is not part of CI.
+
+**Run-level check (not CI):** one real proteome (*A. fumigatus* Af293) end to end on HPCC. It must
+finish, write the report, give correct run states, and record the wall time and the resources.
 
 **Per-category accuracy is report-only** in version 1. Recall and false-positive rate are printed per
 category and per clade only where truth exists. Elsewhere the report prints `unvalidated`. The
@@ -297,9 +355,9 @@ cutoffs belong to the modules and come in through `params_hash`.
 
 | Proteome | Source | Why | State |
 |---|---|---|---|
-| *C. immitis* RS | FungiDB-46 / RefSeq GCF_000149335.2, 9,910 proteins | the only proteome where antigen, expression, Cys-rich and repeat results all exist; SOWgp | proteome in the repository workdir |
-| *A. fumigatus* Af293 | `Fungi_5k/input/Aspergillus_fumigatus_Af293.proteins.fa`; UniProt UP000002530 in step 1 truth | WHO/IUIS *Aspergillus* allergens (38 entries), CalA, CspA, RodA; Eurotiomycetes step 1 truth | available locally |
-| *S. cerevisiae* S288C | step 1 truth set | step 1 estimate with direct positives; FLO11, AGA1 | available locally |
+| *C. immitis* RS | RefSeq GCF_000149335.2 protein FASTA, `_workdir/cocci_spherule/ref/GCF_000149335.2_ASM14933v2_protein.faa.gz`, **9,910 proteins** (counted 2026-10-04). Not the Fungi_5k file `Coccidioides_immitis_RS.proteins.fa` (7,630 sequences, a different annotation). | the only proteome where antigen, expression, Cys-rich and repeat results all exist; SOWgp | available |
+| *A. fumigatus* Af293 | Fungi_5k file `Aspergillus_fumigatus_Af293.proteins.fa`, 9,161 proteins, IDs `F85C5601_...`; the step 1 truth set uses UniProt UP000002530 (`_workdir/step1_compare/downloads/UP000002530.fasta.gz`), different IDs | WHO/IUIS *Aspergillus* allergens (38 entries), CalA, CspA, RodA; Eurotiomycetes step 1 truth | both files available; the two are joined by sequence sha256, so only identical sequences join |
+| *S. cerevisiae* S288C | SGD `orf_trans_all.fasta.gz`, `_workdir/step1_compare/downloads/orf_trans_all.fasta.gz` (no S288C file with that name was found in Fungi_5k/input); protein count not checked here | step 1 estimate with direct positives; FLO11, AGA1 | available |
 | *A. fumigatus* A1163 (CEA10, FGSC A1163, CBS 144.89) | UniProt UP000001699, 9,942 proteins (found 2026-10-04) | second strain of the allergen species; tests strain-to-strain stability of calls | **not downloaded**; not found in `Fungi_5k/samples.csv` |
 | *A. fumigatus* W72310 | NCBI GCA_040167795.1 (`UCR_Afum_W72310_1.0`, chromosome level, UC Riverside, 2024-06-12); `..._protein.faa.gz` exists on the NCBI FTP | owner's UCR strain | **not downloaded**; who made the gene models was not checked |
 
@@ -346,7 +404,7 @@ Estimates, not measurements, except where marked.
    cost of a gate is lost recall, not false positives. R0 has higher recall (0.603, 0.727, 0.938) and a higher
    false-positive rate (0.037, 0.010, 0.083).
 3. Large Pfam families give hits that are not cell wall genes (section 3.5 rule 3).
-4. Scope hides most of the genome. In Onygenales and Basidiomycota many categories will be
+4. Applicability hides most of the genome. Antigen and the Cys-rich finder apply to *Coccidioides* only, so on other proteomes many calls are `not_assessable`. The report must show the share and the reason.
    `not_assessable`. The report must show the share and the reason.
 5. Truth is thin. Allergen has no *Coccidioides* truth. Antigen has *Coccidioides* only.
 6. Cached output can go stale. The cache key covers version, parameters and artefact hashes.
@@ -354,7 +412,7 @@ Estimates, not measurements, except where marked.
 
 ## 8. Order of work
 
-1. This spec (revision 3): a second independent review if the owner wants one, then a plan.
+1. This spec (revision 5): reviews 1 and 2 done. A third review only if the owner asks. Then a plan.
 2. Allergen: COMPARE and AllergenOnline downloads, SignalP/PredGPI on the IUIS sequences, the
    negative set for validation (`docs/reports/2026-10-04-fungal-allergen-scoping.md`).
 3. Family table, first version: CFEM, Bys1, hydrophobin, Als. Specificity tests.
@@ -374,10 +432,10 @@ One question at a time.
 | D3 | Name and place | **Answered 2026-10-04:** `cellsurface_sorting_hat`, package `src/cellsurface_sorting_hat/`. |
 | D4 | Wait for the step 1 decision | **Answered by D10:** no. Variants are carried; the default gate is R0. |
 | D5 | Biosynthesis and remodeling families in version 1 | **Answered by D2:** later. Signaling stays out. |
-| D6 | Allergen scope in version 1 | **Answered 2026-10-04:** best hit to the WHO/IUIS fungal set at identity >= 35% over >= 80 aa, or an allergen-specific Pfam hit (AltA1, Allergen_Asp_f_4). No surface gate. Hit name, identity and coverage always written. `unvalidated`. AllergenOnline and COMPARE added after download. |
-| D7 | Out-of-scope handling | **Answered 2026-10-04:** `--taxon` (or `--taxon-map`) is required; an out-of-scope module gives `not_assessable` for dependent categories. |
+| D6 | Allergen scope in version 1 | **Revised 2026-10-04 after review 2.** Two tiers: `allergen_homolog_hit` (evidence, 35% identity over 80 aa or more, always written) and `allergen_candidate` (>= 70% identity and >= 80% coverage of the allergen length, or an allergen-specific Pfam hit). No surface gate. `unvalidated`. Reason: the 35%/80 aa rule hits 108 of 9,161 Af293 proteins, of which 79 are not the known allergens (mostly housekeeping paralogs) (review 2, one BLAST run, not re-derived). Hits by identity: >= 50%: 74, >= 70%: 42, >= 95%: 29. |
+| D7 | Out-of-scope handling | **Revised 2026-10-04 after review 2.** `--taxon` and/or `--taxon-map` is required. A module that is *not applicable* gives `not_assessable`. A module that is applicable but unmeasured gives a value with status `unvalidated`. |
 | D8 | Execution engine | **Answered 2026-10-04:** Python driver with SLURM scripts. Nextflow later if the module count grows. |
-| D9 | Review model | Different model from the author. Review 1 done (Opus). Review 2 of revision 4 requested by the owner. |
+| D9 | Review model | Different model from the author. Review 1 (Opus) and review 2 (Fable) done. |
 | D10 | Default gate for the gated calls (`surface_glycoprotein[v]` used by `cell_wall_adhesion_candidate[v]` and `antigen_candidate_surface[v]`) | **Answered 2026-10-04: `step1_rule@R0`.** R0 has no fitted parameter and runs today (recall 0.603 / 0.727 / 0.938, FPR 0.037 / 0.010 / 0.083). The headline gated columns use R0. R1, R2 and ML variants are extra columns once frozen. Ungated calls are always written. The default is a config item; the owner can change it without a design change. |
 | D11 | Add a `cell_wall_protein` call for non-adhesive structural wall proteins | **Answered 2026-10-04: not in version 1.** The report header states the limit. |
 | D12 | Antigen call definition | **Answered 2026-10-04:** combined `percentile` (all 9,139 ranked proteins) at most **P = 15** (1,371 proteins); the separate axes are written, not required. The tiers are not used because they exclude SOWgp. Consequence: P = 15 includes PRA2 (percentile 10.79), which the top-decile acceptance test excluded. PRA2 can no longer test the cut, and the 3-of-4 anchor result is reported at the top decile as before. P is a config item. |
@@ -385,7 +443,7 @@ One question at a time.
 
 ## 10. Deliverables
 
-1. This spec (revision 3) and `2026-10-04-orchestrator-design-review-1.md`.
+1. This spec (revision 5), `2026-10-04-orchestrator-design-review-1.md` and `-review-2.md`.
 2. `docs/reports/2026-10-04-cell-wall-gene-classes-vs-tools.md` and
    `docs/reports/2026-10-04-fungal-allergen-scoping.md` (written).
 3. A plan (not written). Code only after plan review.
