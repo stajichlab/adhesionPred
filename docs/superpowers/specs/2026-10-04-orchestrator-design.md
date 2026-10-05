@@ -3,7 +3,7 @@
 *Drafted 2026-10-04. Revision 3, the same day, after independent review 1
 (`2026-10-04-orchestrator-design-review-1.md`: 2 blocker, 13 major, 10 minor findings, all
 dispositioned). DRAFT. Revision 3 has not been reviewed. No code, data or job exists for this spec.
-Owner decisions are in section 9; D10 to D12 are new.*
+Owner decisions are in section 9; D10 is answered, D11 and D12 are open.*
 
 Inputs: `docs/PLAN-2026-09-30-pipeline-and-decisions.md` section 6 (the proposal this spec
 expands); `docs/TOOL-ARCHITECTURE.md`; `docs/model-review/STATUS.md` (2026-10-02);
@@ -154,7 +154,7 @@ print `called` together with its status in two columns. They never merge the two
 ### 3.4 Categories in version 1
 
 Calls that depend on step 1 are written once per step 1 variant, as `<call>[<variant>]`, and also
-**ungated** (without the step 1 condition). The owner chooses the default gate (decision D10).
+**ungated** (without the step 1 condition). The default gate is `step1_rule@R0` (decision D10, answered 2026-10-04). It is a config item.
 
 | Category / call | Rule | Inputs | Today |
 |---|---|---|---|
@@ -356,7 +356,7 @@ One question at a time.
 | D7 | Out-of-scope handling | `not_assessable` with `--taxon` required. |
 | D8 | Execution engine | Python driver with SLURM scripts; Nextflow later. |
 | D9 | Review model | Different model from the author. Review 1 done (Opus). |
-| **D10** | **Default gate for the gated calls** (`surface_glycoprotein[v]` used by `cell_wall_adhesion_candidate[v]` and `antigen_candidate_surface[v]`) | Recommend `step1_rule@R0` (no parameter, recall 0.603 / 0.727 / 0.938), with R2 and ML as extra columns once frozen. Ungated calls are always written. |
+| D10 | Default gate for the gated calls (`surface_glycoprotein[v]` used by `cell_wall_adhesion_candidate[v]` and `antigen_candidate_surface[v]`) | **Answered 2026-10-04: `step1_rule@R0`.** R0 has no fitted parameter and runs today (recall 0.603 / 0.727 / 0.938, FPR 0.037 / 0.010 / 0.083). The headline gated columns use R0. R1, R2 and ML variants are extra columns once frozen. Ungated calls are always written. The default is a config item; the owner can change it without a design change. |
 | **D11** | Add a `cell_wall_protein` call for non-adhesive structural wall proteins (Cwp1, Ccw12, Sed1, Pir)? | Not in version 1. It needs a GPI call and a curated family list that does not exist (issue #14). |
 | **D12** | Antigen call definition | Percentile cut P of the ranking, default 10. The tiers are not used because they exclude SOWgp. |
 
