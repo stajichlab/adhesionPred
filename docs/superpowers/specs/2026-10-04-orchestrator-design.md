@@ -43,7 +43,7 @@ What exists on 2026-10-04 and what does not.
 | Cys-rich candidates | A candidate finder with unit tests. Thresholds from 7 controls. | `analysis/cys_candidates/` |
 | Antigen layer | *Coccidioides* only. Prints `NOT CALIBRATED` at 3 of 4 anchors. | `analysis/cocci_antigens/` |
 | Expression layer | One data set (*C. immitis* spherule against mycelium, 2 replicates per condition). | `analysis/cocci_spherule/` |
-| Allergen layer | **Does not exist.** No data directory. Issue #19 is parked. | issue #19 |
+| Allergen layer | **Does not exist.** No data directory. Issue #19 is parked. Scoping done 2026-10-04: WHO/IUIS lists 120 fungal allergen molecules (4 Onygenales, none from *Coccidioides*); about one third have a signal peptide. | issue #19; `docs/reports/2026-10-04-fungal-allergen-scoping.md`; `analysis/allergen_scoping/` |
 | Biofilm layer | **Does not exist.** Blocked on phenotype data. | `docs/TOOL-ARCHITECTURE.md` |
 | Orchestrator | **Does not exist.** Proposal only. | plan section 6 |
 | Curated tables | surface 3,540 rows; adhesins 269 lines; biofilm 207; antigens 87 lines. All drafts (`needs_review=yes` on nearly all). | `data/curated/` |
@@ -247,8 +247,8 @@ Estimates, not measurements, except where stated.
 ## 8. Order of work
 
 1. This spec, then an independent review by a different model, then a plan.
-2. Allergen scoping note: answer the open questions in issue #19 (how many fungal families, how
-   many surface versus intracellular, whether homology to known allergens is the only signal).
+2. Allergen scoping note: done 2026-10-04 (`docs/reports/2026-10-04-fungal-allergen-scoping.md`). Open points
+   in that note: AllergenOnline and COMPARE downloads, negative set for validation.
 3. Family table, first version: CFEM, Bys1, hydrophobin, Als. Specificity tests.
 4. Module wrappers: SignalP/GPI, Pfam, repeat detector. Then the driver and report.
 5. Panel and tier harness.
@@ -265,7 +265,7 @@ Each has a recommendation. One question at a time, as the owner prefers.
 | D3 | Name and place of the package and command | **Answered 2026-10-04:** the project is `cellsurface_sorting_hat`. Package `src/cellsurface_sorting_hat/`, command `cellsurface_sorting_hat`. It is not part of `surface_glyco`, which is step 1 only. |
 | D4 | Does the orchestrator wait for the step 1 decision | No. Carry `step1_rule` and `step1_ml` as two modules (section 3.2). |
 | D5 | Include cell wall biosynthesis and remodeling families in version 1 | **Answered by D2:** no, later. Signaling stays out (cytosolic; the WSC domain alone is ambiguous). |
-| D6 | Allergen scope in version 1 | Homology to a curated set plus allergen Pfam models, flagged `unvalidated`. Needs the scoping note first. |
+| D6 | Allergen scope in version 1 | Homology to the WHO/IUIS fungal set (later plus AllergenOnline and COMPARE) and allergen-specific Pfam models, flagged `unvalidated`; report best hit with identity and coverage. `allergen_candidate` must not require `surface_glycoprotein` (most fungal allergens are intracellular). Scoping note: `docs/reports/2026-10-04-fungal-allergen-scoping.md`. |
 | D7 | Out-of-scope clade handling | `not_assessable` (section 3.3). `--clade` required. |
 | D8 | Execution engine | Python driver with SLURM job scripts for version 1. Nextflow later, if the module count grows. |
 | D9 | Review model for this spec | A different model from the author (Fable or Opus), as in earlier specs. |

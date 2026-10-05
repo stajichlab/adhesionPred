@@ -1,0 +1,9 @@
+IUIS all allergens 1169; by TaxSource {'Plantae Eudikotyledons': 398, 'Animalia Arthropoda': 365, 'Animalia Chordata': 110, 'Plantae Liliopsida (monocots)': 103, 'Fungi Ascomycota': 95, 'Plantae Pinopsida': 24, 'Fungi Basidiomycota': 23, 'Animalia Nematoda': 19, 'Plantae basal Mesangiosperms': 17, 'Animalia Mollusca': 11, 'Fungi Mucoromycota': 2, 'Bacteria Bacillota': 1, 'Animalia Cnidaria': 1}
+IUIS fungal molecules 120; species 31; orders {'Eurotiales': 55, 'Pleosporales': 18, 'Malasseziales': 13, 'Capnodiales': 10, 'Agaricales': 8, 'Hypocreales': 5, 'Onygenales': 4, 'Saccharomycetales': 3, 'Mucorales': 2, 'Sporidiobolales': 2}
+IUIS fungal exposure {'Airway': 103, 'Contact': 17}
+IUIS fungal genera {'Aspergillus': 38, 'Penicillium': 17, 'Malassezia': 13, 'Alternaria': 12, 'Cladosporium': 10, 'Coprinus': 5, 'Curvularia': 4, 'Fusarium': 4, 'Trichophyton': 4, 'Candida': 3, 'Psilocybe': 2, 'Rhizopus': 2, 'Rhodotorula': 2, 'Epicoccum': 1, 'Schizophyllum': 1, 'Stachybotrys': 1, 'Ulocladium': 1}
+IUIS fungal isoallergen rows 121; with protein sequence 116; with UniProt accession 104
+UniProt KW-0020 fungi 111; signal peptide 49; GPI 1; secreted loc 41; intracellular loc 31
+UniProt KW-0020 fungi genera {'Aspergillus': 26, 'Penicillium': 15, 'Arthroderma': 15, 'Alternaria': 14, 'Cladosporium': 11, 'Malassezia': 6, 'Trichophyton': 5, 'Candida': 4, 'Fusarium': 4, 'Stachybotrys': 2, 'Rhodotorula': 2, 'Coprinus': 2, 'Gibberella': 1, 'Cochliobolus': 1, 'Schizophyllum': 1, 'Epicoccum': 1, 'Stemphylium': 1}
+IUIS UniProt accessions 104; found 97; signal peptide 30; GPI 1; secreted loc 21; intracellular loc 24; no location annotation 51
+overlap IUIS accessions and KW-0020 fungi set 63; KW-0020 only 48
