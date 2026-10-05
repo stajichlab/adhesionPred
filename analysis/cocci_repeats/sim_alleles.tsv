@@ -1,0 +1,17 @@
+allele	source	species	true_units	window_len
+rsedit_u2_delA_delB	RS edit	immitis	2	39606
+rsedit_u2_delB_delC	RS edit	immitis	2	39606
+rsedit_u3_delA	RS edit	immitis	3	39803
+rsedit_u3_delB	RS edit	immitis	3	39803
+rsedit_u3_delC	RS edit	immitis	3	39803
+rsedit_u4_RS	RS edit	immitis	4	40000
+rsedit_u5_dupA	RS edit	immitis	5	40197
+rsedit_u5_dupB	RS edit	immitis	5	40197
+rsedit_u5_dupC	RS edit	immitis	5	40197
+rsedit_u6_dupA_dupB	RS edit	immitis	6	40394
+rsedit_u6_dupB_dupC	RS edit	immitis	6	40394
+rsedit_u6_dupA_dupC	RS edit	immitis	6	40394
+real_Silveira2022_u4	long-read CP075069:4603200	posadasii	4	40000
+real_CiB10637_u5	long-read scaffold_2:4398448	immitis	5	40000
+real_Cpos1038_u5	long-read scaffold_2:2243000	posadasii	5	40000
+real_VFC140_u2	long-read scaffold_2:4654525	VFC140	2	40000

@@ -1,0 +1,3 @@
+strain	species_label	reason	evidence	decided
+CA10	immitis	CRAM reads and assembly do not match; sample suspected mixed up, contaminated or too low coverage	genome depth 1.34x in RS CRAM; assembly lists 134.6x; assembly aligns 0.08% to CiB10637 and 0 bp to Silveira2022 (asm20, blocks >=500 bp)	2026-10-04 owner
+CA12	posadasii	CRAM reads and assembly do not match; sample suspected mixed up, contaminated or too low coverage	genome depth 0.27x in RS CRAM; assembly lists 17.3x; assembly aligns 0.07% to Silveira2022 and 0 bp to CiB10637 (asm20, blocks >=500 bp)	2026-10-04 owner
