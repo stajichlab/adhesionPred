@@ -3,7 +3,7 @@
 *Drafted 2026-10-04. Revision 3, the same day, after independent review 1
 (`2026-10-04-orchestrator-design-review-1.md`: 2 blocker, 13 major, 10 minor findings, all
 dispositioned). DRAFT. Revision 3 has not been reviewed. No code, data or job exists for this spec.
-Owner decisions are in section 9; D10 is answered, D11 and D12 are open.*
+Owner decisions are in section 9; D10 and D12 are answered, D11 is open.*
 
 Inputs: `docs/PLAN-2026-09-30-pipeline-and-decisions.md` section 6 (the proposal this spec
 expands); `docs/TOOL-ARCHITECTURE.md`; `docs/model-review/STATUS.md` (2026-10-02);
@@ -162,7 +162,7 @@ Calls that depend on step 1 are written once per step 1 variant, as `<call>[<var
 | `adhesion_repeat` (ungated) | a repeat detector calls | `repeat02` OR `repeat14` | `unvalidated` in every clade |
 | `adhesion_domain` (ungated) | Pfam hit in the adhesion table (PF05730, PF04681, PF01185, PF06766, PF28987, PF22354, ALS families) | Pfam scan | HMMs run once; no specificity test |
 | `cell_wall_adhesion_candidate[v]` | (`adhesion_repeat` OR `adhesion_domain`) AND `surface_glycoprotein[v]`; ungated form without the AND | the above | see rows |
-| `antigen_candidate` (ungated) | antigen ranking `percentile_dedup` at most P | antigen lookup | *Coccidioides* only; P default 10 (the "top decile" of the acceptance test) |
+| `antigen_candidate` (ungated) | antigen ranking combined `percentile` (all proteins) at most P, P = 15. The columns antigenicity, specificity, prevalence and max cross-reaction identity are always written beside it. | antigen lookup | *Coccidioides* only |
 | `antigen_candidate_surface[v]` | `antigen_candidate` AND `surface_glycoprotein[v]` | antigen lookup, step 1 | see above |
 | `allergen_candidate` | best hit to the WHO/IUIS fungal allergen set with identity and coverage at or above the report cutoffs (default 35% over 80 aa, the FAO/WHO rule), or an allergen-specific Pfam hit (PF16541, PF25312). **No surface gate**: most fungal allergens are intracellular. | allergen homology module, Pfam scan | `unvalidated`; module to be written |
 | `other_not_surface[v]` | `surface_glycoprotein[v]` is F, and no other category is T | all above | derived |
@@ -358,7 +358,7 @@ One question at a time.
 | D9 | Review model | Different model from the author. Review 1 done (Opus). |
 | D10 | Default gate for the gated calls (`surface_glycoprotein[v]` used by `cell_wall_adhesion_candidate[v]` and `antigen_candidate_surface[v]`) | **Answered 2026-10-04: `step1_rule@R0`.** R0 has no fitted parameter and runs today (recall 0.603 / 0.727 / 0.938, FPR 0.037 / 0.010 / 0.083). The headline gated columns use R0. R1, R2 and ML variants are extra columns once frozen. Ungated calls are always written. The default is a config item; the owner can change it without a design change. |
 | **D11** | Add a `cell_wall_protein` call for non-adhesive structural wall proteins (Cwp1, Ccw12, Sed1, Pir)? | Not in version 1. It needs a GPI call and a curated family list that does not exist (issue #14). |
-| **D12** | Antigen call definition | Percentile cut P of the ranking, default 10. The tiers are not used because they exclude SOWgp. |
+| D12 | Antigen call definition | **Answered 2026-10-04:** combined `percentile` (all 9,139 ranked proteins) at most **P = 15** (1,371 proteins); the separate axes are written, not required. The tiers are not used because they exclude SOWgp. Consequence: P = 15 includes PRA2 (percentile 10.79), which the top-decile acceptance test excluded. PRA2 can no longer test the cut, and the 3-of-4 anchor result is reported at the top decile as before. P is a config item. |
 
 ## 10. Deliverables
 
