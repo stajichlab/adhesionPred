@@ -71,7 +71,7 @@ proteome FASTA  (+ optional per-protein taxon map)
    K  lookup by ID      antigen ranking, expression (precomputed tables)
    |
    v
-evidence.tsv.gz         long format: protein, module, variant, field, value
+evidence.tsv.gz         long format: protein, module, field, value (fields listed in categories.yaml)
    |
    v
 [ category rules ]      config file, Kleene three-valued logic
@@ -169,9 +169,11 @@ AND false whatever the other input is.
 
 **Status columns.** The value column holds only `called`, `not_called`, `not_assessable`. The
 category status is a separate column `<category>_status`: the weakest status among the modules that
-set the result (`estimated` > `smoke` > `unvalidated`). For a `called` result the contributing
-modules are the ones that were true. For a `not_called` result they are all required modules. Reports
-print `called` together with its status in two columns. They never merge the two into one string.
+set the result (`estimated` > `smoke` > `unvalidated`). The modules that set the result are the
+ones that decided it: for a true OR, the true inputs; for a false AND, the false inputs; for a true
+AND or a false OR, all inputs. A `not_assessable` result has no deciding module and gets status
+`unvalidated` with an empty basis. Reports print the value and its status in two columns. They
+never merge the two into one string.
 
 ### 3.4 Categories in version 1
 
@@ -194,7 +196,9 @@ Calls that depend on step 1 are written once per step 1 variant, as `<call>[<var
 Mechanism calls are `adhesion_repeat`, `adhesion_domain`, `antigen_candidate` and `allergen_candidate`
 (the gated forms are implied by them; do not add them to the formulas).
 
-**`other_*` is defined over the assessable categories** (decision, review 2 finding 2). For one
+**In `categories.yaml`, the ungated form of `cell_wall_adhesion_candidate` is named `cell_wall_adhesion_ungated`, and `allergen_homolog_hit` is an ungated call (identity >= 35% and aligned length >= 80 aa) that is not a mechanism category.
+
+`other_*` is defined over the assessable categories** (decision, review 2 finding 2). For one
 protein, the mechanism calls that are U are left out of the test, and the column `other_basis` lists
 them (for example `antigen`). `other_*` is U only when `surface_glycoprotein[v]` is U. So on
 *A. fumigatus*, `other_not_surface` means "not surface, and none of adhesion, allergen was called;
@@ -266,8 +270,8 @@ Pfam accessions to a class. Rules:
 - Heavy modules run as SLURM jobs with `$SCRATCH` (`${SCRATCH:?}`), never with `BASH_SOURCE`.
   The driver submits jobs and reads their outputs. It sets a timeout and treats a killed or
   preempted job as `error` for that module. It does not trust queue-time estimates.
-- **Output schema.** `calls.long.tsv.gz` (protein, call, variant, value, status, status_basis, basis) is
-  the primary file. A wide `calls.wide.tsv.gz` is derived from it. Only available step 1 variants get
+- **Output schema.** `calls.long.tsv.gz` (protein, call, variant, value, status, status_basis, other_basis) is
+  the primary file. A wide `calls.wide.tsv.gz` is derived from it. `evidence.tsv.gz` carries the configured evidence fields (antigen axes, allergen hit fields, Cys-rich and expression evidence). `proteins.tsv.gz` lists ID, sequence sha256, taxon, state and note. `run.json` and `report.md` record the config and taxonomy hashes. Only available step 1 variants get
   columns; `unavailable` variants are listed in the report header with the reason, not written as
   all-U columns. The schema (call names, variants) is fixed by `categories.yaml`.
 - **Waiting and resources** (to be fixed in the plan): poll interval, resubmission on preemption (a
