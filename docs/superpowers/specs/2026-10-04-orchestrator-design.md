@@ -405,7 +405,6 @@ Estimates, not measurements, except where marked.
    false-positive rate (0.037, 0.010, 0.083).
 3. Large Pfam families give hits that are not cell wall genes (section 3.5 rule 3).
 4. Applicability hides most of the genome. Antigen and the Cys-rich finder apply to *Coccidioides* only, so on other proteomes many calls are `not_assessable`. The report must show the share and the reason.
-   `not_assessable`. The report must show the share and the reason.
 5. Truth is thin. Allergen has no *Coccidioides* truth. Antigen has *Coccidioides* only.
 6. Cached output can go stale. The cache key covers version, parameters and artefact hashes.
 7. The checkout can be shared. Check `git branch --show-current` before every commit.
