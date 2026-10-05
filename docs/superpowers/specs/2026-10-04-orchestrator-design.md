@@ -1,9 +1,9 @@
 # Design spec: `cellsurface_sorting_hat` (the orchestrator)
 
-*Drafted 2026-10-04. Revision 3, the same day, after independent review 1
+*Drafted 2026-10-04. Revision 3 (and revision 4 for the answers), the same day, after independent review 1
 (`2026-10-04-orchestrator-design-review-1.md`: 2 blocker, 13 major, 10 minor findings, all
 dispositioned). DRAFT. Revision 3 has not been reviewed. No code, data or job exists for this spec.
-Owner decisions are in section 9; D10 and D12 are answered, D11 is open.*
+Owner decisions are in section 9; D1 to D13 are all answered (D13 added). Revision 4 records the answers; it has not been reviewed.*
 
 Inputs: `docs/PLAN-2026-09-30-pipeline-and-decisions.md` section 6 (the proposal this spec
 expands); `docs/TOOL-ARCHITECTURE.md`; `docs/model-review/STATUS.md` (2026-10-02);
@@ -184,7 +184,7 @@ Evidence columns that are **not** categories in version 1:
 Known limits, printed in the report header:
 1. GPI-anchored and secreted enzymes (GEL/GAS, chitinases, glucanases, proteases) get only
    `surface_glycoprotein`. Non-adhesive structural wall proteins (Cwp1, Ccw12, Sed1, Pir) get the same.
-   Decision D11 asks whether to add a `cell_wall_protein` call.
+   Decision D11 (answered): no `cell_wall_protein` call in version 1.
 2. `surface_glycoprotein` is defined by GO cell wall and extracellular region evidence. It is not
    evidence of glycosylation.
 3. CFEM is filed under adhesion because the 2b-i class is, but its confirmed fold is a hemophore
@@ -293,6 +293,28 @@ cutoffs belong to the modules and come in through `params_hash`.
 - The hard-negative source is the 31-row seed list. Issue #14 (curated hard negatives) is open.
 - Whether these proteins have labels in `data/curated/` is not checked here.
 
+### 4.1 First target proteomes (decision D13)
+
+| Proteome | Source | Why | State |
+|---|---|---|---|
+| *C. immitis* RS | FungiDB-46 / RefSeq GCF_000149335.2, 9,910 proteins | the only proteome where antigen, expression, Cys-rich and repeat results all exist; SOWgp | proteome in the repository workdir |
+| *A. fumigatus* Af293 | `Fungi_5k/input/Aspergillus_fumigatus_Af293.proteins.fa`; UniProt UP000002530 in step 1 truth | WHO/IUIS *Aspergillus* allergens (38 entries), CalA, CspA, RodA; Eurotiomycetes step 1 truth | available locally |
+| *S. cerevisiae* S288C | step 1 truth set | step 1 estimate with direct positives; FLO11, AGA1 | available locally |
+| *A. fumigatus* A1163 (CEA10, FGSC A1163, CBS 144.89) | UniProt UP000001699, 9,942 proteins (found 2026-10-04) | second strain of the allergen species; tests strain-to-strain stability of calls | **not downloaded**; not found in `Fungi_5k/samples.csv` |
+| *A. fumigatus* W72310 | NCBI GCA_040167795.1 (`UCR_Afum_W72310_1.0`, chromosome level, UC Riverside, 2024-06-12); `..._protein.faa.gz` exists on the NCBI FTP | owner's UCR strain | **not downloaded**; who made the gene models was not checked |
+
+Rules for the three *A. fumigatus* strains:
+1. Gene model sources differ (UniProt, RefSeq, GenBank). Differences in calls between strains can
+   come from annotation. The report states the source of each proteome.
+2. A strain-to-strain comparison needs a protein key that is not the ID: use the sequence sha256
+   and, for non-identical sequences, the best reciprocal hit.
+3. Only Af293 has a step 1 truth set. A1163 and W72310 are for stability and allergen homology, not
+   for accuracy numbers.
+4. Before they enter the panel, check for duplicate proteins and for IDs with `*` or non-standard
+   residues (failure-mode table).
+
+Fungi_5k as a batch is not part of version 1.
+
 ## 5. Statistics
 
 - Intervals are 95% cluster bootstrap by homology group (as in Phase C).
@@ -347,18 +369,19 @@ One question at a time.
 
 | # | Decision | Status / recommendation |
 |---|---|---|
-| D1 | Multi-label or exclusive categories | Multi-label. Recommended; not yet answered. |
+| D1 | Multi-label or exclusive categories | **Answered 2026-10-04: multi-label.** Each category is its own column. |
 | D2 | Categories in version 1 | **Answered 2026-10-04:** the five named. Enzyme classes later. |
 | D3 | Name and place | **Answered 2026-10-04:** `cellsurface_sorting_hat`, package `src/cellsurface_sorting_hat/`. |
-| D4 | Wait for the step 1 decision | No. Variants are carried (section 3.2). |
+| D4 | Wait for the step 1 decision | **Answered by D10:** no. Variants are carried; the default gate is R0. |
 | D5 | Biosynthesis and remodeling families in version 1 | **Answered by D2:** later. Signaling stays out. |
-| D6 | Allergen scope in version 1 | Homology to the WHO/IUIS fungal set plus allergen-specific Pfam; no surface gate; `unvalidated`. |
-| D7 | Out-of-scope handling | `not_assessable` with `--taxon` required. |
-| D8 | Execution engine | Python driver with SLURM scripts; Nextflow later. |
-| D9 | Review model | Different model from the author. Review 1 done (Opus). |
+| D6 | Allergen scope in version 1 | **Answered 2026-10-04:** best hit to the WHO/IUIS fungal set at identity >= 35% over >= 80 aa, or an allergen-specific Pfam hit (AltA1, Allergen_Asp_f_4). No surface gate. Hit name, identity and coverage always written. `unvalidated`. AllergenOnline and COMPARE added after download. |
+| D7 | Out-of-scope handling | **Answered 2026-10-04:** `--taxon` (or `--taxon-map`) is required; an out-of-scope module gives `not_assessable` for dependent categories. |
+| D8 | Execution engine | **Answered 2026-10-04:** Python driver with SLURM scripts. Nextflow later if the module count grows. |
+| D9 | Review model | Different model from the author. Review 1 done (Opus). Review 2 of revision 4 requested by the owner. |
 | D10 | Default gate for the gated calls (`surface_glycoprotein[v]` used by `cell_wall_adhesion_candidate[v]` and `antigen_candidate_surface[v]`) | **Answered 2026-10-04: `step1_rule@R0`.** R0 has no fitted parameter and runs today (recall 0.603 / 0.727 / 0.938, FPR 0.037 / 0.010 / 0.083). The headline gated columns use R0. R1, R2 and ML variants are extra columns once frozen. Ungated calls are always written. The default is a config item; the owner can change it without a design change. |
-| **D11** | Add a `cell_wall_protein` call for non-adhesive structural wall proteins (Cwp1, Ccw12, Sed1, Pir)? | Not in version 1. It needs a GPI call and a curated family list that does not exist (issue #14). |
+| D11 | Add a `cell_wall_protein` call for non-adhesive structural wall proteins | **Answered 2026-10-04: not in version 1.** The report header states the limit. |
 | D12 | Antigen call definition | **Answered 2026-10-04:** combined `percentile` (all 9,139 ranked proteins) at most **P = 15** (1,371 proteins); the separate axes are written, not required. The tiers are not used because they exclude SOWgp. Consequence: P = 15 includes PRA2 (percentile 10.79), which the top-decile acceptance test excluded. PRA2 can no longer test the cut, and the 3-of-4 anchor result is reported at the top decile as before. P is a config item. |
+| D13 | First proteomes for building and demonstrating version 1 | **Answered 2026-10-04:** *C. immitis* RS, *A. fumigatus* Af293, *S. cerevisiae* S288C, *A. fumigatus* A1163, *A. fumigatus* W72310 (section 4.1). |
 
 ## 10. Deliverables
 
