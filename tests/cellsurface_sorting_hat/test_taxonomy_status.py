@@ -189,3 +189,58 @@ def test_a_non_integer_parent_in_nodes_dmp_names_the_line(tmp_path):
     path.write_text("1\t|\t1\t|\tno rank\t|\n2\t|\tx\t|\tno rank\t|\n")
     with pytest.raises(TaxonError, match="nodes.dmp:2"):
         Lineage.from_nodes_dmp(path)
+
+
+def _source(tmp_path, **over):
+    data = {
+        "module": "m",
+        "version": "2",
+        "params_hash": "p",
+        "artefact_hash": "a",
+        "entries": [{"taxa": [40], "status": "estimated"}],
+    }
+    data.update(over)
+    path = tmp_path / "s.json"
+    path.write_text(json.dumps(data))
+    return path
+
+
+@pytest.mark.parametrize(
+    "over",
+    [
+        {"entries": [{"taxa": [True], "status": "estimated"}]},
+        {"entries": [{"taxa": [40], "status": "estimated", "measure": {"n_pos": True}}]},
+        {"entries": [{"taxa": [40], "status": "estimated", "measure": {"n_neg": True}}]},
+        {
+            "entries": [
+                {
+                    "taxa": [40],
+                    "status": "estimated",
+                    "measure": {"sensitivity": {"value": True, "lo": 0, "hi": 1}},
+                }
+            ]
+        },
+        {
+            "entries": [
+                {
+                    "taxa": [40],
+                    "status": "estimated",
+                    "measure": {"specificity": {"value": 0.5, "lo": False, "hi": 1}},
+                }
+            ]
+        },
+        {"module": ""},
+        {"version": ""},
+        {"params_hash": ""},
+        {"artefact_hash": ""},
+        {
+            "entries": [
+                {"taxa": [40, 42], "status": "estimated"},
+                {"taxa": [42], "status": "smoke"},
+            ]
+        },
+    ],
+)
+def test_load_status_source_refuses(tmp_path, over):
+    with pytest.raises(ValueError):
+        load_status_source(_source(tmp_path, **over))

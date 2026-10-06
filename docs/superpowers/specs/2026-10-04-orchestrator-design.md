@@ -175,6 +175,8 @@ AND or a false OR, all inputs. A `not_assessable` result has no deciding module 
 `unvalidated` with an empty basis. Reports print the value and its status in two columns. They
 never merge the two into one string.
 
+Unknown inputs never contribute. For `other_*`, a called mechanism decides a false result; a true result is decided by `surface_glycoprotein[v]` and the mechanism calls that are not unknown.
+
 ### 3.4 Categories in version 1
 
 Calls that depend on step 1 are written once per step 1 variant, as `<call>[<variant>]`, and also
@@ -257,7 +259,7 @@ Pfam accessions to a class. Rules:
   Results are cached per sequence sha256 and expanded to IDs at the end, so adding one protein does
   not invalidate the rest, and identical sequences with different IDs are computed once. For an ML
   step 1 variant, batch size and order are part of `params_hash`. The hash of `categories.yaml`
-  is written into `calls`. A `status_source` is refused if its recorded `version`, `params_hash` or
+  is written into `report.md` and `run.json`. A `status_source` is refused if its recorded `version`, `params_hash` or
   `artefact_hash` differs from the running module.
 - **Writes are atomic** (write to a temporary name, then rename), with a sha256 sidecar, as
   `j1_features.sh` does. Two runs on the same workdir do not share a partial file.

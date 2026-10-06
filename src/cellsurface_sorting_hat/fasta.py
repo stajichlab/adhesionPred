@@ -45,8 +45,14 @@ def _lines(path):
         else:
             with open(path, encoding="utf-8-sig") as fh:
                 yield from fh
-    except (UnicodeDecodeError, EOFError, zlib.error) as err:
+    except (UnicodeDecodeError, EOFError, zlib.error, gzip.BadGzipFile) as err:
         raise FastaError(f"{path}: cannot be read as text ({err.__class__.__name__})") from err
+    except FileNotFoundError as err:
+        if path.suffix == ".zst" and path.exists():
+            raise FastaError(f"{path}: cannot run zstd ({err})") from err
+        raise
+    except subprocess.CalledProcessError as err:
+        raise FastaError(f"{path}: zstd failed with exit code {err.returncode}") from err
 
 
 def _records(path):

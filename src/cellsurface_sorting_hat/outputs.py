@@ -13,21 +13,26 @@ from cellsurface_sorting_hat.logic import CALLED, NOT_ASSESSABLE, NOT_CALLED
 LONG_COLUMNS = ["protein", "call", "variant", "value", "status", "status_basis", "other_basis"]
 MAX_LISTED_INVALID = 20
 
-KNOWN_LIMITS = [
-    "GPI-anchored and secreted enzymes, and non-adhesive structural wall proteins, get only "
-    "`surface_glycoprotein`. There is no `cell_wall_protein` call in version 1.",
-    "`surface_glycoprotein` is defined by GO cell wall and extracellular region evidence. It is not "
-    'evidence of glycosylation. With the step 1 rule R0 the call means "SignalP calls a signal '
-    'peptide" and nothing more.',
-    "CFEM is filed under adhesion because class 2b-i is. Its confirmed fold is a hemophore. Binding "
-    "to a host receptor is not shown.",
-    "The repeat detectors have no clade truth set. Their calls are hypotheses.",
-    "The antigen call is the top 15% of a fixed Coccidioides ranking. It is a weak label, and the "
-    "ranking prints NOT CALIBRATED (3 of 4 anchors pass the top-decile test).",
-    "Cell wall integrity signaling, septation, polarized growth, polysaccharide chemistry, "
-    "moonlighting proteins and biofilm are not categories.",
-    "The taxon you give is recorded as given. It is not checked against the sequences.",
-]
+
+def _known_limits(thresholds):
+    percent = thresholds.get("antigen_percentile_max", "?")
+    if isinstance(percent, float):
+        percent = f"{percent:g}"
+    return [
+        "GPI-anchored and secreted enzymes, and non-adhesive structural wall proteins, get only "
+        "`surface_glycoprotein`. There is no `cell_wall_protein` call in version 1.",
+        "`surface_glycoprotein` is defined by GO cell wall and extracellular region evidence. It is not "
+        'evidence of glycosylation. With the step 1 rule R0 the call means "SignalP calls a signal '
+        'peptide" and nothing more.',
+        "CFEM is filed under adhesion because class 2b-i is. Its confirmed fold is a hemophore. Binding "
+        "to a host receptor is not shown.",
+        "The repeat detectors have no clade truth set. Their calls are hypotheses.",
+        f"The antigen call is the top {percent}% of a fixed Coccidioides ranking. It is a weak label, "
+        "and the ranking prints NOT CALIBRATED (3 of 4 anchors pass the top-decile test).",
+        "Cell wall integrity signaling, septation, polarized growth, polysaccharide chemistry, "
+        "moonlighting proteins and biofilm are not categories.",
+        "The taxon you give is recorded as given. It is not checked against the sequences.",
+    ]
 
 
 @dataclass
@@ -219,7 +224,9 @@ def render_report(info, records):
     if basis:
         lines += ["", "## `other_basis` (categories left out because they were not assessable)", ""]
         lines += [f"- {b}: {n}" for b, n in sorted(basis.items())]
-    lines += ["", "## Known limits", ""] + [f"{i}. {t}" for i, t in enumerate(KNOWN_LIMITS, 1)]
+    lines += ["", "## Known limits", ""] + [
+        f"{i}. {t}" for i, t in enumerate(_known_limits(info.thresholds), 1)
+    ]
     return "\n".join(lines) + "\n"
 
 

@@ -100,3 +100,31 @@ def test_bytes_that_are_not_utf8_stop_the_run_with_the_file_name(tmp_path):
     path.write_bytes(b">A \xe9\nMKT\n")
     with pytest.raises(FastaError, match="p.faa: cannot be read as text"):
         read_fasta(path)
+
+
+def test_a_corrupt_gz_names_the_file(tmp_path):
+    path = _write(tmp_path, "not gzip data", name="p.faa.gz")
+    with pytest.raises(FastaError, match="p.faa.gz"):
+        read_fasta(path)
+
+
+def test_a_missing_zstd_binary_names_the_file(tmp_path, monkeypatch):
+    path = _write(tmp_path, "x", name="p.faa.zst")
+
+    def boom(*a, **k):
+        raise FileNotFoundError("zstd")
+
+    monkeypatch.setattr(subprocess, "run", boom)
+    with pytest.raises(FastaError, match="p.faa.zst"):
+        read_fasta(path)
+
+
+def test_a_failing_zstd_names_the_file(tmp_path, monkeypatch):
+    path = _write(tmp_path, "x", name="p.faa.zst")
+
+    def boom(*a, **k):
+        raise subprocess.CalledProcessError(1, "zstd")
+
+    monkeypatch.setattr(subprocess, "run", boom)
+    with pytest.raises(FastaError, match="p.faa.zst"):
+        read_fasta(path)

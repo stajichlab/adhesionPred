@@ -62,7 +62,7 @@ def _check_rate(rate, where):
     if (
         not isinstance(rate, dict)
         or set(rate) != {"value", "lo", "hi"}
-        or not all(isinstance(rate[k], int | float) for k in rate)
+        or not all(isinstance(rate[k], int | float) and not isinstance(rate[k], bool) for k in rate)
         or not 0 <= rate["lo"] <= rate["value"] <= rate["hi"] <= 1
     ):
         raise ValueError(f"{where}: needs value, lo, hi with 0 <= lo <= value <= hi <= 1")
@@ -78,7 +78,11 @@ def _check_measure(measure, where):
         if key in measure:
             _check_rate(measure[key], f"{where}.{key}")
     for key in ("n_pos", "n_neg"):
-        if key in measure and not (isinstance(measure[key], int) and measure[key] >= 0):
+        if key in measure and not (
+            isinstance(measure[key], int)
+            and not isinstance(measure[key], bool)
+            and measure[key] >= 0
+        ):
             raise ValueError(f"{where}.{key}: must be a non-negative integer")
 
 
@@ -87,7 +91,11 @@ def load_status_source(path):
     identity = ModuleIdentity(
         data["module"], data["version"], data["params_hash"], data["artefact_hash"]
     )
-    entries = []
+    for name in ("module", "version", "params_hash", "artefact_hash"):
+        value = getattr(identity, name if name != "module" else "name")
+        if not isinstance(value, str) or not value:
+            raise ValueError(f"{path}: {name} must be a non-empty string")
+    entries, listed = [], {}
     for i, e in enumerate(data["entries"]):
         where = f"{path} entries[{i}]"
         unknown = set(e) - ENTRY_KEYS
@@ -98,11 +106,14 @@ def load_status_source(path):
         measure = e.get("measure")
         if measure is not None:
             _check_measure(measure, where)
-        entries.append(
-            StatusEntry(
-                tuple(int(t) for t in e["taxa"]), e["status"], str(e.get("source", "")), measure
-            )
-        )
+        if isinstance(e["taxa"], str | bytes) or any(isinstance(t, bool) for t in e["taxa"]):
+            raise ValueError(f"{where}: taxa must be a list of integers")
+        taxa = tuple(int(t) for t in e["taxa"])
+        for t in taxa:
+            if t in listed:
+                raise ValueError(f"{where}: taxon {t} is already in entries[{listed[t]}]")
+            listed[t] = i
+        entries.append(StatusEntry(taxa, e["status"], str(e.get("source", "")), measure))
     return StatusRecord(identity, tuple(entries))
 
 

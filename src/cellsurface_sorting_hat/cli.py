@@ -46,6 +46,7 @@ from cellsurface_sorting_hat.status import (
 from cellsurface_sorting_hat.taxonomy import Lineage, TaxonError
 
 UNUSABLE_RUN_STATES = {"unavailable", "not_run", "error"}
+RUN_STATES = {"ok", "partial", "unavailable", "not_run", "error"}
 CALL_VALUES = {"called", "not_called"}
 FLAG_VALUES = {"0", "1"}
 
@@ -148,7 +149,36 @@ def _read_module_table(path):
     return columns, rows
 
 
-def load_modules(workdir, protein_ids, invalid_ids):
+def required_columns(cfg):
+    """Module name -> columns the rules read, from the config."""
+    need = defaultdict(set)
+
+    def add(module, column):
+        names = cfg.step1_variants if "{step1}" in module else [module]
+        for name in names:
+            need[module.replace("{step1}", name) if "{step1}" in module else name].add(column)
+
+    def walk(node):
+        kind, arg = next(iter(node.items()))
+        if kind in ("and", "or"):
+            for child in arg:
+                walk(child)
+        elif kind == "not":
+            walk(arg)
+        elif kind == "call":
+            add(arg, "call")
+        elif kind == "flag":
+            add(arg.split(".", 1)[0], arg.split(".", 1)[1])
+        elif kind == "test":
+            add(arg["module"], arg["field"])
+
+    for call in cfg.calls:
+        if "expr" in call:
+            walk(call["expr"])
+    return need
+
+
+def load_modules(workdir, protein_ids, invalid_ids, required=None):
     """Read module tables. Missing IDs, invalid proteins and bad values become unknown rows."""
     loaded = LoadedModules()
     folder = Path(workdir) / "modules"
@@ -170,6 +200,8 @@ def load_modules(workdir, protein_ids, invalid_ids):
             str(meta.get("artefact_hash", "")),
         )
         state = meta.get("run_state", "ok" if table_path.exists() else "error")
+        if state not in RUN_STATES:
+            raise InputError(f"{meta_path}: run_state {state!r} is not one of {sorted(RUN_STATES)}")
         loaded.states[name] = state
         if not table_path.exists():
             loaded.notes[name] = "no result table"
@@ -177,6 +209,9 @@ def load_modules(workdir, protein_ids, invalid_ids):
         if state in UNUSABLE_RUN_STATES:
             continue
         columns, rows = _read_module_table(table_path)
+        for column in sorted((required or {}).get(name, ())):
+            if column not in columns:
+                raise InputError(f"{table_path.name}: missing column {column!r}")
         matched = wanted & set(rows)
         if not matched:
             loaded.states[name] = "error"
@@ -316,7 +351,7 @@ def run(args):
         lineage.ancestors(taxon)  # raises TaxonError for an unknown taxon
     ids = [p.id for p in proteins]
     invalid = {p.id for p in proteins if p.state == NA_INVALID}
-    loaded = load_modules(args.workdir, ids, invalid)
+    loaded = load_modules(args.workdir, ids, invalid, required_columns(cfg))
     tables = loaded.tables
     resolver = StatusResolver(args.workdir, loaded.identities, lineage)
     records = evaluate(cfg, ids, taxa, tables, resolver)

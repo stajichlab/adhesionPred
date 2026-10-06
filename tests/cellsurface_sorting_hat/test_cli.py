@@ -53,10 +53,34 @@ def build(tmp_path, write_module):
         wd,
         "allergen_homology",
         [
-            {"id": "SOW1", "state": "ok", "identity": "0", "coverage": "0"},
-            {"id": "ENZ1", "state": "ok", "identity": "82", "coverage": "90"},
-            {"id": "DUP1", "state": "ok", "identity": "0", "coverage": "0"},
-            {"id": "STAR1", "state": "ok", "identity": "40", "coverage": "85"},
+            {
+                "id": "SOW1",
+                "state": "ok",
+                "identity": "0",
+                "coverage": "0",
+                "aligned_length": "100",
+            },
+            {
+                "id": "ENZ1",
+                "state": "ok",
+                "identity": "82",
+                "coverage": "90",
+                "aligned_length": "100",
+            },
+            {
+                "id": "DUP1",
+                "state": "ok",
+                "identity": "0",
+                "coverage": "0",
+                "aligned_length": "100",
+            },
+            {
+                "id": "STAR1",
+                "state": "ok",
+                "identity": "40",
+                "coverage": "85",
+                "aligned_length": "100",
+            },
         ],
     )
     return fasta, taxon_map, wd
@@ -746,3 +770,45 @@ def test_every_table_output_has_a_matching_sha256_sidecar(tmp_path, write_module
         path = out / f"{name}.tsv.gz"
         side = out / f"{name}.tsv.gz.sha256"
         assert side.read_text().strip() == hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+@pytest.mark.parametrize(
+    "module,rows,column",
+    [
+        ("repeat14", [{"id": "SOW1", "state": "ok", "label": "called"}], "call"),
+        ("step1_rule@R0", [{"id": "SOW1", "state": "ok", "label": "called"}], "call"),
+        ("pfam_adhesion", [{"id": "SOW1", "state": "ok", "label": "1"}], "hit"),
+        ("antigen_lookup", [{"id": "SOW1", "state": "ok", "label": "1"}], "percentile"),
+        (
+            "allergen_homology",
+            [{"id": "SOW1", "state": "ok", "identity": "1", "coverage": "1"}],
+            "aligned_length",
+        ),
+    ],
+)
+def test_a_module_table_without_the_field_the_rules_read_stops_the_run(
+    tmp_path, write_module, nodes_dmp, capsys, module, rows, column
+):
+    fasta, taxon_map, wd = build(tmp_path, write_module)
+    write_module(wd, module, rows)
+    code, _ = _run(tmp_path, nodes_dmp, fasta, taxon_map, wd)
+    assert code == 2
+    assert f"{module}.tsv.gz: missing column '{column}'" in capsys.readouterr().err
+
+
+@pytest.mark.parametrize("value", ["done", "OK", ""])
+def test_an_unknown_run_state_is_refused_and_names_the_run_record(
+    tmp_path, write_module, nodes_dmp, capsys, value
+):
+    fasta, taxon_map, wd = build(tmp_path, write_module)
+    write_module(wd, "repeat14", [], meta={"run_state": value})
+    code, _ = _run(tmp_path, nodes_dmp, fasta, taxon_map, wd)
+    assert code == 2 and "repeat14.json: run_state" in capsys.readouterr().err
+
+
+def test_a_corrupt_gz_fasta_names_the_file(tmp_path, write_module, nodes_dmp, capsys):
+    fasta, taxon_map, wd = build(tmp_path, write_module)
+    bad = tmp_path / "p.faa.gz"
+    bad.write_bytes(b"this is not gzip data at all")
+    code, _ = _run(tmp_path, nodes_dmp, bad, taxon_map, wd)
+    assert code == 2 and str(bad) in capsys.readouterr().err

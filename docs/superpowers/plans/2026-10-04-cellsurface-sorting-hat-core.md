@@ -47,7 +47,7 @@ Plan 2 wrappers and the tests in this plan both rely on this contract.
 ## Clarifications of the spec made by this plan
 
 1. Call names. The ungated form of `cell_wall_adhesion_candidate` is `cell_wall_adhesion_ungated`. The gated forms keep the spec names with the variant label, for example `cell_wall_adhesion_candidate[R0]`.
-2. Status of a call. It is the weakest status among the modules that **decided** the result. For an AND that is false: the false inputs. For an AND that is true: all inputs. For an OR that is true: the true inputs. For an OR that is false: all inputs. Unknown inputs never contribute. The spec text for `not_called` ("all required modules") is replaced by this rule (the plan's Task 7 edits the spec).
+2. Status of a call. It is the weakest status among the modules that **decided** the result. For an AND that is false: the false inputs. For an AND that is true: all inputs. For an OR that is true: the true inputs. For an OR that is false: all inputs. Unknown inputs never contribute. The spec text for `not_called` ("all required modules") is replaced by this rule (the spec was edited in commit fa5a208).
 3. `--taxdump` takes the path of `nodes.dmp` from the NCBI taxonomy dump. Its sha256 is written to the report.
 4. The long table column is `other_basis` (the spec text said `basis`). The `categories.yaml` hash is written to `report.md` and `run.json`, not to the calls files.
 5. The golden test checks hand-derived values for named proteins and calls. It does not compare a stored `calls` file. Review of the plan flagged this difference from spec 4 item 2; a stored file can be added in Plan 2 when real module outputs exist.

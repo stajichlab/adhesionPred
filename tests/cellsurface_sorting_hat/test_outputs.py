@@ -94,3 +94,9 @@ def test_report_counts_values_per_call_and_variant():
     ]
     text = render_report(info(), records)
     assert "| surface_glycoprotein | R0 | 2 | 1 | 0 |" in text
+
+
+def test_known_limits_print_the_configured_antigen_percentile():
+    report = render_report(info(thresholds={"antigen_percentile_max": 10}), [])
+    assert "The antigen call is the top 10% of" in report
+    assert "top 15%" not in report
