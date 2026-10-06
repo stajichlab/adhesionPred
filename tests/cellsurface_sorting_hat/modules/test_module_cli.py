@@ -800,17 +800,60 @@ def test_allergen_max_target_seqs_must_be_positive(tmp_path, fasta):
     assert exc.value.code == 2
 
 
-def test_a_taxon_map_with_ids_outside_the_fasta_is_refused(tmp_path, fasta, capsys):
+def _cys_args(tmp_path, fasta, *extra):
     cand = tmp_path / "c.tsv"
     cand.write_text("protein_id\ttier\tcys_frac\nXP_1\tcys_rich_sp_unassigned\t0.1\n")
+    return ["cys", "--fasta", str(fasta), "--workdir", str(tmp_path / "wd")] + [
+        *extra,
+        "--candidates",
+        str(cand),
+    ]
+
+
+def test_a_taxon_map_that_shares_no_id_with_the_fasta_is_refused(tmp_path, fasta, capsys):
+    tmap = tmp_path / "m.tsv"
+    tmap.write_text("STRAY\t246410\nSTRAY2\t246410\n")
+    code = main(_cys_args(tmp_path, fasta, "--taxon", "246410", "--taxon-map", str(tmap)))
+    err = capsys.readouterr().err
+    assert code == 2 and "m.tsv" in err and "none of its 2" in err and "'STRAY'" in err
+
+
+def test_a_taxon_map_with_some_extra_ids_passes_and_the_note_counts_them(tmp_path, fasta):
     tmap = tmp_path / "m.tsv"
     tmap.write_text("XP_1\t246410\nXP_2\t246410\nBAD\t246410\nSTRAY\t246410\n")
-    code = main(
-        ["cys", "--fasta", str(fasta), "--workdir", str(tmp_path / "wd")]
-        + ["--taxon-map", str(tmap), "--candidates", str(cand)]
-    )
+    assert main(_cys_args(tmp_path, fasta, "--taxon-map", str(tmap))) == 0
+    rec = json.loads((tmp_path / "wd" / "modules" / "cys_rich.json").read_text())
+    assert "1 taxon map ID(s) are not in the FASTA" in rec["note"]
+    assert read(tmp_path / "wd", "cys_rich")["XP_1"]["state"] == "ok"
+
+
+def test_extra_map_ids_with_a_default_taxon_pass(tmp_path, fasta):
+    tmap = tmp_path / "m.tsv"
+    tmap.write_text("XP_1\t246410\nSTRAY\t246410\n")
+    args = _cys_args(tmp_path, fasta, "--taxon", "746128", "--taxon-map", str(tmap))
+    assert main(args) == 0
+    rec = json.loads((tmp_path / "wd" / "modules" / "cys_rich.json").read_text())
+    assert "1 taxon map ID(s)" in rec["note"]
+    assert read(tmp_path / "wd", "cys_rich")["XP_1"]["state"] == "ok"
+    assert read(tmp_path / "wd", "cys_rich")["XP_2"]["state"] == "not_applicable"
+
+
+def test_an_inactive_family_with_a_second_condition_needs_no_condition_table(tmp_path, fasta):
+    args, wd = _tm_and_pfam(tmp_path, fasta)
+    table = tmp_path / "f.tsv"
+    table.write_text(table.read_text().replace("\tyes\t", "\tno\t"))
+    assert "\tno\t" in table.read_text()
+    assert main(args) == 0
+    rec = json.loads((wd / "modules" / "pfam_adhesion.json").read_text())
+    assert rec["run_state"] == "unavailable"
+
+
+def test_a_condition_module_without_a_run_record_is_refused(tmp_path, fasta, capsys):
+    args, wd = _tm_and_pfam(tmp_path, fasta)
+    (wd / "modules" / "tm.json").unlink()
+    assert main([*args, "--tm-module", "tm"]) == 2
     err = capsys.readouterr().err
-    assert code == 2 and "m.tsv" in err and "1 of 4" in err and "'STRAY'" in err
+    assert "tm" in err and "run record" in err
 
 
 def test_a_lookup_where_every_protein_is_not_applicable_says_so_in_the_note(tmp_path, fasta):

@@ -82,7 +82,11 @@ def build_parser():
             "--script", help="detector script; its sha256 is part of the module identity"
         )
 
-    p = sub.add_parser("allergen", help="BLASTP results against the IUIS fungal allergens")
+    p = sub.add_parser(
+        "allergen",
+        help="BLASTP results against the IUIS fungal allergens; an empty BLAST file is refused "
+        "because a finished run with no hit cannot be told apart from a failed run",
+    )
     _common(p)
     p.add_argument("--blast", required=True, help="outfmt 6 with: " + allergen.BLAST_FIELDS)
     p.add_argument("--allergen-fasta", required=True)
@@ -125,16 +129,17 @@ def _taxa(args, proteins):
     if args.taxon is None and not tmap:
         raise RunError("give --taxon or --taxon-map")
     foreign = sorted(set(tmap) - {p.id for p in proteins})
-    if foreign:
+    if tmap and len(foreign) == len(tmap):
         raise RunError(
-            f"{args.taxon_map}: {len(foreign)} of {len(tmap)} ID(s) are not in the FASTA, "
+            f"{args.taxon_map}: none of its {len(tmap)} ID(s) is in the FASTA, "
             f"for example {foreign[0]!r}"
         )
+    note = f"{len(foreign)} taxon map ID(s) are not in the FASTA" if foreign else ""
     taxa = assign_taxa(proteins, args.taxon, tmap)
     bad = sorted({t for t in taxa.values() if t < 2})
     if bad:  # 0 is unset and 1 is the root of the taxonomy: neither names an organism
         raise RunError(f"taxon ID {bad[0]} is not a taxon of an organism")
-    return taxa
+    return taxa, note
 
 
 def _check_ids(label, found, ids):
@@ -297,7 +302,7 @@ def run(args):
             artefact_digest=_tool_digest("tmhmm", args.tmhmm_version),
         )
         return _write(w, spec, lookups.TM_COLUMNS, lookups.tm_rows(proteins, table))
-    taxa = _taxa(args, proteins)
+    taxa, taxa_note = _taxa(args, proteins)
     applicable = set(args.applicable_taxa)
     if args.cmd == "antigen":
         by_gene, several = lookups.ranking_by_gene(args.ranking)
@@ -305,14 +310,14 @@ def run(args):
         params = {"applicable_taxa": sorted(applicable), "genes_with_several_ranking_rows": several}
         spec = ModuleSpec("antigen_lookup", "1", params, (args.ranking, args.protein_map))
         rows = lookups.antigen_rows(proteins, taxa, pmap, by_gene, applicable)
-        return _write(w, spec, lookups.ANTIGEN_COLUMNS, rows)
+        return _write(w, spec, lookups.ANTIGEN_COLUMNS, rows, extra_note=taxa_note)
     if args.cmd == "cys":
         table, _ = lookups.read_table(args.candidates, "protein_id")
         spec = ModuleSpec(
             "cys_rich", "1", {"applicable_taxa": sorted(applicable)}, (args.candidates,)
         )
         rows = lookups.cys_rows(proteins, taxa, table, applicable)
-        return _write(w, spec, lookups.CYS_COLUMNS, rows)
+        return _write(w, spec, lookups.CYS_COLUMNS, rows, extra_note=taxa_note)
     if args.cmd == "expression":
         table, _ = lookups.read_table(
             args.table,
@@ -328,7 +333,7 @@ def run(args):
             (args.table, args.protein_map),
         )
         rows = lookups.expression_rows(proteins, taxa, pmap, table, applicable)
-        return _write(w, spec, lookups.EXPRESSION_COLUMNS, rows)
+        return _write(w, spec, lookups.EXPRESSION_COLUMNS, rows, extra_note=taxa_note)
     raise AssertionError(args.cmd)
 
 
