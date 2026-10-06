@@ -17,11 +17,15 @@ set -euo pipefail
 TMP="${SCRATCH:?SCRATCH is not set; run this as a SLURM job}/csh_signalp.$$"
 trap 'rm -rf "$TMP"' EXIT
 mkdir -p "$TMP" "$WORKDIR/raw/signalp"
-module load signalp/6-gpu
+SIGNALP_MODULE="signalp/6-gpu"
+module load "$SIGNALP_MODULE"
 command -v signalp6 >/dev/null || { echo "FATAL: signalp6 not on PATH" >&2; exit 1; }
 case "$FASTA" in *.gz) zcat "$FASTA" > "$TMP/in.fasta" ;; *) cp "$FASTA" "$TMP/in.fasta" ;; esac
 signalp6 --fastafile "$TMP/in.fasta" --organism eukarya --output_dir "$TMP/out" \
   --format none --mode fast --write_procs 4 --torch_num_threads 8
+# The module may point to a newer build than the version string that signalp6 prints; record both.
+SP_VERSION="$(signalp6 --version 2>&1)"  # a failure here stops the job (set -e)
+printf 'module=%s\nsignalp6_version=%s\n' "$SIGNALP_MODULE" "$SP_VERSION" > "$TMP/version.txt"
 cp "$TMP/out/prediction_results.txt" "$WORKDIR/raw/signalp/.tmp.prediction_results.txt"
 mv "$WORKDIR/raw/signalp/.tmp.prediction_results.txt" "$WORKDIR/raw/signalp/prediction_results.txt"
-signalp6 --version > "$WORKDIR/raw/signalp/version.txt" 2>&1 || true
+cp "$TMP/version.txt" "$WORKDIR/raw/signalp/.tmp.version.txt" && mv "$WORKDIR/raw/signalp/.tmp.version.txt" "$WORKDIR/raw/signalp/version.txt"

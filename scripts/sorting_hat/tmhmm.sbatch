@@ -9,6 +9,9 @@
 set -euo pipefail
 : "${FASTA:?export FASTA before sbatch}"
 : "${WORKDIR:?export WORKDIR before sbatch}"
+# The job changes directory below, so every path must be absolute first.
+FASTA="$(realpath "$FASTA")"
+WORKDIR="$(realpath -m "$WORKDIR")"
 TMP="${SCRATCH:?SCRATCH is not set; run this as a SLURM job}/csh_tmhmm.$$"
 trap 'rm -rf "$TMP"' EXIT
 OUT="$WORKDIR/raw/tmhmm"
