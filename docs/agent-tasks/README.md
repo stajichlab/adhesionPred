@@ -27,6 +27,7 @@ A one-line hand-over:
 | `05-allergen-controls.md` | `iuis_allergen_similarity`, `iuis_allergen_homolog` | 111 usable IUIS sequences | No negatives; count of IgE-negative records unknown |
 | `06-serodiagnostic-antigen-controls.md` | `cocci_specificity_rank_top15`, `serodiagnostic_marker_candidate` | 4 anchors (tuned); 86 IEDB rows | No independent truth; feasibility of leave-species-out unknown |
 | `07-hard-negatives-shared.md` | Shared by step 1, repeat and family-domain calls | 31 seed rows; 42 rows in `adhesins.tsv` | Mostly *S. cerevisiae*; few non-yeast look-alikes |
+| `08-repeat-adhesins-other-species.md` | `tandem_repeat_protein` outside Saccharomycotina (*Pneumocystis*, *Cryptococcus*, *Rhodotorula*, *Penicillium*, *Histoplasma*, *Exophiala*, *Wallemia*, *Hortaea*, *Knufia*, *Botrytis*, plant pathogens) | Rows for *Pneumocystis* 1, *Ajellomyces* 2, *Pyricularia* 2, *Mycosarcoma* 1, *Metarhizium* 2; none for the other named genera | The 2a rows are mostly *Candida*; literature may be empty for some genera (PubMed hits: *Knufia* 0, *Wallemia* 0, *Hortaea* 1) |
 
 No control set is needed for the evidence-only modules (Cys-rich finder, expression, TMHMM). They
 make no accuracy claim.
@@ -39,7 +40,7 @@ agreement (kappa) measurement. They are Plan 2, Task 14, and need HPCC runs.
 | Order | Task | Reason |
 |---|---|---|
 | 1 | 07 hard negatives | Cheap. Tasks 03 and 04 use its output. |
-| 2 | 03 repeat mechanism controls | The 20-cluster floor is the nearest to being met (50 adhesin clusters, 5 labelled repeat). The label is the gap. |
+| 2 | 03 repeat mechanism controls, then 08 for the other clades | The 20-cluster floor is the nearest to being met (50 adhesin clusters, 5 labelled repeat). The label is the gap. |
 | 3 | 01 Onygenales step 1 truth | The paper applies the tool to *Coccidioides*. R0 has no status there. |
 | 4 | 02 more positives, existing species | Needs no new data to start. It gives the reason that four species stay `smoke`. |
 | 5 | 05 allergen controls | Start with the count of IgE-negative records. The answer may close the question. |
