@@ -91,7 +91,7 @@ The module wrappers and the calibration commands now exist:
   checks.
 
 No calibration has been run on HPCC data yet (Tasks 11 to 15 of the plan are not run). Every module
-status is therefore `unvalidated`. The Phase C numbers for rule R0 exist, and `calibrate phasec` can turn them into status entries, but no status file has been written from them in a real work directory.
+status is therefore `unvalidated`. The Phase C numbers for rule R0 exist, and `calibrate phasec` can turn them into status entries (it needs the Phase C cluster files and the SignalP module and mode that Phase C used), but no status file has been written from them in a real work directory. A status counts only for the call named by `call=` in its notes, and `truth` accepts only a call that reads one module and a `run.json` whose module identities match the work directory.
 
 # Author
 
