@@ -72,3 +72,4 @@ where = ["src"]
 [tool.setuptools.package-data]
 # Include models directory and all files within it
 "surface_glyco" = ["models/*"]
+"cellsurface_sorting_hat" = ["categories.yaml"]
