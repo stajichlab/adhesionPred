@@ -35,6 +35,7 @@ dynamic = ["version"]
 surface_glyco_predict = "surface_glyco.scripts.predict:cli"
 surface_glyco_train = "surface_glyco.scripts.train:cli"
 surface_glyco_evaluate = "surface_glyco.scripts.evaluate:cli"
+cellsurface_sorting_hat = "cellsurface_sorting_hat.cli:main"
 
 [project.optional-dependencies]
 dev = [
@@ -58,7 +59,7 @@ select = ["E", "F", "W", "I", "N", "UP", "B", "C4"]
 ignore = ["E501", "N803", "N806", "N999"]
 
 [tool.ruff.lint.isort]
-known-first-party = ["surface_glyco"]
+known-first-party = ["surface_glyco", "cellsurface_sorting_hat"]
 
 [tool.setuptools_scm]
 # Use git tags for versioning
@@ -72,3 +73,4 @@ where = ["src"]
 [tool.setuptools.package-data]
 # Include models directory and all files within it
 "surface_glyco" = ["models/*"]
+"cellsurface_sorting_hat" = ["categories.yaml"]

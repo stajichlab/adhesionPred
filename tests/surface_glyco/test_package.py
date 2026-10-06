@@ -36,6 +36,10 @@ def test_pyproject_names_match_the_decision():
         "surface_glyco_predict": "surface_glyco.scripts.predict:cli",
         "surface_glyco_train": "surface_glyco.scripts.train:cli",
         "surface_glyco_evaluate": "surface_glyco.scripts.evaluate:cli",
+        "cellsurface_sorting_hat": "cellsurface_sorting_hat.cli:main",
     }
-    assert cfg["tool"]["setuptools"]["package-data"] == {"surface_glyco": ["models/*"]}
+    assert cfg["tool"]["setuptools"]["package-data"] == {
+        "surface_glyco": ["models/*"],
+        "cellsurface_sorting_hat": ["categories.yaml"],
+    }
     assert cfg["project"]["requires-python"] == ">=3.11"

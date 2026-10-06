@@ -1,0 +1,86 @@
+# cellsurface_sorting_hat: category rules (version 1). See
+# docs/superpowers/specs/2026-10-04-orchestrator-design.md section 3.4.
+#
+# Node kinds:
+#   {call: MODULE}                  the module's `call` column (called / not_called)
+#   {flag: MODULE.FIELD}            a 1/0 field
+#   {test: {module, field, op, value}}   a number compared with value; "$name" reads `thresholds`
+#   {ref: CALL}                     another call (same step 1 variant if that call is per_variant)
+#   {and: [...]}, {or: [...]}, {not: NODE}
+# `{step1}` in a module name is replaced by the step 1 variant module for per_variant calls.
+# A field that is empty, or a module whose state is not `ok`, gives not_assessable.
+
+version: 1
+default_gate: "step1_rule@R0"
+step1_variants: ["step1_rule@R0", "step1_rule@R1", "step1_rule@R2", "step1_ml@card"]
+
+thresholds:
+  antigen_percentile_max: 15
+  allergen_hit_identity_min: 35
+  allergen_hit_length_min: 80
+  allergen_identity_min: 70
+  allergen_coverage_min: 80
+
+# Fields copied to evidence.tsv.gz when the module row is `ok` and the field is not empty.
+evidence:
+  - antigen_lookup.percentile
+  - antigen_lookup.antigenicity
+  - antigen_lookup.specificity
+  - antigen_lookup.prevalence
+  - antigen_lookup.max_crossreact
+  - allergen_homology.allergen_name
+  - allergen_homology.identity
+  - allergen_homology.coverage
+  - allergen_homology.aligned_length
+  - cys_rich.tier
+  - expression.log2fc
+
+calls:
+  - name: surface_glycoprotein
+    per_variant: true
+    expr: {call: "{step1}"}
+  - name: adhesion_repeat
+    expr:
+      or: [{call: repeat02}, {call: repeat14}]
+  - name: adhesion_domain
+    expr: {flag: pfam_adhesion.hit}
+  - name: cell_wall_adhesion_ungated
+    expr:
+      or: [{ref: adhesion_repeat}, {ref: adhesion_domain}]
+  - name: cell_wall_adhesion_candidate
+    per_variant: true
+    expr:
+      and:
+        - or: [{ref: adhesion_repeat}, {ref: adhesion_domain}]
+        - {ref: surface_glycoprotein}
+  - name: antigen_candidate
+    expr:
+      test: {module: antigen_lookup, field: percentile, op: "<=", value: "$antigen_percentile_max"}
+  - name: antigen_candidate_surface
+    per_variant: true
+    expr:
+      and: [{ref: antigen_candidate}, {ref: surface_glycoprotein}]
+  - name: allergen_homolog_hit
+    expr:
+      and:
+        - test: {module: allergen_homology, field: identity, op: ">=", value: "$allergen_hit_identity_min"}
+        - test: {module: allergen_homology, field: aligned_length, op: ">=", value: "$allergen_hit_length_min"}
+  - name: allergen_candidate
+    expr:
+      or:
+        - and:
+            - test: {module: allergen_homology, field: identity, op: ">=", value: "$allergen_identity_min"}
+            - test: {module: allergen_homology, field: coverage, op: ">=", value: "$allergen_coverage_min"}
+        - {flag: pfam_allergen.hit}
+  - name: other_not_surface
+    per_variant: true
+    kind: other
+    surface: surface_glycoprotein
+    surface_is: not_called
+    mechanism: [adhesion_repeat, adhesion_domain, antigen_candidate, allergen_candidate]
+  - name: other_surface_no_mechanism
+    per_variant: true
+    kind: other
+    surface: surface_glycoprotein
+    surface_is: called
+    mechanism: [adhesion_repeat, adhesion_domain, antigen_candidate, allergen_candidate]
