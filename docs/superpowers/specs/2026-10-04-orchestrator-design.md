@@ -243,6 +243,8 @@ Known limits, printed in the report header (the text is `_known_limits` in `src/
 7. Cell wall integrity signaling, septation, polarized growth, polysaccharide chemistry, non-protein
    adhesins, moonlighting proteins and biofilm are not categories.
 8. The taxon you give is recorded as given. It is not checked against the sequences.
+9. Leakage: overlap between the Phase C positives and the SignalP 6 training data was not
+   measured. The status of rule R0 does not account for it.
 
 ### 3.5 The family table
 

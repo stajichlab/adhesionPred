@@ -42,6 +42,8 @@ def _known_limits(thresholds):
         "Cell wall integrity signaling, septation, polarized growth, polysaccharide chemistry, "
         "non-protein adhesins, moonlighting proteins and biofilm are not categories.",
         "The taxon you give is recorded as given. It is not checked against the sequences.",
+        "Leakage: overlap between the Phase C positives and the SignalP 6 training data was not "
+        "measured. The status of rule R0 does not account for it.",
     ]
 
 
@@ -66,6 +68,8 @@ class RunInfo:
     map_ids_not_in_fasta: int = 0
     unmatched_module_ids: dict = field(default_factory=dict)  # module -> rows with no FASTA ID
     calibration: list = field(default_factory=list)  # rows from cli.calibration_rows
+    # one {name, version, params_hash, artefact_hash} per module that was loaded
+    module_identities: list = field(default_factory=list)
 
 
 def _gz(text):
@@ -209,16 +213,17 @@ def render_report(info, records):
             "",
             "## Module calibration",
             "",
-            "| module | taxon | status | calibration set | positives | negatives "
-            "| sensitivity [95% CI] | specificity [95% CI] |",
-            "|---|---|---|---|---|---|---|---|",
+            "| module | taxon | status | measured on call | calibration set | positives "
+            "| negatives | sensitivity [95% CI] | specificity [95% CI] |",
+            "|---|---|---|---|---|---|---|---|---|",
         ]
         for c in info.calibration:
             n_pos = c["n_pos"] if c["n_pos"] != "" else "-"
             n_neg = c["n_neg"] if c["n_neg"] != "" else "-"
             lines.append(
-                f"| {c['module']} | {c['taxon']} | {c['status']} | {c['calibration_set'] or '-'} "
-                f"| {n_pos} | {n_neg} | {c['sensitivity']} | {c['specificity']} |"
+                f"| {c['module']} | {c['taxon']} | {c['status']} | {c.get('measured_call') or '-'} "
+                f"| {c['calibration_set'] or '-'} | {n_pos} | {n_neg} "
+                f"| {c['sensitivity']} | {c['specificity']} |"
             )
     lines += [
         "",

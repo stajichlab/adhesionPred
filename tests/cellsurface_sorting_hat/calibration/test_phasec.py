@@ -3,16 +3,40 @@ from pathlib import Path
 
 import pytest
 
+from cellsurface_sorting_hat.calibration.intervals import wilson_p
 from cellsurface_sorting_hat.calibration.measure import write_status_source
 from cellsurface_sorting_hat.calibration.phasec import (
+    LEAKAGE_NOTE,
     SETS,
-    entries_from_phasec,
+    check_signalp,
+    count_clusters,
     read_names,
     species_taxid,
 )
+from cellsurface_sorting_hat.calibration.phasec import entries_from_phasec as _entries_from_phasec
 from cellsurface_sorting_hat.modules.base import ModuleSpec, write_module
 from cellsurface_sorting_hat.status import load_status_source
 from cellsurface_sorting_hat.taxonomy import TaxonError
+
+MANY = 10**6  # so many clusters that the Wilson interval does not change a file interval
+
+
+def counts_from(path, c_pos=MANY, c_neg=MANY):
+    """Cluster counts that agree with the protein counts of the metrics file."""
+    try:
+        sets = json.loads(Path(path).read_text())["test_sets"]
+    except ValueError:  # a test of an unreadable file: the real function reports it
+        sets = {}
+    out = {s: {"pos": (0, 0), "neg": (0, 0)} for g in SETS.values() for s in g}
+    for key, group in SETS.items():
+        if key in sets:
+            n = sets[key]["truth"]["direct"]["n"]["all"]
+            out[group[0]] = {"pos": (n["pos"], c_pos), "neg": (n["neg"], c_neg)}
+    return out
+
+
+def entries_from_phasec(path, taxa, counts=None, **kw):
+    return _entries_from_phasec(path, taxa, counts or counts_from(path), **kw)
 
 
 def cell(r, f):
@@ -193,6 +217,12 @@ def _calb(path):
     ]
 
 
+def _calb_with(path, counts):
+    return {
+        e["measure"]["calibration_set"]: e for e in _entries_from_phasec(path, SET_TAXA, counts)
+    }["S1:Calb_CGD"]
+
+
 def test_the_phase_c_label_caps_a_tight_measure(tmp_path):
     path = _with_calb(
         tmp_path, "l.json", "smoke test", 400, 4000, cell((0.5, 0.48, 0.52), (0.05, 0.04, 0.06))
@@ -211,13 +241,137 @@ def test_the_rule_boundaries_at_20_positives_and_half_width_0_10(tmp_path):
     assert _calb(_with_calb(tmp_path, "d.json", "estimate", 20, 20, wide))["status"] == "smoke"
 
 
-def test_the_notes_do_not_claim_the_cluster_floor_was_met(tmp_path):
-    m = _calb(
-        _with_calb(
-            tmp_path, "n.json", "estimate", 400, 4000, cell((0.5, 0.48, 0.52), (0.05, 0.04, 0.06))
-        )
-    )["measure"]
-    assert "n_clusters_pos" not in m and "cluster floor was not checked" in m["notes"]
+def test_the_notes_record_clusters_call_module_and_the_leakage_limit(tmp_path):
+    path = _with_calb(
+        tmp_path, "n.json", "estimate", 400, 4000, cell((0.5, 0.48, 0.52), (0.05, 0.04, 0.06))
+    )
+    counts = counts_from(path, c_pos=300, c_neg=900)
+    m = {
+        e["measure"]["calibration_set"]: e
+        for e in _entries_from_phasec(path, SET_TAXA, counts, extra_notes="signalp_mode=fast")
+    }["S1:Calb_CGD"]["measure"]
+    assert (m["n_clusters_pos"], m["n_clusters_neg"]) == (300, 900)
+    assert "cluster floor was not checked" not in m["notes"]
+    assert LEAKAGE_NOTE in m["notes"]
+    assert m["notes"].endswith(
+        "leakage: overlap between the Phase C positives and the SignalP 6 training data "
+        "was not measured"
+    )
+    assert "call=signal_peptide_protein; module=step1_rule@R0" in m["notes"]
+    assert "signalp_mode=fast" in m["notes"]
+
+
+def test_the_interval_is_the_widest_of_the_file_and_the_wilson_interval_on_clusters(tmp_path):
+    path = _with_calb(
+        tmp_path, "w.json", "estimate", 400, 4000, cell((0.5, 0.48, 0.52), (0.05, 0.04, 0.06))
+    )
+    m = _calb_with(path, counts_from(path, c_pos=40, c_neg=50))["measure"]
+    _, lo, hi = wilson_p(0.5, 40)
+    assert m["sensitivity"]["lo"] == pytest.approx(lo) and m["sensitivity"]["hi"] == pytest.approx(
+        hi
+    )
+    _, lo, hi = wilson_p(0.95, 50)  # specificity = 1 - fpr = 0.95
+    assert m["specificity"]["lo"] == pytest.approx(lo) and m["specificity"]["hi"] == pytest.approx(
+        hi
+    )
+    # a file interval wider than the Wilson interval stays
+    path = _with_calb(
+        tmp_path, "w2.json", "estimate", 400, 4000, cell((0.5, 0.2, 0.8), (0.05, 0.0, 0.2))
+    )
+    m = _calb_with(path, counts_from(path, c_pos=300, c_neg=300))["measure"]
+    assert (m["sensitivity"]["lo"], m["sensitivity"]["hi"]) == (0.2, 0.8)
+
+
+def test_fewer_than_20_clusters_of_a_class_is_smoke_even_with_a_narrow_interval(tmp_path):
+    path = _with_calb(
+        tmp_path, "f.json", "estimate", 400, 4000, cell((0.99, 0.98, 1.0), (0.01, 0.0, 0.02))
+    )
+    assert _calb_with(path, counts_from(path, c_pos=300, c_neg=300))["status"] == "estimated"
+    assert _calb_with(path, counts_from(path, c_pos=19, c_neg=300))["status"] == "smoke"
+    assert _calb_with(path, counts_from(path, c_pos=300, c_neg=19))["status"] == "smoke"
+
+
+def test_protein_counts_that_differ_from_metrics_are_refused_with_both_counts(tmp_path):
+    path = _metrics(tmp_path)
+    counts = counts_from(path)
+    counts["Calb_CGD"] = {"pos": (152, 100), "neg": (2244, 100)}
+    with pytest.raises(ValueError, match=r"metrics\.json.*153.*2244.*152.*2244.*Calb_CGD"):
+        _entries_from_phasec(path, SET_TAXA, counts, where_counts="eval.tsv.gz joined to cl.tsv.gz")
+    with pytest.raises(ValueError, match="eval.tsv.gz joined to cl.tsv.gz"):
+        _entries_from_phasec(path, SET_TAXA, counts, where_counts="eval.tsv.gz joined to cl.tsv.gz")
+
+
+def _write_gz(path, text):
+    import gzip
+
+    with gzip.open(path, "wt") as fh:
+        fh.write(text)
+
+
+EVAL_HEAD = "seq_sha256\torigin\tclass\thomology_only\tsource_ids\n"
+
+
+def test_count_clusters_joins_the_two_files_and_applies_the_filters(tmp_path):
+    _write_gz(
+        tmp_path / "cl.tsv.gz",
+        "seq_sha256\tcluster_id\n"
+        + "".join(f"{h}\t{c}\n" for h, c in [("a", "1"), ("b", "1"), ("c", "2"), ("d", "3")])
+        + "e\t4\nf\t5\n",
+    )
+    _write_gz(
+        tmp_path / "ev.tsv.gz",
+        EVAL_HEAD
+        + "a\tgo\tpos\tno\tAnid_EMENI\n"
+        + "b\tgo\tpos\tno\tAnid_EMENI\n"  # same cluster as a
+        + "c\tgo\tneg\tno\tAfum_ASPFU,Anid_EMENI\n"  # in two sources
+        + "d\ttc\tpos\t\tAnid_EMENI\n"  # not origin go
+        + "e\tgo\tpos\tyes\tAnid_EMENI\n"  # homology only
+        + "f\tgo\texcluded\tno\tAnid_EMENI\n",  # not pos or neg
+    )
+    got = count_clusters(tmp_path / "cl.tsv.gz", tmp_path / "ev.tsv.gz")
+    assert got["Anid_EMENI"] == {"pos": (2, 1), "neg": (1, 1)}
+    assert got["Afum_ASPFU"] == {"pos": (0, 0), "neg": (1, 1)}
+    assert got["Scer_SGD"] == {"pos": (0, 0), "neg": (0, 0)}
+
+
+def test_count_clusters_refuses_a_protein_with_no_cluster_and_a_missing_column(tmp_path):
+    _write_gz(tmp_path / "cl.tsv.gz", "seq_sha256\tcluster_id\na\t1\n")
+    _write_gz(tmp_path / "ev.tsv.gz", EVAL_HEAD + "z\tgo\tpos\tno\tAnid_EMENI\n")
+    with pytest.raises(ValueError, match=r"ev\.tsv\.gz.*z.*cl\.tsv\.gz"):
+        count_clusters(tmp_path / "cl.tsv.gz", tmp_path / "ev.tsv.gz")
+    _write_gz(tmp_path / "ev2.tsv.gz", "seq_sha256\torigin\n")
+    with pytest.raises(ValueError, match=r"ev2\.tsv\.gz.*missing column"):
+        count_clusters(tmp_path / "cl.tsv.gz", tmp_path / "ev2.tsv.gz")
+
+
+def _r0_record(tmp_path, version="6.0h-gpu", mode="fast"):
+    path = tmp_path / "r0.json"
+    path.write_text(json.dumps({"tools": {"signalp": version}, "params": {"mode": mode}}))
+    return path
+
+
+def test_check_signalp_accepts_the_matching_module_and_mode(tmp_path):
+    assert check_signalp(_r0_record(tmp_path), "signalp/6-gpu", "fast") == "6.0h-gpu"
+
+
+@pytest.mark.parametrize(
+    "version, module, mode",
+    [
+        ("6.0h-gpu", "signalp/6-gpu", "slow"),  # another mode
+        ("6.0h-cpu", "signalp/6-gpu", "fast"),  # CPU build, GPU module
+        ("6.0h-gpu", "signalp/6", "fast"),  # GPU build, CPU module
+        ("5.1b", "signalp/6-gpu", "fast"),  # another major version
+    ],
+)
+def test_check_signalp_refuses_a_mismatch_naming_both_values(tmp_path, version, module, mode):
+    with pytest.raises(ValueError, match="r0.json") as err:
+        check_signalp(_r0_record(tmp_path, version), module, mode)
+    assert module in str(err.value) or mode in str(err.value)
+
+
+def test_check_signalp_refuses_a_module_that_is_not_signalp(tmp_path):
+    with pytest.raises(ValueError, match="tmhmm/2"):
+        check_signalp(_r0_record(tmp_path), "tmhmm/2", "fast")
 
 
 def test_a_species_not_in_the_file_is_refused_with_path_and_key(tmp_path):
@@ -268,7 +422,8 @@ REAL = Path(
 @pytest.mark.skipif(not REAL.exists(), reason="the Phase C output is not on this machine")
 def test_the_real_phase_c_file_loads_one_entry_per_species():
     taxa = {k: [i + 1] for i, k in enumerate(SETS)}
-    entries = entries_from_phasec(REAL, taxa)
+    counts = count_clusters(REAL.with_name("clusters.tsv.gz"), REAL.with_name("eval_table.tsv.gz"))
+    entries = _entries_from_phasec(REAL, taxa, counts)
     by = {e["measure"]["calibration_set"]: e for e in entries}
     assert len(entries) == 6
     assert by["S3-Eurotiomycetes:Anid_EMENI"]["status"] == "estimated"

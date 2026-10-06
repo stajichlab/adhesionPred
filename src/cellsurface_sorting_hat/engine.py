@@ -156,11 +156,15 @@ def _validate_node(node, seen, per_variant, thresholds, where):
 @dataclass
 class _Result:
     value: str
-    contributors: frozenset
+    contributors: (
+        frozenset  # of (module, call): the call in which the leaf that reads the module sits
+    )
 
 
-def _leaf(value, module):
-    return _Result(value, frozenset([module]) if value != NOT_ASSESSABLE else frozenset())
+def _leaf(value, module, ctx):
+    if value == NOT_ASSESSABLE:
+        return _Result(value, frozenset())
+    return _Result(value, frozenset([(module, ctx["call_name"])]))
 
 
 def _row(modules, module, protein_id):
@@ -179,13 +183,13 @@ def _eval(node, ctx):
         module = arg.replace("{step1}", ctx["step1"] or "")
         row = _row(ctx["modules"], module, ctx["protein"])
         value = row.get("call") if row else None
-        return _leaf(value if value in (CALLED, NOT_CALLED) else NOT_ASSESSABLE, module)
+        return _leaf(value if value in (CALLED, NOT_CALLED) else NOT_ASSESSABLE, module, ctx)
     if kind == "flag":
         module, fld = arg.split(".", 1)
         row = _row(ctx["modules"], module, ctx["protein"])
         raw = row.get(fld, "") if row else ""
         value = {"1": CALLED, "0": NOT_CALLED}.get(str(raw).strip(), NOT_ASSESSABLE)
-        return _leaf(value, module)
+        return _leaf(value, module, ctx)
     if kind == "test":
         row = _row(ctx["modules"], arg["module"], ctx["protein"])
         limit = arg["value"]
@@ -196,8 +200,9 @@ def _eval(node, ctx):
         except (KeyError, TypeError, ValueError):
             number = None
         if number is None or not math.isfinite(number):  # missing, empty, NaN or infinite
-            return _leaf(NOT_ASSESSABLE, arg["module"])
-        return _leaf(CALLED if _OPS[arg["op"]](number, limit) else NOT_CALLED, arg["module"])
+            return _leaf(NOT_ASSESSABLE, arg["module"], ctx)
+        value = CALLED if _OPS[arg["op"]](number, limit) else NOT_CALLED
+        return _leaf(value, arg["module"], ctx)
     if kind == "ref":
         callee = ctx["cfg"].call_by_name(arg)
         label = ctx["label"] if callee.get("per_variant") else ""
@@ -242,20 +247,30 @@ def available_variants(cfg, modules):
     return [v for v in cfg.step1_variants if v in modules]
 
 
-def evaluate(cfg, protein_ids, taxa, modules, status_of):
+def evaluate(cfg, protein_ids, taxa, modules, status_of, measured_call_of=None):
     """Evaluate every call for every protein; return a list of ``CallRecord``.
 
     ``taxa`` maps protein ID to taxon ID. ``modules`` maps module name to ``ModuleTable``.
     ``status_of(module, taxon)`` returns ``(status, basis)``.
+
+    ``measured_call_of(module, taxon)`` returns the call on which the status of the module was
+    measured, or None (an entry without ``call=`` in its notes). A status counts for a call only
+    when the leaf that reads the module sits in the measured call. In every other call that reads
+    the module, the module is ``unvalidated`` with the basis ``module measured on call X``. Without
+    ``measured_call_of`` every status counts for every call.
     """
     variants = available_variants(cfg, modules)
     status_cache, records = {}, []
 
-    def status_for(module, taxon):
+    def status_for(module, taxon, leaf_call):
         key = (module, taxon)
         if key not in status_cache:
-            status_cache[key] = status_of(module, taxon)
-        return status_cache[key]
+            measured = measured_call_of(module, taxon) if measured_call_of else None
+            status_cache[key] = (*status_of(module, taxon), measured)
+        status, basis, measured = status_cache[key]
+        if measured is not None and measured != leaf_call:
+            return UNVALIDATED, f"module measured on call {measured}"
+        return status, basis
 
     for pid in protein_ids:
         taxon = taxa[pid]
@@ -274,6 +289,7 @@ def evaluate(cfg, protein_ids, taxa, modules, status_of):
                     "results": results,
                     "step1": step1,
                     "label": label,
+                    "call_name": call["name"],
                 }
                 other_basis = ""
                 if call.get("kind") == "other":
@@ -283,9 +299,11 @@ def evaluate(cfg, protein_ids, taxa, modules, status_of):
                 results[(call["name"], label)] = res
                 if res.contributors:
                     names = sorted(res.contributors)
-                    pairs = [status_for(m, taxon) for m in names]
+                    pairs = [status_for(m, taxon, c) for m, c in names]
                     status = weakest(s for s, _ in pairs)
-                    basis = ";".join(f"{m}:{b}" for m, (_, b) in zip(names, pairs, strict=True))
+                    basis = ";".join(
+                        f"{m}:{b}" for (m, _), (_, b) in zip(names, pairs, strict=True)
+                    )
                 else:
                     status, basis = UNVALIDATED, ""
                 records.append(

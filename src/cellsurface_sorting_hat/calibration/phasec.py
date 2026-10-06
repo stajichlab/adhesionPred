@@ -5,15 +5,22 @@ rate on a test set are measurements of the rule itself. Only the single-species 
 ``SETS`` are used, so no tested taxon appears in two entries. Specificity is ``1 - FPR`` over all
 negative classes of the set, with the interval ends swapped.
 
+Cluster counts come from the Phase C cluster file (``count_clusters``). The interval of each rate is
+the union of the interval in ``metrics.json`` and the Wilson interval on the number of clusters of
+that class (the same widest-of rule as ``cluster_bootstrap``). A set whose protein counts differ from
+``metrics.json`` is refused.
+
 The file is validated before any entry is returned: a missing key or a non-finite or out-of-range
 number is refused with a ``ValueError`` that names the path and the key.
 """
 
+import csv
+import gzip
 import json
 import math
 from pathlib import Path
 
-from cellsurface_sorting_hat.calibration.intervals import wilson
+from cellsurface_sorting_hat.calibration.intervals import wilson, wilson_p
 from cellsurface_sorting_hat.calibration.measure import make_entry
 from cellsurface_sorting_hat.taxonomy import TaxonError
 
@@ -30,6 +37,92 @@ SETS = {
 }
 STRATA = ("N-int", "N-sec", "PM-TM")
 LABELS = ("estimate", "smoke test")
+LEAKAGE_NOTE = "leakage: overlap between the Phase C positives and the SignalP 6 training data was not measured"
+# the call and module that the R0 measurement belongs to (decision of 2026-10-06)
+R0_CALL = "signal_peptide_protein"
+R0_VARIANT = "R0"
+R0_MODULE = f"step1_rule@{R0_VARIANT}"
+
+
+def _open_text(path):
+    path = Path(path)
+    if path.suffix == ".gz":
+        return gzip.open(path, "rt", encoding="utf-8-sig", newline="")
+    return open(path, encoding="utf-8-sig", newline="")
+
+
+def _read_tsv(path, columns):
+    try:
+        with _open_text(path) as fh:
+            reader = csv.DictReader(fh, delimiter="\t")
+            missing = [c for c in columns if c not in (reader.fieldnames or [])]
+            if missing:
+                raise ValueError(f"{path}: missing column(s) {missing}")
+            yield from reader
+    except (OSError, EOFError) as exc:
+        raise ValueError(f"{path}: cannot be read: {exc}") from exc
+
+
+def count_clusters(clusters_path, eval_table_path):
+    """Proteins and distinct clusters per Phase C source and class.
+
+    Rows of ``eval_table`` with origin ``go``, ``homology_only`` ``no`` and class ``pos`` or ``neg``
+    are joined to ``clusters`` on ``seq_sha256``. A row belongs to every source listed in
+    ``source_ids`` (comma separated). Returns ``{source: {"pos": (n_proteins, n_clusters),
+    "neg": (...)}}`` for the sources in ``SETS``. A protein with no cluster is refused."""
+    cluster_of = {}
+    for r in _read_tsv(clusters_path, ("seq_sha256", "cluster_id")):
+        if cluster_of.setdefault(r["seq_sha256"], r["cluster_id"]) != r["cluster_id"]:
+            raise ValueError(f"{clusters_path}: {r['seq_sha256']} is in two clusters")
+    wanted = {s for group in SETS.values() for s in group}
+    proteins = {(s, c): 0 for s in wanted for c in ("pos", "neg")}
+    clusters = {key: set() for key in proteins}
+    columns = ("seq_sha256", "origin", "class", "homology_only", "source_ids")
+    for r in _read_tsv(eval_table_path, columns):
+        if r["origin"] != "go" or r["homology_only"] != "no" or r["class"] not in ("pos", "neg"):
+            continue
+        for source in {x.strip() for x in r["source_ids"].split(",")} & wanted:
+            cluster = cluster_of.get(r["seq_sha256"])
+            if cluster is None:
+                raise ValueError(
+                    f"{eval_table_path}: {r['seq_sha256']} ({source}) is not in {clusters_path}"
+                )
+            proteins[(source, r["class"])] += 1
+            clusters[(source, r["class"])].add(cluster)
+    return {
+        s: {c: (proteins[(s, c)], len(clusters[(s, c)])) for c in ("pos", "neg")} for s in wanted
+    }
+
+
+def check_signalp(record_path, module, mode):
+    """Compare the SignalP module and mode of Phase C with the work directory's R0 record.
+
+    The record holds the SignalP version (``tools.signalp``, for example ``6.0h-gpu``) and the mode
+    (``params.mode``). It does not hold the name of the environment module (``signalp/6-gpu``), so
+    the module name is compared through its major version and its ``gpu`` tag. Returns the version
+    string of the record."""
+    try:
+        record = json.loads(Path(record_path).read_text())
+        version = str(record["tools"]["signalp"])
+        record_mode = str(record["params"]["mode"])
+    except (OSError, ValueError, KeyError, TypeError) as exc:
+        raise ValueError(
+            f"{record_path}: no SignalP version or mode in the record: {exc!r}"
+        ) from exc
+    name, _, tag = module.partition("/")
+    major, _, suffix = tag.partition("-")
+    if name != "signalp" or not major:
+        raise ValueError(f"--phasec-signalp-module {module!r}: expected a name like signalp/6-gpu")
+    if not version.startswith(major) or (suffix == "gpu") != ("gpu" in version):
+        raise ValueError(
+            f"--phasec-signalp-module {module!r} does not match SignalP version {version!r} "
+            f"in {record_path}"
+        )
+    if mode != record_mode:
+        raise ValueError(
+            f"--phasec-signalp-mode {mode!r} does not match mode {record_mode!r} in {record_path}"
+        )
+    return version
 
 
 def read_names(names_dmp):
@@ -83,13 +176,22 @@ def rate_from_phasec(cell, where):
     return {"value": value, "lo": lo, "hi": hi}
 
 
-def entries_from_phasec(metrics_json, set_taxa, candidate="R0", variant="V-go", truth="direct"):
+def entries_from_phasec(
+    metrics_json,
+    set_taxa,
+    cluster_counts,
+    extra_notes="",
+    candidate="R0",
+    variant="V-go",
+    truth="direct",
+    where_counts="the cluster files",
+):
     """Return a list of entries (see ``make_entry``), one per test set in ``set_taxa``.
 
     ``set_taxa`` maps a Phase C test set key to its species-level taxon IDs. The status is the
-    weaker of the Phase C label (``estimate`` or ``smoke test``) and ``status_from_measure``. A
-    Phase C measure records no cluster counts, so the cluster floor is not applied and is not
-    claimed; the entry says so in its notes. The rates of the negative classes (N-int, N-sec,
+    weaker of the Phase C label (``estimate`` or ``smoke test``) and ``status_from_measure``.
+    ``cluster_counts`` is the result of ``count_clusters``; its protein counts must equal the counts
+    in ``metrics.json``. The rates of the negative classes (N-int, N-sec,
     PM-TM) are kept in ``strata``, because the pooled specificity depends on the mix of negatives.
     """
     path = Path(metrics_json)
@@ -110,6 +212,12 @@ def entries_from_phasec(metrics_json, set_taxa, candidate="R0", variant="V-go", 
         n_pos = _count(_get(counts, "pos", f"{where}.n.all"), f"{where}.n.all.pos")
         n_neg = _count(_get(counts, "neg", f"{where}.n.all"), f"{where}.n.all.neg")
         metrics = _get(t, "metrics", f"{where}.truth.{truth}")
+        (p_pos, c_pos), (p_neg, c_neg) = (cluster_counts[SETS[key][0]][c] for c in ("pos", "neg"))
+        if (p_pos, p_neg) != (n_pos, n_neg):
+            raise ValueError(
+                f"{where}: {path} has n_pos={n_pos}, n_neg={n_neg}; {where_counts} give "
+                f"{p_pos} and {p_neg} proteins for {SETS[key][0]}"
+            )
 
         sens = _cell(metrics, "all", "recall", variant, candidate, where)
         fpr = _cell(metrics, "all", "fpr", variant, candidate, where)
@@ -118,15 +226,20 @@ def entries_from_phasec(metrics_json, set_taxa, candidate="R0", variant="V-go", 
             "truth_source": f"{path.name}:test_sets/{key}/truth/{truth}",
             "n_pos": n_pos,
             "n_neg": n_neg,
+            "n_clusters_pos": c_pos,
+            "n_clusters_neg": c_neg,
             "notes": (
                 f"Phase C {label}; rule {candidate}, variant {variant}; GO direct evidence; "
-                "cluster counts not recorded, so the cluster floor was not checked"
+                f"interval is the widest of the file's interval and the Wilson interval on the "
+                f"cluster count; call={R0_CALL}; module={R0_MODULE}; variant={R0_VARIANT}; "
+                f"{extra_notes + '; ' if extra_notes else ''}{LEAKAGE_NOTE}"
             ),
         }
         if sens:
-            measure["sensitivity"] = widen_at_boundary(sens, n_pos)
+            measure["sensitivity"] = widest_with_clusters(widen_at_boundary(sens, n_pos), c_pos)
         if fpr:
-            measure["specificity"] = widen_at_boundary(_spec_from_fpr(fpr), n_neg)
+            spec = widen_at_boundary(_spec_from_fpr(fpr), n_neg)
+            measure["specificity"] = widest_with_clusters(spec, c_neg)
         strata = {}
         for name in STRATA:
             f = _cell(metrics, name, "fpr", variant, candidate, where)
@@ -142,6 +255,18 @@ def entries_from_phasec(metrics_json, set_taxa, candidate="R0", variant="V-go", 
             entry["status"] = "smoke"
         entries.append(entry)
     return entries
+
+
+def widest_with_clusters(rate, n_clusters):
+    """Union of ``rate`` and the Wilson interval with ``p = value`` on ``n_clusters`` clusters."""
+    if not rate or n_clusters < 1:
+        return rate
+    _, lo, hi = wilson_p(rate["value"], n_clusters)
+    return {
+        "value": rate["value"],
+        "lo": min(rate["lo"], lo, rate["value"]),
+        "hi": max(rate["hi"], hi, rate["value"]),
+    }
 
 
 def _spec_from_fpr(fpr):

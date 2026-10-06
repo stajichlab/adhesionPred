@@ -23,10 +23,12 @@ def table(name, rows):
     return ModuleTable(name, {k: dict(v) for k, v in rows.items()})
 
 
-def run(modules, status_of=None, ids=("P",), taxon=40):
+def run(modules, status_of=None, ids=("P",), taxon=40, measured_call_of=None):
     cfg = load_config()
     status_of = status_of or (lambda module, t: ("unvalidated", "x"))
-    records = evaluate(cfg, list(ids), dict.fromkeys(ids, taxon), modules, status_of)
+    records = evaluate(
+        cfg, list(ids), dict.fromkeys(ids, taxon), modules, status_of, measured_call_of
+    )
     return {(r.protein, r.call, r.variant): r for r in records}
 
 
@@ -395,3 +397,99 @@ def test_or_false_takes_status_from_all_inputs():
     r = run(base_modules(), status_of=statuses)[("P", "tandem_repeat_protein", "")]
     assert (r.value, r.status) == ("not_called", "smoke")
     assert _basis_modules(r) == {"repeat02", "repeat14"}
+
+
+# ---- a status counts for the call on which the module was measured (decision of 2026-10-06) ----
+
+
+def _measured(mapping):
+    """``measured_call_of`` from {module: call}; a module not listed has an entry without ``call=``."""
+    return lambda module, taxon: mapping.get(module)
+
+
+def _all_estimated(module, taxon):
+    return ("estimated", f"taxon:{taxon}")
+
+
+def _allergen_modules(identity="100"):
+    return base_modules(
+        allergen_homology=table(
+            "allergen_homology",
+            {"P": ok(identity=identity, coverage="100", aligned_length="1000")},
+        )
+    )
+
+
+def test_a_module_measured_on_call_a_is_unvalidated_for_call_b_that_reads_it():
+    mods = _allergen_modules()
+    res = run(
+        mods,
+        _all_estimated,
+        measured_call_of=_measured({"allergen_homology": "iuis_allergen_similarity"}),
+    )
+    similarity = res[("P", "iuis_allergen_similarity", "")]
+    homolog = res[("P", "iuis_allergen_homolog", "")]
+    assert (similarity.value, similarity.status) == ("called", "estimated")
+    assert (homolog.value, homolog.status) == ("called", "unvalidated")
+    assert "allergen_homology:module measured on call iuis_allergen_similarity" in (
+        homolog.status_basis
+    )
+
+
+def test_the_measured_call_is_the_one_that_keeps_its_status():
+    mods = _allergen_modules()
+    res = run(
+        mods,
+        _all_estimated,
+        measured_call_of=_measured({"allergen_homology": "iuis_allergen_homolog"}),
+    )
+    assert res[("P", "iuis_allergen_homolog", "")].status == "estimated"
+    assert res[("P", "iuis_allergen_similarity", "")].status == "unvalidated"
+
+
+def test_a_legacy_entry_without_call_keeps_the_status_in_every_call():
+    mods = _allergen_modules()
+    res = run(mods, _all_estimated, measured_call_of=_measured({}))
+    assert res[("P", "iuis_allergen_similarity", "")].status == "estimated"
+    assert res[("P", "iuis_allergen_homolog", "")].status == "estimated"
+    res = run(mods, _all_estimated)  # no measured_call_of at all
+    assert res[("P", "iuis_allergen_homolog", "")].status == "estimated"
+
+
+def _composite_modules():
+    # R0 called and pfam_adhesion hit: cell_wall_adhesion_candidate is called through wall_family_domain
+    return base_modules(step1="called", pfam_adhesion=table("pfam_adhesion", {"P": ok(hit="1")}))
+
+
+def test_a_composite_call_follows_the_leaf_call_through_ref():
+    measured = {R0: "signal_peptide_protein", "pfam_adhesion": "wall_family_domain"}
+    res = run(_composite_modules(), _all_estimated, measured_call_of=_measured(measured))
+    r = res[("P", "cell_wall_adhesion_candidate", "R0")]
+    assert (r.value, r.status) == ("called", "estimated")
+    # pfam_adhesion measured on another call: the composite call loses it, the leaf call keeps R0
+    measured["pfam_adhesion"] = "tandem_repeat_protein"
+    res = run(_composite_modules(), _all_estimated, measured_call_of=_measured(measured))
+    r = res[("P", "cell_wall_adhesion_candidate", "R0")]
+    assert (r.value, r.status) == ("called", "unvalidated")
+    assert "pfam_adhesion:module measured on call tandem_repeat_protein" in r.status_basis
+    assert res[("P", "signal_peptide_protein", "R0")].status == "estimated"
+    assert res[("P", "wall_family_domain", "")].status == "unvalidated"
+
+
+def test_a_step_1_module_measured_on_a_composite_call_does_not_count_for_its_own_leaf_call():
+    measured = {R0: "cell_wall_adhesion_candidate", "pfam_adhesion": "wall_family_domain"}
+    res = run(_composite_modules(), _all_estimated, measured_call_of=_measured(measured))
+    assert res[("P", "signal_peptide_protein", "R0")].status == "unvalidated"
+    assert res[("P", "cell_wall_adhesion_candidate", "R0")].status == "unvalidated"
+
+
+def test_the_weakest_deciding_module_rule_still_holds_with_measured_calls():
+    mods = base_modules()
+    mods["repeat02"] = table("repeat02", {"P": ok(call="called")})
+    mods["repeat14"] = table("repeat14", {"P": ok(call="called")})
+    statuses = _status_fn({"repeat02": "estimated", "repeat14": "smoke"})
+    measured = {"repeat02": "tandem_repeat_protein", "repeat14": "tandem_repeat_protein"}
+    r = run(mods, status_of=statuses, measured_call_of=_measured(measured))[
+        ("P", "tandem_repeat_protein", "")
+    ]
+    assert (r.value, r.status) == ("called", "smoke")

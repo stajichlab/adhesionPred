@@ -109,3 +109,52 @@ def test_known_limits_print_the_configured_antigen_percentile():
     report = render_report(info(thresholds={"antigen_percentile_max": 10}), [])
     assert "is the top 10% of a fixed Coccidioides" in report
     assert "top 15%" not in report
+
+
+def test_run_json_carries_the_module_identities(tmp_path):
+    import json
+
+    from cellsurface_sorting_hat.outputs import write_run_json
+
+    identities = [{"name": "repeat02", "version": "1", "params_hash": "p", "artefact_hash": "a"}]
+    write_run_json(tmp_path / "run.json", info(module_identities=identities))
+    assert json.loads((tmp_path / "run.json").read_text())["module_identities"] == identities
+    write_run_json(tmp_path / "run2.json", info())
+    assert json.loads((tmp_path / "run2.json").read_text())["module_identities"] == []
+
+
+def _spec_limits():
+    """The numbered known-limits items of the orchestrator spec, joined to one line each."""
+    import re
+    from pathlib import Path
+
+    text = (
+        Path(__file__).parents[2] / "docs/superpowers/specs/2026-10-04-orchestrator-design.md"
+    ).read_text()
+    block = text.split("Known limits, printed in the report header", 1)[1].split("\n### ", 1)[0]
+    items = []
+    for line in block.splitlines()[1:]:
+        if re.match(r"^\d+\. ", line):
+            items.append(re.sub(r"^\d+\. ", "", line).strip())
+        elif line.startswith("   ") and items:
+            items[-1] += " " + line.strip()
+    return items
+
+
+def test_the_spec_and_the_report_list_the_same_known_limits():
+    from cellsurface_sorting_hat.outputs import _known_limits
+
+    code = [" ".join(t.split()) for t in _known_limits({"antigen_percentile_max": 15})]
+    spec = _spec_limits()
+    assert len(spec) == len(code) == 9
+    for i, (a, b) in enumerate(zip(spec, code, strict=True), 1):
+        if i != 5:  # the spec writes the percentile as P%; the code prints the configured value
+            assert a == b, f"item {i}"
+
+
+def test_the_last_known_limit_says_the_signalp_leakage_was_not_measured():
+    report = render_report(info(), [])
+    assert (
+        "9. Leakage: overlap between the Phase C positives and the SignalP 6 training data was "
+        "not measured." in report
+    )

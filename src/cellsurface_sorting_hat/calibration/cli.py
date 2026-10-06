@@ -14,7 +14,7 @@ from cellsurface_sorting_hat.calibration.measure import (
     write_status_source,
 )
 from cellsurface_sorting_hat.calibration.panel import panel_check
-from cellsurface_sorting_hat.engine import load_config, modules_of_call
+from cellsurface_sorting_hat.engine import load_config, modules_of_call, variant_label
 from cellsurface_sorting_hat.fasta import read_fasta
 from cellsurface_sorting_hat.modules import allergen, pfam
 from cellsurface_sorting_hat.taxonomy import TaxonError
@@ -29,6 +29,22 @@ def build_parser():
     )
     p.add_argument("--workdir", required=True)
     p.add_argument("--metrics", required=True)
+    p.add_argument(
+        "--clusters", required=True, help="Phase C clusters.tsv.gz (seq_sha256, cluster_id)"
+    )
+    p.add_argument(
+        "--eval-table", required=True, help="Phase C eval_table.tsv.gz (origin, class, source_ids)"
+    )
+    p.add_argument(
+        "--phasec-signalp-module",
+        required=True,
+        help="SignalP environment module that Phase C used, for example signalp/6-gpu",
+    )
+    p.add_argument(
+        "--phasec-signalp-mode",
+        required=True,
+        help="SignalP mode that Phase C used, for example fast",
+    )
     p.add_argument("--set-species", required=True, help="TSV: set_key, scientific_name")
     p.add_argument("--names-dmp", required=True)
     p.add_argument(
@@ -218,6 +234,37 @@ def _merge_entries(path, new_entries, workdir=None, module=None):
     return [e for e in old if e["measure"]["calibration_set"] not in names] + list(new_entries)
 
 
+def _reads_of_call(cfg, call, variant):
+    """Modules that a call reads. With ``variant``, a step 1 module of another variant is left out."""
+    reads = modules_of_call(cfg, call)
+    if variant:
+        reads = [m for m in reads if m not in cfg.step1_variants or variant_label(m) == variant]
+    return reads
+
+
+def _check_run_identity(calls_long, workdir, module):
+    """``run.json`` next to ``calls_long`` must carry the identity of ``module`` that the work
+    directory's module record carries now. A status belongs to the data it was measured on."""
+    path = Path(calls_long).with_name("run.json")
+    if not path.is_file():
+        raise ValueError(f"{path}: not found; it must be next to --calls-long (the run output)")
+    try:
+        run_json = json.loads(path.read_text(encoding="utf-8-sig"))
+        listed = run_json["module_identities"]
+        mine = [m for m in listed if m.get("name") == module]
+    except (ValueError, KeyError, TypeError, AttributeError) as exc:
+        raise ValueError(f"{path}: no usable module_identities ({exc!r})") from exc
+    if len(mine) != 1:
+        raise ValueError(f"{path}: module_identities has no entry for module {module!r}")
+    record = json.loads(_require_run_record(workdir, module).read_text())
+    for key in ("version", "params_hash", "artefact_hash"):
+        if str(mine[0].get(key)) != str(record.get(key)):
+            raise ValueError(
+                f"module {module!r}: {key} in {path} ({mine[0].get(key)!r}) differs from "
+                f"{Path(workdir) / 'modules' / (module + '.json')} ({record.get(key)!r})"
+            )
+
+
 def _read_call_values(path, call, variant):
     """protein -> value for one call and variant; a conflicting duplicate or an unknown value is refused."""
     out = {}
@@ -310,16 +357,28 @@ def _read_truth(path, calls):
 
 def run(args):
     if args.cmd == "phasec":
-        _require_run_record(args.workdir, "step1_rule@R0")
-        nodes = read_nodes(args.nodes_dmp)
-        entries = phasec.entries_from_phasec(
-            args.metrics, _set_taxa(args.set_species, args.names_dmp, nodes)
+        record = _require_run_record(args.workdir, phasec.R0_MODULE)
+        sp_version = phasec.check_signalp(
+            record, args.phasec_signalp_module, args.phasec_signalp_mode
         )
-        path = Path(args.workdir) / "status" / "step1_rule@R0.json"
+        nodes = read_nodes(args.nodes_dmp)
+        set_taxa = _set_taxa(args.set_species, args.names_dmp, nodes)
+        counts = phasec.count_clusters(args.clusters, args.eval_table)
+        entries = phasec.entries_from_phasec(
+            args.metrics,
+            set_taxa,
+            counts,
+            extra_notes=(
+                f"signalp_module={args.phasec_signalp_module}; "
+                f"signalp_mode={args.phasec_signalp_mode}; signalp_record_version={sp_version}"
+            ),
+            where_counts=f"{args.eval_table} joined to {args.clusters}",
+        )
+        path = Path(args.workdir) / "status" / f"{phasec.R0_MODULE}.json"
         return write_status_source(
             args.workdir,
-            "step1_rule@R0",
-            _merge_entries(path, entries, args.workdir, "step1_rule@R0"),
+            phasec.R0_MODULE,
+            _merge_entries(path, entries, args.workdir, phasec.R0_MODULE),
         )
     if args.cmd == "truth":
         if args.n_boot < 1:
@@ -332,12 +391,19 @@ def run(args):
             )
         nodes = read_nodes(args.nodes_dmp)
         _require_species(args.taxa[0], nodes, "--taxa")
-        reads = modules_of_call(load_config(), args.call)
+        reads = _reads_of_call(load_config(), args.call, args.variant)
         if args.module not in reads:
             raise ValueError(
                 f"--module {args.module!r} is not read by call {args.call!r}; "
                 f"the call reads: {', '.join(reads)}"
             )
+        if len(reads) > 1:
+            raise ValueError(
+                f"call {args.call!r} reads {len(reads)} modules ({', '.join(reads)}); a status "
+                "comes from a measurement of one module on a call that reads only that module. "
+                "Give a call that reads one module"
+            )
+        _check_run_identity(args.calls_long, args.workdir, args.module)
         protein_taxa = _read_protein_taxa(args.calls_long)
         calls = _read_call_values(args.calls_long, args.call, args.variant)
         y, called, clusters, unmatched, unknown, unknown_pos = [], [], [], 0, 0, 0
@@ -372,10 +438,7 @@ def run(args):
         ).strip()
         if not any(lab == 0 for lab in y):
             notes += " specificity not measured (no negatives)"
-        notes += (
-            f" call={args.call}; module={args.module}; reads_modules={','.join(reads)};"
-            f" variant={args.variant}"
-        )
+        notes += f" call={args.call}; module={args.module}; variant={args.variant}"
         measure = build_measure(
             args.calibration_set,
             str(args.truth),

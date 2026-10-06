@@ -650,15 +650,17 @@ def test_calibration_is_shown_when_the_status_source_has_a_measure(
     assert code == 0
     report = (out / "report.md").read_text()
     assert "## Module calibration" in report
+    assert "| measured on call |" in report
     assert (
-        "| step1_rule@R0 | 40 | estimated | S1:all | 232 | 4244 | 0.603 [0.550, 0.650] | 0.963 [0.950, 0.970] |"
+        "| step1_rule@R0 | 40 | estimated | - | S1:all | 232 | 4244 | 0.603 [0.550, 0.650] | 0.963 [0.950, 0.970] |"
         in report
     )
     # taxon 41 is not covered by the entry; a module with no status file says so
     assert (
-        "| step1_rule@R0 | 41 | unvalidated | - | - | - | not measured | not measured |" in report
+        "| step1_rule@R0 | 41 | unvalidated | - | - | - | - | not measured | not measured |"
+        in report
     )
-    assert "| repeat02 | 40 | unvalidated | - | - | - | not measured | not measured |" in report
+    assert "| repeat02 | 40 | unvalidated | - | - | - | - | not measured | not measured |" in report
     run = json.loads((out / "run.json").read_text())
     row = next(c for c in run["calibration"] if c["module"] == "step1_rule@R0" and c["taxon"] == 40)
     assert row["n_pos"] == 232 and row["matched_taxon"] == 40
@@ -728,7 +730,8 @@ def test_calibration_table_has_rows_even_with_no_module_and_no_status(tmp_path, 
     report = (out / "report.md").read_text()
     assert "## Module calibration" in report
     assert (
-        "| step1_rule@R0 | 40 | unvalidated | - | - | - | not measured | not measured |" in report
+        "| step1_rule@R0 | 40 | unvalidated | - | - | - | - | not measured | not measured |"
+        in report
     )
 
 
@@ -813,3 +816,92 @@ def test_a_corrupt_gz_fasta_names_the_file(tmp_path, write_module, nodes_dmp, ca
     bad.write_bytes(b"this is not gzip data at all")
     code, _ = _run(tmp_path, nodes_dmp, bad, taxon_map, wd)
     assert code == 2 and str(bad) in capsys.readouterr().err
+
+
+# ---- decisions of 2026-10-06: module identities in run.json, status per measured call ----
+
+
+def test_run_json_lists_the_identity_of_every_loaded_module(tmp_path, write_module, nodes_dmp):
+    code, out, wd = run_cli(tmp_path, write_module, nodes_dmp)
+    assert code == 0
+    listed = json.loads((out / "run.json").read_text())["module_identities"]
+    names = [m["name"] for m in listed]
+    assert names == sorted(names) and "step1_rule@R0" in names and "repeat02" in names
+    for m in listed:
+        record = json.loads((wd / "modules" / f"{m['name']}.json").read_text())
+        assert {k: m[k] for k in ("version", "params_hash", "artefact_hash")} == {
+            k: record[k] for k in ("version", "params_hash", "artefact_hash")
+        }
+    assert set(listed[0]) == {"name", "version", "params_hash", "artefact_hash"}
+
+
+def test_run_json_identity_follows_a_changed_module_record(tmp_path, write_module, nodes_dmp):
+    fasta, taxon_map, wd = build(tmp_path, write_module)
+    write_module(
+        wd,
+        "repeat14",
+        [{"id": i, "state": "ok", "call": "not_called"} for i in VALID],
+        meta={"version": "7", "params_hash": "q", "artefact_hash": "z"},
+    )
+    code, out = _run(tmp_path, nodes_dmp, fasta, taxon_map, wd)
+    assert code == 0
+    listed = {m["name"]: m for m in json.loads((out / "run.json").read_text())["module_identities"]}
+    assert (listed["repeat14"]["version"], listed["repeat14"]["params_hash"]) == ("7", "q")
+    assert listed["repeat14"]["artefact_hash"] == "z"
+
+
+def _measure_on(wd, call):
+    path = wd / "status" / "step1_rule@R0.json"
+    status = json.loads(path.read_text())
+    status["entries"][0]["measure"] = {
+        "calibration_set": "S1:all",
+        "n_pos": 30,
+        "n_neg": 30,
+        "sensitivity": {"value": 0.6, "lo": 0.55, "hi": 0.65},
+        "specificity": {"value": 0.96, "lo": 0.95, "hi": 0.97},
+        "notes": f"x call={call}; module=step1_rule@R0; variant=R0",
+    }
+    path.write_text(json.dumps(status))
+
+
+def test_a_status_measured_on_the_same_call_counts_and_the_report_shows_the_call(
+    tmp_path, write_module, nodes_dmp
+):
+    fasta, taxon_map, wd = build(tmp_path, write_module)
+    _measure_on(wd, "signal_peptide_protein")
+    code, out = _run(tmp_path, nodes_dmp, fasta, taxon_map, wd)
+    assert code == 0
+    assert read_long(out)[("ENZ1", "signal_peptide_protein", "R0")]["status"] == "estimated"
+    report = (out / "report.md").read_text()
+    assert "| step1_rule@R0 | 40 | estimated | signal_peptide_protein | S1:all |" in report
+
+
+def test_a_status_measured_on_another_call_is_unvalidated_here(tmp_path, write_module, nodes_dmp):
+    fasta, taxon_map, wd = build(tmp_path, write_module)
+    _measure_on(wd, "cell_wall_adhesion_candidate")
+    code, out = _run(tmp_path, nodes_dmp, fasta, taxon_map, wd)
+    assert code == 0
+    row = read_long(out)[("ENZ1", "signal_peptide_protein", "R0")]
+    assert row["status"] == "unvalidated"
+    assert (
+        "step1_rule@R0:module measured on call cell_wall_adhesion_candidate"
+        in (row["status_basis"])
+    )
+    # the calibration table names the call on which the entry was measured
+    assert "| step1_rule@R0 | 40 | estimated | cell_wall_adhesion_candidate |" in (
+        (out / "report.md").read_text()
+    )
+
+
+def test_a_legacy_entry_without_call_in_its_notes_keeps_its_status(
+    tmp_path, write_module, nodes_dmp
+):
+    fasta, taxon_map, wd = build(tmp_path, write_module)
+    _measure_on(wd, "x")
+    path = wd / "status" / "step1_rule@R0.json"
+    status = json.loads(path.read_text())
+    status["entries"][0]["measure"]["notes"] = "an older file; reads_modules=a,b"
+    path.write_text(json.dumps(status))
+    code, out = _run(tmp_path, nodes_dmp, fasta, taxon_map, wd)
+    assert code == 0
+    assert read_long(out)[("ENZ1", "signal_peptide_protein", "R0")]["status"] == "estimated"
