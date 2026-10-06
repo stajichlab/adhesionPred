@@ -28,10 +28,24 @@ def _common(p):
     p.add_argument("--workdir", required=True)
 
 
+def _taxon_id(text):
+    value = int(text)
+    if value < 2:
+        raise argparse.ArgumentTypeError(f"taxon ID {value} is not a taxon of an organism")
+    return value
+
+
+def _blast_cap(text):
+    value = int(text)
+    if value < 1:
+        raise argparse.ArgumentTypeError("must be an integer >= 1")
+    return value
+
+
 def _taxa_args(p):
     p.add_argument("--taxon", type=int)
     p.add_argument("--taxon-map")
-    p.add_argument("--applicable-taxa", type=int, nargs="+", default=sorted(APPLICABLE_RS))
+    p.add_argument("--applicable-taxa", type=_taxon_id, nargs="+", default=sorted(APPLICABLE_RS))
 
 
 def build_parser():
@@ -73,8 +87,14 @@ def build_parser():
     p.add_argument("--blast", required=True, help="outfmt 6 with: " + allergen.BLAST_FIELDS)
     p.add_argument("--allergen-fasta", required=True)
     p.add_argument("--blast-version", required=True)
-    p.add_argument("--evalue", default="1")
-    p.add_argument("--seg", default="no", help="BLAST low-complexity masking used by the job")
+    p.add_argument("--evalue", required=True, help="BLAST -evalue used by the job (recorded)")
+    p.add_argument("--seg", required=True, help="BLAST low-complexity masking used by the job")
+    p.add_argument(
+        "--max-target-seqs",
+        type=_blast_cap,
+        required=True,
+        help="BLAST -max_target_seqs used by the job; must exceed the database size for recall tests",
+    )
 
     p = sub.add_parser("antigen", help="antigen ranking lookup (Coccidioides)")
     _common(p)
@@ -104,6 +124,12 @@ def _taxa(args, proteins):
     tmap = read_taxon_map(args.taxon_map) if args.taxon_map else {}
     if args.taxon is None and not tmap:
         raise RunError("give --taxon or --taxon-map")
+    foreign = sorted(set(tmap) - {p.id for p in proteins})
+    if foreign:
+        raise RunError(
+            f"{args.taxon_map}: {len(foreign)} of {len(tmap)} ID(s) are not in the FASTA, "
+            f"for example {foreign[0]!r}"
+        )
     taxa = assign_taxa(proteins, args.taxon, tmap)
     bad = sorted({t for t in taxa.values() if t < 2})
     if bad:  # 0 is unset and 1 is the root of the taxonomy: neither names an organism
@@ -127,7 +153,7 @@ def _check_ids(label, found, ids):
     )
 
 
-def _write(workdir, spec, columns, rows):
+def _write(workdir, spec, columns, rows, extra_note=""):
     """Write the module. Refuse a table without one usable result: every protein ``error`` (an ID
     mismatch) or no applicable protein ``ok`` (a lookup that matched nothing). Some ``error`` rows
     make the run state ``partial``."""
@@ -140,7 +166,12 @@ def _write(workdir, spec, columns, rows):
         )
     errors = sum(1 for r in rows if r["state"] == "error")
     state = "partial" if errors else "ok"
-    note = f"{errors} protein(s) have no result" if errors else ""
+    notes = [f"{errors} protein(s) have no result"] if errors else []
+    if not counted and any(r["state"] == "not_applicable" for r in rows):
+        notes.append("0 applicable proteins: every protein is not_applicable for this table")
+    if extra_note:
+        notes.append(extra_note)
+    note = "; ".join(notes)
     return write_module(workdir, spec, columns, rows, run_state=state, note=note)
 
 
@@ -173,15 +204,33 @@ def run(args):
         families = pfam.load_family_table(args.family_table)
         hits = pfam.parse_domtblout(args.domtbl)
         _check_ids(args.domtbl, {h["target"] for h in hits}, ids)
-        sp_calls = _module_column(w, args.sp_module, "call") if args.sp_module else None
-        tm_counts = None
+        needed = {f.second_condition for f in families if f.active}
+        for cond, option, given in (
+            ("signal_peptide", "--sp-module", args.sp_module),
+            ("no_tm", "--tm-module", args.tm_module),
+        ):
+            if cond in needed and not given:
+                raise RunError(f"an active family has second_condition={cond}: give {option}")
+        conditions = {}
+        sp_calls = tm_counts = None
+        if args.sp_module:
+            sp_calls, conditions["sp_module"] = _condition_table(
+                w, args.sp_module, "call", ids, "--sp-module"
+            )
         if args.tm_module:
-            raw = _module_column(w, args.tm_module, "n_tm_mature")
+            raw, conditions["tm_module"] = _condition_table(
+                w, args.tm_module, "n_tm_mature", ids, "--tm-module"
+            )
             tm_counts = {k: int(v) for k, v in raw.items() if v.isdigit()}
         out = None
         for module in pfam.MODULES:
             active = sorted(f.pfam_acc for f in families if f.module == module and f.active)
-            params = {"pfam_release": args.pfam_release, "cut": "ga", "families": active}
+            params = {
+                "pfam_release": args.pfam_release,
+                "cut": "ga",
+                "families": active,
+                "conditions": conditions,
+            }
             spec = ModuleSpec(
                 module,
                 "1",
@@ -215,6 +264,8 @@ def run(args):
         rows = repeats.repeat_rows(proteins, parsed, args.min_coverage, args.min_copies)
         return _write(w, spec, repeats.COLUMNS, rows)
     if args.cmd == "allergen":
+        if not any(line.strip() for line in Path(args.blast).read_text().splitlines()):
+            raise RunError(f"{args.blast}: the BLAST table is empty (a failed or truncated run?)")
         best = allergen.parse_blast(args.blast)
         _check_ids(args.blast, best, ids)
         meta_path = Path(str(args.allergen_fasta) + ".meta.tsv")
@@ -222,12 +273,18 @@ def run(args):
         spec = ModuleSpec(
             "allergen_homology",
             "1",
-            {"evalue": args.evalue, "program": "blastp", "seg": args.seg},
+            {
+                "evalue": args.evalue,
+                "program": "blastp",
+                "seg": args.seg,
+                "max_target_seqs": args.max_target_seqs,
+            },
             (args.allergen_fasta,),
             {"blast": args.blast_version},
         )
         rows = allergen.allergen_rows(proteins, best, meta)
-        return _write(w, spec, allergen.COLUMNS, rows)
+        note = f"{len(best)} of {len(proteins)} FASTA protein(s) have a BLAST hit"
+        return _write(w, spec, allergen.COLUMNS, rows, extra_note=note)
     if args.cmd == "tm":
         table, _ = lookups.read_table(args.table, "protein_id")
         _check_ids(args.table, table, ids)
@@ -282,12 +339,35 @@ def _tool_digest(tool, version):
     return hashlib.sha256(f"{tool}:{version}".encode()).hexdigest()
 
 
-def _module_column(workdir, module, column):
+def _condition_table(workdir, module, column, ids, option):
+    """Read one column of a module table that a Pfam second condition needs.
+
+    Refuse a missing table or run record, an unusable run state, a missing column and IDs that are
+    not FASTA IDs. Returns ``({id: value}, {"params_hash", "artefact_hash"})``.
+    """
     import csv
     import gzip
 
-    with gzip.open(Path(workdir) / "modules" / f"{module}.tsv.gz", "rt", newline="") as fh:
-        return {r["id"]: r.get(column, "") for r in csv.DictReader(fh, delimiter="\t")}
+    base = Path(workdir) / "modules"
+    table, record = base / f"{module}.tsv.gz", base / f"{module}.json"
+    try:
+        run = json.loads(record.read_text())
+    except (OSError, ValueError) as err:
+        raise RunError(f"{option} {module}: cannot read the run record {record}: {err}") from err
+    state = run.get("run_state")
+    if state in ("unavailable", "not_run", "error"):
+        raise RunError(f"{option} {module}: run state of {record} is {state!r}, not usable")
+    try:
+        with gzip.open(table, "rt", newline="") as fh:
+            reader = csv.DictReader(fh, delimiter="\t")
+            if column not in (reader.fieldnames or []):
+                raise RunError(f"{option} {module}: {table} has no column {column!r}")
+            values = {r["id"]: r[column] for r in reader}
+    except (EOFError, gzip.BadGzipFile, OSError, csv.Error, KeyError, UnicodeDecodeError) as err:
+        raise RunError(f"{option} {module}: cannot read {table}: {err!r}") from err
+    _check_ids(str(table), values, ids)
+    identity = {k: run.get(k, "") for k in ("params_hash", "artefact_hash")}
+    return values, {"module": module, **identity}
 
 
 def _file_digest(path):

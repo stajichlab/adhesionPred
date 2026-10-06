@@ -11,6 +11,8 @@ from cellsurface_sorting_hat.modules.pfam import FAMILY_COLUMNS
 
 FASTA = ">XP_1 a\nMKTAYIAKQRQ\n>XP_2 b\nMNLLPQWERT\n>BAD\nMK*T\n"
 
+ALLERGEN_SETTINGS = ("--evalue", "1", "--seg", "no", "--max-target-seqs", "5000")
+
 OPTIONS = "# Option settings:     hmmsearch --cut_ga --cpu 2 --noali fam.hmm in.fasta\n"
 
 
@@ -143,6 +145,7 @@ def test_allergen_command(tmp_path, fasta):
                 str(ref),
                 "--blast-version",
                 "2.16.0+",
+                *ALLERGEN_SETTINGS,
             ]
         )
         == 0
@@ -402,7 +405,8 @@ def test_pfam_command_refuses_a_domain_table_from_another_proteome(tmp_path, fas
     code = main(
         _pfam_args(tmp_path, fasta, _family_table(tmp_path, active=True), dom, tmp_path / "wd")
     )
-    assert code == 2 and "not in the FASTA" in capsys.readouterr().err
+    err = capsys.readouterr().err
+    assert code == 2 and "not in the FASTA" in err and "d.domtbl" in err
 
 
 def test_pfam_command_refuses_an_unfinished_domain_table(tmp_path, fasta, capsys):
@@ -435,9 +439,11 @@ def test_allergen_command_refuses_a_blast_table_from_another_proteome(tmp_path, 
             str(ref),
             "--blast-version",
             "2.14.0+",
+            *ALLERGEN_SETTINGS,
         ]
     )
-    assert code == 2 and "not in the FASTA" in capsys.readouterr().err
+    err = capsys.readouterr().err
+    assert code == 2 and "not in the FASTA" in err and "b.tsv" in err
 
 
 def test_partial_results_set_the_run_state_partial(tmp_path, fasta):
@@ -531,8 +537,10 @@ def test_the_foreign_id_message_names_the_domain_and_blast_files(tmp_path, fasta
     write_domtbl(
         dom, "OTHER1 - 11 CFEM PF05730.17 70 1e-20 60 8 1 1 1e-21 2e-20 59 8 1 70 2 9 2 9 0.9 -\n"
     )
-    main(_pfam_args(tmp_path, fasta, _family_table(tmp_path, active=True), dom, tmp_path / "wd"))
-    assert "d.domtbl" in capsys.readouterr().err
+    code = main(
+        _pfam_args(tmp_path, fasta, _family_table(tmp_path, active=True), dom, tmp_path / "wd")
+    )
+    assert code == 2 and "d.domtbl" in capsys.readouterr().err
 
 
 @pytest.mark.parametrize("taxon", ["0", "1", "-5"])
@@ -634,3 +642,194 @@ def test_a_protein_shorter_than_the_detector_minimum_is_not_called_not_an_error(
     assert main(["repeat14", "--fasta", str(f), "--workdir", str(wd), "--table", str(tab)]) == 0
     assert read(wd, "repeat14")["S1"]["call"] == "not_called"
     assert json.loads((wd / "modules" / "repeat14.json").read_text())["run_state"] == "ok"
+
+
+def _tm_and_pfam(tmp_path, fasta, condition="no_tm"):
+    table = tmp_path / "f.tsv"
+    row = dict.fromkeys(FAMILY_COLUMNS, "")
+    row.update(
+        pfam_acc="PF05730",
+        name="CFEM",
+        module="pfam_adhesion",
+        **{"class": "2b-i"},
+        second_condition=condition,
+        active="yes",
+        active_by="owner",
+        active_date="2026-10-05",
+    )
+    header = dict(zip(FAMILY_COLUMNS, FAMILY_COLUMNS, strict=True))
+    table.write_text(
+        "\n".join("\t".join(r[c] for c in FAMILY_COLUMNS) for r in [header, row]) + "\n"
+    )
+    dom = tmp_path / "d.domtbl"
+    write_domtbl(
+        dom, "XP_1 - 11 CFEM PF05730.17 70 1e-20 60 8 1 1 1e-21 2e-20 59 8 1 70 2 9 2 9 0.9 -\n"
+    )
+    tm = tmp_path / "t.tsv"
+    tm.write_text("protein_id\tlen\texp_aa\tfirst60\tpred_hel\ttopology\nXP_1\t11\t0\t0\t0\to\n")
+    wd = tmp_path / "wd"
+    assert main(["tm", "--fasta", str(fasta), "--workdir", str(wd), "--table", str(tm)]) == 0
+    return _pfam_args(tmp_path, fasta, table, dom, wd), wd
+
+
+def test_pfam_refuses_an_omitted_condition_table(tmp_path, fasta, capsys):
+    args, wd = _tm_and_pfam(tmp_path, fasta)
+    assert main(args) == 2
+    assert "--tm-module" in capsys.readouterr().err
+
+
+def test_pfam_refuses_a_signal_peptide_family_without_the_signalp_module(tmp_path, fasta, capsys):
+    args, wd = _tm_and_pfam(tmp_path, fasta, "signal_peptide")
+    assert main(args) == 2
+    assert "--sp-module" in capsys.readouterr().err
+
+
+def test_pfam_refuses_a_condition_module_without_the_column(tmp_path, fasta, capsys):
+    args, wd = _tm_and_pfam(tmp_path, fasta)
+    res = _signalp_file(tmp_path, ["XP_1"])
+    assert (
+        main(
+            ["signalp", "--fasta", str(fasta), "--workdir", str(wd), "--results", str(res)]
+            + ["--signalp-version", "6"]
+        )
+        == 0
+    )
+    assert main([*args, "--tm-module", "step1_rule@R0"]) == 2
+    err = capsys.readouterr().err
+    assert "step1_rule@R0" in err and "n_tm_mature" in err
+
+
+def test_pfam_refuses_a_condition_table_with_foreign_ids_or_an_unusable_state(
+    tmp_path, fasta, capsys
+):
+    args, wd = _tm_and_pfam(tmp_path, fasta)
+    tm_path = wd / "modules" / "tm.tsv.gz"
+    good = tm_path.read_bytes()
+    tm_path.write_bytes(
+        gzip.compress(b"id\tstate\tn_tm\tn_tm_mature\ttopology\nOTHER\tok\t0\t0\to\n")
+    )
+    assert main([*args, "--tm-module", "tm"]) == 2
+    err = capsys.readouterr().err
+    assert "tm.tsv.gz" in err and "not in the FASTA" in err
+    tm_path.write_bytes(good)
+    rec = wd / "modules" / "tm.json"
+    data = json.loads(rec.read_text())
+    rec.write_text(json.dumps({**data, "run_state": "unavailable"}))
+    assert main([*args, "--tm-module", "tm"]) == 2
+    assert "unavailable" in capsys.readouterr().err
+
+
+def test_pfam_refuses_a_truncated_condition_table(tmp_path, fasta, capsys):
+    args, wd = _tm_and_pfam(tmp_path, fasta)
+    tm_path = wd / "modules" / "tm.tsv.gz"
+    tm_path.write_bytes(tm_path.read_bytes()[:-12])
+    assert main([*args, "--tm-module", "tm"]) == 2
+    assert "tm.tsv.gz" in capsys.readouterr().err
+
+
+def test_pfam_records_the_condition_module_identity(tmp_path, fasta):
+    args, wd = _tm_and_pfam(tmp_path, fasta)
+    assert main([*args, "--tm-module", "tm"]) == 0
+    tm = json.loads((wd / "modules" / "tm.json").read_text())
+    rec = json.loads((wd / "modules" / "pfam_adhesion.json").read_text())
+    cond = rec["params"]["conditions"]["tm_module"]
+    assert cond == {
+        "module": "tm",
+        "params_hash": tm["params_hash"],
+        "artefact_hash": tm["artefact_hash"],
+    }
+
+
+def _allergen_args(tmp_path, fasta, blast_text, extra=ALLERGEN_SETTINGS):
+    blast = tmp_path / "b.tsv"
+    blast.write_text(blast_text)
+    ref = tmp_path / "a.faa"
+    ref.write_text(">Asp_f_1.0101|11\nMKT\n")
+    return [
+        "allergen",
+        "--fasta",
+        str(fasta),
+        "--workdir",
+        str(tmp_path / "wd"),
+        "--blast",
+        str(blast),
+        "--allergen-fasta",
+        str(ref),
+        "--blast-version",
+        "2.16.0+",
+        *extra,
+    ]
+
+
+def test_allergen_refuses_an_empty_blast_table(tmp_path, fasta, capsys):
+    assert main(_allergen_args(tmp_path, fasta, "\n")) == 2
+    err = capsys.readouterr().err
+    assert "b.tsv" in err and "empty" in err
+    assert not (tmp_path / "wd" / "modules").exists()
+
+
+def test_allergen_notes_the_hit_count_and_hashes_the_blast_settings(tmp_path, fasta):
+    line = "XP_2\tAsp_f_1.0101|11\t82.0\t90\t120\t100\t150\t1e-20\n"
+    assert main(_allergen_args(tmp_path, fasta, line)) == 0
+    rec = json.loads((tmp_path / "wd" / "modules" / "allergen_homology.json").read_text())
+    assert "1 of 3 FASTA protein(s) have a BLAST hit" in rec["note"]
+    assert rec["params"]["max_target_seqs"] == 5000
+    other = ("--evalue", "1", "--seg", "no", "--max-target-seqs", "10")
+    sub = tmp_path / "s"
+    sub.mkdir()
+    assert main(_allergen_args(sub, fasta, line, other)) == 0
+    rec2 = json.loads((sub / "wd" / "modules" / "allergen_homology.json").read_text())
+    assert rec2["params_hash"] != rec["params_hash"]
+
+
+@pytest.mark.parametrize("drop", ["--max-target-seqs", "--evalue", "--seg"])
+def test_allergen_requires_the_blast_settings(tmp_path, fasta, drop):
+    line = "XP_2\tAsp_f_1.0101|11\t82.0\t90\t120\t100\t150\t1e-20\n"
+    args = _allergen_args(tmp_path, fasta, line)
+    i = args.index(drop)
+    with pytest.raises(SystemExit) as exc:
+        main(args[:i] + args[i + 2 :])
+    assert exc.value.code == 2
+
+
+def test_allergen_max_target_seqs_must_be_positive(tmp_path, fasta):
+    line = "XP_2\tAsp_f_1.0101|11\t82.0\t90\t120\t100\t150\t1e-20\n"
+    bad = ("--evalue", "1", "--seg", "no", "--max-target-seqs", "0")
+    with pytest.raises(SystemExit) as exc:
+        main(_allergen_args(tmp_path, fasta, line, bad))
+    assert exc.value.code == 2
+
+
+def test_a_taxon_map_with_ids_outside_the_fasta_is_refused(tmp_path, fasta, capsys):
+    cand = tmp_path / "c.tsv"
+    cand.write_text("protein_id\ttier\tcys_frac\nXP_1\tcys_rich_sp_unassigned\t0.1\n")
+    tmap = tmp_path / "m.tsv"
+    tmap.write_text("XP_1\t246410\nXP_2\t246410\nBAD\t246410\nSTRAY\t246410\n")
+    code = main(
+        ["cys", "--fasta", str(fasta), "--workdir", str(tmp_path / "wd")]
+        + ["--taxon-map", str(tmap), "--candidates", str(cand)]
+    )
+    err = capsys.readouterr().err
+    assert code == 2 and "m.tsv" in err and "1 of 4" in err and "'STRAY'" in err
+
+
+def test_a_lookup_where_every_protein_is_not_applicable_says_so_in_the_note(tmp_path, fasta):
+    cand = tmp_path / "c.tsv"
+    cand.write_text("protein_id\ttier\tcys_frac\nXP_1\tcys_rich_sp_unassigned\t0.1\n")
+    wd = tmp_path / "wd"
+    base = ["cys", "--fasta", str(fasta), "--workdir", str(wd), "--candidates", str(cand)]
+    assert main([*base, "--taxon", "746128"]) == 0
+    rec = json.loads((wd / "modules" / "cys_rich.json").read_text())
+    assert "0 applicable proteins" in rec["note"]
+
+
+@pytest.mark.parametrize("value", ["0", "1", "x"])
+def test_applicable_taxa_must_be_taxon_ids(tmp_path, fasta, value):
+    cand = tmp_path / "c.tsv"
+    cand.write_text("protein_id\ttier\tcys_frac\nXP_1\tcys_rich_sp_unassigned\t0.1\n")
+    with pytest.raises(SystemExit) as exc:
+        main(
+            ["cys", "--fasta", str(fasta), "--workdir", str(tmp_path / "wd")]
+            + ["--taxon", "246410", "--candidates", str(cand), "--applicable-taxa", value]
+        )
+    assert exc.value.code == 2
