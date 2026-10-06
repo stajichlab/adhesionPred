@@ -121,26 +121,27 @@ def test_golden_calls(tmp_path, write_module, nodes_dmp):
         return r["value"], r["status"]
 
     # SOW1: Coccidioides (taxon 41), not covered by the step 1 estimate (tested on taxon 40)
-    assert v("SOW1", "surface_glycoprotein", "R0") == ("called", "unvalidated")
-    assert v("SOW1", "adhesion_repeat") == ("called", "unvalidated")
+    assert v("SOW1", "signal_peptide_protein", "R0") == ("called", "unvalidated")
+    assert v("SOW1", "tandem_repeat_protein") == ("called", "unvalidated")
     assert v("SOW1", "cell_wall_adhesion_candidate", "R0") == ("called", "unvalidated")
-    assert v("SOW1", "antigen_candidate") == ("called", "unvalidated")
-    assert v("SOW1", "antigen_candidate_surface", "R0") == ("called", "unvalidated")
-    assert v("SOW1", "allergen_candidate")[0] == "not_called"
+    assert v("SOW1", "cocci_specificity_rank_top15") == ("called", "unvalidated")
+    assert v("SOW1", "serodiagnostic_marker_candidate", "R0") == ("called", "unvalidated")
+    assert v("SOW1", "iuis_allergen_homolog")[0] == "not_called"
     assert v("SOW1", "other_not_surface", "R0")[0] == "not_called"
     assert v("SOW1", "other_surface_no_mechanism", "R0")[0] == "not_called"
-    assert got[("SOW1", "surface_glycoprotein", "R0")]["status_basis"] == (
+    assert got[("SOW1", "signal_peptide_protein", "R0")]["status_basis"] == (
         "step1_rule@R0:taxon not tested"
     )
     # ENZ1: A. fumigatus (40), step 1 estimated; antigen not applicable; allergen homology called
-    assert v("ENZ1", "surface_glycoprotein", "R0") == ("not_called", "estimated")
-    assert v("ENZ1", "antigen_candidate")[0] == "not_assessable"
-    assert v("ENZ1", "antigen_candidate_surface", "R0") == ("not_called", "estimated")
-    assert v("ENZ1", "allergen_candidate")[0] == "called"
-    assert v("ENZ1", "other_not_surface", "R0")[0] == "not_called"
+    assert v("ENZ1", "signal_peptide_protein", "R0") == ("not_called", "estimated")
+    assert v("ENZ1", "cocci_specificity_rank_top15")[0] == "not_assessable"
+    assert v("ENZ1", "serodiagnostic_marker_candidate", "R0") == ("not_called", "estimated")
+    assert v("ENZ1", "iuis_allergen_homolog")[0] == "called"
+    r = got[("ENZ1", "other_not_surface", "R0")]  # allergen flags are not mechanism calls
+    assert (r["value"], r["other_basis"]) == ("called", "cocci_specificity_rank_top15")
     # STAR1: surface, no mechanism called, antigen left out of the basis
     r = got[("STAR1", "other_surface_no_mechanism", "R0")]
-    assert (r["value"], r["other_basis"]) == ("called", "antigen_candidate")
+    assert (r["value"], r["other_basis"]) == ("called", "cocci_specificity_rank_top15")
     # BAD1: invalid protein, every call unknown
     assert {r["value"] for k, r in got.items() if k[0] == "BAD1"} == {"not_assessable"}
 
@@ -180,7 +181,7 @@ def test_crlf_lowercase_trailing_stop_fasta_is_read(tmp_path, write_module, node
         ]
     )
     assert code == 0
-    assert read_long(out)[("STAR1", "surface_glycoprotein", "R0")]["value"] == "called"
+    assert read_long(out)[("STAR1", "signal_peptide_protein", "R0")]["value"] == "called"
 
 
 def test_unknown_taxon_stops_the_run(tmp_path, write_module, nodes_dmp, capsys):
@@ -246,8 +247,8 @@ def test_taxon_map_overrides_taxon(tmp_path, write_module, nodes_dmp):
     )
     assert code == 0
     got = read_long(out)
-    assert got[("SOW1", "surface_glycoprotein", "R0")]["status"] == "unvalidated"  # taxon 41
-    assert got[("STAR1", "surface_glycoprotein", "R0")]["status"] == "estimated"  # --taxon 40
+    assert got[("SOW1", "signal_peptide_protein", "R0")]["status"] == "unvalidated"  # taxon 41
+    assert got[("STAR1", "signal_peptide_protein", "R0")]["status"] == "estimated"  # --taxon 40
 
 
 def test_partial_module_output_is_reported_and_missing_proteins_are_unknown(
@@ -274,9 +275,9 @@ def test_partial_module_output_is_reported_and_missing_proteins_are_unknown(
     assert "| repeat14 | partial |" in (out / "report.md").read_text()
     got = read_long(out)
     # ENZ1: repeat02 false and repeat14 missing -> unknown, not false
-    assert got[("ENZ1", "adhesion_repeat", "")]["value"] == "not_assessable"
+    assert got[("ENZ1", "tandem_repeat_protein", "")]["value"] == "not_assessable"
     # SOW1: repeat02 true wins over anything
-    assert got[("SOW1", "adhesion_repeat", "")]["value"] == "called"
+    assert got[("SOW1", "tandem_repeat_protein", "")]["value"] == "called"
 
 
 def test_module_with_run_state_unavailable_is_treated_as_absent(tmp_path, write_module, nodes_dmp):
@@ -340,8 +341,8 @@ def test_wide_table_and_run_json(tmp_path, write_module, nodes_dmp):
     assert [r["protein"] for r in rows] == ["SOW1", "ENZ1", "DUP1", "BAD1", "STAR1"]
     star = rows[-1]
     assert star["other_surface_no_mechanism[R0]"] == "called"
-    assert star["other_surface_no_mechanism[R0]_basis"] == "antigen_candidate"
-    assert star["surface_glycoprotein[R0]_status"] == "estimated"
+    assert star["other_surface_no_mechanism[R0]_basis"] == "cocci_specificity_rank_top15"
+    assert star["signal_peptide_protein[R0]_status"] == "estimated"
     run = json.loads((out / "run.json").read_text())
     assert run["n_proteins"] == 5 and run["n_invalid"] == 1
     assert run["taxa"] == {"40": 3, "41": 2}
@@ -351,9 +352,9 @@ def test_report_has_the_known_limits_and_counts(tmp_path, write_module, nodes_dm
     _, out, _ = run_cli(tmp_path, write_module, nodes_dmp)
     report = (out / "report.md").read_text()
     assert "## Known limits" in report
-    assert 'means "SignalP calls a signal peptide"' in report
-    assert "| surface_glycoprotein | R0 | 3 | 1 | 1 |" in report
-    assert "- antigen_candidate: " in report
+    assert "means that SignalP calls a signal peptide" in report
+    assert "| signal_peptide_protein | R0 | 3 | 1 | 1 |" in report
+    assert "- cocci_specificity_rank_top15: " in report
 
 
 def _run(tmp_path, nodes_dmp, fasta, taxon_map, wd, out="out"):
@@ -434,8 +435,8 @@ def test_a_bad_call_value_is_unknown_and_counted(tmp_path, write_module, nodes_d
     assert code == 0
     assert "| repeat14 | bad_value | 1 |" in (out / "report.md").read_text()
     got = read_long(out)
-    assert got[("SOW1", "adhesion_repeat", "")]["value"] == "called"  # repeat02 is true
-    assert got[("STAR1", "adhesion_repeat", "")]["value"] == "not_called"
+    assert got[("SOW1", "tandem_repeat_protein", "")]["value"] == "called"  # repeat02 is true
+    assert got[("STAR1", "tandem_repeat_protein", "")]["value"] == "not_called"
 
 
 def test_a_module_whose_ids_match_no_protein_is_an_error(tmp_path, write_module, nodes_dmp):
@@ -489,7 +490,7 @@ def test_absent_required_modules_are_listed(tmp_path, write_module, nodes_dmp):
         "Modules the rules need and that were not found: pfam_adhesion"
         in (out / "report.md").read_text()
     )
-    assert read_long(out)[("SOW1", "adhesion_domain", "")]["value"] == "not_assessable"
+    assert read_long(out)[("SOW1", "wall_family_domain", "")]["value"] == "not_assessable"
 
 
 @pytest.mark.parametrize(
@@ -600,7 +601,7 @@ def test_byte_order_marks_in_the_taxon_map_and_module_table_are_ignored(
     _module_bytes(wd, "repeat14", b"\xef\xbb\xbf" + raw)
     code, out = _run(tmp_path, nodes_dmp, fasta, taxon_map, wd)
     assert code == 0
-    assert read_long(out)[("SOW1", "surface_glycoprotein", "R0")]["value"] == "called"
+    assert read_long(out)[("SOW1", "signal_peptide_protein", "R0")]["value"] == "called"
 
 
 def test_a_repeated_id_in_the_taxon_map_names_both_lines(tmp_path, write_module, nodes_dmp, capsys):
@@ -649,15 +650,17 @@ def test_calibration_is_shown_when_the_status_source_has_a_measure(
     assert code == 0
     report = (out / "report.md").read_text()
     assert "## Module calibration" in report
+    assert "| measured on call |" in report
     assert (
-        "| step1_rule@R0 | 40 | estimated | S1:all | 232 | 4244 | 0.603 [0.550, 0.650] | 0.963 [0.950, 0.970] |"
+        "| step1_rule@R0 | 40 | estimated | - | S1:all | 232 | 4244 | 0.603 [0.550, 0.650] | 0.963 [0.950, 0.970] |"
         in report
     )
     # taxon 41 is not covered by the entry; a module with no status file says so
     assert (
-        "| step1_rule@R0 | 41 | unvalidated | - | - | - | not measured | not measured |" in report
+        "| step1_rule@R0 | 41 | unvalidated | - | - | - | - | not measured | not measured |"
+        in report
     )
-    assert "| repeat02 | 40 | unvalidated | - | - | - | not measured | not measured |" in report
+    assert "| repeat02 | 40 | unvalidated | - | - | - | - | not measured | not measured |" in report
     run = json.loads((out / "run.json").read_text())
     row = next(c for c in run["calibration"] if c["module"] == "step1_rule@R0" and c["taxon"] == 40)
     assert row["n_pos"] == 232 and row["matched_taxon"] == 40
@@ -727,7 +730,8 @@ def test_calibration_table_has_rows_even_with_no_module_and_no_status(tmp_path, 
     report = (out / "report.md").read_text()
     assert "## Module calibration" in report
     assert (
-        "| step1_rule@R0 | 40 | unvalidated | - | - | - | not measured | not measured |" in report
+        "| step1_rule@R0 | 40 | unvalidated | - | - | - | - | not measured | not measured |"
+        in report
     )
 
 
@@ -759,7 +763,7 @@ def test_a_bad_value_gives_unknown_not_false(tmp_path, write_module, nodes_dmp):
     )
     code, out = _run(tmp_path, nodes_dmp, fasta, taxon_map, wd)
     assert code == 0
-    assert read_long(out)[("ENZ1", "adhesion_repeat", "")]["value"] == "not_assessable"
+    assert read_long(out)[("ENZ1", "tandem_repeat_protein", "")]["value"] == "not_assessable"
 
 
 def test_every_table_output_has_a_matching_sha256_sidecar(tmp_path, write_module, nodes_dmp):
@@ -812,3 +816,92 @@ def test_a_corrupt_gz_fasta_names_the_file(tmp_path, write_module, nodes_dmp, ca
     bad.write_bytes(b"this is not gzip data at all")
     code, _ = _run(tmp_path, nodes_dmp, bad, taxon_map, wd)
     assert code == 2 and str(bad) in capsys.readouterr().err
+
+
+# ---- decisions of 2026-10-06: module identities in run.json, status per measured call ----
+
+
+def test_run_json_lists_the_identity_of_every_loaded_module(tmp_path, write_module, nodes_dmp):
+    code, out, wd = run_cli(tmp_path, write_module, nodes_dmp)
+    assert code == 0
+    listed = json.loads((out / "run.json").read_text())["module_identities"]
+    names = [m["name"] for m in listed]
+    assert names == sorted(names) and "step1_rule@R0" in names and "repeat02" in names
+    for m in listed:
+        record = json.loads((wd / "modules" / f"{m['name']}.json").read_text())
+        assert {k: m[k] for k in ("version", "params_hash", "artefact_hash")} == {
+            k: record[k] for k in ("version", "params_hash", "artefact_hash")
+        }
+    assert set(listed[0]) == {"name", "version", "params_hash", "artefact_hash"}
+
+
+def test_run_json_identity_follows_a_changed_module_record(tmp_path, write_module, nodes_dmp):
+    fasta, taxon_map, wd = build(tmp_path, write_module)
+    write_module(
+        wd,
+        "repeat14",
+        [{"id": i, "state": "ok", "call": "not_called"} for i in VALID],
+        meta={"version": "7", "params_hash": "q", "artefact_hash": "z"},
+    )
+    code, out = _run(tmp_path, nodes_dmp, fasta, taxon_map, wd)
+    assert code == 0
+    listed = {m["name"]: m for m in json.loads((out / "run.json").read_text())["module_identities"]}
+    assert (listed["repeat14"]["version"], listed["repeat14"]["params_hash"]) == ("7", "q")
+    assert listed["repeat14"]["artefact_hash"] == "z"
+
+
+def _measure_on(wd, call):
+    path = wd / "status" / "step1_rule@R0.json"
+    status = json.loads(path.read_text())
+    status["entries"][0]["measure"] = {
+        "calibration_set": "S1:all",
+        "n_pos": 30,
+        "n_neg": 30,
+        "sensitivity": {"value": 0.6, "lo": 0.55, "hi": 0.65},
+        "specificity": {"value": 0.96, "lo": 0.95, "hi": 0.97},
+        "notes": f"x call={call}; module=step1_rule@R0; variant=R0",
+    }
+    path.write_text(json.dumps(status))
+
+
+def test_a_status_measured_on_the_same_call_counts_and_the_report_shows_the_call(
+    tmp_path, write_module, nodes_dmp
+):
+    fasta, taxon_map, wd = build(tmp_path, write_module)
+    _measure_on(wd, "signal_peptide_protein")
+    code, out = _run(tmp_path, nodes_dmp, fasta, taxon_map, wd)
+    assert code == 0
+    assert read_long(out)[("ENZ1", "signal_peptide_protein", "R0")]["status"] == "estimated"
+    report = (out / "report.md").read_text()
+    assert "| step1_rule@R0 | 40 | estimated | signal_peptide_protein | S1:all |" in report
+
+
+def test_a_status_measured_on_another_call_is_unvalidated_here(tmp_path, write_module, nodes_dmp):
+    fasta, taxon_map, wd = build(tmp_path, write_module)
+    _measure_on(wd, "cell_wall_adhesion_candidate")
+    code, out = _run(tmp_path, nodes_dmp, fasta, taxon_map, wd)
+    assert code == 0
+    row = read_long(out)[("ENZ1", "signal_peptide_protein", "R0")]
+    assert row["status"] == "unvalidated"
+    assert (
+        "step1_rule@R0:module measured on call cell_wall_adhesion_candidate"
+        in (row["status_basis"])
+    )
+    # the calibration table names the call on which the entry was measured
+    assert "| step1_rule@R0 | 40 | estimated | cell_wall_adhesion_candidate |" in (
+        (out / "report.md").read_text()
+    )
+
+
+def test_a_legacy_entry_without_call_in_its_notes_keeps_its_status(
+    tmp_path, write_module, nodes_dmp
+):
+    fasta, taxon_map, wd = build(tmp_path, write_module)
+    _measure_on(wd, "x")
+    path = wd / "status" / "step1_rule@R0.json"
+    status = json.loads(path.read_text())
+    status["entries"][0]["measure"]["notes"] = "an older file; reads_modules=a,b"
+    path.write_text(json.dumps(status))
+    code, out = _run(tmp_path, nodes_dmp, fasta, taxon_map, wd)
+    assert code == 0
+    assert read_long(out)[("ENZ1", "signal_peptide_protein", "R0")]["status"] == "estimated"

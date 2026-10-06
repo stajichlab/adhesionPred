@@ -36,6 +36,8 @@ surface_glyco_predict = "surface_glyco.scripts.predict:cli"
 surface_glyco_train = "surface_glyco.scripts.train:cli"
 surface_glyco_evaluate = "surface_glyco.scripts.evaluate:cli"
 cellsurface_sorting_hat = "cellsurface_sorting_hat.cli:main"
+cellsurface_sorting_hat_module = "cellsurface_sorting_hat.modules.cli:main"
+cellsurface_sorting_hat_calibrate = "cellsurface_sorting_hat.calibration.cli:main"
 
 [project.optional-dependencies]
 dev = [

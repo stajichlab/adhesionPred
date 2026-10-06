@@ -32,7 +32,10 @@ Apply the same renames to the spec file (`sed` with the table above) in the pull
 
 - The module table, run record and status source follow the "Module output contract" of Plan 1. Module tables are `.tsv.gz`; writes are atomic. A table with no usable result is refused (exit 2); some `error` rows make the run state `partial`; a module with no active family writes `unavailable` rows and run state `unavailable`.
 - A module's identity (`version`, `params_hash`, `artefact_hash`) belongs to the **tool, database and parameters**, never to one input file. A measurement of a rule must stay valid for another proteome run with the same tool version.
-- Status values: `estimated` needs at least 20 positives and 20 negatives, at least 20 independent clusters of each (when recorded), and a 95% interval half-width of at most 0.10 for **both** sensitivity and specificity. A module that was never tested on negatives is at most `smoke`. The status of a Phase C measurement is the weaker of the Phase C label and this rule. A truth set that helped to set the rule or its cutoffs, or that overlaps the module's reference set, caps the status at `smoke` (`--leakage` is required: `none`, `partial`, `tuned_on_truth`, `in_reference`, `unknown`).
+- Status values: `estimated` needs at least 20 positives and 20 negatives, at least 20 independent clusters of each (when recorded), and a 95% interval half-width of at most 0.10 for **both** sensitivity and specificity. A module that was never tested on negatives is at most `smoke`. The status of a Phase C measurement is the weaker of the Phase C label and this rule. A truth set that helped to set the rule or its cutoffs, or that overlaps the module's reference set, caps the status at `smoke` (`truth` requires `--leakage`: `none`, `partial`, `tuned_on_truth`, `in_reference`, `unknown`). For rule R0 only the tuning of R0's own cutoffs and the overlap with R0's own reference set cap a status. The overlap between the Phase C positives and the SignalP 6 training data is **not measured**. It is a stated limit (in the status notes and in the report's known limits), not a cap, and `phasec` has no `--leakage` argument.
+- A status comes from a measurement of the call that reads the module. `truth` refuses a `--call` that reads more than one module (for example `tandem_repeat_protein`, `iuis_allergen_homolog`); the notes carry `call=`, `module=` and `variant=`. `phasec` writes `call=signal_peptide_protein; module=step1_rule@R0`. The engine counts a status only for the call named by `call=`, and gives `unvalidated` (basis `module measured on call X`) in every other call that reads the module, also through `ref`. An entry without `call=` (an older file) counts for every call.
+- A status belongs to the data it was measured on. The engine writes `module_identities` (name, version, `params_hash`, `artefact_hash` of each loaded module) to `run.json`. `truth` reads the `run.json` next to `--calls-long` and refuses when it is missing, has no entry for `--module`, or differs from the module record in `--workdir`. `phasec` has required `--phasec-signalp-module` and `--phasec-signalp-mode` and refuses unless they match the work directory's R0 record. The SignalP printed version is not in `metrics.json`, so only the module name (through its major version and `gpu` tag) and the mode are compared.
+- `phasec` counts clusters per class from `--clusters` and `--eval-table` (`eval_table` rows with origin `go`, `homology_only` `no`, class `pos` or `neg`, joined to `clusters` on `seq_sha256`). It refuses when the protein counts differ from `metrics.json`, records `n_clusters_pos` and `n_clusters_neg`, and takes the widest of the file's interval and the Wilson interval on the cluster count.
 - Intervals: the widest of the cluster-bootstrap percentile interval (2,000 resamples, fixed seed) and the Wilson interval on the number of independent clusters of that class. Specificity of Phase C comes with the per-stratum rates (N-int, N-sec, PM-TM); the pooled value depends on the mix of negatives.
 - Specificity is never inferred from absence in a database. A negative needs an independent reason to be a negative; if there is none, the module gets no specificity and the report says so.
 - A status entry is one species (resolved from `names.dmp`; a name with zero or several IDs stops the run). A protein's taxon may be a strain below the species. A status written for an older module identity is dropped when a new entry is merged.
@@ -49,10 +52,10 @@ Apply the same renames to the spec file (`sed` with the table above) in the pull
 
 | Module (call) | Calibration set and truth | Sn | Sp | Status now | What limits it |
 |---|---|---|---|---|---|
-| `step1_rule@R0` (`signal_peptide_protein`) | Phase C GO direct-evidence truth, **per species**, on UniProt gene models. *S. cerevisiae* 79 pos / 3,785 neg; *C. albicans* 153 / 459; *A. fumigatus* 19 / 45; *A. nidulans* 109 / 164; *C. neoformans* 7 / 32; *U. maydis* 9 / 28 | 0.848 [0.738, 0.943]; 0.477 [0.356, 0.591]; 0.947 [0.833, 1.000]; 0.688 [0.595, 0.779]; 0.857 [0.500, 1.000]; 1.000 [1.000, 1.000] (measured; the last two are widened with Wilson) | 0.966 [0.958, 0.972]; 0.943 [0.913, 0.968]; 1.000 (Wilson-widened); 0.988 [0.968, 1.000]; 0.938 [0.839, 1.000]; 0.893 [0.758, 1.000] (measured) | `smoke` for five species; `estimated` only for *A. nidulans* (the one species Phase C labels `estimate`) | Pooled sets hide a large difference (*S. cerevisiae* 0.85 against *C. albicans* 0.48). The pooled specificity is dominated by intracellular negatives; N-sec specificity is 0.91 (*S. cerevisiae*) and 0.93 (*C. albicans*). SignalP 6 was trained on proteins with experimental evidence; its overlap with the Phase C positives is not measured (`leakage = unknown` for R0). *Coccidioides* (Onygenales) is not covered: `unvalidated` there. |
+| `step1_rule@R0` (`signal_peptide_protein`) | Phase C GO direct-evidence truth, **per species**, on UniProt gene models. *S. cerevisiae* 79 pos / 3,785 neg; *C. albicans* 153 / 459; *A. fumigatus* 19 / 45; *A. nidulans* 109 / 164; *C. neoformans* 7 / 32; *U. maydis* 9 / 28 | 0.848 [0.738, 0.943]; 0.477 [0.356, 0.591]; 0.947 [0.833, 1.000]; 0.688 [0.595, 0.779]; 0.857 [0.500, 1.000]; 1.000 [1.000, 1.000] (measured; the last two are widened with Wilson) | 0.966 [0.958, 0.972]; 0.943 [0.913, 0.968]; 1.000 (Wilson-widened); 0.988 [0.968, 1.000]; 0.938 [0.839, 1.000]; 0.893 [0.758, 1.000] (measured) | `smoke` for five species; `estimated` only for *A. nidulans* (the one species Phase C labels `estimate`) | Pooled sets hide a large difference (*S. cerevisiae* 0.85 against *C. albicans* 0.48). The pooled specificity is dominated by intracellular negatives; N-sec specificity is 0.91 (*S. cerevisiae*) and 0.93 (*C. albicans*). SignalP 6 was trained on proteins with experimental evidence; its overlap with the Phase C positives is not measured. This is a stated limit, not a cap on the status. Cluster counts (positives / negatives, measured 2026-10-06 from `clusters.tsv.gz` and `eval_table.tsv.gz`): *S. cerevisiae* 58 / 3,156; *C. albicans* 113 / 410; *A. fumigatus* 17 / 38; *A. nidulans* 100 / 151; *C. neoformans* 6 / 31; *U. maydis* 9 / 24. *Coccidioides* (Onygenales) is not covered: `unvalidated` there. |
 | `tandem_repeat_protein` (`repeat02`, `repeat14`) | None with clade truth (synthetic series plus SOWgp only). Owner decision C1. | none | none | `unvalidated` | Calling known repeat adhesins is circular for settings tuned on SOWgp. 27 calls in RS, 20 without a signal peptide. |
 | `wall_family_domain` (`pfam_adhesion`) | Per family: hits on the proteomes of 4 clades; non-member hits read by a person (Task 13). | per family | counts of reviewed non-member hits (no number called specificity) | `unvalidated`; all families start inactive | "Members known by function" are 0 to 3 per proteome; most non-member hits are uncharacterised family members. Domain presence is not function. Pth11-like receptors carry CFEM (`no_tm` removes them; helices that start inside the first 35 residues are not counted). |
-| `allergen_homology` (`iuis_allergen_similarity`, `iuis_allergen_homolog`) | WHO/IUIS fungal sequences (111 usable of 116 with a sequence), leave-species-out against themselves (the 35%/80 aa rule and the 70%/80% rule, exactly as the engine applies them) | recovered share per rule (Task 13) | **none** | `unvalidated` | The reference set holds the 30 *A. fumigatus* allergens, so Af293 counts show self-recognition. Absence from IUIS means "never tested". WHO/IUIS lists no *Coccidioides* allergen; the only Onygenales entries are four *Trichophyton* proteases (contact route). |
+| `allergen_homology` (`iuis_allergen_similarity`, `iuis_allergen_homolog`) | WHO/IUIS fungal sequences (111 usable of 116 with a sequence), leave-species-out against themselves (the 35%/80 aa rule and the 70%/80% rule, exactly as the engine applies them) | recovered share per rule (Task 13) | **none** | `unvalidated` | The reference set holds the 30 *A. fumigatus* allergens, so Af293 counts show self-recognition. Absence from IUIS means "never tested". WHO/IUIS lists no *Coccidioides* allergen; the only Onygenales entries are four *Trichophyton* proteases (contact route). Calibrating it on `iuis_allergen_similarity` leaves `iuis_allergen_homolog` `unvalidated` (a status counts only for the measured call; the homolog call also reads `pfam_allergen`). |
 | `antigen_lookup` (`cocci_specificity_rank_top15`, `serodiagnostic_marker_candidate`) | Four *Coccidioides* anchors (PRA3, Ag2/PRA, SOWgp, PRA2; Ag2/PRA, PRA2, PRA3 are one protein family), CF antigen as cross-reactive control | 3 of 4 anchors in the top decile (pre-set test); the top-15% cut was set after the anchors were seen and is not supported by them | none independent | `smoke`, `leakage = tuned_on_truth` | 15% of the proteome is called; 143 of 1,371 (10.4%) of the calls have a signal peptide, hence the gated headline column. The ranking is similarity to IEDB antigens plus prevalence plus absence of orthologs; it is not epitope prediction and no antibody or T-cell measurement supports it. |
 | `cys_rich` | No accuracy claim (finder README). | n/a | n/a | evidence only | |
 | `expression` | RNA-seq, spherule against mycelium, 2 replicates. | n/a | n/a | evidence only | Host-phase evidence; says nothing about allergen exposure (conidia). |
@@ -2888,12 +2891,16 @@ Co-Authored-By: Claude Sonnet 5.5 <noreply@anthropic.com>"
 
 **Interfaces:**
 - Consumes: `make_entry` (Task 6), `wilson` (Task 6); `TaxonError` (Plan 1).
+- **Superseded in part by the code in the repository (decisions of 2026-10-06):** `entries_from_phasec` also takes `cluster_counts` from `count_clusters(clusters, eval_table)`, `check_signalp(record, module, mode)` compares the SignalP module and mode, and the listing below is the earlier version. Do not copy it.
 - Produces: `read_names`, `species_taxid`, `entries_from_phasec(metrics_json, set_taxa, candidate='R0', variant='V-go', truth='direct')` (one entry per species test set; status is the weaker of the Phase C label and `status_from_measure`; per-stratum specificity in `strata`; zero-width intervals at 0 or 1 are widened with Wilson), `SETS`; `compare_runs(out_a, out_b)`.
 - Specificity is one minus the false-positive rate with the interval ends swapped (valid: the percentile interval is equivariant under `1 - x`).
 
 - [ ] **Step 1: Write the failing tests**
 
 Create `tests/cellsurface_sorting_hat/calibration/test_phasec.py` with exactly this content:
+
+**Superseded in part by the code in the repository (decisions of 2026-10-06: `phasec` takes cluster files and the SignalP module and mode; `truth` refuses a call that reads more than one module and checks `run.json`). Do not copy this listing.**
+
 
 ```python
 import json
@@ -3125,6 +3132,9 @@ Expected: collection error, `ModuleNotFoundError: ... calibration.phasec`
 - [ ] **Step 3: Write the implementation**
 
 Create `src/cellsurface_sorting_hat/calibration/phasec.py` with exactly this content:
+
+**Superseded in part by the code in the repository (decisions of 2026-10-06: `phasec` takes cluster files and the SignalP module and mode; `truth` refuses a call that reads more than one module and checks `run.json`). Do not copy this listing.**
+
 
 ```python
 """Turn the Phase C ``metrics.json`` into status entries for the parameter-free rule R0 (one per species).
@@ -3931,6 +3941,9 @@ def test_signalp_file_from_a_non_eukarya_run_is_refused(tmp_path, fasta, capsys)
 
 Create `tests/cellsurface_sorting_hat/calibration/test_calibration_cli.py` with exactly this content:
 
+**Superseded in part by the code in the repository (decisions of 2026-10-06: `phasec` takes cluster files and the SignalP module and mode; `truth` refuses a call that reads more than one module and checks `run.json`). Do not copy this listing.**
+
+
 ```python
 import csv
 import gzip
@@ -4392,6 +4405,8 @@ Expected: collection error, `ModuleNotFoundError: ... modules.cli`.
 
 Create `src/cellsurface_sorting_hat/modules/cli.py` with exactly this content:
 
+**Superseded by the code in the repository (calibrate takes one taxon and --nodes-dmp; allergen needs --evalue --seg --max-target-seqs; repeat needs --script). Do not copy this listing.**
+
 ```python
 """Command ``cellsurface_sorting_hat_module``: turn one tool's output into a module table."""
 
@@ -4717,6 +4732,8 @@ def panel_check(calls_long, panel_tsv):
 ```
 
 Create `src/cellsurface_sorting_hat/calibration/cli.py` with exactly this content:
+
+**Superseded by the code in the repository (calibrate takes one taxon and --nodes-dmp; `phasec` takes `--clusters`, `--eval-table`, `--phasec-signalp-module`, `--phasec-signalp-mode`; `truth` refuses a call that reads more than one module and checks `run.json`; allergen needs --evalue --seg --max-target-seqs; repeat needs --script). Do not copy this listing.**
 
 ```python
 """Command ``cellsurface_sorting_hat_calibrate``: write status sources and check panels."""
@@ -5109,7 +5126,12 @@ signalp6 --fastafile "$TMP/in.fasta" --organism eukarya --output_dir "$TMP/out" 
   --format none --mode fast --write_procs 4 --torch_num_threads 8
 cp "$TMP/out/prediction_results.txt" "$WORKDIR/raw/signalp/.tmp.prediction_results.txt"
 mv "$WORKDIR/raw/signalp/.tmp.prediction_results.txt" "$WORKDIR/raw/signalp/prediction_results.txt"
-signalp6 --version > "$WORKDIR/raw/signalp/version.txt" 2>&1 || true
+# version.txt has two lines, as scripts/sorting_hat/signalp_gpu.sbatch writes it:
+#   module=signalp/6-gpu
+#   signalp6_version=<output of signalp6 --version>
+SP_VERSION="$(signalp6 --version 2>&1)"  # a failure stops the job (set -e)
+printf 'module=%s\nsignalp6_version=%s\n' "$SIGNALP_MODULE" "$SP_VERSION" > "$TMP/version.txt"
+cp "$TMP/version.txt" "$WORKDIR/raw/signalp/.tmp.version.txt" && mv "$WORKDIR/raw/signalp/.tmp.version.txt" "$WORKDIR/raw/signalp/version.txt"
 ```
 
 Create `scripts/sorting_hat/pfam_hmmsearch.sbatch` with exactly this content:
@@ -5442,18 +5464,17 @@ Expected: the builder prints 111 and lists 5 skipped entries (measured 2026-10-0
 ```bash
 T=$PROJ_ROOT/_workdir/sorting_hat/taxdump
 M="cellsurface_sorting_hat_module"
-FQ=$PROJ_ROOT/_workdir/sorting_hat/Afum_Af293_UniProt.faa
-zcat "$FASTA" > "$FQ"        # the module commands read plain FASTA or .gz; a plain copy keeps IDs identical for the tools
+FQ=$PROJ_ROOT/_workdir/sorting_hat/$PROT.faa; case "$FASTA" in *.gz) zcat "$FASTA" > "$FQ";; *) cp "$FASTA" "$FQ";; esac   # the module commands read plain FASTA or .gz; a plain copy keeps IDs identical for the tools
 PFAMJ=$WORKDIR/raw/pfam/provenance.json
 SHA=$(/usr/bin/python3.12 -c "import json;print(json.load(open('$PFAMJ'))['sha256'])")
 HMMER=$(/usr/bin/python3.12 -c "import json;print(json.load(open('$PFAMJ'))['hmmer'].split()[2])")
-$M signalp --fasta $FQ --workdir $WORKDIR --results $WORKDIR/raw/signalp/prediction_results.txt --signalp-version "$(head -1 $WORKDIR/raw/signalp/version.txt)"
+$M signalp --fasta $FQ --workdir $WORKDIR --results $WORKDIR/raw/signalp/prediction_results.txt --signalp-version "$(paste -sd';' $WORKDIR/raw/signalp/version.txt)"
 $M tm --fasta $FQ --workdir $WORKDIR --table $WORKDIR/raw/tmhmm/tmhmm.tsv
 $M pfam --fasta $FQ --workdir $WORKDIR --domtbl $WORKDIR/raw/pfam/domtbl.txt --family-table $FAMILY_TABLE --pfam-release 38.2 \
   --pfam-sha256 "$SHA" --hmmer-version "$HMMER" --sp-module step1_rule@R0 --tm-module tm
-$M repeat02 --fasta $FQ --workdir $WORKDIR --table $WORKDIR/raw/repeats/repeat02.tsv --script analysis/cocci_repeats/02_repeat_profile.py
-$M repeat14 --fasta $FQ --workdir $WORKDIR --table $WORKDIR/raw/repeats/repeat14.tsv --script analysis/cocci_repeats/14_repeat_detect_general.py
-$M allergen --fasta $FQ --workdir $WORKDIR --blast $WORKDIR/raw/allergen/blast.tsv --allergen-fasta $ALLERGEN_FASTA --blast-version "$(head -1 $WORKDIR/raw/allergen/version.txt)"
+$M repeat02 --fasta $FQ --workdir $WORKDIR --table $WORKDIR/raw/repeats/repeat02.tsv --script $PROJ_ROOT/analysis/cocci_repeats/02_repeat_profile.py
+$M repeat14 --fasta $FQ --workdir $WORKDIR --table $WORKDIR/raw/repeats/repeat14.tsv --script $PROJ_ROOT/analysis/cocci_repeats/14_repeat_detect_general.py
+$M allergen --fasta $FQ --workdir $WORKDIR --blast $WORKDIR/raw/allergen/blast.tsv --allergen-fasta $ALLERGEN_FASTA --blast-version "$(head -1 $WORKDIR/raw/allergen/version.txt)" --evalue 1 --seg no --max-target-seqs 200
 cellsurface_sorting_hat --fasta $FQ --taxon 330879 --taxdump $T/nodes.dmp --workdir $WORKDIR --out $WORKDIR/out
 head -60 $WORKDIR/out/report.md
 ```
@@ -5505,8 +5526,10 @@ Record: the identical count (4,743 measured 2026-10-05 by the microbiology revie
 - [ ] **Step 1: Status source for rule R0 from the Phase C metrics (UniProt Af293 run)**
 
 ```bash
-cellsurface_sorting_hat_calibrate phasec --workdir $WORKDIR --metrics _workdir/step1_compare/phasec/metrics.json \
-  --set-species data/sorting_hat/phasec_set_species.tsv --names-dmp $T/names.dmp
+cellsurface_sorting_hat_calibrate phasec --workdir $WORKDIR --metrics $PROJ_ROOT/_workdir/step1_compare/phasec/metrics.json \
+  --clusters $PROJ_ROOT/_workdir/step1_compare/phasec/clusters.tsv.gz --eval-table $PROJ_ROOT/_workdir/step1_compare/phasec/eval_table.tsv.gz \
+  --phasec-signalp-module signalp/6-gpu --phasec-signalp-mode fast \
+  --set-species $PROJ_ROOT/data/sorting_hat/phasec_set_species.tsv --names-dmp $T/names.dmp --nodes-dmp $T/nodes.dmp   # measured 2026-10-06: 10.9 s and 2.1 GB memory (with the cluster files)
 cellsurface_sorting_hat --fasta $FQ --taxon 330879 --taxdump $T/nodes.dmp --workdir $WORKDIR --out $WORKDIR/out
 grep -A12 "Module calibration" $WORKDIR/out/report.md
 ```
@@ -5519,7 +5542,7 @@ Expected: `step1_rule@R0` for taxon 330879 reports **status `smoke`** (the *A. f
 module load ncbi-blast/2.14.0+
 mkdir -p _workdir/sorting_hat/calibration && cd _workdir/sorting_hat/calibration
 makeblastdb -in $ALLERGEN_FASTA -dbtype prot -out alg -logfile /dev/null
-blastp -query $ALLERGEN_FASTA -db alg -evalue 1 -max_target_seqs 200 -outfmt "6 qseqid sseqid pident length qlen slen bitscore evalue" -out iuis_vs_iuis.tsv
+blastp -query $ALLERGEN_FASTA -db alg -evalue 1 -seg no -max_target_seqs 200 -outfmt "6 qseqid sseqid pident length qlen slen bitscore evalue" -out iuis_vs_iuis.tsv
 cd $PROJ_ROOT && cellsurface_sorting_hat_calibrate allergen-lso --blast _workdir/sorting_hat/calibration/iuis_vs_iuis.tsv --allergen-fasta $ALLERGEN_FASTA
 ```
 
@@ -5544,8 +5567,10 @@ When an owner decision provides a truth table `truth.tsv` (`id`, `label` 0 or 1,
 
 ```bash
 cellsurface_sorting_hat_calibrate truth --workdir $WORKDIR --module <module> --calls-long <out>/calls.long.tsv.gz \
-  --call <call name> --truth truth.tsv --calibration-set <name> --taxa <species-level taxon IDs> --leakage <none|partial|tuned_on_truth|in_reference|unknown> --notes "<what the set is>"
+  --call <call name> --truth truth.tsv --calibration-set <name> --taxa <ONE species-level taxon ID> --nodes-dmp $T/nodes.dmp --leakage <none|partial|tuned_on_truth|in_reference|unknown> --notes "<what the set is>"
 ```
+
+Use one call per species. A genus or a higher rank is refused. `<out>/run.json` must sit next to `--calls-long` and must come from a run on the module records that are in `$WORKDIR` now (it is refused otherwise). The call must read exactly one module (`wall_family_domain` reads `pfam_adhesion`; `cocci_specificity_rank_top15` reads `antigen_lookup`; `iuis_allergen_similarity` reads `allergen_homology`). A call such as `tandem_repeat_protein` (`repeat02` or `repeat14`) or `iuis_allergen_homolog` (allergen homology or Pfam allergen) is refused until per-call status entries exist. For a per-variant call give `--variant`.
 
 The run that produced `calls.long.tsv.gz` must contain the truth proteins. Use `--leakage tuned_on_truth` for `cocci_specificity_rank_top15` against the four anchors, and `in_reference` for an allergen that is in the IUIS set. Do not write an entry for a module whose truth set has no negatives. The command records the sensitivity bound with not-assessable positives counted as missed; report both.
 
@@ -5572,7 +5597,7 @@ Co-Authored-By: Claude Sonnet 5.5 <noreply@anthropic.com>"
 
 - [ ] **Step 1: Run each remaining proteome the way Task 12 does**
 
-Set `PROT`, `WORKDIR`, `FASTA` and the taxon: *C. immitis* RS (RefSeq protein file, taxon 246410), *S. cerevisiae* S288C (`orf_trans_all.fasta.gz`, taxon 559292; also the file without dubious ORFs), A1163 (taxon read in Task 11), W72310 (taxon 746128). Only the Af293 UniProt run got the Phase C status source; the other *A. fumigatus* runs get `calibrate phasec` too, because their taxa lie under the species, but the report must say that their gene models are not the measured annotation. For RS also build the lookup modules. The Cys-rich pipeline of `analysis/cys_candidates/README.md` must first run on the RefSeq FASTA (its IDs must be the `XP_...` IDs; a table made on the FungiDB IDs matches nothing and the command refuses). Use the per-proteome table that the pipeline writes (all tiers), not `candidates.tsv.gz`, which lists only the 304 non-`other` rows:
+Set `PROT`, `WORKDIR`, `FASTA` and the taxon: *C. immitis* RS (RefSeq protein file, taxon 246410), *S. cerevisiae* S288C (`orf_trans_all.fasta.gz`, taxon 559292; also the file without dubious ORFs), A1163 (taxon read in Task 11), W72310 (taxon 746128). Only the Af293 UniProt run gets the Phase C status source. [proposed, owner to confirm] Do not run `phasec` on A1163, W72310 or the Fungi_5k annotation; show the Af293 UniProt numbers as a cross-annotation reference only. For RS also build the lookup modules. The Cys-rich pipeline of `analysis/cys_candidates/README.md` must first run on the RefSeq FASTA (its IDs must be the `XP_...` IDs; a table made on the FungiDB IDs matches nothing and the command refuses). Use the per-proteome table that the pipeline writes (all tiers), not `candidates.tsv.gz`, which lists only the 304 non-`other` rows:
 
 ```bash
 $M antigen --fasta $FASTA --workdir $WORKDIR --taxon 246410 --ranking analysis/cocci_antigens/cocci_antigen_ranking.tsv --protein-map _workdir/cocci_spherule/ref/protein_map.tsv

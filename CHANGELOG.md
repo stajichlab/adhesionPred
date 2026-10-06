@@ -6,7 +6,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 ## [Unreleased]
 
 ### Added
-- `cellsurface_sorting_hat` core engine: reads module result tables, applies three-valued category rules and writes calls, evidence, a report and run records. No module wrappers yet.
+- `cellsurface_sorting_hat` core engine: reads module result tables, applies three-valued category rules and writes calls, evidence, a report and run records.
+- `cellsurface_sorting_hat_module`: wrappers that turn tool output (SignalP, Pfam `hmmsearch`, repeat detectors, BLASTP against the IUIS allergens, TMHMM) and lookup tables (antigen ranking, Cys-rich tiers, spherule expression) into module tables. Each input is checked against the FASTA before any output is written. A run that ends with no usable result is refused, and some `error` rows make the run `partial`.
+- `cellsurface_sorting_hat_calibrate`: `phasec` (status entries for R0 from the Phase C metrics, one per species, with cluster counts from the Phase C cluster files and a check of the SignalP module and mode), `truth` (sensitivity and specificity of one call that reads one module against a truth table, with a leakage cap, a taxon check and a check of the `run.json` module identity), `pfam-specificity`, `allergen-lso` and `panel`.
+- Job scripts in `scripts/sorting_hat/` and the data tables `data/sorting_hat/family_table.tsv` (all families inactive) and `phasec_set_species.tsv`.
+- No calibration has been run on HPCC data yet (Tasks 11 to 15 of the plan). Every module status is `unvalidated`. `calibrate phasec` can write R0 status entries from the Phase C numbers, but it has not been run in a real work directory.
 - Continuous integration: lint (ruff) and unit tests on every push and pull request.
 - Model card (JSON) written next to each trained model; `predict` refuses a `--model-name` that differs from the card.
 - Curated label tables, a stage-2 classifier prototype and model-review analyses (PR #18).

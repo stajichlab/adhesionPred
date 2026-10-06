@@ -244,3 +244,20 @@ def _source(tmp_path, **over):
 def test_load_status_source_refuses(tmp_path, over):
     with pytest.raises(ValueError):
         load_status_source(_source(tmp_path, **over))
+
+
+def test_per_stratum_rates_and_cluster_counts_are_accepted_and_checked(tmp_path):
+    good = {
+        **MEASURE,
+        "n_clusters_pos": 40,
+        "n_clusters_neg": 300,
+        "strata": {"N-sec": {"value": 0.9, "lo": 0.8, "hi": 0.95}},
+    }
+    assert (
+        load_status_source(_status_file(tmp_path, good)).entries[0].measure["n_clusters_pos"] == 40
+    )
+    bad = {**MEASURE, "strata": {"N-sec": {"value": 2, "lo": 0, "hi": 3}}}
+    with pytest.raises(ValueError):
+        load_status_source(_status_file(tmp_path, bad))
+    with pytest.raises(ValueError):
+        load_status_source(_status_file(tmp_path, {**MEASURE, "n_clusters_pos": -1}))

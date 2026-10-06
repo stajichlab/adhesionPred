@@ -10,6 +10,7 @@ import csv
 import gzip
 import hashlib
 import json
+import re
 import subprocess
 import sys
 import zlib
@@ -271,6 +272,9 @@ def check_identical_sequences(proteins, tables):
     return out
 
 
+_MEASURED_CALL = re.compile(r"(?:^|[\s;])call=([A-Za-z0-9_]+)")
+
+
 class StatusResolver:
     """Resolve the status of a module for a taxon, and the matched calibration entry."""
 
@@ -295,6 +299,13 @@ class StatusResolver:
         if identity is None:
             return None, None, "no module run record"
         return resolve_entry(self._record(module), identity, taxon, self.lineage)
+
+    def measured_call(self, module, taxon):
+        """The call named by ``call=`` in the notes of the matched entry, or None."""
+        entry, _, _ = self.entry(module, taxon)
+        notes = ((entry.measure if entry else None) or {}).get("notes", "")
+        found = _MEASURED_CALL.findall(notes)
+        return found[-1] if found else None
 
     def __call__(self, module, taxon):
         entry, tested, reason = self.entry(module, taxon)
@@ -321,6 +332,7 @@ def calibration_rows(resolver, modules, taxa):
                     "module": module,
                     "taxon": taxon,
                     "status": entry.status if entry else UNVALIDATED,
+                    "measured_call": resolver.measured_call(module, taxon) or "",
                     "matched_taxon": tested if entry else "",
                     "reason": reason,
                     "calibration_set": measure.get("calibration_set", ""),
@@ -354,7 +366,7 @@ def run(args):
     loaded = load_modules(args.workdir, ids, invalid, required_columns(cfg))
     tables = loaded.tables
     resolver = StatusResolver(args.workdir, loaded.identities, lineage)
-    records = evaluate(cfg, ids, taxa, tables, resolver)
+    records = evaluate(cfg, ids, taxa, tables, resolver, resolver.measured_call)
     out = Path(args.out)
     out.mkdir(parents=True, exist_ok=True)
     counts = Counter(taxa.values())
@@ -381,6 +393,15 @@ def run(args):
         inconsistent=check_identical_sequences(proteins, tables),
         unmatched_module_ids=loaded.unmatched,
         map_ids_not_in_fasta=len(set(taxon_map) - set(ids)),
+        module_identities=[
+            {
+                "name": i.name,
+                "version": i.version,
+                "params_hash": i.params_hash,
+                "artefact_hash": i.artefact_hash,
+            }
+            for _, i in sorted(loaded.identities.items())
+        ],
         calibration=calibration_rows(resolver, set(tables) | {cfg.default_gate}, taxa.values()),
     )
     report = render_report(info, records)  # render first: a failure leaves no partial output
