@@ -4392,6 +4392,8 @@ Expected: collection error, `ModuleNotFoundError: ... modules.cli`.
 
 Create `src/cellsurface_sorting_hat/modules/cli.py` with exactly this content:
 
+**Superseded by the code in the repository (calibrate takes one taxon and --nodes-dmp; allergen needs --evalue --seg --max-target-seqs; repeat needs --script). Do not copy this listing.**
+
 ```python
 """Command ``cellsurface_sorting_hat_module``: turn one tool's output into a module table."""
 
@@ -4717,6 +4719,8 @@ def panel_check(calls_long, panel_tsv):
 ```
 
 Create `src/cellsurface_sorting_hat/calibration/cli.py` with exactly this content:
+
+**Superseded by the code in the repository (calibrate takes one taxon and --nodes-dmp; allergen needs --evalue --seg --max-target-seqs; repeat needs --script). Do not copy this listing.**
 
 ```python
 """Command ``cellsurface_sorting_hat_calibrate``: write status sources and check panels."""
@@ -5442,18 +5446,17 @@ Expected: the builder prints 111 and lists 5 skipped entries (measured 2026-10-0
 ```bash
 T=$PROJ_ROOT/_workdir/sorting_hat/taxdump
 M="cellsurface_sorting_hat_module"
-FQ=$PROJ_ROOT/_workdir/sorting_hat/Afum_Af293_UniProt.faa
-zcat "$FASTA" > "$FQ"        # the module commands read plain FASTA or .gz; a plain copy keeps IDs identical for the tools
+FQ=$PROJ_ROOT/_workdir/sorting_hat/$PROT.faa; case "$FASTA" in *.gz) zcat "$FASTA" > "$FQ";; *) cp "$FASTA" "$FQ";; esac   # the module commands read plain FASTA or .gz; a plain copy keeps IDs identical for the tools
 PFAMJ=$WORKDIR/raw/pfam/provenance.json
 SHA=$(/usr/bin/python3.12 -c "import json;print(json.load(open('$PFAMJ'))['sha256'])")
 HMMER=$(/usr/bin/python3.12 -c "import json;print(json.load(open('$PFAMJ'))['hmmer'].split()[2])")
-$M signalp --fasta $FQ --workdir $WORKDIR --results $WORKDIR/raw/signalp/prediction_results.txt --signalp-version "$(head -1 $WORKDIR/raw/signalp/version.txt)"
+$M signalp --fasta $FQ --workdir $WORKDIR --results $WORKDIR/raw/signalp/prediction_results.txt --signalp-version "$(paste -sd';' $WORKDIR/raw/signalp/version.txt)"
 $M tm --fasta $FQ --workdir $WORKDIR --table $WORKDIR/raw/tmhmm/tmhmm.tsv
 $M pfam --fasta $FQ --workdir $WORKDIR --domtbl $WORKDIR/raw/pfam/domtbl.txt --family-table $FAMILY_TABLE --pfam-release 38.2 \
   --pfam-sha256 "$SHA" --hmmer-version "$HMMER" --sp-module step1_rule@R0 --tm-module tm
-$M repeat02 --fasta $FQ --workdir $WORKDIR --table $WORKDIR/raw/repeats/repeat02.tsv --script analysis/cocci_repeats/02_repeat_profile.py
-$M repeat14 --fasta $FQ --workdir $WORKDIR --table $WORKDIR/raw/repeats/repeat14.tsv --script analysis/cocci_repeats/14_repeat_detect_general.py
-$M allergen --fasta $FQ --workdir $WORKDIR --blast $WORKDIR/raw/allergen/blast.tsv --allergen-fasta $ALLERGEN_FASTA --blast-version "$(head -1 $WORKDIR/raw/allergen/version.txt)"
+$M repeat02 --fasta $FQ --workdir $WORKDIR --table $WORKDIR/raw/repeats/repeat02.tsv --script $PROJ_ROOT/analysis/cocci_repeats/02_repeat_profile.py
+$M repeat14 --fasta $FQ --workdir $WORKDIR --table $WORKDIR/raw/repeats/repeat14.tsv --script $PROJ_ROOT/analysis/cocci_repeats/14_repeat_detect_general.py
+$M allergen --fasta $FQ --workdir $WORKDIR --blast $WORKDIR/raw/allergen/blast.tsv --allergen-fasta $ALLERGEN_FASTA --blast-version "$(head -1 $WORKDIR/raw/allergen/version.txt)" --evalue 1 --seg no --max-target-seqs 200
 cellsurface_sorting_hat --fasta $FQ --taxon 330879 --taxdump $T/nodes.dmp --workdir $WORKDIR --out $WORKDIR/out
 head -60 $WORKDIR/out/report.md
 ```
@@ -5505,8 +5508,8 @@ Record: the identical count (4,743 measured 2026-10-05 by the microbiology revie
 - [ ] **Step 1: Status source for rule R0 from the Phase C metrics (UniProt Af293 run)**
 
 ```bash
-cellsurface_sorting_hat_calibrate phasec --workdir $WORKDIR --metrics _workdir/step1_compare/phasec/metrics.json \
-  --set-species data/sorting_hat/phasec_set_species.tsv --names-dmp $T/names.dmp
+cellsurface_sorting_hat_calibrate phasec --workdir $WORKDIR --metrics $PROJ_ROOT/_workdir/step1_compare/phasec/metrics.json \
+  --set-species $PROJ_ROOT/data/sorting_hat/phasec_set_species.tsv --names-dmp $T/names.dmp --nodes-dmp $T/nodes.dmp   # measured: about 12 s and about 0.8 GB memory
 cellsurface_sorting_hat --fasta $FQ --taxon 330879 --taxdump $T/nodes.dmp --workdir $WORKDIR --out $WORKDIR/out
 grep -A12 "Module calibration" $WORKDIR/out/report.md
 ```
@@ -5519,7 +5522,7 @@ Expected: `step1_rule@R0` for taxon 330879 reports **status `smoke`** (the *A. f
 module load ncbi-blast/2.14.0+
 mkdir -p _workdir/sorting_hat/calibration && cd _workdir/sorting_hat/calibration
 makeblastdb -in $ALLERGEN_FASTA -dbtype prot -out alg -logfile /dev/null
-blastp -query $ALLERGEN_FASTA -db alg -evalue 1 -max_target_seqs 200 -outfmt "6 qseqid sseqid pident length qlen slen bitscore evalue" -out iuis_vs_iuis.tsv
+blastp -query $ALLERGEN_FASTA -db alg -evalue 1 -seg no -max_target_seqs 200 -outfmt "6 qseqid sseqid pident length qlen slen bitscore evalue" -out iuis_vs_iuis.tsv
 cd $PROJ_ROOT && cellsurface_sorting_hat_calibrate allergen-lso --blast _workdir/sorting_hat/calibration/iuis_vs_iuis.tsv --allergen-fasta $ALLERGEN_FASTA
 ```
 
@@ -5544,8 +5547,10 @@ When an owner decision provides a truth table `truth.tsv` (`id`, `label` 0 or 1,
 
 ```bash
 cellsurface_sorting_hat_calibrate truth --workdir $WORKDIR --module <module> --calls-long <out>/calls.long.tsv.gz \
-  --call <call name> --truth truth.tsv --calibration-set <name> --taxa <species-level taxon IDs> --leakage <none|partial|tuned_on_truth|in_reference|unknown> --notes "<what the set is>"
+  --call <call name> --truth truth.tsv --calibration-set <name> --taxa <ONE species-level taxon ID> --nodes-dmp $T/nodes.dmp --leakage <none|partial|tuned_on_truth|in_reference|unknown> --notes "<what the set is>"
 ```
+
+Use one call per species. A genus or a higher rank is refused.
 
 The run that produced `calls.long.tsv.gz` must contain the truth proteins. Use `--leakage tuned_on_truth` for `cocci_specificity_rank_top15` against the four anchors, and `in_reference` for an allergen that is in the IUIS set. Do not write an entry for a module whose truth set has no negatives. The command records the sensitivity bound with not-assessable positives counted as missed; report both.
 
@@ -5572,7 +5577,7 @@ Co-Authored-By: Claude Sonnet 5.5 <noreply@anthropic.com>"
 
 - [ ] **Step 1: Run each remaining proteome the way Task 12 does**
 
-Set `PROT`, `WORKDIR`, `FASTA` and the taxon: *C. immitis* RS (RefSeq protein file, taxon 246410), *S. cerevisiae* S288C (`orf_trans_all.fasta.gz`, taxon 559292; also the file without dubious ORFs), A1163 (taxon read in Task 11), W72310 (taxon 746128). Only the Af293 UniProt run got the Phase C status source; the other *A. fumigatus* runs get `calibrate phasec` too, because their taxa lie under the species, but the report must say that their gene models are not the measured annotation. For RS also build the lookup modules. The Cys-rich pipeline of `analysis/cys_candidates/README.md` must first run on the RefSeq FASTA (its IDs must be the `XP_...` IDs; a table made on the FungiDB IDs matches nothing and the command refuses). Use the per-proteome table that the pipeline writes (all tiers), not `candidates.tsv.gz`, which lists only the 304 non-`other` rows:
+Set `PROT`, `WORKDIR`, `FASTA` and the taxon: *C. immitis* RS (RefSeq protein file, taxon 246410), *S. cerevisiae* S288C (`orf_trans_all.fasta.gz`, taxon 559292; also the file without dubious ORFs), A1163 (taxon read in Task 11), W72310 (taxon 746128). Only the Af293 UniProt run gets the Phase C status source. [proposed, owner to confirm] Do not run `phasec` on A1163, W72310 or the Fungi_5k annotation; show the Af293 UniProt numbers as a cross-annotation reference only. For RS also build the lookup modules. The Cys-rich pipeline of `analysis/cys_candidates/README.md` must first run on the RefSeq FASTA (its IDs must be the `XP_...` IDs; a table made on the FungiDB IDs matches nothing and the command refuses). Use the per-proteome table that the pipeline writes (all tiers), not `candidates.tsv.gz`, which lists only the 304 non-`other` rows:
 
 ```bash
 $M antigen --fasta $FASTA --workdir $WORKDIR --taxon 246410 --ranking analysis/cocci_antigens/cocci_antigen_ranking.tsv --protein-map _workdir/cocci_spherule/ref/protein_map.tsv
