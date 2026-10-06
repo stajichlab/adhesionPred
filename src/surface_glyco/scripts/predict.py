@@ -151,7 +151,7 @@ def main(
         for result in results:
             # only print positive calls by default; the output file always has every score
             if show_all or result["prediction"] == LABEL_POSITIVE:
-                print(f"{result['id']}: {result['prediction']} " f"(p={result[SCORE_COLUMN]:.3f})")
+                print(f"{result['id']}: {result['prediction']} (p={result[SCORE_COLUMN]:.3f})")
 
     if output_file is None:
         output_file = default_output_path(input_path)

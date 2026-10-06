@@ -49,6 +49,7 @@ class RunInfo:
     unavailable_variants: list = field(default_factory=list)
     inconsistent: dict = field(default_factory=dict)  # module -> groups of identical sequences
     map_ids_not_in_fasta: int = 0
+    unmatched_module_ids: dict = field(default_factory=dict)  # module -> rows with no FASTA ID
     calibration: list = field(default_factory=list)  # rows from cli.calibration_rows
 
 
@@ -139,6 +140,10 @@ def _warnings(info):
     if info.absent_modules:
         out.append(
             "Modules the rules need and that were not found: " + ", ".join(info.absent_modules)
+        )
+    for module, n in sorted(info.unmatched_module_ids.items()):
+        out.append(
+            f"Module {module} has {n} row(s) whose ID is not in the FASTA. They are ignored."
         )
     if info.map_ids_not_in_fasta:
         out.append(f"{info.map_ids_not_in_fasta} ID(s) in --taxon-map are not in the FASTA.")

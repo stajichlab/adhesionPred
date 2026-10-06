@@ -112,6 +112,7 @@ class LoadedModules:
     identities: dict = field(default_factory=dict)
     notes: dict = field(default_factory=dict)
     state_counts: dict = field(default_factory=dict)
+    unmatched: dict = field(default_factory=dict)
 
 
 def _read_json(path):
@@ -183,6 +184,8 @@ def load_modules(workdir, protein_ids, invalid_ids):
                 f"no FASTA ID matches the {len(rows)} row(s); check the ID format of the module"
             )
             continue
+        if len(rows) > len(matched):
+            loaded.unmatched[name] = len(set(rows) - wanted)
         table, counts = ModuleTable(name), Counter()
         for pid in protein_ids:
             if pid in invalid_ids:
@@ -341,6 +344,7 @@ def run(args):
         ],
         unavailable_variants=[v for v in cfg.step1_variants if v not in tables],
         inconsistent=check_identical_sequences(proteins, tables),
+        unmatched_module_ids=loaded.unmatched,
         map_ids_not_in_fasta=len(set(taxon_map) - set(ids)),
         calibration=calibration_rows(resolver, set(tables) | {cfg.default_gate}, taxa.values()),
     )

@@ -705,3 +705,44 @@ def test_calibration_table_has_rows_even_with_no_module_and_no_status(tmp_path, 
     assert (
         "| step1_rule@R0 | 40 | unvalidated | - | - | - | not measured | not measured |" in report
     )
+
+
+def test_module_rows_with_ids_not_in_the_fasta_are_counted_and_change_no_call(
+    tmp_path, write_module, nodes_dmp
+):
+    fasta, taxon_map, wd = build(tmp_path, write_module)
+    code, base = _run(tmp_path, nodes_dmp, fasta, taxon_map, wd, out="base")
+    rows = [{"id": i, "state": "ok", "call": "not_called"} for i in VALID]
+    rows += [{"id": f"GHOST{n}", "state": "ok", "call": "called"} for n in range(3)]
+    write_module(wd, "repeat14", rows)
+    code, out = _run(tmp_path, nodes_dmp, fasta, taxon_map, wd)
+    assert code == 0
+    assert (
+        "Module repeat14 has 3 row(s) whose ID is not in the FASTA"
+        in (out / "report.md").read_text()
+    )
+    assert json.loads((out / "run.json").read_text())["unmatched_module_ids"] == {"repeat14": 3}
+    assert read_long(out) == read_long(base)
+
+
+def test_a_bad_value_gives_unknown_not_false(tmp_path, write_module, nodes_dmp):
+    fasta, taxon_map, wd = build(tmp_path, write_module)
+    # ENZ1: repeat02 not_called, repeat14 bad value -> the OR cannot be decided
+    write_module(
+        wd,
+        "repeat14",
+        [{"id": i, "state": "ok", "call": "bogus" if i == "ENZ1" else "not_called"} for i in VALID],
+    )
+    code, out = _run(tmp_path, nodes_dmp, fasta, taxon_map, wd)
+    assert code == 0
+    assert read_long(out)[("ENZ1", "adhesion_repeat", "")]["value"] == "not_assessable"
+
+
+def test_every_table_output_has_a_matching_sha256_sidecar(tmp_path, write_module, nodes_dmp):
+    import hashlib
+
+    _, out, _ = run_cli(tmp_path, write_module, nodes_dmp)
+    for name in ("calls.long", "calls.wide", "evidence", "proteins"):
+        path = out / f"{name}.tsv.gz"
+        side = out / f"{name}.tsv.gz.sha256"
+        assert side.read_text().strip() == hashlib.sha256(path.read_bytes()).hexdigest()
