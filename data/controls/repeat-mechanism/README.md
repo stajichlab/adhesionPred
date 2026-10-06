@@ -18,3 +18,15 @@
 Rules: label from the paper, not from a repeat detector. Do not edit `adhesins.tsv`; record changes
 in `manual_overrides.tsv`. `cluster_has_both_adhesin_and_hard_negative = yes` marks the 2 clusters
 that need a decision.
+
+## Comparing two independent fills
+
+```
+python3.12 analysis/calibration_truth/compare_mechanism_labels.py \
+  --agent-a data/controls/repeat-mechanism/curation_table.agent-A.tsv \
+  --agent-b data/controls/repeat-mechanism/curation_table.agent-B.tsv \
+  --out data/controls/repeat-mechanism/comparison
+```
+
+It writes `comparison.tsv`, `review_queue.tsv` and `summary.md`. The quote check is a keyword check.
+A fail means that a person reads the row. A pass does not prove the label.
