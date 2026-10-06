@@ -25,11 +25,16 @@ def parse_repeat_table(path):
         for n, r in enumerate(reader, 2):
             if r["protein"] in out:
                 raise ValueError(f"{path}:{n}: duplicate protein {r['protein']!r}")
-            out[r["protein"]] = {
-                "period": int(float(r["rep_period"] or 0)),
-                "copies": float(r["rep_n_copies"] or 0),
-                "coverage": float(r["rep_coverage"] or 0),
-            }
+            try:
+                out[r["protein"]] = {
+                    "period": int(float(r["rep_period"] or 0)),
+                    "copies": float(r["rep_n_copies"] or 0),
+                    "coverage": float(r["rep_coverage"] or 0),
+                }
+            except (ValueError, OverflowError, TypeError) as exc:
+                raise ValueError(
+                    f"{path}:{n}: bad numeric field for {r['protein']!r}: {exc}"
+                ) from exc
     return out
 
 
@@ -42,11 +47,17 @@ def repeat_rows(
 ):
     """The detectors skip proteins shorter than ``min_len`` (default 80). Such a protein cannot hold
     a repeat array that the detectors can see, so it is ``not_called`` with ``period`` 0."""
+    stray = sorted(set(parsed) - {p.id for p in proteins})
+    if stray:
+        raise ValueError(
+            f"{len(stray)} repeat-table ID(s) are not in the FASTA, for example {stray[0]!r}"
+        )
     rows = []
     for p in proteins:
+        # the detectors strip trailing "*" before the length check
         if p.state != "ok":
             rows.append(invalid_row(p))
-        elif p.id not in parsed and len(p.sequence) < min_len:
+        elif p.id not in parsed and len(p.sequence.rstrip("*")) < min_len:
             rows.append(
                 {
                     "id": p.id,
@@ -79,8 +90,30 @@ COLUMNS = ["call", "period", "copies", "coverage"]
 
 
 def run_detector(repo_root, module, fasta, out_tsv, python=sys.executable, extra=()):
-    """Run an existing detector script from ``analysis/cocci_repeats`` on one FASTA."""
+    """Run an existing detector script from ``analysis/cocci_repeats`` on one FASTA.
+
+    ``--min-len`` is passed from ``DETECTOR_MIN_LEN`` so the wrapper and the detector agree.
+    """
+    if module not in SCRIPTS:
+        raise ValueError(f"unknown repeat module {module!r}; expected one of {sorted(SCRIPTS)}")
     script = Path(repo_root) / "analysis" / "cocci_repeats" / SCRIPTS[module]
-    cmd = [python, str(script), str(fasta), "--out", str(out_tsv), *extra]
-    subprocess.run(cmd, check=True)
+    cmd = [
+        python,
+        str(script),
+        str(fasta),
+        "--out",
+        str(out_tsv),
+        "--min-len",
+        str(DETECTOR_MIN_LEN),
+        *extra,
+    ]
+    try:
+        subprocess.run(cmd, check=True)
+    except subprocess.CalledProcessError as exc:
+        raise RuntimeError(
+            f"{module} failed on {fasta} (exit {exc.returncode}). Both detector scripts fail with"
+            f" IndexError when no protein is at least {DETECTOR_MIN_LEN} aa (empty output)."
+        ) from exc
+    if not Path(out_tsv).exists():
+        raise RuntimeError(f"{module} ran on {fasta} but wrote no output file {out_tsv}")
     return cmd
