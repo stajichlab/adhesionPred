@@ -19,16 +19,23 @@ def parse_signalp(path):
     probability, cleavage site. Prediction ``SP`` is the Sec/SPI signal peptide that rule R0 uses.
     """
     out = {}
+    seen_organism = False
     for n, line in enumerate(Path(path).read_text(encoding="utf-8-sig").splitlines(), 1):
         if line.startswith("#"):
-            if "Organism:" in line and "Eukarya" not in line:
-                raise SignalPFormatError(f"{path}:{n}: not a Eukarya run: {line.strip()!r}")
+            if "Organism:" in line:
+                value = line.split("Organism:", 1)[1].split()
+                organism = value[0] if value else ""
+                if organism != "Eukarya":
+                    raise SignalPFormatError(f"{path}:{n}: not a Eukarya run: {line.strip()!r}")
+                seen_organism = True
             continue
         if not line.strip():
             continue
         fields = line.split("\t")
         if len(fields) < 4:
             raise SignalPFormatError(f"{path}:{n}: expected at least 4 TAB separated fields")
+        if not fields[0].strip():
+            raise SignalPFormatError(f"{path}:{n}: empty ID")
         pid = fields[0].split()[0]
         try:
             sp_prob = float(fields[3])
@@ -39,6 +46,8 @@ def parse_signalp(path):
         out[pid] = {"prediction": fields[1], "sp_prob": sp_prob}
     if not out:
         raise SignalPFormatError(f"{path}: no prediction rows")
+    if not seen_organism:
+        raise SignalPFormatError(f"{path}: header lacks 'Organism: Eukarya'")
     return out
 
 

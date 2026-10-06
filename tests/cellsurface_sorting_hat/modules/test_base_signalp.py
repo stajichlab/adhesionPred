@@ -112,3 +112,50 @@ def test_write_module_refuses_a_duplicate_id(tmp_path):
             [],
             [{"id": "A", "state": "ok"}, {"id": "A", "state": "ok"}],
         )
+
+
+ROW = "A\tSP\t0.1\t0.9\n"
+
+
+@pytest.mark.parametrize(
+    "header,message",
+    [
+        ("# SignalP-6.0\tOrganism: Other\n", "not a Eukarya run"),
+        ("# SignalP-6.0\tOrganism: Eukarya-foo\n", "not a Eukarya run"),
+        ("# SignalP-6.0\n", "lacks 'Organism: Eukarya'"),
+        ("", "lacks 'Organism: Eukarya'"),
+    ],
+)
+def test_organism_header_must_be_exactly_eukarya(tmp_path, header, message):
+    path = tmp_path / "p.txt"
+    path.write_text(header + ROW)
+    with pytest.raises(SignalPFormatError, match=message):
+        parse_signalp(path)
+
+
+def test_valid_organism_header_parses(tmp_path):
+    path = tmp_path / "p.txt"
+    path.write_text("# SignalP-6.0\tOrganism: Eukarya\tTimestamp: 1\n" + ROW)
+    assert parse_signalp(path) == {"A": {"prediction": "SP", "sp_prob": 0.9}}
+
+
+def test_blank_id_is_a_format_error(tmp_path):
+    path = tmp_path / "p.txt"
+    path.write_text("# x\tOrganism: Eukarya\n\tSP\t0.1\t0.9\n")
+    with pytest.raises(SignalPFormatError, match="empty ID"):
+        parse_signalp(path)
+
+
+def test_hashes_ignore_fasta_and_artefact_digest_overrides(tmp_path):
+    db = tmp_path / "db.hmm"
+    db.write_bytes(b"hmm")
+    fa1, fa2 = tmp_path / "1.fa", tmp_path / "2.fa"
+    fa1.write_text(">a\nMKT\n")
+    fa2.write_text(">b\nGGG\n")
+    params = {"mode": "fast"}
+    before = (params_hash(params), artefact_hash([db]))
+    assert (params_hash(params), artefact_hash([db])) == before  # no FASTA input
+    spec = ModuleSpec("m", "1", params, (db,), artefact_digest="abc123")
+    assert write_module(tmp_path / "w1", spec, [], [])["artefact_hash"] == "abc123"
+    plain = ModuleSpec("m", "1", params, (db,))
+    assert write_module(tmp_path / "w2", plain, [], [])["artefact_hash"] == before[1]
