@@ -18,6 +18,7 @@ import csv
 import gzip
 import json
 import math
+import re
 from pathlib import Path
 
 from cellsurface_sorting_hat.calibration.intervals import wilson, wilson_p
@@ -97,10 +98,13 @@ def count_clusters(clusters_path, eval_table_path):
 def check_signalp(record_path, module, mode):
     """Compare the SignalP module and mode of Phase C with the work directory's R0 record.
 
-    The record holds the SignalP version (``tools.signalp``, for example ``6.0h-gpu``) and the mode
-    (``params.mode``). It does not hold the name of the environment module (``signalp/6-gpu``), so
-    the module name is compared through its major version and its ``gpu`` tag. Returns the version
-    string of the record."""
+    ``params.mode`` must equal ``mode``. The record's ``tools.signalp`` is the text of
+    ``version.txt`` joined with ``;`` (``module=signalp/6-gpu;signalp6_version=...``). When it holds
+    a ``module=`` token, that token (the first one, up to ``;``) must equal ``module`` exactly.
+    A bare version string (no ``module=`` token) is checked more weakly: ``module`` must be
+    ``signalp/<major>[-gpu]``, the major version must start the record's version at a boundary
+    (``6`` matches ``6.0h`` or ``6-gpu``, not ``60``) and the tag ``gpu`` must be a whole token of
+    the version exactly when the module name has it. Returns the version text of the record."""
     try:
         record = json.loads(Path(record_path).read_text())
         version = str(record["tools"]["signalp"])
@@ -109,15 +113,27 @@ def check_signalp(record_path, module, mode):
         raise ValueError(
             f"{record_path}: no SignalP version or mode in the record: {exc!r}"
         ) from exc
-    name, _, tag = module.partition("/")
-    major, _, suffix = tag.partition("-")
-    if name != "signalp" or not major:
-        raise ValueError(f"--phasec-signalp-module {module!r}: expected a name like signalp/6-gpu")
-    if not version.startswith(major) or (suffix == "gpu") != ("gpu" in version):
-        raise ValueError(
-            f"--phasec-signalp-module {module!r} does not match SignalP version {version!r} "
-            f"in {record_path}"
-        )
+    found = re.search(r"(?:^|;)\s*module=([^;]*)", version)
+    if found:
+        if found.group(1).strip() != module:
+            raise ValueError(
+                f"--phasec-signalp-module {module!r} does not match module "
+                f"{found.group(1).strip()!r} in {record_path}"
+            )
+    else:
+        name, _, tag = module.partition("/")
+        major, _, suffix = tag.partition("-")
+        if name != "signalp" or not major or suffix not in ("", "gpu"):
+            raise ValueError(
+                f"--phasec-signalp-module {module!r}: expected a name like signalp/6-gpu"
+            )
+        tokens = re.split(r"[^A-Za-z0-9]+", version)
+        gpu = "gpu" in tokens
+        if not re.match(rf"{re.escape(major)}(?![0-9])", version) or (suffix == "gpu") != gpu:
+            raise ValueError(
+                f"--phasec-signalp-module {module!r} does not match SignalP version {version!r} "
+                f"in {record_path}"
+            )
     if mode != record_mode:
         raise ValueError(
             f"--phasec-signalp-mode {mode!r} does not match mode {record_mode!r} in {record_path}"

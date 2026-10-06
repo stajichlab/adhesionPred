@@ -66,7 +66,7 @@ def status_from_measure(
     if spec:
         narrow = narrow and (spec["hi"] - spec["lo"]) / 2 <= max_half_width + _TOLERANCE
     enough = measure["n_pos"] >= min_positives and measure.get("n_neg", 0) >= min_negatives
-    # independent clusters, when the measure records them (a Phase C measure does not)
+    # independent clusters, when the measure records them (older files may not)
     for key in ("n_clusters_pos", "n_clusters_neg"):
         if key in measure and measure[key] < min_clusters:
             enough = False

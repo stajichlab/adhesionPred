@@ -431,3 +431,79 @@ def test_the_real_phase_c_file_loads_one_entry_per_species():
     assert by["S3-Eurotiomycetes:Afum_ASPFU"]["measure"]["n_pos"] == 19
     assert by["S1:Scer_SGD"]["measure"]["sensitivity"]["value"] == pytest.approx(0.848, abs=1e-3)
     assert by["S1:Calb_CGD"]["measure"]["sensitivity"]["value"] == pytest.approx(0.477, abs=1e-3)
+
+
+REAL_FORM = "module=signalp/6-gpu;signalp6_version=SignalP 6.0 (fast, eukarya) 6.0h"
+
+
+def test_check_signalp_accepts_the_two_line_form_that_the_sbatch_writes(tmp_path):
+    rec = _r0_record(tmp_path, REAL_FORM)
+    assert check_signalp(rec, "signalp/6-gpu", "fast") == REAL_FORM
+
+
+@pytest.mark.parametrize(
+    "version, module",
+    [
+        ("module=signalp/6-cpu;signalp6_version=6.0h", "signalp/6-gpu"),
+        ("module=signalp/6-gpu;signalp6_version=6.0h", "signalp/6"),
+        ("module=signalp/6-gpu;signalp6_version=6.0h", "signalp/6-gpus"),
+        ("module=signalp/6-gpu; call=cell_wall_adhesion_candidate", "signalp/6"),
+    ],
+)
+def test_check_signalp_compares_a_module_token_exactly(tmp_path, version, module):
+    with pytest.raises(ValueError, match="r0.json"):
+        check_signalp(_r0_record(tmp_path, version), module, "fast")
+
+
+def test_check_signalp_takes_the_module_token_up_to_the_semicolon(tmp_path):
+    version = "module=signalp/6-gpu; call=cell_wall_adhesion_candidate"
+    assert check_signalp(_r0_record(tmp_path, version), "signalp/6-gpu", "fast") == version
+
+
+@pytest.mark.parametrize(
+    "version, module, ok",
+    [
+        ("6.0h-gpu", "signalp/6-gpu", True),
+        ("60-gpu", "signalp/6-gpu", False),  # 6 is not 60
+        ("6.0h-cpu", "signalp/6-gpu", False),
+        ("6.0h", "signalp/6", True),
+        ("6.0h-gpus", "signalp/6-gpu", False),  # gpu must be a whole token
+        ("6.0h-gpu", "signalp/6", False),
+        ("6.0h", "signalp/6-cpu", False),  # unknown tag
+    ],
+)
+def test_check_signalp_bare_version_fallback_is_strict(tmp_path, version, module, ok):
+    rec = _r0_record(tmp_path, version)
+    if ok:
+        assert check_signalp(rec, module, "fast") == version
+    else:
+        with pytest.raises(ValueError):
+            check_signalp(rec, module, "fast")
+
+
+def test_a_protein_in_two_clusters_is_refused(tmp_path):
+    _write_gz(tmp_path / "cl.tsv.gz", "seq_sha256\tcluster_id\na\t1\na\t2\n")
+    _write_gz(tmp_path / "ev.tsv.gz", EVAL_HEAD + "a\tgo\tpos\tno\tAnid_EMENI\n")
+    with pytest.raises(ValueError, match=r"cl\.tsv\.gz.*two clusters"):
+        count_clusters(tmp_path / "cl.tsv.gz", tmp_path / "ev.tsv.gz")
+
+
+@pytest.mark.skipif(not REAL.exists(), reason="the Phase C output is not on this machine")
+def test_the_real_phase_c_cluster_counts_and_statuses():
+    counts = count_clusters(REAL.with_name("clusters.tsv.gz"), REAL.with_name("eval_table.tsv.gz"))
+    got = {s: (c["pos"], c["neg"]) for s, c in counts.items()}
+    assert got == {
+        "Anid_EMENI": ((109, 100), (164, 151)),
+        "Afum_ASPFU": ((19, 17), (45, 38)),
+        "Scer_SGD": ((79, 58), (3785, 3156)),
+        "Calb_CGD": ((153, 113), (459, 410)),
+        "Cneo_H99_GOA": ((7, 6), (32, 31)),
+        "Umay_MYCMD": ((9, 9), (28, 24)),
+    }
+    taxa = {k: [i + 1] for i, k in enumerate(SETS)}
+    status = {
+        e["measure"]["calibration_set"]: e["status"]
+        for e in _entries_from_phasec(REAL, taxa, counts)
+    }
+    assert status["S3-Eurotiomycetes:Anid_EMENI"] == "estimated"
+    assert [k for k, v in status.items() if v == "estimated"] == ["S3-Eurotiomycetes:Anid_EMENI"]

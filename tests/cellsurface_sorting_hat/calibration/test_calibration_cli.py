@@ -1193,3 +1193,40 @@ def test_truth_refuses_when_run_json_is_missing_or_has_no_identities_or_no_modul
 def test_truth_with_a_matching_run_json_identity_is_accepted(tmp_path):
     setup_truth(tmp_path)
     assert main(truth_args(tmp_path)) == 0
+
+
+def test_phasec_accepts_the_real_signalp_record_and_a_call_in_it_cannot_spoof_the_call(
+    tmp_path,
+):
+    from cellsurface_sorting_hat.cli import _MEASURED_CALL
+
+    write_r0(tmp_path, signalp="module=signalp/6-gpu; call=cell_wall_adhesion_candidate")
+    assert run_phasec(tmp_path, phasec_inputs(tmp_path)) == 0
+    notes = _phasec_entries(tmp_path)["S1:Scer_SGD"].measure["notes"]
+    assert _MEASURED_CALL.findall(notes)[-1] == "signal_peptide_protein"
+    assert run_phasec(tmp_path, phasec_inputs(tmp_path)) == 0
+
+
+def test_phasec_refuses_a_record_with_another_module_token(tmp_path, capsys):
+    write_r0(tmp_path, signalp="module=signalp/6-cpu;signalp6_version=6.0h")
+    assert run_phasec(tmp_path, phasec_inputs(tmp_path)) == 2
+    assert "signalp/6-cpu" in capsys.readouterr().err
+    assert not (tmp_path / "status").exists()
+
+
+def test_a_call_in_user_notes_does_not_spoof_the_measured_call(tmp_path):
+    from cellsurface_sorting_hat.cli import StatusResolver
+    from cellsurface_sorting_hat.status import ModuleIdentity
+    from cellsurface_sorting_hat.taxonomy import Lineage
+
+    setup_truth(tmp_path)
+    assert main(truth_args(tmp_path, "--notes", "call=cell_wall_adhesion_candidate")) == 0
+    nodes = write_nodes(tmp_path)
+    rec = json.loads((tmp_path / "modules" / "pfam_adhesion.json").read_text())
+    ident = {
+        "pfam_adhesion": ModuleIdentity(
+            "pfam_adhesion", rec["version"], rec["params_hash"], rec["artefact_hash"]
+        )
+    }
+    resolver = StatusResolver(tmp_path, ident, Lineage.from_nodes_dmp(nodes))
+    assert resolver.measured_call("pfam_adhesion", 4932) == "wall_family_domain"

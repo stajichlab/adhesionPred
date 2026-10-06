@@ -234,6 +234,11 @@ def _merge_entries(path, new_entries, workdir=None, module=None):
     return [e for e in old if e["measure"]["calibration_set"] not in names] + list(new_entries)
 
 
+def _plain(text):
+    """Text for the notes: no ``=`` or ``;``, so a ``call=`` in it cannot become a ``call=`` field."""
+    return " ".join(str(text).replace("=", ":").replace(";", ",").split())
+
+
 def _reads_of_call(cfg, call, variant):
     """Modules that a call reads. With ``variant``, a step 1 module of another variant is left out."""
     reads = modules_of_call(cfg, call)
@@ -370,7 +375,8 @@ def run(args):
             counts,
             extra_notes=(
                 f"signalp_module={args.phasec_signalp_module}; "
-                f"signalp_mode={args.phasec_signalp_mode}; signalp_record_version={sp_version}"
+                f"signalp_mode={args.phasec_signalp_mode}; "
+                f"signalp_record_version={_plain(sp_version)}"
             ),
             where_counts=f"{args.eval_table} joined to {args.clusters}",
         )
