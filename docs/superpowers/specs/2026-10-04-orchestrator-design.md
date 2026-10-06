@@ -118,6 +118,7 @@ entries cover *A. fumigatus* and the four other tested species), so each covers 
 descendants only; *Coccidioides* (Onygenales) is not
 covered and gets `unvalidated` (or `smoke` where a smoke test lists it). When two entries match, the
 most specific one wins. The status column also records `status_basis` (the tested taxon matched).
+A module status counts for the call named by `call=` in the notes of its measurement. For every other call that reads the module the status is `unvalidated` and `status_basis` says `module measured on call X`. This holds also through `ref` (the leaf that reads the module decides). An entry without `call=` counts for every call. `run.json` lists `module_identities` (name, version, `params_hash`, `artefact_hash` of each loaded module), so that a calibration command can check which module data a run used.
 `--taxon` sets one taxon for the whole run. `--taxon-map FILE` sets a taxon per protein and overrides
 `--taxon` for the proteins it lists. At least one of the two is required; a protein with no taxon is
 an error. A taxon the user gives is recorded in the report and is not checked against the sequences.

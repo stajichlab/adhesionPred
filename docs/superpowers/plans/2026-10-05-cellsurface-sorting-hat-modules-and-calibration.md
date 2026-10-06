@@ -55,7 +55,7 @@ Apply the same renames to the spec file (`sed` with the table above) in the pull
 | `step1_rule@R0` (`signal_peptide_protein`) | Phase C GO direct-evidence truth, **per species**, on UniProt gene models. *S. cerevisiae* 79 pos / 3,785 neg; *C. albicans* 153 / 459; *A. fumigatus* 19 / 45; *A. nidulans* 109 / 164; *C. neoformans* 7 / 32; *U. maydis* 9 / 28 | 0.848 [0.738, 0.943]; 0.477 [0.356, 0.591]; 0.947 [0.833, 1.000]; 0.688 [0.595, 0.779]; 0.857 [0.500, 1.000]; 1.000 [1.000, 1.000] (measured; the last two are widened with Wilson) | 0.966 [0.958, 0.972]; 0.943 [0.913, 0.968]; 1.000 (Wilson-widened); 0.988 [0.968, 1.000]; 0.938 [0.839, 1.000]; 0.893 [0.758, 1.000] (measured) | `smoke` for five species; `estimated` only for *A. nidulans* (the one species Phase C labels `estimate`) | Pooled sets hide a large difference (*S. cerevisiae* 0.85 against *C. albicans* 0.48). The pooled specificity is dominated by intracellular negatives; N-sec specificity is 0.91 (*S. cerevisiae*) and 0.93 (*C. albicans*). SignalP 6 was trained on proteins with experimental evidence; its overlap with the Phase C positives is not measured. This is a stated limit, not a cap on the status. Cluster counts (positives / negatives, measured 2026-10-06 from `clusters.tsv.gz` and `eval_table.tsv.gz`): *S. cerevisiae* 58 / 3,156; *C. albicans* 113 / 410; *A. fumigatus* 17 / 38; *A. nidulans* 100 / 151; *C. neoformans* 6 / 31; *U. maydis* 9 / 24. *Coccidioides* (Onygenales) is not covered: `unvalidated` there. |
 | `tandem_repeat_protein` (`repeat02`, `repeat14`) | None with clade truth (synthetic series plus SOWgp only). Owner decision C1. | none | none | `unvalidated` | Calling known repeat adhesins is circular for settings tuned on SOWgp. 27 calls in RS, 20 without a signal peptide. |
 | `wall_family_domain` (`pfam_adhesion`) | Per family: hits on the proteomes of 4 clades; non-member hits read by a person (Task 13). | per family | counts of reviewed non-member hits (no number called specificity) | `unvalidated`; all families start inactive | "Members known by function" are 0 to 3 per proteome; most non-member hits are uncharacterised family members. Domain presence is not function. Pth11-like receptors carry CFEM (`no_tm` removes them; helices that start inside the first 35 residues are not counted). |
-| `allergen_homology` (`iuis_allergen_similarity`, `iuis_allergen_homolog`) | WHO/IUIS fungal sequences (111 usable of 116 with a sequence), leave-species-out against themselves (the 35%/80 aa rule and the 70%/80% rule, exactly as the engine applies them) | recovered share per rule (Task 13) | **none** | `unvalidated` | The reference set holds the 30 *A. fumigatus* allergens, so Af293 counts show self-recognition. Absence from IUIS means "never tested". WHO/IUIS lists no *Coccidioides* allergen; the only Onygenales entries are four *Trichophyton* proteases (contact route). |
+| `allergen_homology` (`iuis_allergen_similarity`, `iuis_allergen_homolog`) | WHO/IUIS fungal sequences (111 usable of 116 with a sequence), leave-species-out against themselves (the 35%/80 aa rule and the 70%/80% rule, exactly as the engine applies them) | recovered share per rule (Task 13) | **none** | `unvalidated` | The reference set holds the 30 *A. fumigatus* allergens, so Af293 counts show self-recognition. Absence from IUIS means "never tested". WHO/IUIS lists no *Coccidioides* allergen; the only Onygenales entries are four *Trichophyton* proteases (contact route). Calibrating it on `iuis_allergen_similarity` leaves `iuis_allergen_homolog` `unvalidated` (a status counts only for the measured call; the homolog call also reads `pfam_allergen`). |
 | `antigen_lookup` (`cocci_specificity_rank_top15`, `serodiagnostic_marker_candidate`) | Four *Coccidioides* anchors (PRA3, Ag2/PRA, SOWgp, PRA2; Ag2/PRA, PRA2, PRA3 are one protein family), CF antigen as cross-reactive control | 3 of 4 anchors in the top decile (pre-set test); the top-15% cut was set after the anchors were seen and is not supported by them | none independent | `smoke`, `leakage = tuned_on_truth` | 15% of the proteome is called; 143 of 1,371 (10.4%) of the calls have a signal peptide, hence the gated headline column. The ranking is similarity to IEDB antigens plus prevalence plus absence of orthologs; it is not epitope prediction and no antibody or T-cell measurement supports it. |
 | `cys_rich` | No accuracy claim (finder README). | n/a | n/a | evidence only | |
 | `expression` | RNA-seq, spherule against mycelium, 2 replicates. | n/a | n/a | evidence only | Host-phase evidence; says nothing about allergen exposure (conidia). |
@@ -2899,6 +2899,9 @@ Co-Authored-By: Claude Sonnet 5.5 <noreply@anthropic.com>"
 
 Create `tests/cellsurface_sorting_hat/calibration/test_phasec.py` with exactly this content:
 
+**Superseded in part by the code in the repository (decisions of 2026-10-06: `phasec` takes cluster files and the SignalP module and mode; `truth` refuses a call that reads more than one module and checks `run.json`). Do not copy this listing.**
+
+
 ```python
 import json
 
@@ -3129,6 +3132,9 @@ Expected: collection error, `ModuleNotFoundError: ... calibration.phasec`
 - [ ] **Step 3: Write the implementation**
 
 Create `src/cellsurface_sorting_hat/calibration/phasec.py` with exactly this content:
+
+**Superseded in part by the code in the repository (decisions of 2026-10-06: `phasec` takes cluster files and the SignalP module and mode; `truth` refuses a call that reads more than one module and checks `run.json`). Do not copy this listing.**
+
 
 ```python
 """Turn the Phase C ``metrics.json`` into status entries for the parameter-free rule R0 (one per species).
@@ -3935,6 +3941,9 @@ def test_signalp_file_from_a_non_eukarya_run_is_refused(tmp_path, fasta, capsys)
 
 Create `tests/cellsurface_sorting_hat/calibration/test_calibration_cli.py` with exactly this content:
 
+**Superseded in part by the code in the repository (decisions of 2026-10-06: `phasec` takes cluster files and the SignalP module and mode; `truth` refuses a call that reads more than one module and checks `run.json`). Do not copy this listing.**
+
+
 ```python
 import csv
 import gzip
@@ -4724,7 +4733,7 @@ def panel_check(calls_long, panel_tsv):
 
 Create `src/cellsurface_sorting_hat/calibration/cli.py` with exactly this content:
 
-**Superseded by the code in the repository (calibrate takes one taxon and --nodes-dmp; allergen needs --evalue --seg --max-target-seqs; repeat needs --script). Do not copy this listing.**
+**Superseded by the code in the repository (calibrate takes one taxon and --nodes-dmp; `phasec` takes `--clusters`, `--eval-table`, `--phasec-signalp-module`, `--phasec-signalp-mode`; `truth` refuses a call that reads more than one module and checks `run.json`; allergen needs --evalue --seg --max-target-seqs; repeat needs --script). Do not copy this listing.**
 
 ```python
 """Command ``cellsurface_sorting_hat_calibrate``: write status sources and check panels."""
@@ -5117,7 +5126,12 @@ signalp6 --fastafile "$TMP/in.fasta" --organism eukarya --output_dir "$TMP/out" 
   --format none --mode fast --write_procs 4 --torch_num_threads 8
 cp "$TMP/out/prediction_results.txt" "$WORKDIR/raw/signalp/.tmp.prediction_results.txt"
 mv "$WORKDIR/raw/signalp/.tmp.prediction_results.txt" "$WORKDIR/raw/signalp/prediction_results.txt"
-signalp6 --version > "$WORKDIR/raw/signalp/version.txt" 2>&1 || true
+# version.txt has two lines, as scripts/sorting_hat/signalp_gpu.sbatch writes it:
+#   module=signalp/6-gpu
+#   signalp6_version=<output of signalp6 --version>
+SP_VERSION="$(signalp6 --version 2>&1)"  # a failure stops the job (set -e)
+printf 'module=%s\nsignalp6_version=%s\n' "$SIGNALP_MODULE" "$SP_VERSION" > "$TMP/version.txt"
+cp "$TMP/version.txt" "$WORKDIR/raw/signalp/.tmp.version.txt" && mv "$WORKDIR/raw/signalp/.tmp.version.txt" "$WORKDIR/raw/signalp/version.txt"
 ```
 
 Create `scripts/sorting_hat/pfam_hmmsearch.sbatch` with exactly this content:
