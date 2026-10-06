@@ -58,11 +58,11 @@ Apply the same renames to the spec file (`sed` with the table above) in the pull
 | `expression` | RNA-seq, spherule against mycelium, 2 replicates. | n/a | n/a | evidence only | Host-phase evidence; says nothing about allergen exposure (conidia). |
 | `tm` (TMHMM) | n/a here. | n/a | n/a | evidence only | TMHMM can read a signal peptide as a helix; `n_tm_mature` ignores helices that start at or before residue 35. |
 
-Owner decisions that block more calibration (not code tasks):
-- **C1** Which proteins are truth for `tandem_repeat_protein` and `wall_family_domain`, and are the detector settings counted as tuned on them?
-- **C2** Negatives for the allergen module. A candidate source: IEDB IgE assay records with negative outcome for fungi (the antigen table already queries the IEDB API); and proteins identified in an extract but not IgE-reactive in the same experiment. The number of such records is not known.
-- **C3** Independent truth for `serodiagnostic_marker_candidate`: a leave-species-out test (rebuild the ranking with one species' antigens held out, for example *A. fumigatus*, *H. capsulatum*, *C. albicans*), IEDB assay data, or serology. The leave-species-out test is the one that needs no wet lab.
-- **C4** Who signs off that a Pfam family is made `active` after its specificity review.
+Owner decisions C1 to C4 (answered 2026-10-05). They set what the calibration tasks use; the tasks that need new data are not code tasks and are not done yet.
+- **C1** Truth for `tandem_repeat_protein`: curated 2a repeat adhesins (`data/curated/adhesins`) as positives against curated hard negatives and secreted non-repeat proteins, clustered by homology; SOWgp is marked `tuned` and excluded from the metrics. Family members for `wall_family_domain`: full-length domain plus the conserved Cys pattern (8 Cys for CFEM and hydrophobins) or a curated function; hits without the pattern are errors; uncharacterised pattern-positive hits are their own class.
+- **C2** Allergen negatives: IEDB IgE assay records with a negative outcome for fungi, clustered with the positives. First step: count them. If there are too few, the module stays without a specificity.
+- **C3** Independent truth for `serodiagnostic_marker_candidate`: a leave-species-out test (rebuild the ranking with one species' IEDB antigens held out: *A. fumigatus*, *H. capsulatum* or *C. albicans*). Feasibility is not checked (antigen counts per species; a comparable confounder set). Serology is future work.
+- **C4** Sign-off of a Pfam family: the owner, per family, after reading the review table; the change is committed alone with the non-member hit table.
 
 ## Review Focus
 
