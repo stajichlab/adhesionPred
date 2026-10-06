@@ -1,0 +1,16 @@
+pfam_acc	name	class	module	source_pmid	pfam_release	specificity_note	second_condition	active	active_by	active_date
+PF05730	CFEM	2b-i CFEM-domain surface protein	pfam_adhesion	docs/reports/2026-09-29-class2b-structure.md; PMID 28513415 names CFEM proteins	38.2	hemophore fold, not shown to bind a host receptor; Pth11-like GPCRs also carry a CFEM domain, so no_tm keeps only proteins without TMHMM helices; specificity test not run	no_tm	no		
+PF04681	Bys1	2b-iii Bys1 invasin (CalA)	pfam_adhesion	docs/reports/2026-09-29-class2b-structure.md	38.2	Bys1 is not a thaumatin Pfam; calB and calC paralogs are the control; specificity test not run		no		
+PF01185	Hydrophobin	2c hydrophobin	pfam_adhesion	PMID 28513415 names RodA and RodB	38.2	specificity test not run		no		
+PF06766	Hydrophobin_2	2c hydrophobin	pfam_adhesion	PMID 28513415 names RodA and RodB	38.2	specificity test not run		no		
+PF28987	DewD	2c hydrophobin (DewD)	pfam_adhesion	analysis/cys_candidates/01_known_family_hmm.sh	38.2	specificity test not run		no		
+PF22354	Eas	2c hydrophobin (Eas)	pfam_adhesion	Pfam 38.2 name Eas, Hydrophobin	38.2	not in the earlier HMM script; specificity test not run		no		
+PF11766	Candida_ALS_N	2a Als adhesin N-terminal domain	pfam_adhesion	PMID 28513415 names the Als family	38.2	Candida-specific; specificity test not run		no		
+PF05792	Candida_ALS	2a Als adhesin repeat region	pfam_adhesion	PMID 28513415 names the Als family	38.2	Candida-specific; specificity test not run		no		
+PF16541	AltA1	Alt a 1 allergen family	pfam_allergen	WHO/IUIS Alt a 1; docs/reports/2026-10-04-fungal-allergen-scoping.md	38.2	allergen-specific; specificity test not run		no		
+PF25312	Allergen_Asp_f_4	Asp f 4 allergen family	pfam_allergen	WHO/IUIS Asp f 4; docs/reports/2026-10-04-fungal-allergen-scoping.md	38.2	allergen-specific; specificity test not run		no		
+PF10182	Flo11	2a yeast flocculin domain	pfam_adhesion	Pfam 38.2 Flo11; yeast adhesins (FLO11)	38.2	S. cerevisiae S288C carries a Flo8 defect and does not flocculate; specificity test not run		no		
+PF10528	GLEYA	2a yeast adhesin lectin domain	pfam_adhesion	Pfam 38.2 GLEYA (Epa/Flo adhesins)	38.2	specificity test not run		no		
+PF11765	Hyphal_reg_CWP	2a Hwp1-like wall protein	pfam_adhesion	Pfam 38.2; PMID 28513415 names Hwp1	38.2	Candida-specific; specificity test not run		no		
+PF00399	PIR	covalently bound yeast wall protein repeat (Pir)	pfam_adhesion	Pfam 38.2 PIR; Pir proteins are structural wall proteins, not adhesins	38.2	structural wall family; counted as a wall family only; specificity test not run		no		
+PF07691	PA14	2a PA14 adhesin domain (Flo5, Epa)	pfam_adhesion	Pfam 38.2 PA14	38.2	broad family with bacterial members and beta-glucosidases; needs a signal peptide	signal_peptide	no		
