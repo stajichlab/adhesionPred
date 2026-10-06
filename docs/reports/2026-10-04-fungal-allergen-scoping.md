@@ -1,5 +1,7 @@
 # Fungal allergen scoping note (issue #19)
 
+Note, 2026-10-05: the call names `allergen_homolog_hit` and `allergen_candidate` were renamed to `iuis_allergen_similarity` and `iuis_allergen_homolog`. The text below keeps the old names.
+
 **Working note, 2026-10-04.** Input to `docs/superpowers/specs/2026-10-04-orchestrator-design.md`
 (category `allergen_candidate`, decision D6). Script and data: `analysis/allergen_scoping/`.
 

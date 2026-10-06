@@ -179,8 +179,8 @@ Unknown inputs never contribute. For `other_*`, a called mechanism decides a fal
 
 ### 3.4 Categories in version 1
 
-Calls that depend on step 1 are written once per step 1 variant, as `<call>[<variant>]`, and also
-**ungated** (without the step 1 condition). The default gate is `step1_rule@R0` (decision D10, answered 2026-10-04). It is a config item.
+Calls that depend on step 1 are written once per step 1 variant, as `<call>[<variant>]`. Calls that
+do not depend on step 1 are written once. The default gate is `step1_rule@R0` (decision D10, answered 2026-10-04). It is a config item.
 
 | Category / call | Rule | Inputs | Today |
 |---|---|---|---|
@@ -202,9 +202,9 @@ Mechanism calls are `tandem_repeat_protein`, `wall_family_domain` and `cocci_spe
 
 `other_*` is defined over the assessable categories** (decision, review 2 finding 2). For one
 protein, the mechanism calls that are U are left out of the test, and the column `other_basis` lists
-them (for example `antigen`). `other_*` is U only when `signal_peptide_protein[v]` is U. So on
-*A. fumigatus*, `other_not_surface` means "not surface, and none of adhesion, allergen was called;
-antigen was not assessed", and `other_basis` says so. The report header prints the basis counts.
+them (for example `cocci_specificity_rank_top15`). `other_*` is U only when `signal_peptide_protein[v]` is U. So on
+*A. fumigatus*, `other_not_surface` means "not surface, and none of the mechanism calls was called;
+the antigen call was not assessed", and `other_basis` says so. The report header prints the basis counts.
 A protein can be T for `other_*` in one step 1 variant and U in another. The two `other` values
 keep the two meanings the plan requires.
 
@@ -217,24 +217,30 @@ Evidence columns that are **not** categories in version 1:
   proteins such as MSB2 and HKR1.
 - Expression (spherule against mycelium). Evidence only.
 
-Known limits, printed in the report header:
-1. GPI-anchored and secreted enzymes (GEL/GAS, chitinases, glucanases, proteases) get only
-   `signal_peptide_protein`. Non-adhesive structural wall proteins (Cwp1, Ccw12, Sed1, Pir) get the same.
-   Decision D11 (answered): no `cell_wall_protein` call in version 1.
-2. `signal_peptide_protein` is defined by GO cell wall and extracellular region evidence. It is not
-   evidence of glycosylation. With the default gate R0, the call means "SignalP calls a signal
-   peptide" and nothing more (`analysis/step1_compare/phasec/rules.py`). Secreted enzymes and ER
-   proteins with a signal peptide carry the name. The gated adhesion call is therefore close to the
-   ungated one for proteins with a signal peptide.
-3. CFEM is filed under adhesion because the 2b-i class is, but its confirmed fold is a hemophore
-   (`docs/TOOL-ARCHITECTURE.md`). Binding to a host receptor is not shown.
-4. The repeat detectors have no clade truth set. Their calls are hypotheses.
-5. The antigen call is the top 15% of a fixed *Coccidioides* ranking (1,371 of 9,139 proteins). It is a
-   weak label. The report prints the share called and carries the ranking's `NOT CALIBRATED` note
-   (3 of 4 anchors pass the top-decile test; with P = 15 all four anchors are inside the cut, so
-   they cannot test it).
-6. Cell wall integrity signaling, septation, polarized growth, polysaccharide chemistry, moonlighting
-   proteins and biofilm are not categories.
+Known limits, printed in the report header (the text is `_known_limits` in `src/cellsurface_sorting_hat/outputs.py`; the percentile comes from the config):
+1. Research use only. This is not a regulatory allergenicity assessment and not a diagnostic result.
+   No row is supported by an IgE, antibody or T-cell measurement.
+2. `signal_peptide_protein` means that SignalP calls a signal peptide (rule R0) and nothing more.
+   Such proteins are secreted, wall-bound or GPI-anchored. They are not shown to be exposed at the
+   cell surface, and glycosylation is not assessed. Plasma membrane mucins can be missed.
+3. GPI-anchored and secreted enzymes, and non-adhesive structural wall proteins, get no finer label
+   in version 1. There is no `cell_wall_protein` call.
+4. `tandem_repeat_protein` and `wall_family_domain` are evidence. Repeat proteins include
+   intracellular ones (ubiquitin, calmodulin, ankyrin proteins). A domain of a family that is linked
+   to adhesion or wall function in at least one species (CFEM, Bys1, hydrophobin, Als) is not shown
+   to mediate adhesion here. The adhesion call needs a signal peptide.
+5. `cocci_specificity_rank_top15` is the top P% (the configured percentile) of a fixed Coccidioides
+   immitis ranking (similarity to IEDB antigens, prevalence, absence of orthologs in confounder
+   fungi). It is not epitope prediction. The cut was set after the four anchors were seen. The
+   ranking prints NOT CALIBRATED. `serodiagnostic_marker_candidate` adds a signal peptide. Peptide
+   level only; glycan epitopes are not assessed.
+6. `iuis_allergen_similarity` and `iuis_allergen_homolog` are sequence similarity to allergens in
+   the WHO/IUIS fungal set (IgE binding in patients). They suggest possible IgE cross-reactivity at
+   most. A protein with no hit is not thereby a non-allergen. WHO/IUIS lists no Coccidioides
+   allergen.
+7. Cell wall integrity signaling, septation, polarized growth, polysaccharide chemistry, non-protein
+   adhesins, moonlighting proteins and biofilm are not categories.
+8. The taxon you give is recorded as given. It is not checked against the sequences.
 
 ### 3.5 The family table
 
@@ -403,7 +409,7 @@ Estimates, not measurements, except where marked.
 ## 7. Risks
 
 1. The step 1 decision changes what `signal_peptide_protein` means. Mitigation: every gated call is
-   written per variant, and an ungated call is always written.
+   written per variant. Calls that do not use step 1 are written once.
 2. The rule gates lose recall. R2 recall is 0.418 (S1), 0.227 (Eurotiomycetes), 0.125 (Basidiomycota,
    smoke test), so R2 misses 58%, 77% and 88% of surface proteins there. On the *Coccidioides*
    antigen candidates R2 keeps 5 of 14 Tier 1 and 19 of 45 Tier 2 (review); R0 keeps all. The main
@@ -441,7 +447,7 @@ One question at a time.
 | D7 | Out-of-scope handling | **Revised 2026-10-04 after review 2.** `--taxon` and/or `--taxon-map` is required. A module that is *not applicable* gives `not_assessable`. A module that is applicable but unmeasured gives a value with status `unvalidated`. |
 | D8 | Execution engine | **Answered 2026-10-04:** Python driver with SLURM scripts. Nextflow later if the module count grows. |
 | D9 | Review model | Different model from the author. Review 1 (Opus) and review 2 (Fable) done. |
-| D10 | Default gate for the gated calls (`signal_peptide_protein[v]` used by `cell_wall_adhesion_candidate[v]` and `serodiagnostic_marker_candidate[v]`) | **Answered 2026-10-04: `step1_rule@R0`.** R0 has no fitted parameter and runs today (recall 0.603 / 0.727 / 0.938, FPR 0.037 / 0.010 / 0.083). The headline gated columns use R0. R1, R2 and ML variants are extra columns once frozen. Ungated calls are always written. The default is a config item; the owner can change it without a design change. |
+| D10 | Default gate for the gated calls (`signal_peptide_protein[v]` used by `cell_wall_adhesion_candidate[v]` and `serodiagnostic_marker_candidate[v]`) | **Answered 2026-10-04: `step1_rule@R0`.** R0 has no fitted parameter and runs today (recall 0.603 / 0.727 / 0.938, FPR 0.037 / 0.010 / 0.083). The headline gated columns use R0. R1, R2 and ML variants are extra columns once frozen. Calls that do not use step 1 are written once. The default is a config item; the owner can change it without a design change. |
 | D11 | Add a `cell_wall_protein` call for non-adhesive structural wall proteins | **Answered 2026-10-04: not in version 1.** The report header states the limit. |
 | D12 | Antigen call definition | **Answered 2026-10-04:** combined `percentile` (all 9,139 ranked proteins) at most **P = 15** (1,371 proteins); the separate axes are written, not required. The tiers are not used because they exclude SOWgp. Consequence: P = 15 includes PRA2 (percentile 10.79), which the top-decile acceptance test excluded. PRA2 can no longer test the cut, and the 3-of-4 anchor result is reported at the top decile as before. P is a config item. |
 | D13 | First proteomes for building and demonstrating version 1 | **Answered 2026-10-04:** *C. immitis* RS, *A. fumigatus* Af293, *S. cerevisiae* S288C, *A. fumigatus* A1163, *A. fumigatus* W72310 (section 4.1). |
