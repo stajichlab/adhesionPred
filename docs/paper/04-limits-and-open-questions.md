@@ -46,8 +46,11 @@ Known data limits that affect interpretation:
 - The taxon IDs 330879, 451804 and 746128 in the plan were unverified. In the NCBI nodes file 330879,
   451804 and 505235 have rank "strain" and 746128 has rank "species". Which organism each ID names
   was not checked against names.dmp.
-- The Phase C bootstrap is reported as a cluster bootstrap, but the status entries do not yet record
-  the cluster counts (decision 2).
+- Composite calls (for example `cell_wall_adhesion_candidate`) take a status from the deciding
+  modules. That status is a weakest-of derived value. It is not a measurement of the composite call.
+  A strict reading of decision 3 would call it `unvalidated`. Owner to confirm.
+- A module with a bare SignalP version string (no `module=` token) is checked only by major
+  version and the `gpu` tag.
 
 ## 3. Decisions still open for the owner
 

@@ -3,7 +3,8 @@
 *2026-10-06. Sources: `docs/superpowers/specs/2026-10-04-orchestrator-design.md`,
 `docs/superpowers/plans/2026-10-05-cellsurface-sorting-hat-modules-and-calibration.md` (Global
 Constraints), `src/cellsurface_sorting_hat/calibration/`. Section 6 records decisions from the
-conversation of 2026-10-06. Those decisions are agreed but **not yet implemented in code**.*
+conversation of 2026-10-06. Those decisions are implemented in PR #64 (branch `sorting-hat-modules`)
+and are in effect once that PR is merged.*
 
 ## 1. Why a status exists
 
@@ -79,15 +80,16 @@ Panel check (report only, never changes a status): each expected call is marked 
 (for example PRA3, Ag2/PRA, PRA2, SOWgp for the ranking) and their homologs are excluded from the
 metrics.
 
-## 6. Decisions of 2026-10-06 (agreed, not yet implemented)
+## 6. Decisions of 2026-10-06 (implemented in PR #64)
 
-The owner agreed with these recommendations in conversation. They change code and plan text in a
-later step. Until then the code behaves as described in sections 2 to 5.
+The owner agreed with these recommendations in conversation. PR #64 implements them. Sections 2 to 5
+describe the behaviour before that PR where they differ: the cluster counts are now recorded
+(decision 2) and a status now counts only for the call that was measured (decision 3).
 
 | # | Question | Decision | Consequence |
 |---|---|---|---|
 | 1 | What counts as leakage for rule R0? | Only tuning of R0's own cutoffs and overlap with R0's own reference set cap a status. Overlap between the Phase C positives and the training data of SignalP 6 is **not measured**. It is recorded as a stated limit in the notes and the report. It does not cap the status. | *A. nidulans* stays `estimated`. `phasec` gets no `--leakage` argument. The plan's constraint line is narrowed to say this. |
-| 2 | Should `phasec` record cluster counts and apply the full interval rule? | Yes. `phasec` counts clusters per class from the Phase C cluster file, records them, applies the widest-of rule, and refuses when protein counts differ from `metrics.json`. | The sentence "cluster floor not checked" is removed. With the counts in `clusters.tsv.gz`, *A. nidulans* gives half-widths of 0.0935 (sensitivity) and 0.0227 (specificity), so it stays `estimated`. No other status changes. |
+| 2 | Should `phasec` record cluster counts and apply the full interval rule? | Yes. `phasec` counts clusters per class from the Phase C cluster file and eval table, records them, applies the widest-of rule, and refuses when protein counts differ from `metrics.json`. | The sentence "cluster floor not checked" is removed. Measured on the real files: *A. nidulans* has half-widths of 0.0935 (sensitivity) and 0.0227 (specificity) and stays `estimated`. The other five species stay `smoke`. |
 | 3 | Where does a call get its status? | From a measurement of that call. A call with no measurement of its own reports `unvalidated`, with a note naming the call on which the module was measured. | Until per-call status entries exist (a change to the status file format), `truth` refuses a call that reads more than one module. This covers `tandem_repeat_protein` (repeat02 OR repeat14) and `iuis_allergen_homolog` (allergen homology OR Pfam allergen). Each module is calibrated on a call that reads only that module. |
 | 4 | How strictly is a status tied to the data it was measured on? | Enforce it. The engine writes module identities into `run.json`. `truth` refuses when they differ from the work directory's module records. `phasec` takes the SignalP module and mode that Phase C used as required arguments, refuses unless they match the work directory's R0 record, and records both in the notes. | A later re-run of SignalP with another build or mode invalidates the R0 status. This needs a change to the core engine's run record. The repository's Phase C job script uses `signalp/6-gpu` with `--mode fast --organism eukarya`, the same as the new job script. |
 

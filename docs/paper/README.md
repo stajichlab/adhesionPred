@@ -50,7 +50,7 @@ replace the specs, reports or plans.
 - No trained model ships. The step 1 choice (rule, ML or hybrid gate) was decided as a hybrid on
   2026-10-02 in principle. No gate values are set.
 - The sorting tool (`cellsurface_sorting_hat`) has its core engine (PR #63, merged) and its module
-  wrappers, calibration commands and job scripts (PR #64, open at the time of writing).
+  wrappers, calibration commands and job scripts (PR #64, open at the time of writing; it also implements the four decisions of 2026-10-06).
 - The HPCC runs that would calibrate the modules (Tasks 11 to 15 of Plan 2) have **not** been run.
   Every module status except the Phase C entries for rule R0 is `unvalidated`. No status file has
   been written in a real work directory.
