@@ -3,7 +3,7 @@ import json
 import numpy as np
 import pytest
 
-from cellsurface_sorting_hat.calibration.intervals import cluster_bootstrap, wilson
+from cellsurface_sorting_hat.calibration.intervals import cluster_bootstrap, wilson, wilson_p
 from cellsurface_sorting_hat.calibration.measure import (
     build_measure,
     make_entry,
@@ -376,7 +376,7 @@ def test_seed_determinism_and_dependence():
     )
 
 
-def test_default_resample_count_is_2000_and_seed_is_1(monkeypatch):
+def test_default_resample_count_is_2000_and_seed_is_1():
     import inspect
 
     sig = inspect.signature(cluster_bootstrap)
@@ -474,3 +474,47 @@ def test_write_status_source_keeps_a_weaker_status_than_the_measure_allows(tmp_p
     entry = make_entry([40], m, cap="smoke")  # leakage cap
     path = write_status_source(tmp_path, "pfam_adhesion", [entry])
     assert load_status_source(path).entries[0].status == "smoke"
+
+
+def test_bootstrap_resamples_clusters_not_proteins():
+    # 100 positive clusters: 5 big ones (60 proteins, all called) and 95 singletons (38 called).
+    # Value is about 0.856. Cluster resampling gives half-width about 0.138; protein resampling
+    # would give about 0.068 and wrongly allow `estimated`.
+    y, call, clusters = [], [], []
+    for i in range(5):
+        y += [1] * 60
+        call += [True] * 60
+        clusters += [f"big{i}"] * 60
+    for i in range(95):
+        y.append(1)
+        call.append(i < 38)
+        clusters.append(f"s{i}")
+    for i in range(100):  # negatives, all rejected correctly, 100 clusters
+        y.append(0)
+        call.append(False)
+        clusters.append(f"n{i}")
+    m = build_measure("s", "t", y, call, clusters)
+    sens = m["sensitivity"]
+    assert sens["value"] == pytest.approx(338 / 395)
+    assert (sens["hi"] - sens["lo"]) / 2 > 0.10
+    assert status_from_measure(m) != "estimated"
+
+
+def test_wilson_on_clusters_uses_the_fractional_proportion_without_rounding():
+    v, lo, hi = wilson_p(0.0465, 24)
+    assert v == 0.0465 and (hi - lo) / 2 == pytest.approx(0.1002, abs=1e-4)
+    assert (hi - lo) / 2 > 0.10  # the rounded form (k=1 of 24) gave 0.0975 and passed the rule
+    _, rlo, rhi = wilson(1, 24)
+    assert (rhi - rlo) / 2 < 0.10
+    # 43 positives in 24 clusters, 2 called (value 0.0465): the bootstrap result is at least this wide
+    y = [1] * 43 + [0] * 43
+    call = [True] * 2 + [False] * 41 + [False] * 43
+    clusters = [f"p{i % 24}" for i in range(43)] + [f"n{i}" for i in range(43)]
+    s = cluster_bootstrap(y, call, clusters, n_boot=200)["sensitivity"]
+    assert s["lo"] <= lo + 1e-12 and s["hi"] >= hi - 1e-12
+
+
+@pytest.mark.parametrize("p,n", [(-0.1, 5), (1.1, 5), (float("nan"), 5), (0.5, 0)])
+def test_wilson_p_refuses_bad_input(p, n):
+    with pytest.raises(ValueError):
+        wilson_p(p, n)

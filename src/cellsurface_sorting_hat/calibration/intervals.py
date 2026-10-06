@@ -29,7 +29,17 @@ def wilson(k, n, z=1.959964):
         return None
     if not 0 <= k <= n:
         raise ValueError(f"k must be between 0 and n (k={k}, n={n})")
-    p = k / n
+    return wilson_p(k / n, n, z)
+
+
+def wilson_p(p, n, z=1.959964):
+    """Wilson score interval for a proportion ``p`` on an effective sample size ``n`` (``p`` need not
+    be k/n for a whole k). Returns ``(p, lo, hi)``."""
+    if isinstance(p, bool) or not isinstance(p, int | float) or not 0 <= p <= 1:
+        raise ValueError(f"p must be a number between 0 and 1 (got {p!r})")
+    n = _count(n, "n")
+    if n < 1:
+        raise ValueError(f"n must be at least 1 (n={n})")
     denom = 1 + z * z / n
     centre = (p + z * z / (2 * n)) / denom
     half = z * math.sqrt(p * (1 - p) / n + z * z / (4 * n * n)) / denom
@@ -99,7 +109,7 @@ def cluster_bootstrap(y, call, clusters, n_boot=2000, seed=1):
         col = boot[:, j][~np.isnan(boot[:, j])]
         lo, hi = np.percentile(col, [2.5, 97.5]) if len(col) else (value, value)
         nc = n_clusters[label]
-        _, wlo, whi = wilson(int(round(value * nc)), nc)
+        _, wlo, whi = wilson_p(float(value), nc)  # no rounding: rounding can narrow the interval
         out[name] = {
             "value": float(value),
             "lo": float(min(lo, wlo, value)),
