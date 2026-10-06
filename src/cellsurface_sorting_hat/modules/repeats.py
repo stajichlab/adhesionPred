@@ -1,6 +1,7 @@
 """Repeat detector tables -> modules ``repeat02`` and ``repeat14`` (call = repeat per 03_repeat_surface_candidates.py)."""
 
 import csv
+import math
 import subprocess
 import sys
 from pathlib import Path
@@ -11,6 +12,19 @@ DEFAULT_MIN_COVERAGE = 0.25
 DEFAULT_MIN_COPIES = 2.5
 DETECTOR_MIN_LEN = 80  # the --min-len default of both detector scripts
 SCRIPTS = {"repeat02": "02_repeat_profile.py", "repeat14": "14_repeat_detect_general.py"}
+
+
+def _number(text, column):
+    """A finite number that is not negative; an empty value is 0 (the detectors write it for no repeat).
+    A short row gives ``None`` here and is refused."""
+    if text is None:
+        raise ValueError(f"column {column!r} is missing (short row)")
+    value = float(text or 0)
+    if not math.isfinite(value):
+        raise ValueError(f"column {column!r} value {text!r} is not finite")
+    if value < 0:
+        raise ValueError(f"column {column!r} value {text!r} is negative")
+    return value
 
 
 def parse_repeat_table(path):
@@ -26,12 +40,11 @@ def parse_repeat_table(path):
             if r["protein"] in out:
                 raise ValueError(f"{path}:{n}: duplicate protein {r['protein']!r}")
             try:
-                out[r["protein"]] = {
-                    "period": int(float(r["rep_period"] or 0)),
-                    "copies": float(r["rep_n_copies"] or 0),
-                    "coverage": float(r["rep_coverage"] or 0),
-                }
-            except (ValueError, OverflowError, TypeError) as exc:
+                period = _number(r["rep_period"], "rep_period")
+                copies = _number(r["rep_n_copies"], "rep_n_copies")
+                coverage = _number(r["rep_coverage"], "rep_coverage")
+                out[r["protein"]] = {"period": int(period), "copies": copies, "coverage": coverage}
+            except (ValueError, OverflowError) as exc:
                 raise ValueError(
                     f"{path}:{n}: bad numeric field for {r['protein']!r}: {exc}"
                 ) from exc

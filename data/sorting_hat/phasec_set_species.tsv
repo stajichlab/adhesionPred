@@ -1,7 +1,8 @@
+# scientific_name must be the NCBI scientific name in names.dmp; a synonym has no taxon ID there (Ustilago maydis is a synonym of Mycosarcoma maydis, taxon 5270).
 set_key	scientific_name
 S1:Scer_SGD	Saccharomyces cerevisiae
 S1:Calb_CGD	Candida albicans
 S3-Eurotiomycetes:Afum_ASPFU	Aspergillus fumigatus
 S3-Eurotiomycetes:Anid_EMENI	Aspergillus nidulans
 S3-Basidiomycota:Cneo_H99_GOA	Cryptococcus neoformans
-S3-Basidiomycota:Umay_MYCMD	Ustilago maydis
+S3-Basidiomycota:Umay_MYCMD	Mycosarcoma maydis

@@ -14,6 +14,7 @@ from cellsurface_sorting_hat.calibration.measure import (
     write_status_source,
 )
 from cellsurface_sorting_hat.calibration.panel import panel_check
+from cellsurface_sorting_hat.engine import load_config, modules_of_call
 from cellsurface_sorting_hat.fasta import read_fasta
 from cellsurface_sorting_hat.modules import allergen, pfam
 from cellsurface_sorting_hat.taxonomy import TaxonError
@@ -162,10 +163,12 @@ def _set_taxa(path, names_dmp, nodes):
         raise ValueError(f"{names_dmp}: cannot parse names.dmp: {err}") from err
     by_set = {}
     with open(path, encoding="utf-8-sig", newline="") as fh:
-        reader = csv.DictReader(fh, delimiter="\t")
+        # a line that starts with "#" is a comment; keep the file line number of the other lines
+        kept = [(n, line) for n, line in enumerate(fh, 1) if not line.startswith("#")]
+        reader = csv.DictReader((line for _, line in kept), delimiter="\t")
         _need_columns(reader, ("set_key", "scientific_name"), path)
         for r in reader:
-            where = f"{path}:{reader.line_num}"
+            where = f"{path}:{kept[reader.line_num - 1][0]}"
             key, name = (r["set_key"] or "").strip(), (r["scientific_name"] or "").strip()
             if not key or not name:
                 raise ValueError(f"{where}: set_key and scientific_name must not be empty")
@@ -234,8 +237,58 @@ def _read_call_values(path, call, variant):
     return out
 
 
+def _read_protein_taxa(calls_long):
+    """``proteins.tsv.gz`` next to ``calls_long`` -> ``{id: taxon}``."""
+    path = Path(calls_long).with_name("proteins.tsv.gz")
+    if not path.is_file():
+        raise ValueError(
+            f"{path}: not found; it must be next to --calls-long (the run output directory)"
+        )
+    with gzip.open(path, "rt", encoding="utf-8-sig", newline="") as fh:
+        reader = csv.DictReader(fh, delimiter="\t")
+        _need_columns(reader, ("id", "taxon"), path)
+        out = {}
+        for r in reader:
+            try:
+                out[r["id"]] = int(r["taxon"])
+            except ValueError:
+                raise ValueError(
+                    f"{path}:{reader.line_num}: taxon {r['taxon']!r} is not an integer"
+                ) from None
+    return out
+
+
+def _is_below(taxon, ancestor, parent):
+    """True when ``taxon`` is ``ancestor`` or has it on its path to the root."""
+    seen = set()
+    while taxon not in seen:
+        if taxon == ancestor:
+            return True
+        seen.add(taxon)
+        up = parent.get(taxon)
+        if up is None or up == taxon:
+            return False
+        taxon = up
+    return False
+
+
+def _check_truth_taxa(matched, protein_taxa, taxon, parent, proteins_path):
+    """Every matched truth protein must be of the tested taxon or below it."""
+    bad = []
+    for pid in matched:
+        t = protein_taxa.get(pid)
+        if t is None or not _is_below(t, taxon, parent):
+            bad.append((pid, t))
+    if bad:
+        pid, t = bad[0]
+        raise ValueError(
+            f"{len(bad)} matched truth protein(s) are not of --taxa {taxon} or below it "
+            f"(see {proteins_path}); for example {pid!r} has taxon {'missing' if t is None else t}"
+        )
+
+
 def _read_truth(path, calls):
-    """Yield ``(label, call value or None, cluster)`` for each truth row; refuses a bad row."""
+    """Yield ``(id, label, call value or None, cluster)`` for each truth row; refuses a bad row."""
     seen = set()
     rows = []
     with open(path, encoding="utf-8-sig", newline="") as fh:
@@ -251,7 +304,7 @@ def _read_truth(path, calls):
             if pid in seen:
                 raise ValueError(f"{where}: id {pid!r} appears twice")
             seen.add(pid)
-            rows.append((int(label), calls.get(pid), cluster))
+            rows.append((pid, int(label), calls.get(pid), cluster))
     return rows
 
 
@@ -277,10 +330,21 @@ def run(args):
                 "--taxa takes exactly one taxon: a status entry is one species; "
                 "run one call per species"
             )
-        _require_species(args.taxa[0], read_nodes(args.nodes_dmp), "--taxa")
+        nodes = read_nodes(args.nodes_dmp)
+        _require_species(args.taxa[0], nodes, "--taxa")
+        reads = modules_of_call(load_config(), args.call)
+        if args.module not in reads:
+            raise ValueError(
+                f"--module {args.module!r} is not read by call {args.call!r}; "
+                f"the call reads: {', '.join(reads)}"
+            )
+        protein_taxa = _read_protein_taxa(args.calls_long)
         calls = _read_call_values(args.calls_long, args.call, args.variant)
         y, called, clusters, unmatched, unknown, unknown_pos = [], [], [], 0, 0, 0
-        for label, value, cluster in _read_truth(args.truth, calls):
+        matched = []
+        for pid, label, value, cluster in _read_truth(args.truth, calls):
+            if value is not None:
+                matched.append(pid)
             if value is None:
                 unmatched += 1
             elif value == "not_assessable":
@@ -292,6 +356,13 @@ def run(args):
                 clusters.append(cluster)
         if not y:
             raise ValueError("no truth protein has a call in --calls-long")
+        _check_truth_taxa(
+            matched,
+            protein_taxa,
+            args.taxa[0],
+            nodes[0],
+            Path(args.calls_long).with_name("proteins.tsv.gz"),
+        )
         n_pos_called = sum(1 for lab, c in zip(y, called, strict=True) if lab == 1 and c)
         n_pos_all = sum(1 for lab in y if lab == 1) + unknown_pos
         bound = f"{n_pos_called / n_pos_all:.3f}" if n_pos_all else "NA"
@@ -301,7 +372,10 @@ def run(args):
         ).strip()
         if not any(lab == 0 for lab in y):
             notes += " specificity not measured (no negatives)"
-        notes += f" call={args.call}; module={args.module}; variant={args.variant}"
+        notes += (
+            f" call={args.call}; module={args.module}; reads_modules={','.join(reads)};"
+            f" variant={args.variant}"
+        )
         measure = build_measure(
             args.calibration_set,
             str(args.truth),

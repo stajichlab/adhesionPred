@@ -152,3 +152,30 @@ def test_non_numeric_field_names_file_and_line(tmp_path):
 def test_invalid_protein_gets_invalid_row(tmp_path):
     p = prot("BAD", state="invalid")
     assert repeat_rows([p], {}) == [invalid_row(p)]
+
+
+@pytest.mark.parametrize(
+    ("row", "what"),
+    [
+        ("S\tA\t300\t47\t0.8\t80\t270\t4.0", "short row"),  # rep_coverage is None
+        ("S\tA\t300\t47\t0.8\t80\t270\tnan\t0.5", "not finite"),
+        ("S\tA\t300\t47\t0.8\t80\t270\tinf\t0.5", "not finite"),
+        ("S\tA\t300\t47\t0.8\t80\t270\t4.0\t-0.5", "negative"),
+        ("S\tA\t300\t-47\t0.8\t80\t270\t4.0\t0.5", "negative"),
+    ],
+)
+def test_parse_repeat_table_refuses_a_short_row_and_bad_numbers_with_path_and_line(
+    tmp_path, row, what
+):
+    path = tmp_path / "r.tsv"
+    head = "strain\tprotein\tlength\trep_period\trep_score\trep_start\trep_end\trep_n_copies\trep_coverage\n"
+    path.write_text(head + row + "\n")
+    with pytest.raises(ValueError, match=rf"{path}:2.*{what}"):
+        parse_repeat_table(path)
+
+
+def test_parse_repeat_table_still_reads_empty_values_as_zero(tmp_path):
+    path = tmp_path / "r.tsv"
+    head = "strain\tprotein\tlength\trep_period\trep_score\trep_start\trep_end\trep_n_copies\trep_coverage\n"
+    path.write_text(head + "S\tA\t300\t\t0.1\t0\t0\t\t\n")
+    assert parse_repeat_table(path)["A"] == {"period": 0, "copies": 0.0, "coverage": 0.0}

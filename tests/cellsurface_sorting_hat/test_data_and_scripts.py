@@ -27,8 +27,37 @@ def test_shipped_family_table_loads_and_starts_with_every_family_inactive():
 
 def test_phasec_species_table_has_one_row_per_species():
     with open(ROOT / "data" / "sorting_hat" / "phasec_set_species.tsv") as fh:
-        rows = list(csv.DictReader(fh, delimiter="\t"))
+        rows = list(csv.DictReader((x for x in fh if not x.startswith("#")), delimiter="\t"))
     assert len({r["scientific_name"] for r in rows}) == len(rows) == 6
+
+
+def test_phasec_species_table_says_that_ncbi_scientific_names_are_required(tmp_path):
+    from cellsurface_sorting_hat.calibration.cli import _set_taxa
+
+    path = ROOT / "data" / "sorting_hat" / "phasec_set_species.tsv"
+    assert path.read_text().startswith("# ") and "NCBI scientific name" in path.read_text()
+    # names.dmp in which "Ustilago maydis" is only a synonym, as in the real file
+    names = tmp_path / "names.dmp"
+    nodes = tmp_path / "nodes.dmp"
+    taxa = {}
+    lines, node_lines = [], []
+    for i, r in enumerate(
+        csv.DictReader((x for x in path.open() if not x.startswith("#")), delimiter="\t")
+    ):
+        taxa[r["set_key"]] = 1000 + i
+        lines.append(f"{1000 + i}\t|\t{r['scientific_name']}\t|\t\t|\tscientific name\t|")
+        node_lines.append(f"{1000 + i}\t|\t1\t|\tspecies\t|")
+    lines.append("1005\t|\tUstilago maydis\t|\t\t|\tsynonym\t|")
+    names.write_text("\n".join(lines) + "\n")
+    nodes.write_text("1\t|\t1\t|\tno rank\t|\n" + "\n".join(node_lines) + "\n")
+    from cellsurface_sorting_hat.calibration.cli import read_nodes
+
+    assert _set_taxa(path, names, read_nodes(nodes)) == {k: [v] for k, v in taxa.items()}
+    # the old synonym row would have been refused: zero scientific-name IDs
+    old = tmp_path / "old.tsv"
+    old.write_text(path.read_text().replace("Mycosarcoma maydis", "Ustilago maydis"))
+    with pytest.raises(Exception, match="0 taxon IDs"):
+        _set_taxa(old, names, read_nodes(nodes))
 
 
 @pytest.mark.parametrize("script", SCRIPTS, ids=lambda p: p.name)

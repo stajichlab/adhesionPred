@@ -121,7 +121,22 @@ def test_repeat_command(tmp_path, fasta):
         "protein\trep_period\trep_n_copies\trep_coverage\nXP_1\t5\t3.0\t0.5\nXP_2\t0\t0\t0\n"
     )
     wd = tmp_path / "wd"
-    assert main(["repeat02", "--fasta", str(fasta), "--workdir", str(wd), "--table", str(tab)]) == 0
+    assert (
+        main(
+            [
+                "repeat02",
+                "--fasta",
+                str(fasta),
+                "--workdir",
+                str(wd),
+                "--table",
+                str(tab),
+                "--script",
+                __file__,
+            ]
+        )
+        == 0
+    )
     assert read(wd, "repeat02")["XP_1"]["call"] == "called"
 
 
@@ -453,7 +468,19 @@ def test_partial_results_set_the_run_state_partial(tmp_path, fasta):
     long_fasta = tmp_path / "long.faa"
     long_fasta.write_text(">XP_1\n" + "M" * 100 + "\n>XP_2\n" + "M" * 100 + "\n")
     assert (
-        main(["repeat02", "--fasta", str(long_fasta), "--workdir", str(wd), "--table", str(tab)])
+        main(
+            [
+                "repeat02",
+                "--fasta",
+                str(long_fasta),
+                "--workdir",
+                str(wd),
+                "--table",
+                str(tab),
+                "--script",
+                __file__,
+            ]
+        )
         == 0
     )
     rec = json.loads((wd / "modules" / "repeat02.json").read_text())
@@ -522,7 +549,7 @@ def test_a_table_with_some_ids_outside_the_fasta_is_refused_and_names_the_file(
     tab.write_text(
         "protein\trep_period\trep_n_copies\trep_coverage\nXP_1\t5\t3.0\t0.5\nSTRAY\t0\t0\t0\n"
     )
-    assert main(["repeat14", *args, "--table", str(tab)]) == 2
+    assert main(["repeat14", *args, "--table", str(tab), "--script", __file__]) == 2
     assert "r.tsv" in capsys.readouterr().err
     tm = tmp_path / "t.tsv"
     tm.write_text("protein_id\tlen\texp_aa\tfirst60\tpred_hel\ttopology\nSTRAY\t11\t0\t0\t0\to\n")
@@ -619,7 +646,20 @@ def test_repeat_and_tm_identity_do_not_depend_on_the_proteome(tmp_path, fasta):
         else:
             rep.write_text("protein\trep_period\trep_n_copies\trep_coverage\nZ1\t0\t0\t0\n")
         assert (
-            main(["repeat02", "--fasta", str(f), "--workdir", str(wd), "--table", str(rtab)]) == 0
+            main(
+                [
+                    "repeat02",
+                    "--fasta",
+                    str(f),
+                    "--workdir",
+                    str(wd),
+                    "--table",
+                    str(rtab),
+                    "--script",
+                    __file__,
+                ]
+            )
+            == 0
         )
         assert main(["tm", "--fasta", str(f), "--workdir", str(wd), "--table", str(ttab)]) == 0
         ids[key] = [
@@ -639,7 +679,22 @@ def test_a_protein_shorter_than_the_detector_minimum_is_not_called_not_an_error(
     tab = tmp_path / "r.tsv"
     tab.write_text("protein\trep_period\trep_n_copies\trep_coverage\nL1\t0\t0\t0\n")
     wd = tmp_path / "wd"
-    assert main(["repeat14", "--fasta", str(f), "--workdir", str(wd), "--table", str(tab)]) == 0
+    assert (
+        main(
+            [
+                "repeat14",
+                "--fasta",
+                str(f),
+                "--workdir",
+                str(wd),
+                "--table",
+                str(tab),
+                "--script",
+                __file__,
+            ]
+        )
+        == 0
+    )
     assert read(wd, "repeat14")["S1"]["call"] == "not_called"
     assert json.loads((wd / "modules" / "repeat14.json").read_text())["run_state"] == "ok"
 
@@ -876,3 +931,122 @@ def test_applicable_taxa_must_be_taxon_ids(tmp_path, fasta, value):
             + ["--taxon", "246410", "--candidates", str(cand), "--applicable-taxa", value]
         )
     assert exc.value.code == 2
+
+
+def _two_hits(tmp_path, fasta, condition):
+    args, wd = _tm_and_pfam(tmp_path, fasta, condition)
+    dom = tmp_path / "d.domtbl"
+    line = "{} - 11 CFEM PF05730.17 70 1e-20 60 8 1 1 1e-21 2e-20 59 8 1 70 2 9 2 9 0.9 -\n"
+    write_domtbl(dom, line.format("XP_1") + line.format("XP_2"))
+    return args, wd, dom
+
+
+def test_pfam_no_tm_condition_without_a_tm_row_makes_the_protein_error_and_the_run_partial(
+    tmp_path, fasta
+):
+    args, wd, _ = _two_hits(tmp_path, fasta, "no_tm")
+    # the tm module has a row for XP_1 only: XP_2 is state error there
+    tm = tmp_path / "t2.tsv"
+    tm.write_text("protein_id\tlen\texp_aa\tfirst60\tpred_hel\ttopology\nXP_1\t11\t0\t0\t0\to\n")
+    run = ["tm", "--fasta", str(fasta), "--workdir", str(wd), "--table", str(tm)]
+    assert main(run) == 0
+    assert read(wd, "tm")["XP_2"]["state"] == "error"
+    assert main([*args, "--tm-module", "tm"]) == 0
+    rows = read(wd, "pfam_adhesion")
+    assert (rows["XP_1"]["state"], rows["XP_1"]["hit"]) == ("ok", "1")
+    assert rows["XP_2"]["state"] == "error"
+    rec = json.loads((wd / "modules" / "pfam_adhesion.json").read_text())
+    assert rec["run_state"] == "partial" and "1 protein(s) have no result" in rec["note"]
+
+
+def test_pfam_signal_peptide_condition_without_an_ok_row_makes_the_protein_error(tmp_path, fasta):
+    args, wd, _ = _two_hits(tmp_path, fasta, "signal_peptide")
+    res = _signalp_file(tmp_path, ["XP_1"])  # no SignalP result for XP_2
+    sp = ["signalp", "--fasta", str(fasta), "--workdir", str(wd), "--results", str(res)]
+    assert main([*sp, "--signalp-version", "6"]) == 0
+    assert read(wd, "step1_rule@R0")["XP_2"]["state"] == "error"
+    assert main([*args, "--sp-module", "step1_rule@R0"]) == 0
+    rows = read(wd, "pfam_adhesion")
+    assert rows["XP_1"]["state"] == "ok" and rows["XP_2"]["state"] == "error"
+    assert json.loads((wd / "modules" / "pfam_adhesion.json").read_text())["run_state"] == "partial"
+
+
+def test_pfam_protein_without_a_domain_hit_stays_ok_when_its_tm_row_is_error(tmp_path, fasta):
+    args, wd = _tm_and_pfam(tmp_path, fasta)  # the only domain hit is XP_1
+    tm = tmp_path / "t2.tsv"
+    tm.write_text("protein_id\tlen\texp_aa\tfirst60\tpred_hel\ttopology\nXP_1\t11\t0\t0\t0\to\n")
+    assert main(["tm", "--fasta", str(fasta), "--workdir", str(wd), "--table", str(tm)]) == 0
+    assert main([*args, "--tm-module", "tm"]) == 0
+    rows = read(wd, "pfam_adhesion")
+    assert (rows["XP_2"]["state"], rows["XP_2"]["hit"]) == ("ok", "0")
+    assert json.loads((wd / "modules" / "pfam_adhesion.json").read_text())["run_state"] == "ok"
+
+
+def test_the_pfam_command_prints_the_state_of_both_modules(tmp_path, fasta, capsys):
+    args, wd = _tm_and_pfam(tmp_path, fasta)
+    table = tmp_path / "f.tsv"
+    table.write_text(table.read_text().replace("\tyes\t", "\tno\t"))
+    capsys.readouterr()
+    assert main(args) == 0
+    lines = [json.loads(x) for x in capsys.readouterr().out.splitlines()]
+    assert [(x["module"], x["run_state"]) for x in lines] == [
+        ("pfam_adhesion", "unavailable"),
+        ("pfam_allergen", "unavailable"),
+    ]
+
+
+@pytest.mark.parametrize("name", ["repeat02", "repeat14"])
+def test_a_repeat_command_without_script_is_refused(tmp_path, fasta, name):
+    tab = tmp_path / "r.tsv"
+    tab.write_text("protein\trep_period\trep_n_copies\trep_coverage\nXP_1\t0\t0\t0\n")
+    args = [name, "--fasta", str(fasta), "--workdir", str(tmp_path / "wd"), "--table", str(tab)]
+    with pytest.raises(SystemExit) as exc:
+        main(args)
+    assert exc.value.code == 2
+    assert not (tmp_path / "wd").exists()
+
+
+def test_a_cys_table_without_the_tier_column_is_named_by_read_table_not_a_bare_keyerror(
+    tmp_path, fasta, capsys
+):
+    cand = tmp_path / "c.tsv"
+    cand.write_text("protein_id\tcys_frac\nXP_1\t0.2\n")
+    args = ["cys", "--fasta", str(fasta), "--workdir", str(tmp_path / "wd")]
+    assert main([*args, "--taxon", "246410", "--candidates", str(cand)]) == 2
+    err = capsys.readouterr().err
+    assert str(cand) in err and "'tier'" in err
+
+
+def test_a_keyerror_inside_a_module_is_not_turned_into_exit_2(monkeypatch, tmp_path, fasta):
+    from cellsurface_sorting_hat.modules import cli
+
+    def boom(*_a, **_k):
+        raise KeyError("bug")
+
+    monkeypatch.setattr(cli, "run", boom)
+    with pytest.raises(KeyError):
+        cli.main(["tm", "--fasta", str(fasta), "--workdir", str(tmp_path), "--table", "x"])
+
+
+@pytest.mark.parametrize("kind", ["tm", "cys", "expression"])
+def test_a_duplicate_key_in_a_lookup_table_is_refused_with_the_line(tmp_path, fasta, capsys, kind):
+    wd = tmp_path / "wd"
+    tab = tmp_path / "t.tsv"
+    if kind == "tm":
+        tab.write_text(
+            "protein_id\tlen\texp_aa\tfirst60\tpred_hel\ttopology\n"
+            "XP_1\t11\t0\t0\t0\to\nXP_1\t11\t0\t0\t0\to\n"
+        )
+        args = ["tm", "--table", str(tab)]
+    elif kind == "cys":
+        tab.write_text("protein_id\ttier\tcys_frac\nXP_1\tA\t0.2\nXP_1\tB\t0.3\n")
+        args = ["cys", "--taxon", "246410", "--candidates", str(tab)]
+    else:
+        tab.write_text("gene_id\tlog2fc_48h\tpadj_48h\tlog2fc_8d\nG1\t1\t0.1\t1\nG1\t2\t0.1\t1\n")
+        pm = tmp_path / "m.tsv"
+        pm.write_text("protein_id\tgene_id\nXP_1\tG1\n")
+        args = ["expression", "--taxon", "246410", "--table", str(tab), "--protein-map", str(pm)]
+    assert main([args[0], "--fasta", str(fasta), "--workdir", str(wd), *args[1:]]) == 2
+    err = capsys.readouterr().err
+    assert f"{tab}:3" in err and "appears twice" in err
+    assert not (wd / "modules").exists()

@@ -79,7 +79,9 @@ def build_parser():
         p.add_argument("--min-coverage", type=float, default=repeats.DEFAULT_MIN_COVERAGE)
         p.add_argument("--min-copies", type=float, default=repeats.DEFAULT_MIN_COPIES)
         p.add_argument(
-            "--script", help="detector script; its sha256 is part of the module identity"
+            "--script",
+            required=True,
+            help="detector script that made --table; its sha256 is part of the module identity",
         )
 
     p = sub.add_parser(
@@ -219,15 +221,16 @@ def run(args):
         conditions = {}
         sp_calls = tm_counts = None
         if args.sp_module:
-            sp_calls, conditions["sp_module"] = _condition_table(
+            raw, conditions["sp_module"] = _condition_table(
                 w, args.sp_module, "call", ids, "--sp-module"
             )
+            sp_calls = {k: v for k, v in raw.items() if v in ("called", "not_called")}
         if args.tm_module:
             raw, conditions["tm_module"] = _condition_table(
                 w, args.tm_module, "n_tm_mature", ids, "--tm-module"
             )
             tm_counts = {k: int(v) for k, v in raw.items() if v.isdigit()}
-        out = None
+        out = []
         for module in pfam.MODULES:
             active = sorted(f.pfam_acc for f in families if f.module == module and f.active)
             params = {
@@ -249,19 +252,26 @@ def run(args):
                     invalid_row(p) if p.state != "ok" else {"id": p.id, "state": "unavailable"}
                     for p in proteins
                 ]
-                out = write_module(
-                    w, spec, pfam.COLUMNS, rows, run_state="unavailable", note="no active family"
+                out.append(
+                    write_module(
+                        w,
+                        spec,
+                        pfam.COLUMNS,
+                        rows,
+                        run_state="unavailable",
+                        note="no active family",
+                    )
                 )
                 continue
             rows = pfam.pfam_rows(proteins, hits, families, module, sp_calls, tm_counts)
-            out = _write(w, spec, pfam.COLUMNS, rows)
+            out.append(_write(w, spec, pfam.COLUMNS, rows))
         return out
     if args.cmd in ("repeat02", "repeat14"):
         params = {
             "min_coverage": args.min_coverage,
             "min_copies": args.min_copies,
             "min_len": repeats.DETECTOR_MIN_LEN,
-            "script_sha256": _file_digest(args.script) if args.script else "",
+            "script_sha256": _file_digest(args.script),
         }
         spec = ModuleSpec(args.cmd, "1", params)
         parsed = repeats.parse_repeat_table(args.table)
@@ -291,7 +301,7 @@ def run(args):
         note = f"{len(best)} of {len(proteins)} FASTA protein(s) have a BLAST hit"
         return _write(w, spec, allergen.COLUMNS, rows, extra_note=note)
     if args.cmd == "tm":
-        table, _ = lookups.read_table(args.table, "protein_id")
+        table, _ = lookups.read_table(args.table, "protein_id", unique=True)
         _check_ids(args.table, table, ids)
         spec = ModuleSpec(
             "tm",
@@ -312,7 +322,9 @@ def run(args):
         rows = lookups.antigen_rows(proteins, taxa, pmap, by_gene, applicable)
         return _write(w, spec, lookups.ANTIGEN_COLUMNS, rows, extra_note=taxa_note)
     if args.cmd == "cys":
-        table, _ = lookups.read_table(args.candidates, "protein_id")
+        table, _ = lookups.read_table(
+            args.candidates, "protein_id", required=("tier", "cys_frac"), unique=True
+        )
         spec = ModuleSpec(
             "cys_rich", "1", {"applicable_taxa": sorted(applicable)}, (args.candidates,)
         )
@@ -324,6 +336,7 @@ def run(args):
             "gene_id",
             required=("log2fc_48h", "padj_48h", "log2fc_8d"),
             numeric=EXPRESSION_NUMBERS,
+            unique=True,
         )
         pmap = lookups.load_protein_map(args.protein_map)
         spec = ModuleSpec(
@@ -348,7 +361,8 @@ def _condition_table(workdir, module, column, ids, option):
     """Read one column of a module table that a Pfam second condition needs.
 
     Refuse a missing table or run record, an unusable run state, a missing column and IDs that are
-    not FASTA IDs. Returns ``({id: value}, {"params_hash", "artefact_hash"})``.
+    not FASTA IDs. Returns ``({id: value}, ...)`` with the values of rows in state ``ok`` only, and
+    ``{"params_hash", "artefact_hash"}``.
     """
     import csv
     import gzip
@@ -367,10 +381,11 @@ def _condition_table(workdir, module, column, ids, option):
             reader = csv.DictReader(fh, delimiter="\t")
             if column not in (reader.fieldnames or []):
                 raise RunError(f"{option} {module}: {table} has no column {column!r}")
-            values = {r["id"]: r[column] for r in reader}
+            rows = [(r["id"], r["state"], r[column]) for r in reader]
+            values = {i: v for i, state, v in rows if state == "ok"}  # other states: no value
     except (EOFError, gzip.BadGzipFile, OSError, csv.Error, KeyError, UnicodeDecodeError) as err:
         raise RunError(f"{option} {module}: cannot read {table}: {err!r}") from err
-    _check_ids(str(table), values, ids)
+    _check_ids(str(table), {i for i, _, _ in rows}, ids)
     identity = {k: run.get(k, "") for k in ("params_hash", "artefact_hash")}
     return values, {"module": module, **identity}
 
@@ -383,11 +398,12 @@ def _file_digest(path):
 
 def main(argv=None):
     try:
-        record = run(build_parser().parse_args(argv))
-    except (RunError, InputError, FastaError, ValueError, KeyError, OSError) as err:
+        records = run(build_parser().parse_args(argv))
+    except (RunError, InputError, FastaError, ValueError, OSError) as err:
         print(f"cellsurface_sorting_hat_module: error: {err}", file=sys.stderr)
         return 2
-    print(json.dumps({k: record[k] for k in ("module", "run_state", "n_rows")}))
+    for record in records if isinstance(records, list) else [records]:
+        print(json.dumps({k: record[k] for k in ("module", "run_state", "n_rows")}))
     return 0
 
 

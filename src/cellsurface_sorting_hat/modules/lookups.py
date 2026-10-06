@@ -76,16 +76,19 @@ def _data_rows(path, delimiter, required, numeric):
             yield line, r
 
 
-def read_table(path, key, delimiter="\t", required=(), numeric=None):
+def read_table(path, key, delimiter="\t", required=(), numeric=None, unique=False):
     """Read a TSV into ``{row[key]: row}``. A repeated key keeps the first row and is counted.
 
     ``required`` lists more columns that must exist. ``numeric`` maps a column to ``nonneg`` or
-    ``finite`` (add ``_or_blank`` to allow an empty value). Errors name the path and line.
+    ``finite`` (add ``_or_blank`` to allow an empty value). With ``unique`` a repeated key is a
+    ``ValueError``. Errors name the path and line.
     """
     numeric = numeric or {}
     rows, repeated = {}, 0
-    for _, r in _data_rows(path, delimiter, (key, *required, *numeric), numeric):
+    for line, r in _data_rows(path, delimiter, (key, *required, *numeric), numeric):
         if r[key] in rows:
+            if unique:
+                raise ValueError(f"{path}:{line}: key {r[key]!r} in column {key!r} appears twice")
             repeated += 1
         else:
             rows[r[key]] = r

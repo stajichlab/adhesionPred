@@ -294,34 +294,57 @@ def evaluate(cfg, protein_ids, taxa, modules, status_of):
     return records
 
 
-def referenced_modules(cfg):
-    """Names of all modules the rules use (``{step1}`` expanded to the step 1 variants)."""
-    names = set()
-
-    def walk(node):
-        kind, arg = next(iter(node.items()))
-        if kind in ("and", "or"):
-            for child in arg:
-                walk(child)
-        elif kind == "not":
-            walk(arg)
-        elif kind == "call":
-            names.add(arg)
-        elif kind == "flag":
-            names.add(arg.split(".", 1)[0])
-        elif kind == "test":
-            names.add(arg["module"])
-
-    for call in cfg.calls:
-        if call.get("kind") != "other":
-            walk(call["expr"])
+def _expand_step1(cfg, names):
     expanded = set()
     for n in names:
         if "{step1}" in n:
             expanded.update(n.replace("{step1}", v) for v in cfg.step1_variants)
         else:
             expanded.add(n)
-    return sorted(expanded)
+    return expanded
+
+
+def _walk_modules(node, names, refs):
+    kind, arg = next(iter(node.items()))
+    if kind in ("and", "or"):
+        for child in arg:
+            _walk_modules(child, names, refs)
+    elif kind == "not":
+        _walk_modules(arg, names, refs)
+    elif kind == "call":
+        names.add(arg)
+    elif kind == "flag":
+        names.add(arg.split(".", 1)[0])
+    elif kind == "test":
+        names.add(arg["module"])
+    elif kind == "ref":
+        refs.add(arg)
+
+
+def referenced_modules(cfg):
+    """Names of all modules the rules use (``{step1}`` expanded to the step 1 variants)."""
+    names = set()
+    for call in cfg.calls:
+        if call.get("kind") != "other":
+            _walk_modules(call["expr"], names, set())
+    return sorted(_expand_step1(cfg, names))
+
+
+def modules_of_call(cfg, name):
+    """Names of the modules that one call reads, also through ``ref`` nodes (``{step1}`` expanded)."""
+    names, todo, seen = set(), [name], set()
+    while todo:
+        current = todo.pop()
+        if current in seen:
+            continue
+        seen.add(current)
+        call = cfg.call_by_name(current)
+        if call.get("kind") == "other":
+            continue
+        refs = set()
+        _walk_modules(call["expr"], names, refs)
+        todo.extend(refs)
+    return sorted(_expand_step1(cfg, names))
 
 
 def collect_evidence(cfg, protein_ids, modules):

@@ -125,24 +125,34 @@ def pfam_rows(proteins, hits, families, module, sp_calls=None, tm_counts=None):
 
     ``second_condition = signal_peptide`` counts a hit only when ``sp_calls[id]`` is ``called``.
     ``second_condition = no_tm`` counts a hit only when ``tm_counts[id]`` is 0 (for example a CFEM
-    domain in a receptor with transmembrane helices is not a cell wall CFEM protein). If the needed
-    table is None, such a family never counts.
+    domain in a receptor with transmembrane helices is not a cell wall CFEM protein).
+    ``sp_calls`` and ``tm_counts`` hold only proteins whose row in the condition module is ``ok``.
+    A protein with a domain hit of such a family and no usable condition value is ``error``: its
+    result is unknown, not 0. A protein with no domain hit is ``ok`` with hit 0.
     """
     wanted = {f.pfam_acc: f for f in families if f.module == module and f.active}
     if not wanted:
         raise NoActiveFamilyError(f"{module}: no family of this module is active")
-    found = {}
+    found, unknown = {}, set()
     for h in hits:
         fam = wanted.get(h["acc"])
         if fam is None:
             continue
-        if (
-            fam.second_condition == "signal_peptide"
-            and (sp_calls or {}).get(h["target"]) != "called"
-        ):
-            continue
-        if fam.second_condition == "no_tm" and (tm_counts or {}).get(h["target"]) != 0:
-            continue
+        cond = fam.second_condition
+        if cond == "signal_peptide":
+            value = (sp_calls or {}).get(h["target"])
+            if value is None:
+                unknown.add(h["target"])
+                continue
+            if value != "called":
+                continue
+        elif cond == "no_tm":
+            value = (tm_counts or {}).get(h["target"])
+            if value is None:
+                unknown.add(h["target"])
+                continue
+            if value != 0:
+                continue
         found.setdefault(h["target"], set()).add(fam.pfam_acc)
     rows = []
     for p in proteins:
@@ -150,6 +160,9 @@ def pfam_rows(proteins, hits, families, module, sp_calls=None, tm_counts=None):
             rows.append(invalid_row(p))
             continue
         accs = sorted(found.get(p.id, ()))
+        if p.id in unknown and not accs:
+            rows.append({"id": p.id, "state": "error"})
+            continue
         rows.append(
             {"id": p.id, "state": "ok", "hit": "1" if accs else "0", "families": ",".join(accs)}
         )

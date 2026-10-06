@@ -93,7 +93,7 @@ def test_second_condition_needs_a_signal_peptide_call(tmp_path):
     dpath.write_text(DOMTBL)
     hits = parse_domtblout(dpath)
     p4 = [prot("P4")]
-    assert pfam_rows(p4, hits, fams, "pfam_adhesion")[0]["hit"] == "0"  # no SP information
+    assert pfam_rows(p4, hits, fams, "pfam_adhesion")[0]["state"] == "error"  # no SP information
     assert pfam_rows(p4, hits, fams, "pfam_adhesion", {"P4": "not_called"})[0]["hit"] == "0"
     assert pfam_rows(p4, hits, fams, "pfam_adhesion", {"P4": "called"})[0]["hit"] == "1"
 
@@ -146,7 +146,7 @@ def test_no_tm_condition_drops_a_domain_in_a_protein_with_transmembrane_helices(
     dpath.write_text(DOMTBL)
     hits = parse_domtblout(dpath)
     p1 = [prot("P1")]
-    assert pfam_rows(p1, hits, fams, "pfam_adhesion")[0]["hit"] == "0"  # no TM information
+    assert pfam_rows(p1, hits, fams, "pfam_adhesion")[0]["state"] == "error"  # no TM information
     assert (
         pfam_rows(p1, hits, fams, "pfam_adhesion", tm_counts={"P1": 7})[0]["hit"] == "0"
     )  # a receptor
@@ -177,3 +177,30 @@ def test_a_module_with_no_active_family_raises_instead_of_writing_zeros(tmp_path
     write_table(path, [fam("PF05730", active="no")])
     with pytest.raises(NoActiveFamilyError):
         pfam_rows([prot("P1")], [], load_family_table(path), "pfam_adhesion")
+
+
+@pytest.mark.parametrize(
+    ("second", "acc", "pid", "kw"),
+    [
+        ("signal_peptide", "PF00026", "P4", "sp_calls"),
+        ("no_tm", "PF05730", "P1", "tm_counts"),
+    ],
+)
+def test_a_domain_hit_without_a_usable_condition_value_is_error_not_zero(
+    tmp_path, second, acc, pid, kw
+):
+    path = tmp_path / "f.tsv"
+    write_table(path, [fam(acc, second=second)])
+    fams = load_family_table(path)
+    dpath = tmp_path / "d.domtbl"
+    dpath.write_text(DOMTBL)
+    hits = parse_domtblout(dpath)
+    other = (
+        "P2"  # no domain hit of this family: stays ok with hit 0 even when the condition is unknown
+    )
+    rows = {r["id"]: r for r in pfam_rows([prot(pid), prot(other)], hits, fams, "pfam_adhesion")}
+    assert rows[pid]["state"] == "error" and "hit" not in rows[pid]
+    assert rows[other]["state"] == "ok" and rows[other]["hit"] == "0"
+    # a value for another protein does not help
+    rows = pfam_rows([prot(pid)], hits, fams, "pfam_adhesion", **{kw: {"X": 0}})
+    assert rows[0]["state"] == "error"

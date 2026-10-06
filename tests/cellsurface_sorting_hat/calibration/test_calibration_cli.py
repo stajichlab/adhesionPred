@@ -39,7 +39,19 @@ def write_domtbl(path, body):
     path.write_text(OPTIONS + body + "# [ok]\n")
 
 
-def write_calls(path, rows):
+def write_proteins(path, ids, taxon):
+    """``proteins.tsv.gz`` next to the calls file, as a run writes it."""
+    with gzip.open(path.with_name("proteins.tsv.gz"), "wt", newline="") as fh:
+        w = csv.writer(fh, delimiter="\t")
+        w.writerow(
+            ["id", "sha256", "taxon", "state", "note", "trailing_stop", "ambiguous_fraction"]
+        )
+        for pid in sorted(set(ids)):
+            w.writerow([pid, "x", taxon, "ok", "", 0, "0.0000"])
+
+
+def write_calls(path, rows, taxon=4932):
+    write_proteins(path, [r[0] for r in rows], taxon)
     with gzip.open(path, "wt", newline="") as fh:
         w = csv.writer(fh, delimiter="\t")
         w.writerow(["protein", "call", "variant", "value", "status", "status_basis", "other_basis"])
@@ -59,7 +71,7 @@ def test_truth_command_writes_an_entry_with_sensitivity_and_specificity(tmp_path
         for k, i in enumerate(ids)
     ]
     calls.append(("U1", "iuis_allergen_homolog", "", "not_assessable"))
-    write_calls(tmp_path / "c.tsv.gz", calls)
+    write_calls(tmp_path / "c.tsv.gz", calls, taxon=746128)
     write_truth(
         tmp_path / "t.tsv",
         [(i, 1 if k < 20 else 0, f"c{k}") for k, i in enumerate(ids)]
@@ -115,6 +127,7 @@ def test_a_second_set_is_added_and_the_same_set_is_replaced(tmp_path):
     write_truth(tmp_path / "t.tsv", [(i, 1 if k < 5 else 0, f"c{k}") for k, i in enumerate(ids)])
 
     def run(name, taxon):
+        write_proteins(tmp_path / "c.tsv.gz", ids, taxon)
         return main(
             [
                 "truth",
@@ -278,6 +291,7 @@ def test_a_changed_module_identity_drops_the_old_status_entries(tmp_path, capsys
     write_truth(tmp_path / "t.tsv", [(i, 1 if k < 5 else 0, f"c{k}") for k, i in enumerate(ids)])
 
     def run(name, taxon):
+        write_proteins(tmp_path / "c.tsv.gz", ids, taxon)
         return main(
             [
                 "truth",
@@ -366,6 +380,7 @@ def test_leakage_other_than_none_caps_an_estimate_at_smoke(tmp_path):
     write_truth(tmp_path / "t.tsv", [(i, 1 if k < 30 else 0, f"c{k}") for k, i in enumerate(ids)])
 
     def run(leakage, name):
+        write_proteins(tmp_path / "c.tsv.gz", ids, 246410 if name == "a" else 5476)
         return main(
             [
                 "truth",
@@ -514,7 +529,7 @@ def truth_args(tmp_path, *extra, leakage="none", taxa="4932", name="s", module="
     return args + list(extra)
 
 
-def setup_truth(tmp_path, n_pos=5, n_neg=5, pos_clusters=None, record=True):
+def setup_truth(tmp_path, n_pos=5, n_neg=5, pos_clusters=None, record=True, taxon=4932):
     if record:
         write_module(tmp_path, ModuleSpec("repeat02", "1"), [], [{"id": "A", "state": "ok"}])
     rows = [(f"P{k}", 1, f"p{k % (pos_clusters or n_pos)}") for k in range(n_pos)]
@@ -523,6 +538,7 @@ def setup_truth(tmp_path, n_pos=5, n_neg=5, pos_clusters=None, record=True):
         tmp_path / "c.tsv.gz",
         [(f"P{k}", "tandem_repeat_protein", "", "called") for k in range(n_pos)]
         + [(f"N{k}", "tandem_repeat_protein", "", "not_called") for k in range(n_neg)],
+        taxon=taxon,
     )
     write_truth(tmp_path / "t.tsv", rows)
 
@@ -807,7 +823,7 @@ def test_panel_never_calls_a_missing_protein_an_agreement(tmp_path):
 
 @pytest.mark.parametrize("taxon", ["4932", "9999", "7"])  # species, strain, no rank under a species
 def test_truth_accepts_a_species_or_a_taxon_below_one(tmp_path, taxon):
-    setup_truth(tmp_path)
+    setup_truth(tmp_path, taxon=int(taxon))
     assert main(truth_args(tmp_path, taxa=taxon)) == 0
     assert load_status_source(tmp_path / "status" / "repeat02.json").entries[0].taxa == (
         int(taxon),
@@ -839,7 +855,10 @@ def test_the_status_entry_records_call_module_and_variant(tmp_path):
     setup_truth(tmp_path)
     assert main(truth_args(tmp_path)) == 0
     notes = load_status_source(tmp_path / "status" / "repeat02.json").entries[0].measure["notes"]
-    assert "call=tandem_repeat_protein; module=repeat02; variant=" in notes
+    assert (
+        "call=tandem_repeat_protein; module=repeat02; reads_modules=repeat02,repeat14; variant="
+        in notes
+    )
 
 
 def test_a_truth_set_without_negatives_says_specificity_was_not_measured(tmp_path):
@@ -859,3 +878,70 @@ def test_a_duplicate_calls_row_is_an_error_with_path_and_line(tmp_path, capsys):
     panel.write_text("protein\tcall\tvariant\texpected\tsource\nA\tx\t\tcalled\ts\n")
     assert main(["panel", "--calls-long", str(tmp_path / "c.tsv.gz"), "--panel", str(panel)]) == 2
     assert "c.tsv.gz:3" in capsys.readouterr().err
+
+
+# ---- final review: module, taxon and reads_modules checks ----
+
+
+def test_truth_refuses_a_module_that_the_call_does_not_read(tmp_path, capsys):
+    setup_truth(tmp_path)
+    write_module(tmp_path, ModuleSpec("antigen_lookup", "1"), [], [{"id": "A", "state": "ok"}])
+    assert main(truth_args(tmp_path, module="antigen_lookup")) == 2
+    err = capsys.readouterr().err
+    assert "antigen_lookup" in err and "repeat02" in err
+    assert not (tmp_path / "status").exists()
+
+
+def test_truth_accepts_the_other_module_that_the_call_reads(tmp_path):
+    setup_truth(tmp_path)
+    write_module(tmp_path, ModuleSpec("repeat14", "1"), [], [{"id": "A", "state": "ok"}])
+    assert main(truth_args(tmp_path, module="repeat14")) == 0
+
+
+def test_a_call_that_reads_several_modules_is_accepted_and_records_them(tmp_path):
+    setup_truth(tmp_path)
+    assert main(truth_args(tmp_path)) == 0
+    notes = load_status_source(tmp_path / "status" / "repeat02.json").entries[0].measure["notes"]
+    assert "reads_modules=repeat02,repeat14" in notes
+
+
+def test_a_call_that_reads_a_module_through_a_ref_names_it(tmp_path, capsys):
+    # cell_wall_adhesion_candidate reads pfam_adhesion through wall_family_domain
+    from cellsurface_sorting_hat.engine import load_config, modules_of_call
+
+    reads = modules_of_call(load_config(), "cell_wall_adhesion_candidate")
+    assert "pfam_adhesion" in reads and "repeat02" in reads and "step1_rule@R0" in reads
+
+
+def test_truth_refuses_a_protein_of_another_taxon(tmp_path, capsys):
+    setup_truth(tmp_path)  # proteins are of taxon 4932
+    assert main(truth_args(tmp_path, taxa="5476")) == 2
+    err = capsys.readouterr().err
+    assert "10 matched truth protein(s)" in err and "'P0'" in err
+    assert not (tmp_path / "status").exists()
+
+
+def test_truth_refuses_when_proteins_tsv_is_missing(tmp_path, capsys):
+    setup_truth(tmp_path)
+    (tmp_path / "proteins.tsv.gz").unlink()
+    assert main(truth_args(tmp_path)) == 2
+    assert "proteins.tsv.gz" in capsys.readouterr().err
+    assert not (tmp_path / "status").exists()
+
+
+def test_truth_refuses_a_truth_protein_missing_from_proteins_tsv(tmp_path, capsys):
+    setup_truth(tmp_path)
+    write_proteins(tmp_path / "c.tsv.gz", ["P0"], 4932)
+    assert main(truth_args(tmp_path)) == 2
+    assert "taxon missing" in capsys.readouterr().err
+
+
+def test_phasec_set_species_comment_lines_are_skipped_and_line_numbers_count_them(tmp_path, capsys):
+    write_module(tmp_path, ModuleSpec("step1_rule@R0", "1"), [], [{"id": "A", "state": "ok"}])
+    args = phasec_inputs(tmp_path)
+    (tmp_path / "sets.tsv").write_text(
+        "# a comment\nset_key\tscientific_name\nS1:Scer_SGD\tSaccharomyces cerevisiae\n"
+        "# another\nS1:Calb_CGD\t\n"
+    )
+    assert run_phasec(tmp_path, args) == 2
+    assert "sets.tsv:5" in capsys.readouterr().err
