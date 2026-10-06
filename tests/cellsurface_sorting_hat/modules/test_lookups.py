@@ -351,3 +351,105 @@ def test_tm_signal_window_boundary_is_strictly_after_35():
 def test_tm_row_for_protein_missing_from_tmhmm_is_error_and_topology_kept():
     got = tm_rows([prot("A")], {"A": {"pred_hel": "1", "topology": "o40-62i"}})
     assert got[0]["topology"] == "o40-62i"
+
+
+# ---- fix round: real-data defect and field checks ----
+RANK_HEAD = (
+    "protein\trank\tpercentile\tantigenicity\tspecificity\tprevalence\tmax_fungal_crossreact_pid\n"
+)
+
+
+def test_ranking_accepts_negative_and_negative_zero_specificity(tmp_path):
+    path = write(
+        tmp_path,
+        "r.tsv",
+        RANK_HEAD
+        + "G1-t1_1-p1\t1\t0.01\t2.5\t-0.0\t1.0\t0.0\nG2-t1_1-p1\t2\t0.02\t2.4\t-4.838\t0.9\t0.0\n",
+    )
+    by_gene, _ = ranking_by_gene(path)
+    assert by_gene["G1"]["specificity"] == "-0.0"
+    assert by_gene["G2"]["specificity"] == "-4.838"
+    for bad in ("nan", "inf"):
+        p2 = write(tmp_path, "b.tsv", RANK_HEAD + f"G-t1_1-p1\t1\t1\t1\t{bad}\t1\t0\n")
+        with pytest.raises(ValueError, match="specificity"):
+            ranking_by_gene(p2)
+
+
+def _repo_file(*parts):
+    from pathlib import Path
+
+    return Path(__file__).resolve().parents[3].joinpath(*parts)
+
+
+def test_real_ranking_file_loads():
+    path = _repo_file("analysis", "cocci_antigens", "cocci_antigen_ranking.tsv")
+    if not path.exists():
+        pytest.skip("real ranking file not present")
+    by_gene, several = ranking_by_gene(path)
+    # measured 2026-10-05: 9139 data rows, 8986 genes, 131 genes with more than one row
+    assert (len(by_gene), several) == (8986, 131)
+
+
+def test_real_spherule_table_loads_with_blank_expression_values():
+    path = _repo_file("analysis", "cocci_spherule", "spherule_surface_table.tsv.gz")
+    if not path.exists():
+        pytest.skip("real spherule table not present")
+    rows, _ = read_table(
+        path,
+        "gene_id",
+        numeric={
+            "log2fc_48h": "finite_or_blank",
+            "padj_48h": "nonneg_or_blank",
+            "log2fc_8d": "finite_or_blank",
+        },
+    )
+    assert len(rows) == 9757  # measured 2026-10-05
+
+
+def test_antigen_rows_every_field_comes_from_its_own_column():
+    row = {
+        "percentile": "11",
+        "antigenicity": "22",
+        "specificity": "-33",
+        "prevalence": "44",
+        "max_fungal_crossreact_pid": "55",
+        "rank": "66",
+    }
+    got = antigen_rows([prot("A")], {"A": 1}, {"A": "G"}, {"G": row}, {1})[0]
+    assert got == {
+        "id": "A",
+        "state": "ok",
+        "percentile": "11",
+        "antigenicity": "22",
+        "specificity": "-33",
+        "prevalence": "44",
+        "max_crossreact": "55",
+        "rank": "66",
+        "idmap_method": "gene_best_transcript",
+    }
+
+
+def test_expression_rows_keep_blank_values_as_empty_strings():
+    blank = {"log2fc_48h": "", "padj_48h": "", "log2fc_8d": ""}
+    got = expression_rows([prot("A")], {"A": 1}, {"A": "G"}, {"G": blank}, {1})[0]
+    assert got["state"] == "ok"
+    assert (got["log2fc"], got["padj"], got["log2fc_8d"]) == ("", "", "")
+
+
+def test_read_table_expression_blanks_accepted_only_by_or_blank_modes(tmp_path):
+    path = write(tmp_path, "s.tsv", "g\tlog2fc_48h\tpadj_48h\tlog2fc_8d\nG\t\t\t\n")
+    ok = {
+        "log2fc_48h": "finite_or_blank",
+        "padj_48h": "nonneg_or_blank",
+        "log2fc_8d": "finite_or_blank",
+    }
+    rows, _ = read_table(path, "g", numeric=ok)
+    assert rows["G"]["padj_48h"] == ""
+    for col, mode in (("log2fc_48h", "finite"), ("padj_48h", "nonneg"), ("log2fc_8d", "finite")):
+        with pytest.raises(ValueError, match=col):
+            read_table(path, "g", numeric={**ok, col: mode})
+
+
+def test_tm_refuses_non_ascii_digit_helix_count():
+    with pytest.raises(ValueError, match="pred_hel"):
+        tm_rows([prot("A")], {"A": {"pred_hel": "²", "topology": "o"}})

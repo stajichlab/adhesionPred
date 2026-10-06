@@ -3,7 +3,9 @@
 These modules need an ID map. For *C. immitis* RS the RefSeq protein ID (``XP_...``) maps to a
 gene ID (``CIMG_...``) through ``protein_map.tsv``. The antigen ranking and the spherule table are
 keyed on that gene ID. A protein with no map entry or no table row is ``not_in_reference``. A protein
-from a taxon where the table does not apply is ``not_applicable``.
+from a taxon where the table does not apply is ``not_applicable``. In RS, 126 isoforms inherit the
+values of another transcript of the same gene (``idmap_method`` = ``gene_best_transcript``). The spec 3.2
+exact-sequence match is not implemented.
 """
 
 import csv
@@ -103,7 +105,7 @@ def gene_of_ranking_id(protein):
 RANKING_NUMBERS = {
     "percentile": "nonneg",
     "antigenicity": "nonneg",
-    "specificity": "nonneg",
+    "specificity": "finite",  # real values run from -4.838 to -0.0
     "prevalence": "nonneg",
     "max_fungal_crossreact_pid": "nonneg",
 }
@@ -233,7 +235,7 @@ def tm_rows(proteins, tmhmm):
         else:
             r = tmhmm[p.id]
             n_tm = r["pred_hel"]
-            if not n_tm.isdigit():
+            if not (n_tm.isascii() and n_tm.isdigit()):
                 raise ValueError(
                     f"tm: pred_hel {n_tm!r} for {p.id!r} is not a non-negative integer"
                 )
