@@ -66,9 +66,10 @@ and the labels are `surface_glycoprotein` and `other`. The default 0.5 threshold
 
 ## cellsurface_sorting_hat (in development)
 
-`cellsurface_sorting_hat` sorts the proteins of a proteome into cell surface categories
-(surface glycoprotein, cell wall and adhesion candidate, antigen candidate, allergen candidate,
-other). Design: `docs/superpowers/specs/2026-10-04-orchestrator-design.md`.
+`cellsurface_sorting_hat` sorts the proteins of a proteome into cell surface categories. The
+current calls are `signal_peptide_protein`, `tandem_repeat_protein`, `wall_family_domain`,
+`cocci_specificity_rank_top15`, `serodiagnostic_marker_candidate`, `iuis_allergen_similarity`,
+`iuis_allergen_homolog` and `cell_wall_adhesion_candidate`. Design: `docs/superpowers/specs/2026-10-04-orchestrator-design.md`.
 
 The core engine reads module result tables from a work directory:
 
@@ -78,9 +79,19 @@ The core engine reads module result tables from a work directory:
 `TAXON_ID` is the NCBI taxon ID of the proteome. Look it up in the NCBI taxonomy.
 
 It writes `calls.long.tsv.gz`, `calls.wide.tsv.gz`, `evidence.tsv.gz`, `proteins.tsv.gz`,
-`report.md` and `run.json`. The modules that make the result tables (SignalP, Pfam, repeat
-detectors, allergen homology, antigen lookup) are not part of this release. Calls from a module
-that has no measurement are marked `unvalidated`.
+`report.md` and `run.json`.
+
+The module wrappers and the calibration commands now exist:
+
+- `cellsurface_sorting_hat_module` turns the output of one tool (SignalP, Pfam `hmmsearch`, the
+  repeat detectors, BLASTP against the IUIS allergens, TMHMM) or one lookup table (antigen ranking,
+  Cys-rich tiers, spherule expression) into a module table in the work directory.
+- `cellsurface_sorting_hat_calibrate` writes status sources from a truth set (`truth`), from the
+  Phase C metrics (`phasec`) and runs the Pfam specificity, allergen leave-species-out and panel
+  checks.
+
+No calibration has been run on HPCC data yet (Tasks 11 to 15 of the plan are not run). Every module
+status except the Phase C R0 entries is therefore `unvalidated`.
 
 # Author
 

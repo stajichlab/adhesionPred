@@ -66,6 +66,15 @@ All optimizations maintain full backward compatibility with the existing API. No
 - Code: `src/cellsurface_sorting_hat/`; tests: `tests/cellsurface_sorting_hat/`.
 - The engine reads module result tables. Wrappers that make them are a second plan.
 
+## cellsurface_sorting_hat module wrappers and calibration (October 2026)
+
+### Agent: Claude Code (claude-sonnet-5-5)
+**Task:** Implement Plan 2 (`docs/superpowers/plans/2026-10-05-cellsurface-sorting-hat-modules-and-calibration.md`): module wrappers, calibration commands and job scripts. Reviews were made by separate review runs.
+
+- Added: `src/cellsurface_sorting_hat/modules/` (`cellsurface_sorting_hat_module`), `src/cellsurface_sorting_hat/calibration/` (`cellsurface_sorting_hat_calibrate`), `scripts/sorting_hat/` job scripts, `data/sorting_hat/` tables, tests in `tests/cellsurface_sorting_hat/`.
+- Key review findings fixed: one species per status entry; a leakage cap on `truth` entries; FASTA membership checks for every input table; closed paths that gave silent zeros (empty BLAST file, missing condition values for Pfam, short or non-finite repeat rows, duplicate lookup keys); NCBI scientific names for the Phase C species table; `truth` checks module, call and protein taxa.
+- Not done: the HPCC runs and calibrations (Tasks 11 to 15 of the plan). No status other than the Phase C R0 entries is measured.
+
 ---
 
 *This file tracks AI agent contributions to maintain transparency about automated code improvements.*

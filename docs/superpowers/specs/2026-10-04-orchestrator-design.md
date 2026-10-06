@@ -104,16 +104,18 @@ Each module is a plugin with this interface. Status entries are per species.
   `unvalidated` still gives `called` or `not_called`. The status goes in the `_status` column.
 
 **Status** is a function of module, version and taxon, because one module can be an estimate in one
-clade and a smoke test in another (step 1: estimate in S1 and Eurotiomycetes, smoke test in
-Basidiomycota). Values: `estimated` (recall interval half-width at most 0.10 and at least 20 direct
+species and a smoke test in another (step 1, measured per species with the Phase C metrics:
+only *A. nidulans* is `estimated`, with 109 positives and 164 negatives; *S. cerevisiae*,
+*C. albicans*, *A. fumigatus* (19 positives), *C. neoformans* and *U. maydis* are `smoke`). Values: `estimated` (recall interval half-width at most 0.10 and at least 20 direct
 positives: the Phase C rule; the word replaces `validated`, which reads as "good"), `smoke` (fewer),
 `unvalidated` (no truth).
 
 **Taxa.** The orchestrator reads an NCBI taxonomy dump (the version is recorded in the report).
 A status applies to a protein's taxon only if that taxon is the tested taxon or a descendant of a
 tested taxon listed in the `status_source`. It does **not** apply to a taxon only because both share a
-broad label such as "Eurotiomycetes". Example: the step 1 estimate was measured on *A. fumigatus* and
-*A. nidulans*, so it covers those species and their descendants; *Coccidioides* (Onygenales) is not
+broad label such as "Eurotiomycetes". Example: the step 1 estimate was measured on *A. nidulans* (the `smoke`
+entries cover *A. fumigatus* and the four other tested species), so each covers its own species and
+descendants only; *Coccidioides* (Onygenales) is not
 covered and gets `unvalidated` (or `smoke` where a smoke test lists it). When two entries match, the
 most specific one wins. The status column also records `status_basis` (the tested taxon matched).
 `--taxon` sets one taxon for the whole run. `--taxon-map FILE` sets a taxon per protein and overrides
