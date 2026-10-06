@@ -91,7 +91,7 @@ The module wrappers and the calibration commands now exist:
   checks.
 
 No calibration has been run on HPCC data yet (Tasks 11 to 15 of the plan are not run). Every module
-status except the Phase C R0 entries is therefore `unvalidated`.
+status is therefore `unvalidated`. The Phase C numbers for rule R0 exist, and `calibrate phasec` can turn them into status entries, but no status file has been written from them in a real work directory.
 
 # Author
 

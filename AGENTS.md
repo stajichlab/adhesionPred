@@ -73,7 +73,7 @@ All optimizations maintain full backward compatibility with the existing API. No
 
 - Added: `src/cellsurface_sorting_hat/modules/` (`cellsurface_sorting_hat_module`), `src/cellsurface_sorting_hat/calibration/` (`cellsurface_sorting_hat_calibrate`), `scripts/sorting_hat/` job scripts, `data/sorting_hat/` tables, tests in `tests/cellsurface_sorting_hat/`.
 - Key review findings fixed: one species per status entry; a leakage cap on `truth` entries; FASTA membership checks for every input table; closed paths that gave silent zeros (empty BLAST file, missing condition values for Pfam, short or non-finite repeat rows, duplicate lookup keys); NCBI scientific names for the Phase C species table; `truth` checks module, call and protein taxa.
-- Not done: the HPCC runs and calibrations (Tasks 11 to 15 of the plan). No status other than the Phase C R0 entries is measured.
+- Not done: the HPCC runs and calibrations (Tasks 11 to 15 of the plan). No status file has been written in a real work directory. The Phase C R0 numbers exist and `calibrate phasec` can convert them.
 
 ---
 
