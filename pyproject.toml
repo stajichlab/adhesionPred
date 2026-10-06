@@ -58,7 +58,7 @@ select = ["E", "F", "W", "I", "N", "UP", "B", "C4"]
 ignore = ["E501", "N803", "N806", "N999"]
 
 [tool.ruff.lint.isort]
-known-first-party = ["surface_glyco"]
+known-first-party = ["surface_glyco", "cellsurface_sorting_hat"]
 
 [tool.setuptools_scm]
 # Use git tags for versioning
