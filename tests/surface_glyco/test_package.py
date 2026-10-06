@@ -38,6 +38,7 @@ def test_pyproject_names_match_the_decision():
         "surface_glyco_evaluate": "surface_glyco.scripts.evaluate:cli",
         "cellsurface_sorting_hat": "cellsurface_sorting_hat.cli:main",
         "cellsurface_sorting_hat_module": "cellsurface_sorting_hat.modules.cli:main",
+        "cellsurface_sorting_hat_calibrate": "cellsurface_sorting_hat.calibration.cli:main",
     }
     assert cfg["tool"]["setuptools"]["package-data"] == {
         "surface_glyco": ["models/*"],
