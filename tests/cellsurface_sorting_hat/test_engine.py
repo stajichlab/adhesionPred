@@ -314,3 +314,82 @@ def test_a_false_and_takes_its_status_from_the_false_inputs_only():
     r = res[("P", "antigen_candidate_surface", "R0")]
     assert (r.value, r.status) == ("not_called", "smoke")
     assert r.status_basis == "step1_rule@R0:t"
+
+
+def _status_fn(mapping):
+    return lambda m, t: (mapping[m], "t") if m in mapping else ("unvalidated", "")
+
+
+def _basis_modules(record):
+    return {item.split(":", 1)[0] for item in record.status_basis.split(";") if item}
+
+
+def test_other_true_status_uses_surface_and_not_called_mechanisms_only():
+    mods = base_modules(antigen_lookup=table("antigen_lookup", {"P": {"state": "not_applicable"}}))
+    statuses = _status_fn(
+        {
+            R0: "estimated",
+            "repeat02": "smoke",
+            "repeat14": "estimated",
+            "pfam_adhesion": "estimated",
+            "allergen_homology": "estimated",
+            "pfam_allergen": "estimated",
+        }
+    )
+    r = run(mods, status_of=statuses)[("P", "other_not_surface", "R0")]
+    assert r.value == "called"
+    assert r.status == "smoke"
+    assert _basis_modules(r) == {
+        R0,
+        "repeat02",
+        "repeat14",
+        "pfam_adhesion",
+        "allergen_homology",
+        "pfam_allergen",
+    }  # antigen_lookup is unknown and does not contribute
+
+
+def test_other_false_from_surface_mismatch_uses_surface_only():
+    statuses = _status_fn({R0: "estimated", "repeat02": "smoke"})
+    r = run(base_modules(step1="called"), status_of=statuses)[("P", "other_not_surface", "R0")]
+    assert r.value == "not_called"
+    assert (r.status, _basis_modules(r)) == ("estimated", {R0})
+
+
+def test_other_false_from_one_called_mechanism_uses_that_mechanism_only():
+    mods = base_modules(antigen_lookup=table("antigen_lookup", {"P": ok(percentile="5")}))
+    statuses = _status_fn({R0: "smoke", "antigen_lookup": "estimated"})
+    r = run(mods, status_of=statuses)[("P", "other_not_surface", "R0")]
+    assert r.value == "not_called"
+    assert (r.status, _basis_modules(r)) == ("estimated", {"antigen_lookup"})
+
+
+def test_other_false_from_two_called_mechanisms_takes_the_weakest_and_lists_both():
+    mods = base_modules(
+        antigen_lookup=table("antigen_lookup", {"P": ok(percentile="5")}),
+        allergen_homology=table("allergen_homology", {"P": ok(identity="90", coverage="95")}),
+    )
+    statuses = _status_fn(
+        {R0: "estimated", "antigen_lookup": "estimated", "allergen_homology": "smoke"}
+    )
+    r = run(mods, status_of=statuses)[("P", "other_not_surface", "R0")]
+    assert r.value == "not_called"
+    assert r.status == "smoke"
+    assert _basis_modules(r) == {"antigen_lookup", "allergen_homology"}
+
+
+def test_or_true_with_two_true_inputs_takes_the_weakest_and_lists_both():
+    mods = base_modules()
+    mods["repeat02"] = table("repeat02", {"P": ok(call="called")})
+    mods["repeat14"] = table("repeat14", {"P": ok(call="called")})
+    statuses = _status_fn({"repeat02": "estimated", "repeat14": "smoke"})
+    r = run(mods, status_of=statuses)[("P", "adhesion_repeat", "")]
+    assert (r.value, r.status) == ("called", "smoke")
+    assert _basis_modules(r) == {"repeat02", "repeat14"}
+
+
+def test_or_false_takes_status_from_all_inputs():
+    statuses = _status_fn({"repeat02": "estimated", "repeat14": "smoke"})
+    r = run(base_modules(), status_of=statuses)[("P", "adhesion_repeat", "")]
+    assert (r.value, r.status) == ("not_called", "smoke")
+    assert _basis_modules(r) == {"repeat02", "repeat14"}

@@ -224,15 +224,17 @@ def _eval_other(call, ctx):
         return _Result(NOT_ASSESSABLE, frozenset()), ""
     if surface.value != call["surface_is"]:
         return _Result(NOT_CALLED, surface.contributors), ""
-    contributors, left_out = set(surface.contributors), []
+    contributors, called, left_out = set(surface.contributors), set(), []
     for name in call["mechanism"]:
         res = ctx["results"][(name, "")]
         if res.value == CALLED:
-            return _Result(NOT_CALLED, frozenset(res.contributors)), ""
-        if res.value == NOT_ASSESSABLE:
+            called |= res.contributors  # a false AND takes its status from all false inputs
+        elif res.value == NOT_ASSESSABLE:
             left_out.append(name)
         else:
             contributors |= res.contributors
+    if called:
+        return _Result(NOT_CALLED, frozenset(called)), ""
     return _Result(CALLED, frozenset(contributors)), ",".join(left_out)
 
 
