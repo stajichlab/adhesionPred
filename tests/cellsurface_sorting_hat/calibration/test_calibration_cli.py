@@ -9,6 +9,29 @@ from cellsurface_sorting_hat.calibration.panel import panel_check
 from cellsurface_sorting_hat.modules.base import ModuleSpec, write_module
 from cellsurface_sorting_hat.status import load_status_source
 
+NODE_ROWS = [
+    (1, 1, "no rank"),
+    (5052, 1, "genus"),
+    (4932, 1, "species"),
+    (5476, 1, "species"),
+    (746128, 5052, "species"),
+    (162425, 5052, "species"),
+    (5207, 1, "species"),
+    (5270, 1, "species"),
+    (246410, 1, "species"),
+    (9999, 4932, "strain"),
+    (7, 4932, "no rank"),
+    (8, 1, "no rank"),
+    (9, 1, "family"),
+]
+
+
+def write_nodes(tmp_path):
+    path = tmp_path / "nodes.dmp"
+    path.write_text("".join(f"{t}\t|\t{p}\t|\t{r}\t|\t\t|\n" for t, p, r in NODE_ROWS))
+    return path
+
+
 OPTIONS = "# Option settings:     hmmsearch --cut_ga --cpu 2 --noali fam.hmm in.fasta\n"
 
 
@@ -59,6 +82,8 @@ def test_truth_command_writes_an_entry_with_sensitivity_and_specificity(tmp_path
             "toy",
             "--leakage",
             "none",
+            "--nodes-dmp",
+            str(write_nodes(tmp_path)),
             "--taxa",
             "746128",
             "--n-boot",
@@ -107,6 +132,8 @@ def test_a_second_set_is_added_and_the_same_set_is_replaced(tmp_path):
                 name,
                 "--leakage",
                 "none",
+                "--nodes-dmp",
+                str(write_nodes(tmp_path)),
                 "--taxa",
                 str(taxon),
                 "--n-boot",
@@ -144,8 +171,10 @@ def test_truth_with_no_matching_protein_is_an_error(tmp_path, capsys):
                 "s",
                 "--leakage",
                 "none",
+                "--nodes-dmp",
+                str(write_nodes(tmp_path)),
                 "--taxa",
-                "1",
+                "4932",  # a valid species in the fixture nodes.dmp; the refusal comes from the empty match
             ]
         )
         == 2
@@ -221,6 +250,8 @@ def test_phasec_command_resolves_species_names_to_taxa(tmp_path):
                 str(metrics),
                 "--set-species",
                 str(sp),
+                "--nodes-dmp",
+                str(write_nodes(tmp_path)),
                 "--names-dmp",
                 str(names),
             ]
@@ -262,6 +293,8 @@ def test_a_changed_module_identity_drops_the_old_status_entries(tmp_path, capsys
                 str(tmp_path / "t.tsv"),
                 "--calibration-set",
                 name,
+                "--nodes-dmp",
+                str(write_nodes(tmp_path)),
                 "--taxa",
                 str(taxon),
                 "--leakage",
@@ -348,6 +381,8 @@ def test_leakage_other_than_none_caps_an_estimate_at_smoke(tmp_path):
                 str(tmp_path / "t.tsv"),
                 "--calibration-set",
                 name,
+                "--nodes-dmp",
+                str(write_nodes(tmp_path)),
                 "--taxa",
                 "246410" if name == "a" else "5476",
                 "--leakage",
@@ -467,6 +502,8 @@ def truth_args(tmp_path, *extra, leakage="none", taxa="4932", name="s", module="
         str(tmp_path / "t.tsv"),
         "--calibration-set",
         name,
+        "--nodes-dmp",
+        str(write_nodes(tmp_path)),
         "--taxa",
         *taxa.split(),
         "--n-boot",
@@ -490,7 +527,9 @@ def setup_truth(tmp_path, n_pos=5, n_neg=5, pos_clusters=None, record=True):
     write_truth(tmp_path / "t.tsv", rows)
 
 
-@pytest.mark.parametrize("taxon", ["0", "1", "-5", "4932 1"])
+@pytest.mark.parametrize(
+    "taxon", ["0", "1", "-5", "4932 1", "5052", "9", "8", "12345", "4932 5476"]
+)
 def test_truth_refuses_the_root_or_an_invalid_taxon_and_writes_nothing(tmp_path, capsys, taxon):
     setup_truth(tmp_path)
     assert main(truth_args(tmp_path, taxa=taxon)) == 2
@@ -632,7 +671,16 @@ def phasec_inputs(tmp_path, names_rows=None, sets_rows=None, label_umay="smoke t
             {"test_sets": {"S1:Scer_SGD": ts("estimate", 232), "S1:Calb_CGD": ts(label_umay, 153)}}
         )
     )
-    return ["--metrics", str(metrics), "--set-species", str(sp), "--names-dmp", str(names)]
+    return [
+        "--metrics",
+        str(metrics),
+        "--set-species",
+        str(sp),
+        "--nodes-dmp",
+        str(write_nodes(tmp_path)),
+        "--names-dmp",
+        str(names),
+    ]
 
 
 def run_phasec(tmp_path, extra):
@@ -755,3 +803,59 @@ def test_panel_never_calls_a_missing_protein_an_agreement(tmp_path):
     panel.write_text("protein\tcall\tvariant\texpected\tsource\nZ\tx\t\tnot_called\ts\n")
     _, summary = panel_check(tmp_path / "c.tsv.gz", panel)
     assert summary == {"not_in_run": 1}
+
+
+@pytest.mark.parametrize("taxon", ["4932", "9999", "7"])  # species, strain, no rank under a species
+def test_truth_accepts_a_species_or_a_taxon_below_one(tmp_path, taxon):
+    setup_truth(tmp_path)
+    assert main(truth_args(tmp_path, taxa=taxon)) == 0
+    assert load_status_source(tmp_path / "status" / "repeat02.json").entries[0].taxa == (
+        int(taxon),
+    )
+
+
+def test_two_taxa_say_to_run_one_call_per_species(tmp_path, capsys):
+    setup_truth(tmp_path)
+    assert main(truth_args(tmp_path, taxa="4932 5476")) == 2
+    assert "one call per species" in capsys.readouterr().err
+
+
+def test_a_genus_is_refused_with_its_rank(tmp_path, capsys):
+    setup_truth(tmp_path)
+    assert main(truth_args(tmp_path, taxa="5052")) == 2
+    err = capsys.readouterr().err
+    assert "5052" in err and "genus" in err
+
+
+def test_phasec_refuses_a_name_that_resolves_above_species(tmp_path, capsys):
+    write_module(tmp_path, ModuleSpec("step1_rule@R0", "1"), [], [{"id": "A", "state": "ok"}])
+    rows = [(5052, "Saccharomyces cerevisiae"), (5476, "Candida albicans")]
+    assert run_phasec(tmp_path, phasec_inputs(tmp_path, rows)) == 2
+    assert "genus" in capsys.readouterr().err
+    assert not (tmp_path / "status").exists()
+
+
+def test_the_status_entry_records_call_module_and_variant(tmp_path):
+    setup_truth(tmp_path)
+    assert main(truth_args(tmp_path)) == 0
+    notes = load_status_source(tmp_path / "status" / "repeat02.json").entries[0].measure["notes"]
+    assert "call=tandem_repeat_protein; module=repeat02; variant=" in notes
+
+
+def test_a_truth_set_without_negatives_says_specificity_was_not_measured(tmp_path):
+    setup_truth(tmp_path, n_pos=5, n_neg=0)
+    write_truth(tmp_path / "t.tsv", [(f"P{k}", 1, f"p{k}") for k in range(5)])
+    assert main(truth_args(tmp_path)) == 0
+    notes = load_status_source(tmp_path / "status" / "repeat02.json").entries[0].measure["notes"]
+    assert "specificity not measured (no negatives)" in notes
+
+
+def test_a_duplicate_calls_row_is_an_error_with_path_and_line(tmp_path, capsys):
+    write_calls(
+        tmp_path / "c.tsv.gz",
+        [("A", "x", "", "called"), ("A", "x", "", "called")],
+    )
+    panel = tmp_path / "p.tsv"
+    panel.write_text("protein\tcall\tvariant\texpected\tsource\nA\tx\t\tcalled\ts\n")
+    assert main(["panel", "--calls-long", str(tmp_path / "c.tsv.gz"), "--panel", str(panel)]) == 2
+    assert "c.tsv.gz:3" in capsys.readouterr().err

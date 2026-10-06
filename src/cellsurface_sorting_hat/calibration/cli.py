@@ -30,6 +30,9 @@ def build_parser():
     p.add_argument("--metrics", required=True)
     p.add_argument("--set-species", required=True, help="TSV: set_key, scientific_name")
     p.add_argument("--names-dmp", required=True)
+    p.add_argument(
+        "--nodes-dmp", required=True, help="NCBI nodes.dmp (ranks; species level is enforced)"
+    )
 
     p = sub.add_parser(
         "truth", help="sensitivity and specificity of one call against a truth table"
@@ -43,7 +46,16 @@ def build_parser():
     p.add_argument("--variant", default="")
     p.add_argument("--truth", required=True, help="TSV: id, label (1 or 0), cluster")
     p.add_argument("--calibration-set", required=True)
-    p.add_argument("--taxa", type=int, nargs="+", required=True, help="tested taxa (species level)")
+    p.add_argument(
+        "--taxa",
+        type=int,
+        nargs="+",
+        required=True,
+        help="the ONE tested taxon (species, or a strain or subspecies below a species); one call per species",
+    )
+    p.add_argument(
+        "--nodes-dmp", required=True, help="NCBI nodes.dmp (ranks; species level is enforced)"
+    )
     p.add_argument("--notes", default="")
     p.add_argument(
         "--leakage",
@@ -97,13 +109,52 @@ def _check_taxon(taxon, what):
     return taxon
 
 
+def read_nodes(path):
+    """``nodes.dmp`` -> ``(parent, rank)`` dicts; parse errors name the path and line."""
+    parent, rank = {}, {}
+    with open(path, encoding="utf-8-sig", errors="replace") as fh:
+        for n, line in enumerate(fh, 1):
+            f = [x.strip() for x in line.rstrip("\n").split("|")]
+            if len(f) < 3 or not f[0]:
+                continue
+            try:
+                parent[int(f[0])], rank[int(f[0])] = int(f[1]), f[2]
+            except ValueError:
+                raise ValueError(f"{path}:{n}: taxon IDs must be integers") from None
+    if not parent:
+        raise ValueError(f"{path}: no nodes")
+    return parent, rank
+
+
+def _require_species(taxon, nodes, what):
+    """The taxon must be in nodes.dmp and be a species or lie below a species node.
+
+    A genus or any higher rank is refused, as is a ``no rank`` taxon that is not under a species."""
+    _check_taxon(taxon, what)
+    parent, rank = nodes
+    if taxon not in parent:
+        raise TaxonError(f"{what}: taxon {taxon} is not in nodes.dmp")
+    t, seen = taxon, set()
+    while t not in seen:
+        seen.add(t)
+        if rank[t] == "species":
+            return taxon
+        if parent[t] == t or parent[t] not in parent:
+            break
+        t = parent[t]
+    raise TaxonError(
+        f"{what}: taxon {taxon} has rank {rank[taxon]!r}; a status entry is one species "
+        "(species, or below a species)"
+    )
+
+
 def _need_columns(reader, columns, path):
     missing = [c for c in columns if c not in (reader.fieldnames or [])]
     if missing:
         raise ValueError(f"{path}: missing column(s) {missing}")
 
 
-def _set_taxa(path, names_dmp):
+def _set_taxa(path, names_dmp, nodes):
     """Phase C set key -> ``[taxon]``. One species per set; the taxon comes from names.dmp only."""
     try:
         names = phasec.read_names(names_dmp)
@@ -122,7 +173,8 @@ def _set_taxa(path, names_dmp):
                 raise ValueError(f"{where}: {key!r} is not a Phase C set ({sorted(phasec.SETS)})")
             if key in by_set:
                 raise ValueError(f"{where}: set {key!r} appears twice; one species per set")
-            by_set[key] = [_check_taxon(phasec.species_taxid(names, name), f"{where} {name!r}")]
+            taxon = phasec.species_taxid(names, name)
+            by_set[key] = [_require_species(taxon, nodes, f"{where} {name!r}")]
     if not by_set:
         raise ValueError(f"{path}: no set rows")
     return by_set
@@ -206,8 +258,9 @@ def _read_truth(path, calls):
 def run(args):
     if args.cmd == "phasec":
         _require_run_record(args.workdir, "step1_rule@R0")
+        nodes = read_nodes(args.nodes_dmp)
         entries = phasec.entries_from_phasec(
-            args.metrics, _set_taxa(args.set_species, args.names_dmp)
+            args.metrics, _set_taxa(args.set_species, args.names_dmp, nodes)
         )
         path = Path(args.workdir) / "status" / "step1_rule@R0.json"
         return write_status_source(
@@ -219,6 +272,12 @@ def run(args):
         if args.n_boot < 1:
             raise ValueError("--n-boot must be at least 1")
         _require_run_record(args.workdir, args.module)
+        if len(args.taxa) != 1:
+            raise ValueError(
+                "--taxa takes exactly one taxon: a status entry is one species; "
+                "run one call per species"
+            )
+        _require_species(args.taxa[0], read_nodes(args.nodes_dmp), "--taxa")
         calls = _read_call_values(args.calls_long, args.call, args.variant)
         y, called, clusters, unmatched, unknown, unknown_pos = [], [], [], 0, 0, 0
         for label, value, cluster in _read_truth(args.truth, calls):
@@ -233,10 +292,6 @@ def run(args):
                 clusters.append(cluster)
         if not y:
             raise ValueError("no truth protein has a call in --calls-long")
-        for taxon in args.taxa:
-            _check_taxon(taxon, "--taxa")
-        if len(set(args.taxa)) != len(args.taxa):
-            raise ValueError("--taxa lists a taxon twice")
         n_pos_called = sum(1 for lab, c in zip(y, called, strict=True) if lab == 1 and c)
         n_pos_all = sum(1 for lab in y if lab == 1) + unknown_pos
         bound = f"{n_pos_called / n_pos_all:.3f}" if n_pos_all else "NA"
@@ -244,6 +299,9 @@ def run(args):
             f"{args.notes} truth rows without a call: {unmatched}; not assessable: {unknown}; "
             f"sensitivity if not assessable positives count as missed: {bound}"
         ).strip()
+        if not any(lab == 0 for lab in y):
+            notes += " specificity not measured (no negatives)"
+        notes += f" call={args.call}; module={args.module}; variant={args.variant}"
         measure = build_measure(
             args.calibration_set,
             str(args.truth),

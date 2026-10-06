@@ -20,7 +20,13 @@ def read_calls(path):
     with gzip.open(path, "rt", newline="") as fh:
         reader = csv.DictReader(fh, delimiter="\t")
         _need(reader.fieldnames, CALL_COLUMNS, path)
-        return {(r["protein"], r["call"], r["variant"]): r["value"] for r in reader}
+        out = {}
+        for r in reader:
+            key = (r["protein"], r["call"], r["variant"])
+            if key in out:
+                raise ValueError(f"{path}:{reader.line_num}: duplicate row for {key}")
+            out[key] = r["value"]
+        return out
 
 
 def panel_check(calls_long, panel_tsv):
