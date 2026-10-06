@@ -64,6 +64,24 @@ missing, the pooling is not supported, or `--model-name` differs from the card. 
 prints how many sequences it truncates at 1022 residues. The output column is `surface_glycoprotein_score`
 and the labels are `surface_glycoprotein` and `other`. The default 0.5 threshold is not calibrated. See `docs/model-review/` for the current model review and validation plan.
 
+## cellsurface_sorting_hat (in development)
+
+`cellsurface_sorting_hat` sorts the proteins of a proteome into cell surface categories
+(surface glycoprotein, cell wall and adhesion candidate, antigen candidate, allergen candidate,
+other). Design: `docs/superpowers/specs/2026-10-04-orchestrator-design.md`.
+
+The core engine reads module result tables from a work directory:
+
+    cellsurface_sorting_hat --fasta proteome.faa --taxon TAXON_ID --taxdump nodes.dmp \
+        --workdir work --out out
+
+`TAXON_ID` is the NCBI taxon ID of the proteome. Look it up in the NCBI taxonomy.
+
+It writes `calls.long.tsv.gz`, `calls.wide.tsv.gz`, `evidence.tsv.gz`, `proteins.tsv.gz`,
+`report.md` and `run.json`. The modules that make the result tables (SignalP, Pfam, repeat
+detectors, allergen homology, antigen lookup) are not part of this release. Calls from a module
+that has no measurement are marked `unvalidated`.
+
 # Author
 
 Jason Stajich, jason.stajich<at>ucr.edu 

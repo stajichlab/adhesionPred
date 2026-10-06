@@ -6,6 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 ## [Unreleased]
 
 ### Added
+- `cellsurface_sorting_hat` core engine: reads module result tables, applies three-valued category rules and writes calls, evidence, a report and run records. No module wrappers yet.
 - Continuous integration: lint (ruff) and unit tests on every push and pull request.
 - Model card (JSON) written next to each trained model; `predict` refuses a `--model-name` that differs from the card.
 - Curated label tables, a stage-2 classifier prototype and model-review analyses (PR #18).

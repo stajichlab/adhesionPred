@@ -58,6 +58,14 @@ All optimizations maintain full backward compatibility with the existing API. No
 - Key findings: CV saturated (AA composition alone ROC-AUC 0.995 leave-family-out); on S288C the shipped model has ~12% adhesin precision and behaves as a cell-surface glycoprotein detector; mean-pool includes padding (batch-dependent)
 - Tracking: GitHub issues #7-#17
 
+## cellsurface_sorting_hat core engine (October 2026)
+
+### Agent: Claude Code (claude-sonnet-5-5)
+**Task:** Implement the core engine of the orchestrator from `docs/superpowers/plans/2026-10-04-cellsurface-sorting-hat-core.md`.
+
+- Code: `src/cellsurface_sorting_hat/`; tests: `tests/cellsurface_sorting_hat/`.
+- The engine reads module result tables. Wrappers that make them are a second plan.
+
 ---
 
 *This file tracks AI agent contributions to maintain transparency about automated code improvements.*
