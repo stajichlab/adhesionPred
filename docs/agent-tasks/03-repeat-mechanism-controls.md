@@ -43,11 +43,12 @@ Table `data/curated/adhesins/adhesins.tsv`; sequences fetched from UniProt; MMse
 
 ## Tasks
 
-1. **Add a mechanism label** to each E1/E2 adhesin: `repeat_avidity` (many weak binding sites on
-   repeats), `single_interface` (one folded binding domain), `other`, `unknown`. Base it on the
-   paper that gave the adhesion evidence, quoted. See `docs/TOOL-ARCHITECTURE.md` section 2 and
-   `docs/model-review/2026-09-27-review-and-framework-plan.md` section 4.7 for the classes. Do not
-   label by running a repeat detector.
+1. **Add a mechanism label** to each E1/E2 adhesin, using the class codes of
+   `docs/TOOL-ARCHITECTURE.md` section 2: `2a` repeat/avidity, `2b-i` CFEM, `2b-ii` small Cys-knot,
+   `2b-iii` Bys1, `2c` hydrophobin, `2d` moonlighting, or `other`, or `unknown`. Add
+   `label_confidence` (`high`, `medium`, `low`). Base the label on the paper that gave the adhesion
+   evidence, quoted. Start from `data/controls/repeat-mechanism/curation_table.tsv`. Do not label by
+   running a repeat detector. The repeat call is calibrated with class `2a` as positives.
 2. **Find more repeat-mediated adhesins** outside Saccharomycotina: Pezizomycotina, Mucoromycota,
    Basidiomycota. Examples to check in the literature, not to assume: Msg family (*Pneumocystis*),
    Mad1/Mad2 (*Metarhizium*), BAD1 (*Blastomyces*), Epa and Hyr/Iff families, CotH (Mucorales),
@@ -60,7 +61,7 @@ Table `data/curated/adhesins/adhesins.tsv`; sequences fetched from UniProt; MMse
    (read the scripts' docstrings and `analysis/cocci_repeats/` and `analysis/model_review/` history),
    are `tuned=yes`. Say in `README.md` how you checked.
 
-`stratum` values: positives `repeat_avidity`, `single_interface`, `other`; negatives
+`stratum` values: positives `2a` (repeat call) and the other class codes; negatives
 `hard_negative_N1`, `hard_negative_N2`, `secreted_other`.
 
 ## Size target

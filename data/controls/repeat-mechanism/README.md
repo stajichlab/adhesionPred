@@ -5,11 +5,12 @@
 `docs/agent-tasks/03-repeat-mechanism-controls.md`. It is not a control set.*
 
 `curation_table.tsv` holds the 186 rows with an accession: `adhesin`, `hard_negative` and
-`surface_other_adhesion_phenotype`. The last five columns are **empty on purpose**:
+`surface_other_adhesion_phenotype`. The last six columns are **empty on purpose**:
 
 | Column | To fill |
 |---|---|
-| `mechanism_label` | `repeat_avidity`, `single_interface`, `other` or `unknown` (adhesins only) |
+| `mechanism_label` | One class code of `docs/TOOL-ARCHITECTURE.md` section 2: `2a` repeat/avidity, `2b-i` CFEM, `2b-ii` small Cys-knot, `2b-iii` Bys1, `2c` hydrophobin, `2d` moonlighting; or `other`, or `unknown` (adhesins only) |
+| `label_confidence` | `high` (the paper states the mechanism), `medium` (the paper implies it), `low` (inferred from the family) |
 | `mechanism_source_pmid` | The paper that gives the evidence for the label |
 | `mechanism_quote` | The supporting sentence, short |
 | `reviewer`, `review_date` | Who and when |
