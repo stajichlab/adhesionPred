@@ -19,18 +19,28 @@ def _known_limits(thresholds):
     if isinstance(percent, float):
         percent = f"{percent:g}"
     return [
-        "GPI-anchored and secreted enzymes, and non-adhesive structural wall proteins, get only "
-        "`surface_glycoprotein`. There is no `cell_wall_protein` call in version 1.",
-        "`surface_glycoprotein` is defined by GO cell wall and extracellular region evidence. It is not "
-        'evidence of glycosylation. With the step 1 rule R0 the call means "SignalP calls a signal '
-        'peptide" and nothing more.',
-        "CFEM is filed under adhesion because class 2b-i is. Its confirmed fold is a hemophore. Binding "
-        "to a host receptor is not shown.",
-        "The repeat detectors have no clade truth set. Their calls are hypotheses.",
-        f"The antigen call is the top {percent}% of a fixed Coccidioides ranking. It is a weak label, "
-        "and the ranking prints NOT CALIBRATED (3 of 4 anchors pass the top-decile test).",
+        "Research use only. This is not a regulatory allergenicity assessment and not a diagnostic "
+        "result. No row is supported by an IgE, antibody or T-cell measurement.",
+        "`signal_peptide_protein` means that SignalP calls a signal peptide (rule R0) and nothing more. "
+        "Such proteins are secreted, wall-bound or GPI-anchored. They are not shown to be exposed at the "
+        "cell surface, and glycosylation is not assessed. Plasma membrane mucins can be missed.",
+        "GPI-anchored and secreted enzymes, and non-adhesive structural wall proteins, get no finer "
+        "label in version 1. There is no `cell_wall_protein` call.",
+        "`tandem_repeat_protein` and `wall_family_domain` are evidence. Repeat proteins include "
+        "intracellular ones (ubiquitin, calmodulin, ankyrin proteins). A domain of a family that is "
+        "linked to adhesion or wall function in at least one species (CFEM, Bys1, hydrophobin, Als) is "
+        "not shown to mediate adhesion here. The adhesion call needs a signal peptide.",
+        f"`cocci_specificity_rank_top15` is the top {percent}% of a fixed Coccidioides immitis ranking "
+        "(similarity to IEDB antigens, prevalence, absence of orthologs in confounder fungi). It is not "
+        "epitope prediction. The cut was set after the four anchors were seen. The ranking prints NOT "
+        "CALIBRATED. `serodiagnostic_marker_candidate` adds a signal peptide. Peptide level only; glycan "
+        "epitopes are not assessed.",
+        "`iuis_allergen_similarity` and `iuis_allergen_homolog` are sequence similarity to allergens in "
+        "the WHO/IUIS fungal set (IgE binding in patients). They suggest possible IgE cross-reactivity "
+        "at most. A protein with no hit is not thereby a non-allergen. WHO/IUIS lists no Coccidioides "
+        "allergen.",
         "Cell wall integrity signaling, septation, polarized growth, polysaccharide chemistry, "
-        "moonlighting proteins and biofilm are not categories.",
+        "non-protein adhesins, moonlighting proteins and biofilm are not categories.",
         "The taxon you give is recorded as given. It is not checked against the sequences.",
     ]
 

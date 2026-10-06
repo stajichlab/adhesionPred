@@ -41,30 +41,39 @@ def read(path):
 
 
 def test_long_table_has_the_documented_columns(tmp_path):
-    write_long(tmp_path / "l.tsv.gz", [rec("A", "adhesion_repeat", "", "called", "smoke", "m:t")])
+    write_long(
+        tmp_path / "l.tsv.gz", [rec("A", "tandem_repeat_protein", "", "called", "smoke", "m:t")]
+    )
     rows = read(tmp_path / "l.tsv.gz")
     assert rows[0] == LONG_COLUMNS
-    assert rows[1] == ["A", "adhesion_repeat", "", "called", "smoke", "m:t", ""]
+    assert rows[1] == ["A", "tandem_repeat_protein", "", "called", "smoke", "m:t", ""]
 
 
 def test_wide_table_names_gated_columns_with_the_variant(tmp_path):
     records = [
-        rec("A", "surface_glycoprotein", "R0", "called", "estimated"),
-        rec("A", "other_not_surface", "R0", "called", "estimated", other="antigen_candidate"),
-        rec("B", "surface_glycoprotein", "R0", "not_called"),
+        rec("A", "signal_peptide_protein", "R0", "called", "estimated"),
+        rec(
+            "A",
+            "other_not_surface",
+            "R0",
+            "called",
+            "estimated",
+            other="cocci_specificity_rank_top15",
+        ),
+        rec("B", "signal_peptide_protein", "R0", "not_called"),
         rec("B", "other_not_surface", "R0", "not_assessable"),
     ]
     write_wide(tmp_path / "w.tsv.gz", records, ["A", "B"])
     rows = read(tmp_path / "w.tsv.gz")
     assert rows[0] == [
         "protein",
-        "surface_glycoprotein[R0]",
-        "surface_glycoprotein[R0]_status",
+        "signal_peptide_protein[R0]",
+        "signal_peptide_protein[R0]_status",
         "other_not_surface[R0]",
         "other_not_surface[R0]_status",
         "other_not_surface[R0]_basis",
     ]
-    assert rows[1][1:3] == ["called", "estimated"] and rows[1][-1] == "antigen_candidate"
+    assert rows[1][1:3] == ["called", "estimated"] and rows[1][-1] == "cocci_specificity_rank_top15"
 
 
 def test_report_warns_about_error_partial_and_inconsistent_modules():
@@ -74,7 +83,7 @@ def test_report_warns_about_error_partial_and_inconsistent_modules():
             module_notes={"a": "no result table"},
             inconsistent={"c": 2},
         ),
-        [rec("A", "adhesion_repeat", "", "called")],
+        [rec("A", "tandem_repeat_protein", "", "called")],
     )
     assert "WARNING: Module a is in state error. no result table" in text
     assert "WARNING: Module b is in state partial." in text
@@ -90,13 +99,13 @@ def test_report_truncates_a_long_invalid_list():
 
 def test_report_counts_values_per_call_and_variant():
     records = [
-        rec("A", "surface_glycoprotein", "R0", v) for v in ("called", "called", "not_called")
+        rec("A", "signal_peptide_protein", "R0", v) for v in ("called", "called", "not_called")
     ]
     text = render_report(info(), records)
-    assert "| surface_glycoprotein | R0 | 2 | 1 | 0 |" in text
+    assert "| signal_peptide_protein | R0 | 2 | 1 | 0 |" in text
 
 
 def test_known_limits_print_the_configured_antigen_percentile():
     report = render_report(info(thresholds={"antigen_percentile_max": 10}), [])
-    assert "The antigen call is the top 10% of" in report
+    assert "is the top 10% of a fixed Coccidioides" in report
     assert "top 15%" not in report

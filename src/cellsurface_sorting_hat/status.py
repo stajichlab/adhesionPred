@@ -19,6 +19,9 @@ MEASURE_KEYS = {
     "truth_source",
     "n_pos",
     "n_neg",
+    "n_clusters_pos",
+    "n_clusters_neg",
+    "strata",
     "sensitivity",
     "specificity",
     "notes",
@@ -77,7 +80,12 @@ def _check_measure(measure, where):
     for key in ("sensitivity", "specificity"):
         if key in measure:
             _check_rate(measure[key], f"{where}.{key}")
-    for key in ("n_pos", "n_neg"):
+    strata = measure.get("strata", {})
+    if not isinstance(strata, dict):
+        raise ValueError(f"{where}.strata: must be an object of rates")
+    for name, rate in strata.items():
+        _check_rate(rate, f"{where}.strata.{name}")
+    for key in ("n_pos", "n_neg", "n_clusters_pos", "n_clusters_neg"):
         if key in measure and not (
             isinstance(measure[key], int)
             and not isinstance(measure[key], bool)

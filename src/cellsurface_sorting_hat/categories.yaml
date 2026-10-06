@@ -29,43 +29,45 @@ evidence:
   - antigen_lookup.prevalence
   - antigen_lookup.max_crossreact
   - allergen_homology.allergen_name
+  - allergen_homology.allergen_species
+  - allergen_homology.exposure
+  - allergen_homology.evidence
   - allergen_homology.identity
   - allergen_homology.coverage
   - allergen_homology.aligned_length
   - cys_rich.tier
   - expression.log2fc
+  - tm.n_tm
+  - tm.n_tm_mature
 
 calls:
-  - name: surface_glycoprotein
+  - name: signal_peptide_protein
     per_variant: true
     expr: {call: "{step1}"}
-  - name: adhesion_repeat
+  - name: tandem_repeat_protein
     expr:
       or: [{call: repeat02}, {call: repeat14}]
-  - name: adhesion_domain
+  - name: wall_family_domain
     expr: {flag: pfam_adhesion.hit}
-  - name: cell_wall_adhesion_ungated
-    expr:
-      or: [{ref: adhesion_repeat}, {ref: adhesion_domain}]
   - name: cell_wall_adhesion_candidate
     per_variant: true
     expr:
       and:
-        - or: [{ref: adhesion_repeat}, {ref: adhesion_domain}]
-        - {ref: surface_glycoprotein}
-  - name: antigen_candidate
+        - or: [{ref: tandem_repeat_protein}, {ref: wall_family_domain}]
+        - {ref: signal_peptide_protein}
+  - name: cocci_specificity_rank_top15
     expr:
       test: {module: antigen_lookup, field: percentile, op: "<=", value: "$antigen_percentile_max"}
-  - name: antigen_candidate_surface
+  - name: serodiagnostic_marker_candidate
     per_variant: true
     expr:
-      and: [{ref: antigen_candidate}, {ref: surface_glycoprotein}]
-  - name: allergen_homolog_hit
+      and: [{ref: cocci_specificity_rank_top15}, {ref: signal_peptide_protein}]
+  - name: iuis_allergen_similarity
     expr:
       and:
         - test: {module: allergen_homology, field: identity, op: ">=", value: "$allergen_hit_identity_min"}
         - test: {module: allergen_homology, field: aligned_length, op: ">=", value: "$allergen_hit_length_min"}
-  - name: allergen_candidate
+  - name: iuis_allergen_homolog
     expr:
       or:
         - and:
@@ -75,12 +77,12 @@ calls:
   - name: other_not_surface
     per_variant: true
     kind: other
-    surface: surface_glycoprotein
+    surface: signal_peptide_protein
     surface_is: not_called
-    mechanism: [adhesion_repeat, adhesion_domain, antigen_candidate, allergen_candidate]
+    mechanism: [tandem_repeat_protein, wall_family_domain, cocci_specificity_rank_top15]
   - name: other_surface_no_mechanism
     per_variant: true
     kind: other
-    surface: surface_glycoprotein
+    surface: signal_peptide_protein
     surface_is: called
-    mechanism: [adhesion_repeat, adhesion_domain, antigen_candidate, allergen_candidate]
+    mechanism: [tandem_repeat_protein, wall_family_domain, cocci_specificity_rank_top15]
