@@ -108,3 +108,12 @@ species.
 
 Software correctness is not accuracy. E1 to E4 show that the tool does what its rules say. They do
 not show that its calls are right.
+
+## F. Control-set counts (2026-10-06)
+
+| ID | Activity | Result | Source | How checked | State |
+|---|---|---|---|---|---|
+| F1 | Count of the curated truth for the repeat call (decision C1) | `adhesin` E1: 55 rows, 54 sequences, 32 clusters. E1+E2: 98 rows, 96 sequences, 50 clusters. Hard negatives N1+N2: 42 rows, 33 clusters. Rows with "repeat" or "tandem" in family, summary or name: 8 rows, 5 clusters. 47 of 98 E1/E2 rows have an empty family column. The table has no mechanism label | `analysis/calibration_truth/c1_truth_count.py`, output `c1_counts_2026-10-06.txt` | **re-derived** (sequences fetched live from UniProt; MMseqs2 30% identity, 50% coverage) | Measured. A count, not a calibration |
+
+The count shows that the 20-cluster floor is not met for repeat-mediated adhesins. The missing piece is
+a mechanism label, not more rows. See `docs/agent-tasks/03-repeat-mechanism-controls.md`.
