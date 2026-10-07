@@ -1,0 +1,3 @@
+item	organism	taxon_id	why_lookalike	evidence_status	pmid	notes
+WI1 class IB hydrophobin	Wallemia ichthyophaga	181689	Secreted class IB hydrophobin that self-assembles; repeat/low-complexity hydrophobin pattern	No protein-level adhesion demonstrated	32866612	Expressed/purified/refolded and shown to self-assemble (NMR, thioflavin T). No direct substrate or host-cell adhesion/binding shown. Candidate for the hydrophobin (2c) line, not a control.
+H2B-like 17-kDa surface protein	Histoplasma capsulatum	2267	Cell-surface histone-like protein (moonlighting candidate)	No direct protein-level adhesion/binding demonstrated	14561701	Monoclonal antibodies bind the surface and enhance phagocytosis/protection, but no direct protein adhesion shown. Kept as a candidate, not a row.

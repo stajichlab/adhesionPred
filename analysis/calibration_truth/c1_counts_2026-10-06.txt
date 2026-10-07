@@ -1,0 +1,11 @@
+accessions without a sequence: 0 []
+adhesin E1	rows=55	sequences=54	clusters=32
+adhesin E1+E2	rows=98	sequences=96	clusters=50
+adhesin E1+E2, reviewed	rows=60	sequences=60	clusters=33
+adhesin E1, needs_review=no	rows=44	sequences=44	clusters=27
+hard negative N1+N2	rows=42	sequences=42	clusters=33
+hard negative N1	rows=32	sequences=32	clusters=25
+surface_other_adhesion_phenotype	rows=36	sequences=36	clusters=28
+clusters that hold both an E1+E2 adhesin and a hard negative: 2
+adhesin E1+E2 with 'repeat' or 'tandem' in family, summary or name	rows=8	sequences=8	clusters=5
+rows with an empty family column among E1+E2: 47
