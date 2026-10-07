@@ -1,0 +1,15 @@
+{
+  "fasta": "/bigdata/stajichlab/jstajich/projects/adhesionPred/_workdir/cocci_spherule/ref/GCF_000149335.2_ASM14933v2_protein.faa.gz",
+  "first_ids": [
+    "XP_001238839.2",
+    "XP_001238841.2",
+    "XP_001238847.2"
+  ],
+  "n_invalid": 0,
+  "n_proteins": 9910,
+  "n_unique_sequences": 9875,
+  "name": "Cimm_RS",
+  "retrieved": "2026-10-06",
+  "sha256": "927d60dfccc64646ab79d589ea1b3b1749aef6e8f8636ceae72a7f5eacc81403",
+  "source": "NCBI RefSeq GCF_000149335.2"
+}

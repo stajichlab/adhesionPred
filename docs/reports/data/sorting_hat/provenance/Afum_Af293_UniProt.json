@@ -1,0 +1,15 @@
+{
+  "fasta": "/bigdata/stajichlab/jstajich/projects/adhesionPred/_workdir/step1_compare/downloads/UP000002530.fasta.gz",
+  "first_ids": [
+    "sp|E9RAH5|GLIT_ASPFU",
+    "sp|O00092|PHYA_ASPFU",
+    "sp|P46075|ELM_ASPFU"
+  ],
+  "n_invalid": 0,
+  "n_proteins": 9647,
+  "n_unique_sequences": 9647,
+  "name": "Afum_Af293_UniProt",
+  "retrieved": "2026-10-06",
+  "sha256": "7cfae982f8d29b5b7c51ad85541e04c8d78300265e84390bb657b87577fad84c",
+  "source": "UniProt UP000002530 (the Phase C gene models)"
+}

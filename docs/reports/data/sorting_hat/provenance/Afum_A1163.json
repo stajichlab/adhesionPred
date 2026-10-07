@@ -1,0 +1,15 @@
+{
+  "fasta": "/bigdata/stajichlab/jstajich/projects/adhesionPred/_workdir/sorting_hat/proteomes/Afum_A1163_UP000001699.faa",
+  "first_ids": [
+    "tr|B0XMC0|B0XMC0_ASPFC",
+    "sp|B0XMC1|ER10A_ASPFC",
+    "sp|B0XRM8|ARO1_ASPFC"
+  ],
+  "n_invalid": 0,
+  "n_proteins": 9942,
+  "n_unique_sequences": 9942,
+  "name": "Afum_A1163",
+  "retrieved": "2026-10-06",
+  "sha256": "b9bd8dc4101bbae379328031f5d6d10378728ac856a161740607dc6d6f947358",
+  "source": "https://rest.uniprot.org/uniprotkb/stream?query=proteome:UP000001699"
+}

@@ -1,0 +1,15 @@
+{
+  "fasta": "/bigdata/stajichlab/jstajich/projects/adhesionPred/_workdir/step1_compare/downloads/orf_trans_all.fasta.gz",
+  "first_ids": [
+    "YAL069W",
+    "YAL068W-A",
+    "YAL068C"
+  ],
+  "n_invalid": 8,
+  "n_proteins": 6722,
+  "n_unique_sequences": 6638,
+  "name": "Scer_S288C",
+  "retrieved": "2026-10-06",
+  "sha256": "17e8b47e1ae23178c6000fbc4ab548f102d1b250ef9dff5d811feb3f03dd2c5b",
+  "source": "SGD orf_trans_all.fasta.gz (includes dubious ORFs)"
+}
