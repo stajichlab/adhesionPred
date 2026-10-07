@@ -185,3 +185,59 @@ having none.
 on this node to render Fig. 5 for visual/OCR reading, (b) contact the authors or check GenBank
 under author name (Cox RA / Magee DM) rather than protein name, or (c) treat the Histoplasma
 ortholog Q1HRW5 as a stand-in for homology search only, never as ELI-Ag1 itself.
+
+---
+
+## PIIS0021925819710679.pdf
+
+**Citation:** Sheppard DC, Yeaman MR, Welch WH, Phan QT, Fu Y, Ibrahim AS, Filler SG, Zhang M,
+Waring AJ, Edwards JE Jr. "Functional and structural diversity in the Als protein family of
+*Candida albicans*." *J Biol Chem* 2004, 279(29):30480-30489. DOI:
+[10.1074/jbc.M401929200](https://doi.org/10.1074/jbc.M401929200). PMID: 15128742 (checked against
+PubMed on 2026-10-06: the DOI and title match this PDF).
+
+**Read:** 2026-10-06. Full text (10 pages, text-extracted with `pypdf`; no poppler on this node).
+The PDF is gitignored (Elsevier). Only the extracted facts below are committed.
+
+**Why it was imported:** PMID 15128742 was already listed in the `pmids` of the `ALS9`, `ALS3`,
+`ALS6`, `ALS5` and `ALS1` rows of `data/curated/adhesins/adhesins.tsv`, but nothing had been
+extracted from the paper. The repeat-mechanism curation cited a different paper (PMID 15116430, the
+ALS1 paper) as the mechanism source for ALS9.
+
+**What the paper contains:** `ALS1`, `ALS3`, `ALS5`, `ALS6`, `ALS7` and `ALS9` were cloned and
+expressed in *S. cerevisiae* S150-2B (ADH1 promoter). `ALS2` and `ALS4` could not be amplified.
+Surface expression was confirmed by flow cytometry. Adherence was tested on gelatin, fibronectin,
+laminin, FaDu epithelial cells and endothelial cells. N-terminal domain swaps (Als5p/Als6p) put the
+substrate specificity in the N-terminal domain. Homology models place the N-terminal domains in the
+immunoglobulin superfamily.
+
+**ALS9 (A0A1D8PQ86), as extracted:**
+- Adhered above background to **laminin only**. Not to gelatin, fibronectin, epithelial cells or
+  endothelial cells (page 4).
+- Surface expression was detected: 11.4% of cells above background (4-fold) with antiserum A and
+  33.9% (13-fold) with antiserum B (Table II). Antiserum A gave the lowest signal of the six.
+- Not named as invasive in the text (Als3p, Als1p and Als5p are). Fig. 3 was not read.
+- N-terminal model: collagen-binding protein of *S. aureus* (PDB 1d2p) as the primary homolog, and
+  Als2p and Als9p share the same primary, secondary and tertiary homolog (page 6). Als2p, Als4p and
+  Als9p form a third structural group (group C; page 7).
+- **No statement about tandem repeats of ALS9.** The paper says only that ALS genes in general have
+  tandem repeats (page 3).
+
+**Other family members extracted:** Als1p, Als3p and Als5p bound all substrates tested; Als6p bound
+gelatin only; **Als7p bound none of the substrates tested**.
+
+**Extracted into:** `data/controls/repeat-mechanism/paper_extractions.tsv` (12 rows; page, method,
+result, a short quote, what it supports, limits). No sequence was taken from the paper.
+
+**Consequences for the curation tables (not applied to the agent tables):**
+- ALS9 `evidence_level` E1 is supported: direct, heterologous, narrow (laminin).
+- The ALS9 mechanism label `2a` remains `family_inference`. This paper does not give ALS9 repeats and
+  puts the binding specificity in the folded N-terminal domain. The cited source 15116430 is about
+  ALS1.
+- The ALS7 row (Q5A312, *C. albicans*) is listed as an E1 adhesin from PMID 17510860, but this paper
+  found no adherence for Als7p in five substrates. The two results conflict. A person should read both.
+- ALS2 and ALS4 get no support from this paper.
+
+**Not done:** Fig. 1 percentages and Fig. 3 (invasion) were not extracted from the figures. The
+Als9p sequence variant used (plasmid from a library of unstated strain background) was not checked
+against UniProt A0A1D8PQ86.

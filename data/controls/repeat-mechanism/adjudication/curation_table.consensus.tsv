@@ -1,0 +1,97 @@
+accession	gene	organism	cluster_id	evidence_level	label_A	basis_A	label_B	basis_B	uniprot_repeat_features	final_label	final_tier	rule	needs_expert	repeat_evidence_tier	repeat_evidence_sources
+A0A2H1A319	SCF1	Candidozyma auris	A0A2H1A319	E1	2a	family_inference	other	stated_in_paper	0	other	stated_in_paper	higher_tier_wins	no	family_inference	A
+A0A2H1A5L3		Candidozyma auris	A0A2H1A5L3	E1	unknown	background_knowledge	unknown	family_inference	0	unknown	none	no_claim	no	none	
+A4D962		Ajellomyces dermatitidis	A4D962	E1	2a	family_inference	other	stated_in_paper	0	other	stated_in_paper	higher_tier_wins	no	family_inference	A
+B3STP1	SWP7	Nosema bombycis	B3STP1	E1	other	background_knowledge	unknown	stated_in_paper	0	other	background_knowledge	agreement	no	none	
+C4R2D7	FLO11	Komagataella phaffii	C4R2D7	E1	2a	family_inference	other	stated_in_paper	0	other	stated_in_paper	higher_tier_wins	no	family_inference	A
+C4XZ24	FLO11	Clavispora lusitaniae	C4XZ24	E1	2a	family_inference	other	stated_in_paper	0	other	stated_in_paper	higher_tier_wins	no	family_inference	A
+E9P9G2	FLO11	Saccharomyces cerevisiae	E9P9G2	E1	2a	family_inference	other	stated_in_paper	0	other	stated_in_paper	higher_tier_wins	no	family_inference	A
+P08640	FLO11	Saccharomyces cerevisiae	E9P9G2	E1	2a	stated_in_paper	2a	stated_in_paper	46	2a	stated_in_paper	agreement	no	stated_in_paper	A,B
+G1UBC2	EAP1	Candida albicans	G1UBC2	E1	2a	family_inference	unknown	stated_in_paper	25	2a	database_annotation	agreement	no	database_annotation	UniProt
+A0A1D8PQ86	ALS9	Candida albicans	G8BJ61	E1	2a	family_inference	unknown	family_inference	19	2a	database_annotation	agreement	no	database_annotation	UniProt
+A0A1D8PQB9	ALS4	Candida albicans	G8BJ61	E1	2a	family_inference	unknown	stated_in_paper	38	2a	database_annotation	agreement	no	database_annotation	UniProt
+A0AAW0V9R8	ALS4112	Candidozyma auris	G8BJ61	E1	2a	family_inference	2a	stated_in_paper	30	2a	stated_in_paper	agreement	no	stated_in_paper	B
+G8BJ61	ALS7	Candida parapsilosis	G8BJ61	E1	2a	family_inference	unknown	stated_in_paper	0	2a	family_inference	agreement	no	family_inference	A
+Q59L12	ALS3	Candida albicans	G8BJ61	E1	2a	family_inference	2a	stated_in_paper	14	2a	stated_in_paper	agreement	no	stated_in_paper	B
+Q5A2Z7	ALS6	Candida albicans	G8BJ61	E1	2a	family_inference	other	stated_in_paper	6	other	stated_in_paper	higher_tier_wins	no	database_annotation	UniProt
+Q5A312	ALS7	Candida albicans	G8BJ61	E1	2a	family_inference	unknown	family_inference	4	2a	database_annotation	agreement	no	database_annotation	UniProt
+Q5A8T4	ALS1	Candida albicans	G8BJ61	E1	2a	stated_in_paper	2a	stated_in_paper	12	2a	stated_in_paper	agreement	no	stated_in_paper	A,B
+Q5A8T7	ALS5	Candida albicans	G8BJ61	E1	2a	family_inference	other	stated_in_paper	6	other	stated_in_paper	higher_tier_wins	no	database_annotation	UniProt
+I1BJN3	CotH7	Rhizopus delemar	I1C4E4	E1	other	stated_in_paper	other	stated_in_paper	0	other	stated_in_paper	agreement	no	none	
+I1C4E4	CotH2	Rhizopus delemar	I1C4E4	E1	other	stated_in_paper	other	stated_in_paper	0	other	stated_in_paper	agreement	no	none	
+I1CFE1	CotH3	Rhizopus delemar	I1C4E4	E1	other	stated_in_paper	other	stated_in_paper	0	other	stated_in_paper	agreement	no	none	
+O74346	map4	Schizosaccharomyces pombe	O74346	E1	2a	stated_in_paper	2a	stated_in_paper	5	2a	stated_in_paper	agreement	no	stated_in_paper	A,B
+P20840	SAG1	Saccharomyces cerevisiae	P20840	E1	2a	family_inference	other	stated_in_paper	2	other	stated_in_paper	higher_tier_wins	no	database_annotation	UniProt
+P32323	AGA1	Saccharomyces cerevisiae	P32323	E1	2a	family_inference	other	stated_in_paper	20	other	stated_in_paper	higher_tier_wins	no	database_annotation	UniProt
+P32768	FLO1	Saccharomyces cerevisiae	P32768	E1	2a	stated_in_paper	2a	stated_in_paper	26	2a	stated_in_paper	agreement	no	stated_in_paper	A,B
+P36170	FLO10	Saccharomyces cerevisiae	P32768	E1	2a	family_inference	unknown	stated_in_paper	10	2a	database_annotation	agreement	no	database_annotation	UniProt
+P38894	FLO5	Saccharomyces cerevisiae	P32768	E1	2a	family_inference	unknown	stated_in_paper	13	2a	database_annotation	agreement	no	database_annotation	UniProt
+P39712	FLO9	Saccharomyces cerevisiae	P32768	E1	2a	family_inference	unknown	stated_in_paper	19	2a	database_annotation	agreement	no	database_annotation	UniProt
+P32781	AGA2	Saccharomyces cerevisiae	P32781	E1	unknown	background_knowledge	other	stated_in_paper	0	other	stated_in_paper	agreement	no	none	
+P46593	HWP1	Candida albicans	P46593	E1	2a	family_inference	other	stated_in_paper	14	other	stated_in_paper	higher_tier_wins	no	database_annotation	UniProt
+P50142	HSP60	Ajellomyces capsulatus	P50142	E1	2d	stated_in_paper	2d	stated_in_paper	0	2d	stated_in_paper	agreement	no	none	
+Q2LC47	MAD2	Metarhizium anisopliae	Q2LC47	E1	2a	family_inference	2a	stated_in_paper	3	2a	stated_in_paper	agreement	no	stated_in_paper	B
+Q2LC49	MAD1	Metarhizium anisopliae	Q2LC49	E1	2b-i	family_inference	2a	stated_in_paper	8	2a	stated_in_paper	higher_tier_wins	no	stated_in_paper	B
+Q4WXJ1		Aspergillus fumigatus	Q4WXJ1	E1	2b-iii	family_inference	2b-iii	stated_in_paper	0	2b-iii	stated_in_paper	agreement	no	none	
+Q59PF9	HWP2	Candida albicans	Q59PF9	E1	unknown	background_knowledge	unknown	stated_in_paper	0	unknown	none	no_claim	no	none	
+Q5AAL9	IFF4	Candida albicans	Q59XA7	E1	2a	family_inference	unknown	stated_in_paper	0	2a	family_inference	agreement	no	family_inference	A
+Q5AL03	HYR1	Candida albicans	Q59XA7	E1	2a	family_inference	unknown	family_inference	0	2a	family_inference	agreement	no	family_inference	A
+Q6DTM6	EPA7	Candida glabrata	Q6DTM6	E1	2a	family_inference	other	stated_in_paper	0	other	stated_in_paper	higher_tier_wins	no	family_inference	A
+Q6FUW3	EPA3	Candida glabrata	Q6DTM6	E1	2a	family_inference	unknown	stated_in_paper	0	2a	family_inference	agreement	no	family_inference	A
+Q6FUW5	EPA1	Candida glabrata	Q6DTM6	E1	2a	family_inference	other	stated_in_paper	0	other	stated_in_paper	higher_tier_wins	no	family_inference	A
+Q6FX55	EPA6	Candida glabrata	Q6DTM6	E1	2a	family_inference	other	stated_in_paper	0	other	stated_in_paper	higher_tier_wins	no	family_inference	A
+Q6FNG1	AWP2	Candida glabrata	Q6FNG1	E1	other	family_inference	unknown	stated_in_paper	0	other	family_inference	agreement	no	none	
+Q874R4	pfl3	Schizosaccharomyces pombe	Q874R4	E1	2a	family_inference	unknown	stated_in_paper	18	2a	database_annotation	agreement	no	database_annotation	UniProt
+Q9URU4	pfl5	Schizosaccharomyces pombe	Q874R4	E1	2a	family_inference	unknown	stated_in_paper	26	2a	database_annotation	agreement	no	database_annotation	UniProt
+Q8NK60	SOWgp58	Coccidioides immitis	Q8NK60	E1	2a	stated_in_paper	2a	stated_in_paper	0	2a	stated_in_paper	agreement	no	stated_in_paper	A,B
+Q8TFG9	pfl2	Schizosaccharomyces pombe	Q8TFG9	E1	2a	family_inference	unknown	stated_in_paper	0	2a	family_inference	agreement	no	family_inference	A
+P0CU05	pfl6	Schizosaccharomyces pombe	Q92344	E1	2a	family_inference	unknown	stated_in_paper	2	2a	database_annotation	agreement	no	database_annotation	UniProt
+Q7Z9I1	pfl4	Schizosaccharomyces pombe	Q92344	E1	2a	family_inference	unknown	stated_in_paper	9	2a	database_annotation	agreement	no	database_annotation	UniProt
+Q92344	pfl8	Schizosaccharomyces pombe	Q92344	E1	2a	family_inference	unknown	stated_in_paper	0	2a	family_inference	agreement	no	family_inference	A
+Q96WV6		Schizosaccharomyces pombe	Q96WV6	E1	2a	family_inference	unknown	stated_in_paper	259	2a	database_annotation	agreement	no	database_annotation	UniProt
+Q99109	rep1	Mycosarcoma maydis	Q99109	E1	2c	stated_in_paper	2c	stated_in_paper	0	2c	stated_in_paper	agreement	no	none	
+Q9P6S0	gsf2	Schizosaccharomyces pombe	Q9P6S0	E1	2a	family_inference	other	stated_in_paper	29	other	stated_in_paper	higher_tier_wins	no	database_annotation	UniProt
+Q9P5N1	pfl7	Schizosaccharomyces pombe	Q9P7Q2	E1	2a	family_inference	unknown	stated_in_paper	2	2a	database_annotation	agreement	no	database_annotation	UniProt
+Q9P7Q2	pfl9	Schizosaccharomyces pombe	Q9P7Q2	E1	2a	family_inference	unknown	stated_in_paper	2	2a	database_annotation	agreement	no	database_annotation	UniProt
+A0A1D8PIY8	FLO9	Candida albicans	A0A1D8PIY8	E2	2a	family_inference	unknown	family_inference	0	2a	family_inference	agreement	no	family_inference	A
+A0A1D8PJ68		Candida albicans	A0A1D8PJ68	E2	unknown	background_knowledge	unknown	family_inference	0	unknown	none	no_claim	no	none	
+A0A2H0ZI19		Candidozyma auris	A0A2H0ZI19	E2	2a	family_inference	unknown	family_inference	0	2a	family_inference	agreement	no	family_inference	A
+A0A2H0ZKA3		Candidozyma auris	A0A2H0ZI19	E2	2a	family_inference	unknown	family_inference	0	2a	family_inference	agreement	no	family_inference	A
+A0A2H0ZQQ9		Candidozyma auris	A0A2H0ZI19	E2	2a	family_inference	unknown	family_inference	0	2a	family_inference	agreement	no	family_inference	A
+A0A2H1A127		Candidozyma auris	A0A2H0ZI19	E2	2a	family_inference	unknown	family_inference	0	2a	family_inference	agreement	no	family_inference	A
+A0A2H0ZYK9		Candidozyma auris	A0A2H0ZYK9	E2	2a	family_inference	unknown	family_inference	0	2a	family_inference	agreement	no	family_inference	A
+A0AAW0VN33		Candidozyma auris	A0A2H0ZYK9	E2	2a	family_inference	unknown	family_inference	0	2a	family_inference	agreement	no	family_inference	A
+A0A2H0ZI42	IFF4109	Candidozyma auris	A0A2H1A5L3	E2	2a	family_inference	unknown	family_inference	32	2a	database_annotation	agreement	no	database_annotation	UniProt
+A0AAW0VBN8		Candidozyma auris	A0A2H1A5L3	E2	2a	family_inference	unknown	family_inference	0	2a	family_inference	agreement	no	family_inference	A
+A0AAW0V956		Candidozyma auris	A0AAW0V956	E2	2a	family_inference	2a	family_inference	0	2a	family_inference	agreement	no	family_inference	A,B
+A0AAW0V9U7	ALS4498	Candidozyma auris	A0AAW0V9U7	E2	2a	family_inference	2a	family_inference	2	2a	database_annotation	agreement	no	database_annotation	UniProt
+B4UN42		Candida glabrata	B4UN42	E2	2a	family_inference	unknown	family_inference	0	2a	family_inference	agreement	no	family_inference	A
+P41746	rodA	Aspergillus fumigatus	E9QT94	E2	2c	family_inference	2c	family_inference	0	2c	family_inference	agreement	no	none	
+P0CU38	ALS2	Candida albicans	G8BJ61	E2	2a	family_inference	2a	family_inference	50	2a	database_annotation	agreement	no	database_annotation	UniProt
+O74670	MSG	Pneumocystis jirovecii	O74670	E2	other	background_knowledge	unknown	stated_in_paper	0	other	background_knowledge	agreement	no	none	
+Q6FTA2		Candida glabrata	P20840	E2	2a	family_inference	other	family_inference	0	unresolved	family_inference	conflict_at_same_tier	yes	family_inference	A
+Q59TP1	RBT1	Candida albicans	P46593	E2	2a	family_inference	other	family_inference	0	unresolved	family_inference	conflict_at_same_tier	yes	family_inference	A
+P52751	MPG1	Pyricularia oryzae	P52751	E2	2c	stated_in_paper	2c	family_inference	0	2c	stated_in_paper	agreement	no	none	
+A0A1D8PJB5		Candida albicans	Q4WL79	E2	unknown	background_knowledge	unknown	family_inference	0	unknown	none	no_claim	no	none	
+A0AAW0V6D7		Candidozyma auris	Q4WL79	E2	unknown	background_knowledge	unknown	family_inference	0	unknown	none	no_claim	no	none	
+Q4WXC4		Aspergillus fumigatus	Q4WXC4	E2	2a	stated_in_paper	2a	stated_in_paper	0	2a	stated_in_paper	agreement	no	stated_in_paper	A,B
+Q59XA7	HYR3	Candida albicans	Q59XA7	E2	2a	family_inference	unknown	family_inference	0	2a	family_inference	agreement	no	family_inference	A
+Q59XB0	IFF8	Candida albicans	Q59XA7	E2	2a	family_inference	unknown	family_inference	0	2a	family_inference	agreement	no	family_inference	A
+Q59XL0	IFF6	Candida albicans	Q59XA7	E2	2a	family_inference	unknown	family_inference	0	2a	family_inference	agreement	no	family_inference	A
+Q5A029	IFF3	Candida albicans	Q59XA7	E2	2a	family_inference	unknown	family_inference	0	2a	family_inference	agreement	no	family_inference	A
+Q5A1E0	IFF5	Candida albicans	Q59XA7	E2	2a	family_inference	unknown	family_inference	0	2a	family_inference	agreement	no	family_inference	A
+Q5A5M7	RBR3	Candida albicans	Q59XA7	E2	2a	family_inference	unknown	family_inference	0	2a	family_inference	agreement	no	family_inference	A
+Q5A6U1	IFF9	Candida albicans	Q59XA7	E2	2a	family_inference	unknown	family_inference	0	2a	family_inference	agreement	no	family_inference	A
+Q5A849	HYR4	Candida albicans	Q59XA7	E2	2a	family_inference	unknown	family_inference	0	2a	family_inference	agreement	no	family_inference	A
+Q5A7R7	IFF11	Candida albicans	Q5A7R7	E2	2a	family_inference	unknown	family_inference	0	2a	family_inference	agreement	no	family_inference	A
+Q5ACL7	PGA1	Candida albicans	Q5ACL7	E2	other	background_knowledge	unknown	stated_in_paper	0	other	background_knowledge	agreement	no	none	
+Q6FR82	EPA23	Candida glabrata	Q6DTM6	E2	2a	family_inference	2a	family_inference	0	2a	family_inference	agreement	no	family_inference	A,B
+Q6FPM8		Candida glabrata	Q6FPM9	E2	2a	family_inference	unknown	family_inference	0	2a	family_inference	agreement	no	family_inference	A
+Q6FPM9		Candida glabrata	Q6FPM9	E2	2a	family_inference	unknown	family_inference	0	2a	family_inference	agreement	no	family_inference	A
+Q6FPR1		Candida glabrata	Q6FPM9	E2	2a	family_inference	unknown	family_inference	0	2a	family_inference	agreement	no	family_inference	A
+Q6FQC7		Candida glabrata	Q6FUW7	E2	2a	family_inference	2a	family_inference	0	2a	family_inference	agreement	no	family_inference	A,B
+Q6FUW7		Candida glabrata	Q6FUW7	E2	2a	family_inference	2a	family_inference	0	2a	family_inference	agreement	no	family_inference	A,B
+Q8NK61	SOWgp66	Coccidioides immitis	Q8NK60	E2	2a	stated_in_paper	2a	stated_in_paper	0	2a	stated_in_paper	agreement	no	stated_in_paper	A,B
+Q96V71	SOWgp82	Coccidioides posadasii	Q8NK60	E2	2a	stated_in_paper	2a	stated_in_paper	0	2a	stated_in_paper	agreement	no	stated_in_paper	A,B
+Q9HDL9	gp43	Paracoccidioides brasiliensis	Q9HDL9	E2	2d	stated_in_paper	2d	stated_in_paper	0	2d	stated_in_paper	agreement	no	none	
+W0TYL6		Candida glabrata	W0TYL6	E2	2a	family_inference	unknown	family_inference	0	2a	family_inference	agreement	no	family_inference	A

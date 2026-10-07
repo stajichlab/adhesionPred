@@ -1,0 +1,62 @@
+accession	reviewed	protein_name	gene	organism	taxon_id	phylum_or_class	length	n_repeat_features	repeat_evidence_codes	signal_peptide	gpi_feature	kw_cell_adhesion	kw_cell_wall	adhesion_go	adhesion_go_experimental	name_flags	known_in_curation_tables	fetched
+A0A8H5MFL9	no	CNH domain-containing protein		Collybiopsis confluens	2823264	Basidiomycota/Agaricomycetes	1168	1	ECO:0000256:1	yes	no	no	yes		no		no	2026-10-06
+A0A409VWI2	no	Hydrophobin		Gymnopilus dilepis	231916	Basidiomycota/Agaricomycetes	366	2	ECO:0000256:2	no	no	no	yes		no	hydrophobin	no	2026-10-06
+A0ACC1PZ92	no	Uncharacterized protein		Trametes sanguinea	158606	Basidiomycota/Agaricomycetes	677	1	ECO:0000256:1	no	no	no	yes		no		no	2026-10-06
+A0AAD5UEM6	no	Glycosylphosphatidylinositol specific phospholipase D1	GPLD1	Boothiomyces macroporosus	261099	Chytridiomycota	641	2	ECO:0000256:2	no	no	no	no	GO:0007155:IEA	no		no	2026-10-06
+A0AAD5TLB3	no	Protein kinase domain-containing protein		Geranomyces variabilis	109894	Chytridiomycota	490	1	ECO:0000256:1	no	no	no	no		no		no	2026-10-06
+A0A507DZM0	no	Protein kinase domain-containing protein		Powellomyces hirtus	109895	Chytridiomycota	465	1	ECO:0000256:1	no	no	no	no		no		no	2026-10-06
+A0AAD5SK18	no	Protein kinase domain-containing protein		Rhizophlyctis rosea	64517	Chytridiomycota	457	2	ECO:0000256:2	no	no	no	no		no		no	2026-10-06
+A0A0L0HPM0	no	TKL protein kinase		Spizellomyces punctatus (strain DAOM BR117)	645134	Chytridiomycota	459	2	ECO:0000256:2	no	no	no	no		no		no	2026-10-06
+A0A507CUK7	no	Protein kinase domain-containing protein		Synchytrium endobioticum	286115	Chytridiomycota	527	3	ECO:0000256:3	no	no	no	no		no		no	2026-10-06
+A0A8H7BRP1	no	Glycosylphosphatidylinositol specific phospholipase D1	GPLD1	Apophysomyces ossiformis	679940	Mucoromycota	702	3	ECO:0000256:3	no	no	no	no	GO:0007155:IEA	no		no	2026-10-06
+A0A1C7NFH8	no	Phosphatidylinositol-glycan-specific phospholipase D	Gpld1	Choanephora cucurbitarum	101091	Mucoromycota	787	3	ECO:0000256:3	no	no	no	no	GO:0007155:IEA	no		no	2026-10-06
+A0A8H7RJZ5	no	Uncharacterized protein		Circinella minor	1195481	Mucoromycota	644	2	ECO:0000256:2	no	no	no	no	GO:0007155:IEA	no		no	2026-10-06
+A0ABP9YBC8	no	Glycosylphosphatidylinositol phospholipase D		Helicostylum pulchrum	562976	Mucoromycota	764	2	ECO:0000256:2	no	no	no	no	GO:0007155:IEA	no		no	2026-10-06
+A0A433Q3H7	no	FG-GAP repeat protein		Jimgerdemannia flammicorona	994334	Mucoromycota	764	3	ECO:0000256:3	no	no	no	no	GO:0007155:IEA	no		no	2026-10-06
+A0AAD5P8I2	no	Uncharacterized protein		Phascolomyces articulosus	60185	Mucoromycota	729	2	ECO:0000256:2	no	no	no	no	GO:0007155:IEA	no		no	2026-10-06
+G1XAA9	yes	Adhesin-like cell surface protein MAD1	MAD1	Arthrobotrys oligospora (strain ATCC 24927 / CBS 115.81 / DSM 1491)	756982	Pezizomycotina	718	9	ECO:0000305:9	yes	yes	no	yes		no	adhesin	no	2026-10-06
+A0A8H4IYN1	no	Hydrophobin		Botryosphaeria dothidea	55169	Pezizomycotina/Dothideomycetes	522	4	ECO:0000256:4	no	no	no	no		no	hydrophobin	no	2026-10-06
+Q4WW98	yes	Subtelomeric hrmA-associated cluster protein cgnA	cgnA	Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / Af293)	330879	Pezizomycotina/Eurotiomycetes	143	29	ECO:0000305:29	no	no	yes	no		no		no	2026-10-06
+B0Y8Y8	yes	Subtelomeric hrmA-associated cluster protein cgnA	cgnA	Aspergillus fumigatus (strain CBS 144.89 / FGSC A1163 / CEA10)	451804	Pezizomycotina/Eurotiomycetes	125	23	ECO:0000305:23	no	no	yes	no		no		no	2026-10-06
+A0A9W4JA10	no	Glucose-methanol-choline oxidoreductase N-terminal domain-containing protein		Penicillium salamii	1612424	Pezizomycotina/Eurotiomycetes	1157	7	ECO:0000256:7	no	no	no	yes		no		no	2026-10-06
+A0A7H8QSC1	no	glucose oxidase		Talaromyces rugulosus	121627	Pezizomycotina/Eurotiomycetes	1562	1	ECO:0000256:1	yes	no	no	yes		no		no	2026-10-06
+A0A3N4K7J3	no	Ankyrin		Morchella conica CCBAS932	1392247	Pezizomycotina/Pezizomycetes	66	1	ECO:0000256:1	no	no	no	no	GO:0007155:IEA	no		no	2026-10-06
+Q9P403	yes	Intracellular hyphae protein 1	CIH1	Colletotrichum lindemuthianum	290576	Pezizomycotina/Sordariomycetes	230	10	ECO:0000269:10	yes	no	no	yes		no		no	2026-10-06
+P52753	yes	Class II hydrophobin CRP	CRP	Cryphonectria parasitica	5116	Pezizomycotina/Sordariomycetes	118	7	none:7	yes	no	no	yes		no	hydrophobin	no	2026-10-06
+A0A9P5BGH0	no	Agglutinin 2		Fusarium agapanthi	1803897	Pezizomycotina/Sordariomycetes	5226	1	ECO:0000256:1	yes	no	no	no	GO:0007155:IEA	no	agglutinin	no	2026-10-06
+A0A8H4ZFS4	no	Agglutinin-like protein 2		Fusarium anthophilum	48485	Pezizomycotina/Sordariomycetes	5594	1	ECO:0000256:1	yes	no	no	no	GO:0007155:IEA	no	agglutinin	no	2026-10-06
+A0A8H5IKB8	no	Agglutinin-like protein 2		Fusarium mexicanum	751941	Pezizomycotina/Sordariomycetes	5725	1	ECO:0000256:1	yes	no	no	no	GO:0007155:IEA	no	agglutinin	no	2026-10-06
+A0A8H5Z4Z3	no	Agglutinin-like protein 2		Fusarium mundagurra	1567541	Pezizomycotina/Sordariomycetes	5732	1	ECO:0000256:1	yes	no	no	no	GO:0007155:IEA	no	agglutinin	no	2026-10-06
+A0A1B8B6Q7	no	PA14 domain-containing protein		Fusarium poae	36050	Pezizomycotina/Sordariomycetes	3525	1	ECO:0000256:1	no	no	no	no	GO:0007155:IEA	no		no	2026-10-06
+Q2LC47	yes	Adhesion cell surface protein MAD2	MAD2	Metarhizium anisopliae	5530	Pezizomycotina/Sordariomycetes	306	3	ECO:0000305:3	yes	yes	no	yes		no		yes	2026-10-06
+Q2LC49	yes	Adhesion cell surface protein MAD1	MAD1	Metarhizium anisopliae	5530	Pezizomycotina/Sordariomycetes	717	8	ECO:0000305:8	yes	yes	no	yes		no		yes	2026-10-06
+A0A9W9E8Y5	no	Ankyrin repeats (3 copies) domain-containing protein		Trichoderma breve	2034170	Pezizomycotina/Sordariomycetes	1366	4	ECO:0000256:4	yes	no	no	no	GO:0007155:IEA	no		no	2026-10-06
+A0A2T4B240	no	Ankyrin repeat protein		Trichoderma citrinoviride	58853	Pezizomycotina/Sordariomycetes	129	2	ECO:0000256:2	no	no	no	no	GO:0007155:IEA	no		no	2026-10-06
+P52755	yes	Class II hydrophobin qid3	qid3	Trichoderma harzianum	5544	Pezizomycotina/Sordariomycetes	143	10	ECO:0000255:10	yes	no	no	yes		no	hydrophobin	no	2026-10-06
+A0A9P4X6J4	no	Ankyrin repeat protein		Trichoderma lentiforme	1567552	Pezizomycotina/Sordariomycetes	1410	2	ECO:0000256:2	yes	no	no	no	GO:0007155:IEA	no		no	2026-10-06
+A0A8G0L639	no	ANK_REP_REGION domain-containing protein		Trichoderma simmonsii	1491479	Pezizomycotina/Sordariomycetes	1482	2	ECO:0000256:2	no	no	no	no	GO:0007155:IEA	no		no	2026-10-06
+O74346	yes	P cell-type agglutination protein map4	map4	Schizosaccharomyces pombe (strain 972 / ATCC 24843)	284812	Taphrinomycotina	948	5	ECO:0000305:5	yes	no	no	no	GO:0000128:IBA	no		yes	2026-10-06
+P0CU04	yes	Putative cell agglutination protein SPAC1348.08c		Schizosaccharomyces pombe (strain 972 / ATCC 24843)	284812	Taphrinomycotina	416	2	ECO:0000305:2	yes	no	no	no	GO:0098609:TAS	no		no	2026-10-06
+P0CU05	yes	Putative cell agglutination protein pfl6	pfl6	Schizosaccharomyces pombe (strain 972 / ATCC 24843)	284812	Taphrinomycotina	416	2	ECO:0000305:2	yes	no	no	no	GO:0000128:IMP	yes		yes	2026-10-06
+Q7Z9I1	yes	Putative cell agglutination protein pfl4	pfl4	Schizosaccharomyces pombe (strain 972 / ATCC 24843)	284812	Taphrinomycotina	609	9	ECO:0000305:9	yes	no	no	no	GO:0000128:IMP	yes		yes	2026-10-06
+Q874R4	yes	Putative cell agglutination protein pfl3	pfl3	Schizosaccharomyces pombe (strain 972 / ATCC 24843)	284812	Taphrinomycotina	973	18	ECO:0000305:18	yes	no	no	no	GO:0000128:IMP	yes		yes	2026-10-06
+Q96WV6	yes	Uncharacterized threonine-rich GPI-anchored glycoprotein PJ4664.02		Schizosaccharomyces pombe (strain 972 / ATCC 24843)	284812	Taphrinomycotina	3971	259	none:259	yes	yes	no	no	GO:0000128:IMP	yes		yes	2026-10-06
+Q9C0Y2	yes	Putative cell agglutination protein SPAPB2C8.01		Schizosaccharomyces pombe (strain 972 / ATCC 24843)	284812	Taphrinomycotina	1220	24	ECO:0000305:24	yes	no	no	no	GO:0098609:TAS;GO:0000128:IBA	no		no	2026-10-06
+Q9HDY9	yes	M cell-type agglutination protein mam3	mam3	Schizosaccharomyces pombe (strain 972 / ATCC 24843)	284812	Taphrinomycotina	1082	11	ECO:0000305:11	yes	no	no	no	GO:0000128:IBA	no		no	2026-10-06
+Q9P5N1	yes	Putative cell-type specific agglutination protein pfl7	pfl7	Schizosaccharomyces pombe (strain 972 / ATCC 24843)	284812	Taphrinomycotina	358	2	ECO:0000305:2	yes	no	no	no	GO:0000128:IMP	yes		yes	2026-10-06
+Q9P6S0	yes	Galactose-specific cell agglutination protein gsf2	gsf2	Schizosaccharomyces pombe (strain 972 / ATCC 24843)	284812	Taphrinomycotina	1563	29	ECO:0000305:29	yes	yes	no	no		no		yes	2026-10-06
+Q9P7Q2	yes	Putative cell agglutination protein pfl9	pfl9	Schizosaccharomyces pombe (strain 972 / ATCC 24843)	284812	Taphrinomycotina	326	2	ECO:0000305:2	yes	no	no	no	GO:0000128:IMP	yes		yes	2026-10-06
+Q9URU4	yes	Putative cell agglutination protein pfl5	pfl5	Schizosaccharomyces pombe (strain 972 / ATCC 24843)	284812	Taphrinomycotina	1283	26	ECO:0000305:26	yes	no	no	no	GO:0000128:IMP	yes		yes	2026-10-06
+A0A9W7XTZ0	no	Integrin alpha N-terminal domain-containing protein		Coemansia erecta	147472	other	578	3	ECO:0000256:3	no	no	no	no	GO:0007155:IEA	no		no	2026-10-06
+A0A9W8HJH0	no	Phosphatidylinositol-glycan-specific phospholipase D		Coemansia interrupta	1126814	other	864	3	ECO:0000256:3	yes	no	no	no	GO:0007155:IEA	no		no	2026-10-06
+A0ACC1JLJ3	no	Uncharacterized protein		Coemansia nantahalensis	2789366	other	468	2	ECO:0000256:2	no	no	no	no	GO:0007155:IEA	no		no	2026-10-06
+A0A4V1J3Z7	no	Phosphatidylinositol-glycan-specific phospholipase D		Dimargaris cristalligena	215637	other	635	2	ECO:0000256:2	no	no	no	no	GO:0007155:IEA	no		no	2026-10-06
+A0ACC2RYW2	no	Uncharacterized protein		Entomophthora muscae	34485	other	424	3	ECO:0000256:3	no	no	no	no	GO:0098609:IEA	no		no	2026-10-06
+A0ACC2THF4	no	Uncharacterized protein		Entomophthora muscae	34485	other	421	3	ECO:0000256:3	no	no	no	no	GO:0098609:IEA	no		no	2026-10-06
+A0A9N9IRG5	no	7463_t:CDS:1		Funneliformis mosseae	27381	other	232	2	ECO:0000256:2	no	no	no	no	GO:0007155:IEA	no		no	2026-10-06
+A0A397T685	no	Phosphatidylinositol-glycan-specific phospholipase D		Glomus cerebriforme	658196	other	644	2	ECO:0000256:2	yes	no	no	no	GO:0007155:IEA	no		no	2026-10-06
+A0A139A5K2	no	Vacuolar protein 8		Gonapodya prolifera (strain JEL478)	1344416	other	633	5	ECO:0000256:5	no	no	no	no	GO:0007155:IEA	no		no	2026-10-06
+A0A139ATC0	no	Kinase-like protein		Gonapodya prolifera (strain JEL478)	1344416	other	556	1	ECO:0000256:1	no	no	no	no		no		no	2026-10-06
+A0ACC1J7J6	no	Uncharacterized protein		Linderina macrospora	4868	other	475	3	ECO:0000256:3	no	no	no	no	GO:0007155:IEA	no		no	2026-10-06
+A0A1R1YBC7	no	Phosphatidylinositol-glycan-specific phospholipase D		Smittium culicis	133412	other	447	2	ECO:0000256:2	no	no	no	no	GO:0007155:IEA	no		no	2026-10-06
+A0A1R1YSN6	no	Phosphatidylinositol-glycan-specific phospholipase D		Smittium culicis	133412	other	649	2	ECO:0000256:2	no	no	no	no	GO:0007155:IEA	no		no	2026-10-06
