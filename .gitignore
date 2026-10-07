@@ -109,3 +109,4 @@ idp_summary.csv.gz
 # Saved publisher texts used to check curated quotes. Never commit (copyright, size).
 # Hashes are kept in analysis/step1_compare/curation/*/texts.sha256.
 analysis/step1_compare/curation/**/texts/
+data/controls/repeat-mechanism/_workdir_curation_texts_archive/

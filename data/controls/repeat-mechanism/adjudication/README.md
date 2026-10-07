@@ -1,9 +1,9 @@
 # Adjudication of the repeat-mechanism labels (2026-10-06)
 
 Script: `analysis/calibration_truth/adjudicate_mechanism_labels.py`. Inputs (sha256, first 16 characters):
-agent-A table `49bdc7ac7dacb14a`, agent-B table as committed in git `60e57ed5a5167e69`, UniProt repeat features `6a358dcca6df8627`.
-Agent-B's working copy had uncommitted edits at the time; they are not used here. Re-run the script when
-the agent tables change.
+agent-A table `49bdc7ac7dacb14a`, agent-B table (version of 2026-10-06, after its last edit) `3b83b7b895c0942b`, UniProt repeat features `6a358dcca6df8627`.
+The result is the same with agent-B's earlier committed version (checked). Re-run the script when the agent
+tables change.
 
 **Rule.** The evidence tier decides: paper statement for that protein (3), UniProt repeat features (2), family
 inference (1), background knowledge (0). `unknown` is no vote. Two labels at the same top tier go to an expert.
