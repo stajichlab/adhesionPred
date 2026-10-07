@@ -1,0 +1,28 @@
+# Adjudication of the repeat-mechanism labels (2026-10-06)
+
+Script: `analysis/calibration_truth/adjudicate_mechanism_labels.py`. Inputs (sha256, first 16 characters):
+agent-A table `49bdc7ac7dacb14a`, agent-B table as committed in git `60e57ed5a5167e69`, UniProt repeat features `6a358dcca6df8627`.
+Agent-B's working copy had uncommitted edits at the time; they are not used here. Re-run the script when
+the agent tables change.
+
+**Rule.** The evidence tier decides: paper statement for that protein (3), UniProt repeat features (2), family
+inference (1), background knowledge (0). `unknown` is no vote. Two labels at the same top tier go to an expert.
+
+**Two questions are kept apart.** `repeat_evidence_tier` answers "has the protein a tandem repeat region?" and
+only `2a` votes count. `final_label` answers "what mechanism does the evidence give?". A vote of `other` is
+not evidence against repeats: agent-B used it when the paper it read gives another mechanism or none.
+
+**Outcome.** 96 rows: 74 agreement, 15 settled by tier, 5 no claim, 2 conflicts. Clusters with a repeat region:
+8 on paper statements, 19 with UniProt, 35 with family inference. Needed for the cluster floor: 20. For
+`estimated` the half-width also matters (about 61 clusters at sensitivity 0.8).
+
+**MAD1 (Q2LC49).** Agent-A `2b-i` (family inference) is overruled: agent-B `2a` (paper) and UniProt (8 repeat
+features) agree. Final label `2a`, tier paper-stated. MAD2 (Q2LC47) already agreed.
+
+**The 2 conflicts** (`expert_review_packet.tsv`, expert columns blank for a person to fill):
+- Q6FTA2, *C. glabrata*, "Agglutinin-like protein N-terminal domain-containing protein".
+- Q59TP1, RBT1, *C. albicans*.
+Both are evidence level E2 (domain membership, no protein-level paper), UniProt records no repeats, and neither
+agent cites a paper about the protein itself (agent-A cites the ALS1 and HWP1 papers; agent-B cites a Pfam
+match). **Recommendation from the assistant, not from an expert:** exclude both from the controls, and set the
+repeat label to `unknown`. A person should confirm.
