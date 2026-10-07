@@ -1,0 +1,8 @@
+family	PF28987	hits	1	members	0
+tp	0
+fp	1
+fn	0
+tn	10555
+sensitivity	None
+specificity	0.9999052671466464
+nonmember_hit	KAK9656839.1	n_tm=0

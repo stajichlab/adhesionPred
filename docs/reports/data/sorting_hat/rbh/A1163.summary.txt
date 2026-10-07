@@ -1,0 +1,38 @@
+A proteins 9647, B proteins 9942, reciprocal best hit pairs 9385
+B proteins with no reciprocal best hit 557; A proteins with none 262
+pairs with identical sequences 5190; non-identical pairs 4195
+
+## identical sequences (n=5190)
+identity/coverage bins: ge99_cov95=5190
+  cell_wall_adhesion_candidate[R0]: n=5190 agree=5190 kappa=1.000 table={('called', 'called'): 2, ('not_assessable', 'not_assessable'): 377, ('not_called', 'not_called'): 4811}
+  cocci_specificity_rank_top15: n=5190 agree=5190 kappa=nan table={('not_assessable', 'not_assessable'): 5190}
+  iuis_allergen_homolog: n=5190 agree=5190 kappa=1.000 table={('called', 'called'): 29, ('not_assessable', 'not_assessable'): 5161}
+  iuis_allergen_similarity: n=5190 agree=5190 kappa=1.000 table={('called', 'called'): 56, ('not_called', 'not_called'): 5134}
+  other_not_surface[R0]: n=5190 agree=5190 kappa=1.000 table={('called', 'called'): 4807, ('not_called', 'not_called'): 383}
+  other_surface_no_mechanism[R0]: n=5190 agree=5190 kappa=1.000 table={('called', 'called'): 377, ('not_called', 'not_called'): 4813}
+  serodiagnostic_marker_candidate[R0]: n=5190 agree=5190 kappa=1.000 table={('not_assessable', 'not_assessable'): 379, ('not_called', 'not_called'): 4811}
+  signal_peptide_protein[R0]: n=5190 agree=5190 kappa=1.000 table={('called', 'called'): 379, ('not_called', 'not_called'): 4811}
+  tandem_repeat_protein: n=5190 agree=5190 kappa=1.000 table={('called', 'called'): 6, ('not_called', 'not_called'): 5184}
+  wall_family_domain: n=5190 agree=5190 kappa=nan table={('not_assessable', 'not_assessable'): 5190}
+
+## non-identical pairs (n=4195)
+identity/coverage bins: 90_95_cov80=185, 95_99_cov90=440, ge99_cov95=3238, lt90_or_lowcov=332
+  cell_wall_adhesion_candidate[R0]: n=4195 agree=4156 kappa=0.940 table={('called', 'called'): 4, ('called', 'not_assessable'): 1, ('called', 'not_called'): 1, ('not_assessable', 'not_assessable'): 328, ('not_assessable', 'not_called'): 18, ('not_called', 'not_assessable'): 19, ('not_called', 'not_called'): 3824}
+  cocci_specificity_rank_top15: n=4195 agree=4195 kappa=nan table={('not_assessable', 'not_assessable'): 4195}
+  iuis_allergen_homolog: n=4195 agree=4194 kappa=0.952 table={('called', 'called'): 10, ('called', 'not_assessable'): 1, ('not_assessable', 'not_assessable'): 4184}
+  iuis_allergen_similarity: n=4195 agree=4194 kappa=0.989 table={('called', 'called'): 46, ('not_called', 'called'): 1, ('not_called', 'not_called'): 4148}
+  other_not_surface[R0]: n=4195 agree=4152 kappa=0.935 table={('called', 'called'): 3814, ('called', 'not_called'): 23, ('not_called', 'called'): 20, ('not_called', 'not_called'): 338}
+  other_surface_no_mechanism[R0]: n=4195 agree=4157 kappa=0.940 table={('called', 'called'): 328, ('called', 'not_called'): 18, ('not_called', 'called'): 20, ('not_called', 'not_called'): 3829}
+  serodiagnostic_marker_candidate[R0]: n=4195 agree=4157 kappa=0.941 table={('not_assessable', 'not_assessable'): 333, ('not_assessable', 'not_called'): 19, ('not_called', 'not_assessable'): 19, ('not_called', 'not_called'): 3824}
+  signal_peptide_protein[R0]: n=4195 agree=4157 kappa=0.941 table={('called', 'called'): 333, ('called', 'not_called'): 19, ('not_called', 'called'): 19, ('not_called', 'not_called'): 3824}
+  tandem_repeat_protein: n=4195 agree=4188 kappa=0.719 table={('called', 'called'): 9, ('called', 'not_called'): 3, ('not_called', 'called'): 4, ('not_called', 'not_called'): 4179}
+  wall_family_domain: n=4195 agree=4195 kappa=nan table={('not_assessable', 'not_assessable'): 4195}
+
+## named cases (A accession, B protein, identity %, coverage, identical, calls A -> B)
+  CspA (Q4WXC4): tr|B0XY95|B0XY95_ASPFC 93.7% cov 1.00 identical=False; all calls equal
+  RodA (P41746): tr|B0Y4B1|B0Y4B1_ASPFC 98.7% cov 1.00 identical=False; all calls equal
+  CalA (Q4WXJ1): tr|B0XY33|B0XY33_ASPFC 100.0% cov 1.00 identical=True; all calls equal
+  Asp f 2 (P79017): tr|B0Y6E9|B0Y6E9_ASPFC 99.7% cov 0.95 identical=False; all calls equal
+  Asp f 4 (O60024): tr|B0XUQ5|B0XUQ5_ASPFC 99.7% cov 1.00 identical=False; all calls equal
+  Asp f 7 (O42799): tr|B0Y5K9|B0Y5K9_ASPFC 99.6% cov 1.00 identical=False; all calls equal
+  Asp f 15 (O60022): tr|B0XSZ0|B0XSZ0_ASPFC 100.0% cov 1.00 identical=True; all calls equal

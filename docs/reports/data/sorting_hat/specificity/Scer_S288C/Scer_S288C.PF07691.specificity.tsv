@@ -1,0 +1,9 @@
+family	PF07691	hits	6	members	4
+tp	4
+fp	2
+fn	0
+tn	6716
+sensitivity	1.0
+specificity	0.9997022923489134
+nonmember_hit	YAL064C-A	n_tm=0
+nonmember_hit	YHR213W	n_tm=0

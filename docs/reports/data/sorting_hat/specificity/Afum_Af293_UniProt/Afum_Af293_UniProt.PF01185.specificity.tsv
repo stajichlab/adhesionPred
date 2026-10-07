@@ -1,0 +1,8 @@
+family	PF01185	hits	6	members	7
+tp	6
+fp	0
+fn	1
+tn	9640
+sensitivity	0.8571428571428571
+specificity	1.0
+missed_member	sp|Q4WE22|RODD_ASPFU

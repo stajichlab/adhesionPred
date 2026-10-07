@@ -43,9 +43,8 @@ Known data limits that affect interpretation:
 - MSB2, HKR1 and SAP9 are labelled negative and most candidates call them positive. This was not analysed.
 - 126 *C. immitis* RS isoforms inherit the antigen and expression values of another transcript
   (`idmap_method` is `gene_best_transcript`). An exact-sequence match is not implemented.
-- The taxon IDs 330879, 451804 and 746128 in the plan were unverified. In the NCBI nodes file 330879,
-  451804 and 505235 have rank "strain" and 746128 has rank "species". Which organism each ID names
-  was not checked against names.dmp.
+- The taxon IDs 330879, 451804 and 746128 were checked on 2026-10-06 against `names.dmp` and `nodes.dmp`:
+  Af293, A1163 and the species *A. fumigatus*. UniProt agrees for Af293 and A1163. See `05-literature-verification.md`.
 - Composite calls (for example `cell_wall_adhesion_candidate`) take a status from the deciding
   modules. That status is a weakest-of derived value. It is not a measurement of the composite call.
   A strict reading of decision 3 would call it `unvalidated`. Owner to confirm.
@@ -69,9 +68,10 @@ Decisions 1 to 4 of 2026-10-06 are in `03-status-and-validation-rules.md`, secti
 
 1. Every "copied" number in `02`. Re-run `analysis/step1_compare/phasec/12_report.py` and check the
    table B3 values against `metrics.json`.
-2. The literature statements in the reports (Vaknin 2014, Liu 2016, Balajee 2007, Fedorova 2008,
-   Gravelat 2013, the A1163 lineage, gp43) were written from memory in the plan reviews and were not
-   verified. Check each against its source before citing.
+2. The literature statements (Vaknin 2014, Liu 2016, Balajee 2007, Fedorova 2008, Gravelat 2013, the A1163
+   lineage, gp43) were checked against PubMed, NCBI and UniProt on 2026-10-06. All papers exist. The sentence each
+   one supported was not recorded, so compare your sentence with `05-literature-verification.md`. Gravelat 2013
+   describes a polysaccharide adhesin. The gp43 glucanase claim is not checked.
 3. The three cell wall reviews (Gow 2017, Riquelme 2020, Gow 2023) were read from abstracts,
    editorial text and heading summaries. Read the full text before citing a gene class.
 4. The WHO/IUIS counts (120 molecules, 31 species) are from downloads of 2026-10-04.

@@ -1,0 +1,12 @@
+family	PF07691	hits	5	members	0
+tp	0
+fp	5
+fn	0
+tn	10551
+sensitivity	None
+specificity	0.9995263357332322
+nonmember_hit	KAK9638745.1	n_tm=0
+nonmember_hit	KAK9642122.1	n_tm=0
+nonmember_hit	KAK9646123.1	n_tm=0
+nonmember_hit	KAK9646388.1	n_tm=0
+nonmember_hit	KAK9649030.1	n_tm=0

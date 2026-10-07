@@ -1,0 +1,15 @@
+{
+  "fasta": "/bigdata/stajichlab/jstajich/projects/adhesionPred/_workdir/sorting_hat/proteomes/Afum_W72310_GCA_040167795.1.faa.gz",
+  "first_ids": [
+    "KAK9636110.1",
+    "KAK9636111.1",
+    "KAK9636112.1"
+  ],
+  "n_invalid": 0,
+  "n_proteins": 10556,
+  "n_unique_sequences": 10521,
+  "name": "Afum_W72310",
+  "retrieved": "2026-10-06",
+  "sha256": "dda9946615d9b02f45bb3ce0c5330d5e12fbf226e117fe7fd4e993e0fab44c85",
+  "source": "https://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/040/167/795/GCA_040167795.1_UCR_Afum_W72310_1.0/"
+}

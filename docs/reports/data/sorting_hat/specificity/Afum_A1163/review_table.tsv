@@ -1,0 +1,24 @@
+family	protein	annotation	length	n_domains	best_domain_score	best_i_evalue	domain_cys	n_tm	signal_peptide	draft_member	review_class
+PF01185 Hydrophobin	tr|B0XPA4|B0XPA4_ASPFC	tr|B0XPA4|B0XPA4_ASPFC Hydrophobin OS=Aspergillus fumigatus (strain CBS 144.89 / FGSC A1163 / CEA10) OX=451804 GN=AFUB_0	140	1	44.4	1.1e-11	8	0	called	no	
+PF01185 Hydrophobin	tr|B0Y2S5|B0Y2S5_ASPFC	tr|B0Y2S5|B0Y2S5_ASPFC Hydrophobin OS=Aspergillus fumigatus (strain CBS 144.89 / FGSC A1163 / CEA10) OX=451804 GN=AFUB_0	190	1	27.2	2.6e-06	8	0	called	no	
+PF01185 Hydrophobin	tr|B0Y4B1|B0Y4B1_ASPFC	tr|B0Y4B1|B0Y4B1_ASPFC Hydrophobin OS=Aspergillus fumigatus (strain CBS 144.89 / FGSC A1163 / CEA10) OX=451804 GN=AFUB_0	159	1	42.3	4.8e-11	8	0	called	no	
+PF01185 Hydrophobin	tr|B0Y9E4|B0Y9E4_ASPFC	tr|B0Y9E4|B0Y9E4_ASPFC Hydrophobin OS=Aspergillus fumigatus (strain CBS 144.89 / FGSC A1163 / CEA10) OX=451804 GN=AFUB_0	155	1	38.0	1.1e-09	8	1	called	no	
+PF01185 Hydrophobin	tr|B0Y9N0|B0Y9N0_ASPFC	tr|B0Y9N0|B0Y9N0_ASPFC Hydrophobin OS=Aspergillus fumigatus (strain CBS 144.89 / FGSC A1163 / CEA10) OX=451804 GN=AFUB_0	145	1	51.4	7.1e-14	10	0	called	no	
+PF04681 Bys1	tr|B0XV41|B0XV41_ASPFC	tr|B0XV41|B0XV41_ASPFC Bys1 family protein OS=Aspergillus fumigatus (strain CBS 144.89 / FGSC A1163 / CEA10) OX=451804 G	177	1	160.9	1.1e-47	2	0	called	no	
+PF04681 Bys1	tr|B0XXD5|B0XXD5_ASPFC	tr|B0XXD5|B0XXD5_ASPFC GPI anchored cell wall protein, putative OS=Aspergillus fumigatus (strain CBS 144.89 / FGSC A1163	290	1	78.8	2.1e-22	4	0	called	no	
+PF04681 Bys1	tr|B0XY33|B0XY33_ASPFC	tr|B0XY33|B0XY33_ASPFC Extracellular thaumatin domain protein, putative OS=Aspergillus fumigatus (strain CBS 144.89 / FG	177	1	80.0	9.6e-23	5	0	called	no	
+PF04681 Bys1	tr|B0Y209|B0Y209_ASPFC	tr|B0Y209|B0Y209_ASPFC BYS1 domain protein, putative OS=Aspergillus fumigatus (strain CBS 144.89 / FGSC A1163 / CEA10) O	156	1	217.4	4.1e-65	5	0	called	no	
+PF04681 Bys1	tr|B0YAJ5|B0YAJ5_ASPFC	tr|B0YAJ5|B0YAJ5_ASPFC Antigenic thaumatin domain protein, putative OS=Aspergillus fumigatus (strain CBS 144.89 / FGSC A	167	1	74.7	4.1e-21	4	0	called	no	
+PF05730 CFEM	tr|B0XMD2|B0XMD2_ASPFC	tr|B0XMD2|B0XMD2_ASPFC CFEM domain protein OS=Aspergillus fumigatus (strain CBS 144.89 / FGSC A1163 / CEA10) OX=451804 G	293	1	49.9	1.3e-13	8	0	called	no	
+PF05730 CFEM	tr|B0XWJ0|B0XWJ0_ASPFC	tr|B0XWJ0|B0XWJ0_ASPFC Extracellular serine-threonine rich protein OS=Aspergillus fumigatus (strain CBS 144.89 / FGSC A1	719	1	27.0	1.9e-06	7	0	called	no	
+PF05730 CFEM	tr|B0Y755|B0Y755_ASPFC	tr|B0Y755|B0Y755_ASPFC CFEM domain protein, putative OS=Aspergillus fumigatus (strain CBS 144.89 / FGSC A1163 / CEA10) O	198	1	43.5	1.3e-11	9	0	called	no	
+PF05730 CFEM	tr|B0Y8A1|B0Y8A1_ASPFC	tr|B0Y8A1|B0Y8A1_ASPFC GPI anchored CFEM domain protein OS=Aspergillus fumigatus (strain CBS 144.89 / FGSC A1163 / CEA10	202	1	58.0	4e-16	8	0	called	no	
+PF07691 PA14	sp|B0XM94|BGLH_ASPFC	sp|B0XM94|BGLH_ASPFC Probable beta-glucosidase H OS=Aspergillus fumigatus (strain CBS 144.89 / FGSC A1163 / CEA10) OX=45	829	1	59.9	1.3e-16	0	0	not_called	no	
+PF07691 PA14	sp|B0Y3M6|BGLI_ASPFC	sp|B0Y3M6|BGLI_ASPFC Probable beta-glucosidase I OS=Aspergillus fumigatus (strain CBS 144.89 / FGSC A1163 / CEA10) OX=45	838	1	72.0	2.4e-20	0	0	not_called	no	
+PF07691 PA14	sp|B0Y8M8|BGLJ_ASPFC	sp|B0Y8M8|BGLJ_ASPFC Probable beta-glucosidase J OS=Aspergillus fumigatus (strain CBS 144.89 / FGSC A1163 / CEA10) OX=45	865	1	70.0	9.9e-20	0	0	not_called	no	
+PF07691 PA14	sp|B0YBJ3|BGLK_ASPFC	sp|B0YBJ3|BGLK_ASPFC Probable beta-glucosidase K OS=Aspergillus fumigatus (strain CBS 144.89 / FGSC A1163 / CEA10) OX=45	766	1	58.3	4e-16	0	0	not_called	no	
+PF07691 PA14	tr|B0XXG1|B0XXG1_ASPFC	tr|B0XXG1|B0XXG1_ASPFC beta-glucosidase OS=Aspergillus fumigatus (strain CBS 144.89 / FGSC A1163 / CEA10) OX=451804 GN=A	833	1	44.1	9.5e-12	0	0	not_called	no	
+PF07691 PA14	tr|B0Y8N7|B0Y8N7_ASPFC	tr|B0Y8N7|B0Y8N7_ASPFC beta-glucosidase OS=Aspergillus fumigatus (strain CBS 144.89 / FGSC A1163 / CEA10) OX=451804 GN=A	409	1	28.5	6.1e-07	1	0	not_called	no	
+PF25312 Allergen_Asp_f_4	tr|B0XUQ5|B0XUQ5_ASPFC	tr|B0XUQ5|B0XUQ5_ASPFC Allergen Asp F4 OS=Aspergillus fumigatus (strain CBS 144.89 / FGSC A1163 / CEA10) OX=451804 GN=AF	322	1	254.0	3.2e-76	3	0	not_called	no	
+PF25312 Allergen_Asp_f_4	tr|B0XX47|B0XX47_ASPFC	tr|B0XX47|B0XX47_ASPFC Allergen Asp F4-like, putative OS=Aspergillus fumigatus (strain CBS 144.89 / FGSC A1163 / CEA10) 	357	1	269.8	4.4e-81	3	0	called	no	
+PF25312 Allergen_Asp_f_4	tr|B0Y018|B0Y018_ASPFC	tr|B0Y018|B0Y018_ASPFC Allergen, putative OS=Aspergillus fumigatus (strain CBS 144.89 / FGSC A1163 / CEA10) OX=451804 GN	264	1	258.2	1.7e-77	2	0	called	no	

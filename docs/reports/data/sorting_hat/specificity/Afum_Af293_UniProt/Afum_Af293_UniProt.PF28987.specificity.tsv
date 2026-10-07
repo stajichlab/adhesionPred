@@ -1,0 +1,14 @@
+family	PF28987	hits	0	members	7
+tp	0
+fp	0
+fn	7
+tn	9640
+sensitivity	0.0
+specificity	1.0
+missed_member	sp|E9QT94|RODB_ASPFU
+missed_member	sp|P41746|RODA_ASPFU
+missed_member	sp|Q4WBR8|RODC_ASPFU
+missed_member	sp|Q4WC31|RODE_ASPFU
+missed_member	sp|Q4WE22|RODD_ASPFU
+missed_member	sp|Q4WEK0|RODF_ASPFU
+missed_member	sp|Q4X055|RODG_ASPFU

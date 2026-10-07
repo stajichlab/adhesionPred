@@ -1,0 +1,13 @@
+family	PF07691	hits	6	members	0
+tp	0
+fp	6
+fn	0
+tn	9936
+sensitivity	None
+specificity	0.9993964996982498
+nonmember_hit	sp|B0XM94|BGLH_ASPFC	n_tm=0
+nonmember_hit	sp|B0Y3M6|BGLI_ASPFC	n_tm=0
+nonmember_hit	sp|B0Y8M8|BGLJ_ASPFC	n_tm=0
+nonmember_hit	sp|B0YBJ3|BGLK_ASPFC	n_tm=0
+nonmember_hit	tr|B0XXG1|B0XXG1_ASPFC	n_tm=0
+nonmember_hit	tr|B0Y8N7|B0Y8N7_ASPFC	n_tm=0

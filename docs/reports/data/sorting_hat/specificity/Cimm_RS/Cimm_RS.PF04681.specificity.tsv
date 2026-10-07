@@ -1,0 +1,9 @@
+family	PF04681	hits	2	members	0
+tp	0
+fp	2
+fn	0
+tn	9908
+sensitivity	None
+specificity	0.9997981836528759
+nonmember_hit	XP_001247532.1	n_tm=0
+nonmember_hit	XP_001248146.1	n_tm=1

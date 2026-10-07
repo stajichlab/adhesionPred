@@ -1,0 +1,12 @@
+family	PF04681	hits	5	members	0
+tp	0
+fp	5
+fn	0
+tn	10551
+sensitivity	None
+specificity	0.9995263357332322
+nonmember_hit	KAK9636572.1	n_tm=0
+nonmember_hit	KAK9640771.1	n_tm=0
+nonmember_hit	KAK9649054.1	n_tm=0
+nonmember_hit	KAK9649903.1	n_tm=0
+nonmember_hit	KAK9653124.1	n_tm=0

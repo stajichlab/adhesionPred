@@ -1,0 +1,8 @@
+family	PF10182	hits	2	members	1
+tp	1
+fp	1
+fn	0
+tn	6720
+sensitivity	1.0
+specificity	0.99985121261717
+nonmember_hit	YDL037C	n_tm=0

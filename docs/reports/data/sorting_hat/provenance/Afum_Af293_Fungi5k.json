@@ -1,0 +1,15 @@
+{
+  "fasta": "/bigdata/stajichlab/shared/projects/1KFG/common_annotate/distribute.old/pep/Aspergillus_fumigatus_Af293.proteins.fa",
+  "first_ids": [
+    "F85C5601_000001-T1",
+    "F85C5601_000002-T1",
+    "F85C5601_000003-T1"
+  ],
+  "n_invalid": 0,
+  "n_proteins": 9161,
+  "n_unique_sequences": 9157,
+  "name": "Afum_Af293_Fungi5k",
+  "retrieved": "2026-10-06",
+  "sha256": "252b09e7788fdea4e5371306148cce0cdae93a6d3c015c7c296c7247bb9bd454",
+  "source": "Fungi_5k input (a different annotation)"
+}

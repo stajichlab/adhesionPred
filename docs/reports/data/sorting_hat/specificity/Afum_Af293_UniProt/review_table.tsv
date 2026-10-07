@@ -1,0 +1,25 @@
+family	protein	annotation	length	n_domains	best_domain_score	best_i_evalue	domain_cys	n_tm	signal_peptide	draft_member	review_class
+PF01185 Hydrophobin	sp|E9QT94|RODB_ASPFU	sp|E9QT94|RODB_ASPFU Class I hydrophobin B OS=Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / Af	140	1	44.4	1.1e-11	8	0	called	yes	
+PF01185 Hydrophobin	sp|P41746|RODA_ASPFU	sp|P41746|RODA_ASPFU Class I hydrophobin 1 OS=Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / Af	159	1	42.5	3.9e-11	8	0	called	yes	
+PF01185 Hydrophobin	sp|Q4WBR8|RODC_ASPFU	sp|Q4WBR8|RODC_ASPFU Class I hydrophobin C OS=Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / Af	155	1	38.0	1.1e-09	8	1	called	yes	
+PF01185 Hydrophobin	sp|Q4WC31|RODE_ASPFU	sp|Q4WC31|RODE_ASPFU Class I hydrophobin rodE OS=Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 /	145	1	51.4	6.9e-14	10	0	called	yes	
+PF01185 Hydrophobin	sp|Q4WEK0|RODF_ASPFU	sp|Q4WEK0|RODF_ASPFU Class III hydrophobin F OS=Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / 	190	1	27.2	2.5e-06	8	0	called	yes	
+PF01185 Hydrophobin	sp|Q4X055|RODG_ASPFU	sp|Q4X055|RODG_ASPFU Class III hydrophobin G OS=Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / 	125	1	28.1	1.3e-06	8	0	called	yes	
+PF04681 Bys1	tr|A4D9U0|A4D9U0_ASPFU	tr|A4D9U0|A4D9U0_ASPFU Bys1 family protein OS=Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / Af	177	1	160.9	1e-47	2	0	called	no	
+PF04681 Bys1	tr|Q4WBB5|Q4WBB5_ASPFU	tr|Q4WBB5|Q4WBB5_ASPFU Antigenic thaumatin domain protein, putative OS=Aspergillus fumigatus (strain ATCC MYA-4609 / CBS	167	1	76.5	1.1e-21	4	0	called	no	
+PF04681 Bys1	tr|Q4WE72|Q4WE72_ASPFU	tr|Q4WE72|Q4WE72_ASPFU BYS1 domain protein, putative OS=Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC 	156	1	215.1	2e-64	6	0	called	no	
+PF04681 Bys1	tr|Q4WFZ4|Q4WFZ4_ASPFU	tr|Q4WFZ4|Q4WFZ4_ASPFU GPI anchored cell wall protein, putative OS=Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101	290	1	78.8	2.1e-22	4	0	called	no	
+PF04681 Bys1	tr|Q4WXJ1|Q4WXJ1_ASPFU	tr|Q4WXJ1|Q4WXJ1_ASPFU Extracellular thaumatin domain protein, putative OS=Aspergillus fumigatus (strain ATCC MYA-4609 /	177	1	80.0	9.3e-23	5	0	called	yes	
+PF05730 CFEM	sp|Q4WLB9|CFMA_ASPFU	sp|Q4WLB9|CFMA_ASPFU GPI-anchored hemophore cfmA OS=Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A110	305	1	49.8	1.4e-13	8	0	called	yes	
+PF05730 CFEM	sp|Q4WMA6|CFMB_ASPFU	sp|Q4WMA6|CFMB_ASPFU GPI-anchored hemophore cfmB OS=Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A110	202	1	58.0	3.8e-16	8	0	called	yes	
+PF05730 CFEM	sp|Q4WNE1|CFMC_ASPFU	sp|Q4WNE1|CFMC_ASPFU GPI-anchored hemophore cfmC OS=Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A110	198	1	43.5	1.2e-11	9	0	called	yes	
+PF05730 CFEM	tr|Q4WYI0|Q4WYI0_ASPFU	tr|Q4WYI0|Q4WYI0_ASPFU Extracellular serine-threonine rich protein OS=Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 	764	1	26.9	2e-06	7	0	called	no	
+PF07691 PA14	sp|Q4WA69|BGLK_ASPFU	sp|Q4WA69|BGLK_ASPFU Probable beta-glucosidase K OS=Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A110	767	1	52.6	2.2e-14	0	0	not_called	no	
+PF07691 PA14	sp|Q4WL79|BGLH_ASPFU	sp|Q4WL79|BGLH_ASPFU Probable beta-glucosidase H OS=Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A110	829	1	59.9	1.2e-16	0	0	not_called	no	
+PF07691 PA14	sp|Q4WLY1|BGLJ_ASPFU	sp|Q4WLY1|BGLJ_ASPFU Probable beta-glucosidase J OS=Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A110	865	1	70.0	9.6e-20	0	0	not_called	no	
+PF07691 PA14	sp|Q4WU49|BGLI_ASPFU	sp|Q4WU49|BGLI_ASPFU Probable beta-glucosidase I OS=Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A110	838	1	72.0	2.3e-20	0	0	not_called	no	
+PF07691 PA14	tr|Q4WG20|Q4WG20_ASPFU	tr|Q4WG20|Q4WG20_ASPFU beta-glucosidase OS=Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / Af293	833	1	44.0	9.6e-12	0	0	not_called	no	
+PF07691 PA14	tr|Q4WLX2|Q4WLX2_ASPFU	tr|Q4WLX2|Q4WLX2_ASPFU beta-glucosidase OS=Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / Af293	409	1	28.5	5.9e-07	1	0	not_called	no	
+PF25312 Allergen_Asp_f_4	sp|O60024|ALL4_ASPFU	sp|O60024|ALL4_ASPFU Allergen Asp f 4 OS=Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / Af293) 	322	1	254.4	2.4e-76	3	0	not_called	yes	
+PF25312 Allergen_Asp_f_4	tr|Q4WF99|Q4WF99_ASPFU	tr|Q4WF99|Q4WF99_ASPFU Allergen, putative OS=Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / Af2	264	1	258.2	1.7e-77	2	0	called	no	
+PF25312 Allergen_Asp_f_4	tr|Q4WFX3|Q4WFX3_ASPFU	tr|Q4WFX3|Q4WFX3_ASPFU Allergen Asp F4-like, putative OS=Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC	357	1	269.8	4.3e-81	3	0	called	no	

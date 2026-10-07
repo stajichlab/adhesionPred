@@ -1,0 +1,6 @@
+Af293 UniProt run, 2026-10-07 (core report and modules/allergen_homology.tsv.gz)
+iuis_allergen_similarity called (identity>=35, aligned>=80): 104 (same-species 51, other-species 53)
+iuis_allergen_homolog called (identity>=70, coverage>=80): 41 (same-species 30, other-species 11; all 11 exposure=Airway)
+identity>=95 and coverage>=80: 28 (all same-species)
+signal_peptide_protein R0 called: 753 of 9647; tandem_repeat_protein called: 23
+Fungi_5k run measured 2026-10-05 (plan): 105 / 41 / "30 reached 95%" (definition of the 95% count not stated)

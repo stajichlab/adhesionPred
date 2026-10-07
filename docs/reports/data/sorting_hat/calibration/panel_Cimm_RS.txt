@@ -1,0 +1,12 @@
+{"excluded_leakage": 8, "agree": 1, "known_miss": 1, "not_in_run": 1}
+XP_001245172.2	tandem_repeat_protein		called	called	excluded_leakage
+XP_001245172.2	cocci_specificity_rank_top15		called	called	excluded_leakage
+XP_001240075.1	wall_family_domain		called	not_assessable	excluded_leakage
+XP_001246410.1	signal_peptide_protein	R0	called	called	agree
+XP_001242382.1	signal_peptide_protein	R0	known_miss	not_called	known_miss
+sp|P41746|RODA_ASPFU	wall_family_domain		called	missing	excluded_leakage
+tr|Q4WXJ1|Q4WXJ1_ASPFU	wall_family_domain		called	missing	excluded_leakage
+sp|P0C7S9|GEL1_ASPFU	signal_peptide_protein	R0	called	missing	not_in_run
+sp|P67875|RNMG_ASPFU	iuis_allergen_homolog		called	missing	excluded_leakage
+sp|P79017|ALL2_ASPFU	iuis_allergen_homolog		called	missing	excluded_leakage
+YIR019C	tandem_repeat_protein		called	missing	excluded_leakage

@@ -1,0 +1,15 @@
+{
+  "fasta": "/bigdata/stajichlab/jstajich/projects/adhesionPred/_workdir/sorting_hat/proteomes/Scer_S288C_nodubious.faa",
+  "first_ids": [
+    "YAL068C",
+    "YAL067W-A",
+    "YAL067C"
+  ],
+  "n_invalid": 8,
+  "n_proteins": 6039,
+  "n_unique_sequences": 5975,
+  "name": "Scer_S288C_nodubious",
+  "retrieved": "2026-10-06",
+  "sha256": "55398250be75c2563d9e8550cfb6753d5b82834af45e1c82fc81c1cb3f312c25",
+  "source": "SGD orf_trans_all.fasta.gz with Dubious ORF headers removed"
+}

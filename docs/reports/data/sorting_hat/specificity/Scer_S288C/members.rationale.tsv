@@ -1,0 +1,15 @@
+pfam_acc	protein_id	label	source	status
+PF10182	YIR019C	FLO11	SGD name	draft, not reviewed by an expert
+PF10528	YAR050W	FLO1	SGD name, lectin-like flocculin	draft, not reviewed by an expert
+PF10528	YHR211W	FLO5	SGD name, lectin-like flocculin	draft, not reviewed by an expert
+PF10528	YAL063C	FLO9	SGD name, lectin-like flocculin	draft, not reviewed by an expert
+PF10528	YKR102W	FLO10	SGD name, lectin-like flocculin	draft, not reviewed by an expert
+PF07691	YAR050W	FLO1	SGD name, flocculin with a PA14 lectin domain	draft, not reviewed by an expert
+PF07691	YHR211W	FLO5	SGD name, flocculin with a PA14 lectin domain	draft, not reviewed by an expert
+PF07691	YAL063C	FLO9	SGD name, flocculin with a PA14 lectin domain	draft, not reviewed by an expert
+PF07691	YKR102W	FLO10	SGD name, flocculin with a PA14 lectin domain	draft, not reviewed by an expert
+PF00399	YKL164C	PIR1	SGD name, Pir protein	draft, not reviewed by an expert
+PF00399	YKL163W	PIR3	SGD name, Pir protein	draft, not reviewed by an expert
+PF00399	YJL160C	PIR5	SGD name, Pir protein	draft, not reviewed by an expert
+PF00399	YJL159W	HSP150	SGD name, Pir protein	draft, not reviewed by an expert
+PF00399	YJL158C	CIS3	SGD name, Pir protein	draft, not reviewed by an expert
