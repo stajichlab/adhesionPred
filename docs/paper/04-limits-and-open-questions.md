@@ -66,8 +66,8 @@ Decisions 1 to 4 of 2026-10-06 are in `03-status-and-validation-rules.md`, secti
 
 ## 4. Items that must be verified before they enter the paper
 
-1. Every "copied" number in `02`. Re-run `analysis/step1_compare/phasec/12_report.py` and check the
-   table B3 values against `metrics.json`.
+1. Every "copied" number in `02`. Table B3 was recomputed from `metrics.json` on 2026-10-07 and matches
+   (`05-literature-verification.md`, section 4). The other "copied" rows are still unchecked.
 2. The literature statements (Vaknin 2014, Liu 2016, Balajee 2007, Fedorova 2008, Gravelat 2013, the A1163
    lineage, gp43) were checked against PubMed, NCBI and UniProt on 2026-10-06. All papers exist. The sentence each
    one supported was not recorded, so compare your sentence with `05-literature-verification.md`. Gravelat 2013

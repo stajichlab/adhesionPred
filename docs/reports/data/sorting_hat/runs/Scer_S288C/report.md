@@ -54,7 +54,7 @@ Unavailable step 1 variants: step1_rule@R1, step1_rule@R2, step1_ml@card
 | allergen_homology | 559292 | unvalidated | - | - | - | - | not measured | not measured |
 | repeat02 | 559292 | unvalidated | - | - | - | - | not measured | not measured |
 | repeat14 | 559292 | unvalidated | - | - | - | - | not measured | not measured |
-| step1_rule@R0 | 559292 | unvalidated | - | - | - | - | not measured | not measured |
+| step1_rule@R0 | 559292 | smoke | signal_peptide_protein | S1:Scer_SGD | 79 | 3785 | 0.848 [0.734, 0.943] | 0.966 [0.958, 0.972] |
 | tm | 559292 | unvalidated | - | - | - | - | not measured | not measured |
 
 ## Calls

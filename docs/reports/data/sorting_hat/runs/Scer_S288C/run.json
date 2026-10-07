@@ -43,16 +43,16 @@
       "taxon": 559292
     },
     {
-      "calibration_set": "",
-      "matched_taxon": "",
-      "measured_call": "",
+      "calibration_set": "S1:Scer_SGD",
+      "matched_taxon": 4932,
+      "measured_call": "signal_peptide_protein",
       "module": "step1_rule@R0",
-      "n_neg": "",
-      "n_pos": "",
-      "reason": "no status_source",
-      "sensitivity": "not measured",
-      "specificity": "not measured",
-      "status": "unvalidated",
+      "n_neg": 3785,
+      "n_pos": 79,
+      "reason": "",
+      "sensitivity": "0.848 [0.734, 0.943]",
+      "specificity": "0.966 [0.958, 0.972]",
+      "status": "smoke",
       "taxon": 559292
     },
     {
