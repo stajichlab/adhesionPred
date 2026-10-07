@@ -19,7 +19,7 @@ Spec: `docs/superpowers/specs/2026-09-30-surface-glycoprotein-model-design.md`.
 | CI: lint (ruff 0.3.5) and unit tests | on `main` (PR #27). The Lint job passes on PR #36 after `zip(strict=True)` | `.github/workflows/` |
 | Step 1 truth set (Phase A), features and embeddings (Phase B), rule-versus-ML evaluation (Phase C) | built, run on HPCC, and on `main` since PR #38 (2026-10-02). The reported numbers come from the run with the widened C grid | `analysis/step1_compare/`, outputs in `_workdir/step1_compare/` (git-ignored) |
 | Step 2a repeat detectors | two detectors, validated only in Saccharomycotina | `analysis/cocci_repeats/` |
-| Step 2b/2c HMM scans (CFEM, Bys1, hydrophobin) | HMMs exist. No scan wrapper, no specificity test | |
+| Step 2b/2c HMM scans (CFEM, Bys1, hydrophobin) | Wrapper built (2026-10-06): `modules/pfam.py` reads `hmmsearch --domtblout` results and `data/sorting_hat/family_table.tsv` (15 families, all inactive). A family writes `unavailable` until the owner signs it off. **No specificity test run and no reviewed member/non-member lists** (agent task 04) | `src/cellsurface_sorting_hat/modules/pfam.py`, `docs/agent-tasks/04-wall-family-domain-controls.md` |
 | Step 3 antigen layer | *Coccidioides* only | `analysis/cocci_antigens/` |
 | Cysteine-rich secreted candidates (PRA3-like) | on `main` (PR #36). Full-length PRA3 structure re-run found no fold (PR #42, merged) | `analysis/cys_candidates/` |
 | PF28404 (ARB_05178) family | search of 831 proteomes and a 217-protein tree (PR #44, merged). Not specific to *Coccidioides*; four paralog groups older than the genus. Function unknown | `analysis/pf28404_family/`, `docs/reports/2026-10-02-pf28404-family.md` |
@@ -116,7 +116,7 @@ M8 recall 0.875 to 0.750 on 16 positives.
 3. Done 2026-10-02: Phase C re-run with the widened C grid (section 3).
 4. Train and validate the chosen step 1 model, then ship it with a card (0.2.0).
 5. Orchestrator design spec and independent review.
-6. Step 2 scan wrappers (CFEM, Bys1, hydrophobin) with specificity tests.
+6. Step 2 scan wrappers (CFEM, Bys1, hydrophobin): the wrapper is built (see section 1). Left: specificity tests and reviewed member/non-member lists (agent task 04), then owner sign-off per family.
 7. Step 3: antigen beyond *Coccidioides*; biofilm (blocked on phenotype data).
 
 Open issues: #9 to #17, #19, #25 and #26. See the issue tracker for the current order.
