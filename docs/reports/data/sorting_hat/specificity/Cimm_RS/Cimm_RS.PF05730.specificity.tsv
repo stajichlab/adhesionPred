@@ -1,0 +1,15 @@
+family	PF05730	hits	8	members	0
+tp	0
+fp	8
+fn	0
+tn	9902
+sensitivity	None
+specificity	0.9991927346115035
+nonmember_hit	XP_001239408.1	n_tm=2
+nonmember_hit	XP_001239939.1	n_tm=0
+nonmember_hit	XP_001240075.1	n_tm=0
+nonmember_hit	XP_001243412.1	n_tm=0
+nonmember_hit	XP_001244031.1	n_tm=0
+nonmember_hit	XP_001246922.1	n_tm=0
+nonmember_hit	XP_001247024.1	n_tm=0
+nonmember_hit	XP_001249089.1	n_tm=0

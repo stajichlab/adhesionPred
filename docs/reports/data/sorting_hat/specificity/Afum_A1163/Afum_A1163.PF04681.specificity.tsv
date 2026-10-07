@@ -1,0 +1,12 @@
+family	PF04681	hits	5	members	0
+tp	0
+fp	5
+fn	0
+tn	9937
+sensitivity	None
+specificity	0.9994970830818749
+nonmember_hit	tr|B0XV41|B0XV41_ASPFC	n_tm=0
+nonmember_hit	tr|B0XXD5|B0XXD5_ASPFC	n_tm=0
+nonmember_hit	tr|B0XY33|B0XY33_ASPFC	n_tm=0
+nonmember_hit	tr|B0Y209|B0Y209_ASPFC	n_tm=0
+nonmember_hit	tr|B0YAJ5|B0YAJ5_ASPFC	n_tm=0

@@ -1,0 +1,8 @@
+family	PF28987	hits	1	members	0
+tp	0
+fp	1
+fn	0
+tn	9909
+sensitivity	None
+specificity	0.999899091826438
+nonmember_hit	XP_001243627.2	n_tm=1

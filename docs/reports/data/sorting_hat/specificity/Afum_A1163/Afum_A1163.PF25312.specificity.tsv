@@ -1,0 +1,10 @@
+family	PF25312	hits	3	members	0
+tp	0
+fp	3
+fn	0
+tn	9939
+sensitivity	None
+specificity	0.9996982498491249
+nonmember_hit	tr|B0XUQ5|B0XUQ5_ASPFC	n_tm=0
+nonmember_hit	tr|B0XX47|B0XX47_ASPFC	n_tm=0
+nonmember_hit	tr|B0Y018|B0Y018_ASPFC	n_tm=0

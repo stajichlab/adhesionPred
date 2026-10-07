@@ -1,0 +1,12 @@
+protein	call	variant	expected	source	tuning
+XP_001245172.2	tandem_repeat_protein		called	SOWgp (CIMG_04613); data/curated/adhesins/eurotiomycetes_seeds.tsv; PMID 12065484	tuned
+XP_001245172.2	cocci_specificity_rank_top15		called	SOWgp; antigen ranking acceptance anchor (spec section 4)	tuned
+XP_001240075.1	wall_family_domain		called	Ag2/PRA; exact sequence match to UniProt A0A0E1RVD3; PMID 15489350	tuned
+XP_001246410.1	signal_peptide_protein	R0	called	RS gel1 (GH72 GPI enzyme, by annotation); Af Gel1 P0C7S9 is hard negative N1	
+XP_001242382.1	signal_peptide_protein	R0	known_miss	RS hsp60-like protein (by annotation); H. capsulatum Hsp60 P50142 is a moonlighting adhesin without signal peptide; spec section 4	
+sp|P41746|RODA_ASPFU	wall_family_domain		called	RodA hydrophobin; PMID 28513415 names RodA	tuned
+tr|Q4WXJ1|Q4WXJ1_ASPFU	wall_family_domain		called	CalA (Bys1); PMID 27841851	tuned
+sp|P0C7S9|GEL1_ASPFU	signal_peptide_protein	R0	called	Af Gel1, GPI-anchored glucanosyltransferase; seeds N1	
+sp|P67875|RNMG_ASPFU	iuis_allergen_homolog		called	Asp f 1 (mitogillin); WHO/IUIS; in the reference set	in_reference
+sp|P79017|ALL2_ASPFU	iuis_allergen_homolog		called	Asp f 2; WHO/IUIS; in the reference set	in_reference
+YIR019C	tandem_repeat_protein		called	FLO11; repeat detectors were validated in Saccharomycotina (analysis/cocci_repeats)	tuned

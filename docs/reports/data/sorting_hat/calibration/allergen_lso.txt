@@ -1,0 +1,3 @@
+sequences	111	species	27
+iuis_allergen_similarity	65/111
+iuis_allergen_homolog	41/111

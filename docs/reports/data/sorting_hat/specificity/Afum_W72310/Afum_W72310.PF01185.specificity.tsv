@@ -1,0 +1,13 @@
+family	PF01185	hits	6	members	0
+tp	0
+fp	6
+fn	0
+tn	10550
+sensitivity	None
+specificity	0.9994316028798788
+nonmember_hit	KAK9636436.1	n_tm=0
+nonmember_hit	KAK9641117.1	n_tm=0
+nonmember_hit	KAK9641211.1	n_tm=0
+nonmember_hit	KAK9642370.1	n_tm=0
+nonmember_hit	KAK9652157.1	n_tm=0
+nonmember_hit	KAK9656956.1	n_tm=0

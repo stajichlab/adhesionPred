@@ -1,0 +1,8 @@
+family	PF05730	hits	1	members	0
+tp	0
+fp	1
+fn	0
+tn	6721
+sensitivity	None
+specificity	0.999851234751562
+nonmember_hit	YLR390W-A	n_tm=0

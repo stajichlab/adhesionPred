@@ -1,0 +1,34 @@
+pfam_acc	protein_id	label	source	status
+PF05730	sp|Q4WLB9|CFMA_ASPFU	CfmA	PMID 24361821	draft, not reviewed by an expert
+PF05730	sp|Q4WMA6|CFMB_ASPFU	CfmB	PMID 24361821	draft, not reviewed by an expert
+PF05730	sp|Q4WNE1|CFMC_ASPFU	CfmC	PMID 24361821	draft, not reviewed by an expert
+PF04681	tr|Q4WXJ1|Q4WXJ1_ASPFU	CalA	PMID 27841851; docs/reports/2026-09-29-class2b-structure.md	draft, not reviewed by an expert
+PF01185	sp|P41746|RODA_ASPFU	RodA	UniProt gene name rod*	draft, not reviewed by an expert
+PF06766	sp|P41746|RODA_ASPFU	RodA	UniProt gene name rod*	draft, not reviewed by an expert
+PF28987	sp|P41746|RODA_ASPFU	RodA	UniProt gene name rod*	draft, not reviewed by an expert
+PF22354	sp|P41746|RODA_ASPFU	RodA	UniProt gene name rod*	draft, not reviewed by an expert
+PF01185	sp|E9QT94|RODB_ASPFU	RodB	UniProt gene name rod*	draft, not reviewed by an expert
+PF06766	sp|E9QT94|RODB_ASPFU	RodB	UniProt gene name rod*	draft, not reviewed by an expert
+PF28987	sp|E9QT94|RODB_ASPFU	RodB	UniProt gene name rod*	draft, not reviewed by an expert
+PF22354	sp|E9QT94|RODB_ASPFU	RodB	UniProt gene name rod*	draft, not reviewed by an expert
+PF01185	sp|Q4WBR8|RODC_ASPFU	RodC	UniProt gene name rod*	draft, not reviewed by an expert
+PF06766	sp|Q4WBR8|RODC_ASPFU	RodC	UniProt gene name rod*	draft, not reviewed by an expert
+PF28987	sp|Q4WBR8|RODC_ASPFU	RodC	UniProt gene name rod*	draft, not reviewed by an expert
+PF22354	sp|Q4WBR8|RODC_ASPFU	RodC	UniProt gene name rod*	draft, not reviewed by an expert
+PF01185	sp|Q4WC31|RODE_ASPFU	RodE	UniProt gene name rod*	draft, not reviewed by an expert
+PF06766	sp|Q4WC31|RODE_ASPFU	RodE	UniProt gene name rod*	draft, not reviewed by an expert
+PF28987	sp|Q4WC31|RODE_ASPFU	RodE	UniProt gene name rod*	draft, not reviewed by an expert
+PF22354	sp|Q4WC31|RODE_ASPFU	RodE	UniProt gene name rod*	draft, not reviewed by an expert
+PF01185	sp|Q4WE22|RODD_ASPFU	RodD	UniProt gene name rod*	draft, not reviewed by an expert
+PF06766	sp|Q4WE22|RODD_ASPFU	RodD	UniProt gene name rod*	draft, not reviewed by an expert
+PF28987	sp|Q4WE22|RODD_ASPFU	RodD	UniProt gene name rod*	draft, not reviewed by an expert
+PF22354	sp|Q4WE22|RODD_ASPFU	RodD	UniProt gene name rod*	draft, not reviewed by an expert
+PF01185	sp|Q4WEK0|RODF_ASPFU	RodF	UniProt gene name rod*	draft, not reviewed by an expert
+PF06766	sp|Q4WEK0|RODF_ASPFU	RodF	UniProt gene name rod*	draft, not reviewed by an expert
+PF28987	sp|Q4WEK0|RODF_ASPFU	RodF	UniProt gene name rod*	draft, not reviewed by an expert
+PF22354	sp|Q4WEK0|RODF_ASPFU	RodF	UniProt gene name rod*	draft, not reviewed by an expert
+PF01185	sp|Q4X055|RODG_ASPFU	RodG	UniProt gene name rod*	draft, not reviewed by an expert
+PF06766	sp|Q4X055|RODG_ASPFU	RodG	UniProt gene name rod*	draft, not reviewed by an expert
+PF28987	sp|Q4X055|RODG_ASPFU	RodG	UniProt gene name rod*	draft, not reviewed by an expert
+PF22354	sp|Q4X055|RODG_ASPFU	RodG	UniProt gene name rod*	draft, not reviewed by an expert
+PF25312	sp|O60024|ALL4_ASPFU	Asp f 4	WHO/IUIS Asp f 4	draft, not reviewed by an expert

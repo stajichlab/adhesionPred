@@ -1,0 +1,29 @@
+family	protein	annotation	length	n_domains	best_domain_score	best_i_evalue	domain_cys	n_tm	signal_peptide	draft_member	review_class
+PF00399 PIR	YER011W	"YER011W TIR1 SGDID:S000000813, Chr V from 175248-176012, Genome Release 64-5-1, Verified ORF, ""Cell wall mannoprotein; e"	254	1	27.6	5.5e-07	0	0	called	no	
+PF00399 PIR	YHR126C	YHR126C ANS1 SGDID:S000001168, Chr VIII from 360181-359702, Genome Release 64-5-1, reverse complement, Uncharacterized O	159	1	26.7	1.1e-06	0	0	called	no	
+PF00399 PIR	YJL158C	"YJL158C CIS3 SGDID:S000003694, Chr X from 122948-122265, Genome Release 64-5-1, reverse complement, Verified ORF, ""Manno"	227	1	27.2	7.5e-07	0	0	called	yes	
+PF00399 PIR	YJL159W	"YJL159W HSP150 SGDID:S000003695, Chr X from 120449-121690, Genome Release 64-5-1, Verified ORF, ""O-mannosylated heat sho"	413	11	34.7	3.3e-09	0	0	called	yes	
+PF00399 PIR	YJL160C	YJL160C PIR5 SGDID:S000003696, Chr X from 118825-117962, Genome Release 64-5-1, reverse complement, Uncharacterized ORF,	287	3	30.4	7.6e-08	0	0	called	yes	
+PF00399 PIR	YKL096W	"YKL096W CWP1 SGDID:S000001579, Chr XI from 261132-261851, Genome Release 64-5-1, Verified ORF, ""Cell wall mannoprotein t"	239	1	28.7	2.5e-07	0	0	called	no	
+PF00399 PIR	YKL096W-A	"YKL096W-A CWP2 SGDID:S000001956, Chr XI from 259253-259531, Genome Release 64-5-1, Verified ORF, ""Covalently linked cell"	92	1	32.0	2.4e-08	0	0	called	no	
+PF00399 PIR	YKL163W	"YKL163W PIR3 SGDID:S000001646, Chr XI from 144401-145378, Genome Release 64-5-1, Verified ORF, ""O-glycosylated covalentl"	325	7	30.5	6.9e-08	0	0	called	yes	
+PF00399 PIR	YKL164C	"YKL164C PIR1 SGDID:S000001647, Chr XI from 142819-141794, Genome Release 64-5-1, reverse complement, Verified ORF, ""O-gl"	341	8	35.0	2.6e-09	0	0	called	yes	
+PF00399 PIR	YOR010C	"YOR010C TIR2 SGDID:S000005536, Chr XV from 346950-346195, Genome Release 64-5-1, reverse complement, Verified ORF, ""Puta"	251	1	28.1	4.1e-07	0	0	called	no	
+PF05730 CFEM	YLR390W-A	"YLR390W-A CCW14 SGDID:S000006429, Chr XII from 903724-904440, Genome Release 64-5-1, Verified ORF, ""Covalently linked ce"	238	1	45.4	2.2e-12	8	0	called	no	
+PF07691 PA14	YAL063C	"YAL063C FLO9 SGDID:S000000059, Chr I from 27968-24000, Genome Release 64-5-1, reverse complement, Verified ORF, ""Lectin-"	1322	1	102.9	4.8e-30	5	1	called	yes	
+PF07691 PA14	YAL064C-A	YAL064C-A TDA8 SGDID:S000002140, Chr I from 13743-13363, Genome Release 64-5-1, reverse complement, Uncharacterized ORF,	126	1	65.0	2.4e-18	3	0	not_called	no	
+PF07691 PA14	YAR050W	"YAR050W FLO1 SGDID:S000000084, Chr I from 203403-208016, Genome Release 64-5-1, Verified ORF, ""Lectin-like protein invol"	1537	1	114.0	1.9e-33	5	1	called	yes	
+PF07691 PA14	YHR211W	"YHR211W FLO5 SGDID:S000001254, Chr VIII from 525392-528619, Genome Release 64-5-1, Verified ORF, ""Lectin-like cell wall "	1075	1	105.9	5.7e-31	5	1	called	yes	
+PF07691 PA14	YHR213W	"YHR213W YHR213W SGDID:S000001256, Chr VIII from 539151-539747, Genome Release 64-5-1, Uncharacterized ORF, ""Pseudogenic "	198	1	81.0	2.6e-23	2	0	not_called	no	
+PF07691 PA14	YKR102W	"YKR102W FLO10 SGDID:S000001810, Chr XI from 646356-649865, Genome Release 64-5-1, Verified ORF, ""Member of the FLO famil"	1169	1	121.2	1.1e-35	4	1	called	yes	
+PF10182 Flo11	YDL037C	"YDL037C BSC1 SGDID:S000002195, Chr IV from 385587-384601, Genome Release 64-5-1, reverse complement, Verified ORF, ""Prot"	328	1	213.3	6e-64	2	0	not_called	no	
+PF10182 Flo11	YIR019C	"YIR019C FLO11 SGDID:S000001458, Chr IX from 393675-389572, Genome Release 64-5-1, reverse complement, Verified ORF, ""GPI"	1367	1	240.1	3.5e-72	3	1	called	yes	
+PF10528 GLEYA	YAL063C	"YAL063C FLO9 SGDID:S000000059, Chr I from 27968-24000, Genome Release 64-5-1, reverse complement, Verified ORF, ""Lectin-"	1322	1	69.1	1.2e-19	2	1	called	yes	
+PF10528 GLEYA	YAL064C-A	YAL064C-A TDA8 SGDID:S000002140, Chr I from 13743-13363, Genome Release 64-5-1, reverse complement, Uncharacterized ORF,	126	1	59.4	1.2e-16	3	0	not_called	no	
+PF10528 GLEYA	YAR050W	"YAR050W FLO1 SGDID:S000000084, Chr I from 203403-208016, Genome Release 64-5-1, Verified ORF, ""Lectin-like protein invol"	1537	1	67.0	5e-19	2	1	called	yes	
+PF10528 GLEYA	YHR211W	"YHR211W FLO5 SGDID:S000001254, Chr VIII from 525392-528619, Genome Release 64-5-1, Verified ORF, ""Lectin-like cell wall "	1075	1	67.1	4.7e-19	2	1	called	yes	
+PF10528 GLEYA	YHR213W	"YHR213W YHR213W SGDID:S000001256, Chr VIII from 539151-539747, Genome Release 64-5-1, Uncharacterized ORF, ""Pseudogenic "	198	1	62.5	1.3e-17	2	0	not_called	no	
+PF10528 GLEYA	YKR102W	"YKR102W FLO10 SGDID:S000001810, Chr XI from 646356-649865, Genome Release 64-5-1, Verified ORF, ""Member of the FLO famil"	1169	1	66.7	6.4e-19	2	1	called	yes	
+PF11765 Hyphal_reg_CWP	YIL169C	"YIL169C CSS1 SGDID:S000001431, Chr IX from 26106-23119, Genome Release 64-5-1, reverse complement, Verified ORF, ""Protei"	995	1	82.7	7.9e-24	0	0	called	no	
+PF11765 Hyphal_reg_CWP	YOL155C	"YOL155C HPF1 SGDID:S000005515, Chr XV from 31606-28703, Genome Release 64-5-1, reverse complement, Verified ORF, ""Haze-p"	967	1	79.0	1e-22	0	0	called	no	
+PF11766 Candida_ALS_N	YJR004C	"YJR004C SAG1 SGDID:S000003764, Chr X from 444861-442909, Genome Release 64-5-1, reverse complement, Verified ORF, ""Alpha"	650	1	244.9	2.6e-73	6	1	called	no	

@@ -1,0 +1,11 @@
+family	PF05730	hits	4	members	0
+tp	0
+fp	4
+fn	0
+tn	9938
+sensitivity	None
+specificity	0.9995976664654999
+nonmember_hit	tr|B0XMD2|B0XMD2_ASPFC	n_tm=0
+nonmember_hit	tr|B0XWJ0|B0XWJ0_ASPFC	n_tm=0
+nonmember_hit	tr|B0Y755|B0Y755_ASPFC	n_tm=0
+nonmember_hit	tr|B0Y8A1|B0Y8A1_ASPFC	n_tm=0

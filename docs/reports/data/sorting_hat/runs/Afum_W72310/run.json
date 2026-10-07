@@ -1,0 +1,159 @@
+{
+  "absent_modules": [
+    "antigen_lookup"
+  ],
+  "calibration": [
+    {
+      "calibration_set": "",
+      "matched_taxon": "",
+      "measured_call": "",
+      "module": "allergen_homology",
+      "n_neg": "",
+      "n_pos": "",
+      "reason": "no status_source",
+      "sensitivity": "not measured",
+      "specificity": "not measured",
+      "status": "unvalidated",
+      "taxon": 746128
+    },
+    {
+      "calibration_set": "",
+      "matched_taxon": "",
+      "measured_call": "",
+      "module": "repeat02",
+      "n_neg": "",
+      "n_pos": "",
+      "reason": "no status_source",
+      "sensitivity": "not measured",
+      "specificity": "not measured",
+      "status": "unvalidated",
+      "taxon": 746128
+    },
+    {
+      "calibration_set": "",
+      "matched_taxon": "",
+      "measured_call": "",
+      "module": "repeat14",
+      "n_neg": "",
+      "n_pos": "",
+      "reason": "no status_source",
+      "sensitivity": "not measured",
+      "specificity": "not measured",
+      "status": "unvalidated",
+      "taxon": 746128
+    },
+    {
+      "calibration_set": "",
+      "matched_taxon": "",
+      "measured_call": "",
+      "module": "step1_rule@R0",
+      "n_neg": "",
+      "n_pos": "",
+      "reason": "no status_source",
+      "sensitivity": "not measured",
+      "specificity": "not measured",
+      "status": "unvalidated",
+      "taxon": 746128
+    },
+    {
+      "calibration_set": "",
+      "matched_taxon": "",
+      "measured_call": "",
+      "module": "tm",
+      "n_neg": "",
+      "n_pos": "",
+      "reason": "no status_source",
+      "sensitivity": "not measured",
+      "specificity": "not measured",
+      "status": "unvalidated",
+      "taxon": 746128
+    }
+  ],
+  "config_sha256": "f97cb08508c13100cded294a41d86940d3907419f7d59d76f49bbcc278a08ade",
+  "default_gate": "step1_rule@R0",
+  "inconsistent": {},
+  "invalid": [],
+  "map_ids_not_in_fasta": 0,
+  "module_identities": [
+    {
+      "artefact_hash": "259dbf38312116c16705e4b5553ef0670c00300aba1bb6e52d27c52306f5c8e3",
+      "name": "allergen_homology",
+      "params_hash": "9ca7895625e860f94f99ca2c530273d94e8896a412af48a6986909252353b854",
+      "version": "1"
+    },
+    {
+      "artefact_hash": "4b0da6399b97d2b23329de82190b2e5705bde1dea4cb2d028a52712d5966739e:90a2d7e4c9948b28c94f225eec46384a400d99d8a4228b41628445936e2baf84",
+      "name": "pfam_adhesion",
+      "params_hash": "339e2859ee68b8176466e7098d4fdbe9b8e029b132352702ca93449c4fec69a3",
+      "version": "1"
+    },
+    {
+      "artefact_hash": "4b0da6399b97d2b23329de82190b2e5705bde1dea4cb2d028a52712d5966739e:90a2d7e4c9948b28c94f225eec46384a400d99d8a4228b41628445936e2baf84",
+      "name": "pfam_allergen",
+      "params_hash": "339e2859ee68b8176466e7098d4fdbe9b8e029b132352702ca93449c4fec69a3",
+      "version": "1"
+    },
+    {
+      "artefact_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "name": "repeat02",
+      "params_hash": "7d723f2d540d1e45f46e55661b67d2059dddeb722d210a90ce4691b169edd116",
+      "version": "1"
+    },
+    {
+      "artefact_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "name": "repeat14",
+      "params_hash": "946489ad437ccee8bf3b9c4f7289248d9eba1751fd21db7e0c16dd326f08e2eb",
+      "version": "1"
+    },
+    {
+      "artefact_hash": "6a9c0183d0b7de5685ff56e60cacca9e16f3779f104f7223e372d3245a78c0c7",
+      "name": "step1_rule@R0",
+      "params_hash": "131b801fe3b1ea470b8391d44a7655bc01968eb9518321b459e1e226bbe6aee4",
+      "version": "1"
+    },
+    {
+      "artefact_hash": "8a44d1c3f0a69e7e7c54721a9c244976f55ac5515088d068faa9793b0fa2fa0d",
+      "name": "tm",
+      "params_hash": "3664343ca0fa4c81c30bc4b16ff13dd6212f831a2583e65ba230e1b13439357a",
+      "version": "1"
+    }
+  ],
+  "module_notes": {},
+  "module_states": {
+    "allergen_homology": "ok",
+    "pfam_adhesion": "unavailable",
+    "pfam_allergen": "unavailable",
+    "repeat02": "ok",
+    "repeat14": "ok",
+    "step1_rule@R0": "ok",
+    "tm": "ok"
+  },
+  "n_invalid": 0,
+  "n_proteins": 10556,
+  "n_trailing_stop": 0,
+  "state_counts": {
+    "allergen_homology": {},
+    "repeat02": {},
+    "repeat14": {},
+    "step1_rule@R0": {},
+    "tm": {}
+  },
+  "taxa": {
+    "746128": 10556
+  },
+  "taxonomy_sha256": "78392a6926b01fadda65ab819b75e0685e62593fffc0efe09c70b04d26cb7f6b",
+  "thresholds": {
+    "allergen_coverage_min": 80,
+    "allergen_hit_identity_min": 35,
+    "allergen_hit_length_min": 80,
+    "allergen_identity_min": 70,
+    "antigen_percentile_max": 15
+  },
+  "unavailable_variants": [
+    "step1_rule@R1",
+    "step1_rule@R2",
+    "step1_ml@card"
+  ],
+  "unmatched_module_ids": {},
+  "version": "0.2.0.dev421"
+}

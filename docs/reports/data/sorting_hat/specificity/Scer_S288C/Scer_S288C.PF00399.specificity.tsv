@@ -1,0 +1,12 @@
+family	PF00399	hits	10	members	5
+tp	5
+fp	5
+fn	0
+tn	6712
+sensitivity	1.0
+specificity	0.999255620068483
+nonmember_hit	YER011W	n_tm=0
+nonmember_hit	YHR126C	n_tm=0
+nonmember_hit	YKL096W	n_tm=0
+nonmember_hit	YKL096W-A	n_tm=0
+nonmember_hit	YOR010C	n_tm=0

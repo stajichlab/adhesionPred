@@ -1,0 +1,10 @@
+family	PF05730	hits	3	members	0
+tp	0
+fp	3
+fn	0
+tn	7424
+sensitivity	None
+specificity	0.9995960683990844
+nonmember_hit	tr|J9VLX4|J9VLX4_CRYN9	n_tm=0
+nonmember_hit	tr|J9VVT8|J9VVT8_CRYN9	n_tm=1
+nonmember_hit	tr|T2BNG1|T2BNG1_CRYN9	n_tm=0

@@ -1,0 +1,8 @@
+family	PF05730	hits	4	members	3
+tp	3
+fp	1
+fn	0
+tn	9643
+sensitivity	1.0
+specificity	0.9998963085856492
+nonmember_hit	tr|Q4WYI0|Q4WYI0_ASPFU	n_tm=0

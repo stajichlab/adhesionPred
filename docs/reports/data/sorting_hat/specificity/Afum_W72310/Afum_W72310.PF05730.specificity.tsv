@@ -1,0 +1,14 @@
+family	PF05730	hits	7	members	0
+tp	0
+fp	7
+fn	0
+tn	10549
+sensitivity	None
+specificity	0.9993368700265252
+nonmember_hit	KAK9636691.1	n_tm=7
+nonmember_hit	KAK9642401.1	n_tm=1
+nonmember_hit	KAK9646163.1	n_tm=0
+nonmember_hit	KAK9646171.1	n_tm=0
+nonmember_hit	KAK9646649.1	n_tm=0
+nonmember_hit	KAK9647047.1	n_tm=0
+nonmember_hit	KAK9650261.1	n_tm=0

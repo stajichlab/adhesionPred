@@ -1,0 +1,9 @@
+family	PF11765	hits	2	members	0
+tp	0
+fp	2
+fn	0
+tn	6720
+sensitivity	None
+specificity	0.999702469503124
+nonmember_hit	YIL169C	n_tm=0
+nonmember_hit	YOL155C	n_tm=0

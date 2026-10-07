@@ -1,0 +1,12 @@
+family	PF01185	hits	5	members	0
+tp	0
+fp	5
+fn	0
+tn	9937
+sensitivity	None
+specificity	0.9994970830818749
+nonmember_hit	tr|B0XPA4|B0XPA4_ASPFC	n_tm=0
+nonmember_hit	tr|B0Y2S5|B0Y2S5_ASPFC	n_tm=0
+nonmember_hit	tr|B0Y4B1|B0Y4B1_ASPFC	n_tm=0
+nonmember_hit	tr|B0Y9E4|B0Y9E4_ASPFC	n_tm=1
+nonmember_hit	tr|B0Y9N0|B0Y9N0_ASPFC	n_tm=0
