@@ -30,13 +30,15 @@ SIGNED_OFF = {
     "PF28987",
     "PF29785",
     "PF29802",
+    "PF29465",
+    "PF12296",
 }
 
 
 def test_shipped_family_table_loads_and_only_signed_off_families_are_active():
     path = ROOT / "data" / "sorting_hat" / "family_table.tsv"
     families = load_family_table(path)
-    assert len(families) == 25
+    assert len(families) == 24
     assert {f.pfam_acc for f in families if f.active} == SIGNED_OFF
     assert {f.module for f in families} == {"pfam_adhesion", "pfam_allergen"}
     with open(path, newline="") as fh:
