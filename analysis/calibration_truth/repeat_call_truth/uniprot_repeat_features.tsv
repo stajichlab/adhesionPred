@@ -1,0 +1,156 @@
+accession	reviewed	length	n_repeat_features	repeat_evidence_codes	n_region_mentions_repeat	region_descriptions	fetched
+A0A1D8PCV9	no	571	0		0		2026-10-07
+A0A1D8PCY4	no	423	0		0		2026-10-07
+A0A1D8PD52	no	1287	0		0		2026-10-07
+A0A1D8PE35	no	364	0		0		2026-10-07
+A0A1D8PE53	no	620	0		0		2026-10-07
+A0A1D8PE87	no	662	0		0		2026-10-07
+A0A1D8PHU1	no	413	0		0		2026-10-07
+A0A1D8PIK2	no	430	0		0		2026-10-07
+A0A1D8PIY8	no	1244	0		0		2026-10-07
+A0A1D8PJZ6	no	696	0		0		2026-10-07
+A0A1D8PK00	no	160	0		0		2026-10-07
+A0A1D8PKY7	no	838	0		0		2026-10-07
+A0A1D8PMH9	no	830	0		0		2026-10-07
+A0A1D8PN26	no	348	0		0		2026-10-07
+A0A1D8PP43	no	350	0		0		2026-10-07
+A0A1D8PQ86	yes	1890	19	none:19	0		2026-10-07
+A0A1D8PQB9	yes	2100	38	none:38	0		2026-10-07
+A0A1D8PQU2	no	184	0		0		2026-10-07
+A0A1D8PR83	no	1690	0		0		2026-10-07
+A0A1D8PRI0	no	421	0		0		2026-10-07
+A0A1D8PT45	no	825	0		0		2026-10-07
+A0A1D8PTB4	no	469	0		0		2026-10-07
+E9P9G2	no	1360	0		0		2026-10-07
+G1UB67	yes	887	0		0		2026-10-07
+G1UBC2	yes	653	25	none:25	2	15 X 6 AA tandem repeats, Ser/Thr-rich | 10 X 20 AA approximate tandem repeats	2026-10-07
+O59923	yes	519	0		0		2026-10-07
+O74189	yes	877	0		0		2026-10-07
+O94072	yes	226	0		0		2026-10-07
+P08640	yes	1367	46	ECO:0000269:46	5	4 X 10 AA repeats, Ser/Thr-rich | 2 X 13 AA repeats, Thr-rich | 22 X 15 AA approximate repeats, Ser-rich	2026-10-07
+P0CU38	yes	2530	50	none:50	0		2026-10-07
+P0CY27	yes	391	0		0		2026-10-07
+P0CY29	yes	398	0		0		2026-10-07
+P0CY34	yes	512	7	none:7	0		2026-10-07
+P0DJ06	yes	398	0		0		2026-10-07
+P10863	yes	254	11	none:11	2	5 X 6 AA approximate tandem repeats, Ala/Ser-rich | 5 X 12 AA approximate tandem repeats, Ala/Ser-rich	2026-10-07
+P13649	yes	270	0		0		2026-10-07
+P20840	yes	650	2	none:2	1	2 X 40 AA tandem repeats	2026-10-07
+P22146	yes	559	0		0		2026-10-07
+P22943	yes	109	0		0		2026-10-07
+P23776	yes	448	0		0		2026-10-07
+P28319	yes	239	1	none:1	0		2026-10-07
+P29029	yes	562	0		0		2026-10-07
+P29717	yes	438	0		0		2026-10-07
+P32323	yes	725	20	ECO:0000269:20	2	2 X approximate repeats | 18 X approximate tandem repeats, Ser/Thr-rich	2026-10-07
+P32329	yes	569	0		0		2026-10-07
+P32334	yes	1306	7	none:7	1	7 X 17 AA tandem repeats	2026-10-07
+P32478	yes	413	11	ECO:0000255:11;ECO:0000269:11	0		2026-10-07
+P32623	yes	467	0		0		2026-10-07
+P32768	yes	1537	26	none:26	4	18 X 45 AA approximate tandem repeats, Thr-rich | 2 X 20 AA approximate tandem repeats, Ser/Thr-rich | 3 X 51 AA approximate repeats, Ser/Thr-rich	2026-10-07
+P32781	yes	87	0		0		2026-10-07
+P36027	yes	376	0		0		2026-10-07
+P36170	yes	1169	10	ECO:0000269:10	2	6 X 27 AA approximate repeats, Ser/Thr-rich | 4 X 36 AA approximate repeats, Ser/Thr-rich	2026-10-07
+P38082	yes	220	0		0		2026-10-07
+P38248	yes	429	0		0		2026-10-07
+P38894	yes	1075	13	ECO:0000269:13	3	8 X 45 AA approximate tandem repeats, Thr-rich | 2 X 20 AA approximate tandem repeats, Ser-rich | 3 X 51 AA approximate repeats, Ser/Thr-rich	2026-10-07
+P38993	yes	636	0		0		2026-10-07
+P39005	yes	276	0		0		2026-10-07
+P39712	yes	1322	19	none:19	3	13 X 45 AA approximate tandem repeats, Thr-rich | 3 X 15 AA approximate repeats, Ser-rich | 3 X 51 AA approximate repeats, Thr-rich	2026-10-07
+P39827	yes	357	0		0		2026-10-07
+P40442	yes	995	0		0		2026-10-07
+P40505	yes	327	0		0		2026-10-07
+P40552	yes	269	0		0		2026-10-07
+P41809	yes	1802	12	none:12	1	12 X 28 AA tandem repeats of S-[AV]-[P]-V-A-V-S-S-T-Y-T-S-S-P-S-A-P-A-A-I-S-S-T-Y-T-S-S-P	2026-10-07
+P42835	yes	1041	9	ECO:0000269:9	1	9 X approximate repeats	2026-10-07
+P43076	yes	548	0		0		2026-10-07
+P43497	yes	92	1	none:1	0		2026-10-07
+P46592	yes	461	0		0		2026-10-07
+P46593	yes	634	14	none:14	1	14 X 10 AA tandem repeats of [EVIQ]-P-[CDT]-D-[YNW]-P-[PQ]-[QI]-[QP]-[QDN]	2026-10-07
+P47001	yes	227	1	none:1	0		2026-10-07
+P47178	yes	298	0		0		2026-10-07
+P47179	yes	1161	17	ECO:0000269:17	3	46 X 3 AA tandem repeats of T-[SP]-T | 14 X 12 AA approximate tandem repeats | 2.5 X 88 AA approximate tandem repeats	2026-10-07
+P53301	yes	507	0		0		2026-10-07
+P53616	yes	420	0		0		2026-10-07
+P53698	yes	110	0		0		2026-10-07
+P53705	yes	1709	0		0		2026-10-07
+P53832	yes	503	0		0		2026-10-07
+P54867	yes	378	0		0		2026-10-07
+P82610	yes	767	0		0		2026-10-07
+P82612	yes	248	0		0		2026-10-07
+P83774	yes	317	7	ECO:0000255:7	0		2026-10-07
+P87020	yes	299	0		0		2026-10-07
+Q00310	yes	431	0		0		2026-10-07
+Q01589	yes	338	9	ECO:0000269:9	2	7 X approximate tandem repeats | 2 X 43 AA repeats	2026-10-07
+Q03125	yes	231	0		0		2026-10-07
+Q03178	yes	341	8	ECO:0000255:8;ECO:0000269:8	0		2026-10-07
+Q04433	yes	528	16	ECO:0000269:16	2	4 X approximate tandem repeats | 12 X 6 AA approximate tandem repeats, Ser/Thr-rich	2026-10-07
+Q04739	yes	417	0		0		2026-10-07
+Q05164	yes	967	18	ECO:0000269:18	2	13 X approximate repeats, Ser-rich | 4.5 X approximate tandem repeats, Thr-rich	2026-10-07
+Q12127	yes	133	2	none:2	0		2026-10-07
+Q12140	yes	328	0		0		2026-10-07
+Q12218	yes	487	11	ECO:0000269:11	1	11 X 12 AA approximate tandem repeats, Ser-rich	2026-10-07
+Q12507	yes	346	0		0		2026-10-07
+Q59L12	yes	1155	14	none:14	0		2026-10-07
+Q59NP5	yes	418	0		0		2026-10-07
+Q59PF9	yes	908	0		0		2026-10-07
+Q59Q34	no	1223	0		0		2026-10-07
+Q59QH2	no	337	0		0		2026-10-07
+Q59RR0	yes	783	0		0		2026-10-07
+Q59RW5	yes	493	0		0		2026-10-07
+Q59SR6	yes	638	0		0		2026-10-07
+Q59SU1	yes	544	0		0		2026-10-07
+Q59TP1	yes	721	0		0		2026-10-07
+Q59U10	yes	740	0		0		2026-10-07
+Q59UQ8	no	445	0		0		2026-10-07
+Q59UR3	no	987	0		0		2026-10-07
+Q59UT4	yes	241	0		0		2026-10-07
+Q59WG7	yes	322	0		0		2026-10-07
+Q59WH0	yes	445	0		0		2026-10-07
+Q59X67	yes	550	0		0		2026-10-07
+Q59XA7	yes	1249	0		0		2026-10-07
+Q59XB0	yes	714	0		0		2026-10-07
+Q59XL0	yes	1085	0		0		2026-10-07
+Q59XU5	yes	290	0		0		2026-10-07
+Q59XU9	no	403	0		0		2026-10-07
+Q59XX2	yes	378	0		0		2026-10-07
+Q59Y20	yes	724	5	none:5	0		2026-10-07
+Q59Y31	yes	533	0		0		2026-10-07
+Q59Z29	yes	798	0		0		2026-10-07
+Q59ZB1	yes	356	0		0		2026-10-07
+Q5A029	yes	941	0		0		2026-10-07
+Q5A1E0	yes	1308	0		0		2026-10-07
+Q5A287	yes	805	0		0		2026-10-07
+Q5A2J7	yes	675	0		0		2026-10-07
+Q5A2Z7	yes	1366	6	none:6	0		2026-10-07
+Q5A312	yes	1568	4	none:4	0		2026-10-07
+Q5A4F3	yes	624	0		0		2026-10-07
+Q5A4X3	no	871	0		0		2026-10-07
+Q5A5M7	yes	1562	0		0		2026-10-07
+Q5A651	yes	453	0		0		2026-10-07
+Q5A6N7	no	105	0		0		2026-10-07
+Q5A6U1	yes	941	0		0		2026-10-07
+Q5A7M9	no	254	0		0		2026-10-07
+Q5A7R7	yes	511	0		0		2026-10-07
+Q5A849	yes	1225	0		0		2026-10-07
+Q5A8T4	yes	1260	12	none:12	0		2026-10-07
+Q5A8T7	yes	1347	6	none:6	0		2026-10-07
+Q5AA40	yes	310	0		0		2026-10-07
+Q5AAL9	yes	1526	0		0		2026-10-07
+Q5AAN7	no	175	0		0		2026-10-07
+Q5ACL7	yes	132	0		0		2026-10-07
+Q5ADM7	no	335	0		0		2026-10-07
+Q5AFI4	yes	337	0		0		2026-10-07
+Q5AH00	no	163	0		0		2026-10-07
+Q5AIR7	yes	1145	0		0		2026-10-07
+Q5AJC0	yes	470	0		0		2026-10-07
+Q5AK51	yes	714	0		0		2026-10-07
+Q5AL03	yes	919	0		0		2026-10-07
+Q5AMQ6	yes	1111	0		0		2026-10-07
+Q5AMT2	yes	308	0		0		2026-10-07
+Q5ANF0	no	445	0		0		2026-10-07
+Q5ANJ4	yes	743	0		0		2026-10-07
+Q5AP80	yes	785	0		0		2026-10-07
+Q5AQ36	yes	388	0		0		2026-10-07
+Q6B2U8	yes	126	0		0		2026-10-07
+Q9Y7W4	yes	745	0		0		2026-10-07

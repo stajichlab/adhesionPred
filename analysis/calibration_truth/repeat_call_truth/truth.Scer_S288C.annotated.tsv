@@ -1,0 +1,46 @@
+id	gene	accession	label	cluster	basis	curated_class	evidence	tuned_or_homolog
+YIR019C	FLO11	E9P9G2	0	YIR019C	no UniProt repeat feature (assumed negative)	adhesin	E1	yes
+YNR044W	AGA1	P32323	1	YNR044W	UniProt >=2 repeat features	adhesin	E1	no
+YGL032C	AGA2	P32781	0	YGL032C	no UniProt repeat feature (assumed negative)	adhesin	E1	no
+YAR050W	FLO1	P32768	1	YAR050W	paper statement	adhesin	E1	yes
+YKR102W	FLO10	P36170	1	YAR050W	UniProt >=2 repeat features	adhesin	E1	yes
+YIR019C	FLO11	P08640	1	YIR019C	paper statement	adhesin	E1	yes
+YHR211W	FLO5	P38894	1	YAR050W	UniProt >=2 repeat features	adhesin	E1	yes
+YAL063C	FLO9	P39712	1	YAR050W	UniProt >=2 repeat features	adhesin	E1	yes
+YJR004C	SAG1	P20840	1	YJR004C	UniProt >=2 repeat features	adhesin	E1	no
+YDL037C	BSC1	Q12140	0	YDL037C	no UniProt repeat feature (assumed negative)	adhesin	E3	no
+YIL169C	CSS1	P40442	0	YOL155C	no UniProt repeat feature (assumed negative)	adhesin	E3	no
+YOL155C	HPF1	Q05164	1	YOL155C	UniProt >=2 repeat features	adhesin	E3	no
+YAL064C-A	TDA8	Q6B2U8	0	YAL064C-A	no UniProt repeat feature (assumed negative)	adhesin	E3	no
+YLR110C	CCW12	Q12127	1	YLR110C	UniProt >=2 repeat features	surface_other_adhesion_phenotype	-	no
+YGR189C	CRH1	P53301	0	YGR189C	no UniProt repeat feature (assumed negative)	hard_negative	N1	no
+YLR286C	CTS1	P29029	0	YLR286C	no UniProt repeat feature (assumed negative)	hard_negative	N1	yes
+YBR078W	ECM33	P38248	0	YBR078W	no UniProt repeat feature (assumed negative)	hard_negative	N1	no
+YLR300W	EXG1	P23776	0	YLR300W	no UniProt repeat feature (assumed negative)	hard_negative	N1	no
+YMR058W	FET3	P38993	0	YMR058W	no UniProt repeat feature (assumed negative)	hard_negative	N1	no
+YDR534C	FIT1	Q04433	1	YDR534C	UniProt >=2 repeat features	hard_negative	N1	no
+YMR307W	GAS1	P22146	0	YMR307W	no UniProt repeat feature (assumed negative)	hard_negative	N1	no
+YDR420W	HKR1	P41809	1	YDR420W	UniProt >=2 repeat features	hard_negative	N1	no
+YJL159W	HSP150	P32478	1	YKL164C	UniProt >=2 repeat features	hard_negative	N1	no
+YJL174W	KRE9	P39005	0	YJL174W	no UniProt repeat feature (assumed negative)	hard_negative	N1	no
+YLR332W	MID2	P36027	0	YLR332W	no UniProt repeat feature (assumed negative)	hard_negative	N1	no
+YGR014W	MSB2	P32334	1	YGR014W	UniProt >=2 repeat features	hard_negative	N1	no
+YKL164C	PIR1	Q03178	1	YKL164C	UniProt >=2 repeat features	hard_negative	N1	no
+YOR008C	SLG1	P54867	0	YOR008C	no UniProt repeat feature (assumed negative)	hard_negative	N1	no
+YNL066W	SUN4	P53616	0	YNL066W	no UniProt repeat feature (assumed negative)	hard_negative	N1	no
+YEL040W	UTR2	P32623	0	YEL040W	no UniProt repeat feature (assumed negative)	hard_negative	N1	no
+YNL283C	WSC2	P53832	0	YNL283C	no UniProt repeat feature (assumed negative)	hard_negative	N1	no
+YLR120C	YPS1	P32329	0	YLR120C	no UniProt repeat feature (assumed negative)	hard_negative	N1	no
+YJR150C	DAN1	P47178	0	YJR150C	no UniProt repeat feature (assumed negative)	hard_negative	N2	no
+YJR151C	DAN4	P47179	1	YJR151C	UniProt >=2 repeat features	hard_negative	N2	no
+YNL327W	EGT2	P42835	1	YNL327W	UniProt >=2 repeat features	hard_negative	N2	no
+YDR077W	SED1	Q01589	1	YDR077W	UniProt >=2 repeat features	hard_negative	N2	no
+YER011W	TIR1	P10863	1	YER011W	UniProt >=2 repeat features	hard_negative	N2	no
+YIL011W	TIR3	P40552	0	YER011W	no UniProt repeat feature (assumed negative)	hard_negative	N2	no
+YOR009W	TIR4	Q12218	1	YER011W	UniProt >=2 repeat features	hard_negative	N2	no
+YER027C	GAL83	Q04739	0	YER027C	no UniProt repeat feature (assumed negative)	indirect_regulator	-	no
+YFL014W	HSP12	P22943	0	YFL014W	no UniProt repeat feature (assumed negative)	indirect_regulator	-	no
+YDR043C	NRG1	Q03125	0	YBR066C	no UniProt repeat feature (assumed negative)	indirect_regulator	-	no
+YBR066C	NRG2	P38082	0	YBR066C	no UniProt repeat feature (assumed negative)	indirect_regulator	-	no
+YIL084C	SDS3	P40505	0	YIL084C	no UniProt repeat feature (assumed negative)	indirect_regulator	-	no
+YOR315W	SFG1	Q12507	0	YOR315W	no UniProt repeat feature (assumed negative)	indirect_regulator	-	no

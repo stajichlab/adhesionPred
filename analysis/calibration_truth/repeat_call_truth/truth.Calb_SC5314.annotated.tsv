@@ -1,0 +1,96 @@
+id	gene	accession	label	cluster	basis	curated_class	evidence	tuned_or_homolog
+C6_03700W_A	ALS1	Q5A8T4	1	CR_07070C_A	paper statement	adhesin	E1	yes
+CR_07070C_A	ALS3	Q59L12	1	CR_07070C_A	paper statement	adhesin	E1	yes
+C6_04130C_A	ALS4	A0A1D8PQB9	1	CR_07070C_A	UniProt >=2 repeat features	adhesin	E1	yes
+C6_03690W_A	ALS5	Q5A8T7	1	CR_07070C_A	UniProt >=2 repeat features	adhesin	E1	yes
+C3_06190C_A	ALS6	Q5A2Z7	1	CR_07070C_A	UniProt >=2 repeat features	adhesin	E1	yes
+C3_06320W_A	ALS7	Q5A312	1	CR_07070C_A	UniProt >=2 repeat features	adhesin	E1	yes
+C6_03710W_A	ALS9	A0A1D8PQ86	1	CR_07070C_A	UniProt >=2 repeat features	adhesin	E1	yes
+C2_09530W_A	EAP1	G1UBC2	1	C2_09530W_A	UniProt >=2 repeat features	adhesin	E1	no
+C4_03570W_A	HWP1	P46593	1	C4_03570W_A	UniProt >=2 repeat features	adhesin	E1	yes
+C4_03510C_A	HWP2	Q59PF9	0	C4_03510C_A	no UniProt repeat feature (assumed negative)	adhesin	E1	no
+C6_04380W_A	ALS2	P0CU38	1	CR_07070C_A	UniProt >=2 repeat features	adhesin	E2	yes
+CR_10480W_A	PGA1	Q5ACL7	0	CR_10480W_A	no UniProt repeat feature (assumed negative)	adhesin	E2	no
+C4_03520C_A	RBT1	Q59TP1	0	C4_03570W_A	no UniProt repeat feature (assumed negative)	adhesin	E2	no
+CR_07440W_A	ACE2	Q59RR0	0	CR_07440W_A	no UniProt repeat feature (assumed negative)	surface_other_adhesion_phenotype	-	no
+C1_10860C_A	ADA2	Q59WH0	0	C1_10860C_A	no UniProt repeat feature (assumed negative)	surface_other_adhesion_phenotype	-	no
+C4_02250C_A	BGL2	Q5AMT2	0	C4_02250C_A	no UniProt repeat feature (assumed negative)	surface_other_adhesion_phenotype	-	no
+C1_10830W_A	BIG1	Q59WG7	0	C1_10830W_A	no UniProt repeat feature (assumed negative)	surface_other_adhesion_phenotype	-	no
+C1_06010W_A	CHS7	Q5AA40	0	C1_06010W_A	no UniProt repeat feature (assumed negative)	surface_other_adhesion_phenotype	-	no
+C4_06100W_A	CWH41	A0A1D8PMH9	0	C4_06100W_A	no UniProt repeat feature (assumed negative)	surface_other_adhesion_phenotype	-	no
+C7_00360W_A	DFI1	Q5AFI4	0	C7_00360W_A	no UniProt repeat feature (assumed negative)	surface_other_adhesion_phenotype	-	no
+C2_08490W_A	DSE1	Q59Y20	1	C2_08490W_A	UniProt >=2 repeat features	surface_other_adhesion_phenotype	-	no
+C1_03190C_A	ECM33	A0A1D8PCY4	0	C1_03190C_A	no UniProt repeat feature (assumed negative)	surface_other_adhesion_phenotype	-	no
+C1_03680W_A	ENG1	Q5AIR7	0	C1_03680W_A	no UniProt repeat feature (assumed negative)	surface_other_adhesion_phenotype	-	no
+C6_04580W_A	HXK1	Q59RW5	0	C6_04580W_A	no UniProt repeat feature (assumed negative)	surface_other_adhesion_phenotype	-	no
+C2_10030C_A	MP65	Q59XX2	0	C2_10030C_A	no UniProt repeat feature (assumed negative)	surface_other_adhesion_phenotype	-	no
+C1_06370C_A	PBR1	Q5AAN7	0	C1_06370C_A	no UniProt repeat feature (assumed negative)	surface_other_adhesion_phenotype	-	no
+C4_04530C_A	PHR1	P43076	0	C4_04530C_A	no UniProt repeat feature (assumed negative)	surface_other_adhesion_phenotype	-	no
+C4_06980W_A	PRA1	P87020	0	C4_06980W_A	no UniProt repeat feature (assumed negative)	surface_other_adhesion_phenotype	-	yes
+C4_00130W_A	RBT5	Q59UT4	0	C4_00130W_A	no UniProt repeat feature (assumed negative)	surface_other_adhesion_phenotype	-	no
+C5_00220W_A	ROT2	Q5A4X3	0	C5_00220W_A	no UniProt repeat feature (assumed negative)	surface_other_adhesion_phenotype	-	no
+C6_03490C_A	SAP1	P0CY27	0	C4_04470W_A	no UniProt repeat feature (assumed negative)	surface_other_adhesion_phenotype	-	no
+C4_04470W_A	SAP10	Q5A651	0	C4_04470W_A	no UniProt repeat feature (assumed negative)	surface_other_adhesion_phenotype	-	no
+CR_07800W_A	SAP2	P0DJ06	0	C4_04470W_A	no UniProt repeat feature (assumed negative)	surface_other_adhesion_phenotype	-	no
+C3_05230W_A	SAP3	P0CY29	0	C4_04470W_A	no UniProt repeat feature (assumed negative)	surface_other_adhesion_phenotype	-	no
+C3_03870C_A	SAP9	Q59SU1	0	C4_04470W_A	no UniProt repeat feature (assumed negative)	surface_other_adhesion_phenotype	-	no
+C6_00820W_A	SUN41	Q59NP5	0	C6_00820W_A	no UniProt repeat feature (assumed negative)	surface_other_adhesion_phenotype	-	no
+C3_01730C_A	UTR2	Q5AJC0	0	C3_01730C_A	no UniProt repeat feature (assumed negative)	surface_other_adhesion_phenotype	-	no
+C1_02990C_A	XOG1	P29717	0	C1_02990C_A	no UniProt repeat feature (assumed negative)	surface_other_adhesion_phenotype	-	no
+C2_08590W_A	YWP1	Q59Y31	0	C2_08590W_A	no UniProt repeat feature (assumed negative)	surface_other_adhesion_phenotype	-	no
+CR_01970C_A	VMA4	O94072	0	CR_01970C_A	no UniProt repeat feature (assumed negative)	indirect_regulator	-	no
+C2_06970W_A	AAH1	Q59ZB1	0	C2_06970W_A	no UniProt repeat feature (assumed negative)	indirect_regulator	-	no
+C5_05050W_A	ADH1	A0A1D8PP43	0	C5_05050W_A	no UniProt repeat feature (assumed negative)	indirect_regulator	-	no
+C2_07170C_A	AFT2	Q59Z29	0	C2_07170C_A	no UniProt repeat feature (assumed negative)	indirect_regulator	-	no
+C3_06000W_A	AHR1	Q5A4F3	0	C3_06000W_A	no UniProt repeat feature (assumed negative)	indirect_regulator	-	no
+C7_01250W_A	ASC1	P83774	1	C7_01250W_A	UniProt >=2 repeat features	indirect_regulator	-	no
+CR_06440C_A	BCR1	Q59U10	0	CR_06440C_A	no UniProt repeat feature (assumed negative)	indirect_regulator	-	no
+C5_02470W_A	BUD4	P53705	0	C5_02470W_A	no UniProt repeat feature (assumed negative)	indirect_regulator	-	no
+CR_04570C_A	CDC10	P39827	0	CR_04570C_A	no UniProt repeat feature (assumed negative)	indirect_regulator	-	no
+C2_04930C_A	CRK1	Q9Y7W4	0	C2_04930C_A	no UniProt repeat feature (assumed negative)	indirect_regulator	-	no
+C1_04020C_A	CSH1	Q59QH2	0	C1_04020C_A	no UniProt repeat feature (assumed negative)	indirect_regulator	-	no
+C3_04390W_A	CUP5	A0A1D8PK00	0	C3_04390W_A	no UniProt repeat feature (assumed negative)	indirect_regulator	-	no
+C2_10110W_A	CYC1	P53698	0	C2_10110W_A	no UniProt repeat feature (assumed negative)	indirect_regulator	-	no
+C7_03070C_A	CYR1	A0A1D8PR83	0	C7_03070C_A	no UniProt repeat feature (assumed negative)	indirect_regulator	-	no
+CR_09880W_A	DEF1	G1UB67	0	CR_09880W_A	no UniProt repeat feature (assumed negative)	indirect_regulator	-	no
+CR_07890W_A	EFG1	Q59X67	0	CR_07890W_A	no UniProt repeat feature (assumed negative)	indirect_regulator	-	no
+C7_01360C_A	FMP28	A0A1D8PQU2	0	C7_01360C_A	no UniProt repeat feature (assumed negative)	indirect_regulator	-	no
+C2_10240W_A	GPD1	Q59XU9	0	C2_10240W_A	no UniProt repeat feature (assumed negative)	indirect_regulator	-	no
+C2_03270W_A	GPM1	P82612	0	C2_03270W_A	no UniProt repeat feature (assumed negative)	indirect_regulator	-	no
+C1_07680W_A	HAP2	A0A1D8PE35	0	C1_07680W_A	no UniProt repeat feature (assumed negative)	indirect_regulator	-	no
+CR_04290W_A	HAP31	Q5A6N7	0	CR_04290W_A	no UniProt repeat feature (assumed negative)	indirect_regulator	-	no
+C5_00940C_A	HAP5	A0A1D8PN26	0	C5_00940C_A	no UniProt repeat feature (assumed negative)	indirect_regulator	-	no
+C4_00140C_A	HIS4	A0A1D8PKY7	0	C4_00140C_A	no UniProt repeat feature (assumed negative)	indirect_regulator	-	no
+C3_03660W_A	IRS4	Q59SR6	0	C3_03660W_A	no UniProt repeat feature (assumed negative)	indirect_regulator	-	no
+CR_01620C_A	MET6	P82610	0	CR_01620C_A	no UniProt repeat feature (assumed negative)	indirect_regulator	-	no
+C3_01810C_A	MNT1	Q00310	0	C3_01810C_A	no UniProt repeat feature (assumed negative)	indirect_regulator	-	no
+C3_01830C_A	MNT2	P46592	0	C3_01810C_A	no UniProt repeat feature (assumed negative)	indirect_regulator	-	no
+C1_03710C_A	MSB1	A0A1D8PD52	0	C1_03710C_A	no UniProt repeat feature (assumed negative)	indirect_regulator	-	no
+C1_08300W_A	NOT5	A0A1D8PE87	0	C1_08300W_A	no UniProt repeat feature (assumed negative)	indirect_regulator	-	no
+C7_04040C_A	NPT1	A0A1D8PRI0	0	C7_04040C_A	no UniProt repeat feature (assumed negative)	indirect_regulator	-	no
+C1_02840W_A	PDE2	A0A1D8PCV9	0	C1_02840W_A	no UniProt repeat feature (assumed negative)	indirect_regulator	-	no
+C4_00350W_A	PEP7	Q59UQ8	0	C4_00350W_A	no UniProt repeat feature (assumed negative)	indirect_regulator	-	no
+C7_02890C_A	PMT1	O74189	0	C7_02890C_A	no UniProt repeat feature (assumed negative)	indirect_regulator	-	no
+C2_10080W_A	RAP1	A0A1D8PIK2	0	C2_10080W_A	no UniProt repeat feature (assumed negative)	indirect_regulator	-	no
+C2_10210C_A	RAS1	Q59XU5	0	C2_10210C_A	no UniProt repeat feature (assumed negative)	indirect_regulator	-	no
+C4_02030W_A	RFX2	Q5AMQ6	0	C4_02030W_A	no UniProt repeat feature (assumed negative)	indirect_regulator	-	no
+C3_00320W_A	RHR2	Q5A7M9	0	C3_00320W_A	no UniProt repeat feature (assumed negative)	indirect_regulator	-	no
+CR_05990C_A	SFL1	Q5A287	0	CR_05990C_A	no UniProt repeat feature (assumed negative)	indirect_regulator	-	no
+C5_04830W_A	SFL2	Q5AK51	0	C5_04830W_A	no UniProt repeat feature (assumed negative)	indirect_regulator	-	no
+C3_04860W_A	SFP1	Q5ANF0	0	C3_04860W_A	no UniProt repeat feature (assumed negative)	indirect_regulator	-	no
+C1_09140C_A	SHO1	Q5AQ36	0	C1_09140C_A	no UniProt repeat feature (assumed negative)	indirect_regulator	-	no
+C2_01330C_A	SIR2	O59923	0	C2_01330C_A	no UniProt repeat feature (assumed negative)	indirect_regulator	-	no
+C1_07870C_A	SMI1	A0A1D8PE53	0	C1_07870C_A	no UniProt repeat feature (assumed negative)	indirect_regulator	-	no
+C3_04290C_A	SNF5	A0A1D8PJZ6	0	C3_04290C_A	no UniProt repeat feature (assumed negative)	indirect_regulator	-	no
+CR_06000W_A	SOK1	A0A1D8PT45	0	CR_06000W_A	no UniProt repeat feature (assumed negative)	indirect_regulator	-	no
+C2_06540C_A	SPF1	Q59Q34	0	C2_06540C_A	no UniProt repeat feature (assumed negative)	indirect_regulator	-	no
+CR_06610W_A	STE2	A0A1D8PTB4	0	CR_06610W_A	no UniProt repeat feature (assumed negative)	indirect_regulator	-	no
+C4_00300C_A	SWI1	Q59UR3	0	C4_00300C_A	no UniProt repeat feature (assumed negative)	indirect_regulator	-	no
+C3_06870W_A	TDH3	Q5ADM7	0	C3_06870W_A	no UniProt repeat feature (assumed negative)	indirect_regulator	-	no
+C3_04530C_A	TEC1	Q5ANJ4	0	C3_04530C_A	no UniProt repeat feature (assumed negative)	indirect_regulator	-	no
+C2_07210C_A	TPK2	A0A1D8PHU1	0	C2_07210C_A	no UniProt repeat feature (assumed negative)	indirect_regulator	-	no
+C1_00060W_A	TUP1	P0CY34	1	C1_00060W_A	UniProt >=2 repeat features	indirect_regulator	-	no
+C3_01350C_A	URA3	P13649	0	C3_01350C_A	no UniProt repeat feature (assumed negative)	indirect_regulator	-	no
+C7_01820C_A	VMA11	Q5AH00	0	C3_04390W_A	no UniProt repeat feature (assumed negative)	indirect_regulator	-	no
+C1_10150W_A	WOR1	Q5AP80	0	C1_10150W_A	no UniProt repeat feature (assumed negative)	indirect_regulator	-	no
+C2_07730W_A	YVC1	Q5A2J7	0	C2_07730W_A	no UniProt repeat feature (assumed negative)	indirect_regulator	-	no
