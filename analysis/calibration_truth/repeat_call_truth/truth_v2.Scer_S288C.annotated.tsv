@@ -1,0 +1,329 @@
+id	gene	accession	label	cluster	basis	curated_class	evidence	tuned_or_homolog
+YLR390W-A	CCW14	O13547	0	YLR390W-A	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YBR093C	PHO5	P00635	0	YAR071W	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YIL162W	SUC2	P00724	0	YIL162W	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YMR297W	PRC1	P00729	0	YBR139W	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YPL154C	PEP4	P07267	0	YPL154C	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YIR019C	FLO11	P08640	1	YIR019C	paper statement	adhesin	E1	yes
+YEL060C	PRB1	P09232	0	YOR003W	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YGL203C	KEX1	P09620	0	YGL203C	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YER011W	TIR1	P10863	1	YBR067C	UniProt >=2 repeat features	hard_negative	N2	no
+YIL015W	BAR1	P12630	0	YPL154C	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YNL238W	KEX2	P13134	0	YNL238W	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YGR282C	BGL2	P15703	0	YGR282C	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YJL034W	KAR2	P16474	0	YJL034W	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YNL322C	KRE1	P17260	1	YNL322C	UniProt reviewed, secreted, >=2 repeat features	uniprot_secreted	-	unknown
+YCL043C	PDI1	P17967	0	YDR518W	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YJR004C	SAG1	P20840	1	YJR004C	UniProt >=2 repeat features	adhesin	E1	no
+YMR307W	GAS1	P22146	0	YOL132W	no UniProt repeat feature (assumed negative)	hard_negative	N1	no
+YLR300W	EXG1	P23776	0	YOR190W	no UniProt repeat feature (assumed negative)	hard_negative	N1	no
+YCL045C	EMC1	P25574	0	YCL045C	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YCR089W	FIG2	P25653	0	YCR089W	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YBR067C	TIP1	P27654	0	YBR067C	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YAL058W	CNE1	P27825	1	YAL058W	UniProt reviewed, secreted, >=2 repeat features	uniprot_secreted	-	unknown
+YLR286C	CTS1	P29029	0	YLR286C	no UniProt repeat feature (assumed negative)	hard_negative	N1	yes
+YBL017C	PEP1	P32319	1	YJL222W	UniProt reviewed, secreted, >=2 repeat features	uniprot_secreted	-	unknown
+YNR044W	AGA1	P32323	1	YNR044W	UniProt >=2 repeat features	adhesin	E1	no
+YLR120C	YPS1	P32329	0	YPL154C	no UniProt repeat feature (assumed negative)	hard_negative	N1	no
+YGR014W	MSB2	P32334	1	YGR014W	UniProt >=2 repeat features	hard_negative	N1	no
+YHR079C	IRE1	P32361	0	YHR079C	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YDR519W	FPR2	P32472	0	YDR519W	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YDR518W	EUG1	P32474	0	YDR518W	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YJL159W	HSP150	P32478	1	YKL164C	UniProt >=2 repeat features	hard_negative	N1	no
+YEL040W	UTR2	P32623	0	YLR213C	no UniProt repeat feature (assumed negative)	hard_negative	N1	no
+YAR050W	FLO1	P32768	1	YAR050W	paper statement	adhesin	E1	yes
+YLR214W	FRE1	P32791	0	YLR214W	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YLR083C	EMP70	P32802	0	YLR083C	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YGL200C	EMP24	P32803	0	YGL200C	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YEL002C	WBP1	P33767	0	YEL002C	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YBR036C	CSG2	P35206	0	YBR036C	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YKL073W	LHS1	P36016	0	YKL073W	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YLR332W	MID2	P36027	0	YLR332W	no UniProt repeat feature (assumed negative)	hard_negative	N1	no
+YKL220C	FRE2	P36033	0	YOR384W	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YKL077W	PSG1	P36081	0	YKL077W	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YKL034W	TUL1	P36096	0	YKL034W	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YKR102W	FLO10	P36170	1	YAR050W	UniProt >=2 repeat features	adhesin	E1	yes
+YBR139W	ATG42	P38109	0	YBR139W	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YBR229C	ROT2	P38138	0	YBR229C	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YBR078W	ECM33	P38248	0	YBR078W	no UniProt repeat feature (assumed negative)	hard_negative	N1	no
+YHL023C	NPR3	P38742	0	YHL023C	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YHR132C	ECM14	P38836	0	YHR132C	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YHR143W	DSE2	P38844	0	YHR143W	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YHR188C	GPI16	P38875	0	YHR188C	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YHR195W	NVJ1	P38881	0	YHR195W	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YHR202W	SMN1	P38887	0	YHR202W	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YHR204W	MNL1	P38888	0	YHR204W	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YHR211W	FLO5	P38894	1	YAR050W	UniProt >=2 repeat features	adhesin	E1	yes
+YIL140W	AXL2	P38928	0	YIL140W	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YMR058W	FET3	P38993	0	YFL041W	no UniProt repeat feature (assumed negative)	hard_negative	N1	no
+YMR008C	PLB1	P39105	0	YMR006C	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YAL007C	ERP2	P39704	0	YOR016C	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YAL053W	FLC2	P39719	0	YOR365C	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YJL073W	JEM1	P40358	0	YJL073W	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YJL062W	LAS21	P40367	0	YJL062W	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YIL173W	VTH1	P40438	1	YJL222W	UniProt reviewed, secreted, >=2 repeat features	uniprot_secreted	-	unknown
+YIL005W	EPS1	P40557	0	YIL005W	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YJL222W	VTH2	P40890	1	YJL222W	UniProt reviewed, secreted, >=2 repeat features	uniprot_secreted	-	unknown
+YJL002C	OST1	P41543	0	YJL002C	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YDR420W	HKR1	P41809	1	YDR420W	UniProt >=2 repeat features	hard_negative	N1	no
+YNL291C	MID1	P41821	0	YNL291C	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YNL327W	EGT2	P42835	1	YNL327W	UniProt >=2 repeat features	hard_negative	N2	no
+YFL048C	EMP47	P43555	0	YLR080W	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YFL041W	FET5	P43561	0	YFL041W	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YJL178C	ATG27	P46989	0	YJL178C	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YJL079C	PRY1	P47032	0	YJL079C	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YJL078C	PRY3	P47033	0	YJL078C	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YJR150C	DAN1	P47178	0	YJR150C	no UniProt repeat feature (assumed negative)	hard_negative	N2	no
+YOR085W	OST3	P48439	0	YOR085W	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YDR331W	GPI8	P49018	0	YDR331W	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YGR106C	VOA1	P53262	0	YGR106C	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YGR189C	CRH1	P53301	0	YGR189C	no UniProt repeat feature (assumed negative)	hard_negative	N1	no
+YGR279C	SCW4	P53334	0	YGR279C	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YDR144C	MKC7	P53379	0	YPL154C	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YNL012W	SPO1	P53541	0	YNL012W	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YNL066W	SUN4	P53616	0	YKR042W	no UniProt repeat feature (assumed negative)	hard_negative	N1	no
+YNR060W	FRE4	P53746	0	YOR384W	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YNR067C	DSE4	P53753	0	YNR067C	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YNL283C	WSC2	P53832	0	YNL283C	no UniProt repeat feature (assumed negative)	hard_negative	N1	no
+YNL190W		P53872	0	YNL190W	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YNL158W	PGA1	P53896	0	YNL158W	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YML012W	ERV25	P54837	0	YML012W	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YOR008C	SLG1	P54867	0	YOR008C	no UniProt repeat feature (assumed negative)	hard_negative	N1	no
+YDR077W	SED1	Q01589	1	YDR077W	UniProt >=2 repeat features	hard_negative	N2	no
+YMR149W	SWP1	Q02795	0	YMR149W	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YPL123C	RNY1	Q02933	0	YPL123C	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YML130C	ERO1	Q03103	0	YML130C	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YKL164C	PIR1	Q03178	1	YKL164C	UniProt >=2 repeat features	hard_negative	N1	no
+YKL163W	PIR3	Q03180	1	YKL164C	UniProt reviewed, secreted, >=2 repeat features	uniprot_secreted	-	unknown
+YMR215W	GAS3	Q03655	0	YOL132W	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YMR006C	PLB2	Q03674	0	YMR006C	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YMR200W	ROT1	Q03691	0	YMR200W	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YML019W	OST6	Q03723	0	YML019W	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YDR236C	FMN1	Q03778	0	YDR236C	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YDR456W	NHX1	Q04121	0	YDR456W	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YMR065W	KAR5	Q04746	0	YMR065W	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YDR221W	GTB1	Q04924	0	YDR221W	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YMR305C	SCW10	Q04951	0	YGR279C	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YMR238W	DFG5	Q05031	0	YKL046C	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YOL155C	HPF1	Q05164	1	YOL155C	UniProt >=2 repeat features	adhesin	E3	no
+YAR002C-A	ERP1	Q05359	0	YHR110W	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YLR194C	NCW2	Q05777	0	YLR194C	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YLR207W	HRD3	Q05787	1	YLR207W	UniProt reviewed, secreted, >=2 repeat features	uniprot_secreted	-	unknown
+YLR343W	GAS2	Q06135	0	YOL132W	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YLR308W	CDA2	Q06703	0	YLR307W	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YOL011W	PLB3	Q08108	0	YMR006C	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YOL030W	GAS5	Q08193	0	YOL132W	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YOR381W	FRE3	Q08905	0	YOR384W	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YPL221W	FLC1	Q08967	0	YOR365C	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YLR110C	CCW12	Q12127	1	YLR110C	UniProt >=2 repeat features	surface_other_adhesion_phenotype	-	no
+YPL006W	NCR1	Q12200	0	YPL006W	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YLR121C	YPS3	Q12303	0	YPL154C	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YDR055W	PST1	Q12355	0	YBR078W	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YLR080W	EMP46	Q12396	0	YLR080W	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YOR288C	MPD1	Q12404	0	YOR288C	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YDL046W	NPC2	Q12408	0	YDL046W	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YDL010W	GRX6	Q12438	0	YBR014C	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YLR084C	RAX2	Q12465	0	YLR084C	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YLL051C	FRE6	Q12473	0	YOR384W	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YDR057W	YOS9	Q99220	0	YDR057W	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YHR057C	CPR2	P23285	0	YHR057C	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YMR214W	SCJ1	P25303	1	YMR214W	UniProt reviewed, secreted, >=2 repeat features	uniprot_secreted	-	unknown
+YCR011C	ADP1	P25371	0	YCR011C	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YCR045C	RRT12	P25381	0	YOR003W	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YCR044C	PER1	P25625	0	YCR044C	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YOR190W	SPR1	P32603	0	YOR190W	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YGL032C	AGA2	P32781	0	YGL032C	no UniProt repeat feature (assumed negative)	adhesin	E1	no
+YDR304C	CPR5	P35176	0	YHR057C	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YAR071W	PHO11	P35842	0	YAR071W	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YKL046C	DCW1	P36091	0	YKL046C	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YKR013W	PRY2	P36110	0	YJL079C	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YKR042W	UTH1	P36135	0	YKR042W	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YBR286W	APE3	P37302	0	YBR286W	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YBR014C	GRX7	P38068	0	YBR014C	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YBR162C	TOS1	P38288	0	YJL171C	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YNL160W	YGP1	P38616	0	YHR139C	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YHR101C	BIG1	P38813	0	YHR101C	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YJL192C	SOP4	P39543	0	YJL192C	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YAL063C	FLO9	P39712	1	YAR050W	UniProt >=2 repeat features	adhesin	E1	yes
+YER113C	TMN3	P40071	0	YER113C	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YER150W	SPI1	P40092	0	YER150W	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YIL169C	CSS1	P40442	0	YOL155C	no UniProt repeat feature (assumed negative)	adhesin	E3	no
+YIL123W	SIM1	P40472	0	YKR042W	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YIL011W	TIR3	P40552	0	YBR067C	no UniProt repeat feature (assumed negative)	hard_negative	N2	no
+YIR039C	YPS6	P40583	0	YPL154C	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YJL186W	MNN5	P46982	0	YJL186W	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YJL171C	TOH1	P46992	0	YJL171C	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YJL059W	YHC3	P47040	0	YJL059W	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YJL038C	LOH1	P47055	0	YJL038C	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YJL037W	IRC18	P47056	0	YJL038C	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YJR151C	DAN4	P47179	1	YJR151C	UniProt >=2 repeat features	hard_negative	N2	no
+YGL228W	SHE10	P53075	0	YGL228W	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YGL139W	FLC3	P53121	0	YOR365C	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YGL028C	SCW11	P53189	0	YGR279C	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YGR023W	MTL1	P53214	0	YLR332W	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YDR534C	FIT1	Q04433	1	YDR534C	UniProt >=2 repeat features	hard_negative	N1	no
+YDR107C	TMN2	Q04562	0	YLR083C	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YLR213C	CRR1	Q05790	0	YLR213C	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YLR454W	FMP27	Q06179	1	YLR454W	UniProt reviewed, secreted, >=2 repeat features	uniprot_secreted	-	unknown
+YDR349C	YPS7	Q06325	0	YDR349C	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YDR371W	CTS2	Q06350	0	YDR371W	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YLR307W	CDA1	Q06702	0	YLR307W	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YPR079W	MRL1	Q06815	0	YPR079W	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YOL031C	SIL1	Q08199	0	YOL031C	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YOL132W	GAS4	Q08271	0	YOL132W	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YOR247W	SRL1	Q08673	0	YOR247W	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YOR382W	FIT2	Q08906	0	YOR382W	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YOR384W	FRE5	Q08908	0	YOR384W	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YPL189W	GUP2	Q08929	0	YPL189W	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YDR056C	EMC10	Q12025	0	YDR056C	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YOL105C	WSC3	Q12215	0	YNL283C	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YOR009W	TIR4	Q12218	1	YBR067C	UniProt >=2 repeat features	hard_negative	N2	no
+YOR154W	SLP1	Q12232	0	YOR154W	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YDR032C	PST2	Q12335	0	YDR032C	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YOR016C	ERP4	Q12450	0	YOR016C	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YNL024C-A	KSH1	Q8TGJ3	0	YNL024C-A	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YOL088C	MPD2	Q99316	0	YOL088C	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YPL187W	MF(ALPHA)1	P01149	0	YGL089C	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YDR522C	SPS2	P08459	0	YBR078W	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YOR336W	KRE5	P22023	0	YOR336W	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YBR092C	PHO3	P24031	0	YAR071W	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YOR003W	YSP3	P25036	0	YOR003W	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YCR069W	CPR4	P25334	0	YHR057C	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YCL048W	SPS22	P25380	1	YBR078W	UniProt reviewed, secreted, >=2 repeat features	uniprot_secreted	-	unknown
+YGL089C	MF(ALPHA)2	P32435	0	YGL089C	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YKL039W	PTM1	P32857	0	YKL039W	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YKR044W	UIP5	P36137	0	YKR044W	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YHR215W	PHO12	P38693	0	YAR071W	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YHL028W	WSC4	P38739	0	YHL028W	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YHL017W		P38745	0	YKL039W	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YHR110W	ERP5	P38819	0	YHR110W	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YHR151C	MTC6	P38849	0	YHR151C	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YJL174W	KRE9	P39005	0	YDL049C	no UniProt repeat feature (assumed negative)	hard_negative	N1	no
+YEL059W	HHY1	P39982	0	YEL059W	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YEL001C	IRC22	P40006	0	YEL001C	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YFR039C	OSW7	P43611	0	YFR039C	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YFR041C	ERJ5	P43613	0	YFR041C	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YJL160C	PIR5	P46999	1	YKL164C	UniProt reviewed, secreted, >=2 repeat features	uniprot_secreted	-	unknown
+YJR153W	PGU1	P47180	1	YJR153W	UniProt reviewed, secreted, >=2 repeat features	uniprot_secreted	-	unknown
+YNL300W	TOS6	P48560	0	YNL300W	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YDL049C	KNH1	P50112	0	YDL049C	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YDL024C	DIA3	P52290	0	YAR071W	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YDR261C	EXG2	P52911	0	YOR190W	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YGL258W	VEL1	P53058	0	YOR387C	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YGL002W	ERP6	P53198	0	YHR110W	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YOL052C-A	DDR2	P89113	0	YMR251W-A	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YPL130W	SPO19	Q03029	0	YPL130W	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YMR251W-A	HOR7	Q05827	0	YMR251W-A	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YPR121W	THI22	Q06490	0	YPR121W	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YLR413W		Q06689	0	YLR413W	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YLR037C	PAU23	Q07987	0	YLR037C	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YLR040C	AFB1	Q07988	0	YLR040C	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YLR042C		Q07990	0	YLR042C	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YLR104W	LCL2	Q08045	0	YLR104W	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YOR383C	FIT3	Q08907	0	YOR383C	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YPL163C	SVS1	Q12254	0	YOR247W	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YOR214C	SPR2	Q12282	0	YOR214C	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YDL018C	ERP3	Q12403	0	YDL018C	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YDL206W		Q12424	0	YDL206W	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YOL154W	ZPS1	Q12512	0	YOL154W	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YKL018C-A		Q3E7A7	0	YKL018C-A	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YMR325W	PAU19	P0CE85	0	YLR037C	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YHR139C	SPS100	P13130	0	YHR139C	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YCR061W		P25639	0	YCR061W	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YKL224C	PAU16	P35994	0	YLR037C	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YBR301W	PAU24	P38155	0	YLR037C	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YBR224W		P38320	0	YBR224W	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YHL046C	PAU13	P38725	0	YLR037C	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YHR138C		P38841	0	YHR138C	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YLR250W	SSP120	P39931	0	YLR250W	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YER076C		P40049	0	YER076C	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YIL059C		P40520	0	YIL059C	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YIR041W	PAU15	P40585	0	YLR037C	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YFL051C		P43552	0	YFL051C	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YFR012W	DCV1	P43595	0	YFR012W	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YFR020W	CSS2	P43600	0	YFR020W	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YJR120W		P47157	0	YJR120W	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YGL259W	YPS5	P53057	0	YGL259W	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YGR079W		P53249	0	YGR079W	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YNL228W		P53862	0	YNL228W	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YNL033W		P53964	0	YNL019C	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YNL019C		P53975	0	YNL019C	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YDR417C		P87267	0	YEL053W-A	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YKR005C		Q02203	0	YKR005C	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YPL056C	LCL1	Q02786	0	YPL056C	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YDR542W	PAU10	Q03050	0	YLR037C	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YFL013W-A		Q03187	0	YFL013W-A	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YDR415C		Q04033	0	YDR415C	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YDR445C		Q04100	0	YDR445C	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YDL237W	AIM6	Q07716	0	YDL237W	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YLR001C		Q07895	0	YLR001C	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YLR062C	BUD28	Q07992	0	YLR062C	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YOL134C		Q08272	0	YOL134C	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YOL159C	CSS3	Q08300	0	YOL159C	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YOR082C		Q08498	0	YOR082C	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YOR365C		Q08844	0	YOR365C	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YOR387C		Q08910	0	YOR387C	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YOR389W		Q08912	0	YPL277C	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YPL277C		Q08989	0	YPL277C	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YDL151C	BUD30	Q12064	0	YDL151C	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YOR137C	SIA1	Q12212	0	YOR137C	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YDR262W		Q12331	0	YDR262W	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YLL025W	PAU17	Q12370	0	YLR037C	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YCL048W-A		Q2V2Q2	0	YCL048W-A	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YDR524C-B		Q3E6R4	0	YDR524C-B	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YOR008C-A		Q3E7B9	0	YOR008C-A	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YMR158W-B		Q6B0X2	0	YMR158W-B	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YEL053W-A		A0A023PXC2	0	YEL053W-A	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YER147C-A		A0A023PXD5	0	YER147C-A	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YDR203W		A0A023PXI4	0	YDR203W	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YAL016C-A		A0A023PYC6	0	YAL016C-A	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YEL018C-A		A0A023PYD9	0	YEL018C-A	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YER087C-A		A0A023PYE9	0	YER087C-A	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YER145C-A		A0A023PYF4	0	YER145C-A	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YHR070C-A		A0A023PYH0	0	YHR070C-A	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YDR048C		A0A023PZE6	0	YDR048C	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YER084W-A		A0A023PZG0	0	YER084W-A	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YER137W-A		A0A023PZG5	0	YER137W-A	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YMR119W-A		A0A023PZL2	0	YMR119W-A	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YMR316C-A		I2HB70	0	YMR316C-A	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YAL034C-B		O13515	0	YAL034C-B	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YPL136W		O13519	0	YPL136W	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YDL240C-A		P0C5L8	0	YDL240C-A	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YEL020C-B		P0C5M6	0	YEL020C-B	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YCL049C		P25577	0	YCL049C	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YBR013C		P38215	0	YBR013C	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YHL042W		P38729	0	YHL042W	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YHL037C		P38733	0	YHL037C	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YAR020C	PAU7	P39545	0	YAR020C	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YEL028W		P39989	0	YEL028W	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YJR071W		P47121	0	YJR071W	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YGL149W		P53116	0	YGL149W	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YNL319W		P53826	0	YNL319W	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YDR366C		P87287	0	YDR366C	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YNL155C-A		P9WEJ2	0	YNL155C-A	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YML084W		Q04521	0	YML084W	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YDR053W		Q07790	0	YDR053W	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YLL044W		Q07880	0	YLL044W	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YOR055W		Q08439	0	YOR055W	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YOR139C		Q08532	0	YOR139C	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YPL261C		Q08976	0	YPL261C	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YOR024W		Q12070	0	YOR024W	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YBR200W-A		Q3E755	0	YBR200W-A	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YDR246W-A		Q3E763	0	YDR246W-A	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YMR247W-A		Q3E782	0	YMR247W-A	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YBL008W-A		Q3E821	0	YBL008W-A	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YJL052C-A		Q3E837	0	YJL052C-A	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YCL012C		Q8J0M4	0	YCL012C	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YCR045W-A		Q8TGQ2	0	YCR045W-A	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YFR034W-A		Q8TGR2	0	YFR034W-A	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YMR315W-A		Q8TGS4	0	YMR315W-A	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YMR272W-B		Q8TGS5	0	YMR272W-B	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YLR406C-A		Q8TGT1	0	YLR406C-A	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+YDL037C	BSC1	Q12140	0	YDL037C	no UniProt repeat feature (assumed negative)	adhesin	E3	no
+YAL064C-A	TDA8	Q6B2U8	0	YAL064C-A	no UniProt repeat feature (assumed negative)	adhesin	E3	no
+YER027C	GAL83	Q04739	0	YER027C	no UniProt repeat feature (assumed negative)	indirect_regulator	-	no
+YFL014W	HSP12	P22943	0	YFL014W	no UniProt repeat feature (assumed negative)	indirect_regulator	-	no
+YDR043C	NRG1	Q03125	0	YBR066C	no UniProt repeat feature (assumed negative)	indirect_regulator	-	no
+YBR066C	NRG2	P38082	0	YBR066C	no UniProt repeat feature (assumed negative)	indirect_regulator	-	no
+YIL084C	SDS3	P40505	0	YIL084C	no UniProt repeat feature (assumed negative)	indirect_regulator	-	no
+YOR315W	SFG1	Q12507	0	YOR315W	no UniProt repeat feature (assumed negative)	indirect_regulator	-	no

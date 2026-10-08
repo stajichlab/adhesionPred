@@ -19,6 +19,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 
 from cellsurface_sorting_hat import __version__
+from cellsurface_sorting_hat.call_status import CallStatusError, CallStatusResolver
 from cellsurface_sorting_hat.engine import (
     ConfigError,
     ModuleTable,
@@ -366,7 +367,13 @@ def run(args):
     loaded = load_modules(args.workdir, ids, invalid, required_columns(cfg))
     tables = loaded.tables
     resolver = StatusResolver(args.workdir, loaded.identities, lineage)
-    records = evaluate(cfg, ids, taxa, tables, resolver, resolver.measured_call)
+    try:
+        call_resolver = CallStatusResolver(
+            args.workdir, cfg, loaded.identities, loaded.states, cfg.sha256, lineage
+        )
+    except CallStatusError as err:
+        raise InputError(str(err)) from err
+    records = evaluate(cfg, ids, taxa, tables, resolver, resolver.measured_call, call_resolver)
     out = Path(args.out)
     out.mkdir(parents=True, exist_ok=True)
     counts = Counter(taxa.values())
@@ -403,6 +410,7 @@ def run(args):
             for _, i in sorted(loaded.identities.items())
         ],
         calibration=calibration_rows(resolver, set(tables) | {cfg.default_gate}, taxa.values()),
+        call_status_sources=call_resolver.rows(),
     )
     report = render_report(info, records)  # render first: a failure leaves no partial output
     write_long(out / "calls.long.tsv.gz", records)

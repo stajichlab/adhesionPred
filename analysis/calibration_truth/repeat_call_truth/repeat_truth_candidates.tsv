@@ -1,0 +1,156 @@
+proteome	protein	gene	accession	curated_class	evidence	label	basis	tuned_or_homolog	repeat_call
+Scer_S288C	YIR019C	FLO11	E9P9G2	adhesin	E1	0	no UniProt repeat feature (assumed negative)	yes	not_called
+Scer_S288C	YNR044W	AGA1	P32323	adhesin	E1	1	UniProt >=2 repeat features	no	not_called
+Scer_S288C	YGL032C	AGA2	P32781	adhesin	E1	0	no UniProt repeat feature (assumed negative)	no	not_called
+Scer_S288C	YAR050W	FLO1	P32768	adhesin	E1	1	paper statement	yes	called
+Scer_S288C	YKR102W	FLO10	P36170	adhesin	E1	1	UniProt >=2 repeat features	yes	called
+Scer_S288C	YIR019C	FLO11	P08640	adhesin	E1	1	paper statement	yes	not_called
+Scer_S288C	YHR211W	FLO5	P38894	adhesin	E1	1	UniProt >=2 repeat features	yes	called
+Scer_S288C	YAL063C	FLO9	P39712	adhesin	E1	1	UniProt >=2 repeat features	yes	called
+Scer_S288C	YJR004C	SAG1	P20840	adhesin	E1	1	UniProt >=2 repeat features	no	not_called
+Scer_S288C	YDL037C	BSC1	Q12140	adhesin	E3	0	no UniProt repeat feature (assumed negative)	no	called
+Scer_S288C	YIL169C	CSS1	P40442	adhesin	E3	0	no UniProt repeat feature (assumed negative)	no	not_called
+Scer_S288C	YOL155C	HPF1	Q05164	adhesin	E3	1	UniProt >=2 repeat features	no	not_called
+Scer_S288C	YAL064C-A	TDA8	Q6B2U8	adhesin	E3	0	no UniProt repeat feature (assumed negative)	no	not_called
+Scer_S288C	YLR110C	CCW12	Q12127	surface_other_adhesion_phenotype	-	1	UniProt >=2 repeat features	no	not_called
+Scer_S288C	YJL158C	CIS3	P47001	hard_negative	N1		1 UniProt repeat feature (ambiguous, excluded)	no	not_called
+Scer_S288C	YGR189C	CRH1	P53301	hard_negative	N1	0	no UniProt repeat feature (assumed negative)	no	not_called
+Scer_S288C	YLR286C	CTS1	P29029	hard_negative	N1	0	no UniProt repeat feature (assumed negative)	yes	not_called
+Scer_S288C	YKL096W	CWP1	P28319	hard_negative	N1		1 UniProt repeat feature (ambiguous, excluded)	no	not_called
+Scer_S288C	YKL096W-A	CWP2	P43497	hard_negative	N1		1 UniProt repeat feature (ambiguous, excluded)	no	not_called
+Scer_S288C	YBR078W	ECM33	P38248	hard_negative	N1	0	no UniProt repeat feature (assumed negative)	no	not_called
+Scer_S288C	YLR300W	EXG1	P23776	hard_negative	N1	0	no UniProt repeat feature (assumed negative)	no	not_called
+Scer_S288C	YMR058W	FET3	P38993	hard_negative	N1	0	no UniProt repeat feature (assumed negative)	no	not_called
+Scer_S288C	YDR534C	FIT1	Q04433	hard_negative	N1	1	UniProt >=2 repeat features	no	called
+Scer_S288C	YMR307W	GAS1	P22146	hard_negative	N1	0	no UniProt repeat feature (assumed negative)	no	not_called
+Scer_S288C	YDR420W	HKR1	P41809	hard_negative	N1	1	UniProt >=2 repeat features	no	not_called
+Scer_S288C	YJL159W	HSP150	P32478	hard_negative	N1	1	UniProt >=2 repeat features	no	called
+Scer_S288C	YJL174W	KRE9	P39005	hard_negative	N1	0	no UniProt repeat feature (assumed negative)	no	not_called
+Scer_S288C	YLR332W	MID2	P36027	hard_negative	N1	0	no UniProt repeat feature (assumed negative)	no	not_called
+Scer_S288C	YGR014W	MSB2	P32334	hard_negative	N1	1	UniProt >=2 repeat features	no	not_called
+Scer_S288C	YKL164C	PIR1	Q03178	hard_negative	N1	1	UniProt >=2 repeat features	no	called
+Scer_S288C	YOR008C	SLG1	P54867	hard_negative	N1	0	no UniProt repeat feature (assumed negative)	no	not_called
+Scer_S288C	YNL066W	SUN4	P53616	hard_negative	N1	0	no UniProt repeat feature (assumed negative)	no	not_called
+Scer_S288C	YEL040W	UTR2	P32623	hard_negative	N1	0	no UniProt repeat feature (assumed negative)	no	not_called
+Scer_S288C	YNL283C	WSC2	P53832	hard_negative	N1	0	no UniProt repeat feature (assumed negative)	no	not_called
+Scer_S288C	YLR120C	YPS1	P32329	hard_negative	N1	0	no UniProt repeat feature (assumed negative)	no	not_called
+Scer_S288C	YJR150C	DAN1	P47178	hard_negative	N2	0	no UniProt repeat feature (assumed negative)	no	not_called
+Scer_S288C	YJR151C	DAN4	P47179	hard_negative	N2	1	UniProt >=2 repeat features	no	not_called
+Scer_S288C	YNL327W	EGT2	P42835	hard_negative	N2	1	UniProt >=2 repeat features	no	not_called
+Scer_S288C	YDR077W	SED1	Q01589	hard_negative	N2	1	UniProt >=2 repeat features	no	not_called
+Scer_S288C	YER011W	TIR1	P10863	hard_negative	N2	1	UniProt >=2 repeat features	no	called
+Scer_S288C	YIL011W	TIR3	P40552	hard_negative	N2	0	no UniProt repeat feature (assumed negative)	no	not_called
+Scer_S288C	YOR009W	TIR4	Q12218	hard_negative	N2	1	UniProt >=2 repeat features	no	called
+Scer_S288C	YER027C	GAL83	Q04739	indirect_regulator	-	0	no UniProt repeat feature (assumed negative)	no	not_called
+Scer_S288C	YFL014W	HSP12	P22943	indirect_regulator	-	0	no UniProt repeat feature (assumed negative)	no	not_called
+Scer_S288C	YDR043C	NRG1	Q03125	indirect_regulator	-	0	no UniProt repeat feature (assumed negative)	no	not_called
+Scer_S288C	YBR066C	NRG2	P38082	indirect_regulator	-	0	no UniProt repeat feature (assumed negative)	no	not_called
+Scer_S288C	YIL084C	SDS3	P40505	indirect_regulator	-	0	no UniProt repeat feature (assumed negative)	no	not_called
+Scer_S288C	YOR315W	SFG1	Q12507	indirect_regulator	-	0	no UniProt repeat feature (assumed negative)	no	not_called
+Calb_SC5314	C6_03700W_A	ALS1	Q5A8T4	adhesin	E1	1	paper statement	yes	called
+Calb_SC5314	CR_07070C_A	ALS3	Q59L12	adhesin	E1	1	paper statement	yes	called
+Calb_SC5314	C6_04130C_A	ALS4	A0A1D8PQB9	adhesin	E1	1	UniProt >=2 repeat features	yes	called
+Calb_SC5314	C6_03690W_A	ALS5	Q5A8T7	adhesin	E1	1	UniProt >=2 repeat features	yes	not_called
+Calb_SC5314	C3_06190C_A	ALS6	Q5A2Z7	adhesin	E1	1	UniProt >=2 repeat features	yes	not_called
+Calb_SC5314	C3_06320W_A	ALS7	Q5A312	adhesin	E1	1	UniProt >=2 repeat features	yes	not_called
+Calb_SC5314	C6_03710W_A	ALS9	A0A1D8PQ86	adhesin	E1	1	UniProt >=2 repeat features	yes	called
+Calb_SC5314	C2_09530W_A	EAP1	G1UBC2	adhesin	E1	1	UniProt >=2 repeat features	no	not_called
+Calb_SC5314	C4_03570W_A	HWP1	P46593	adhesin	E1	1	UniProt >=2 repeat features	yes	not_called
+Calb_SC5314	C4_03510C_A	HWP2	Q59PF9	adhesin	E1	0	no UniProt repeat feature (assumed negative)	no	not_called
+Calb_SC5314	C1_13450W_A	HYR1	Q5AL03	adhesin	E1		family inference only (excluded)	yes	not_called
+Calb_SC5314	CR_00610W_A	IFF4	Q5AAL9	adhesin	E1		family inference only (excluded)	yes	not_called
+Calb_SC5314	C6_04380W_A	ALS2	P0CU38	adhesin	E2	1	UniProt >=2 repeat features	yes	called
+Calb_SC5314	C3_00580W_A	FLO9	A0A1D8PIY8	adhesin	E2		family inference only (excluded)	yes	not_called
+Calb_SC5314	C5_00730W_A	HYR3	Q59XA7	adhesin	E2		family inference only (excluded)	yes	not_called
+Calb_SC5314	CR_00760C_A	HYR4	Q5A849	adhesin	E2		family inference only (excluded)	yes	not_called
+Calb_SC5314	C3_00600W_A	IFF11	Q5A7R7	adhesin	E2		family inference only (excluded)	yes	not_called
+Calb_SC5314	CR_03630W_A	IFF3	Q5A029	adhesin	E2		family inference only (excluded)	yes	not_called
+Calb_SC5314	C4_06550C_A	IFF5	Q5A1E0	adhesin	E2		family inference only (excluded)	yes	not_called
+Calb_SC5314	C2_09130C_A	IFF6	Q59XL0	adhesin	E2		family inference only (excluded)	yes	not_called
+Calb_SC5314	C5_00710W_A	IFF8	Q59XB0	adhesin	E2		family inference only (excluded)	yes	not_called
+Calb_SC5314	CR_03880W_A	IFF9	Q5A6U1	adhesin	E2		family inference only (excluded)	yes	not_called
+Calb_SC5314	CR_10480W_A	PGA1	Q5ACL7	adhesin	E2	0	no UniProt repeat feature (assumed negative)	no	not_called
+Calb_SC5314	C7_03290C_A	RBR3	Q5A5M7	adhesin	E2		family inference only (excluded)	no	not_called
+Calb_SC5314	C4_03520C_A	RBT1	Q59TP1	adhesin	E2	0	no UniProt repeat feature (assumed negative)	no	not_called
+Calb_SC5314	CR_07440W_A	ACE2	Q59RR0	surface_other_adhesion_phenotype	-	0	no UniProt repeat feature (assumed negative)	no	not_called
+Calb_SC5314	C1_10860C_A	ADA2	Q59WH0	surface_other_adhesion_phenotype	-	0	no UniProt repeat feature (assumed negative)	no	not_called
+Calb_SC5314	C4_02250C_A	BGL2	Q5AMT2	surface_other_adhesion_phenotype	-	0	no UniProt repeat feature (assumed negative)	no	not_called
+Calb_SC5314	C1_10830W_A	BIG1	Q59WG7	surface_other_adhesion_phenotype	-	0	no UniProt repeat feature (assumed negative)	no	not_called
+Calb_SC5314	C1_06010W_A	CHS7	Q5AA40	surface_other_adhesion_phenotype	-	0	no UniProt repeat feature (assumed negative)	no	not_called
+Calb_SC5314	C4_06100W_A	CWH41	A0A1D8PMH9	surface_other_adhesion_phenotype	-	0	no UniProt repeat feature (assumed negative)	no	not_called
+Calb_SC5314	C7_00360W_A	DFI1	Q5AFI4	surface_other_adhesion_phenotype	-	0	no UniProt repeat feature (assumed negative)	no	not_called
+Calb_SC5314	C2_08490W_A	DSE1	Q59Y20	surface_other_adhesion_phenotype	-	1	UniProt >=2 repeat features	no	not_called
+Calb_SC5314	C1_03190C_A	ECM33	A0A1D8PCY4	surface_other_adhesion_phenotype	-	0	no UniProt repeat feature (assumed negative)	no	not_called
+Calb_SC5314	C1_03680W_A	ENG1	Q5AIR7	surface_other_adhesion_phenotype	-	0	no UniProt repeat feature (assumed negative)	no	not_called
+Calb_SC5314	C6_04580W_A	HXK1	Q59RW5	surface_other_adhesion_phenotype	-	0	no UniProt repeat feature (assumed negative)	no	not_called
+Calb_SC5314	C2_10030C_A	MP65	Q59XX2	surface_other_adhesion_phenotype	-	0	no UniProt repeat feature (assumed negative)	no	not_called
+Calb_SC5314	C1_06370C_A	PBR1	Q5AAN7	surface_other_adhesion_phenotype	-	0	no UniProt repeat feature (assumed negative)	no	not_called
+Calb_SC5314	C4_04530C_A	PHR1	P43076	surface_other_adhesion_phenotype	-	0	no UniProt repeat feature (assumed negative)	no	not_called
+Calb_SC5314	C4_06980W_A	PRA1	P87020	surface_other_adhesion_phenotype	-	0	no UniProt repeat feature (assumed negative)	yes	not_called
+Calb_SC5314	C4_00130W_A	RBT5	Q59UT4	surface_other_adhesion_phenotype	-	0	no UniProt repeat feature (assumed negative)	no	not_called
+Calb_SC5314	C5_00220W_A	ROT2	Q5A4X3	surface_other_adhesion_phenotype	-	0	no UniProt repeat feature (assumed negative)	no	not_called
+Calb_SC5314	C6_03490C_A	SAP1	P0CY27	surface_other_adhesion_phenotype	-	0	no UniProt repeat feature (assumed negative)	no	not_called
+Calb_SC5314	C4_04470W_A	SAP10	Q5A651	surface_other_adhesion_phenotype	-	0	no UniProt repeat feature (assumed negative)	no	not_called
+Calb_SC5314	CR_07800W_A	SAP2	P0DJ06	surface_other_adhesion_phenotype	-	0	no UniProt repeat feature (assumed negative)	no	not_called
+Calb_SC5314	C3_05230W_A	SAP3	P0CY29	surface_other_adhesion_phenotype	-	0	no UniProt repeat feature (assumed negative)	no	not_called
+Calb_SC5314	C3_03870C_A	SAP9	Q59SU1	surface_other_adhesion_phenotype	-	0	no UniProt repeat feature (assumed negative)	no	not_called
+Calb_SC5314	C6_00820W_A	SUN41	Q59NP5	surface_other_adhesion_phenotype	-	0	no UniProt repeat feature (assumed negative)	no	not_called
+Calb_SC5314	C3_01730C_A	UTR2	Q5AJC0	surface_other_adhesion_phenotype	-	0	no UniProt repeat feature (assumed negative)	no	not_called
+Calb_SC5314	C1_02990C_A	XOG1	P29717	surface_other_adhesion_phenotype	-	0	no UniProt repeat feature (assumed negative)	no	not_called
+Calb_SC5314	C2_08590W_A	YWP1	Q59Y31	surface_other_adhesion_phenotype	-	0	no UniProt repeat feature (assumed negative)	no	not_called
+Calb_SC5314	CR_01970C_A	VMA4	O94072	indirect_regulator	-	0	no UniProt repeat feature (assumed negative)	no	not_called
+Calb_SC5314	C2_06970W_A	AAH1	Q59ZB1	indirect_regulator	-	0	no UniProt repeat feature (assumed negative)	no	not_called
+Calb_SC5314	C5_05050W_A	ADH1	A0A1D8PP43	indirect_regulator	-	0	no UniProt repeat feature (assumed negative)	no	not_called
+Calb_SC5314	C2_07170C_A	AFT2	Q59Z29	indirect_regulator	-	0	no UniProt repeat feature (assumed negative)	no	not_called
+Calb_SC5314	C3_06000W_A	AHR1	Q5A4F3	indirect_regulator	-	0	no UniProt repeat feature (assumed negative)	no	not_called
+Calb_SC5314	C7_01250W_A	ASC1	P83774	indirect_regulator	-	1	UniProt >=2 repeat features	no	not_called
+Calb_SC5314	CR_06440C_A	BCR1	Q59U10	indirect_regulator	-	0	no UniProt repeat feature (assumed negative)	no	not_called
+Calb_SC5314	C5_02470W_A	BUD4	P53705	indirect_regulator	-	0	no UniProt repeat feature (assumed negative)	no	not_called
+Calb_SC5314	CR_04570C_A	CDC10	P39827	indirect_regulator	-	0	no UniProt repeat feature (assumed negative)	no	not_called
+Calb_SC5314	C2_04930C_A	CRK1	Q9Y7W4	indirect_regulator	-	0	no UniProt repeat feature (assumed negative)	no	not_called
+Calb_SC5314	C1_04020C_A	CSH1	Q59QH2	indirect_regulator	-	0	no UniProt repeat feature (assumed negative)	no	not_called
+Calb_SC5314	C3_04390W_A	CUP5	A0A1D8PK00	indirect_regulator	-	0	no UniProt repeat feature (assumed negative)	no	not_called
+Calb_SC5314	C2_10110W_A	CYC1	P53698	indirect_regulator	-	0	no UniProt repeat feature (assumed negative)	no	not_called
+Calb_SC5314	C7_03070C_A	CYR1	A0A1D8PR83	indirect_regulator	-	0	no UniProt repeat feature (assumed negative)	no	not_called
+Calb_SC5314	CR_09880W_A	DEF1	G1UB67	indirect_regulator	-	0	no UniProt repeat feature (assumed negative)	no	not_called
+Calb_SC5314	CR_07890W_A	EFG1	Q59X67	indirect_regulator	-	0	no UniProt repeat feature (assumed negative)	no	not_called
+Calb_SC5314	C7_01360C_A	FMP28	A0A1D8PQU2	indirect_regulator	-	0	no UniProt repeat feature (assumed negative)	no	not_called
+Calb_SC5314	C2_10240W_A	GPD1	Q59XU9	indirect_regulator	-	0	no UniProt repeat feature (assumed negative)	no	not_called
+Calb_SC5314	C2_03270W_A	GPM1	P82612	indirect_regulator	-	0	no UniProt repeat feature (assumed negative)	no	not_called
+Calb_SC5314	C1_07680W_A	HAP2	A0A1D8PE35	indirect_regulator	-	0	no UniProt repeat feature (assumed negative)	no	not_called
+Calb_SC5314	CR_04290W_A	HAP31	Q5A6N7	indirect_regulator	-	0	no UniProt repeat feature (assumed negative)	no	not_called
+Calb_SC5314	C5_00940C_A	HAP5	A0A1D8PN26	indirect_regulator	-	0	no UniProt repeat feature (assumed negative)	no	not_called
+Calb_SC5314	C4_00140C_A	HIS4	A0A1D8PKY7	indirect_regulator	-	0	no UniProt repeat feature (assumed negative)	no	not_called
+Calb_SC5314	C3_03660W_A	IRS4	Q59SR6	indirect_regulator	-	0	no UniProt repeat feature (assumed negative)	no	not_called
+Calb_SC5314	CR_01620C_A	MET6	P82610	indirect_regulator	-	0	no UniProt repeat feature (assumed negative)	no	not_called
+Calb_SC5314	C3_01810C_A	MNT1	Q00310	indirect_regulator	-	0	no UniProt repeat feature (assumed negative)	no	not_called
+Calb_SC5314	C3_01830C_A	MNT2	P46592	indirect_regulator	-	0	no UniProt repeat feature (assumed negative)	no	not_called
+Calb_SC5314	C1_03710C_A	MSB1	A0A1D8PD52	indirect_regulator	-	0	no UniProt repeat feature (assumed negative)	no	not_called
+Calb_SC5314	C1_08300W_A	NOT5	A0A1D8PE87	indirect_regulator	-	0	no UniProt repeat feature (assumed negative)	no	not_called
+Calb_SC5314	C7_04040C_A	NPT1	A0A1D8PRI0	indirect_regulator	-	0	no UniProt repeat feature (assumed negative)	no	not_called
+Calb_SC5314	C1_02840W_A	PDE2	A0A1D8PCV9	indirect_regulator	-	0	no UniProt repeat feature (assumed negative)	no	not_called
+Calb_SC5314	C4_00350W_A	PEP7	Q59UQ8	indirect_regulator	-	0	no UniProt repeat feature (assumed negative)	no	not_called
+Calb_SC5314	C7_02890C_A	PMT1	O74189	indirect_regulator	-	0	no UniProt repeat feature (assumed negative)	no	not_called
+Calb_SC5314	C2_10080W_A	RAP1	A0A1D8PIK2	indirect_regulator	-	0	no UniProt repeat feature (assumed negative)	no	not_called
+Calb_SC5314	C2_10210C_A	RAS1	Q59XU5	indirect_regulator	-	0	no UniProt repeat feature (assumed negative)	no	not_called
+Calb_SC5314	C4_02030W_A	RFX2	Q5AMQ6	indirect_regulator	-	0	no UniProt repeat feature (assumed negative)	no	not_called
+Calb_SC5314	C3_00320W_A	RHR2	Q5A7M9	indirect_regulator	-	0	no UniProt repeat feature (assumed negative)	no	not_called
+Calb_SC5314	CR_05990C_A	SFL1	Q5A287	indirect_regulator	-	0	no UniProt repeat feature (assumed negative)	no	not_called
+Calb_SC5314	C5_04830W_A	SFL2	Q5AK51	indirect_regulator	-	0	no UniProt repeat feature (assumed negative)	no	not_called
+Calb_SC5314	C3_04860W_A	SFP1	Q5ANF0	indirect_regulator	-	0	no UniProt repeat feature (assumed negative)	no	not_called
+Calb_SC5314	C1_09140C_A	SHO1	Q5AQ36	indirect_regulator	-	0	no UniProt repeat feature (assumed negative)	no	not_called
+Calb_SC5314	C2_01330C_A	SIR2	O59923	indirect_regulator	-	0	no UniProt repeat feature (assumed negative)	no	not_called
+Calb_SC5314	C1_07870C_A	SMI1	A0A1D8PE53	indirect_regulator	-	0	no UniProt repeat feature (assumed negative)	no	not_called
+Calb_SC5314	C3_04290C_A	SNF5	A0A1D8PJZ6	indirect_regulator	-	0	no UniProt repeat feature (assumed negative)	no	not_called
+Calb_SC5314	CR_06000W_A	SOK1	A0A1D8PT45	indirect_regulator	-	0	no UniProt repeat feature (assumed negative)	no	not_called
+Calb_SC5314	C2_06540C_A	SPF1	Q59Q34	indirect_regulator	-	0	no UniProt repeat feature (assumed negative)	no	not_called
+Calb_SC5314	CR_06610W_A	STE2	A0A1D8PTB4	indirect_regulator	-	0	no UniProt repeat feature (assumed negative)	no	not_called
+Calb_SC5314	C4_00300C_A	SWI1	Q59UR3	indirect_regulator	-	0	no UniProt repeat feature (assumed negative)	no	not_called
+Calb_SC5314	C3_06870W_A	TDH3	Q5ADM7	indirect_regulator	-	0	no UniProt repeat feature (assumed negative)	no	not_called
+Calb_SC5314	C3_04530C_A	TEC1	Q5ANJ4	indirect_regulator	-	0	no UniProt repeat feature (assumed negative)	no	not_called
+Calb_SC5314	C2_07210C_A	TPK2	A0A1D8PHU1	indirect_regulator	-	0	no UniProt repeat feature (assumed negative)	no	not_called
+Calb_SC5314	C1_00060W_A	TUP1	P0CY34	indirect_regulator	-	1	UniProt >=2 repeat features	no	not_called
+Calb_SC5314	C3_01350C_A	URA3	P13649	indirect_regulator	-	0	no UniProt repeat feature (assumed negative)	no	not_called
+Calb_SC5314	C7_01820C_A	VMA11	Q5AH00	indirect_regulator	-	0	no UniProt repeat feature (assumed negative)	no	not_called
+Calb_SC5314	C1_10150W_A	WOR1	Q5AP80	indirect_regulator	-	0	no UniProt repeat feature (assumed negative)	no	not_called
+Calb_SC5314	C2_07730W_A	YVC1	Q5A2J7	indirect_regulator	-	0	no UniProt repeat feature (assumed negative)	no	not_called

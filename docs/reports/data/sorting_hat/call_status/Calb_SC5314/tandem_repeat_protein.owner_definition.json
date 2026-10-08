@@ -1,0 +1,48 @@
+{
+  "call": "tandem_repeat_protein",
+  "call_hash": "94228eccdcd64a1065c0750f1ad680d9a5895619057c2fad6734ddd0e365afdd",
+  "config_sha256": "f97cb08508c13100cded294a41d86940d3907419f7d59d76f49bbcc278a08ade",
+  "entries": [
+    {
+      "measure": {
+        "calibration_set": "repeat_motif_definition_Calb",
+        "n_clusters_neg": 155,
+        "n_clusters_pos": 6,
+        "n_neg": 211,
+        "n_pos": 13,
+        "notes": "owner definition of 2026-10-08: repeating motif or array, or an adhesion-associated repeat domain; labels from UniProt Repeat features (>=2 array-type); globular repeat domains left out; negatives assumed from absent annotation. truth rows without a call: 0; not assessable: 0; sensitivity if not assessable positives count as missed: 0.462 call=tandem_repeat_protein; variant=; reads=repeat02,repeat14 leakage: tuned_on_truth",
+        "sensitivity": {
+          "hi": 0.7883710444073659,
+          "lo": 0.0,
+          "value": 0.46153846153846156
+        },
+        "specificity": {
+          "hi": 0.9957274011299435,
+          "lo": 0.9384747085737122,
+          "value": 0.976303317535545
+        },
+        "truth_source": "analysis/calibration_truth/repeat_call_truth/truth_v3.Calb_SC5314.tsv"
+      },
+      "source": "analysis/calibration_truth/repeat_call_truth/truth_v3.Calb_SC5314.tsv",
+      "status": "smoke",
+      "taxa": [
+        5476
+      ]
+    }
+  ],
+  "reads": [
+    {
+      "artefact_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "name": "repeat02",
+      "params_hash": "7d723f2d540d1e45f46e55661b67d2059dddeb722d210a90ce4691b169edd116",
+      "version": "1"
+    },
+    {
+      "artefact_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "name": "repeat14",
+      "params_hash": "946489ad437ccee8bf3b9c4f7289248d9eba1751fd21db7e0c16dd326f08e2eb",
+      "version": "1"
+    }
+  ],
+  "variant": ""
+}

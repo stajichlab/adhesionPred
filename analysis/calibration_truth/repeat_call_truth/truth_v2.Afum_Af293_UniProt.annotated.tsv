@@ -1,0 +1,168 @@
+id	gene	accession	label	cluster	basis	curated_class	evidence	tuned_or_homolog
+sp|E9QSG0|DSCA_ASPFU	dscA	E9QSG0	0	sp|E9QSG0|DSCA_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|E9RBR0|ABR2_ASPFU	abr2	E9RBR0	0	sp|E9RBR0|ABR2_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|O00092|PHYA_ASPFU	phyA	O00092	0	sp|O00092|PHYA_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|P28296|ORYZ_ASPFU	alp1	P28296	0	sp|P28296|ORYZ_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|P46075|ELM_ASPFU	mep	P46075	0	sp|P46075|ELM_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|P67875|RNMG_ASPFU	mitF	P67875	0	sp|P67875|RNMG_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|Q4WBS1|MANF_ASPFU	manF	Q4WBS1	0	sp|Q4WBS1|MANF_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|Q4WGL5|SUN1_ASPFU	sun1	Q4WGL5	0	sp|Q4WGL5|SUN1_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|Q4WI46|CRH2_ASPFU	crh2	Q4WI46	0	sp|Q4WI46|CRH2_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|Q4WKP8|IREA_ASPFU	ireA	Q4WKP8	0	sp|Q4WKP8|IREA_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|Q4WL81|NADA_ASPFU	nadA	Q4WL81	0	sp|Q4WL81|NADA_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|Q4WLB9|CFMA_ASPFU	cfmA	Q4WLB9	0	sp|Q4WLB9|CFMA_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|Q4WP32|LP9B_ASPFU	AA9_B	Q4WP32	0	sp|Q4WBU0|LP9C_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|Q4WR75|FREB_ASPFU	freB	Q4WR75	0	sp|Q4WR75|FREB_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|Q4WZB4|ABR1_ASPFU	abr1	Q4WZB4	0	sp|E9R598|FETC_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|Q70J59|SED2_ASPFU	sed2	Q70J59	0	sp|Q4WQU0|SED4_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|Q8J0P4|CRH5_ASPFU	crh5	Q8J0P4	0	sp|Q4WXE6|CRH3_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|Q92405|CATB_ASPFU	catB	Q92405	0	sp|Q92405|CATB_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|A4DA41|SPYC_ASPFU	spyC	A4DA41	0	sp|Q4WLD1|PYR5_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|E9QRF2|CHIB1_ASPFU	chiB1	E9QRF2	0	sp|E9QRF2|CHIB1_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|E9QT94|RODB_ASPFU	rodB	E9QT94	0	sp|E9QT94|RODB_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|E9R598|FETC_ASPFU	fetC	E9R598	0	sp|E9R598|FETC_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|O42630|CARP_ASPFU	pep2	O42630	0	sp|O42630|CARP_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|P0C7S9|GEL1_ASPFU	gel1	P0C7S9	0	sp|P0C954|GEL2_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|P0C954|GEL2_ASPFU	gel2	P0C954	0	sp|P0C954|GEL2_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|P0C955|GEL3_ASPFU	gel3	P0C955	0	sp|P0C954|GEL2_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|P0C957|PLB1_ASPFU	plb1	P0C957	0	sp|P0C958|PLB3_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|P0C958|PLB3_ASPFU	plb3	P0C958	0	sp|P0C958|PLB3_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|P41746|RODA_ASPFU	rodA	P41746	0	sp|E9QT94|RODB_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|P41748|PEPA_ASPFU	pepA	P41748	0	sp|P41748|PEPA_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|P87184|ALP2_ASPFU	alp2	P87184	0	sp|P28296|ORYZ_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|Q4WBM1|VPS10_ASPFU	vps10	Q4WBM1	1	sp|Q4WBM1|VPS10_ASPFU	UniProt reviewed, secreted, >=2 repeat features	uniprot_secreted	-	unknown
+sp|Q4WBU0|LP9C_ASPFU	AA9C	Q4WBU0	0	sp|Q4WBU0|LP9C_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|Q4WBW4|AXE1_ASPFU	axeA	Q4WBW4	0	sp|Q4WBW4|AXE1_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|Q4WD22|CRH1_ASPFU	crh1	Q4WD22	0	sp|Q4WXE6|CRH3_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|Q4WEP7|CHIA1_ASPFU	chiA1	Q4WEP7	0	sp|Q4WEP7|CHIA1_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|Q4WG11|XYNA_ASPFU	xlnA	Q4WG11	0	sp|Q4WLV2|XYNB_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|Q4WG16|EGLC_ASPFU	eglC	Q4WG16	0	sp|Q4WG16|EGLC_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|Q4WK60|EXGA_ASPFU	exgA	Q4WK60	0	sp|Q4WK60|EXGA_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|Q4WLD1|PYR5_ASPFU	pyr5	Q4WLD1	0	sp|Q4WLD1|PYR5_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|Q4WLW6|FMQD_ASPFU	fmqD	Q4WLW6	0	sp|Q4WLW6|FMQD_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|Q4WM08|CBHB_ASPFU	cbhB	Q4WM08	0	sp|Q4WM08|CBHB_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|Q4WMA6|CFMB_ASPFU	cfmB	Q4WMA6	0	sp|Q4WMA6|CFMB_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|Q4WMW2|CRH4_ASPFU	crh4	Q4WMW2	0	sp|Q4WXE6|CRH3_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|Q4WNE1|CFMC_ASPFU	cfmC	Q4WNE1	0	sp|Q4WNE1|CFMC_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|Q4WQ08|ADMB_ASPFU	ADM-B	Q4WQ08	0	sp|Q4WQ08|ADMB_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|Q4WQS0|SIA_ASPFU		Q4WQS0	0	sp|Q4WQS0|SIA_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|Q4WQU0|SED4_ASPFU	sed4	Q4WQU0	0	sp|Q4WQU0|SED4_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|Q4WR20|HELB3_ASPFU	helB3	Q4WR20	0	sp|Q4WR22|HELB4_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|Q4WRZ5|MNS1B_ASPFU	mns1B	Q4WRZ5	0	sp|Q4WRZ5|MNS1B_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|Q4WXE6|CRH3_ASPFU	crh3	Q4WXE6	0	sp|Q4WXE6|CRH3_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|Q4X066|LP9A_ASPFU	AA9A	Q4X066	0	sp|Q4WBU0|LP9C_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|Q70DX9|SED1_ASPFU	sed1	Q70DX9	0	sp|Q70DX9|SED1_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|Q70GH4|SED3_ASPFU	sed3	Q70GH4	0	sp|Q4WQU0|SED4_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|Q8X176|PHOA_ASPFU	phoA	Q8X176	0	sp|Q8X176|PHOA_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|A4DA70|AGALD_ASPFU	aglD	A4DA70	0	sp|Q4WE86|AGALB_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|E9RCR4|GLIC_ASPFU	gliC	E9RCR4	0	sp|E9RCR4|GLIC_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|P0C956|GEL4_ASPFU	gel4	P0C956	0	sp|P0C954|GEL2_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|P0C959|DPP5_ASPFU		P0C959	0	sp|P0C959|DPP5_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|P79017|ALL2_ASPFU		P79017	0	sp|P79017|ALL2_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|Q0H904|XYNC_ASPFU	xlnC	Q0H904	0	sp|Q0H904|XYNC_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|Q4W8Z9|FAEB1_ASPFU	faeB-1	Q4W8Z9	0	sp|Q4WMR0|FAEB2_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|Q4W930|ABNC_ASPFU	abnC	Q4W930	0	sp|Q4WYX7|ABNA_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|Q4W9P4|LAP1_ASPFU	lap1	Q4W9P4	0	sp|Q4W9P4|LAP1_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|Q4W9T6|RGLA_ASPFU	rglA	Q4W9T6	0	sp|Q4W9T6|RGLA_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|Q4W9Z4|CUTI3_ASPFU		Q4W9Z4	0	sp|Q4X1N0|CUTI1_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|Q4WA38|MNLOX_ASPFU		Q4WA38	0	sp|Q4WA38|MNLOX_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|Q4WA45|NPIIC_ASPFU		Q4WA45	0	sp|Q4WQR6|NPIIA_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|Q4WAJ6|CELB_ASPFU	celB	Q4WAJ6	0	sp|Q4WM08|CBHB_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|Q4WAY2|CWHLA_ASPFU	cwhA	Q4WAY2	0	sp|Q4WAY2|CWHLA_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|Q4WBE1|PGLRB_ASPFU	pgaB	Q4WBE1	1	sp|Q4WBE1|PGLRB_ASPFU	UniProt reviewed, secreted, >=2 repeat features	uniprot_secreted	-	unknown
+sp|Q4WBK6|PGXB_ASPFU	pgxB	Q4WBK6	1	sp|Q4WBT4|XGHA_ASPFU	UniProt reviewed, secreted, >=2 repeat features	uniprot_secreted	-	unknown
+sp|Q4WBR2|NEG1_ASPFU	neg1	Q4WBR2	0	sp|Q4WBR2|NEG1_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|Q4WBR8|RODC_ASPFU	rodC	Q4WBR8	0	sp|E9QT94|RODB_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|Q4WBT4|XGHA_ASPFU	xghA	Q4WBT4	1	sp|Q4WBT4|XGHA_ASPFU	UniProt reviewed, secreted, >=2 repeat features	uniprot_secreted	-	unknown
+sp|Q4WBT5|PMEA_ASPFU	pmeA	Q4WBT5	0	sp|Q4WBT5|PMEA_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|Q4WC60|BTGE_ASPFU	btgE	Q4WC60	0	sp|Q4WC60|BTGE_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|Q4WCG2|OS9_ASPFU	yos9	Q4WCG2	0	sp|Q4WCG2|OS9_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|Q4WCX9|YA280_ASPFU		Q4WCX9	0	sp|Q4WCX9|YA280_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|Q4WCZ8|PGLRX_ASPFU	pgaX	Q4WCZ8	1	sp|Q4WBT4|XGHA_ASPFU	UniProt reviewed, secreted, >=2 repeat features	uniprot_secreted	-	unknown
+sp|Q4WD44|FSQC_ASPFU	fsqC	Q4WD44	0	sp|Q4WD44|FSQC_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|Q4WDN4|OPSB_ASPFU	opsB	Q4WDN4	0	sp|Q4WDN4|OPSB_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|Q4WE86|AGALB_ASPFU	aglB	Q4WE86	0	sp|Q4WE86|AGALB_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|Q4WEH3|LP11B_ASPFU	AA11B	Q4WEH3	0	sp|Q4WF00|LP11A_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|Q4WEK0|RODF_ASPFU	rodF	Q4WEK0	0	sp|Q4WEK0|RODF_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|Q4WER9|LYSMA_ASPFU	ldpA	Q4WER9	0	sp|Q4WRR0|LYSMB_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|Q4WF00|LP11A_ASPFU	AA11A	Q4WF00	0	sp|Q4WF00|LP11A_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|Q4WFI6|BXLB_ASPFU	bxlB	Q4WFI6	0	sp|Q4WFI6|BXLB_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|Q4WFK4|CBHC_ASPFU	cbhC	Q4WFK4	0	sp|Q4WFK4|CBHC_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|Q4WFS2|Y1220_ASPFU		Q4WFS2	0	sp|Q4WFS2|Y1220_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|Q4WFX9|LAP2_ASPFU	lap2	Q4WFX9	0	sp|Q4WFX9|LAP2_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|Q4WG05|BGALE_ASPFU	lacE	Q4WG05	0	sp|Q4WNE4|BGALC_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|Q4WGT3|BGLL_ASPFU	bglL	Q4WGT3	0	sp|Q4WGT3|BGLL_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|Q4WGU1|SED5_ASPFU	sed5	Q4WGU1	0	sp|Q4WGU1|SED5_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|Q4WHX4|FKBP2_ASPFU	fpr2	Q4WHX4	0	sp|Q4WHX4|FKBP2_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|Q4WIS6|PELB_ASPFU	pelB	Q4WIS6	0	sp|Q4WIS6|PELB_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|Q4WIT0|PLYA_ASPFU	plyA	Q4WIT0	0	sp|Q4WIT0|PLYA_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|Q4WJ80|GANA_ASPFU	galA	Q4WJ80	0	sp|Q4WJ80|GANA_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|Q4WJJ3|BGLA_ASPFU	bglA	Q4WJJ3	0	sp|Q4WGT3|BGLL_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|Q4WJU8|XGEA_ASPFU	xgeA	Q4WJU8	0	sp|Q4WJU8|XGEA_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|Q4WKX2|FGND_ASPFU		Q4WKX2	0	sp|Q4WKX2|FGND_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|Q4WL66|ABFB_ASPFU	abfB	Q4WL66	0	sp|Q4WL66|ABFB_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|Q4WL88|PLYC_ASPFU	plyC	Q4WL88	0	sp|Q4WL88|PLYC_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|Q4WLV2|XYNB_ASPFU	xlnB	Q4WLV2	0	sp|Q4WLV2|XYNB_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|Q4WMR0|FAEB2_ASPFU	faeB-2	Q4WMR0	0	sp|Q4WMR0|FAEB2_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|Q4WMS9|MANBA_ASPFU	mndA	Q4WMS9	0	sp|Q4WMS9|MANBA_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|Q4WMU3|BGLF_ASPFU	bglF	Q4WMU3	0	sp|Q4WGT3|BGLL_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|Q4WNA2|CBHA_ASPFU	cbhA	Q4WNA2	0	sp|Q4WM08|CBHB_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|Q4WNE4|BGALC_ASPFU	lacC	Q4WNE4	0	sp|Q4WNE4|BGALC_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|Q4WNS8|ECM33_ASPFU	ecm33	Q4WNS8	0	sp|Q4WNS8|ECM33_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|Q4WNV0|CTSD_ASPFU	ctsD	Q4WNV0	0	sp|O42630|CARP_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|Q4WP12|PPIB_ASPFU	cpr2	Q4WP12	0	sp|Q4WP12|PPIB_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|Q4WPH9|DPP4_ASPFU	dpp4	Q4WPH9	0	sp|Q4WPH9|DPP4_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|Q4WQL0|TMEDA_ASPFU	erv25	Q4WQL0	0	sp|Q4WQL0|TMEDA_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|Q4WQR6|NPIIA_ASPFU		Q4WQR6	0	sp|Q4WQR6|NPIIA_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|Q4WQT2|PGLRA_ASPFU	pgaA	Q4WQT2	1	sp|Q4WBE1|PGLRB_ASPFU	UniProt reviewed, secreted, >=2 repeat features	uniprot_secreted	-	unknown
+sp|Q4WQV2|CUTI2_ASPFU		Q4WQV2	0	sp|Q4X1N0|CUTI1_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|Q4WQY8|TPCJ_ASPFU	tpcJ	Q4WQY8	0	sp|Q4WQY8|TPCJ_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|Q4WR18|HELB2_ASPFU	helB2	Q4WR18	0	sp|Q4WR22|HELB4_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|Q4WR19|HELC_ASPFU	helC	Q4WR19	0	sp|Q4WR19|HELC_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|Q4WR22|HELB4_ASPFU	helB4	Q4WR22	0	sp|Q4WR22|HELB4_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|Q4WR62|BGLM_ASPFU	bglM	Q4WR62	0	sp|Q4WGT3|BGLL_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|Q4WR80|PGLR_ASPFU		Q4WR80	1	sp|Q4WBE1|PGLRB_ASPFU	UniProt reviewed, secreted, >=2 repeat features	uniprot_secreted	-	unknown
+sp|Q4WRB0|XYND_ASPFU	xlnD	Q4WRB0	0	sp|Q4WFI6|BXLB_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|Q4WRD3|BGALB_ASPFU	lacB	Q4WRD3	0	sp|Q4WNE4|BGALC_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|Q4WRH9|AGDC_ASPFU	agdC	Q4WRH9	0	sp|Q4WRH9|AGDC_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|Q4WRR0|LYSMB_ASPFU	ldpB	Q4WRR0	0	sp|Q4WRR0|LYSMB_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|Q4WS33|BGALA_ASPFU	lacA	Q4WS33	0	sp|Q4WNE4|BGALC_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|Q4WTB3|ABFC_ASPFU	abfC	Q4WTB3	0	sp|Q4WTB3|ABFC_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|Q4WTK9|KEX1_ASPFU	kex1	Q4WTK9	0	sp|Q4WTK9|KEX1_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|Q4WV10|PELA_ASPFU	pelA	Q4WV10	0	sp|Q4WIS6|PELB_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|Q4WV23|RHGB_ASPFU	rhgB	Q4WV23	0	sp|Q4WV23|RHGB_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|Q4WVZ3|AGALA_ASPFU	aglA	Q4WVZ3	0	sp|Q4WVZ3|AGALA_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|Q4WW45|AGUA_ASPFU	aguA	Q4WW45	0	sp|Q4WW45|AGUA_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|Q4WX94|PGXC_ASPFU	pgxC	Q4WX94	1	sp|Q4WX94|PGXC_ASPFU	UniProt reviewed, secreted, >=2 repeat features	uniprot_secreted	-	unknown
+sp|Q4WXZ5|RNY1_ASPFU	rny1	Q4WXZ5	0	sp|Q4WXZ5|RNY1_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|Q4WYX7|ABNA_ASPFU	abnA	Q4WYX7	0	sp|Q4WYX7|ABNA_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|Q4WZ11|IELA_ASPFU		Q4WZ11	0	sp|Q4WZ11|IELA_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|Q4WZ61|EASE_ASPFU	easE	Q4WZ61	0	sp|Q4WZ61|EASE_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|Q4WZ68|EASK_ASPFU	easK	Q4WZ68	0	sp|Q4WZ68|EASK_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|Q4X055|RODG_ASPFU	rodG	Q4X055	0	sp|Q4X055|RODG_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|Q4X084|EGLX_ASPFU		Q4X084	0	sp|Q4X084|EGLX_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|Q4X0A5|ABNB_ASPFU	abnB	Q4X0A5	0	sp|Q4WYX7|ABNA_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|Q4X136|NPC2_ASPFU	npc2	Q4X136	0	sp|Q4X136|NPC2_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|Q4X1N0|CUTI1_ASPFU		Q4X1N0	0	sp|Q4X1N0|CUTI1_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|Q4X1N4|EXGB_ASPFU	exgB	Q4X1N4	0	sp|Q4X1N4|EXGB_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|Q4X1U0|ECM14_ASPFU	ecm14	Q4X1U0	0	sp|Q4X1U0|ECM14_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|Q5VJG9|CBPYA_ASPFU	cpyA	Q5VJG9	0	sp|Q5VJG9|CBPYA_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|Q6Q487|CALX_ASPFU		Q6Q487	0	sp|Q6Q487|CALX_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|A4D9B6|FAEC_ASPFU	faeC	A4D9B6	0	sp|A4D9B6|FAEC_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|O42799|ALL7_ASPFU		O42799	0	sp|O42799|ALL7_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|O60022|AL15_ASPFU		O60022	0	sp|O60022|AL15_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|O60024|ALL4_ASPFU		O60024	0	sp|O60024|ALL4_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|Q4WA60|NSCC_ASPFU	nscC	Q4WA60	0	sp|Q4WA60|NSCC_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|Q4WB37|CSN_ASPFU	csn	Q4WB37	0	sp|Q4WB37|CSN_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|Q4WC29|PLYE_ASPFU	plyE	Q4WC29	0	sp|Q4WKV8|PLYF_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|Q4WFV6|YA880_ASPFU		Q4WFV6	0	sp|Q4WFV6|YA880_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|Q4WGV9|PLYD_ASPFU	plyD	Q4WGV9	0	sp|Q4WKV8|PLYF_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|Q4WJ01|MEP1_ASPFU		Q4WJ01	0	sp|Q4WJ01|MEP1_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|Q4WKV8|PLYF_ASPFU	plyF	Q4WKV8	0	sp|Q4WKV8|PLYF_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|Q4WNC9|P20D1_ASPFU		Q4WNC9	0	sp|Q4WNC9|P20D1_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|Q4WR79|RGLB_ASPFU	rglB	Q4WR79	0	sp|Q4WR79|RGLB_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|Q4WTC7|NPR3_ASPFU	npr3	Q4WTC7	0	sp|Q4WTC7|NPR3_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|Q4WUK7|X325_ASPFU	X325	Q4WUK7	0	sp|Q4WUK7|X325_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|Q4WZS3|Y5950_ASPFU		Q4WZS3	0	sp|P41748|PEPA_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|Q4WC84|YFAS1_ASPFU		Q4WC84	0	sp|Q4WC84|YFAS1_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
+sp|Q4WES5|LCL2_ASPFU	lcl2	Q4WES5	0	sp|Q4WES5|LCL2_ASPFU	UniProt reviewed, secreted, no repeat feature (assumed negative)	uniprot_secreted	-	unknown
