@@ -68,6 +68,7 @@ class RunInfo:
     map_ids_not_in_fasta: int = 0
     unmatched_module_ids: dict = field(default_factory=dict)  # module -> rows with no FASTA ID
     calibration: list = field(default_factory=list)  # rows from cli.calibration_rows
+    call_status_sources: list = field(default_factory=list)  # rows from CallStatusResolver.rows()
     # one {name, version, params_hash, artefact_hash} per module that was loaded
     module_identities: list = field(default_factory=list)
 
@@ -225,6 +226,33 @@ def render_report(info, records):
                 f"| {c['calibration_set'] or '-'} | {n_pos} | {n_neg} "
                 f"| {c['sensitivity']} | {c['specificity']} |"
             )
+    if info.call_status_sources:
+        lines += [
+            "",
+            "## Call calibration",
+            "",
+            "Calls that read several modules, measured as a whole (`status/calls/`). A valid file sets "
+            "the status of its call. Statuses of composite calls (for example "
+            "`cell_wall_adhesion_candidate`) are derived: the weakest status of the measured leaf "
+            "calls that decided them. A stale file is listed with its reason and is not used.",
+            "",
+            "| call | variant | taxon | status | calibration set | positives | negatives "
+            "| sensitivity [95% CI] | specificity [95% CI] | file |",
+            "|---|---|---|---|---|---|---|---|---|---|",
+        ]
+        for c in info.call_status_sources:
+            if c["valid"]:
+                lines.append(
+                    f"| {c['call']} | {c['variant'] or '-'} | {c['taxon']} | {c['status']} "
+                    f"| {c['calibration_set'] or '-'} | {c['n_pos'] if c['n_pos'] != '' else '-'} "
+                    f"| {c['n_neg'] if c['n_neg'] != '' else '-'} | {c['sensitivity']} "
+                    f"| {c['specificity']} | valid |"
+                )
+            else:
+                lines.append(
+                    f"| {c['call']} | {c['variant'] or '-'} | - | - | - | - | - | - | - "
+                    f"| stale: {c['reason']} |"
+                )
     lines += [
         "",
         "## Calls",
