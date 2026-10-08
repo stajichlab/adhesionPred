@@ -33,7 +33,7 @@ Unavailable step 1 variants: step1_rule@R1, step1_rule@R2, step1_ml@card
 | allergen_homology | 237561 | unvalidated | - | - | - | - | not measured | not measured |
 | repeat02 | 237561 | unvalidated | - | - | - | - | not measured | not measured |
 | repeat14 | 237561 | unvalidated | - | - | - | - | not measured | not measured |
-| step1_rule@R0 | 237561 | unvalidated | - | - | - | - | not measured | not measured |
+| step1_rule@R0 | 237561 | smoke | signal_peptide_protein | S1:Calb_CGD | 153 | 459 | 0.477 [0.356, 0.591] | 0.943 [0.913, 0.968] |
 | tm | 237561 | unvalidated | - | - | - | - | not measured | not measured |
 
 ## Calls
