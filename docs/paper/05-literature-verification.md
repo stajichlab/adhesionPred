@@ -34,3 +34,15 @@ Before a paper cites one of them, compare the sentence you want to write with th
 - The A1163 UniProt count of 9,942 is correct as of 2026-10-06. The Plan 2 plausibility range 9,000 to 10,500 holds.
 - Still unverified: the YPS3 accession (A0ACF1AYZ2), the BcLysM1 adhesion sentence, the three cell wall reviews
   (Gow 2017, Riquelme 2020, Gow 2023), and the WHO/IUIS counts.
+
+## 4. Further checks, 2026-10-07
+
+| Item | Result | Evidence |
+|---|---|---|
+| YPS3 accession `A0ACF1AYZ2` (task 08, agent-C) | **Matches by name.** UniProt TrEMBL entry A0ACF1AYZ2: "Yeast-phase specific protein yps-3", gene YPS3, ORF `I7I48_01120`, *Histoplasma ohiense* (taxon 2902605), 137 aa. Not checked: that the sequence is the YPS3 of the 2005 paper, or that the strain is G217B. | UniProt REST, 2026-10-07 |
+| BcLysM1 adhesion sentence (PMID 39655398) | **Supported by the abstract.** "contribution of BcLysM1 in infection initiation and in adhesion to bean leaf surfaces were demonstrated" and "a dual role in mycelial adhesion and suppression of chitin-triggered host immunity". The words "hydrophobic surfaces" are not in the abstract. | PubMed abstract, [doi](https://doi.org/10.1002/jobm.202400552) |
+| WHO/IUIS counts (120 molecules, 31 species) | **Internally consistent.** The stored table `analysis/allergen_scoping/iuis_fungal_allergens.tsv` has 120 rows and 31 species. The isoallergen table has 116 rows with a protein sequence (111 written to the FASTA, 5 skipped). allergen.org was not queried again. | recount, 2026-10-07 |
+| Table B3 of `docs/paper/02` | **Matches** `metrics.json` (24 values). | recomputed, 2026-10-07 |
+| RBT1 CGD statements | **Verified** in CGD's own notes, with PMIDs 10978273, 19837954, 21414038. Braun 2000 full text: the two RBT1 alleles differ by a segment (aa 612 to 640), not by repeat number. | CGD API, `to_import/genetics0031.pdf` |
+
+Still not verified: the three cell wall reviews (Gow 2017, Riquelme 2020, Gow 2023), the other "copied" rows of `docs/paper/02` (the A rows, B1 to B2, B4 to B6, C and D rows), the strain identity of YPS3, and the allergen.org live counts.

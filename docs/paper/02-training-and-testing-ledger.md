@@ -41,11 +41,13 @@ Sources: `docs/step1-plain-language-summary.md`, `docs/model-review/STATUS.md`,
 
 ### Table B3: Phase C headline results (R0, R2, B1, M8)
 
+*Recomputed from `_workdir/step1_compare/phasec/metrics.json` (test_sets, direct truth, stratum all, variant V-go) on 2026-10-07. All 24 recall and FPR values and the positive and negative counts match. The earlier "not read" cell for B1 on *A. nidulans* is now filled.*
+
 | Test set | Label | Positives / negatives | R0 recall / FPR | R2 recall / FPR | B1 recall / FPR | M8 recall / FPR |
 |---|---|---|---|---|---|---|
 | S1:all (two yeasts, cross-validated) | estimate | 232 / 4,244 | 0.603 / 0.037 | 0.418 / 0.006 | 0.763 / 0.130 | 0.772 / 0.084 |
 | Eurotiomycetes (leave one clade out) | estimate | 128 / 208 | 0.727 / 0.010 | 0.227 / 0.005 | 0.859 / 0.168 | 0.898 / 0.034 |
-| *A. nidulans* alone | estimate | 109 / 164 | 0.688 / 0.012 | 0.165 / 0.006 | not read | 0.881 / 0.024 |
+| *A. nidulans* alone | estimate | 109 / 164 | 0.688 / 0.012 | 0.165 / 0.006 | 0.862 / 0.146 | 0.881 / 0.024 |
 | Basidiomycota | smoke test | 16 / 60 | 0.938 / 0.083 | 0.125 / 0.017 | 0.625 / 0.283 | 0.750 / 0.133 |
 
 Findings stored in `findings.json` (copied):

@@ -14,7 +14,7 @@
       "sensitivity": "not measured",
       "specificity": "not measured",
       "status": "unvalidated",
-      "taxon": 559292
+      "taxon": 237561
     },
     {
       "calibration_set": "",
@@ -27,7 +27,7 @@
       "sensitivity": "not measured",
       "specificity": "not measured",
       "status": "unvalidated",
-      "taxon": 559292
+      "taxon": 237561
     },
     {
       "calibration_set": "",
@@ -40,20 +40,20 @@
       "sensitivity": "not measured",
       "specificity": "not measured",
       "status": "unvalidated",
-      "taxon": 559292
+      "taxon": 237561
     },
     {
-      "calibration_set": "S1:Scer_SGD",
-      "matched_taxon": 4932,
-      "measured_call": "signal_peptide_protein",
+      "calibration_set": "",
+      "matched_taxon": "",
+      "measured_call": "",
       "module": "step1_rule@R0",
-      "n_neg": 3785,
-      "n_pos": 79,
-      "reason": "",
-      "sensitivity": "0.848 [0.734, 0.943]",
-      "specificity": "0.966 [0.958, 0.972]",
-      "status": "smoke",
-      "taxon": 559292
+      "n_neg": "",
+      "n_pos": "",
+      "reason": "no status_source",
+      "sensitivity": "not measured",
+      "specificity": "not measured",
+      "status": "unvalidated",
+      "taxon": 237561
     },
     {
       "calibration_set": "",
@@ -66,46 +66,13 @@
       "sensitivity": "not measured",
       "specificity": "not measured",
       "status": "unvalidated",
-      "taxon": 559292
+      "taxon": 237561
     }
   ],
   "config_sha256": "f97cb08508c13100cded294a41d86940d3907419f7d59d76f49bbcc278a08ade",
   "default_gate": "step1_rule@R0",
   "inconsistent": {},
-  "invalid": [
-    [
-      "YAR061W",
-      "internal stop codon"
-    ],
-    [
-      "YDR134C",
-      "internal stop codon"
-    ],
-    [
-      "YER109C",
-      "internal stop codon"
-    ],
-    [
-      "YFL056C",
-      "internal stop codon"
-    ],
-    [
-      "YIL167W",
-      "internal stop codon"
-    ],
-    [
-      "YIR043C",
-      "internal stop codon"
-    ],
-    [
-      "YOL153C",
-      "internal stop codon"
-    ],
-    [
-      "YOR031W",
-      "internal stop codon"
-    ]
-  ],
+  "invalid": [],
   "map_ids_not_in_fasta": 0,
   "module_identities": [
     {
@@ -161,28 +128,18 @@
     "step1_rule@R0": "ok",
     "tm": "ok"
   },
-  "n_invalid": 8,
-  "n_proteins": 6039,
-  "n_trailing_stop": 6037,
+  "n_invalid": 0,
+  "n_proteins": 6212,
+  "n_trailing_stop": 0,
   "state_counts": {
-    "allergen_homology": {
-      "na_invalid": 8
-    },
-    "repeat02": {
-      "na_invalid": 8
-    },
-    "repeat14": {
-      "na_invalid": 8
-    },
-    "step1_rule@R0": {
-      "na_invalid": 8
-    },
-    "tm": {
-      "na_invalid": 8
-    }
+    "allergen_homology": {},
+    "repeat02": {},
+    "repeat14": {},
+    "step1_rule@R0": {},
+    "tm": {}
   },
   "taxa": {
-    "559292": 6039
+    "237561": 6212
   },
   "taxonomy_sha256": "78392a6926b01fadda65ab819b75e0685e62593fffc0efe09c70b04d26cb7f6b",
   "thresholds": {

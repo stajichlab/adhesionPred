@@ -1,0 +1,27 @@
+pfam_acc	protein_id	label	source	status
+PF11766	C6_03700W_A	ALS1	CGD gene name (2026-10-07), ALS family	draft, not reviewed by an expert
+PF11766	C6_04380W_A	ALS2	CGD gene name (2026-10-07), ALS family	draft, not reviewed by an expert
+PF11766	CR_07070C_A	ALS3	CGD gene name (2026-10-07), ALS family	draft, not reviewed by an expert
+PF11766	C6_04130C_A	ALS4	CGD gene name (2026-10-07), ALS family	draft, not reviewed by an expert
+PF11766	C6_03690W_A	ALS5	CGD gene name (2026-10-07), ALS family	draft, not reviewed by an expert
+PF11766	C3_06190C_A	ALS6	CGD gene name (2026-10-07), ALS family	draft, not reviewed by an expert
+PF11766	C3_06320W_A	ALS7	CGD gene name (2026-10-07), ALS family	draft, not reviewed by an expert
+PF11766	C6_03710W_A	ALS9	CGD gene name (2026-10-07), ALS family	draft, not reviewed by an expert
+PF05792	C6_03700W_A	ALS1	CGD gene name (2026-10-07), ALS family	draft, not reviewed by an expert
+PF05792	C6_04380W_A	ALS2	CGD gene name (2026-10-07), ALS family	draft, not reviewed by an expert
+PF05792	CR_07070C_A	ALS3	CGD gene name (2026-10-07), ALS family	draft, not reviewed by an expert
+PF05792	C6_04130C_A	ALS4	CGD gene name (2026-10-07), ALS family	draft, not reviewed by an expert
+PF05792	C6_03690W_A	ALS5	CGD gene name (2026-10-07), ALS family	draft, not reviewed by an expert
+PF05792	C3_06190C_A	ALS6	CGD gene name (2026-10-07), ALS family	draft, not reviewed by an expert
+PF05792	C3_06320W_A	ALS7	CGD gene name (2026-10-07), ALS family	draft, not reviewed by an expert
+PF05792	C6_03710W_A	ALS9	CGD gene name (2026-10-07), ALS family	draft, not reviewed by an expert
+PF11765	C1_13450W_A	HYR1	CGD gene name (2026-10-07), HYR/IFF family	draft, not reviewed by an expert
+PF11765	C5_00730W_A	HYR3	CGD gene name (2026-10-07), HYR/IFF family	draft, not reviewed by an expert
+PF11765	CR_00760C_A	HYR4	CGD gene name (2026-10-07), HYR/IFF family	draft, not reviewed by an expert
+PF11765	CR_03630W_A	IFF3	CGD gene name (2026-10-07), HYR/IFF family	draft, not reviewed by an expert
+PF11765	CR_00610W_A	IFF4	CGD gene name (2026-10-07), HYR/IFF family	draft, not reviewed by an expert
+PF11765	C4_06550C_A	IFF5	CGD gene name (2026-10-07), HYR/IFF family	draft, not reviewed by an expert
+PF11765	C2_09130C_A	IFF6	CGD gene name (2026-10-07), HYR/IFF family	draft, not reviewed by an expert
+PF11765	C5_00710W_A	IFF8	CGD gene name (2026-10-07), HYR/IFF family	draft, not reviewed by an expert
+PF11765	CR_03880W_A	IFF9	CGD gene name (2026-10-07), HYR/IFF family	draft, not reviewed by an expert
+PF11765	C3_00600W_A	IFF11	CGD gene name (2026-10-07), HYR/IFF family	draft, not reviewed by an expert

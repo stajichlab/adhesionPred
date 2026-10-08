@@ -26,3 +26,18 @@ Both are evidence level E2 (domain membership, no protein-level paper), UniProt 
 agent cites a paper about the protein itself (agent-A cites the ALS1 and HWP1 papers; agent-B cites a Pfam
 match). **Recommendation from the assistant, not from an expert:** exclude both from the controls, and set the
 repeat label to `unknown`. A person should confirm.
+
+## Owner decision of 2026-10-07 on the two conflicts
+
+`owner_decisions.tsv` records the decision. It is a separate file because `adjudicate_mechanism_labels.py` rewrites
+`expert_review_packet.tsv` with blank expert columns on every run. The script does not read `owner_decisions.tsv`.
+
+- Q6FTA2 and Q59TP1 (RBT1) are excluded from the repeat controls. Their repeat label is `unknown`. This is an owner
+  decision, not an expert review.
+- RBT1 keeps its adhesin E2 label. The note cites PMIDs 10978273 (Braun 2000), 19837954 (Ene and Bennett 2009) and
+  21414038 (Bonhomme 2011).
+- The cluster counts do not change (8 / 19 / 35). Each of the two rows shares its cluster (P20840, P46593) with a
+  row at the `database_annotation` tier.
+- Braun 2000 was read in full (`to_import/genetics0031.pdf`). The two RBT1 alleles differ by a segment of
+  aa 612 to 640 (the genome project sequence lacks it). The paper does not describe a tandem repeat in RBT1.
+  The RBT1 repeat label stays at the family-inference tier.
