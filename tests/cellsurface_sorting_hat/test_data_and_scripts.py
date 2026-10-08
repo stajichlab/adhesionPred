@@ -16,13 +16,25 @@ SCRIPTS = sorted((ROOT / "scripts" / "sorting_hat").glob("*"))
 SH = ROOT / "scripts" / "sorting_hat"
 
 
-def test_shipped_family_table_loads_and_starts_with_every_family_inactive():
-    families = load_family_table(ROOT / "data" / "sorting_hat" / "family_table.tsv")
+# Families the owner has signed off. A family is made active only after its specificity review and the
+# owner's sign-off (active_by and active_date in the table). Changing this set is a deliberate act:
+# edit this line in the same commit as the table.
+SIGNED_OFF = {"PF07691"}  # PA14, signed off 2026-10-07
+
+
+def test_shipped_family_table_loads_and_only_signed_off_families_are_active():
+    path = ROOT / "data" / "sorting_hat" / "family_table.tsv"
+    families = load_family_table(path)
     assert len(families) == 15
-    assert not any(
-        f.active for f in families
-    )  # a family is made active only after its specificity test
+    assert {f.pfam_acc for f in families if f.active} == SIGNED_OFF
     assert {f.module for f in families} == {"pfam_adhesion", "pfam_allergen"}
+    with open(path, newline="") as fh:
+        rows = {r["pfam_acc"]: r for r in csv.DictReader(fh, delimiter="\t")}
+    for acc in SIGNED_OFF:
+        assert rows[acc]["active_by"].strip() and rows[acc]["active_date"].strip()
+    for acc, r in rows.items():
+        if acc not in SIGNED_OFF:
+            assert r["active"] == "no" and not r["active_by"] and not r["active_date"]
 
 
 def test_phasec_species_table_has_one_row_per_species():
