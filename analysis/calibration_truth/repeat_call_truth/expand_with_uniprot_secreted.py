@@ -27,7 +27,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent))
 from build_truth import cluster, read_fasta  # noqa: E402
 
-TAXA = {"Scer_S288C": 559292, "Calb_SC5314": 237561}
+TAXA = {"Scer_S288C": 559292, "Calb_SC5314": 237561, "Afum_Af293_UniProt": 330879}
 
 
 def fetch(taxon):

@@ -63,6 +63,12 @@ Two exploratory scans (nothing in the module was changed):
 
 Leads for the detector (not done): the short-unit arrays (EAP1, PGA18, AGA1; 6 to 8 aa units) and the Als repeats of ALS5, ALS6 and ALS7; FLO11 (Ser/Thr-rich, weak period-15 signal, coverage 0.04) is a known miss.
 
+## 4a. *A. fumigatus*: no status written
+
+The same method on the 167 reviewed, secreted UniProt proteins of *A. fumigatus* Af293 (taxon 330879; `truth_v2.Afum_Af293_UniProt.tsv`) gives 8 positives in 4 clusters and 159 negatives in 117 clusters. Result: sensitivity 0.000 [0.000, 0.490], specificity 1.000 [0.968, 1.000], no negative called. **I did not write a status entry for it.** All 8 positives are enzymes with repeat domains: seven PbH (pectate-lyase-like beta-helix) repeats in polygalacturonases and a xylogalacturonan hydrolase (pgaA, pgaB, pgaX, pgxB, pgxC, xghA, AFUA_1G17), and one BNR repeat set in Vps10. They are not surface arrays, so "sensitivity 0.0" would say nothing about the arrays the call is for, and the report would show a misleading number.
+
+What this does show: the repeat call called none of 159 reviewed secreted *A. fumigatus* proteins. Whether it finds tandem arrays in filamentous fungi (SOWgp, BAD1 and CspA are the known cases) is **not measured**. The repeat call has a measurement only in two Saccharomycotina species. UniProt has no reviewed *A. fumigatus* array protein to test it on. The curated adhesin tables hold a few (CspA among them); a truth set for filamentous fungi needs curation (agent tasks 03 and 08).
+
 ## 5. Effect on the other calls
 
 With the call files in place, a re-run gives statuses (S288C, 6,722 proteins; the run has the R0 status source):

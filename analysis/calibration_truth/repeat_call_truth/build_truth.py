@@ -41,11 +41,14 @@ def read_fasta(path):
 
 
 def cluster(seqs, threads=4):
+    """``{id: representative id}``. MMseqs2 rewrites UniProt-style IDs (sp|ACC|NAME) in its output, so
+    the sequences go in under neutral index IDs and the result is mapped back."""
+    names = list(seqs)
     with tempfile.TemporaryDirectory() as tmp:
         fa = Path(tmp) / "in.faa"
         with open(fa, "w") as f:
-            for k, s in seqs.items():
-                f.write(f">{k}\n{s}\n")
+            for i, k in enumerate(names):
+                f.write(f">s{i}\n{seqs[k]}\n")
         subprocess.run(
             [
                 "mmseqs",
@@ -68,7 +71,7 @@ def cluster(seqs, threads=4):
         rep = {}
         for line in open(f"{tmp}/clu_cluster.tsv"):
             a, b = line.rstrip("\n").split("\t")
-            rep[b] = a
+            rep[names[int(b[1:])]] = names[int(a[1:])]
     return rep
 
 
