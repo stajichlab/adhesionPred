@@ -1,0 +1,13 @@
+name	fasta	taxon	kind	workdir
+Afum_Af293	/bigdata/stajichlab/jstajich/projects/adhesionPred/_workdir/sorting_hat/Afum_Af293_UniProt.faa	330879	inscope	/bigdata/stajichlab/jstajich/projects/adhesionPred/_workdir/sorting_hat/Afum_Af293_UniProt
+Afum_A1163	/bigdata/stajichlab/jstajich/projects/adhesionPred/_workdir/sorting_hat/Afum_A1163.faa	451804	inscope	/bigdata/stajichlab/jstajich/projects/adhesionPred/_workdir/sorting_hat/Afum_A1163
+Afum_W72310	/bigdata/stajichlab/jstajich/projects/adhesionPred/_workdir/sorting_hat/Afum_W72310.faa	746128	inscope	/bigdata/stajichlab/jstajich/projects/adhesionPred/_workdir/sorting_hat/Afum_W72310
+Scer_S288C	/bigdata/stajichlab/jstajich/projects/adhesionPred/_workdir/sorting_hat/Scer_S288C.faa	559292	inscope	/bigdata/stajichlab/jstajich/projects/adhesionPred/_workdir/sorting_hat/Scer_S288C
+Calb_SC5314	/bigdata/stajichlab/jstajich/projects/adhesionPred/_workdir/sorting_hat/Calb_SC5314.faa	237561	inscope	/bigdata/stajichlab/jstajich/projects/adhesionPred/_workdir/sorting_hat/Calb_SC5314
+Cimm_RS	/bigdata/stajichlab/jstajich/projects/adhesionPred/_workdir/sorting_hat/Cimm_RS.faa	246410	inscope	/bigdata/stajichlab/jstajich/projects/adhesionPred/_workdir/sorting_hat/Cimm_RS
+Bder_ER3	/bigdata/stajichlab/jstajich/projects/adhesionPred/_workdir/sorting_hat/Bder_ER3.faa	559297	inscope	/bigdata/stajichlab/jstajich/projects/adhesionPred/_workdir/sorting_hat/Bder_ER3
+Bbas_ARSEF2860	/bigdata/stajichlab/jstajich/projects/adhesionPred/_workdir/sorting_hat/Bbas_ARSEF2860.faa	655819	e1	/bigdata/stajichlab/jstajich/projects/adhesionPred/_workdir/sorting_hat/Bbas_ARSEF2860
+Fful_Race5	/bigdata/stajichlab/jstajich/projects/adhesionPred/_workdir/sorting_hat/Fful_Race5.faa	5499	e1	/bigdata/stajichlab/jstajich/projects/adhesionPred/_workdir/sorting_hat/Fful_Race5
+Fgra_PH-1	/bigdata/stajichlab/jstajich/projects/adhesionPred/_workdir/sorting_hat/Fgra_PH-1.faa	229533	e1	/bigdata/stajichlab/jstajich/projects/adhesionPred/_workdir/sorting_hat/Fgra_PH-1
+Pexp_MD-8	/bigdata/stajichlab/jstajich/projects/adhesionPred/_workdir/sorting_hat/Pexp_MD-8.faa	27334	e1	/bigdata/stajichlab/jstajich/projects/adhesionPred/_workdir/sorting_hat/Pexp_MD-8
+Post_PC9	/bigdata/stajichlab/jstajich/projects/adhesionPred/_workdir/sorting_hat/Post_PC9.faa	1137139	e1	/bigdata/stajichlab/jstajich/projects/adhesionPred/_workdir/sorting_hat/Post_PC9
