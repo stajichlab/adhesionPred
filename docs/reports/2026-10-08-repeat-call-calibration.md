@@ -95,3 +95,20 @@ These composite statuses are derived values (weakest measured leaf), not measure
 ## 7. To reach `estimated`
 
 Independent positive clusters (at least 20, and about 60 for a half-width of 0.10 at sensitivity 0.3, by the binomial approximation that ignores cluster structure), a truth set that no detector saw, and a decision on what "tandem repeat" means for the call (arrays only, or any repeat). The curation tasks 03 and 08 supply positives. A narrower truth definition (tandem arrays at a stated period) would give a sharper measure.
+
+## 8. Under the owner's definition of the call (2026-10-08)
+
+**Decision.** `tandem_repeat_protein` means a repeating motif or array as in FLO11. A repeating domain counts only if it is a known domain associated with adhesion. The owner's examples: Ser/Thr-rich tandem repeats, the Thr-rich functional amyloid core, Hwp1 repeats (*C. albicans*), Iff/Hyr repeats; more are expected from the properties of the arrays.
+
+**Truth set rebuilt** (`build_truth_v3.py`, `truth_v3.<proteome>.tsv`): a positive has at least two array-type UniProt `Repeat` features (numbered, or from an adhesion-associated family name: ALS, PIR, HYR, IFF, HWP, HPF, FLO, EPA, AWP, SRP, CWP, PGA). Proteins whose only repeats are globular domains (BNR, Sel1, LRR, CXXCXGXG, PbH, WD) are left out of both classes: PEP1, VTH1, VTH2, HRD3, SCJ1, FMP27, SPS22, PGU1 (S288C) and DSE1, ASC1, TUP1 (*C. albicans*). Five S288C proteins with one PIR feature each are left out as ambiguous. The adhesion-associated family list is my reading of the owner's examples and is open to additions. Negatives are as before (assumed).
+
+| species | positives (clusters) | negatives (clusters) | sensitivity [95%] | specificity [95%] | status |
+|---|---|---|---|---|---|
+| *S. cerevisiae* (4932) | 23 (16) | 297 (227) | 0.435 [0.067, 0.667] | 0.987 [0.962, 1.000] | `smoke` |
+| *C. albicans* (5476) | 13 (6) | 211 (155) | 0.462 [0.000, 0.788] | 0.976 [0.938, 0.996] | `smoke` |
+
+Sensitivity rises from 0.32 and 0.38 to 0.44 and 0.46 because the domain proteins are no longer counted as misses. The intervals stay wide (16 and 6 positive clusters). Leakage `tuned_on_truth` caps both at `smoke`. These entries replace the broad-truth entries of section 3; the earlier files are kept as `*.broad_truth.json` in `docs/reports/data/sorting_hat/call_status/`.
+
+**All 20 remaining misses are arrays** (`detector14_stopping_points_v3.tsv`): 11 stop at detector 14's sequence-level z gate (FLO11, KRE1, SAG1, CNE1, AGA1, SED1, CCW12, PIR5, EAP1, ALS7, PGA55), 5 at the score pre-filter (MSB2, EGT2, HPF1, ALS5, ALS6) and 4 at the region test or the coverage cutoff (HKR1, DAN4, HWP1, PGA18). They include classes the owner named: FLO11 (Ser/Thr-rich), HWP1 (Hwp1 repeats) and the Als repeats.
+
+The coverage-cutoff scan on the new truth (`threshold_scan_v3.tsv`, all truth proteins): S288C 0.435 at coverage 0.25 (4 false positives of 297), 0.522 at 0.15 (5), 0.522 at 0.05 (7); *C. albicans* 0.462 (5 of 211), 0.538 (7), 0.615 at 0.05 (8). A lower cutoff buys 1 to 4 positives for 1 to 3 false positives, and many of the false positives are probably true repeat proteins that UniProt does not annotate. This does not fix the detector's gates.
