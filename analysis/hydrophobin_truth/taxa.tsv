@@ -1,0 +1,17 @@
+proteome	file	taxon_id	source
+Afum_Af293	Afum_Af293_UniProt.faa	330879	_workdir/sorting_hat/Afum_Af293_UniProt/out/run.json
+Afum_A1163	Afum_A1163.faa	451804	run.json
+Afum_W72310	Afum_W72310.faa	746128	run.json (species node; no strain node)
+Scer_S288C	Scer_S288C.faa	559292	run.json
+Calb_SC5314	Calb_SC5314.faa	237561	run.json
+Cimm_RS	Cimm_RS.faa	246410	run.json
+Bder_ER3	Bder_ER3.faa	559297	run.json
+Cneo_H99	Cneo_H99.faa		no run.json on disk; no strain node found in names.dmp; not used for status
+Bbas_ARSEF2860	Fungi_5k Beauveria_bassiana_ARSEF_2860.proteins.fa	655819	names.dmp scientific name Beauveria bassiana ARSEF 2860
+Fvel_6-3	Fungi_5k Flammulina_velutipes_6-3.proteins.fa	38945	names.dmp Flammulina velutipes (species)
+Fful_Race5	Fungi_5k Fulvia_fulva_Race5_Kim.proteins.fa	5499	names.dmp Fulvia fulva (species)
+Fgra_PH-1	Fungi_5k Fusarium_graminearum_PH-1.proteins.fa	229533	names.dmp Fusarium graminearum PH-1
+Pexp_MD-8	Fungi_5k Penicillium_expansum_MD-8.proteins.fa	27334	names.dmp Penicillium expansum (species)
+Post_PC9	Fungi_5k Pleurotus_ostreatus_PC9.proteins.fa	1137139	names.dmp Pleurotus ostreatus PC9
+Tasp_FT101	Fungi_5k Trichoderma_asperellum_FT101.proteins.fa	101201	names.dmp Trichoderma asperellum (species)
+Tvir_Gv29-8	Fungi_5k Trichoderma_virens_Gv29-8.proteins.fa	413071	names.dmp Trichoderma virens Gv29-8
