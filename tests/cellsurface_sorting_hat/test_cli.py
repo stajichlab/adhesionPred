@@ -3,6 +3,8 @@
 import csv
 import gzip
 import json
+import os
+from pathlib import Path
 
 import pytest
 
@@ -905,3 +907,34 @@ def test_a_legacy_entry_without_call_in_its_notes_keeps_its_status(
     code, out = _run(tmp_path, nodes_dmp, fasta, taxon_map, wd)
     assert code == 0
     assert read_long(out)[("ENZ1", "signal_peptide_protein", "R0")]["status"] == "estimated"
+
+
+GOLDEN = Path(__file__).parent / "golden"
+
+
+def _golden_texts(out):
+    """The decompressed calls.long text and the report without the installed-version line."""
+    with gzip.open(out / "calls.long.tsv.gz", "rt") as fh:
+        long_text = fh.read()
+    report = "".join(
+        line
+        for line in (out / "report.md").read_text().splitlines(keepends=True)
+        if not line.startswith("- version:")
+    )
+    return long_text, report
+
+
+def test_run_output_is_pinned(tmp_path, write_module, nodes_dmp):
+    """The whole output of the toy run, taken from the engine before call status files existed.
+
+    A change here is a change in what every run reports. Regenerate on purpose only:
+    UPDATE_GOLDEN=1 pytest tests/cellsurface_sorting_hat/test_cli.py -k pinned
+    """
+    code, out, _ = run_cli(tmp_path, write_module, nodes_dmp)
+    assert code == 0
+    long_text, report = _golden_texts(out)
+    if os.environ.get("UPDATE_GOLDEN") == "1":
+        (GOLDEN / "calls.long.expected.tsv").write_text(long_text)
+        (GOLDEN / "report.expected.md").write_text(report)
+    assert long_text == (GOLDEN / "calls.long.expected.tsv").read_text()
+    assert report == (GOLDEN / "report.expected.md").read_text()
