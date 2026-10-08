@@ -336,6 +336,8 @@ proteome is dropped from that species and listed.
 | D6 | Are HsbA and Hydrophobin_like in `pfam_hydrophobin`? | Seven hydrophobin-class models in `pfam_hydrophobin`. HsbA in `pfam_hsba`. Combine for display only. Owner decides. |
 | D7 | Download the E1 proteomes (about seven fungal proteomes) to measure the rescue? | Yes, after the owner agrees. Without E1 the rescue is not measured in whole proteomes. |
 | D8 | Confirm the "assumed negative" exception of the repeat work for this call? | Yes, labelled "assumed". |
+| D9 | Which frozen spacing sets does `cys8_pattern` use? (`data/sorting_hat/cys8_spacing.yaml` holds class I and class II sets from several papers, which disagree: class II C5-C6 is 8 in four places and 2-7 in Mgbeahuruike 2013 Table 1.) | A protein matches if it fits any one published set as stated, with no merging of ranges. `spacing_class` records which. Owner decides. |
+| D10 | Is the R0 signal-peptide condition acceptable? Lovett 2022 (bioRxiv) reports hydrophobin candidates without a predicted signal peptide. | Keep the condition. Report in the measurement how many labelled hydrophobins lack an R0 call. |
 
 ## 10. Work plan
 
