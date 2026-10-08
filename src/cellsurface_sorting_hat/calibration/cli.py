@@ -8,13 +8,14 @@ import sys
 from pathlib import Path
 
 from cellsurface_sorting_hat.calibration import phasec
+from cellsurface_sorting_hat.calibration.call_files import write_call_status
 from cellsurface_sorting_hat.calibration.measure import (
     build_measure,
     make_entry,
     write_status_source,
 )
 from cellsurface_sorting_hat.calibration.panel import panel_check
-from cellsurface_sorting_hat.engine import load_config, modules_of_call, variant_label
+from cellsurface_sorting_hat.engine import call_eligible, load_config, reads_of_call
 from cellsurface_sorting_hat.fasta import read_fasta
 from cellsurface_sorting_hat.modules import allergen, pfam
 from cellsurface_sorting_hat.taxonomy import TaxonError
@@ -55,7 +56,20 @@ def build_parser():
         "truth", help="sensitivity and specificity of one call against a truth table"
     )
     p.add_argument("--workdir", required=True)
-    p.add_argument("--module", required=True, help="module that receives the status entry")
+    target = p.add_mutually_exclusive_group(required=True)
+    target.add_argument(
+        "--module", help="module that receives the status entry (a call that reads one module)"
+    )
+    target.add_argument(
+        "--call-status",
+        action="store_true",
+        help="write status/calls/<call>.json: the status of a call that reads two or more modules",
+    )
+    p.add_argument(
+        "--config",
+        help="categories.yaml of the run (default: the packaged file); with --call-status its hash "
+        "must equal config_sha256 in run.json",
+    )
     p.add_argument(
         "--calls-long", required=True, help="calls.long.tsv.gz of a run on the truth proteins"
     )
@@ -239,14 +253,6 @@ def _plain(text):
     return " ".join(str(text).replace("=", ":").replace(";", ",").split())
 
 
-def _reads_of_call(cfg, call, variant):
-    """Modules that a call reads. With ``variant``, a step 1 module of another variant is left out."""
-    reads = modules_of_call(cfg, call)
-    if variant:
-        reads = [m for m in reads if m not in cfg.step1_variants or variant_label(m) == variant]
-    return reads
-
-
 def _check_run_identity(calls_long, workdir, module):
     """``run.json`` next to ``calls_long`` must carry the identity of ``module`` that the work
     directory's module record carries now. A status belongs to the data it was measured on."""
@@ -360,6 +366,51 @@ def _read_truth(path, calls):
     return rows
 
 
+def _check_call_run(calls_long, workdir, cfg, call, variant):
+    """Checks for ``--call-status``; returns the modules the call reads.
+
+    The call must be eligible. ``run.json`` next to ``calls_long`` must come from a run with this
+    config and every read module in state ``ok`` (a call measured with a module missing is a
+    different rule). Each module identity must be the one in the work directory now.
+    """
+    ok, reason = call_eligible(cfg, call)
+    if not ok:
+        raise ValueError(
+            f"unknown call {call!r}"
+            if reason == "unknown call"
+            else f"call {call!r} is not eligible for a call status file ({reason}); "
+            "it needs an expression with no ref, not kind other, reading two or more modules"
+        )
+    reads = reads_of_call(cfg, call, variant)
+    path = Path(calls_long).with_name("run.json")
+    if not path.is_file():
+        raise ValueError(f"{path}: not found; it must be next to --calls-long (the run output)")
+    try:
+        run_json = json.loads(path.read_text(encoding="utf-8-sig"))
+    except ValueError as exc:
+        raise ValueError(f"{path}: not valid JSON ({exc})") from exc
+    if "config_sha256" not in run_json:
+        raise ValueError(f"{path}: no config_sha256; run the core command again")
+    if run_json["config_sha256"] != cfg.sha256:
+        raise ValueError(
+            f"{path}: the run used another config (config_sha256 differs from --config)"
+        )
+    states = run_json.get("module_states")
+    if not isinstance(states, dict):
+        raise ValueError(f"{path}: no module_states; run the core command again")
+    for module in reads:
+        state = states.get(module, "missing")
+        if state != "ok":
+            raise ValueError(
+                f"module {module!r} was not ok in the run (state: {state}); the call was not "
+                "measured with all the modules it reads"
+            )
+    for module in reads:
+        _require_run_record(workdir, module)
+        _check_run_identity(calls_long, workdir, module)
+    return reads
+
+
 def run(args):
     if args.cmd == "phasec":
         record = _require_run_record(args.workdir, phasec.R0_MODULE)
@@ -389,7 +440,9 @@ def run(args):
     if args.cmd == "truth":
         if args.n_boot < 1:
             raise ValueError("--n-boot must be at least 1")
-        _require_run_record(args.workdir, args.module)
+        cfg = load_config(args.config) if args.config else load_config()
+        if args.module:
+            _require_run_record(args.workdir, args.module)
         if len(args.taxa) != 1:
             raise ValueError(
                 "--taxa takes exactly one taxon: a status entry is one species; "
@@ -397,19 +450,22 @@ def run(args):
             )
         nodes = read_nodes(args.nodes_dmp)
         _require_species(args.taxa[0], nodes, "--taxa")
-        reads = _reads_of_call(load_config(), args.call, args.variant)
-        if args.module not in reads:
-            raise ValueError(
-                f"--module {args.module!r} is not read by call {args.call!r}; "
-                f"the call reads: {', '.join(reads)}"
-            )
-        if len(reads) > 1:
-            raise ValueError(
-                f"call {args.call!r} reads {len(reads)} modules ({', '.join(reads)}); a status "
-                "comes from a measurement of one module on a call that reads only that module. "
-                "Give a call that reads one module"
-            )
-        _check_run_identity(args.calls_long, args.workdir, args.module)
+        if args.call_status:
+            reads = _check_call_run(args.calls_long, args.workdir, cfg, args.call, args.variant)
+        else:
+            reads = reads_of_call(cfg, args.call, args.variant)
+            if args.module not in reads:
+                raise ValueError(
+                    f"--module {args.module!r} is not read by call {args.call!r}; "
+                    f"the call reads: {', '.join(reads)}"
+                )
+            if len(reads) > 1:
+                raise ValueError(
+                    f"call {args.call!r} reads {len(reads)} modules ({', '.join(reads)}); a status "
+                    "comes from a measurement of one module on a call that reads only that module. "
+                    "Give a call that reads one module, or use --call-status"
+                )
+            _check_run_identity(args.calls_long, args.workdir, args.module)
         protein_taxa = _read_protein_taxa(args.calls_long)
         calls = _read_call_values(args.calls_long, args.call, args.variant)
         y, called, clusters, unmatched, unknown, unknown_pos = [], [], [], 0, 0, 0
@@ -444,7 +500,10 @@ def run(args):
         ).strip()
         if not any(lab == 0 for lab in y):
             notes += " specificity not measured (no negatives)"
-        notes += f" call={args.call}; module={args.module}; variant={args.variant}"
+        if args.call_status:
+            notes += f" call={args.call}; variant={args.variant}; reads={','.join(reads)}"
+        else:
+            notes += f" call={args.call}; module={args.module}; variant={args.variant}"
         measure = build_measure(
             args.calibration_set,
             str(args.truth),
@@ -455,10 +514,14 @@ def run(args):
             args.n_boot,
             args.seed,
         )
-        path = Path(args.workdir) / "status" / f"{args.module}.json"
         measure["notes"] = f"{measure['notes']} leakage: {args.leakage}".strip()
         cap = None if args.leakage == "none" else "smoke"
         entry = make_entry(args.taxa, measure, source=str(args.truth), cap=cap)
+        if args.call_status:
+            return write_call_status(
+                args.workdir, cfg, args.call, args.variant, cfg.sha256, [entry]
+            )
+        path = Path(args.workdir) / "status" / f"{args.module}.json"
         return write_status_source(
             args.workdir, args.module, _merge_entries(path, [entry], args.workdir, args.module)
         )
