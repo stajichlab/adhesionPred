@@ -47,3 +47,27 @@ HCF2_FULFL, HCF1_FULFL and HCF4_FULFL (F. fulva Race5). The other three do not m
 HFB3_HYPVG (best hit in T. virens Gv29-8 67.6%), and PSH_FLAVE (98.4% identity but 85% query coverage in F. velutipes 6-3, below the 90% rule; left unmapped, not relaxed).
 So the rescue gain can be measured in three species (P. expansum, G. graminearum, F. fulva) with 1, 2 and 3 entries. Those are small numbers.
 Cneo_H99 has no run record and no strain node in names.dmp, so it is not used for status.
+
+## H2c results (2026-10-08): inputs for `calibrate truth`, split made once
+
+`make_calibration_inputs.py` (job 29636315, MMseqs2 17-b804f, 30% identity, coverage 0.5, seed 20261008, 30% of clusters to development).
+Label 1 = mapped T1/T2 truth protein; mapped T3 proteins are excluded; every other proteome protein is label 0 and **assumed** negative (absent annotation).
+Every row has a cluster (all proteome proteins were clustered). `split.tsv.gz` holds the dev/test part of every row and is the record made before any measurement.
+The per-species `calibration/<proteome>/truth_{all,test,dev}.tsv` tables (13 MB) are not committed. They come from the script and the stored split.
+
+| Proteome | Positives (T1/T2) | Assumed negatives | Clusters | Positives in dev / test |
+|---|---|---|---|---|
+| Afum_Af293 | 7 | 9640 | 7697 | 1 / 6 |
+| Afum_A1163 | 6 | 9936 | 7961 | 2 / 4 |
+| Afum_W72310 | 5 | 10551 | 8105 | 0 / 5 |
+| Bbas_ARSEF2860 | 7 | 9471 | 7720 | 0 / 7 |
+| Fful_Race5 | 4 | 13556 | 10823 | 1 / 3 |
+| Fgra_PH-1 | 5 | 11188 | 8750 | 3 / 2 |
+| Pexp_MD-8 | 5 | 10619 | 8009 | 2 / 3 |
+| Post_PC9 | 3 | 10479 | 7617 | 0 / 3 |
+
+Skipped: Scer_S288C, Calb_SC5314, Cimm_RS, Bder_ER3, Cneo_H99, Tvir_Gv29-8 (0 positives), Fvel_6-3 (0 T1/T2 positives mapped; its mapped proteins are T3), Tasp_FT101 (2 positives, below the minimum of 3).
+
+Reading of the counts: the test part has 2 to 7 positive proteins in each species, and positives per proteome are 3 to 7 in total. The spec rule (at least 10 positive clusters in the test part) is not met in any species.
+So no species has a usable test split. The status files will be `smoke`, leakage `partial`, from the whole proteome table, and the report will say so. The development part still serves the rule
+that the pattern changes only on development data.
