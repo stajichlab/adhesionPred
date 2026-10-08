@@ -1,0 +1,123 @@
+# Published cysteine spacing of hydrophobins (task H3 of the hydrophobin validation plan).
+# Written 2026-10-08. Every number below is copied from a source that was read.
+# No truth protein, no sequence analysis and no regex run were used. No number is from memory.
+#
+# Unit: number of residues between the two named cysteines (consecutive C1 to C8, N to C terminus).
+# C2_C3 and C6_C7 are the cysteine doublets. They are listed only where a source states them.
+# Where sources disagree, both are listed. They are not merged. The word "origin" names the set
+# and the word "source" names the quote locator. Each gap line has exactly one source field.
+#
+# Not read (no numbers taken from them): Wessels 1994 (no PMID in PubMed; doi 10.1146/annurev.py.32.090194.002213),
+# Linder 2005 (PMID 16219510, abstract only), Sunde 2008 (PMID 17875392, abstract only).
+# Numbers that other papers attribute to those sources are not used as if they were read.
+#
+# Which set the cys8_pattern module uses first: NOT decided in this task. Owner decision.
+# Sets that overlap on class II: seidl_seiboth_2011_table3, mgbeahuruike_2013_table1,
+# kubicek_2008_fig2_consensus, li_2021_signature. The overlap and the differences are in
+# docs/paper/05-literature-verification.md section 6.
+
+class_I:
+  seidl_seiboth_2011_table3:   # ascomycete class I HFBs in that study
+    C1_C2: {min: 6, max: 6, source: "PMID 21424760, Table 3 row I, column 1_2"}
+    C3_C4: {min: 33, max: 39, source: "PMID 21424760, Table 3 row I, column 3_4"}
+    C4_C5: {min: 19, max: 25, source: "PMID 21424760, Table 3 row I, column 4_5"}
+    C5_C6: {min: 5, max: 5, source: "PMID 21424760, Table 3 row I, column 5_6"}
+    C7_C8: {min: 15, max: 17, source: "PMID 21424760, Table 3 row I, column 7_8"}
+  mgbeahuruike_2013_basidiomycetes:
+    C1_C2: {min: 6, max: 6, source: "PMID 24188142, Table 1 row Class I (basidiomycetes), C1/C2"}
+    C2_C3: {min: 0, max: 0, source: "PMID 24188142, Table 1 footnote a: C2/C3 and C6/C7 are adjacent in all characterized hydrophobins"}
+    C3_C4: {min: 26, max: 33, source: "PMID 24188142, Table 1 row Class I (basidiomycetes), C3/C4"}
+    C4_C5: {min: 12, max: 13, source: "PMID 24188142, Table 1 row Class I (basidiomycetes), C4/C5"}
+    C5_C6: {min: 6, max: 6, source: "PMID 24188142, Table 1 row Class I (basidiomycetes), C5/C6"}
+    C6_C7: {min: 0, max: 0, source: "PMID 24188142, Table 1 footnote a"}
+    C7_C8: {min: 13, max: 13, source: "PMID 24188142, Table 1 row Class I (basidiomycetes), C7/C8"}
+  mgbeahuruike_2013_ascomycetes:
+    C1_C2: {min: 6, max: 7, source: "PMID 24188142, Table 1 row Class I (ascomycetes), C1/C2"}
+    C2_C3: {min: 0, max: 0, source: "PMID 24188142, Table 1 footnote a"}
+    C3_C4: {min: 26, max: 39, source: "PMID 24188142, Table 1 row Class I (ascomycetes), C3/C4"}
+    C4_C5: {min: 18, max: 21, source: "PMID 24188142, Table 1 row Class I (ascomycetes), C4/C5"}
+    C5_C6: {min: 6, max: 8, source: "PMID 24188142, Table 1 row Class I (ascomycetes), C5/C6"}
+    C6_C7: {min: 0, max: 0, source: "PMID 24188142, Table 1 footnote a"}
+    C7_C8: {min: 15, max: 17, source: "PMID 24188142, Table 1 row Class I (ascomycetes), C7/C8"}
+  li_2021_signature:   # signature quoted in the Methods of PMID 33440688; the paper cites PMID 24188142 for it
+    C1_C2: {min: 5, max: 7, source: "PMID 33440688, Methods 4.4, type I signature C-X5-7-C"}
+    C2_C3: {min: 0, max: 0, source: "PMID 33440688, Methods 4.4, type I signature -C-C-"}
+    C3_C4: {min: 19, max: 39, source: "PMID 33440688, Methods 4.4, type I signature -X19-39-"}
+    C4_C5: {min: 8, max: 23, source: "PMID 33440688, Methods 4.4, type I signature -X8-23-"}
+    C5_C6: {min: 5, max: 5, source: "PMID 33440688, Methods 4.4, type I signature -X5-"}
+    C6_C7: {min: 0, max: 0, source: "PMID 33440688, Methods 4.4, type I signature -C-C-"}
+    C7_C8: {min: 6, max: 18, source: "PMID 33440688, Methods 4.4, type I signature -X6-18-C"}
+    after_C8: {min: 2, max: 13, source: "PMID 33440688, Methods 4.4, type I signature, trailing -X2-13"}
+  jensen_2010_example:   # one protein, ATEG_06492, A. terreus, called class I by the authors
+    C1_C2: {min: 7, max: 7, source: "PMID 21182770, Results, section Class I and class II hydrophobins of Aspergillus terreus, CN{7}CCN{40}CN{16}CN{5}CCN{17}C"}
+    C3_C4: {min: 40, max: 40, source: "PMID 21182770, same sentence"}
+    C4_C5: {min: 16, max: 16, source: "PMID 21182770, same sentence"}
+    C5_C6: {min: 5, max: 5, source: "PMID 21182770, same sentence"}
+    C7_C8: {min: 17, max: 17, source: "PMID 21182770, same sentence"}
+
+class_II:
+  seidl_seiboth_2011_table3:
+    C1_C2: {min: 10, max: 10, source: "PMID 21424760, Table 3 row II, column 1_2"}
+    C3_C4: {min: 11, max: 11, source: "PMID 21424760, Table 3 row II, column 3_4"}
+    C4_C5: {min: 16, max: 16, source: "PMID 21424760, Table 3 row II, column 4_5"}
+    C5_C6: {min: 8, max: 8, source: "PMID 21424760, Table 3 row II, column 5_6"}
+    C7_C8: {min: 10, max: 10, source: "PMID 21424760, Table 3 row II, column 7_8"}
+  mgbeahuruike_2013_table1:
+    C1_C2: {min: 9, max: 10, source: "PMID 24188142, Table 1 row Class II, C1/C2"}
+    C2_C3: {min: 0, max: 0, source: "PMID 24188142, Table 1 footnote a"}
+    C3_C4: {min: 11, max: 11, source: "PMID 24188142, Table 1 row Class II, C3/C4"}
+    C4_C5: {min: 15, max: 16, source: "PMID 24188142, Table 1 row Class II, C4/C5"}
+    C5_C6: {min: 2, max: 7, source: "PMID 24188142, Table 1 row Class II, C5/C6"}
+    C6_C7: {min: 0, max: 0, source: "PMID 24188142, Table 1 footnote a"}
+    C7_C8: {min: 10, max: 10, source: "PMID 24188142, Table 1 row Class II, C7/C8"}
+  kubicek_2008_fig2_consensus:   # counted by hand from the printed consensus, see section 6 of 05-literature-verification.md
+    C1_C2: {min: 9, max: 10, source: "PMID 18186925, Figure 2 consensus C1 P X G L X3-4 P Q C2: 4 + (3 to 4) + 2"}
+    C2_C3: {min: 0, max: 0, source: "PMID 18186925, Figure 2 consensus, C2 C3 adjacent"}
+    C3_C4: {min: 11, max: 11, source: "PMID 18186925, Figure 2 consensus C3 X3 V L G V al X L D C4: 3 + 4 + 1 + 1 + 2"}
+    C4_C5: {min: 16, max: 16, source: "PMID 18186925, Figure 2 consensus C4 X2 P X9 F X3 C5: 2 + 1 + 9 + 1 + 3"}
+    C5_C6: {min: 8, max: 8, source: "PMID 18186925, Figure 2 consensus C5 X3 G X4 C6: 3 + 1 + 4"}
+    C6_C7: {min: 0, max: 0, source: "PMID 18186925, Figure 2 consensus, C6 C7 adjacent"}
+    C7_C8: {min: 10, max: 10, source: "PMID 18186925, Figure 2 consensus C7 V V P I X4 al L C8: 3 + 1 + 4 + 1 + 1"}
+  li_2021_signature:   # type II signature quoted in the Methods of PMID 33440688
+    C1_C2: {min: 9, max: 9, source: "PMID 33440688, Methods 4.4, type II signature C-X9-CC"}
+    C2_C3: {min: 0, max: 0, source: "PMID 33440688, Methods 4.4, type II signature CC"}
+    C3_C4: {min: 11, max: 11, source: "PMID 33440688, Methods 4.4, type II signature -X11-"}
+    C4_C5: {min: 14, max: 16, source: "PMID 33440688, Methods 4.4, type II signature -X14-16-"}
+    C5_C6: {min: 8, max: 8, source: "PMID 33440688, Methods 4.4, type II signature -X8-"}
+    C6_C7: {min: 0, max: 0, source: "PMID 33440688, Methods 4.4, type II signature C-C"}
+    C7_C8: {min: 10, max: 10, source: "PMID 33440688, Methods 4.4, type II signature -X10-C"}
+    after_C8: {min: 6, max: 7, source: "PMID 33440688, Methods 4.4, type II signature, trailing -X6-7"}
+  jensen_2010_example:   # one protein, ATEG_04730, A. terreus, called class II by the authors
+    C1_C2: {min: 10, max: 10, source: "PMID 21182770, Results, section on Aspergillus terreus, CN{10}CCN{11}CN{16}CN{8}CCN{10}C"}
+    C3_C4: {min: 11, max: 11, source: "PMID 21182770, same sentence"}
+    C4_C5: {min: 16, max: 16, source: "PMID 21182770, same sentence"}
+    C5_C6: {min: 8, max: 8, source: "PMID 21182770, same sentence"}
+    C7_C8: {min: 10, max: 10, source: "PMID 21182770, same sentence"}
+
+other:
+  seidl_seiboth_2011_table3_class_I_new:   # Trichoderma novel hydrophobins; the paper says they deviate from the two classes
+    C1_C2: {min: 6, max: 7, source: "PMID 21424760, Table 3 row I new, column 1_2"}
+    C3_C4: {min: 9, max: 13, source: "PMID 21424760, Table 3 row I new, column 3_4"}
+    C4_C5: {min: 5, max: 10, source: "PMID 21424760, Table 3 row I new, column 4_5"}
+    C5_C6: {min: 5, max: 5, source: "PMID 21424760, Table 3 row I new, column 5_6"}
+    C7_C8: {min: 8, max: 12, source: "PMID 21424760, Table 3 row I new, column 7_8"}
+  jensen_2010_four_unclassified:   # An01g10940, JGI35683, AN0940.2, AFLA_063080; the paper gives one pattern for the four
+    C1_C2: {min: 5, max: 13, source: "PMID 21182770, Results, Identification of hydrophobins, CN{5-13}CCN{17}CN{7-12}CN{7}CCN{8-12}C"}
+    C3_C4: {min: 17, max: 17, source: "PMID 21182770, same sentence"}
+    C4_C5: {min: 7, max: 12, source: "PMID 21182770, same sentence"}
+    C5_C6: {min: 7, max: 7, source: "PMID 21182770, same sentence"}
+    C7_C8: {min: 8, max: 12, source: "PMID 21182770, same sentence"}
+  mgbeahuruike_2013_thielavia_terrestris_protein_159967:   # one protein; the paper says it deviates from classes I and II
+    C1_C2: {min: 7, max: 7, source: "PMID 24188142, Table 1 row T. terrestris protein 159967"}
+    C3_C4: {min: 5, max: 5, source: "PMID 24188142, Table 1 row T. terrestris"}
+    C4_C5: {min: 8, max: 8, source: "PMID 24188142, Table 1 row T. terrestris"}
+    C5_C6: {min: 5, max: 5, source: "PMID 24188142, Table 1 row T. terrestris"}
+    C7_C8: {min: 12, max: 12, source: "PMID 24188142, Table 1 row T. terrestris"}
+  mgbeahuruike_2013_ustilago_maydis_protein_5010:   # one protein; the paper says it deviates from classes I and II
+    C1_C2: {min: 6, max: 6, source: "PMID 24188142, Table 1 row U. maydis protein 5010"}
+    C3_C4: {min: 49, max: 49, source: "PMID 24188142, Table 1 row U. maydis"}
+    C4_C5: {min: 17, max: 17, source: "PMID 24188142, Table 1 row U. maydis"}
+    C5_C6: {min: 5, max: 5, source: "PMID 24188142, Table 1 row U. maydis"}
+    C7_C8: {min: 16, max: 16, source: "PMID 24188142, Table 1 row U. maydis"}
+  jensen_2010_c5_c6_statement:   # statement about 44 of 50 Aspergillus hydrophobins
+    C5_C6: {min: 5, max: 8, source: "PMID 21182770, Results: spacing of five between C5 and C6 in 44 of 50; the other six have seven or eight"}

@@ -79,9 +79,19 @@ Decisions 1 to 4 of 2026-10-06 are in `03-status-and-validation-rules.md`, secti
 5. Whether the study design (training on two yeasts only, testing elsewhere) is the design the paper
    should present, or whether the paper should present Phase C as exploratory.
 6. The 8-cysteine rescue rule for hydrophobins (`docs/superpowers/specs/2026-10-08-hydrophobin-validation-design.md`).
-   The pattern is not novel (docs/paper/05, section 5). Whether a measured pattern-plus-Pfam call is a
-   contribution depends on a full-text read of Yang 2006 and a wider prior-art search than PubMed alone. Do
-   not claim novelty of the pattern. Claim only measured sensitivity and false-positive cost.
+   The pattern is not novel (docs/paper/05, sections 5 and 6). Updated 2026-10-08 after full-text reads and a
+   wider search (PubMed, bioRxiv by web search, InterPro and Pfam entries; docs/paper/05 section 6.4). Found:
+   Jensen 2010 (PMID 21182770) screens genomes with the eight-cysteine pattern plus a signal sequence and
+   reports 5 of 50 hydrophobins with no Pfam hit. Li 2021 (PMID 33440688) takes the union of Pfam hits and
+   class I and II cysteine-spacing signatures. Lovett 2022 (bioRxiv, not peer reviewed, doi
+   10.1101/2022.08.19.504535) combines a 6-cysteine pattern, Pfam hmmsearch and SignalP, and reports 15
+   candidates found only by the pattern, plus 996 other proteins with the pattern. Yang 2006 used the pattern
+   as a filter, not a rescue. No source found that measures the sensitivity and false-positive cost of a rule
+   "8-cysteine pattern plus signal peptide added to a Pfam call" against a truth set. This covers only the
+   sources named. Not searched: Google Scholar, Scopus, and the full text of Wessels 1994, Linder 2005 and
+   Sunde 2008 (not readable). Do not claim novelty of the pattern, of the pattern-plus-Pfam union or of the
+   signal-peptide condition. Claim only measured sensitivity and false-positive cost. The published spacings
+   disagree in places (docs/paper/05 section 6.3). The paper must state which spacing was used and why.
 7. A hydrophobin call has no separate module yet. Until the spec is implemented, a hydrophobin Pfam hit sets
    `wall_family_domain` and so can set `cell_wall_adhesion_candidate` (PR #75). Report class counts with this
    in mind.
