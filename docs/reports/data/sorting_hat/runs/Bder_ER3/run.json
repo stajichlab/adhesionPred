@@ -14,7 +14,7 @@
       "sensitivity": "not measured",
       "specificity": "not measured",
       "status": "unvalidated",
-      "taxon": 237561
+      "taxon": 559297
     },
     {
       "calibration_set": "",
@@ -27,7 +27,7 @@
       "sensitivity": "not measured",
       "specificity": "not measured",
       "status": "unvalidated",
-      "taxon": 237561
+      "taxon": 559297
     },
     {
       "calibration_set": "",
@@ -40,7 +40,7 @@
       "sensitivity": "not measured",
       "specificity": "not measured",
       "status": "unvalidated",
-      "taxon": 237561
+      "taxon": 559297
     },
     {
       "calibration_set": "",
@@ -53,20 +53,20 @@
       "sensitivity": "not measured",
       "specificity": "not measured",
       "status": "unvalidated",
-      "taxon": 237561
+      "taxon": 559297
     },
     {
-      "calibration_set": "S1:Calb_CGD",
-      "matched_taxon": 5476,
-      "measured_call": "signal_peptide_protein",
+      "calibration_set": "",
+      "matched_taxon": "",
+      "measured_call": "",
       "module": "step1_rule@R0",
-      "n_neg": 459,
-      "n_pos": 153,
-      "reason": "",
-      "sensitivity": "0.477 [0.356, 0.591]",
-      "specificity": "0.943 [0.913, 0.968]",
-      "status": "smoke",
-      "taxon": 237561
+      "n_neg": "",
+      "n_pos": "",
+      "reason": "no status_source",
+      "sensitivity": "not measured",
+      "specificity": "not measured",
+      "status": "unvalidated",
+      "taxon": 559297
     },
     {
       "calibration_set": "",
@@ -79,7 +79,7 @@
       "sensitivity": "not measured",
       "specificity": "not measured",
       "status": "unvalidated",
-      "taxon": 237561
+      "taxon": 559297
     }
   ],
   "config_sha256": "f97cb08508c13100cded294a41d86940d3907419f7d59d76f49bbcc278a08ade",
@@ -142,7 +142,7 @@
     "tm": "ok"
   },
   "n_invalid": 0,
-  "n_proteins": 6212,
+  "n_proteins": 8107,
   "n_trailing_stop": 0,
   "state_counts": {
     "allergen_homology": {},
@@ -153,7 +153,7 @@
     "tm": {}
   },
   "taxa": {
-    "237561": 6212
+    "559297": 8107
   },
   "taxonomy_sha256": "78392a6926b01fadda65ab819b75e0685e62593fffc0efe09c70b04d26cb7f6b",
   "thresholds": {

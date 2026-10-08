@@ -21,7 +21,7 @@
 | antigen_lookup | ok |
 | cys_rich | ok |
 | expression | ok |
-| pfam_adhesion | unavailable |
+| pfam_adhesion | ok |
 | pfam_allergen | unavailable |
 | repeat02 | ok |
 | repeat14 | ok |
@@ -44,6 +44,7 @@ Unavailable step 1 variants: step1_rule@R1, step1_rule@R2, step1_ml@card
 | antigen_lookup | 246410 | unvalidated | - | - | - | - | not measured | not measured |
 | cys_rich | 246410 | unvalidated | - | - | - | - | not measured | not measured |
 | expression | 246410 | unvalidated | - | - | - | - | not measured | not measured |
+| pfam_adhesion | 246410 | unvalidated | - | - | - | - | not measured | not measured |
 | repeat02 | 246410 | unvalidated | - | - | - | - | not measured | not measured |
 | repeat14 | 246410 | unvalidated | - | - | - | - | not measured | not measured |
 | step1_rule@R0 | 246410 | unvalidated | - | - | - | - | not measured | not measured |
@@ -53,7 +54,7 @@ Unavailable step 1 variants: step1_rule@R1, step1_rule@R2, step1_ml@card
 
 | call | variant | called | not_called | not_assessable |
 |---|---|---|---|---|
-| cell_wall_adhesion_candidate | R0 | 7 | 9450 | 453 |
+| cell_wall_adhesion_candidate | R0 | 7 | 9903 | 0 |
 | cocci_specificity_rank_top15 | - | 1376 | 7763 | 771 |
 | iuis_allergen_homolog | - | 16 | 0 | 9894 |
 | iuis_allergen_similarity | - | 84 | 9826 | 0 |
@@ -62,12 +63,11 @@ Unavailable step 1 variants: step1_rule@R1, step1_rule@R2, step1_ml@card
 | serodiagnostic_marker_candidate | R0 | 143 | 9756 | 11 |
 | signal_peptide_protein | R0 | 460 | 9450 | 0 |
 | tandem_repeat_protein | - | 27 | 9883 | 0 |
-| wall_family_domain | - | 0 | 0 | 9910 |
+| wall_family_domain | - | 0 | 9910 | 0 |
 
 ## `other_basis` (categories left out because they were not assessable)
 
-- wall_family_domain: 7754
-- wall_family_domain,cocci_specificity_rank_top15: 770
+- cocci_specificity_rank_top15: 770
 
 ## Known limits
 
