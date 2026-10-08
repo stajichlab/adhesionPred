@@ -97,6 +97,39 @@ Naming note: "Phase C" is the held-out evaluation of step 1. A more descriptive 
 documents is "step 1 held-out benchmark". The path `_workdir/step1_compare/phasec/` and older
 documents keep the old name. No rename is planned now.
 
+## 6a. Calls that read several modules: call status files (2026-10-08)
+
+A status normally belongs to one module (`status/<module>.json`). Two calls read two modules:
+`tandem_repeat_protein` (`repeat02` or `repeat14`) and `iuis_allergen_homolog` (`allergen_homology` or
+`pfam_allergen`). A truth table measures such a call as a whole, so its status belongs to the call:
+`status/calls/<call>.json`, written by `cellsurface_sorting_hat_calibrate truth --call-status`.
+Design: `docs/superpowers/specs/2026-10-07-per-call-status-design.md`; plan and review:
+`docs/superpowers/plans/2026-10-08-per-call-status*.md`.
+
+Rules (owner decisions Q6 to Q8, 2026-10-07):
+- **One source per call.** A call file is allowed only for a call that has an expression, has no `ref`,
+  is not an `other_*` call, names no step 1 module literally, and reads two or more modules (for every
+  variant). Other calls keep module files.
+- **A call file is valid for a run only when everything it was measured with is unchanged:** the config
+  (hash), the modules the call reads, their identity (version, parameters, artefact), their run state
+  (`ok`; an `unavailable`, `partial` or `error` module makes the file stale, because the call was measured
+  with a different rule), and the call definition (hash of the expression, the thresholds it references
+  and the engine semantics). A stale file is never used. The run falls back to the module statuses and
+  says why in `status_basis` and in the report.
+- **A file that cannot be read, or that names a call that does not exist or cannot have a call file,
+  stops the run.** A stale file does not.
+- **A call file cannot raise a status.** Every entry needs its measure and a `leakage:` note; the status
+  is never stronger than the measure allows, and any leakage other than `none` caps it at `smoke`.
+  The loader refuses a tested taxon below 2 (the root would apply to every protein).
+- **Lineage is as for modules:** a species applies to its strains, the most specific tested taxon wins,
+  a sibling clade does not inherit.
+- **Composite calls (decision 3, Q7).** A composite call such as `cell_wall_adhesion_candidate` takes the
+  weakest status of the measured leaf calls that decided it. A leaf call with a call file contributes the
+  call status; a leaf without one contributes its module statuses. The result is a derived value, not a
+  measurement of the composite. The report says so in its "Call calibration" section, which appears
+  only when call files exist.
+- A call whose value is `not_assessable` never takes a call status.
+
 ## 7. What a reader can rely on today
 
 | Claim | Basis |
