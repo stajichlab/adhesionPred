@@ -1,0 +1,48 @@
+{
+  "call": "tandem_repeat_protein",
+  "call_hash": "94228eccdcd64a1065c0750f1ad680d9a5895619057c2fad6734ddd0e365afdd",
+  "config_sha256": "f97cb08508c13100cded294a41d86940d3907419f7d59d76f49bbcc278a08ade",
+  "entries": [
+    {
+      "measure": {
+        "calibration_set": "repeat_curated_plus_uniprot_secreted_S288C",
+        "n_clusters_neg": 227,
+        "n_clusters_pos": 22,
+        "n_neg": 297,
+        "n_pos": 31,
+        "notes": "curated adhesin set plus reviewed secreted UniProt proteins; labels from UniProt Repeat features (>=2) and paper statements; negatives assumed from absent annotation; Repeat features also mark repeat domains (WD40, ankyrin). truth rows without a call: 0; not assessable: 0; sensitivity if not assessable positives count as missed: 0.323 call=tandem_repeat_protein; variant=; reads=repeat02,repeat14 leakage: tuned_on_truth",
+        "sensitivity": {
+          "hi": 0.5348837209302325,
+          "lo": 0.043478260869565216,
+          "value": 0.3225806451612903
+        },
+        "specificity": {
+          "hi": 1.0,
+          "lo": 0.9615046195781914,
+          "value": 0.9865319865319865
+        },
+        "truth_source": "analysis/calibration_truth/repeat_call_truth/truth_v2.Scer_S288C.tsv"
+      },
+      "source": "analysis/calibration_truth/repeat_call_truth/truth_v2.Scer_S288C.tsv",
+      "status": "smoke",
+      "taxa": [
+        4932
+      ]
+    }
+  ],
+  "reads": [
+    {
+      "artefact_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "name": "repeat02",
+      "params_hash": "7d723f2d540d1e45f46e55661b67d2059dddeb722d210a90ce4691b169edd116",
+      "version": "1"
+    },
+    {
+      "artefact_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "name": "repeat14",
+      "params_hash": "946489ad437ccee8bf3b9c4f7289248d9eba1751fd21db7e0c16dd326f08e2eb",
+      "version": "1"
+    }
+  ],
+  "variant": ""
+}
