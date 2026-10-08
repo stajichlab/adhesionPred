@@ -1,6 +1,6 @@
 # Per-call status entries: design
 
-*2026-10-07. **Revision 2**, after review 1 (`2026-10-07-per-call-status-design-review-1.md`, verdict: needs rework; all findings applied or marked for the owner). Not yet re-reviewed. No code has been written. Owner decision 8 (2026-10-07): build this now, with a spec, a plan and an independent review before code.*
+*2026-10-07. **Revision 2** (owner decisions Q6 to Q8 recorded in section 6), after review 1 (`2026-10-07-per-call-status-design-review-1.md`, verdict: needs rework; all findings applied or marked for the owner). Not yet re-reviewed. No code has been written. Owner decision 8 (2026-10-07): build this now, with a spec, a plan and an independent review before code.*
 
 ## 1. Problem
 
@@ -145,8 +145,10 @@ Mutation checks (each must make a named test fail): apply the status to `not_ass
 
 Out of scope: a status for a composite call measured as a whole; a call file for single-module calls; migration of module files; any change to the interval or `estimated` rules; new truth tables.
 
-## 6. Open items for the owner
+## 6. Owner decisions on the open items (2026-10-07)
 
-Q6. A call file for a call that no longer exists (or is no longer eligible) stops the run, as every other bad status file does. The alternative is to skip it with a warning. Proposal: stop, with a message naming the file. A stale file for an existing call never stops the run.
-Q7. `docs/paper/03` decision 3 says a call with no measurement of its own reports `unvalidated`. The code already gives a composite call the weakest status of its measured leaves. Proposal: fix the paper text to match the code.
-Q8. One source per call: call files only for calls with two or more modules, module files for the rest. The R0 files stay as they are. Proposal: yes.
+Q6. **Decided: stop.** A call file for a call that is not in the config, or no longer qualifies, stops the run with a message that names the file and the reason. A stale file for an existing call never stops the run.
+Q7. **Decided: composite calls report a derived status.** A composite call takes the weakest status of the measured leaf calls that decided it. It is not a measurement of the composite. `docs/paper/03` decision 3 and `docs/paper/04` are corrected. The report labels composite statuses as derived (a task in the plan: a marker in `status_basis` or a column in the report).
+Q8. **Decided: one source per call.** Call files only for calls with two or more modules, no `ref`, not `kind: other`. Module files for the rest. The R0 files are unchanged.
+
+The spec is ready for a plan. It has had one independent review. Revision 2 has not been re-reviewed.

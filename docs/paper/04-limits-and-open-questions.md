@@ -45,9 +45,10 @@ Known data limits that affect interpretation:
   (`idmap_method` is `gene_best_transcript`). An exact-sequence match is not implemented.
 - The taxon IDs 330879, 451804 and 746128 were checked on 2026-10-06 against `names.dmp` and `nodes.dmp`:
   Af293, A1163 and the species *A. fumigatus*. UniProt agrees for Af293 and A1163. See `05-literature-verification.md`.
-- Composite calls (for example `cell_wall_adhesion_candidate`) take a status from the deciding
-  modules. That status is a weakest-of derived value. It is not a measurement of the composite call.
-  A strict reading of decision 3 would call it `unvalidated`. Owner to confirm.
+- Composite calls (for example `cell_wall_adhesion_candidate`) take the weakest status of the measured
+  leaf calls that decided them. That status is a derived value. It is not a measurement of the composite
+  call. The owner confirmed this reading on 2026-10-07 (`03-status-and-validation-rules.md`, decision 3).
+  The report should label such statuses as derived (planned with the per-call status work).
 - A module with a bare SignalP version string (no `module=` token) is checked only by major
   version and the `gpu` tag.
 
