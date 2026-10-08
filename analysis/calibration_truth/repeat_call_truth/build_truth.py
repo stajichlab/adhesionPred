@@ -9,7 +9,8 @@ truth.<species>.annotated.tsv with the basis of each label.
 
 Labels: 1 = paper statement or at least two UniProt Repeat features. 0 = no UniProt Repeat feature
 (absence of annotation, so an ASSUMED negative: UniProt lacks features for some repeat proteins).
-Proteins with one feature, a family-inference-only claim, or no record are left out.
+Proteins with one feature, a family-inference-only claim, or no record are left out. A protein with
+several curated rows gets one row; evidence of a repeat beats an assumed negative.
 
 Usage: build_truth.py --candidates FILE --fasta Scer_S288C=PATH --fasta Calb_SC5314=PATH --out DIR
 Needs `mmseqs` on PATH (module load MMseqs2/17-b804f).
@@ -86,6 +87,20 @@ def main():
         prot, path = spec.split("=", 1)
         seqs = read_fasta(path)
         keep = [r for r in rows if r["proteome"] == prot and r["label"] in ("0", "1")]
+        # one row per protein: two curated accessions can map to one protein. Evidence of a repeat
+        # (label 1) beats an assumed negative (label 0, which is only an absent annotation).
+        by = {}
+        for r in keep:
+            by.setdefault(r["protein"], []).append(r)
+        keep = []
+        for k, v in by.items():
+            pos = [x for x in v if x["label"] == "1"]
+            if pos and len(pos) < len(v):
+                print(
+                    f"{prot}: {k}: a positive claim overrides {len(v) - len(pos)} assumed negative(s)",
+                    file=sys.stderr,
+                )
+            keep.append((pos or v)[0])
         missing = [r["protein"] for r in keep if r["protein"] not in seqs]
         if missing:
             raise SystemExit(f"{prot}: {len(missing)} proteins not in the FASTA, e.g. {missing[0]}")

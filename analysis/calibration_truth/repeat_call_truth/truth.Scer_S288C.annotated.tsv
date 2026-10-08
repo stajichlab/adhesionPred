@@ -1,10 +1,9 @@
 id	gene	accession	label	cluster	basis	curated_class	evidence	tuned_or_homolog
-YIR019C	FLO11	E9P9G2	0	YIR019C	no UniProt repeat feature (assumed negative)	adhesin	E1	yes
+YIR019C	FLO11	P08640	1	YIR019C	paper statement	adhesin	E1	yes
 YNR044W	AGA1	P32323	1	YNR044W	UniProt >=2 repeat features	adhesin	E1	no
 YGL032C	AGA2	P32781	0	YGL032C	no UniProt repeat feature (assumed negative)	adhesin	E1	no
 YAR050W	FLO1	P32768	1	YAR050W	paper statement	adhesin	E1	yes
 YKR102W	FLO10	P36170	1	YAR050W	UniProt >=2 repeat features	adhesin	E1	yes
-YIR019C	FLO11	P08640	1	YIR019C	paper statement	adhesin	E1	yes
 YHR211W	FLO5	P38894	1	YAR050W	UniProt >=2 repeat features	adhesin	E1	yes
 YAL063C	FLO9	P39712	1	YAR050W	UniProt >=2 repeat features	adhesin	E1	yes
 YJR004C	SAG1	P20840	1	YJR004C	UniProt >=2 repeat features	adhesin	E1	no
