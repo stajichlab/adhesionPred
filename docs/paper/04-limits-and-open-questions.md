@@ -92,6 +92,11 @@ Decisions 1 to 4 of 2026-10-06 are in `03-status-and-validation-rules.md`, secti
    Sunde 2008 (not readable). Do not claim novelty of the pattern, of the pattern-plus-Pfam union or of the
    signal-peptide condition. Claim only measured sensitivity and false-positive cost. The published spacings
    disagree in places (docs/paper/05 section 6.3). The paper must state which spacing was used and why.
-7. A hydrophobin call has no separate module yet. Until the spec is implemented, a hydrophobin Pfam hit sets
-   `wall_family_domain` and so can set `cell_wall_adhesion_candidate` (PR #75). Report class counts with this
-   in mind.
+7. On `hydrophobin-validation` the hydrophobin Pfam models have their own module (`pfam_hydrophobin`) and a hit
+   no longer sets `wall_family_domain`. PR #75, as pushed, still has them in `pfam_adhesion`, so a hydrophobin hit
+   there sets `wall_family_domain` and can set `cell_wall_adhesion_candidate`. Report class counts with this in mind
+   until the branch is merged.
+8. Hydrophobin measurement (docs/reports/2026-10-08-hydrophobin-validation.md): every status is `smoke`, specificity
+   rests on assumed negatives and is a lower bound of unknown size (19 of 22 unlabelled calls have 8 or more
+   cysteines), and the published spacing recovers only 60% of Swiss-Prot hydrophobins. Do not report a hydrophobin
+   specificity. Do not report the rescue as an improvement.
