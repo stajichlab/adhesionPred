@@ -318,6 +318,14 @@ stays in `docs/paper/05`.
 
 ## 9. Decisions
 
+Owner answers of 2026-10-08: **D6 agreed** (HsbA on its own; it may not be a real hydrophobin), **D7 yes**, **D8 yes**.
+For D7, most proteomes are already on disk in `/bigdata/stajichlab/shared/projects/Fungi_5k/input/`
+(`.proteins.fa`): *B. bassiana* ARSEF_2860, *F. velutipes* 6-3, *F. fulva* Race5_Kim, *F. graminearum* PH-1,
+*P. expansum* MD-8, *P. ostreatus* PC9 (Swiss-Prot entries are PC15), *T. asperellum* FT101, *T. virens* Gv29-8.
+No download is needed. Strains that differ from the Swiss-Prot strain are mapped by sequence (BLAST, at least
+95% identity over 90% of the length) and the mapping is recorded. A truth protein with no such match in the
+proteome is dropped from that species and listed.
+
 | # | Decision | Default |
 |---|---|---|
 | D1 | May a status entry cover a clade from a pooled measurement? | No. Species entries only. Pooled results are report tables. |
