@@ -1,7 +1,7 @@
 # Hydrophobin call validation and 8-cysteine rescue rule: design
 
-*2026-10-08. Revision 2 (after independent review 1, `2026-10-08-hydrophobin-validation-design-review-1.md`:
-4 blockers and 12 major findings, all addressed below). Author: Claude Code (claude-sonnet-5-5). Owner
+*2026-10-08. Revision 3 (after independent reviews 1 and 2, `2026-10-08-hydrophobin-validation-design-review-1.md`:
+4 blockers and 12 major findings, then review 2: no blockers, 4 major, 9 minor; all addressed below). Author: Claude Code (claude-sonnet-5-5). Owner
 request of 2026-10-08: make the hydrophobin class validated, using the literature and the Pfam data, and
 write the 8-cysteine pattern idea into the paper notes. Status: draft for a second review. No code is
 written.*
@@ -47,7 +47,8 @@ Numbers were measured on 2026-10-08. Items marked "(reviewer)" were re-derived b
 ### 3.1 Dependencies
 
 This design uses the per-call status code (PR #76, branch `per-call-status`) and the family-table changes of PR
-#75. Neither is merged. H1 starts after both merge, or after the work branch is rebased on `per-call-status`.
+#75. Neither is merged. This branch already contains the PR #75 commits. H1 starts after both PRs merge, or
+after this branch is rebased on `per-call-status`.
 
 ### 3.2 A separate module and call
 
@@ -61,13 +62,16 @@ The hydrophobin-class family rows move from `pfam_adhesion` to a new Pfam module
 ```
 
 This removes the F5 side effect. `wall_family_domain` keeps CFEM, PA14 and later wall families.
+`hydrophobin_domain` is placed before the `other_*` calls in `categories.yaml`, because a mechanism must be an
+ungated call defined earlier.
 
 **HsbA and Hydrophobin_like (decision D6, before H1).** In Af293, 9 of 16 hits would be HsbA. The owner counts
 both as hydrophobins for cataloging, but there is no hydrophobin truth label for HsbA in this design, so a
 combined call would be mostly unlabelled in *A. fumigatus*. Default: put the seven hydrophobin-class models in
 `pfam_hydrophobin` and HsbA in its own module `pfam_hsba` with its own call `hsba_domain`. The report and the
 category 2c line combine them (`hydrophobin_domain` OR `hsba_domain`) as a display step, not as a measured
-call. The owner decides whether HsbA is combined.
+call. The owner decides whether HsbA is combined. `hsba_domain` is a mechanism of the `other_*` calls too (default),
+so a secreted HsbA protein is not counted as "no mechanism".
 
 ### 3.3 Rescue module
 
@@ -83,10 +87,22 @@ need the SignalP cleavage site, so the SignalP module is not changed and the R0 
 | `length` | full sequence length |
 
 The pattern is run on the full sequence, not on a mature region.
-The module `params` hold the pattern string, the spacing source, and any length window, so `params_hash`
-changes when the rule changes and a call file for the old rule goes stale.
+
+Row states. Every protein gets a row with state `ok`. If the R0 row is missing or not assessable, `hit` is empty
+and the engine treats it as not assessable. A row has state `error` only for an invalid sequence. This keeps the
+module state `ok`, which `calibrate truth --call-status` requires.
+
+Identity. The module `params` hold the pattern string, the spacing source, any length window, **and the
+`conditions` entry that names the R0 module and its identity**, as the `pfam` wrapper does. A new R0 run then
+changes `params_hash`, and a call file for the old identity goes stale. The gate is R0 only. In the R1, R2 and
+`card` variants the call still uses the R0 condition.
 
 ### 3.4 Call
+
+`hydrophobin_protein` is added to `categories.yaml` together with `cys8_pattern`, in task H4, and only if the
+rescue is kept (rule 6.3). H1 adds only `pfam_hydrophobin` and `hydrophobin_domain`. This avoids a call that is
+not assessable for every protein without a Pfam hit, and avoids a one-module call that is not eligible for a
+call status file. If the rescue is dropped, `hydrophobin_domain` is the default call.
 
 ```yaml
 - name: hydrophobin_protein
@@ -103,11 +119,14 @@ reported with that status. A one-module call status is not allowed (decision D3)
 
 ### 3.5 Effects on existing calls (decision D2)
 
-1. `hydrophobin_protein` is a mechanism of `other_surface_no_mechanism` and `other_not_surface`, so a surface
-   protein with a hydrophobin call is not "no mechanism". Both lists change. Default: add it to both.
+1. `hydrophobin_domain` (in H1) and later `hydrophobin_protein` (in H4, if kept) are mechanisms of
+   `other_surface_no_mechanism` and `other_not_surface`, so a surface protein with a hydrophobin call is not
+   "no mechanism". Both lists change. Default: add to both. If `hydrophobin_protein` replaces
+   `hydrophobin_domain` in the lists, the lists change a second time.
 2. `categories.yaml` changes `config_sha256`. The existing call files for `tandem_repeat_protein`
    (S288C, *C. albicans*) become stale. Task H1b re-runs `calibrate truth --call-status` for both and checks
-   the numbers equal the earlier ones (0.435 and 0.462 sensitivity).
+   the numbers equal the earlier ones (0.435 and 0.462 sensitivity). H1b runs after the **last** edit of
+   `categories.yaml` (after the 6.3 decision), not after H1.
 3. Both Pfam modules share one artefact digest over the whole family table (`modules/cli.py`, `_family_digest`).
    A change to a hydrophobin row changes the identity of `pfam_adhesion` as well, and the reverse. Task H1c
    gives each module a digest over its own rows only. If H1c is not done, the report says so.
@@ -124,6 +143,8 @@ depend on a domain match.
 | T1 | A paper reports protein-level evidence: purification or mass spectrometry of the protein, rodlet or film formation, contact-angle or surface-tension change, or a **hydrophobin-specific** deletion phenotype (loss of rodlets, wettable conidia, loss of surface hydrophobicity). A generic growth or development phenotype does not count. The PMID is recorded. | primary positives |
 | T2 | Swiss-Prot reviewed entry with a literature-backed function or location (evidence ECO:0000269) | primary positives |
 | T3 | Name or family comes only from a rule or sequence similarity (ECO:0000255, ECO:0000250 without a paper, automatic annotation) | secondary set, reported separately, never in the primary result |
+
+| T4 | A rescue-only call that manual review judges a hydrophobin from sequence and BLAST evidence, with no paper. Used only for the keep rule (6.3). Never added to the truth set, never used for sensitivity. | review outcome only |
 
 **What the labels do not remove.** Hydrophobins are named because they have the 8-cysteine pattern (F8). T1 and
 T2 remove Pfam-derived labels, not pattern-derived ones. So the sensitivity of the rescue rule on named
@@ -161,7 +182,8 @@ One negative set serves both variants. No label depends on a prediction.
 ### 4.4 Clustering, split and species
 
 1. Cluster all truth proteins with MMseqs2 at 30% identity and 0.5 coverage, as in the repeat work. Record
-   species. Bootstrap CIs by cluster.
+   species. Bootstrap CIs by cluster. The three *A. fumigatus* strains repeat the same proteins, so counts for
+   the keep rule (6.3) are by cluster, not by protein.
 2. **The development/test split is made in H2, before any measurement, and is unconditional.** Split by
    cluster, 30% development, 70% test, fixed seed, stored in a file. If the test part has fewer than 10
    positive clusters, the report says the split gives no usable test and the result is `smoke` with leakage
@@ -173,7 +195,7 @@ One negative set serves both variants. No label depends on a prediction.
 |---|---|---|---|
 | Status file, in scope now | *A. fumigatus* (Af293, A1163, W72310; one species) | 7 (RodA to RodG), all with a Pfam model | `smoke` at best |
 | Sequence-level table, no status | all Swiss-Prot fungi (174 named entries) | 165 with a model, 9 without | report table |
-| Extension E1, not yet in scope | *G. zeae* PH-1, *H. virens* Gv29-8, *P. expansum*, *F. fulva*, *P. ostreatus* PC15, *B. bassiana* ARSEF 2860, *T. asperellum* | the 9 no-model entries come from five of these | `smoke` at best, 0 to 28 named entries each |
+| Extension E1, not yet in scope | *G. zeae* PH-1, *H. virens* Gv29-8, *P. expansum*, *F. fulva*, *P. ostreatus* PC15, *B. bassiana* ARSEF 2860, *T. asperellum*, and *F. velutipes* (added for PSH_FLAVE) | 8 of the 9 no-model entries come from E1 species; the ninth (PSH_FLAVE) needs *F. velutipes* | `smoke` at best, 2 to 28 named entries each |
 
 In *A. fumigatus* the rescue cannot add a true positive: all 7 labelled entries already have a model (F7). The
 rescue gain in a proteome can therefore be measured only in E1 species. Task H5b downloads the E1 proteomes (a
@@ -181,7 +203,8 @@ shared-storage and compute cost, listed in decision D7) and runs the modules on 
 gain is reported only at sequence level on the Swiss-Prot set, and the call stays Pfam-only in the default
 configuration.
 
-`estimated` needs at least 20 positives, 20 negatives and 20 clusters per species (`docs/paper/03` section 2).
+`estimated` needs at least 20 positives, 20 negatives and 20 clusters per species (`docs/paper/03` section 2), and a confidence-interval half-width of at most 0.10.
+Whether each Swiss-Prot entry's strain matches the proteome strain is checked at download (H5b), not assumed.
 The highest count of named entries in one species is 28 (*P. ostreatus*), and those are from genome
 annotation, so many may be T3. `estimated` is not expected anywhere.
 
@@ -191,7 +214,8 @@ annotation, so many may be T3. `estimated` is not expected anywhere.
 
 The spacing comes from the literature and is **frozen in a commit before the truth set is built** (H3 before
 H2). Papers to read: Wessels 1994, Linder 2005, Sunde 2008 (class I and class II spacing), Kubicek 2008,
-Seidl-Seiboth 2011 and Yang 2006 (full text open for the last two and for Kubicek). H3 records for each number
+Seidl-Seiboth 2011 and Yang 2006. Full text is open for Yang 2006 and Kubicek 2008 (PMC IDs in the review).
+Seidl-Seiboth 2011 has no PMCID in the PubMed converter, so it may need another route. H3 records for each number
 the paper, the page and the sentence.
 
 The two spacings that I know from memory are unverified and are not in any file. I did not run them on any
@@ -217,7 +241,8 @@ default also keeps PSH_FLAVE (515 aa), a protein already seen. Rules that follow
 1. The 9 entries are not used as unit tests. Unit tests use synthetic sequences built from the frozen
    spacing and proteins outside the truth set.
 2. The 9 entries and their clusters stay in the measured set. They are marked as "seen" in the table, and
-   the result is also reported without them.
+   the result is also reported without them. The "seen" list also holds every protein named in the review
+   files and in this spec (RodA to RodG, PSH_FLAVE, CFTH1, FBH1 and the three Af293 GPI proteins).
 3. Any status file records `leakage: partial` with a note naming the 9 entries and the discovery search.
    Status is capped at `smoke`. This costs nothing because every status is `smoke` anyway.
 
@@ -241,16 +266,24 @@ For `pfam_hydrophobin` (module status) and `hydrophobin_protein` (call status), 
 
 Every labelled protein that is not called (miss), every called protein with no label (candidate false
 positive, including Pfam hits without labels and every rescue-only call), and every protein flagged "seen".
-Each row records a BLAST top hit, length, pattern spacing and a decision. A label changes only with a recorded
-reason and a PMID, as in the repeat work (`owner_decisions.tsv`).
+Each row records a BLAST top hit, length, pattern spacing and a decision. **A truth label** changes only with a
+recorded reason and a PMID, as in the repeat work (`owner_decisions.tsv`). A review judgement without a paper
+is not a label. It is recorded as a T4 outcome (section 4.1) and used only in rule 6.3.
 
 ### 6.3 Rule for keeping the rescue (fixed now)
 
-The rescue stays in the default `hydrophobin_protein` call only if, **after manual review**, the rescue-only
-calls over all measured proteomes number at least 5 and have a Wilson 95% lower bound for precision of at
-least 0.5. If there are fewer than 5 rescue-only calls (including 0), the result is "no evidence that the
-rescue helps". Then `cys8_pattern` stays in the tool and is reported, but it is not part of the default call.
-This rule uses precision only after review, so it does not count unlabelled true hydrophobins as false.
+Each rescue-only call, counted once per cluster (so three *A. fumigatus* strains count once), gets one review
+outcome: `hydrophobin` (T1 or T2 label, or T4), `not_hydrophobin`, or `unresolved`. Precision is computed on
+resolved outcomes. `unresolved` calls are counted and reported beside it.
+
+The rescue stays in the default call only if there are at least 5 resolved rescue-only clusters and the Wilson
+95% lower bound for precision is at least 0.5. Otherwise the result is "no evidence that the rescue helps".
+Then `cys8_pattern` stays in the tool and is reported, but `hydrophobin_protein` is not added.
+
+Known issue. The screening regex gives 20 rescue-type candidates in the in-scope proteomes, none with a label.
+If most review as `not_hydrophobin`, the rule rejects the rescue on the in-scope proteomes alone, before E1 is
+counted. This is an allowed result. The rule is evaluated on all data, including the test part of the split, so
+it is a decision about the tool and not a status claim. The status files record the measurement on the test part.
 
 ## 7. Risks
 
@@ -300,14 +333,14 @@ stays in `docs/paper/05`.
 
 | Task | Content | Output |
 |---|---|---|
-| H0 | Correct the PF01185 `specificity_note` (it says 18 hits in 4 proteomes; the discovery tables give 20 hits in 5 proteomes, adding *B. dermatitidis* ER3). Commit `analysis/hydrophobin_truth/`. | data commit |
-| H1 | After PR #75 and #76 merge: new module `pfam_hydrophobin` (and `pfam_hsba` by D6), `hydrophobin_domain`, `hydrophobin_protein`, `cys8_pattern` registration; update `MODULES`, `test_data_and_scripts.py` module-set assertion, `outputs.py` report text, golden files and `other_basis` strings in `test_cli.py`, and the D2 mechanism lists | code, tests pass |
-| H1b | Re-run `calibrate truth --call-status` for `tandem_repeat_protein` in S288C and *C. albicans*; check the numbers match | status files |
+| H0 | Correct the PF01185 `specificity_note` (it says 18 hits in 4 proteomes; the discovery tables give 20 hits in 5 proteomes, adding *B. dermatitidis* ER3). The note is on the PR #75 branch, so the change goes there. `analysis/hydrophobin_truth/` is already committed (78b0739). | data commit on PR #75 branch |
+| H1 | After PR #75 and #76 merge: new module `pfam_hydrophobin` (and `pfam_hsba` by D6), `hydrophobin_domain` (and `hsba_domain`); update `MODULES`, `test_data_and_scripts.py` module-set assertion, `outputs.py` report text, golden files and `other_basis` strings in `test_cli.py`, and the D2 mechanism lists | code, tests pass |
+| H1b | After the last edit of `categories.yaml` (after H6 and rule 6.3): re-run `calibrate truth --call-status` for `tandem_repeat_protein` in S288C and *C. albicans*; check the numbers match | status files |
 | H1c | Per-module family digest | code, tests |
 | H3 | Read the source papers; record the exact cysteine spacing with page and sentence; freeze the pattern in a commit | table in `docs/paper/05`, frozen commit |
 | H3b | Read Yang 2006, Kubicek 2008 and Peñas 1998 in full; wider prior-art search | `docs/paper/05` |
 | H2 | After H3: build the truth set, fetch evidence codes, assign tiers, add PMID-backed entries, cluster, make the unconditional split, record "seen" proteins | `analysis/hydrophobin_truth/` tables with provenance |
-| H4 | Write the `cys8_pattern` wrapper and tests (synthetic sequences and proteins outside the truth set) | module, tests |
+| H4 | Write the `cys8_pattern` wrapper and tests (synthetic sequences and proteins outside the truth set). Register the module. Add `hydrophobin_protein` to `categories.yaml` only after rule 6.3 keeps the rescue (so after H6). | module, tests |
 | H5 | Re-run `hmmsearch` with the new family table, then the wrappers, on the measured proteomes | module tables |
 | H5b | If D7 is yes: download and run the E1 proteomes | module tables |
 | H6 | Measure both variants, apply rule 6.3, manual review, write status files | report in `docs/reports/` |
