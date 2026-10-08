@@ -4,7 +4,9 @@ Inputs are module tables (``ModuleTable``) and a function ``status_of(module, ta
 does no I/O except reading the config.
 """
 
+import copy
 import hashlib
+import json
 import math
 import operator
 from dataclasses import dataclass, field
@@ -23,6 +25,9 @@ from cellsurface_sorting_hat.logic import (
 from cellsurface_sorting_hat.status import UNVALIDATED, weakest
 
 OK_STATE = "ok"
+# Bump by hand when the evaluation rules change (Kleene tables, NA handling). It is part of call_hash,
+# so a call status file measured under other rules is stale.
+ENGINE_SEMANTICS = "1"
 _OPS = {">=": operator.ge, "<=": operator.le, ">": operator.gt, "<": operator.lt, "==": operator.eq}
 _NODE_KEYS = {"call", "flag", "test", "ref", "and", "or", "not"}
 
@@ -363,6 +368,89 @@ def modules_of_call(cfg, name):
         _walk_modules(call["expr"], names, refs)
         todo.extend(refs)
     return sorted(_expand_step1(cfg, names))
+
+
+def reads_of_call(cfg, name, variant=""):
+    """Modules that a call reads. With ``variant``, a step 1 module of another variant is left out."""
+    reads = modules_of_call(cfg, name)
+    if variant:
+        reads = [m for m in reads if m not in cfg.step1_variants or variant_label(m) == variant]
+    return reads
+
+
+def _has_ref(node):
+    kind, arg = next(iter(node.items()))
+    if kind == "ref":
+        return True
+    if kind in ("and", "or"):
+        return any(_has_ref(child) for child in arg)
+    if kind == "not":
+        return _has_ref(arg)
+    return False
+
+
+def _variant_labels(cfg, call):
+    return [variant_label(v) for v in cfg.step1_variants] if call.get("per_variant") else [""]
+
+
+def call_eligible(cfg, name):
+    """``(True, "")`` when a call may have a call status file, else ``(False, reason)``.
+
+    Eligible: the call has an expression, is not ``kind: other``, has no ``ref`` node, names no step 1
+    module literally, and reads at least two modules for every variant it has.
+    """
+    try:
+        call = cfg.call_by_name(name)
+    except ConfigError:
+        return False, "unknown call"
+    if call.get("kind") == "other":
+        return False, "kind other"
+    if _has_ref(call["expr"]):
+        return False, "contains ref"
+    raw = set()
+    _walk_modules(call["expr"], raw, set())
+    if raw & set(cfg.step1_variants):
+        return False, "literal step1 module"
+    for label in _variant_labels(cfg, call):
+        if len(reads_of_call(cfg, name, label)) < 2:
+            return False, "reads fewer than two modules"
+    return True, ""
+
+
+def _resolve_node(node, cfg, variant_module):
+    """A copy of ``node`` with threshold references replaced by their numbers and {step1} by the variant."""
+    kind, arg = next(iter(node.items()))
+    if kind in ("and", "or"):
+        return {kind: [_resolve_node(c, cfg, variant_module) for c in arg]}
+    if kind == "not":
+        return {kind: _resolve_node(arg, cfg, variant_module)}
+    arg = copy.deepcopy(arg)
+    if kind == "test":
+        if isinstance(arg["value"], str) and arg["value"].startswith("$"):
+            arg["value"] = cfg.thresholds[arg["value"][1:]]
+        arg["module"] = arg["module"].replace("{step1}", variant_module or "{step1}")
+    elif kind in ("call", "flag"):
+        arg = arg.replace("{step1}", variant_module or "{step1}")
+    return {kind: arg}
+
+
+def call_hash(cfg, name, variant=""):
+    """SHA-256 of what defines one call: its expression with the referenced thresholds as numbers,
+    the step 1 module of the variant, ``per_variant``, and ``ENGINE_SEMANTICS``."""
+    call = cfg.call_by_name(name)
+    variant_module = ""
+    if variant:
+        variant_module = next(v for v in cfg.step1_variants if variant_label(v) == variant)
+    payload = {
+        "name": name,
+        "per_variant": bool(call.get("per_variant")),
+        "variant": variant,
+        "variant_module": variant_module,
+        "expr": _resolve_node(call["expr"], cfg, variant_module),
+        "semantics": ENGINE_SEMANTICS,
+    }
+    text = json.dumps(payload, sort_keys=True, separators=(",", ":"), allow_nan=False)
+    return hashlib.sha256(text.encode()).hexdigest()
 
 
 def collect_evidence(cfg, protein_ids, modules):

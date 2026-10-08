@@ -6,23 +6,21 @@ from pathlib import Path
 
 from cellsurface_sorting_hat.cache import write_atomic
 from cellsurface_sorting_hat.calibration.intervals import cluster_bootstrap
-from cellsurface_sorting_hat.status import (
+from cellsurface_sorting_hat.status import (  # noqa: F401  (re-exported: older code imports these here)
     _STRENGTH,
     ENTRY_KEYS,
     ESTIMATED,
+    MAX_HALF_WIDTH,
+    MIN_CLUSTERS,
+    MIN_NEGATIVES,
+    MIN_POSITIVES,
     SMOKE,
     UNVALIDATED,
     _check_measure,
     load_status_source,
+    status_from_measure,
     weakest,
 )
-
-MIN_POSITIVES = 20
-MIN_NEGATIVES = 20
-MIN_CLUSTERS = 20
-MAX_HALF_WIDTH = 0.10
-# Floating-point subtraction can give 0.10000000000000003 for an interval of exactly 0.10.
-_TOLERANCE = 1e-9
 
 
 def build_measure(calibration_set, truth_source, y, call, clusters, notes="", n_boot=2000, seed=1):
@@ -42,37 +40,6 @@ def build_measure(calibration_set, truth_source, y, call, clusters, notes="", n_
     if notes:
         measure["notes"] = notes
     return measure
-
-
-def status_from_measure(
-    measure,
-    min_positives=MIN_POSITIVES,
-    min_negatives=MIN_NEGATIVES,
-    max_half_width=MAX_HALF_WIDTH,
-    min_clusters=MIN_CLUSTERS,
-):
-    """``estimated`` needs at least 20 positives and 20 negatives (and, when recorded, at least 20
-    independent clusters of each) and a 95% interval half-width of at most 0.10 for both
-    sensitivity and specificity. Phase C uses the same floor for recall. A measure with any
-    positive but without a specificity is at most ``smoke``: a rule that was never tested on
-    negatives is not an estimate. No sensitivity or no positive gives ``unvalidated``.
-
-    A measure with a non-finite or out-of-range rate or count is refused with ``ValueError``."""
-    _check_measure(measure, "measure")
-    sens, spec = measure.get("sensitivity"), measure.get("specificity")
-    if not sens or measure.get("n_pos", 0) < 1:
-        return UNVALIDATED
-    narrow = (sens["hi"] - sens["lo"]) / 2 <= max_half_width + _TOLERANCE
-    if spec:
-        narrow = narrow and (spec["hi"] - spec["lo"]) / 2 <= max_half_width + _TOLERANCE
-    enough = measure["n_pos"] >= min_positives and measure.get("n_neg", 0) >= min_negatives
-    # independent clusters, when the measure records them (older files may not)
-    for key in ("n_clusters_pos", "n_clusters_neg"):
-        if key in measure and measure[key] < min_clusters:
-            enough = False
-    if spec and enough and narrow:
-        return ESTIMATED
-    return SMOKE
 
 
 def _taxa(taxa):
