@@ -7,7 +7,12 @@ from contextlib import contextmanager
 from pathlib import Path
 
 from cellsurface_sorting_hat.cache import write_atomic
-from cellsurface_sorting_hat.call_status import build_source, call_file_name, load_call_source
+from cellsurface_sorting_hat.call_status import (
+    build_source,
+    call_file_name,
+    check_variant,
+    load_call_source,
+)
 from cellsurface_sorting_hat.engine import call_eligible, call_hash, reads_of_call
 
 
@@ -61,6 +66,7 @@ def write_call_status(workdir, cfg, call, variant, config_sha256, entries):
             if reason == "unknown call"
             else f"call {call!r} is not eligible for a call status file ({reason})"
         )
+    check_variant(cfg, call, variant)  # before any file name or lock file is built from the variant
     name = call_file_name(call, variant)
     path = Path(workdir) / "status" / "calls" / name
     entries = list(entries)
@@ -96,5 +102,5 @@ def write_call_status(workdir, cfg, call, variant, config_sha256, entries):
         build_source(data, cfg, name, path)  # raises before anything is written
         payload = (json.dumps(data, indent=2, sort_keys=True, allow_nan=False) + "\n").encode()
         write_atomic(path, payload)
-        load_call_source(path, cfg)  # read back (still under the lock)
+        load_call_source(path, cfg)  # read back under the lock: a self-check of what was written
     return path

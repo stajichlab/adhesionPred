@@ -156,3 +156,10 @@ def test_an_invalid_update_leaves_the_existing_file_untouched(cfg, workdir):
     with pytest.raises(ValueError):
         write(workdir, cfg, [entry(1, "S9")])
     assert path.read_bytes() == before
+
+
+@pytest.mark.parametrize("variant", ["R0", "../x", "a/b"])
+def test_a_bad_variant_is_refused_before_any_file_or_lock_is_made(cfg, workdir, variant):
+    with pytest.raises(ValueError, match="variant"):
+        write(workdir, cfg, [entry()], variant=variant)
+    assert not (workdir / "status").exists()

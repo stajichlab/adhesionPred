@@ -15,6 +15,7 @@ from cellsurface_sorting_hat.calibration.measure import (
     write_status_source,
 )
 from cellsurface_sorting_hat.calibration.panel import panel_check
+from cellsurface_sorting_hat.call_status import LEAKAGE_VALUES, check_variant
 from cellsurface_sorting_hat.engine import call_eligible, load_config, reads_of_call
 from cellsurface_sorting_hat.fasta import read_fasta
 from cellsurface_sorting_hat.modules import allergen, pfam
@@ -91,7 +92,7 @@ def build_parser():
     p.add_argument(
         "--leakage",
         required=True,
-        choices=["none", "partial", "tuned_on_truth", "in_reference", "unknown"],
+        choices=list(LEAKAGE_VALUES),
         help="did the truth proteins help to set the rule or its cutoffs? anything but 'none' caps the status at smoke",
     )
     p.add_argument("--n-boot", type=int, default=2000)
@@ -127,7 +128,7 @@ def build_parser():
     return ap
 
 
-LEAKAGE = ("none", "partial", "tuned_on_truth", "in_reference", "unknown")
+LEAKAGE = LEAKAGE_VALUES
 CALL_VALUES = ("called", "not_called", "not_assessable")
 
 
@@ -381,6 +382,7 @@ def _check_call_run(calls_long, workdir, cfg, call, variant):
             else f"call {call!r} is not eligible for a call status file ({reason}); "
             "it needs an expression with no ref, not kind other, reading two or more modules"
         )
+    check_variant(cfg, call, variant, f"call {call!r}")
     reads = reads_of_call(cfg, call, variant)
     path = Path(calls_long).with_name("run.json")
     if not path.is_file():

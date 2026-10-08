@@ -285,3 +285,29 @@ def test_rows_describe_valid_and_stale_files(cfg, tmp_path):
     assert rows[0]["calibration_set"] == "S1" and rows[0]["n_pos"] == 10
     stale = resolver(cfg, tmp_path, st=states(cfg, repeat14="unavailable")).rows()
     assert stale[0]["valid"] is False and "module state not ok" in stale[0]["reason"]
+
+
+def test_a_renamed_read_with_the_same_count_is_stale_not_an_error(cfg, tmp_path):
+    data = payload(cfg)
+    data["reads"][1]["name"] = "repeat99"
+    assert _stale(cfg, tmp_path, data=data) == "reads differ"
+
+
+def test_check_variant_follows_the_call(cfg):
+    from cellsurface_sorting_hat.call_status import check_variant
+
+    check_variant(cfg, CALL, "")
+    with pytest.raises(ValueError, match="no variants"):
+        check_variant(cfg, CALL, "R0")
+    with pytest.raises(ValueError, match="variant must be one of"):
+        check_variant(cfg, "signal_peptide_protein", "")
+    with pytest.raises(ValueError, match="variant must be one of"):
+        check_variant(cfg, "signal_peptide_protein", "../x")
+    check_variant(cfg, "signal_peptide_protein", "R0")
+
+
+def test_a_structural_refusal_names_the_file_once(cfg, tmp_path):
+    write(tmp_path, renamed(cfg, "gone"), name="gone.json")
+    with pytest.raises(CallStatusError) as err:
+        resolver(cfg, tmp_path)
+    assert str(err.value).count("gone.json") == 1

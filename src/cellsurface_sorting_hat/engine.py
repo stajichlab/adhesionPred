@@ -350,9 +350,8 @@ def _status_with_calls(names, leaf_status, status_for, taxon):
     for module, leaf in names:
         found = leaf_status.get(leaf)
         if found is not None and found[0] is not None:
-            if (
-                leaf not in emitted
-            ):  # one item for the whole leaf, where its first module would stand
+            # one item for the whole leaf, where its first module would stand
+            if leaf not in emitted:
                 emitted.add(leaf)
                 items.append(found[1])
                 statuses.append(found[0])
@@ -459,6 +458,8 @@ def call_eligible(cfg, name):
     _walk_modules(call["expr"], raw, set())
     if raw & set(cfg.step1_variants):
         return False, "literal step1 module"
+    # Every label gives the same count while literal step 1 names are refused above; the loop is a
+    # guard in case that rule is ever relaxed.
     for label in _variant_labels(cfg, call):
         if len(reads_of_call(cfg, name, label)) < 2:
             return False, "reads fewer than two modules"

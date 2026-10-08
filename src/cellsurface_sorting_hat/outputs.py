@@ -237,7 +237,7 @@ def render_report(info, records):
             "calls that decided them. A stale file is listed with its reason and is not used.",
             "",
             "| call | variant | taxon | status | calibration set | positives | negatives "
-            "| sensitivity [95% CI] | specificity [95% CI] | file |",
+            "| sensitivity [95% CI] | specificity [95% CI] | validity |",
             "|---|---|---|---|---|---|---|---|---|---|",
         ]
         for c in info.call_status_sources:

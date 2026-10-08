@@ -102,6 +102,17 @@ def _entries(raw, where):
     return tuple(out)
 
 
+def check_variant(cfg, call, variant, where="call status"):
+    """``ValueError`` unless ``variant`` fits ``call``: one of the step 1 labels for a per-variant
+    call, empty for any other call. Call this before any file name is built from the variant."""
+    labels = [variant_label(v) for v in cfg.step1_variants]
+    if cfg.call_by_name(call).get("per_variant"):
+        if variant not in labels:
+            raise ValueError(f"{where}: variant must be one of {labels} for call {call!r}")
+    elif variant != "":
+        raise ValueError(f"{where}: call {call!r} has no variants, but variant is {variant!r}")
+
+
 def build_source(data, cfg, file_name, path=None):
     """A ``CallSource`` from parsed JSON, or ``ValueError``. ``file_name`` must be the canonical name."""
     where = str(path or file_name)
@@ -122,12 +133,7 @@ def build_source(data, cfg, file_name, path=None):
             if reason != "unknown call"
             else f"{where}: unknown call {call!r}"
         )
-    labels = [variant_label(v) for v in cfg.step1_variants]
-    if cfg.call_by_name(call).get("per_variant"):
-        if variant not in labels:
-            raise ValueError(f"{where}: variant must be one of {labels} for call {call!r}")
-    elif variant != "":
-        raise ValueError(f"{where}: call {call!r} has no variants, but variant is {variant!r}")
+    check_variant(cfg, call, variant, where)
     if file_name != call_file_name(call, variant):
         raise ValueError(
             f"{where}: file name does not match call and variant ({call_file_name(call, variant)})"
@@ -207,7 +213,10 @@ class CallStatusResolver:
             try:
                 source = load_call_source(path, cfg)
             except (KeyError, TypeError, ValueError) as err:  # JSONDecodeError is a ValueError
-                raise CallStatusError(f"{path}: {err}") from err
+                message = str(err)
+                raise CallStatusError(
+                    message if message.startswith(str(path)) else f"{path}: {message}"
+                ) from err
             reason = stale_reason(source, cfg, identities, states, config_sha256)
             self._items[(source.call, source.variant)] = (source, reason)
 

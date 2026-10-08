@@ -998,6 +998,7 @@ def test_a_call_status_file_sets_the_status_of_its_call(tmp_path, write_module, 
     report = (out / "report.md").read_text()
     assert "## Call calibration" in report
     assert "derived" in report  # the note on composite statuses
+    assert "| validity |" in report and "| valid |" in report
 
 
 def test_a_stale_call_file_is_reported_and_not_used(tmp_path, write_module, nodes_dmp):
