@@ -7,7 +7,7 @@ from pathlib import Path
 
 from cellsurface_sorting_hat.cli import InputError, RunError, assign_taxa, read_taxon_map
 from cellsurface_sorting_hat.fasta import FastaError, read_fasta
-from cellsurface_sorting_hat.modules import allergen, lookups, pfam, repeats, signalp
+from cellsurface_sorting_hat.modules import allergen, cys8, lookups, pfam, repeats, signalp
 from cellsurface_sorting_hat.modules.base import ModuleSpec, invalid_row, write_module
 
 APPLICABLE_RS = {
@@ -118,6 +118,15 @@ def build_parser():
     _taxa_args(p)
     p.add_argument("--table", required=True)
     p.add_argument("--protein-map", required=True)
+
+    p = sub.add_parser("cys8", help="eight-cysteine spacing plus R0 signal peptide -> cys8_pattern")
+    _common(p)
+    p.add_argument("--spacing", required=True, help="cys8_spacing.yaml (published spacing sets)")
+    p.add_argument(
+        "--sp-module",
+        default="step1_rule@R0",
+        help="step 1 module table in --workdir (column call)",
+    )
 
     p = sub.add_parser("tm", help="TMHMM table -> tm")
     _common(p)
@@ -302,6 +311,11 @@ def run(args):
         rows = allergen.allergen_rows(proteins, best, meta)
         note = f"{len(best)} of {len(proteins)} FASTA protein(s) have a BLAST hit"
         return _write(w, spec, allergen.COLUMNS, rows, extra_note=note)
+    if args.cmd == "cys8":
+        spacing = cys8.load_sets(args.spacing)
+        sp_calls, condition = _condition_table(w, args.sp_module, "call", ids, "--sp-module")
+        spec = ModuleSpec("cys8_pattern", "1", cys8.module_params(spacing, condition), ())
+        return _write(w, spec, cys8.COLUMNS, cys8.cys8_rows(proteins, spacing, sp_calls))
     if args.cmd == "tm":
         table, _ = lookups.read_table(args.table, "protein_id", unique=True)
         _check_ids(args.table, table, ids)
