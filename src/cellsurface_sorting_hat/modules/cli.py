@@ -182,11 +182,13 @@ def _write(workdir, spec, columns, rows, extra_note=""):
     return write_module(workdir, spec, columns, rows, run_state=state, note=note)
 
 
-def _family_digest(families):
-    """Hash of what decides a call (accession, module, condition, active), not of the free text."""
+def _family_digest(families, module):
+    """Hash of what decides a call (accession, condition, active) for one module, not of the free text."""
     import hashlib
 
-    rows = sorted((f.pfam_acc, f.module, f.second_condition, f.active) for f in families)
+    rows = sorted(
+        (f.pfam_acc, f.module, f.second_condition, f.active) for f in families if f.module == module
+    )
     return hashlib.sha256(repr(rows).encode()).hexdigest()
 
 
@@ -245,7 +247,7 @@ def run(args):
                 params,
                 (),
                 {"hmmer": args.hmmer_version},
-                artefact_digest=args.pfam_sha256 + ":" + _family_digest(families),
+                artefact_digest=args.pfam_sha256 + ":" + _family_digest(families, module),
             )
             if not active:  # no family has passed its specificity test: no domain test was made
                 rows = [
