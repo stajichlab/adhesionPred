@@ -119,3 +119,15 @@ not show that its calls are right.
 
 The count shows that the 20-cluster floor is not met for repeat-mediated adhesins. The missing piece is
 a mechanism label, not more rows. See `docs/agent-tasks/03-repeat-mechanism-controls.md`.
+
+## G. Per-call status and the first calibration of the repeat call (2026-10-08)
+
+| ID | Activity | Result | Source | How checked | State |
+|---|---|---|---|---|---|
+| G1 | Per-call status entries (a status for a call that reads several modules) | Spec, plan, two independent reviews, seven tasks built test first. 782 tests pass (683 before). A call file is used only when config, modules read, identities, run states and the call definition match. | `docs/superpowers/specs/2026-10-07-per-call-status-design.md`, `plans/2026-10-08-per-call-status*.md`, `docs/paper/03` section 6a | tests, about 40 mutation checks | Measured (software) |
+| G2 | Repeat call (`repeat02` OR `repeat14`), *S. cerevisiae* S288C | 31 positives (22 clusters), 297 negatives (227): sensitivity 0.323 [0.043, 0.535], specificity 0.987 [0.962, 1.000]. Status `smoke` (cluster bootstrap; leakage `tuned_on_truth`). | `docs/reports/2026-10-08-repeat-call-calibration.md`, `docs/reports/data/sorting_hat/call_status/` | recomputed from the status file | Measured, exploratory |
+| G3 | Repeat call, *C. albicans* SC5314 | 16 positives (9 clusters), 210 negatives (155): sensitivity 0.375 [0.000, 0.680], specificity 0.976 [0.938, 0.995]. Status `smoke`. | same | same | Measured, exploratory |
+| G4 | Repeat call, *A. fumigatus* Af293 | 8 positives (4 clusters), all enzyme repeat domains (PbH, BNR); 159 negatives (117), none called. No status written: sensitivity for arrays is not measurable from UniProt here. | same, section 4a | same | Not measured for arrays |
+| G5 | Labels of the truth set | Positive: paper statement or at least 2 UniProt `Repeat` features. Negative: no `Repeat` feature and no text mention (an **assumed** negative). Family inference never counts. | `analysis/calibration_truth/repeat_call_truth/` | scripts, UniProt release 2026_03 | Assumption stated |
+| G6 | Why sensitivity is low | 18 of 31 (S288C) and 8 of 16 (*C. albicans*) positives have no period in either detector. About half are arrays (AGA1, HPF1, SED1, EGT2, MSB2, EAP1, PGA18, ALS5 to ALS7) and half repeat domains. Coverage-cutoff and z-score scans do not fix it. | report section 4; `threshold_scan_v2.tsv`, `zseq_rule_scan.tsv` | recomputed | Measured, exploratory |
+| G7 | ALS7 adhesion label | GO IMP cites PMID 17510860 (Als1p and Als5p only); Sheppard 2004 shows no adherence for Als7p. Override E1 to E3. | `data/curated/adhesins/manual_overrides.tsv`, errata | PubMed abstract, extracted paper facts | Owner to confirm |
