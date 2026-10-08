@@ -252,7 +252,9 @@ def available_variants(cfg, modules):
     return [v for v in cfg.step1_variants if v in modules]
 
 
-def evaluate(cfg, protein_ids, taxa, modules, status_of, measured_call_of=None):
+def evaluate(
+    cfg, protein_ids, taxa, modules, status_of, measured_call_of=None, call_status_of=None
+):
     """Evaluate every call for every protein; return a list of ``CallRecord``.
 
     ``taxa`` maps protein ID to taxon ID. ``modules`` maps module name to ``ModuleTable``.
@@ -263,6 +265,15 @@ def evaluate(cfg, protein_ids, taxa, modules, status_of, measured_call_of=None):
     when the leaf that reads the module sits in the measured call. In every other call that reads
     the module, the module is ``unvalidated`` with the basis ``module measured on call X``. Without
     ``measured_call_of`` every status counts for every call.
+
+    ``call_status_of(call, variant, taxon)`` (optional) serves call status files, for calls that read
+    several modules. It returns None (no file for the call, or the taxon is not tested), ``(status,
+    basis)`` (the call was measured as a whole), or ``(None, reason)`` (a file exists and is stale: the
+    module statuses are used and the basis says why). A record whose value is not assessable has no
+    deciding module and never takes a call status. Contributors are grouped by the leaf call they sit
+    in; a leaf with a call status contributes one status and one basis item. The record status is the
+    weakest over all items. Without the hook, or when it returns None for every leaf, the result is
+    exactly the one without the hook.
     """
     variants = available_variants(cfg, modules)
     status_cache, records = {}, []
@@ -276,6 +287,15 @@ def evaluate(cfg, protein_ids, taxa, modules, status_of, measured_call_of=None):
         if measured is not None and measured != leaf_call:
             return UNVALIDATED, f"module measured on call {measured}"
         return status, basis
+
+    call_cache = {}
+
+    def call_status_for(leaf, label, taxon):
+        variant = label if cfg.call_by_name(leaf).get("per_variant") else ""
+        key = (leaf, variant, taxon)
+        if key not in call_cache:
+            call_cache[key] = call_status_of(leaf, variant, taxon)
+        return call_cache[key]
 
     for pid in protein_ids:
         taxon = taxa[pid]
@@ -304,17 +324,45 @@ def evaluate(cfg, protein_ids, taxa, modules, status_of, measured_call_of=None):
                 results[(call["name"], label)] = res
                 if res.contributors:
                     names = sorted(res.contributors)
-                    pairs = [status_for(m, taxon, c) for m, c in names]
-                    status = weakest(s for s, _ in pairs)
-                    basis = ";".join(
-                        f"{m}:{b}" for (m, _), (_, b) in zip(names, pairs, strict=True)
-                    )
+                    leaf_status = {}
+                    if call_status_of is not None:
+                        for leaf in {c for _, c in names}:
+                            leaf_status[leaf] = call_status_for(leaf, label, taxon)
+                    if all(v is None for v in leaf_status.values()):
+                        pairs = [status_for(m, taxon, c) for m, c in names]
+                        status = weakest(s for s, _ in pairs)
+                        basis = ";".join(
+                            f"{m}:{b}" for (m, _), (_, b) in zip(names, pairs, strict=True)
+                        )
+                    else:
+                        status, basis = _status_with_calls(names, leaf_status, status_for, taxon)
                 else:
                     status, basis = UNVALIDATED, ""
                 records.append(
                     CallRecord(pid, call["name"], label, res.value, status, basis, other_basis)
                 )
     return records
+
+
+def _status_with_calls(names, leaf_status, status_for, taxon):
+    """Status and basis of a record when at least one leaf call has a call status or a stale file."""
+    items, statuses, emitted = [], [], set()
+    for module, leaf in names:
+        found = leaf_status.get(leaf)
+        if found is not None and found[0] is not None:
+            if (
+                leaf not in emitted
+            ):  # one item for the whole leaf, where its first module would stand
+                emitted.add(leaf)
+                items.append(found[1])
+                statuses.append(found[0])
+            continue
+        status, basis = status_for(module, taxon, leaf)
+        if found is not None:  # a stale file: say why the module statuses are used
+            basis = f"call status stale ({found[1]}); {basis}"
+        items.append(f"{module}:{basis}")
+        statuses.append(status)
+    return weakest(statuses), ";".join(items)
 
 
 def _expand_step1(cfg, names):

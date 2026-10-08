@@ -23,11 +23,17 @@ def table(name, rows):
     return ModuleTable(name, {k: dict(v) for k, v in rows.items()})
 
 
-def run(modules, status_of=None, ids=("P",), taxon=40, measured_call_of=None):
+def run(modules, status_of=None, ids=("P",), taxon=40, measured_call_of=None, call_status_of=None):
     cfg = load_config()
     status_of = status_of or (lambda module, t: ("unvalidated", "x"))
     records = evaluate(
-        cfg, list(ids), dict.fromkeys(ids, taxon), modules, status_of, measured_call_of
+        cfg,
+        list(ids),
+        dict.fromkeys(ids, taxon),
+        modules,
+        status_of,
+        measured_call_of,
+        call_status_of,
     )
     return {(r.protein, r.call, r.variant): r for r in records}
 
@@ -493,3 +499,152 @@ def test_the_weakest_deciding_module_rule_still_holds_with_measured_calls():
         ("P", "tandem_repeat_protein", "")
     ]
     assert (r.value, r.status) == ("called", "smoke")
+
+
+# ---- call status hook (per-call status files) ----------------------------------------------------
+
+REPEAT = "tandem_repeat_protein"
+
+
+def _hook(table):
+    """A ``call_status_of`` hook from {(call, variant): result}; it records what it was asked."""
+    asked = []
+
+    def hook(call, variant, taxon):
+        asked.append((call, variant, taxon))
+        return table.get((call, variant))
+
+    hook.asked = asked
+    return hook
+
+
+def _fields(res):
+    return {k: (r.value, r.status, r.status_basis, r.other_basis) for k, r in res.items()}
+
+
+def test_a_hook_that_never_applies_changes_nothing():
+    mods = base_modules(step1="called", repeat02=table("repeat02", {"P": ok(call="called")}))
+    plain = run(mods, _all_estimated, measured_call_of=_measured({R0: "signal_peptide_protein"}))
+    hooked = run(
+        mods,
+        _all_estimated,
+        measured_call_of=_measured({R0: "signal_peptide_protein"}),
+        call_status_of=_hook({}),
+    )
+    assert _fields(hooked) == _fields(plain)
+
+
+def test_a_call_status_replaces_the_module_statuses_of_that_call():
+    mods = base_modules(repeat02=table("repeat02", {"P": ok(call="called")}))
+    hook = _hook({(REPEAT, ""): ("smoke", "call:tandem_repeat_protein:taxon:40")})
+    r = run(mods, _all_estimated, call_status_of=hook)[("P", REPEAT, "")]
+    assert (r.value, r.status, r.status_basis) == (
+        "called",
+        "smoke",
+        "call:tandem_repeat_protein:taxon:40",
+    )
+    stronger = _hook({(REPEAT, ""): ("estimated", "call:tandem_repeat_protein:taxon:40")})
+    r = run(mods, lambda m, t: ("unvalidated", "x"), call_status_of=stronger)[("P", REPEAT, "")]
+    assert r.status == "estimated"  # the call was measured; the modules alone were unvalidated
+
+
+def test_an_unknown_value_never_takes_a_call_status():
+    bad = {"P": {"state": "error"}}
+    mods = base_modules(repeat02=table("repeat02", bad), repeat14=table("repeat14", bad))
+    hook = _hook({(REPEAT, ""): ("estimated", "call:tandem_repeat_protein:taxon:40")})
+    r = run(mods, _all_estimated, call_status_of=hook)[("P", REPEAT, "")]
+    assert (r.value, r.status, r.status_basis) == ("not_assessable", "unvalidated", "")
+
+
+def test_a_composite_call_takes_the_weakest_status_over_its_measured_leaves():
+    mods = base_modules(step1="called", repeat02=table("repeat02", {"P": ok(call="called")}))
+    hook = _hook({(REPEAT, ""): ("smoke", "call:tandem_repeat_protein:taxon:40")})
+    res = run(
+        mods,
+        _all_estimated,
+        measured_call_of=_measured({R0: "signal_peptide_protein"}),
+        call_status_of=hook,
+    )
+    r = res[("P", "cell_wall_adhesion_candidate", "R0")]
+    assert (r.value, r.status) == ("called", "smoke")
+    assert r.status_basis == "call:tandem_repeat_protein:taxon:40;step1_rule@R0:taxon:40"
+    # the R0 module measured on another call does not count for the R0 leaf
+    res = run(
+        mods,
+        _all_estimated,
+        measured_call_of=_measured({R0: "something_else"}),
+        call_status_of=hook,
+    )
+    r = res[("P", "cell_wall_adhesion_candidate", "R0")]
+    assert r.status == "unvalidated"
+    assert r.status_basis == (
+        "call:tandem_repeat_protein:taxon:40;step1_rule@R0:module measured on call something_else"
+    )
+
+
+def test_a_false_or_takes_its_status_from_all_its_false_inputs():
+    mods = base_modules()  # both repeat detectors not_called
+    hook = _hook({(REPEAT, ""): ("smoke", "call:tandem_repeat_protein:taxon:40")})
+    r = run(mods, _all_estimated, call_status_of=hook)[("P", REPEAT, "")]
+    assert (r.value, r.status, r.status_basis) == (
+        "not_called",
+        "smoke",
+        "call:tandem_repeat_protein:taxon:40",
+    )
+
+
+def test_a_false_and_takes_the_call_status_of_the_false_leaf_and_the_module_status_of_the_other():
+    mods = base_modules(step1="called")  # candidate is false because repeat and domain are false
+    hook = _hook({(REPEAT, ""): ("smoke", "call:tandem_repeat_protein:taxon:40")})
+    res = run(
+        mods,
+        lambda m, t: ("estimated", "x") if m != "pfam_adhesion" else ("unvalidated", "x"),
+        measured_call_of=_measured({}),
+        call_status_of=hook,
+    )
+    r = res[("P", "cell_wall_adhesion_candidate", "R0")]
+    assert r.value == "not_called"
+    assert r.status == "unvalidated"  # the weakest of smoke (repeat call) and unvalidated (pfam)
+    # items follow the sorted (module, leaf) pairs; the call item stands where its first module would
+    assert r.status_basis == "pfam_adhesion:x;call:tandem_repeat_protein:taxon:40"
+
+
+def test_other_surface_no_mechanism_takes_the_call_status_of_a_called_mechanism():
+    mods = base_modules(step1="called", repeat02=table("repeat02", {"P": ok(call="called")}))
+    hook = _hook({(REPEAT, ""): ("smoke", "call:tandem_repeat_protein:taxon:40")})
+    res = run(
+        mods,
+        _all_estimated,
+        measured_call_of=_measured({R0: "signal_peptide_protein"}),
+        call_status_of=hook,
+    )
+    r = res[("P", "other_surface_no_mechanism", "R0")]
+    assert (r.value, r.status) == ("not_called", "smoke")
+    assert r.status_basis == "call:tandem_repeat_protein:taxon:40"
+
+
+def test_the_variant_of_a_leaf_is_the_label_only_for_a_per_variant_leaf():
+    mods = base_modules(
+        step1="called",
+        **{R2: table(R2, {"P": ok(call="called")})},
+        repeat02=table("repeat02", {"P": ok(call="called")}),
+    )
+    hook = _hook(
+        {("signal_peptide_protein", "R0"): ("smoke", "call:signal_peptide_protein:taxon:40")}
+    )
+    res = run(mods, _all_estimated, measured_call_of=_measured({}), call_status_of=hook)
+    assert res[("P", "signal_peptide_protein", "R0")].status == "smoke"
+    assert res[("P", "signal_peptide_protein", "R2")].status == "estimated"  # no file for R2
+    candidate_r2 = res[("P", "cell_wall_adhesion_candidate", "R2")]
+    assert "call:signal_peptide_protein" not in candidate_r2.status_basis
+    asked = set(hook.asked)
+    assert ("signal_peptide_protein", "R2", 40) in asked
+    assert (REPEAT, "", 40) in asked and (REPEAT, "R0", 40) not in asked  # plain leaf: no variant
+
+
+def test_a_stale_call_status_falls_back_to_the_module_status_and_says_why():
+    mods = base_modules(repeat02=table("repeat02", {"P": ok(call="called")}))
+    hook = _hook({(REPEAT, ""): (None, "reads differ")})
+    r = run(mods, _all_estimated, call_status_of=hook)[("P", REPEAT, "")]
+    assert r.status == "estimated"
+    assert r.status_basis == "repeat02:call status stale (reads differ); taxon:40"
