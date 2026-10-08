@@ -19,7 +19,11 @@ SH = ROOT / "scripts" / "sorting_hat"
 # Families the owner has signed off. A family is made active only after its specificity review and the
 # owner's sign-off (active_by and active_date in the table). Changing this set is a deliberate act:
 # edit this line in the same commit as the table.
-SIGNED_OFF = {"PF07691"}  # PA14, signed off 2026-10-07
+SIGNED_OFF = {
+    "PF07691",
+    "PF01185",
+    "PF05730",
+}  # PA14 (2026-10-07); Hydrophobin and CFEM (2026-10-08)
 
 
 def test_shipped_family_table_loads_and_only_signed_off_families_are_active():
