@@ -193,7 +193,7 @@ Acceptance: tests pass; no change to `categories.yaml`.
 
 Steps:
 1. Reuse `scripts/sorting_hat/pfam_hmmsearch.sbatch` (it takes the family table and writes `provenance.json`). Add a short driver
-   `scripts/sorting_hat/hydrophobin_runs.sbatch` only if a loop over proteomes is needed; test it with a dry run on one small FASTA. The driver uses
+   `analysis/hydrophobin_truth/run/hydrophobin_runs.sbatch` only if a loop over proteomes is needed; test it with a dry run on one small FASTA. The driver uses
    `$SCRATCH` and absolute paths. One job for all proteomes of this step (sizing rule 3a).
 2. Run `hmmsearch --cut_ga` of the full family table on the eight in-scope proteomes (old domain tables predate the new families).
 3. Run the module wrappers: `pfam_hydrophobin`, `pfam_hsba`, `pfam_adhesion`, `cys8_pattern`, plus the TMHMM module (CFEM is active with `no_tm`, so
