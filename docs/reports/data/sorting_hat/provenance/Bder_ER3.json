@@ -1,0 +1,15 @@
+{
+  "fasta": "/bigdata/stajichlab/shared/projects/1KFG/common_annotate/distribute.old/pep/Blastomyces_dermatitidis_ER-3.proteins.fa",
+  "first_ids": [
+    "F00FD2C2_000001-T1",
+    "F00FD2C2_000002-T1",
+    "F00FD2C2_000003-T1"
+  ],
+  "n_invalid": 0,
+  "n_proteins": 8107,
+  "n_unique_sequences": 8092,
+  "name": "Bder_ER3",
+  "retrieved": "2026-10-07",
+  "sha256": "7a49c1a9cf5f91764d83476fde74e06bdde70702fae93f3b0335c84890ee0bb9",
+  "source": "Fungi_5k input Blastomyces_dermatitidis_ER-3.proteins.fa (taxon 559297)"
+}

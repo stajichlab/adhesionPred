@@ -1,8 +1,8 @@
 # cellsurface_sorting_hat report
 
 - version: 0.2.0.dev421
-- proteins: 6039 (8 invalid, excluded from all modules; 6037 had a trailing `*`, removed)
-- taxa (taxon ID: proteins): 559292: 6039
+- proteins: 8107 (0 invalid, excluded from all modules; 0 had a trailing `*`, removed)
+- taxa (taxon ID: proteins): 559297: 8107
 - taxonomy file sha256: 78392a6926b01fadda65ab819b75e0685e62593fffc0efe09c70b04d26cb7f6b
 - categories.yaml sha256: f97cb08508c13100cded294a41d86940d3907419f7d59d76f49bbcc278a08ade
 - default gate: step1_rule@R0
@@ -11,17 +11,6 @@
 ## Warnings
 
 - **WARNING: Modules the rules need and that were not found: antigen_lookup**
-
-## Invalid proteins
-
-- YAR061W: internal stop codon
-- YDR134C: internal stop codon
-- YER109C: internal stop codon
-- YFL056C: internal stop codon
-- YIL167W: internal stop codon
-- YIR043C: internal stop codon
-- YOL153C: internal stop codon
-- YOR031W: internal stop codon
 
 ## Module run states
 
@@ -37,46 +26,35 @@
 
 Unavailable step 1 variants: step1_rule@R1, step1_rule@R2, step1_ml@card
 
-## Proteins that are not `ok` in a module
-
-| module | state | proteins |
-|---|---|---|
-| allergen_homology | na_invalid | 8 |
-| pfam_adhesion | na_invalid | 8 |
-| repeat02 | na_invalid | 8 |
-| repeat14 | na_invalid | 8 |
-| step1_rule@R0 | na_invalid | 8 |
-| tm | na_invalid | 8 |
-
 ## Module calibration
 
 | module | taxon | status | measured on call | calibration set | positives | negatives | sensitivity [95% CI] | specificity [95% CI] |
 |---|---|---|---|---|---|---|---|---|
-| allergen_homology | 559292 | unvalidated | - | - | - | - | not measured | not measured |
-| pfam_adhesion | 559292 | unvalidated | - | - | - | - | not measured | not measured |
-| repeat02 | 559292 | unvalidated | - | - | - | - | not measured | not measured |
-| repeat14 | 559292 | unvalidated | - | - | - | - | not measured | not measured |
-| step1_rule@R0 | 559292 | smoke | signal_peptide_protein | S1:Scer_SGD | 79 | 3785 | 0.848 [0.734, 0.943] | 0.966 [0.958, 0.972] |
-| tm | 559292 | unvalidated | - | - | - | - | not measured | not measured |
+| allergen_homology | 559297 | unvalidated | - | - | - | - | not measured | not measured |
+| pfam_adhesion | 559297 | unvalidated | - | - | - | - | not measured | not measured |
+| repeat02 | 559297 | unvalidated | - | - | - | - | not measured | not measured |
+| repeat14 | 559297 | unvalidated | - | - | - | - | not measured | not measured |
+| step1_rule@R0 | 559297 | unvalidated | - | - | - | - | not measured | not measured |
+| tm | 559297 | unvalidated | - | - | - | - | not measured | not measured |
 
 ## Calls
 
 | call | variant | called | not_called | not_assessable |
 |---|---|---|---|---|
-| cell_wall_adhesion_candidate | R0 | 13 | 6018 | 8 |
-| cocci_specificity_rank_top15 | - | 0 | 0 | 6039 |
-| iuis_allergen_homolog | - | 15 | 0 | 6024 |
-| iuis_allergen_similarity | - | 84 | 5947 | 8 |
-| other_not_surface | R0 | 5729 | 302 | 8 |
-| other_surface_no_mechanism | R0 | 283 | 5748 | 8 |
-| serodiagnostic_marker_candidate | R0 | 0 | 5735 | 304 |
-| signal_peptide_protein | R0 | 296 | 5735 | 8 |
-| tandem_repeat_protein | - | 19 | 6012 | 8 |
-| wall_family_domain | - | 4 | 6027 | 8 |
+| cell_wall_adhesion_candidate | R0 | 8 | 8099 | 0 |
+| cocci_specificity_rank_top15 | - | 0 | 0 | 8107 |
+| iuis_allergen_homolog | - | 14 | 0 | 8093 |
+| iuis_allergen_similarity | - | 69 | 8038 | 0 |
+| other_not_surface | R0 | 7730 | 377 | 0 |
+| other_surface_no_mechanism | R0 | 358 | 7749 | 0 |
+| serodiagnostic_marker_candidate | R0 | 0 | 7741 | 366 |
+| signal_peptide_protein | R0 | 366 | 7741 | 0 |
+| tandem_repeat_protein | - | 19 | 8088 | 0 |
+| wall_family_domain | - | 0 | 8107 | 0 |
 
 ## `other_basis` (categories left out because they were not assessable)
 
-- cocci_specificity_rank_top15: 6012
+- cocci_specificity_rank_top15: 8088
 
 ## Known limits
 

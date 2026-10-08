@@ -28,7 +28,7 @@
 | module | run state |
 |---|---|
 | allergen_homology | ok |
-| pfam_adhesion | unavailable |
+| pfam_adhesion | ok |
 | pfam_allergen | unavailable |
 | repeat02 | ok |
 | repeat14 | ok |
@@ -42,6 +42,7 @@ Unavailable step 1 variants: step1_rule@R1, step1_rule@R2, step1_ml@card
 | module | state | proteins |
 |---|---|---|
 | allergen_homology | na_invalid | 8 |
+| pfam_adhesion | na_invalid | 8 |
 | repeat02 | na_invalid | 8 |
 | repeat14 | na_invalid | 8 |
 | step1_rule@R0 | na_invalid | 8 |
@@ -52,6 +53,7 @@ Unavailable step 1 variants: step1_rule@R1, step1_rule@R2, step1_ml@card
 | module | taxon | status | measured on call | calibration set | positives | negatives | sensitivity [95% CI] | specificity [95% CI] |
 |---|---|---|---|---|---|---|---|---|
 | allergen_homology | 559292 | unvalidated | - | - | - | - | not measured | not measured |
+| pfam_adhesion | 559292 | unvalidated | - | - | - | - | not measured | not measured |
 | repeat02 | 559292 | unvalidated | - | - | - | - | not measured | not measured |
 | repeat14 | 559292 | unvalidated | - | - | - | - | not measured | not measured |
 | step1_rule@R0 | 559292 | smoke | signal_peptide_protein | S1:Scer_SGD | 79 | 3785 | 0.848 [0.734, 0.943] | 0.966 [0.958, 0.972] |
@@ -61,7 +63,7 @@ Unavailable step 1 variants: step1_rule@R1, step1_rule@R2, step1_ml@card
 
 | call | variant | called | not_called | not_assessable |
 |---|---|---|---|---|
-| cell_wall_adhesion_candidate | R0 | 13 | 6404 | 305 |
+| cell_wall_adhesion_candidate | R0 | 13 | 6701 | 8 |
 | cocci_specificity_rank_top15 | - | 0 | 0 | 6722 |
 | iuis_allergen_homolog | - | 15 | 0 | 6707 |
 | iuis_allergen_similarity | - | 84 | 6630 | 8 |
@@ -70,11 +72,11 @@ Unavailable step 1 variants: step1_rule@R1, step1_rule@R2, step1_ml@card
 | serodiagnostic_marker_candidate | R0 | 0 | 6404 | 318 |
 | signal_peptide_protein | R0 | 310 | 6404 | 8 |
 | tandem_repeat_protein | - | 25 | 6689 | 8 |
-| wall_family_domain | - | 0 | 0 | 6722 |
+| wall_family_domain | - | 4 | 6710 | 8 |
 
 ## `other_basis` (categories left out because they were not assessable)
 
-- wall_family_domain,cocci_specificity_rank_top15: 6689
+- cocci_specificity_rank_top15: 6689
 
 ## Known limits
 

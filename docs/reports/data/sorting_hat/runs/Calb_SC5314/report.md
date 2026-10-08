@@ -17,7 +17,7 @@
 | module | run state |
 |---|---|
 | allergen_homology | ok |
-| pfam_adhesion | unavailable |
+| pfam_adhesion | ok |
 | pfam_allergen | unavailable |
 | repeat02 | ok |
 | repeat14 | ok |
@@ -31,6 +31,7 @@ Unavailable step 1 variants: step1_rule@R1, step1_rule@R2, step1_ml@card
 | module | taxon | status | measured on call | calibration set | positives | negatives | sensitivity [95% CI] | specificity [95% CI] |
 |---|---|---|---|---|---|---|---|---|
 | allergen_homology | 237561 | unvalidated | - | - | - | - | not measured | not measured |
+| pfam_adhesion | 237561 | unvalidated | - | - | - | - | not measured | not measured |
 | repeat02 | 237561 | unvalidated | - | - | - | - | not measured | not measured |
 | repeat14 | 237561 | unvalidated | - | - | - | - | not measured | not measured |
 | step1_rule@R0 | 237561 | smoke | signal_peptide_protein | S1:Calb_CGD | 153 | 459 | 0.477 [0.356, 0.591] | 0.943 [0.913, 0.968] |
@@ -40,7 +41,7 @@ Unavailable step 1 variants: step1_rule@R1, step1_rule@R2, step1_ml@card
 
 | call | variant | called | not_called | not_assessable |
 |---|---|---|---|---|
-| cell_wall_adhesion_candidate | R0 | 15 | 5845 | 352 |
+| cell_wall_adhesion_candidate | R0 | 15 | 6197 | 0 |
 | cocci_specificity_rank_top15 | - | 0 | 0 | 6212 |
 | iuis_allergen_homolog | - | 13 | 0 | 6199 |
 | iuis_allergen_similarity | - | 64 | 6148 | 0 |
@@ -49,11 +50,11 @@ Unavailable step 1 variants: step1_rule@R1, step1_rule@R2, step1_ml@card
 | serodiagnostic_marker_candidate | R0 | 0 | 5845 | 367 |
 | signal_peptide_protein | R0 | 367 | 5845 | 0 |
 | tandem_repeat_protein | - | 22 | 6190 | 0 |
-| wall_family_domain | - | 0 | 0 | 6212 |
+| wall_family_domain | - | 0 | 6212 | 0 |
 
 ## `other_basis` (categories left out because they were not assessable)
 
-- wall_family_domain,cocci_specificity_rank_top15: 6190
+- cocci_specificity_rank_top15: 6190
 
 ## Known limits
 

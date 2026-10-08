@@ -17,7 +17,7 @@
 | module | run state |
 |---|---|
 | allergen_homology | ok |
-| pfam_adhesion | unavailable |
+| pfam_adhesion | ok |
 | pfam_allergen | unavailable |
 | repeat02 | ok |
 | repeat14 | ok |
@@ -31,6 +31,7 @@ Unavailable step 1 variants: step1_rule@R1, step1_rule@R2, step1_ml@card
 | module | taxon | status | measured on call | calibration set | positives | negatives | sensitivity [95% CI] | specificity [95% CI] |
 |---|---|---|---|---|---|---|---|---|
 | allergen_homology | 330879 | unvalidated | - | - | - | - | not measured | not measured |
+| pfam_adhesion | 330879 | unvalidated | - | - | - | - | not measured | not measured |
 | repeat02 | 330879 | unvalidated | - | - | - | - | not measured | not measured |
 | repeat14 | 330879 | unvalidated | - | - | - | - | not measured | not measured |
 | step1_rule@R0 | 330879 | smoke | signal_peptide_protein | S3-Eurotiomycetes:Afum_ASPFU | 19 | 45 | 0.947 [0.738, 1.000] | 1.000 [0.908, 1.000] |
@@ -40,7 +41,7 @@ Unavailable step 1 variants: step1_rule@R1, step1_rule@R2, step1_ml@card
 
 | call | variant | called | not_called | not_assessable |
 |---|---|---|---|---|
-| cell_wall_adhesion_candidate | R0 | 8 | 8894 | 745 |
+| cell_wall_adhesion_candidate | R0 | 8 | 9639 | 0 |
 | cocci_specificity_rank_top15 | - | 0 | 0 | 9647 |
 | iuis_allergen_homolog | - | 41 | 0 | 9606 |
 | iuis_allergen_similarity | - | 104 | 9543 | 0 |
@@ -49,11 +50,11 @@ Unavailable step 1 variants: step1_rule@R1, step1_rule@R2, step1_ml@card
 | serodiagnostic_marker_candidate | R0 | 0 | 8894 | 753 |
 | signal_peptide_protein | R0 | 753 | 8894 | 0 |
 | tandem_repeat_protein | - | 23 | 9624 | 0 |
-| wall_family_domain | - | 0 | 0 | 9647 |
+| wall_family_domain | - | 0 | 9647 | 0 |
 
 ## `other_basis` (categories left out because they were not assessable)
 
-- wall_family_domain,cocci_specificity_rank_top15: 9624
+- cocci_specificity_rank_top15: 9624
 
 ## Known limits
 

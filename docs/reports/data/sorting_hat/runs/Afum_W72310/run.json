@@ -20,6 +20,19 @@
       "calibration_set": "",
       "matched_taxon": "",
       "measured_call": "",
+      "module": "pfam_adhesion",
+      "n_neg": "",
+      "n_pos": "",
+      "reason": "no status_source",
+      "sensitivity": "not measured",
+      "specificity": "not measured",
+      "status": "unvalidated",
+      "taxon": 746128
+    },
+    {
+      "calibration_set": "",
+      "matched_taxon": "",
+      "measured_call": "",
       "module": "repeat02",
       "n_neg": "",
       "n_pos": "",
@@ -82,13 +95,13 @@
       "version": "1"
     },
     {
-      "artefact_hash": "4b0da6399b97d2b23329de82190b2e5705bde1dea4cb2d028a52712d5966739e:90a2d7e4c9948b28c94f225eec46384a400d99d8a4228b41628445936e2baf84",
+      "artefact_hash": "4b0da6399b97d2b23329de82190b2e5705bde1dea4cb2d028a52712d5966739e:227541fca0537d270003a7fed03d64d289fe2f0b216e6fc822bd7054d24b11b3",
       "name": "pfam_adhesion",
-      "params_hash": "339e2859ee68b8176466e7098d4fdbe9b8e029b132352702ca93449c4fec69a3",
+      "params_hash": "b512ec0d06d3ceec9c71790b658d4bc2295c1a3a62dcceb6f7d81542566e82fe",
       "version": "1"
     },
     {
-      "artefact_hash": "4b0da6399b97d2b23329de82190b2e5705bde1dea4cb2d028a52712d5966739e:90a2d7e4c9948b28c94f225eec46384a400d99d8a4228b41628445936e2baf84",
+      "artefact_hash": "4b0da6399b97d2b23329de82190b2e5705bde1dea4cb2d028a52712d5966739e:227541fca0537d270003a7fed03d64d289fe2f0b216e6fc822bd7054d24b11b3",
       "name": "pfam_allergen",
       "params_hash": "339e2859ee68b8176466e7098d4fdbe9b8e029b132352702ca93449c4fec69a3",
       "version": "1"
@@ -121,7 +134,7 @@
   "module_notes": {},
   "module_states": {
     "allergen_homology": "ok",
-    "pfam_adhesion": "unavailable",
+    "pfam_adhesion": "ok",
     "pfam_allergen": "unavailable",
     "repeat02": "ok",
     "repeat14": "ok",
@@ -133,6 +146,7 @@
   "n_trailing_stop": 0,
   "state_counts": {
     "allergen_homology": {},
+    "pfam_adhesion": {},
     "repeat02": {},
     "repeat14": {},
     "step1_rule@R0": {},
