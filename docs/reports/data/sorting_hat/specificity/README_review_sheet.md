@@ -15,3 +15,7 @@ After review, tell the assistant the file name. The assistant records the classe
 ## Ortholog columns (added 2026-10-07)
 
 For the W72310 and A1163 rows, `af293_ortholog` is the best reciprocal BLAST hit in the Af293 UniProt proteome (identity and coverage), `af293_ortholog_annotation` is its UniProt name, and `af293_ortholog_hit_class` is the class proposed for that Af293 protein in the same family ("no hit in this family" if the ortholog has no hit). They help for "hypothetical protein" rows. A high identity with full coverage means the same protein in another strain. One row has low coverage (KAK9638745.1 against BGLK, coverage 0.605), so read it with care.
+
+## GPI columns (added 2026-10-07)
+
+`predgpi_call`, `predgpi_fpr` and `predgpi_omega_site` come from PredGPI (module `predgpi/202001`, the same wrapper as Phase B, `analysis/step1_compare/jobs/predgpi_scores.py`). The call is `highly_probable` (estimated false positive rate at most 0.0015), `probable` (at most 0.005), `weakly` (at most 0.01) or `none`. It is a prediction, not evidence of a GPI anchor. PredGPI failed with an internal error on YAL064C-A (TDA8) and YHR213W, so those two rows are not scored. `cimg00693_vs_calb.tsv` is a one-way BLAST of the RS protein XP_001246922.1 (CIMG_00693) against *C. albicans* (best hit PGA7, 28.9% identity over 121 aa, e-value 5.7e-7). It is not a reciprocal test.
