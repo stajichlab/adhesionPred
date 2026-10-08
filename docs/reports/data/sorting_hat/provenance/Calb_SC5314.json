@@ -1,0 +1,15 @@
+{
+  "fasta": "/bigdata/stajichlab/jstajich/projects/adhesionPred/_workdir/sorting_hat/proteomes/Calb_SC5314_dedup.faa",
+  "first_ids": [
+    "C1_00010W_A",
+    "C1_00020C_A",
+    "C1_00030C_A"
+  ],
+  "n_invalid": 0,
+  "n_proteins": 6212,
+  "n_unique_sequences": 6192,
+  "name": "Calb_SC5314",
+  "retrieved": "2026-10-07",
+  "sha256": "8f6877602d46b33b0df2facf0b8da86638f08c3adc019137d6b986006c9e53d4",
+  "source": "CGD C_albicans_SC5314_A22_current_default_protein.fasta.gz (Phase C file); 38 duplicate IDs with identical sequences removed, first copy kept (6,250 records to 6,212)"
+}

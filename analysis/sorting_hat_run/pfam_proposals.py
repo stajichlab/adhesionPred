@@ -32,7 +32,15 @@ CYS_FAMILIES = ("PF05730", "PF01185", "PF28987", "PF06766", "PF22354")
 ENZYME = re.compile(
     r"chitinase|glucosidase|protease|peptidase|lipase|kinase|reductase|dehydrogenase", re.I
 )
-PROTEOMES = ["Afum_Af293_UniProt", "Afum_A1163", "Afum_W72310", "Scer_S288C", "Cimm_RS", "Cneo_H99"]
+PROTEOMES = [
+    "Afum_Af293_UniProt",
+    "Afum_A1163",
+    "Afum_W72310",
+    "Scer_S288C",
+    "Calb_SC5314",
+    "Cimm_RS",
+    "Cneo_H99",
+]
 
 
 def propose(r):

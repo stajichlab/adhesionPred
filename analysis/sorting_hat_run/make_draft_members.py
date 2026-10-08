@@ -67,12 +67,40 @@ SCER = {
         )
     ],
 }
+CALB_ALS = (
+    ("C6_03700W_A", "ALS1"),
+    ("C6_04380W_A", "ALS2"),
+    ("CR_07070C_A", "ALS3"),
+    ("C6_04130C_A", "ALS4"),
+    ("C6_03690W_A", "ALS5"),
+    ("C3_06190C_A", "ALS6"),
+    ("C3_06320W_A", "ALS7"),
+    ("C6_03710W_A", "ALS9"),
+)
+CALB_HYR = (
+    ("C1_13450W_A", "HYR1"),
+    ("C5_00730W_A", "HYR3"),
+    ("CR_00760C_A", "HYR4"),
+    ("CR_03630W_A", "IFF3"),
+    ("CR_00610W_A", "IFF4"),
+    ("C4_06550C_A", "IFF5"),
+    ("C2_09130C_A", "IFF6"),
+    ("C5_00710W_A", "IFF8"),
+    ("CR_03880W_A", "IFF9"),
+    ("C3_00600W_A", "IFF11"),
+)
+CALB = {
+    "PF11766": [(o, n, "CGD gene name (2026-10-07), ALS family") for o, n in CALB_ALS],
+    "PF05792": [(o, n, "CGD gene name (2026-10-07), ALS family") for o, n in CALB_ALS],
+    "PF11765": [(o, n, "CGD gene name (2026-10-07), HYR/IFF family") for o, n in CALB_HYR],
+}
 SETS = {
     "Afum_Af293_UniProt": AF293,
     "Afum_A1163": AF293,
     "Afum_W72310": AF293,
     "Scer_S288C": SCER,
     "Scer_S288C_nodubious": SCER,
+    "Calb_SC5314": CALB,
 }
 ALIASES = {
     "PF06766": "PF01185",

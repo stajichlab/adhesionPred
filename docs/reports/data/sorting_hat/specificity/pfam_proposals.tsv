@@ -101,6 +101,43 @@ Scer_S288C	PF10528 GLEYA	YKR102W	"YKR102W FLO10 SGDID:S000001810, Chr XI from 64
 Scer_S288C	PF11765 Hyphal_reg_CWP	YIL169C	YIL169C CSS1 SGDID:S000001431, Chr IX from 26106-23119, Genome Release 64-5-1, reverse complement, V	995	0	0	called	no	needs_expert	low	no independent evidence in the table	proposed
 Scer_S288C	PF11765 Hyphal_reg_CWP	YOL155C	YOL155C HPF1 SGDID:S000005515, Chr XV from 31606-28703, Genome Release 64-5-1, reverse complement, V	967	0	0	called	no	needs_expert	low	no independent evidence in the table	proposed
 Scer_S288C	PF11766 Candida_ALS_N	YJR004C	YJR004C SAG1 SGDID:S000003764, Chr X from 444861-442909, Genome Release 64-5-1, reverse complement, 	650	6	1	called	no	needs_expert	low	no independent evidence in the table	proposed
+Calb_SC5314	PF05730 CFEM	C4_00120W_A	C4_00120W_A	219	8	0	called	no	uncharacterised_true_member	medium	8 Cys, signal peptide, no helix	proposed
+Calb_SC5314	PF05730 CFEM	C4_00130W_A	C4_00130W_A	241	8	0	called	no	uncharacterised_true_member	medium	8 Cys, signal peptide, no helix	proposed
+Calb_SC5314	PF05730 CFEM	C4_00450C_A	C4_00450C_A	250	8	0	called	no	uncharacterised_true_member	medium	8 Cys, signal peptide, no helix	proposed
+Calb_SC5314	PF05730 CFEM	C4_06920C_A	C4_06920C_A	147	8	1	called	no	needs_expert	low	8 Cys, 1 TMHMM helix with a signal peptide (the helix may be the signal anchor)	proposed
+Calb_SC5314	PF05730 CFEM	C7_00090C_A	C7_00090C_A	1018	8	0	called	no	uncharacterised_true_member	medium	8 Cys, signal peptide, no helix	proposed
+Calb_SC5314	PF05730 CFEM	C7_00860W_A	C7_00860W_A	234	8	0	called	no	uncharacterised_true_member	medium	8 Cys, signal peptide, no helix	proposed
+Calb_SC5314	PF05792 Candida_ALS	C3_00580W_A	C3_00580W_A	563	0	0	called	no	needs_expert	low	no independent evidence in the table	proposed
+Calb_SC5314	PF05792 Candida_ALS	C3_06190C_A	C3_06190C_A	1366	0	1	called	yes	known_member	medium	in the draft member list (unreviewed)	proposed
+Calb_SC5314	PF05792 Candida_ALS	C3_06320W_A	C3_06320W_A	1568	0	0	called	yes	known_member	medium	in the draft member list (unreviewed)	proposed
+Calb_SC5314	PF05792 Candida_ALS	C6_03690W_A	C6_03690W_A	1347	0	0	called	yes	known_member	medium	in the draft member list (unreviewed)	proposed
+Calb_SC5314	PF05792 Candida_ALS	C6_03700W_A	C6_03700W_A	1260	0	0	called	yes	known_member	medium	in the draft member list (unreviewed)	proposed
+Calb_SC5314	PF05792 Candida_ALS	C6_03710W_A	C6_03710W_A	1890	0	0	called	yes	known_member	medium	in the draft member list (unreviewed)	proposed
+Calb_SC5314	PF05792 Candida_ALS	C6_04130C_A	C6_04130C_A	2100	0	0	called	yes	known_member	medium	in the draft member list (unreviewed)	proposed
+Calb_SC5314	PF05792 Candida_ALS	C6_04380W_A	C6_04380W_A	2362	0	0	called	yes	known_member	medium	in the draft member list (unreviewed)	proposed
+Calb_SC5314	PF05792 Candida_ALS	CR_07070C_A	CR_07070C_A	1155	0	0	called	yes	known_member	medium	in the draft member list (unreviewed)	proposed
+Calb_SC5314	PF07691 PA14	C3_01820W_A	C3_01820W_A	866	1	0	not_called	no	needs_expert	low	no independent evidence in the table	proposed
+Calb_SC5314	PF10182 Flo11	C4_03520C_A	C4_03520C_A	721	4	0	called	no	needs_expert	low	no independent evidence in the table	proposed
+Calb_SC5314	PF11765 Hyphal_reg_CWP	C1_13450W_A	C1_13450W_A	919	5	0	called	yes	known_member	medium	in the draft member list (unreviewed)	proposed
+Calb_SC5314	PF11765 Hyphal_reg_CWP	C2_09130C_A	C2_09130C_A	1085	4	0	called	yes	known_member	medium	in the draft member list (unreviewed)	proposed
+Calb_SC5314	PF11765 Hyphal_reg_CWP	C3_00580W_A	C3_00580W_A	563	7	0	called	no	needs_expert	low	no independent evidence in the table	proposed
+Calb_SC5314	PF11765 Hyphal_reg_CWP	C3_00600W_A	C3_00600W_A	511	11	0	not_called	yes	known_member	medium	in the draft member list (unreviewed)	proposed
+Calb_SC5314	PF11765 Hyphal_reg_CWP	C4_06550C_A	C4_06550C_A	1308	4	0	called	yes	known_member	medium	in the draft member list (unreviewed)	proposed
+Calb_SC5314	PF11765 Hyphal_reg_CWP	C5_00710W_A	C5_00710W_A	714	4	0	called	yes	known_member	medium	in the draft member list (unreviewed)	proposed
+Calb_SC5314	PF11765 Hyphal_reg_CWP	C5_00730W_A	C5_00730W_A	1249	4	0	called	yes	known_member	medium	in the draft member list (unreviewed)	proposed
+Calb_SC5314	PF11765 Hyphal_reg_CWP	C7_03290C_A	C7_03290C_A	1562	4	0	called	no	needs_expert	low	no independent evidence in the table	proposed
+Calb_SC5314	PF11765 Hyphal_reg_CWP	CR_00610W_A	CR_00610W_A	1526	5	0	called	yes	known_member	medium	in the draft member list (unreviewed)	proposed
+Calb_SC5314	PF11765 Hyphal_reg_CWP	CR_00760C_A	CR_00760C_A	1225	5	1	called	yes	known_member	medium	in the draft member list (unreviewed)	proposed
+Calb_SC5314	PF11765 Hyphal_reg_CWP	CR_03630W_A	CR_03630W_A	941	4	0	called	yes	known_member	medium	in the draft member list (unreviewed)	proposed
+Calb_SC5314	PF11765 Hyphal_reg_CWP	CR_03880W_A	CR_03880W_A	941	4	0	called	yes	known_member	medium	in the draft member list (unreviewed)	proposed
+Calb_SC5314	PF11766 Candida_ALS_N	C3_06190C_A	C3_06190C_A	1366	8	1	called	yes	known_member	medium	in the draft member list (unreviewed)	proposed
+Calb_SC5314	PF11766 Candida_ALS_N	C3_06320W_A	C3_06320W_A	1568	8	0	called	yes	known_member	medium	in the draft member list (unreviewed)	proposed
+Calb_SC5314	PF11766 Candida_ALS_N	C6_03690W_A	C6_03690W_A	1347	8	0	called	yes	known_member	medium	in the draft member list (unreviewed)	proposed
+Calb_SC5314	PF11766 Candida_ALS_N	C6_03700W_A	C6_03700W_A	1260	8	0	called	yes	known_member	medium	in the draft member list (unreviewed)	proposed
+Calb_SC5314	PF11766 Candida_ALS_N	C6_03710W_A	C6_03710W_A	1890	8	0	called	yes	known_member	medium	in the draft member list (unreviewed)	proposed
+Calb_SC5314	PF11766 Candida_ALS_N	C6_04130C_A	C6_04130C_A	2100	8	0	called	yes	known_member	medium	in the draft member list (unreviewed)	proposed
+Calb_SC5314	PF11766 Candida_ALS_N	C6_04380W_A	C6_04380W_A	2362	8	0	called	yes	known_member	medium	in the draft member list (unreviewed)	proposed
+Calb_SC5314	PF11766 Candida_ALS_N	CR_07070C_A	CR_07070C_A	1155	8	0	called	yes	known_member	medium	in the draft member list (unreviewed)	proposed
 Cimm_RS	PF01185 Hydrophobin	XP_001242719.1	XP_001242719.1 uncharacterized protein CIMG_06615 [Coccidioides immitis RS]	131	8	0	called	no	uncharacterised_true_member	medium	8 Cys, signal peptide, no helix	proposed
 Cimm_RS	PF04681 Bys1	XP_001247532.1	XP_001247532.1 BYS1 domain-containing protein [Coccidioides immitis RS]	154	5	0	called	no	needs_expert	low	no independent evidence in the table	proposed
 Cimm_RS	PF04681 Bys1	XP_001248146.1	XP_001248146.1 GPI anchored cell wall protein [Coccidioides immitis RS]	183	6	1	called	no	needs_expert	low	no independent evidence in the table	proposed
@@ -113,11 +150,11 @@ Cimm_RS	PF05730 CFEM	XP_001246922.1	XP_001246922.1 uncharacterized protein CIMG_
 Cimm_RS	PF05730 CFEM	XP_001247024.1	XP_001247024.1 uncharacterized protein CIMG_00795 [Coccidioides immitis RS]	331	8	0	called	no	uncharacterised_true_member	medium	8 Cys, signal peptide, no helix	proposed
 Cimm_RS	PF05730 CFEM	XP_001249089.1	XP_001249089.1 chitinase 3 [Coccidioides immitis RS]	260	8	0	called	no	needs_expert	low	annotation names an enzyme (chitinase); 8 Cys	proposed
 Cimm_RS	PF28987 DewD	XP_001243627.2	XP_001243627.2 uncharacterized protein CIMG_03068 [Coccidioides immitis RS]	94	8	1	called	no	needs_expert	low	8 Cys, 1 TMHMM helix with a signal peptide (the helix may be the signal anchor)	proposed
-Cneo_H99	PF05730 CFEM	tr|J9VLX4|J9VLX4_CRYN9	tr|J9VLX4|J9VLX4_CRYN9 CFEM domain-containing protein OS=Cryptococcus neoformans (strain H99 / ATCC 	308	8	0	NA	no	needs_expert	low	signal peptide not run; 8 Cys, 0 helices	proposed
-Cneo_H99	PF05730 CFEM	tr|J9VVT8|J9VVT8_CRYN9	tr|J9VVT8|J9VVT8_CRYN9 CFEM domain-containing protein OS=Cryptococcus neoformans (strain H99 / ATCC 	301	8	1	NA	no	needs_expert	low	signal peptide not run; 8 Cys, 1 helices	proposed
-Cneo_H99	PF05730 CFEM	tr|T2BNG1|T2BNG1_CRYN9	tr|T2BNG1|T2BNG1_CRYN9 CFEM domain-containing protein OS=Cryptococcus neoformans (strain H99 / ATCC 	281	8	0	NA	no	needs_expert	low	signal peptide not run; 8 Cys, 0 helices	proposed
-Cneo_H99	PF07691 PA14	tr|J9VNK7|J9VNK7_CRYN9	tr|J9VNK7|J9VNK7_CRYN9 beta-glucosidase OS=Cryptococcus neoformans (strain H99 / ATCC 208821 / CBS 1	862	0	0	NA	no	false_domain_hit	medium	annotated beta-glucosidase; signal peptide not run	proposed
-Cneo_H99	PF07691 PA14	tr|J9VNL1|J9VNL1_CRYN9	tr|J9VNL1|J9VNL1_CRYN9 beta-glucosidase OS=Cryptococcus neoformans (strain H99 / ATCC 208821 / CBS 1	796	1	0	NA	no	false_domain_hit	medium	annotated beta-glucosidase; signal peptide not run	proposed
-Cneo_H99	PF07691 PA14	tr|J9VP97|J9VP97_CRYN9	tr|J9VP97|J9VP97_CRYN9 beta-glucosidase OS=Cryptococcus neoformans (strain H99 / ATCC 208821 / CBS 1	728	4	0	NA	no	false_domain_hit	medium	annotated beta-glucosidase; signal peptide not run	proposed
-Cneo_H99	PF07691 PA14	tr|J9VVK7|J9VVK7_CRYN9	tr|J9VVK7|J9VVK7_CRYN9 beta-glucosidase OS=Cryptococcus neoformans (strain H99 / ATCC 208821 / CBS 1	849	1	0	NA	no	false_domain_hit	medium	annotated beta-glucosidase; signal peptide not run	proposed
-Cneo_H99	PF07691 PA14	tr|J9VZB3|J9VZB3_CRYN9	tr|J9VZB3|J9VZB3_CRYN9 beta-glucosidase OS=Cryptococcus neoformans (strain H99 / ATCC 208821 / CBS 1	863	0	0	NA	no	false_domain_hit	medium	annotated beta-glucosidase; signal peptide not run	proposed
+Cneo_H99	PF05730 CFEM	tr|J9VLX4|J9VLX4_CRYN9	tr|J9VLX4|J9VLX4_CRYN9 CFEM domain-containing protein OS=Cryptococcus neoformans (strain H99 / ATCC 	308	8	0	called	no	uncharacterised_true_member	medium	8 Cys, signal peptide, no helix	proposed
+Cneo_H99	PF05730 CFEM	tr|J9VVT8|J9VVT8_CRYN9	tr|J9VVT8|J9VVT8_CRYN9 CFEM domain-containing protein OS=Cryptococcus neoformans (strain H99 / ATCC 	301	8	1	not_called	no	receptor_like	low	8 Cys, 1 TMHMM helices	proposed
+Cneo_H99	PF05730 CFEM	tr|T2BNG1|T2BNG1_CRYN9	tr|T2BNG1|T2BNG1_CRYN9 CFEM domain-containing protein OS=Cryptococcus neoformans (strain H99 / ATCC 	281	8	0	called	no	uncharacterised_true_member	medium	8 Cys, signal peptide, no helix	proposed
+Cneo_H99	PF07691 PA14	tr|J9VNK7|J9VNK7_CRYN9	tr|J9VNK7|J9VNK7_CRYN9 beta-glucosidase OS=Cryptococcus neoformans (strain H99 / ATCC 208821 / CBS 1	862	0	0	not_called	no	false_domain_hit	medium	annotated beta-glucosidase; no signal peptide	proposed
+Cneo_H99	PF07691 PA14	tr|J9VNL1|J9VNL1_CRYN9	tr|J9VNL1|J9VNL1_CRYN9 beta-glucosidase OS=Cryptococcus neoformans (strain H99 / ATCC 208821 / CBS 1	796	1	0	not_called	no	false_domain_hit	medium	annotated beta-glucosidase; no signal peptide	proposed
+Cneo_H99	PF07691 PA14	tr|J9VP97|J9VP97_CRYN9	tr|J9VP97|J9VP97_CRYN9 beta-glucosidase OS=Cryptococcus neoformans (strain H99 / ATCC 208821 / CBS 1	728	4	0	not_called	no	false_domain_hit	medium	annotated beta-glucosidase; no signal peptide	proposed
+Cneo_H99	PF07691 PA14	tr|J9VVK7|J9VVK7_CRYN9	tr|J9VVK7|J9VVK7_CRYN9 beta-glucosidase OS=Cryptococcus neoformans (strain H99 / ATCC 208821 / CBS 1	849	1	0	not_called	no	false_domain_hit	medium	annotated beta-glucosidase; no signal peptide	proposed
+Cneo_H99	PF07691 PA14	tr|J9VZB3|J9VZB3_CRYN9	tr|J9VZB3|J9VZB3_CRYN9 beta-glucosidase OS=Cryptococcus neoformans (strain H99 / ATCC 208821 / CBS 1	863	0	0	not_called	no	false_domain_hit	medium	annotated beta-glucosidase; no signal peptide	proposed

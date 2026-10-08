@@ -1,0 +1,114 @@
+{
+ "C1_13450W_A": {
+  "gene": "HYR1",
+  "headline": "GPI-anchored hyphal cell wall protein; macrophage-induced; repressed by neutrophils; resistance to killing by neutrophils, azoles; regulated"
+ },
+ "C2_09130C_A": {
+  "gene": "IFF6",
+  "headline": "Putative GPI-anchored adhesin-like protein; opaque-specific transcript; macrophage-induced gene; Hap43-repressed gene; Spider biofilm induce"
+ },
+ "C3_00580W_A": {
+  "gene": "FLO9",
+  "headline": "Putative adhesin-like cell wall mannoprotein; repressed during the mating process; mutation confers hypersensitivity to toxic ergosterol ana"
+ },
+ "C3_00600W_A": {
+  "gene": "IFF11",
+  "headline": "Secreted protein required for normal cell wall structure and for virulence; member of the IFF family; Hap43p-repressed gene"
+ },
+ "C3_01820W_A": {
+  "gene": "",
+  "headline": "Protein of unknown function; expression downregulated in an ssr1 null mutant"
+ },
+ "C3_06190C_A": {
+  "gene": "ALS6",
+  "headline": "ALS family protein; expression in S. cerevisiae confers adhesion to gelatin; macrophage-induced gene; N-terminal adhesion domain; ALS family"
+ },
+ "C3_06320W_A": {
+  "gene": "ALS7",
+  "headline": "ALS family protein; hypermutable contingency gene; growth-regulated, downregulated in biofilm; two variable repeat regions; expression in S."
+ },
+ "C4_00120W_A": {
+  "gene": "PGA7",
+  "headline": "GPI-linked hyphal surface antigen; induced by ciclopirox olamine, ketoconazole, Rim101 at pH 8; Hap43, fluconazole; flow model biofilm induc"
+ },
+ "C4_00130W_A": {
+  "gene": "RBT5",
+  "headline": "GPI-linked cell wall protein; hemoglobin utilization; Rfg1, Rim101, Tbf1, Fe regulated; Sfu1, Hog1, Tup1, serum, alkaline pH, antifungal dru"
+ },
+ "C4_00450C_A": {
+  "gene": "PGA10",
+  "headline": "GPI anchored membrane protein; utilization of hemin and hemoglobin for Fe in host; Rim101 at ph8/hypoxia/ketoconazole/ciclopirox/hypha-induc"
+ },
+ "C4_03520C_A": {
+  "gene": "RBT1",
+  "headline": "Cell wall protein with similarity to Hwp1; cleaved by Kex2 to yield a peptide that promotes invasion into gut epithelium; fluconazole, Tup1 "
+ },
+ "C4_06550C_A": {
+  "gene": "IFF5",
+  "headline": "Putative GPI-anchored protein; adhesin-like protein; possibly an essential gene, disruptants not obtained by UAU1 method"
+ },
+ "C4_06920C_A": {
+  "gene": "CSA2",
+  "headline": "Extracellular heme-binding protein involved in heme-iron acquisition; regulated by Tsa1, Tsa1B in minimal media at 37 deg; induced by ketoco"
+ },
+ "C5_00710W_A": {
+  "gene": "IFF8",
+  "headline": "Putative GPI-anchored adhesin-like protein; decreased transcription is observed in an azole-resistant strain that overexpresses MDR1"
+ },
+ "C5_00730W_A": {
+  "gene": "HYR3",
+  "headline": "Putative GPI-anchored adhesin-like protein; similar to Hyr1p induced in high iron; clade-specific repeat variation"
+ },
+ "C6_03690W_A": {
+  "gene": "ALS5",
+  "headline": "ALS family adhesin; highly variable; expression in S. cerevisiae causes adhesion to human epithelium, endothelium or ECM, endothelial invasi"
+ },
+ "C6_03700W_A": {
+  "gene": "ALS1",
+  "headline": "Cell-surface adhesin; adhesion, virulence, immunoprotective roles; band at hyphal base; Rfg1, Ssk1, Spider biofilm induced; flow model biofi"
+ },
+ "C6_03710W_A": {
+  "gene": "ALS9",
+  "headline": "ALS family cell-surface glycoprotein; expressed during infection of human epithelial cells; confers laminin adhesion to S. cerevisiae; highl"
+ },
+ "C6_04130C_A": {
+  "gene": "ALS4",
+  "headline": "GPI-anchored adhesin; role in adhesion, germ tube induction; growth, temperature regulated; expressed during infection of human buccal epith"
+ },
+ "C6_04380W_A": {
+  "gene": "ALS2",
+  "headline": "ALS family protein; role in adhesion, biofilm formation, germ tube induction; expressed at infection of human buccal epithelial cells; putat"
+ },
+ "C7_00090C_A": {
+  "gene": "CSA1",
+  "headline": "Surface antigen on elongating hyphae and buds; strain variation in repeat number; ciclopirox, filament induced, alkaline induced by Rim101; "
+ },
+ "C7_00860W_A": {
+  "gene": "SSR1",
+  "headline": "Beta-glucan associated ser/thr rich cell-wall protein with a role in cell wall structure; GPI anchor; highly mutable due to internal Ser-Ala"
+ },
+ "C7_03290C_A": {
+  "gene": "RBR3",
+  "headline": "Cell wall adhesin-like protein; repressed by Rim101; possibly an essential gene, disruptants not obtained by UAU1 method"
+ },
+ "CR_00610W_A": {
+  "gene": "IFF4",
+  "headline": "Adhesin-like cell surface protein; putative GPI-anchor; null mutant germ tubes show decreased adhesion to plastic substrate; mutants are via"
+ },
+ "CR_00760C_A": {
+  "gene": "HYR4",
+  "headline": "Putative GPI-anchored adhesin-like protein; Rim101-repressed; constitutive expression independent of MTL or white-opaque status"
+ },
+ "CR_03630W_A": {
+  "gene": "IFF3",
+  "headline": "Putative GPI-anchored protein"
+ },
+ "CR_03880W_A": {
+  "gene": "IFF9",
+  "headline": "Predicted GPI-linked cell-wall protein; similar to Hyr1; induced in low iron; possibly an essential gene, disruptants not obtained by UAU1 m"
+ },
+ "CR_07070C_A": {
+  "gene": "ALS3",
+  "headline": "Cell wall adhesin; epithelial adhesion, endothelial invasion; alleles vary in adhesiveness; immunoprotective in mice; binds SspB adhesin of "
+ }
+}

@@ -1,9 +1,9 @@
 family	protein	annotation	length	n_domains	best_domain_score	best_i_evalue	domain_cys	n_tm	signal_peptide	draft_member	review_class
-PF05730 CFEM	tr|J9VLX4|J9VLX4_CRYN9	tr|J9VLX4|J9VLX4_CRYN9 CFEM domain-containing protein OS=Cryptococcus neoformans (strain H99 / ATCC 208821 / CBS 10515 /	308	1	47.6	5.1e-13	8	0	NA	no	
-PF05730 CFEM	tr|J9VVT8|J9VVT8_CRYN9	tr|J9VVT8|J9VVT8_CRYN9 CFEM domain-containing protein OS=Cryptococcus neoformans (strain H99 / ATCC 208821 / CBS 10515 /	301	1	39.6	1.7e-10	8	1	NA	no	
-PF05730 CFEM	tr|T2BNG1|T2BNG1_CRYN9	tr|T2BNG1|T2BNG1_CRYN9 CFEM domain-containing protein OS=Cryptococcus neoformans (strain H99 / ATCC 208821 / CBS 10515 /	281	1	47.8	4.3e-13	8	0	NA	no	
-PF07691 PA14	tr|J9VNK7|J9VNK7_CRYN9	tr|J9VNK7|J9VNK7_CRYN9 beta-glucosidase OS=Cryptococcus neoformans (strain H99 / ATCC 208821 / CBS 10515 / FGSC 9487) OX	862	1	33.7	1.2e-08	0	0	NA	no	
-PF07691 PA14	tr|J9VNL1|J9VNL1_CRYN9	tr|J9VNL1|J9VNL1_CRYN9 beta-glucosidase OS=Cryptococcus neoformans (strain H99 / ATCC 208821 / CBS 10515 / FGSC 9487) OX	796	1	39.3	2.1e-10	1	0	NA	no	
-PF07691 PA14	tr|J9VP97|J9VP97_CRYN9	tr|J9VP97|J9VP97_CRYN9 beta-glucosidase OS=Cryptococcus neoformans (strain H99 / ATCC 208821 / CBS 10515 / FGSC 9487) OX	728	1	27.0	1.3e-06	4	0	NA	no	
-PF07691 PA14	tr|J9VVK7|J9VVK7_CRYN9	tr|J9VVK7|J9VVK7_CRYN9 beta-glucosidase OS=Cryptococcus neoformans (strain H99 / ATCC 208821 / CBS 10515 / FGSC 9487) OX	849	1	38.2	4.6e-10	1	0	NA	no	
-PF07691 PA14	tr|J9VZB3|J9VZB3_CRYN9	tr|J9VZB3|J9VZB3_CRYN9 beta-glucosidase OS=Cryptococcus neoformans (strain H99 / ATCC 208821 / CBS 10515 / FGSC 9487) OX	863	1	46.0	1.8e-12	0	0	NA	no	
+PF05730 CFEM	tr|J9VLX4|J9VLX4_CRYN9	tr|J9VLX4|J9VLX4_CRYN9 CFEM domain-containing protein OS=Cryptococcus neoformans (strain H99 / ATCC 208821 / CBS 10515 /	308	1	47.6	5.1e-13	8	0	called	no	
+PF05730 CFEM	tr|J9VVT8|J9VVT8_CRYN9	tr|J9VVT8|J9VVT8_CRYN9 CFEM domain-containing protein OS=Cryptococcus neoformans (strain H99 / ATCC 208821 / CBS 10515 /	301	1	39.6	1.7e-10	8	1	not_called	no	
+PF05730 CFEM	tr|T2BNG1|T2BNG1_CRYN9	tr|T2BNG1|T2BNG1_CRYN9 CFEM domain-containing protein OS=Cryptococcus neoformans (strain H99 / ATCC 208821 / CBS 10515 /	281	1	47.8	4.3e-13	8	0	called	no	
+PF07691 PA14	tr|J9VNK7|J9VNK7_CRYN9	tr|J9VNK7|J9VNK7_CRYN9 beta-glucosidase OS=Cryptococcus neoformans (strain H99 / ATCC 208821 / CBS 10515 / FGSC 9487) OX	862	1	33.7	1.2e-08	0	0	not_called	no	
+PF07691 PA14	tr|J9VNL1|J9VNL1_CRYN9	tr|J9VNL1|J9VNL1_CRYN9 beta-glucosidase OS=Cryptococcus neoformans (strain H99 / ATCC 208821 / CBS 10515 / FGSC 9487) OX	796	1	39.3	2.1e-10	1	0	not_called	no	
+PF07691 PA14	tr|J9VP97|J9VP97_CRYN9	tr|J9VP97|J9VP97_CRYN9 beta-glucosidase OS=Cryptococcus neoformans (strain H99 / ATCC 208821 / CBS 10515 / FGSC 9487) OX	728	1	27.0	1.3e-06	4	0	not_called	no	
+PF07691 PA14	tr|J9VVK7|J9VVK7_CRYN9	tr|J9VVK7|J9VVK7_CRYN9 beta-glucosidase OS=Cryptococcus neoformans (strain H99 / ATCC 208821 / CBS 10515 / FGSC 9487) OX	849	1	38.2	4.6e-10	1	0	not_called	no	
+PF07691 PA14	tr|J9VZB3|J9VZB3_CRYN9	tr|J9VZB3|J9VZB3_CRYN9 beta-glucosidase OS=Cryptococcus neoformans (strain H99 / ATCC 208821 / CBS 10515 / FGSC 9487) OX	863	1	46.0	1.8e-12	0	0	not_called	no	
