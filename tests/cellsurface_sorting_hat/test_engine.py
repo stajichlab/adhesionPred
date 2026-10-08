@@ -48,6 +48,8 @@ def base_modules(step1="not_called", **over):
         "repeat02": table("repeat02", {"P": ok(call="not_called")}),
         "repeat14": table("repeat14", {"P": ok(call="not_called")}),
         "pfam_adhesion": table("pfam_adhesion", {"P": ok(hit="0")}),
+        "pfam_hydrophobin": table("pfam_hydrophobin", {"P": ok(hit="0")}),
+        "pfam_hsba": table("pfam_hsba", {"P": ok(hit="0")}),
         "pfam_allergen": table("pfam_allergen", {"P": ok(hit="0")}),
         "antigen_lookup": table("antigen_lookup", {"P": ok(percentile="50")}),
         "allergen_homology": table("allergen_homology", {"P": ok(identity="0", coverage="0")}),
@@ -62,6 +64,8 @@ def test_packaged_config_loads_and_has_the_spec_calls():
         "signal_peptide_protein",
         "tandem_repeat_protein",
         "wall_family_domain",
+        "hydrophobin_domain",
+        "hsba_domain",
         "cell_wall_adhesion_candidate",
         "cocci_specificity_rank_top15",
         "serodiagnostic_marker_candidate",
@@ -221,8 +225,8 @@ def _config_with(tmp_path, mutate):
         (lambda d: d["calls"].append(dict(d["calls"][0])), "duplicate call"),
         (lambda d: d["calls"][1].update(expr={"ref": "later_call"}), "unknown or later"),
         (lambda d: d["calls"][1].update(expr={"bogus": 1}), "bad node"),
-        (lambda d: d["calls"][4]["expr"]["test"].update(op="~"), "bad operator"),
-        (lambda d: d["calls"][4]["expr"]["test"].update(value="$nope"), "unknown threshold"),
+        (lambda d: d["calls"][6]["expr"]["test"].update(op="~"), "bad operator"),
+        (lambda d: d["calls"][6]["expr"]["test"].update(value="$nope"), "unknown threshold"),
         (
             lambda d: d["calls"][1].update(expr={"ref": "signal_peptide_protein"}),
             "ungated call cannot use",
@@ -288,6 +292,8 @@ def test_referenced_modules_expand_the_step1_variants():
         "repeat02",
         "repeat14",
         "pfam_adhesion",
+        "pfam_hydrophobin",
+        "pfam_hsba",
         "pfam_allergen",
         "antigen_lookup",
         "allergen_homology",
@@ -346,6 +352,8 @@ def test_other_true_status_uses_surface_and_not_called_mechanisms_only():
             "repeat02": "smoke",
             "repeat14": "estimated",
             "pfam_adhesion": "estimated",
+            "pfam_hydrophobin": "estimated",
+            "pfam_hsba": "estimated",
             "allergen_homology": "estimated",
             "pfam_allergen": "estimated",
         }
@@ -358,6 +366,8 @@ def test_other_true_status_uses_surface_and_not_called_mechanisms_only():
         "repeat02",
         "repeat14",
         "pfam_adhesion",
+        "pfam_hydrophobin",
+        "pfam_hsba",
     }  # antigen_lookup is unknown and does not contribute; allergen flags are not mechanisms
 
 
@@ -648,3 +658,22 @@ def test_a_stale_call_status_falls_back_to_the_module_status_and_says_why():
     r = run(mods, _all_estimated, call_status_of=hook)[("P", REPEAT, "")]
     assert r.status == "estimated"
     assert r.status_basis == "repeat02:call status stale (reads differ); taxon:40"
+
+
+def test_hydrophobin_hit_is_not_a_wall_family_hit_and_counts_as_mechanism():
+    mods = base_modules(
+        step1="called", pfam_hydrophobin=table("pfam_hydrophobin", {"P": ok(hit="1")})
+    )
+    res = run(mods)
+    assert res[("P", "hydrophobin_domain", "")].value == "called"
+    assert res[("P", "wall_family_domain", "")].value == "not_called"
+    assert res[("P", "cell_wall_adhesion_candidate", "R0")].value == "not_called"
+    assert res[("P", "other_surface_no_mechanism", "R0")].value == "not_called"
+
+
+def test_hsba_hit_is_a_separate_call_and_counts_as_mechanism():
+    mods = base_modules(step1="called", pfam_hsba=table("pfam_hsba", {"P": ok(hit="1")}))
+    res = run(mods)
+    assert res[("P", "hsba_domain", "")].value == "called"
+    assert res[("P", "hydrophobin_domain", "")].value == "not_called"
+    assert res[("P", "other_surface_no_mechanism", "R0")].value == "not_called"

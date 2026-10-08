@@ -40,7 +40,12 @@ def test_shipped_family_table_loads_and_only_signed_off_families_are_active():
     families = load_family_table(path)
     assert len(families) == 24
     assert {f.pfam_acc for f in families if f.active} == SIGNED_OFF
-    assert {f.module for f in families} == {"pfam_adhesion", "pfam_allergen"}
+    assert {f.module for f in families} == {
+        "pfam_adhesion",
+        "pfam_allergen",
+        "pfam_hydrophobin",
+        "pfam_hsba",
+    }
     with open(path, newline="") as fh:
         rows = {r["pfam_acc"]: r for r in csv.DictReader(fh, delimiter="\t")}
     for acc in SIGNED_OFF:

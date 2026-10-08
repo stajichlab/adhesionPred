@@ -49,6 +49,10 @@ calls:
       or: [{call: repeat02}, {call: repeat14}]
   - name: wall_family_domain
     expr: {flag: pfam_adhesion.hit}
+  - name: hydrophobin_domain
+    expr: {flag: pfam_hydrophobin.hit}
+  - name: hsba_domain
+    expr: {flag: pfam_hsba.hit}
   - name: cell_wall_adhesion_candidate
     per_variant: true
     expr:
@@ -79,10 +83,10 @@ calls:
     kind: other
     surface: signal_peptide_protein
     surface_is: not_called
-    mechanism: [tandem_repeat_protein, wall_family_domain, cocci_specificity_rank_top15]
+    mechanism: [tandem_repeat_protein, wall_family_domain, hydrophobin_domain, hsba_domain, cocci_specificity_rank_top15]
   - name: other_surface_no_mechanism
     per_variant: true
     kind: other
     surface: signal_peptide_protein
     surface_is: called
-    mechanism: [tandem_repeat_protein, wall_family_domain, cocci_specificity_rank_top15]
+    mechanism: [tandem_repeat_protein, wall_family_domain, hydrophobin_domain, hsba_domain, cocci_specificity_rank_top15]

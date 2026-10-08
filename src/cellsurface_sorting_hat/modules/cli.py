@@ -58,7 +58,10 @@ def build_parser():
     p.add_argument("--signalp-version", required=True, help="for example 6.0h-gpu (recorded)")
     p.add_argument("--signalp-mode", default="fast")
 
-    p = sub.add_parser("pfam", help="hmmsearch --domtblout -> pfam_adhesion and pfam_allergen")
+    p = sub.add_parser(
+        "pfam",
+        help="hmmsearch --domtblout -> the Pfam modules (pfam_adhesion, pfam_allergen, pfam_hydrophobin, pfam_hsba)",
+    )
     _common(p)
     p.add_argument("--domtbl", required=True)
     p.add_argument("--family-table", required=True)
