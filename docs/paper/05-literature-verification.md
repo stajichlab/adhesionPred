@@ -46,3 +46,20 @@ Before a paper cites one of them, compare the sentence you want to write with th
 | RBT1 CGD statements | **Verified** in CGD's own notes, with PMIDs 10978273, 19837954, 21414038. Braun 2000 full text: the two RBT1 alleles differ by a segment (aa 612 to 640), not by repeat number. | CGD API, `to_import/genetics0031.pdf` |
 
 Still not verified: the three cell wall reviews (Gow 2017, Riquelme 2020, Gow 2023), the other "copied" rows of `docs/paper/02` (the A rows, B1 to B2, B4 to B6, C and D rows), the strain identity of YPS3, and the allergen.org live counts.
+
+## 5. The 8-cysteine hydrophobin pattern: prior art (2026-10-08)
+
+Searched PubMed only. Abstracts only. No full text. Not a complete novelty search.
+
+| Source | What the abstract says | Bearing on the rescue rule |
+|---|---|---|
+| Yang 2006, *BMC Bioinformatics* 7(Suppl 4):S16. PMID 17217508, doi 10.1186/1471-2105-7-S4-S16 | Primary-structure analysis of hydrophobins: BLAST, MEME motifs, and MAST search of nr with the motifs and the "C-CC-C-C-CC-C" pattern. 9 new candidates after filtering by pattern, domain and length. | A pattern-based search for new hydrophobins exists. Read the full text before any novelty claim. |
+| Kubicek 2008, *BMC Evol Biol* 8:4. PMID 18186925 | Hydrophobins have eight conserved cysteines. Class I and II are separated by hydropathy and solubility. Class II was found only in ascomycetes. *Trichoderma* has up to 10 class II genes. | Defines the family and the two classes. |
+| Seidl-Seiboth 2011, *J Mol Evol* 72:339-51. PMID 21424760 | *Trichoderma* hydrophobins that deviate from the two-class scheme in hydropathy, cysteine spacing and surface pattern; they form separate clades inside ascomycete class I. | Cysteine spacing varies. A fixed spacing pattern can miss such proteins. |
+| Xu 2021, *Microbiol Res* 247:126723. PMID 33636611 | 40 hydrophobin genes in *P. ostreatus*; all contain eight cysteines with a conserved spacing pattern; 33 are class I. | The pattern is used to identify family members at genome scale. |
+| De Vries 1999, *Eur J Biochem* 262:377-85. PMID 10336622 | CFTH1 from *Claviceps fusiformis* has three class II hydrophobin domains in one protein, each preceded by a Gly/Asn-rich region. | A length cap on the rescue rule would miss this protein. |
+| Peñas 1998, *Appl Environ Microbiol* 64:4028-34. PMID 9758836 | Hydrophobins are small (about 100 +/- 25 residues), cysteine-rich proteins in the cell wall rodlet layer. | Source of the usual length range. |
+| Pitocchi 2026, *Int J Biol Macromol* 378:153896. PMID 42546942, doi 10.1016/j.ijbiomac.2026.153896 | PAC3, an 83-residue surface-active protein of *Acremonium sclerotigenum*, lacks the eight-cysteine motif. The authors propose a new family of fungal protein biosurfactants. | A surface-active protein can exist without the motif. The rule has a stated limit. |
+
+Not read: Wessels 1994, Linder 2005, Sunde 2008 (the sources for class I and II cysteine spacing). Task H3 of
+`docs/superpowers/specs/2026-10-08-hydrophobin-validation-design.md` reads them.

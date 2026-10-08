@@ -78,3 +78,10 @@ Decisions 1 to 4 of 2026-10-06 are in `03-status-and-validation-rules.md`, secti
 4. The WHO/IUIS counts (120 molecules, 31 species) are from downloads of 2026-10-04.
 5. Whether the study design (training on two yeasts only, testing elsewhere) is the design the paper
    should present, or whether the paper should present Phase C as exploratory.
+6. The 8-cysteine rescue rule for hydrophobins (`docs/superpowers/specs/2026-10-08-hydrophobin-validation-design.md`).
+   The pattern is not novel (docs/paper/05, section 5). Whether a measured pattern-plus-Pfam call is a
+   contribution depends on a full-text read of Yang 2006 and a wider prior-art search than PubMed alone. Do
+   not claim novelty of the pattern. Claim only measured sensitivity and false-positive cost.
+7. A hydrophobin call has no separate module yet. Until the spec is implemented, a hydrophobin Pfam hit sets
+   `wall_family_domain` and so can set `cell_wall_adhesion_candidate` (PR #75). Report class counts with this
+   in mind.
