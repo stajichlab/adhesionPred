@@ -1,6 +1,8 @@
 # Where the tools stand — 2026-10-02
 
 *Rewritten 2026-10-02. The 2026-09-27 text is kept at the end as history. It describes the
+*Update 2026-10-09: the rows for the Pfam scans and the orchestrator below were corrected. For what the tool reports and each call's status, read `docs/CLASSES.md`. The rest of this page is the 2026-10-02 text.*
+
 tool before the rename and before step 1 was measured.*
 
 Short answer: **the shipped CLI is step 1 (surface glycoprotein prediction), not an adhesin
@@ -19,11 +21,11 @@ Spec: `docs/superpowers/specs/2026-09-30-surface-glycoprotein-model-design.md`.
 | CI: lint (ruff 0.3.5) and unit tests | on `main` (PR #27). The Lint job passes on PR #36 after `zip(strict=True)` | `.github/workflows/` |
 | Step 1 truth set (Phase A), features and embeddings (Phase B), rule-versus-ML evaluation (Phase C) | built, run on HPCC, and on `main` since PR #38 (2026-10-02). The reported numbers come from the run with the widened C grid | `analysis/step1_compare/`, outputs in `_workdir/step1_compare/` (git-ignored) |
 | Step 2a repeat detectors | two detectors, validated only in Saccharomycotina | `analysis/cocci_repeats/` |
-| Step 2b/2c HMM scans (CFEM, Bys1, hydrophobin) | Wrapper built (2026-10-06): `modules/pfam.py` reads `hmmsearch --domtblout` results and `data/sorting_hat/family_table.tsv` (15 families, all inactive). A family writes `unavailable` until the owner signs it off. **No specificity test run and no reviewed member/non-member lists** (agent task 04) | `src/cellsurface_sorting_hat/modules/pfam.py`, `docs/agent-tasks/04-wall-family-domain-controls.md` |
+| Step 2b/2c HMM scans (CFEM, Bys1, hydrophobin) | Wrapper built (2026-10-06): `modules/pfam.py` reads `hmmsearch --domtblout` results and `data/sorting_hat/family_table.tsv` (24 families; 10 active since 2026-10-08: PA14, CFEM, the seven hydrophobin-class models and HsbA; the others inactive). A family writes `unavailable` until the owner signs it off. **The strict hydrophobin call has a `smoke` status in 8 proteomes; no other family has a status, and there are no reviewed member lists** (agent task 04) | `src/cellsurface_sorting_hat/modules/pfam.py`, `docs/agent-tasks/04-wall-family-domain-controls.md` |
 | Step 3 antigen layer | *Coccidioides* only | `analysis/cocci_antigens/` |
 | Cysteine-rich secreted candidates (PRA3-like) | on `main` (PR #36). Full-length PRA3 structure re-run found no fold (PR #42, merged) | `analysis/cys_candidates/` |
 | PF28404 (ARB_05178) family | search of 831 proteomes and a 217-protein tree (PR #44, merged). Not specific to *Coccidioides*; four paralog groups older than the genus. Function unknown | `analysis/pf28404_family/`, `docs/reports/2026-10-02-pf28404-family.md` |
-| Orchestrator (one table, one column per tool) | proposal only, no spec | plan §6 |
+| Orchestrator `cellsurface_sorting_hat` (one table, one column per tool) | built and run end to end (PRs #62 to #77); spec `docs/superpowers/specs/2026-10-04-orchestrator-design.md`; the calls, their meaning and their status are in `docs/CLASSES.md` | `src/cellsurface_sorting_hat/`, `docs/CLASSES.md` |
 | Stage-2 adhesin classifier prototype (ESM C 300M) | prototype, not packaged | `analysis/model_review/stage2_proof_of_concept.py` |
 
 No model ships. Version 0.2.0 is cut only after a validated surface-glycoprotein model exists.

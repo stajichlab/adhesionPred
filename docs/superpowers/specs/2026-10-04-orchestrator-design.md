@@ -2,8 +2,7 @@
 
 *Drafted 2026-10-04. Revision 5, the same day, after independent review 2 (3 blocker, 9 major, 10 minor
 findings; see `2026-10-04-orchestrator-design-review-2.md`). Revision 3 answered review 1
-(`2026-10-04-orchestrator-design-review-1.md`). DRAFT. Revision 5 has not been reviewed. No code, data or
-job exists for this spec. Owner decisions D1 to D13 are answered (section 9); D6 and D7 were changed
+(`2026-10-04-orchestrator-design-review-1.md`). DRAFT. Revision 5 has not been reviewed. Code exists since 2026-10-05 (PRs #62 to #77); the table of section 3.4 was updated on 2026-10-09 and `docs/CLASSES.md` lists every call with its meaning and status. Owner decisions D1 to D13 are answered (section 9); D6 and D7 were changed
 by review 2.*
 
 Inputs: `docs/PLAN-2026-09-30-pipeline-and-decisions.md` section 6 (the proposal this spec
@@ -188,9 +187,12 @@ do not depend on step 1 are written once. The default gate is `step1_rule@R0` (d
 | Category / call | Rule | Inputs | Today |
 |---|---|---|---|
 | `signal_peptide_protein[v]` | step 1 variant `v` calls the protein | step 1 variant | R0 measured; R1, R2, ML not frozen |
-| `tandem_repeat_protein` (ungated) | a repeat detector calls | `repeat02` OR `repeat14` | applicable to any fungus; `unvalidated` in every clade |
-| `wall_family_domain` (ungated) | Pfam hit in the adhesion table (PF05730, PF04681, PF01185, PF06766, PF28987, PF22354, ALS families) | Pfam scan | HMMs run once; no specificity test |
+| `tandem_repeat_protein` (ungated) | a repeat detector calls | `repeat02` OR `repeat14` | applicable to any fungus; `smoke` in S288C and *C. albicans* (2026-10-08), `unvalidated` elsewhere |
+| `wall_family_domain` (ungated) | Pfam hit in an active wall-family family that passes its condition: PA14 (PF07691, R0 signal peptide) and CFEM (PF05730, no mature TM helix) are active (2026-10-08); Bys1, ALS, Flo11, GLEYA, Hyr, PIR and the candidate families are inactive | Pfam scan | `unvalidated` |
+| `hydrophobin_domain` (ungated, evidence) | Pfam hit to a hydrophobin-class model (PF01185, PF06766, PF22354, PF28987, PF29785, PF29802, PF29465) at the gathering cutoff | Pfam scan (module `pfam_hydrophobin`) | `smoke` in 8 proteomes (2026-10-08) |
+| `hsba_domain` (ungated, evidence) | Pfam hit to HsbA (PF12296), grouped with hydrophobin | Pfam scan (module `pfam_hsba`) | `unvalidated` |
 | `cell_wall_adhesion_candidate[v]` | (`tandem_repeat_protein` OR `wall_family_domain`) AND `signal_peptide_protein[v]` | the above | see rows |
+| `surface_attachment_candidate[v]` | (`tandem_repeat_protein` OR `wall_family_domain` OR `hydrophobin_domain` OR `hsba_domain`) AND `signal_peptide_protein[v]`; the basis column names the evidence that held | the above | derived |
 | `cocci_specificity_rank_top15` (ungated) | antigen ranking combined `percentile` (all 9,139 proteins; `percentile_dedup` is empty for 597 non-representatives) at most P, P = 15. The columns antigenicity, specificity, prevalence and max cross-reaction identity are always written beside it. | antigen lookup | *Coccidioides* only |
 | `serodiagnostic_marker_candidate[v]` | `cocci_specificity_rank_top15` AND `signal_peptide_protein[v]` | antigen lookup, step 1 | see above |
 | `iuis_allergen_similarity` (evidence, not a category) | best hit to the WHO/IUIS fungal allergen set at identity >= 35% over an aligned length >= 80 aa (the FAO/WHO rule). Written for every protein with such a hit: allergen name, identity, aligned length, coverage of the allergen, aligner. | allergen homology module | applicable to any fungus; `unvalidated` |
@@ -198,7 +200,7 @@ do not depend on step 1 are written once. The default gate is `step1_rule@R0` (d
 | `other_not_surface[v]` | `signal_peptide_protein[v]` is F, and every mechanism call that is not U is F | `signal_peptide_protein[v]`, mechanism calls | derived |
 | `other_surface_no_mechanism[v]` | `signal_peptide_protein[v]` is T, and every mechanism call that is not U is F | `signal_peptide_protein[v]`, mechanism calls | derived |
 
-Mechanism calls are `tandem_repeat_protein`, `wall_family_domain` and `cocci_specificity_rank_top15`
+Mechanism calls are `tandem_repeat_protein`, `wall_family_domain`, `hydrophobin_domain`, `hsba_domain` and `cocci_specificity_rank_top15`
 (the gated forms are implied by them; do not add them to the formulas).
 
 **In `categories.yaml`, the ungated form of `cell_wall_adhesion_candidate` is removed (owner decision 2026-10-05), and `iuis_allergen_similarity` is an ungated call (identity >= 35% and aligned length >= 80 aa) that is not a mechanism category.
