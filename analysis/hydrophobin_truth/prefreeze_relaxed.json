@@ -1,0 +1,98 @@
+{
+ "per10k_limit": 5,
+ "hard_negative_rate": 0.05,
+ "floor": 0.0,
+ "tuning_proteomes": [
+  "Scer_S288C",
+  "Calb_SC5314",
+  "Bder_ER3",
+  "Fful_Race5",
+  "Post_PC9"
+ ],
+ "options": {
+  "default": {
+   "cutoff": 1.7,
+   "extra_calls_per_tuning_proteome": {
+    "Scer_S288C": 0,
+    "Calb_SC5314": 1,
+    "Bder_ER3": 1,
+    "Fful_Race5": 2,
+    "Post_PC9": 3
+   },
+   "tuning_proteome_sizes": {
+    "Scer_S288C": 6722,
+    "Calb_SC5314": 6212,
+    "Bder_ER3": 8107,
+    "Fful_Race5": 13560,
+    "Post_PC9": 10483
+   },
+   "hard_negative_call_rates": {
+    "CFEM": 0.0,
+    "cerato_platanin": 0.0,
+    "HsbA": 0.0,
+    "cell_wall_cys": 0.0,
+    "small_secreted_cys": 0.0
+   },
+   "n_candidates_at_floor": 7,
+   "pfam_missed_clusters_recovered": [
+    "G9MKB2",
+    "I1RDP9",
+    "Q0KKA0",
+    "Q4WEK0",
+    "Q7Z9L5"
+   ],
+   "pfam_missed_proteins_called": [
+    "A0A0A2KI06",
+    "I1RDP9",
+    "I1RDQ0",
+    "O94217",
+    "Q0KKA0"
+   ]
+  },
+  "nobias": {
+   "cutoff": 2.6,
+   "extra_calls_per_tuning_proteome": {
+    "Scer_S288C": 0,
+    "Calb_SC5314": 1,
+    "Bder_ER3": 4,
+    "Fful_Race5": 2,
+    "Post_PC9": 4
+   },
+   "tuning_proteome_sizes": {
+    "Scer_S288C": 6722,
+    "Calb_SC5314": 6212,
+    "Bder_ER3": 8107,
+    "Fful_Race5": 13560,
+    "Post_PC9": 10483
+   },
+   "hard_negative_call_rates": {
+    "CFEM": 0.0,
+    "cerato_platanin": 0.0,
+    "HsbA": 0.0,
+    "cell_wall_cys": 0.0,
+    "small_secreted_cys": 0.0
+   },
+   "n_candidates_at_floor": 15,
+   "pfam_missed_clusters_recovered": [
+    "G9MKB2",
+    "I1RDP9",
+    "Q0KKA0",
+    "Q4WEK0",
+    "Q7Z9L4",
+    "Q7Z9L5"
+   ],
+   "pfam_missed_proteins_called": [
+    "A0A0A2KI06",
+    "A0A6V8R0V1",
+    "I1RDP9",
+    "I1RDQ0",
+    "O94217",
+    "Q00367",
+    "Q0KKA0",
+    "Q7Z9L4"
+   ]
+  }
+ },
+ "chosen_option": "nobias",
+ "note": "T2 positive scores were used only to choose between the two options; no positive score set a cutoff."
+}

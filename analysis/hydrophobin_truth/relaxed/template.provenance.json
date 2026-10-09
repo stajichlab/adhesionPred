@@ -1,0 +1,15 @@
+{
+ "pfam_path": "/bigdata/operations/pkgadmin/srv/projects/db/pfam/current/Pfam-A.hmm",
+ "pfam_resolved": "/bigdata/operations/pkgadmin/srv/projects/db/pfam/2026-01-27-Pfam38.2/Pfam-A.hmm",
+ "pfam_sha256": "4b0da6399b97d2b23329de82190b2e5705bde1dea4cb2d028a52712d5966739e",
+ "models": [
+  "Hydrophobin",
+  "Hydrophobin_2",
+  "Eas",
+  "DewD",
+  "Hyd1F",
+  "Hydrophobin_D",
+  "Hydrophobin_like"
+ ],
+ "template_sha256": "d149c2dd234c6678fa2471bb1a70567fbe9ecd94ccd47ba4403034dc3b759fdd"
+}
