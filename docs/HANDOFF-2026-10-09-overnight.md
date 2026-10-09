@@ -40,3 +40,32 @@ None. M5 failed review 1 and passed review 2 after revision.
 1. Read the scan report. Say whether to keep the tables in the repository (about 1,500 lines).
 2. Owner answers O1 to O4 (M5) and the task 07 questions.
 3. Then M5a (plan first, review before code).
+
+## Owner decisions of 2026-10-09 (answered in the session)
+
+| Item | Decision |
+|---|---|
+| M5 O1 | `pro_cys_array_protein` is a sub-label of `surface_attachment_candidate`; `sowgp_ortholog` joins the `other_*` mechanism lists. |
+| M5 O2 | Keep Pro+Cys over 15% and Cys at least 4% (Pro can be low). |
+| M5 O2b | Detector: `repeat02 or repeat14` (both). |
+| M5 O3 | BAD1 dropped; BAD1-type arrays are outside the call. |
+| M5 O4 | The 20 class 2a candidates and the 74 look-alikes are reported only. |
+| M2 O1 | (a) CFEM stays in `cell_wall_adhesion_candidate`; the family is shown. |
+| M2 O2 | Five families go active now: PF00624, PF13928, PF15789, PF22799, PF30910 (done: `family_table.tsv`, test updated). The other nine stay inactive. **Next: test all 14 and decide how to incorporate them (owner, "move next to testing all of these").** |
+| M2 O3 | (a) `iuis_allergen_homolog` keeps its Pfam branch; may be `not_assessable`; antigen and allergen categories stay in the report as `unvalidated`. |
+| M2 O5 | No "derived" marker in `status_basis` for now. |
+| Task 07 Q1 | Msb2 family stays rejected. |
+| Task 07 Q2 | `serves=step1` reading accepted (9 rows); other rows use `adhesion_level`. |
+| Task 07 Q3 | Keep `secretory_non_surface` and `wall_structural_other`. |
+| Task 07 Q4 | A0A1D8PJB5 and A0AAW0V6D7 move to E3 (done in `data/curated/adhesins/adhesins.tsv`; the two rows only). |
+| Task 07 Q5 | Only N1 rows count toward the 20-cluster floor; N2 are reported separately. |
+| Task 07 Q6 | Pooling strata into one negative set per call per species is accepted. |
+
+**Consequence of Q5 (recount, `controls.tsv` and `clusters.tsv`):** N1 only gives 137 rows in 76 clusters (not 91). Per stratum: laccase_etc 23, wall_hydrolase 13, domain_non_member 9, gpi_wall_enzyme 8, st_linker_enzyme 7, repeat_non_adhesin 6, wall_structural_other 4, mucin_sensor 3, secretory_non_surface 3. Per species: *S. cerevisiae* 16, *A. fumigatus* 15, *A. nidulans* 10, *V. dahliae* 9, *T. rubrum* 8. **No species reaches 20 N1 clusters, so under the accepted rules no pooled species entry can reach `estimated` yet.** More N1 negatives are needed (or the owner reconsiders Q5).
+
+## Next steps (updated)
+
+1. Test all 14 inactive families (descriptive counts on the scan proteomes first, then truth-based tests where truth exists) and decide how to incorporate each (M4).
+2. M5a plan (review before code), then M5a.
+3. Re-measure the repeat call when `categories.yaml` next changes (M5b2).
+4. Hard-negative set: add N1 rows for species near 20 clusters (*S. cerevisiae* 16, *A. fumigatus* 15).

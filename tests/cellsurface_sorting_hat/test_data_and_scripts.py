@@ -32,6 +32,12 @@ SIGNED_OFF = {
     "PF29802",
     "PF29465",
     "PF12296",
+    # Owner decision 2026-10-09: on for v1, testing of each follows (M4).
+    "PF00624",  # Flocculin
+    "PF13928",  # Flocculin_t3
+    "PF15789",  # Hyr1
+    "PF22799",  # PIR1-like_C
+    "PF30910",  # ALS_M
 }
 
 
