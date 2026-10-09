@@ -1,6 +1,6 @@
 # Extended hydrophobin evidence level: relaxed Pfam first, custom HMM tested against it
 
-*2026-10-08. Revision 3 (after independent reviews 1 and 2; review 1: 1 blocker, 12 major, 9 minor; review 2: 1 blocker, 6 major, 6 minor; all addressed below; reviews are
+*2026-10-08. Revision 4 (after independent reviews 1 and 2 of this spec and review 1 of the plan, which found that the proteome sample never limits the cutoff; the cutoff rule and the proteome split are new in this revision; review 1: 1 blocker, 12 major, 9 minor; review 2: 1 blocker, 6 major, 6 minor; all addressed below; reviews are
 `2026-10-08-hydrophobin-custom-hmm-design-review-1.md` and `-review-2.md`). Author: Claude Code (claude-sonnet-5-5). Builds on
 `2026-10-08-hydrophobin-validation-design.md` (rev 3) and `docs/reports/2026-10-08-hydrophobin-validation.md`. The owner agreed
 the decisions in section 2 in a question-by-question interview on 2026-10-08. Status: draft. No code is written.*
@@ -92,7 +92,7 @@ Rules:
 
 ### 3.3 Clusters and folds
 
-MMseqs2 at 30% identity and 0.5 coverage on T1 and T2 proteins (28 clusters now). One shared definition of cluster is used for all tests.
+MMseqs2 at 30% identity and 0.5 coverage. The folds and the Pfam-missed clusters come from `analysis/hydrophobin_truth/clusters_positives.tsv` (28 T2 clusters, the 9 Pfam-missed proteins in 6; sha256 recorded in the freeze). The joint clustering of LP and T2 proteins is used only to choose the v2 reserve (a different clustering gives 5 Pfam-missed clusters, not 6, because HYD1_GIBZE joins another cluster).
 
 ## 4. Models
 
@@ -101,9 +101,8 @@ MMseqs2 at 30% identity and 0.5 coverage on T1 and T2 proteins (28 clusters now)
 - `hydrophobin_domain`: unchanged (Pfam 38.2, `--cut_ga`, module `pfam_hydrophobin`).
 - **Relaxed Pfam (E10, v1 extended level).** A derived file `data/sorting_hat/hydrophobin_relaxed.hmm`: the same seven hydrophobin-class Pfam models,
   fetched with `hmmfetch`, with the `GA` lines rewritten to one frozen full-sequence bit score. `hmmsearch --cut_ga` then applies it, the existing
-  parser check (`# --cut_ga` in the header) holds, and the cutoff travels with the file. The sequence GA is the frozen full-sequence cutoff. The domain GA is set to 0.0, so the domain test does not bind and a hit is decided by the full-sequence score
-  (setting both equal, as an earlier draft said, would also apply the cutoff to the domain score, which is lower: HYD2_GIBZE has sequence 8.6 and domain 7.1). Task L4 tests this with
-  `hmmsearch --cut_ga` and the parser. The search options (default filters, or `--nobias`) are chosen with the cutoff by the nested procedure (section 6.1), frozen in the job script, and named in `params`.
+  parser check (`# --cut_ga` in the header) holds, and the cutoff travels with the file. The sequence GA is the frozen full-sequence cutoff. The domain GA is set to **-1000.00**, so the domain test never binds and a hit is decided by the full-sequence score (the plan reviewer found that a domain GA of 0.0 drops proteins whose domains all score below 0, for example
+  with `--nobias`; `GA 6.00 -100.00;` is accepted by HMMER). Task L4 tests this with `hmmsearch --cut_ga`, the parser, and a fixture protein whose domains all score below 0. The search options (default filters, or `--nobias`) are chosen with the cutoff by the nested procedure (section 6.1), frozen in the job script, and named in `params`.
   A provenance file records the Pfam release, the source model hashes, the cutoff, how it was chosen, and the file hash.
 - **Module `hydrophobin_relaxed`** (one row per protein): `hit` = the protein has a hit to any of the seven models at the frozen cutoff **and** at least 8 cysteines
   in the full sequence **and** the R0 call is `called`. The R0 module identity goes into `params["conditions"]`, as in `cys8_pattern`. The `.hmm`
@@ -153,15 +152,23 @@ false positives in new proteomes, not in v1 (the same proteomes cannot both add 
 ### 6.1 Folds
 
 Leave-one-cluster-out over the 28 T1/T2 clusters (`hmmbuild` is fast). In each fold, all choices (alignment, cutoff for the HMM and for the relaxed Pfam) are made on the
-training clusters only (nested): the cutoff is the **lowest bit score** (highest recall) at which the call rate on the training hard negatives and on the fixed proteome sample is at or below a rate fixed before scoring
-(section 6.4). No positive protein's score is used to set a cutoff, so a model is never tuned on the scores of its own training proteins. Ties go to the higher cutoff. The same rule is applied to the relaxed Pfam
-level (and its search option: default filters or `--nobias`, chosen the same way) and to the HMM. The fixed proteome sample is 1,000 random proteins per measured proteome (seeded, drawn once, cluster-split with the
-hard negatives) minus any T1/T2/LP protein. The held-out cluster and the test part of the hard negatives score the fold.
-Negatives for a fold: the hard-negative tuning part (for the cutoff) and the test part plus a fixed, cluster-split proteome sample (for scoring). The sampling
-is made once, with a seed.
+training clusters only (nested): the cutoff is the **lowest bit score at or above a floor of 0 bits** at which both conditions hold:
+(i) on the **tuning proteomes** the unlabelled extra calls (conditioned on R0 and at least 8 cysteines, excluding proteins that `pfam_hydrophobin` or `pfam_hsba` call and excluding T1/T2/LP proteins) are at most
+5 per 10,000 proteins in each tuning proteome (the same limit as 6.3), and (ii) the call rate on the tuning part of each hard-negative group (HsbA excluded, E11) is at most the per-group rate fixed in L3.
+No positive protein's score sets a cutoff, so a model is never tuned on the scores of its own training proteins. Ties go to the higher cutoff. Review of the plan showed that a 1,000-protein sample per proteome never limits the
+cutoff (0 or 7 conditioned calls in 12,000 proteins at 0 bits), so whole proteomes are used for tuning, split from the proteomes used for the cost test.
 
-The shipped cutoff is chosen by the same procedure over all 28 clusters and frozen. The v1 freeze is a commit that fixes the aligner, the cutoff procedure, the thresholds
-of 6.2 to 6.4 and the fixed negatives, **before** any held-out or proteome result is looked at.
+**Proteome split (seeded, once, before any scoring).** The 12 proteomes form 10 species groups (the three *A. fumigatus* strains are one group). The groups are split 5 and 5, with the constraint that each part holds at least two groups with truth positives.
+The tuning proteomes tune cutoffs. The test proteomes measure cost (6.3). The split is stored in `proteome_split.tsv`.
+
+**Search option.** For the relaxed Pfam level and the HMM the default filters and `--nobias` each get a cutoff by the rule above. The option that recovers more Pfam-missed **training** clusters in the fold is chosen. Positive scores are used only
+to choose between these two options, never to set a cutoff. The option is frozen with the cutoff.
+
+The shipped cutoff is chosen by the same rule over all 28 clusters and frozen. The relaxed Pfam cutoff does not depend on the held-out cluster (no positive is an input), so every fold gives the same relaxed cutoff and the relaxed
+leave-one-cluster-out numbers are the shipped-cutoff numbers on the training proteins. This is stated in the report. Only the HMM is rebuilt per fold.
+
+The v1 freeze is a commit that fixes the aligner and its command line, the cutoff rule, the floor, the two search options, the thresholds of 6.2 to 6.5, the hard-negative rates, the proteome split, the folds and the cluster file hash, **before** any held-out, test-part,
+LP or test-proteome result is looked at. Before the freeze only the tuning parts (tuning proteomes, tuning hard negatives) and the per-fold alignments are scored or built. The hashes of the pre-freeze score files go in the freeze file.
 
 ### 6.2 Recall (primary: T1 and T2 only)
 
@@ -181,15 +188,15 @@ Counted **in clusters**. The Pfam-missed set is the 9 Swiss-Prot entries, in 6 c
 
 ### 6.3 Cost (proteomes)
 
-Calls made by the extended level that `pfam_hydrophobin` and `pfam_hsba` do not make, and that have no T1/T2 label, counted per proteome and per 10,000 proteins, in each of the 12
-proteomes of `analysis/hydrophobin_truth/run_list.tsv` (8 with truth, 4 without; proteome sizes 6,212 to 13,560). The limit is **5 per 10,000 proteins** in each proteome.
+Measured on the **test proteomes** (out of sample for the cutoff). The tuning proteomes are reported too and are in-sample. Calls made by the extended level that `pfam_hydrophobin` and `pfam_hsba` do not make, and that have no T1/T2 label, counted per proteome and per 10,000 proteins, in each of the 12
+proteomes of `analysis/hydrophobin_truth/run_list.tsv` (8 with truth, 4 without; proteome sizes 6,212 to 13,560). The limit is **5 per 10,000 proteins** in each test proteome. `pfam_hsba` hits are the expected overlap (E11). Proteins that are near HsbA but below its gathering cutoff count as cost.
 Labelled extra calls are reported in a separate column. Unlabelled true hydrophobins count as cost. Probably hydrophobins (for example in *P. ostreatus*, which has 40 published hydrophobin
 genes) inflate the count. The cost is measured once on the frozen cutoff. The false-positive review loop is not run in v1.
 
 ### 6.4 Hard negatives
 
 Per group, the call rate of Pfam GA, relaxed Pfam and the HMM on the **test** part. A group passes if the call rate is at most the rate fixed in L3 before scoring (default 5% of
-the group). The pass rule is per group, not pooled. HsbA follows section 5.
+the group). The pass rule is per group, not pooled. The HsbA group has no pass threshold (E11); its call rate is reported.
 
 ### 6.5 Precision term and the ship rule
 
@@ -253,7 +260,7 @@ belong to v2, with new proteomes for the cost test. Phylogeny and gene-gain-and-
 | L4a | R0 SignalP (same build and mode) on T1, T2, T3, LP and hard-negative sequences; record the identity | R0 table |
 | L4 | Re-derive the relaxed-Pfam numbers; implement the nested cutoff procedure; build the HMM per fold; **freeze commit** (procedure, thresholds, negatives) | scripts, frozen commit |
 | L5 | Leave-one-cluster-out evaluation: Pfam GA, relaxed Pfam, spacing rule, HMM; hard-negative rates; LP set | tables |
-| L6 | Module `hydrophobin_relaxed` and call `hydrophobin_extended` (tests first); the HMM module only if it passes; `categories.yaml` edit only if the ship rule (6.5) passes. Includes: the module-set test, golden files read line by line, the job script added to the standard run set, `params` (cutoff, search options, score type, minimum cysteines, R0 condition), provenance recording the real path of the `current` Pfam link | code, tests, shipped `.hmm` files, provenance |
+| L6a/L6c | (order changed in the plan) L6a: module, converter and job script, no `categories.yaml` edit. L6c, only after the ship decision: `categories.yaml` edit. Module `hydrophobin_relaxed` and call `hydrophobin_extended` (tests first); the HMM module only if it passes; `categories.yaml` edit only if the ship rule (6.5) passes. Includes: the module-set test, golden files read line by line, the job script added to the standard run set, `params` (cutoff, search options, score type, minimum cysteines, R0 condition), provenance recording the real path of the `current` Pfam link | code, tests, shipped `.hmm` files, provenance |
 | L6b | Re-measure the stale `tandem_repeat_protein` call files after the last `categories.yaml` edit | status files |
 | L7 | Proteome runs and cost measurement (12 proteomes); status files for `hydrophobin_extended` | report |
 | L8 | Evidence sheets; owner T5 decisions | sheets, `owner_decisions.tsv` |
