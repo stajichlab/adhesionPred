@@ -1,9 +1,9 @@
 # Extended hydrophobin evidence level: relaxed Pfam first, custom HMM tested against it
 
-*2026-10-08. Revision 2 (after independent review 1: 1 blocker, 12 major, 9 minor findings, all addressed below; the review is
-`2026-10-08-hydrophobin-custom-hmm-design-review-1.md`). Author: Claude Code (claude-sonnet-5-5). Builds on
+*2026-10-08. Revision 3 (after independent reviews 1 and 2; review 1: 1 blocker, 12 major, 9 minor; review 2: 1 blocker, 6 major, 6 minor; all addressed below; reviews are
+`2026-10-08-hydrophobin-custom-hmm-design-review-1.md` and `-review-2.md`). Author: Claude Code (claude-sonnet-5-5). Builds on
 `2026-10-08-hydrophobin-validation-design.md` (rev 3) and `docs/reports/2026-10-08-hydrophobin-validation.md`. The owner agreed
-the decisions in section 2 in a question-by-question interview on 2026-10-08. Status: draft for a second review. No code is written.*
+the decisions in section 2 in a question-by-question interview on 2026-10-08. Status: draft. No code is written.*
 
 ## 1. Why
 
@@ -23,6 +23,10 @@ the decisions in section 2 in a question-by-question interview on 2026-10-08. St
    *P. expansum*, *P. ostreatus* PC9 1; *F. fulva* and *F. graminearum* 3). That cutoff reaches 5 of the 9 by score (R0 was not run on the Swiss-Prot
    sequences, so the signal-peptide condition is unchecked there). At 15 bits there are 0 or 1 extra calls and 3 of the 6 proteome misses come back.
    These numbers are the reviewer's. They are re-derived in task L4.
+
+6. **The HMMER bias composition filter hides at least one of the 9 (review 2, to be re-derived in L4).** With `--nobias`, HCF1_FULFL scores 30.4 bits against Eas, above the Eas gathering cutoff
+   of 27, so Pfam GA would recover it (123 T2 hits instead of 122, and the *F. fulva* proteome protein FEBB419A_005025). HCF4_FULFL scores 16.6 bits with `--nobias` (domain 14.7). The strict level
+   keeps the standard options. The search options are therefore part of the relaxed level and are frozen with the cutoff (section 4.1).
 
 Consequence: a relaxed Pfam cutoff is the cheapest extended level and must be the baseline. A custom HMM is justified only if it adds
 recall beyond it.
@@ -81,7 +85,9 @@ Rules:
    They form a secondary test set: recall of each method on the Jensen proteins that Pfam misses, reported separately.
 3. A protein already in Swiss-Prot is not added twice. Strain orthologs (the same protein in several genomes) are one cluster.
 4. T1 entries found later (papers with protein-level evidence) carry the PMID and the table or figure. No accession is written from memory.
-5. A set of LP proteins is reserved as the v2 test set before v1 training (the Jensen proteins that are not recovered by v1 and are not among the 8 unverified).
+5. **v2 reserve.** Before any v1 result is seen, the LP proteins are clustered together with the T1/T2 proteins (30% identity, 0.5 coverage). LP clusters that contain no T1/T2 protein and none of the 8 unverified proteins are
+   reserved as the v2 test set, and are excluded from the v1 secondary test (6.7). The reservation does not depend on any method's result. LP proteins that cluster with a T2 protein (review 2: ATEG_08089 and ACLA_001890 cluster with RODF_ASPFU)
+   are not eligible. If fewer than 3 clusters are reserved, the v2 test uses only T1 proteins added after the v1 freeze date.
 
 ### 3.3 Clusters and folds
 
@@ -94,7 +100,9 @@ MMseqs2 at 30% identity and 0.5 coverage on T1 and T2 proteins (28 clusters now)
 - `hydrophobin_domain`: unchanged (Pfam 38.2, `--cut_ga`, module `pfam_hydrophobin`).
 - **Relaxed Pfam (E10, v1 extended level).** A derived file `data/sorting_hat/hydrophobin_relaxed.hmm`: the same seven hydrophobin-class Pfam models,
   fetched with `hmmfetch`, with the `GA` lines rewritten to one frozen full-sequence bit score. `hmmsearch --cut_ga` then applies it, the existing
-  parser check (`# --cut_ga` in the header) holds, and the cutoff travels with the file. The sequence and domain GA values are set equal and named in `params`.
+  parser check (`# --cut_ga` in the header) holds, and the cutoff travels with the file. The sequence GA is the frozen full-sequence cutoff. The domain GA is set to 0.0, so the domain test does not bind and a hit is decided by the full-sequence score
+  (setting both equal, as an earlier draft said, would also apply the cutoff to the domain score, which is lower: HYD2_GIBZE has sequence 8.6 and domain 7.1). Task L4 tests this with
+  `hmmsearch --cut_ga` and the parser. The search options (default filters, or `--nobias`) are chosen with the cutoff by the nested procedure (section 6.1), frozen in the job script, and named in `params`.
   A provenance file records the Pfam release, the source model hashes, the cutoff, how it was chosen, and the file hash.
 - **Module `hydrophobin_relaxed`** (one row per protein): `hit` = the protein has a hit to any of the seven models at the frozen cutoff **and** at least 8 cysteines
   in the full sequence **and** the R0 call is `called`. The R0 module identity goes into `params["conditions"]`, as in `cys8_pattern`. The `.hmm`
@@ -145,8 +153,10 @@ false positives in new proteomes, not in v1 (the same proteomes cannot both add 
 ### 6.1 Folds
 
 Leave-one-cluster-out over the 28 T1/T2 clusters (`hmmbuild` is fast). In each fold, all choices (alignment, cutoff for the HMM and for the relaxed Pfam) are made on the
-training clusters only (nested): the cutoff is the value that, on the training clusters, maximises recall of the Pfam-missed training proteins subject to a call rate on
-the training hard negatives at or below a rate fixed before scoring (section 6.4). The held-out cluster and the test part of the hard negatives score the fold.
+training clusters only (nested): the cutoff is the **lowest bit score** (highest recall) at which the call rate on the training hard negatives and on the fixed proteome sample is at or below a rate fixed before scoring
+(section 6.4). No positive protein's score is used to set a cutoff, so a model is never tuned on the scores of its own training proteins. Ties go to the higher cutoff. The same rule is applied to the relaxed Pfam
+level (and its search option: default filters or `--nobias`, chosen the same way) and to the HMM. The fixed proteome sample is 1,000 random proteins per measured proteome (seeded, drawn once, cluster-split with the
+hard negatives) minus any T1/T2/LP protein. The held-out cluster and the test part of the hard negatives score the fold.
 Negatives for a fold: the hard-negative tuning part (for the cutoff) and the test part plus a fixed, cluster-split proteome sample (for scoring). The sampling
 is made once, with a seed.
 
@@ -158,10 +168,14 @@ of 6.2 to 6.4 and the fixed negatives, **before** any held-out or proteome resul
 Counted **in clusters**. The Pfam-missed set is the 9 Swiss-Prot entries, in 6 clusters (3, 2, 1 and three singletons; the clusters are listed in the review). Half of 6 is 3, and the Wilson 95% interval for 3 of
 6 is about [0.19, 0.81]. This is a smoke test of recall, not an estimate. The same is reported for unique accessions.
 
-- **Relaxed Pfam passes** if, in the leave-one-cluster-out runs, it recovers at least 3 of the 6 Pfam-missed clusters (with R0 and cysteine conditions) at the cost limit of 6.3.
-  Its numbers are reported even if it fails.
-- **The custom HMM is added** only if it recovers at least **2 more** Pfam-missed clusters than the relaxed baseline in the same runs, at a cost no higher than the relaxed
-  baseline plus 2 calls per 10,000 proteins. The threshold of 2 is set now, before the baseline numbers are known to the plan. It can be changed only before the freeze.
+- **Definition.** A Pfam-missed cluster is *recovered* by a method in a fold when at least one Pfam-missed member of the held-out cluster is called by the method (with its R0 and cysteine conditions) at the
+  fold's cutoff. Recovery is counted over the 6 Pfam-missed clusters, once per cluster.
+- **Relaxed Pfam passes** if it recovers at least 3 of the 6 clusters at the limits of 6.3 and 6.4. Its numbers are reported even if it fails.
+- **Custom HMM.** Let u be the number of the 6 clusters that the relaxed baseline (with its frozen options) does not recover in the same runs.
+  - If u is 0 or 1, the HMM cannot add recall that the primary test can detect. The result is "not testable on the primary set". The HMM is not shipped in v1. Its leave-one-cluster-out numbers on all 28 clusters and on the LP set are reported,
+    and it stays a v2 candidate.
+  - If u is 2 or more, the HMM is added only if it recovers at least ceil(u/2) of those u clusters, at a cost no higher than the relaxed baseline plus 2 calls per 10,000 proteins, and it passes 6.4 and 6.5.
+  - These rules are fixed now. They can change only before the freeze.
 - The recall of the HMM alone, and the count of T2 entries lost to the 8-cysteine condition, are reported. Six T2 entries have fewer than 8 cysteines in the full
   sequence (HYD2B_BEAB2 6, HYD2_CORMI 6, HFBA_PENEN 7, QID3_TRIHA 7, HYD3_BIOOC 7, HFBD_PENEN 7). All six have a Pfam hit, so `hydrophobin_extended` keeps them through the Pfam branch. The HMM branch alone does not.
 
@@ -177,11 +191,17 @@ genes) inflate the count. The cost is measured once on the frozen cutoff. The fa
 Per group, the call rate of Pfam GA, relaxed Pfam and the HMM on the **test** part. A group passes if the call rate is at most the rate fixed in L3 before scoring (default 5% of
 the group). The pass rule is per group, not pooled. HsbA follows section 5.
 
-### 6.5 Precision term (rule 6.3 of the earlier spec, kept)
+### 6.5 Precision term and the ship rule
 
-Extra calls (relaxed-only or HMM-only) are clustered across proteomes. Each cluster gets an outcome from the evidence sheet: `hydrophobin`, `not_hydrophobin`, `unresolved`. T1/T2 labels and T5
-(owner) decisions both resolve a cluster, and they are counted in separate columns. The extra level is kept only if there are at least 5 resolved clusters and the Wilson 95% lower bound for precision
-is at least 0.5, otherwise the result is "no evidence that it helps". This applies to the relaxed Pfam level and to the HMM separately.
+Extra calls (relaxed-only or HMM-only) that are **not** T1/T2 training or tuning proteins are clustered across proteomes (the T1/T2 proteins that a cutoff is tuned to recover are labelled and reported in their own column; at 8.5 bits, 4 of the
+10 relaxed-only proteome calls are such proteins, per review 2). Each unlabelled cluster gets an outcome from the evidence sheet: `hydrophobin`, `not_hydrophobin`, `unresolved`. Outcomes come from owner decisions (T5) or from a paper (T1).
+T5 is used **only** for this ship decision and for the owner's own table column. It is never merged into recall, specificity or any training set (E7).
+A level needs at least 5 resolved unlabelled clusters and a Wilson 95% lower bound for precision of at least 0.5. The result is reported with T5 only, with T1 only, and the number of `unresolved` clusters. If fewer than 5 are resolved, the result is
+"no evidence that it helps" and the level is not shipped.
+
+**Ship rule (one rule for both levels).** A level (relaxed Pfam, or the HMM) is added to `categories.yaml` only if all of the following hold: the recall rule of 6.2; the cost limit of 6.3 in every one of the 12 proteomes;
+the per-group hard-negative rule of 6.4; the precision rule of this section. If the relaxed Pfam level fails any of them, `hydrophobin_extended` is not added, `hydrophobin_relaxed` stays as a reported module, and the numbers are
+published with the reason.
 
 ### 6.6 Baselines and conditions
 
@@ -194,7 +214,7 @@ Recall of each method on the Jensen proteins that Pfam GA misses (7 now, minus a
 ### 6.8 Leakage and status
 
 The author has seen the 9 Pfam-missed entries, the regex results, the review lists and the baseline numbers. Leave-cluster-out numbers are labelled `partial`, not "honest estimate".
-The shipped model is trained on all clusters, so a status measured on the same proteins is `tuned_on_truth`. Every status file is `smoke`. No `estimated`.
+The shipped cutoff and the shipped HMM (if any) are chosen on all clusters, so a status measured on the same proteins is `tuned_on_truth`. This holds for the relaxed Pfam level too. Every status file is `smoke`. No `estimated`.
 `calibrate truth --call-status` measures the call on a proteome run. It cannot produce leave-cluster-out numbers. Those come from an analysis script and give no status file.
 
 ## 7. Owner adjudication (E7)
@@ -233,7 +253,7 @@ belong to v2, with new proteomes for the cost test. Phylogeny and gene-gain-and-
 | L4a | R0 SignalP (same build and mode) on T1, T2, T3, LP and hard-negative sequences; record the identity | R0 table |
 | L4 | Re-derive the relaxed-Pfam numbers; implement the nested cutoff procedure; build the HMM per fold; **freeze commit** (procedure, thresholds, negatives) | scripts, frozen commit |
 | L5 | Leave-one-cluster-out evaluation: Pfam GA, relaxed Pfam, spacing rule, HMM; hard-negative rates; LP set | tables |
-| L6 | Module `hydrophobin_relaxed` and call `hydrophobin_extended` (tests first); the HMM module only if it passes; `categories.yaml` edit | code, tests, shipped `.hmm` files, provenance |
+| L6 | Module `hydrophobin_relaxed` and call `hydrophobin_extended` (tests first); the HMM module only if it passes; `categories.yaml` edit only if the ship rule (6.5) passes. Includes: the module-set test, golden files read line by line, the job script added to the standard run set, `params` (cutoff, search options, score type, minimum cysteines, R0 condition), provenance recording the real path of the `current` Pfam link | code, tests, shipped `.hmm` files, provenance |
 | L6b | Re-measure the stale `tandem_repeat_protein` call files after the last `categories.yaml` edit | status files |
 | L7 | Proteome runs and cost measurement (12 proteomes); status files for `hydrophobin_extended` | report |
 | L8 | Evidence sheets; owner T5 decisions | sheets, `owner_decisions.tsv` |
