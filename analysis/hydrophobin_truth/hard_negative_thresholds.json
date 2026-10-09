@@ -1,0 +1,9 @@
+{
+  "rule": "call rate on the test part of the group at most the value below; fixed 2026-10-08 before any scoring",
+  "CFEM": 0.05,
+  "cerato_platanin": 0.05,
+  "cell_wall_cys": 0.05,
+  "small_secreted_cys": 0.05,
+  "HsbA": null,
+  "HsbA_note": "no pass threshold (owner decision E11); the call rate is reported"
+}
