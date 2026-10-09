@@ -99,6 +99,14 @@ def write_long(path, records):
     write_atomic(path, _tsv(LONG_COLUMNS, rows))
 
 
+BASIS_CALLS = ("surface_attachment_candidate",)
+
+
+def _has_basis(name):
+    """Calls with a basis column in the wide table: the other_* calls and the calls named in BASIS_CALLS."""
+    return name.startswith("other_") or name.split("[")[0] in BASIS_CALLS
+
+
 def write_wide(path, records, protein_ids):
     columns, table = [], {pid: {} for pid in protein_ids}
     for r in records:
@@ -108,12 +116,12 @@ def write_wide(path, records, protein_ids):
         row = table[r.protein]
         row[name] = r.value
         row[name + "_status"] = r.status
-        if r.call.startswith("other_"):
+        if _has_basis(r.call):
             row[name + "_basis"] = r.other_basis
     header = ["protein"]
     for name in columns:
         header += [name, name + "_status"]
-        if name.startswith("other_"):
+        if _has_basis(name):
             header.append(name + "_basis")
     rows = [[pid] + [table[pid].get(h, "") for h in header[1:]] for pid in protein_ids]
     write_atomic(path, _tsv(header, rows))
@@ -186,6 +194,16 @@ def render_report(info, records):
         f"- categories.yaml sha256: {info.config_sha256}",
         f"- default gate: {info.default_gate}",
         "- thresholds: " + ", ".join(f"{k} = {v}" for k, v in sorted(info.thresholds.items())),
+        "",
+    ]
+    lines += [
+        "## What the statuses mean",
+        "",
+        "- `unvalidated`: no measurement exists for this module, call or taxon.",
+        "- `smoke`: measured on too little truth for a number (the leakage cap also gives `smoke`).",
+        "- `estimated`: measured with enough truth for a number (at least 20 positives, 20 negatives and 20 clusters, and a narrow interval).",
+        "- A status holds for one species and taxon: it counts only where its file is installed and current.",
+        "- The status of a composite call (a call built from other calls) is the weakest status of the leaf calls that decided that record's value.",
         "",
     ]
     warnings = _warnings(info)
@@ -272,30 +290,31 @@ def render_report(info, records):
     attach = [r for r in records if r.call == "surface_attachment_candidate" and r.value == CALLED]
     if attach:
         labels = {
-            "tandem_repeat_protein": "adhesin repeat",
-            "wall_family_domain": "adhesion or wall family domain",
-            "hydrophobin_domain": "surface-active (hydrophobin, HsbA)",
-            "hsba_domain": "surface-active (hydrophobin, HsbA)",
+            "tandem_repeat_protein": "tandem repeat",
+            "wall_family_domain": "wall family domain (PA14, CFEM)",
+            "hydrophobin_domain": "hydrophobin",
+            "hsba_domain": "HsbA",
         }
         per = Counter()
-        for r in attach:
-            for label in {labels[b] for b in r.other_basis.split(",") if b}:
+        for pid in {r.protein for r in attach}:
+            held = set()
+            for r in attach:
+                if r.protein == pid:
+                    held |= {labels[b] for b in r.other_basis.split(",") if b in labels}
+            for label in held:
                 per[label] += 1
         lines += [
             "",
             "## Surface attachment: which evidence held",
             "",
-            "A protein can hold more than one. Surface-active proteins adsorb to surfaces. They are not shown to be adhesins.",
+            "A protein can hold more than one. Hydrophobin and HsbA are surface-active proteins: they adsorb to surfaces. "
+            "None of these labels shows adhesion.",
             "",
             "| evidence | proteins |",
             "|---|---|",
-            f"| proteins called | {len(attach)} |",
+            f"| proteins called | {len({r.protein for r in attach})} |",
         ]
-        for label in (
-            "adhesin repeat",
-            "adhesion or wall family domain",
-            "surface-active (hydrophobin, HsbA)",
-        ):
+        for label in ("tandem repeat", "wall family domain (PA14, CFEM)", "hydrophobin", "HsbA"):
             lines.append(f"| {label} | {per[label]} |")
     lines += ["", "## Known limits", ""] + [
         f"{i}. {t}" for i, t in enumerate(_known_limits(info.thresholds), 1)

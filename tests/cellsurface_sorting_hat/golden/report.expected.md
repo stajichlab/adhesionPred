@@ -7,6 +7,14 @@
 - default gate: step1_rule@R0
 - thresholds: allergen_coverage_min = 80, allergen_hit_identity_min = 35, allergen_hit_length_min = 80, allergen_identity_min = 70, antigen_percentile_max = 15
 
+## What the statuses mean
+
+- `unvalidated`: no measurement exists for this module, call or taxon.
+- `smoke`: measured on too little truth for a number (the leakage cap also gives `smoke`).
+- `estimated`: measured with enough truth for a number (at least 20 positives, 20 negatives and 20 clusters, and a narrow interval).
+- A status holds for one species and taxon: it counts only where its file is installed and current.
+- The status of a composite call (a call built from other calls) is the weakest status of the leaf calls that decided that record's value.
+
 ## Invalid proteins
 
 - BAD1: internal stop codon
@@ -89,14 +97,15 @@ Unavailable step 1 variants: step1_rule@R1, step1_rule@R2, step1_ml@card
 
 ## Surface attachment: which evidence held
 
-A protein can hold more than one. Surface-active proteins adsorb to surfaces. They are not shown to be adhesins.
+A protein can hold more than one. Hydrophobin and HsbA are surface-active proteins: they adsorb to surfaces. None of these labels shows adhesion.
 
 | evidence | proteins |
 |---|---|
 | proteins called | 2 |
-| adhesin repeat | 2 |
-| adhesion or wall family domain | 0 |
-| surface-active (hydrophobin, HsbA) | 0 |
+| tandem repeat | 2 |
+| wall family domain (PA14, CFEM) | 0 |
+| hydrophobin | 0 |
+| HsbA | 0 |
 
 ## Known limits
 
