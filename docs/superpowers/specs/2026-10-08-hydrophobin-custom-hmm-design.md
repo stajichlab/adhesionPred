@@ -48,6 +48,7 @@ of the approach. It adds a measured call with a status inside the tool.
 | E8 | The owner supplied Linder 2005, Sunde 2008, Wessels 1994 and the supplements of Jensen 2010 and Xu 2021 (`to_import/hydrophobins/`). Merge order of PRs #76, #75 and this branch stays with the owner. |
 | E9 | Literature proteins without protein-level evidence form a "literature, predicted" tier: held out from training, used as an extra test set, reported separately. |
 | E10 | **The first extended level is a relaxed Pfam cutoff.** The custom HMM is built and tested against that baseline, and is added only if it recovers more (section 6). If it adds nothing, that is reported and the relaxed Pfam level stays. |
+| E11 | An extended-level or HMM hit on an HsbA protein is an **expected overlap**, not a false positive (owner, 2026-10-08). It is reported in its own column and excluded from the cost count and from the HsbA hard-negative rate. |
 
 A machine-learning classifier was considered and is not part of this design. With about 130 experimentally supported proteins in 28 clusters
 it is likely to overfit or to relearn the cysteine pattern. This is an expectation, not a result.
@@ -142,8 +143,7 @@ Groups (E6): CFEM; cerato-platanin; HsbA; small secreted cysteine-rich proteins 
 cluster into a tuning part and a test part before any model is scored. The tuning part and a fixed sample of proteome negatives are the only negatives
 that may be used to choose a cutoff. R0 SignalP is run on all of them (task L4a). Counts per group are reported before scoring.
 
-**HsbA** (open question to the owner): an HMM or relaxed-Pfam hit on an HsbA protein is reported in its own column. The default is "expected overlap, not a false
-positive", because the owner counts HsbA with hydrophobins for display. If the owner decides otherwise, HsbA joins the false-positive count.
+**HsbA** (E11, owner decision): a hit on an HsbA protein is an expected overlap, reported in its own column, and excluded from the cost count (6.3) and from the HsbA hard-negative rate. HsbA proteins stay in the hard-negative table so the overlap is visible.
 
 Other look-alikes (LysM effectors, fungal defensins and antifungal proteins, expansin-like proteins) are not verified. They are added in v2 from the model's
 false positives in new proteomes, not in v1 (the same proteomes cannot both add a negative group and then test the cost).
