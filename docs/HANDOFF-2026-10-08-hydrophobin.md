@@ -20,3 +20,8 @@ All hydrophobin statuses are `smoke`. The 8-cysteine rescue with the published s
 ## Not done
 - Cross-species hard-negative table, wider prior-art search beyond PubMed and the sources named in `docs/paper/05` section 6, Wessels 1994 / Linder 2005 / Sunde 2008 not read.
 - No push, PR or merge since the owner authorised #75 and #76.
+
+## Update (late 2026-10-08)
+- L5, aligner comparison, L6a (`hydrophobin_relaxed` module), L7a (cost), L8 (evidence sheets) and the evidence-based curation (T4) are done. Ship decision (`analysis/hydrophobin_truth/ship_decision.json`): **not shipped** (cost failed in 2 of 7 test proteomes; precision failed with 0 hydrophobin of 7 resolved clusters). See `docs/reports/2026-10-08-hydrophobin-curation-and-ship-decision.md`.
+- Merged: PR #76 is in main. This branch merged main (`bcc0c6d`) and carries the PF01185 note fix (`97f2676`). PR #75 should be closed unmerged. PR #77 is the draft PR of this branch.
+- Owner decisions open: whether to keep only the strict call (relaxed module as an experimental column) or start a v1.1 with a new pre-registration; whether one-way coverage is enough for two named-gene matches; whether hydrophobins and HsbA count in `cell_wall_adhesion_candidate`; the SOWgp-like call (decided: both an ortholog call and an architecture call; spec not written).
