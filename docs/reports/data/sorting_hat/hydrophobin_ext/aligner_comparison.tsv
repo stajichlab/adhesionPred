@@ -1,0 +1,7 @@
+aligner	option	t2_called	t2_n	t2_recall	pfam_missed_clusters_recovered	of	pfam_missed_proteins_called	lp_missed_recovered	hn_test_max_rate	hn_test_rates	cutoff_all_cluster	median_fold_cutoff	folds	folds_slots_ok	folds_ordinal_ok	folds_same_column_ok	median_width
+mafft_linsi	default	76	131	0.58	5	6	6	3	0.0	"{""CFEM"": 0.0, ""HsbA"": 0.0, ""cell_wall_cys"": 0.0, ""cerato_platanin"": 0.0, ""small_secreted_cys"": 0.0}"	7.9	9.5	29	29	28	27	1705
+mafft_linsi	nobias	118	131	0.901	6	6	8	3	0.0	"{""CFEM"": 0.0, ""HsbA"": 0.0, ""cell_wall_cys"": 0.0, ""cerato_platanin"": 0.0, ""small_secreted_cys"": 0.0}"	11.4	12.6	29	29	28	27	1705
+famsa	default	77	131	0.588	6	6	7	3	0.0	"{""CFEM"": 0.0, ""HsbA"": 0.0, ""cell_wall_cys"": 0.0, ""cerato_platanin"": 0.0, ""small_secreted_cys"": 0.0}"	7.3	9.6	29	29	28	27	1724
+famsa	nobias	117	131	0.893	6	6	8	3	0.0	"{""CFEM"": 0.0, ""HsbA"": 0.0, ""cell_wall_cys"": 0.0, ""cerato_platanin"": 0.0, ""small_secreted_cys"": 0.0}"	11.7	11.8	29	29	28	27	1724
+muscle5	default	74	131	0.565	5	6	6	3	0.0	"{""CFEM"": 0.0, ""HsbA"": 0.0, ""cell_wall_cys"": 0.0, ""cerato_platanin"": 0.0, ""small_secreted_cys"": 0.0}"	6.3	9.0	29	29	28	27	1692
+muscle5	nobias	117	131	0.893	6	6	8	3	0.0	"{""CFEM"": 0.0, ""HsbA"": 0.0, ""cell_wall_cys"": 0.0, ""cerato_platanin"": 0.0, ""small_secreted_cys"": 0.0}"	13.1	12.0	29	29	28	27	1692
