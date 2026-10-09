@@ -25,3 +25,8 @@ def test_kind_labels():
     assert m.kinds(strict=False, relaxed=True, labelled=False) == "relaxed_only_unlabelled"
     assert m.kinds(strict=True, relaxed=False, labelled=False) == "strict_only_unlabelled"
     assert m.kinds(strict=True, relaxed=True, labelled=True) is None
+
+
+def test_parse_blast_accepts_rows_without_a_title_column():
+    out = m.parse_blast(["q1\tA1\t80.0\t90\t1e-30\t120"], top=2)
+    assert out["q1"] == ["A1 80.0% cov90 1e-30"]

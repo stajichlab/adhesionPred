@@ -41,17 +41,20 @@ def parse_blast(lines, top=3):
     out = {}
     for line in lines:
         f = line.rstrip("\n").split("\t")
-        if len(f) < 7:
+        if len(f) < 6:
             continue
-        q, s, pid, cov, ev, bits, title = f[:7]
+        q, s, pid, cov, ev, bits = f[:6]
+        title = f[6] if len(f) > 6 else ""
         out.setdefault(q, [])
         if len(out[q]) < top:
-            out[q].append(f"{s} {pid}% cov{cov} {ev} {title}")
+            out[q].append(f"{s} {pid}% cov{cov} {ev} {title}".strip())
     return out
 
 
 def blast(query, db, top, title=True):
-    fmt = "6 qseqid sseqid pident qcovs evalue bitscore " + ("stitle" if title else "sseqid")
+    fmt = "6 qseqid sseqid pident qcovs evalue bitscore" + (
+        " stitle" if title else ""
+    )  # BLAST drops a repeated field name
     res = subprocess.run(
         [
             "blastp",

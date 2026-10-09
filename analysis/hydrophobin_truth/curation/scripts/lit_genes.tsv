@@ -1,0 +1,73 @@
+paper	pmid	paper_gene_id	uniprot	proteomes	id_source
+Quarantin et al. 2019 Front Microbiol	31031728	FGSG_01763	I1RDP9	Fgra_PH-1	full text (PMC6474331); UniProt entry cites the paper and carries FG01763:I1RDP9
+Quarantin et al. 2019 Front Microbiol	31031728	FGSG_01764	I1RDQ0	Fgra_PH-1	full text (PMC6474331); UniProt entry cites the paper and carries FG01764:I1RDQ0
+Quarantin et al. 2019 Front Microbiol	31031728	FGSG_09066	I1RXJ5	Fgra_PH-1	full text (PMC6474331); UniProt entry cites the paper and carries FG09066:I1RXJ5
+Quarantin et al. 2019 Front Microbiol	31031728	FGSG_03960	I1RJE5	Fgra_PH-1	full text (PMC6474331); UniProt entry cites the paper and carries FG03960:I1RJE5
+Quarantin et al. 2019 Front Microbiol	31031728	FGSG_01831	I1RDW3	Fgra_PH-1	full text (PMC6474331); UniProt entry cites the paper and carries FG01831:I1RDW3
+Shin et al. 2022 Fungal Genet Biol	35278684	FgHyd1	I1RDP9	Fgra_PH-1	abstract only (no PMC); UniProt entry cites the paper (gene name Hyd1-5)
+Shin et al. 2022 Fungal Genet Biol	35278684	FgHyd2	I1RDQ0	Fgra_PH-1	abstract only (no PMC); UniProt entry cites the paper (gene name Hyd1-5)
+Shin et al. 2022 Fungal Genet Biol	35278684	FgHyd3	I1RXJ5	Fgra_PH-1	abstract only (no PMC); UniProt entry cites the paper (gene name Hyd1-5)
+Shin et al. 2022 Fungal Genet Biol	35278684	FgHyd4	I1RJE5	Fgra_PH-1	abstract only (no PMC); UniProt entry cites the paper (gene name Hyd1-5)
+Shin et al. 2022 Fungal Genet Biol	35278684	FgHyd5	I1RDW3	Fgra_PH-1	abstract only (no PMC); UniProt entry cites the paper (gene name Hyd1-5)
+Sarlin et al. 2011 J Basic Microbiol	21780148	GzHYD5	I1RDW3	Fgra_PH-1	abstract only; UniProt I1RDW3 cites the paper
+Minenko et al. 2014 Fungal Biol	24742833	FgHyd5p	I1RDW3	Fgra_PH-1	abstract only; UniProt I1RDW3 cites the paper
+Valsecchi et al. 2018 J Fungi	29371496	AFUA_5G09580	P41746	Afum_Af293,Afum_A1163,Afum_W72310	full text (PMC5872305); UniProt entry found by ORF name (AFUA: entry cites paper; AFUB: TrEMBL A1163 entry by ORF name; AFUA_1G175250 is written so in the paper, UniProt ORF is AFUA_1G17250)
+Valsecchi et al. 2018 J Fungi	29371496	AFUB_057130	B0Y4B1	Afum_Af293,Afum_A1163,Afum_W72310	full text (PMC5872305); UniProt entry found by ORF name (AFUA: entry cites paper; AFUB: TrEMBL A1163 entry by ORF name; AFUA_1G175250 is written so in the paper, UniProt ORF is AFUA_1G17250)
+Valsecchi et al. 2018 J Fungi	29371496	AFUA_1G175250	E9QT94	Afum_Af293,Afum_A1163,Afum_W72310	full text (PMC5872305); UniProt entry found by ORF name (AFUA: entry cites paper; AFUB: TrEMBL A1163 entry by ORF name; AFUA_1G175250 is written so in the paper, UniProt ORF is AFUA_1G17250)
+Valsecchi et al. 2018 J Fungi	29371496	AFUB_016640	B0XPA4	Afum_Af293,Afum_A1163,Afum_W72310	full text (PMC5872305); UniProt entry found by ORF name (AFUA: entry cites paper; AFUB: TrEMBL A1163 entry by ORF name; AFUA_1G175250 is written so in the paper, UniProt ORF is AFUA_1G17250)
+Valsecchi et al. 2018 J Fungi	29371496	AFUA_8G07060	Q4WBR8	Afum_Af293,Afum_A1163,Afum_W72310	full text (PMC5872305); UniProt entry found by ORF name (AFUA: entry cites paper; AFUB: TrEMBL A1163 entry by ORF name; AFUA_1G175250 is written so in the paper, UniProt ORF is AFUA_1G17250)
+Valsecchi et al. 2018 J Fungi	29371496	AFUB_080740	B0Y9E4	Afum_Af293,Afum_A1163,Afum_W72310	full text (PMC5872305); UniProt entry found by ORF name (AFUA: entry cites paper; AFUB: TrEMBL A1163 entry by ORF name; AFUA_1G175250 is written so in the paper, UniProt ORF is AFUA_1G17250)
+Valsecchi et al. 2018 J Fungi	29371496	AFUA_5G01490	Q4WE22	Afum_Af293,Afum_A1163,Afum_W72310	full text (PMC5872305); UniProt entry found by ORF name (AFUA: entry cites paper; AFUB: TrEMBL A1163 entry by ORF name; AFUA_1G175250 is written so in the paper, UniProt ORF is AFUA_1G17250)
+Valsecchi et al. 2018 J Fungi	29371496	AFUB_050030	B0Y1P5	Afum_Af293,Afum_A1163,Afum_W72310	full text (PMC5872305); UniProt entry found by ORF name (AFUA: entry cites paper; AFUB: TrEMBL A1163 entry by ORF name; AFUA_1G175250 is written so in the paper, UniProt ORF is AFUA_1G17250)
+Valsecchi et al. 2018 J Fungi	29371496	AFUA_8G05890	Q4WC31	Afum_Af293,Afum_A1163,Afum_W72310	full text (PMC5872305); UniProt entry found by ORF name (AFUA: entry cites paper; AFUB: TrEMBL A1163 entry by ORF name; AFUA_1G175250 is written so in the paper, UniProt ORF is AFUA_1G17250)
+Valsecchi et al. 2018 J Fungi	29371496	AFUB_081650	B0Y9N0	Afum_Af293,Afum_A1163,Afum_W72310	full text (PMC5872305); UniProt entry found by ORF name (AFUA: entry cites paper; AFUB: TrEMBL A1163 entry by ORF name; AFUA_1G175250 is written so in the paper, UniProt ORF is AFUA_1G17250)
+Valsecchi et al. 2018 J Fungi	29371496	AFUA_5G03280	Q4WEK0	Afum_Af293,Afum_A1163,Afum_W72310	full text (PMC5872305); UniProt entry found by ORF name (AFUA: entry cites paper; AFUB: TrEMBL A1163 entry by ORF name; AFUA_1G175250 is written so in the paper, UniProt ORF is AFUA_1G17250)
+Valsecchi et al. 2018 J Fungi	29371496	AFUB_051810	B0Y2S5	Afum_Af293,Afum_A1163,Afum_W72310	full text (PMC5872305); UniProt entry found by ORF name (AFUA: entry cites paper; AFUB: TrEMBL A1163 entry by ORF name; AFUA_1G175250 is written so in the paper, UniProt ORF is AFUA_1G17250)
+Valsecchi et al. 2018 J Fungi	29371496	AFUA_2G14661	Q4X055	Afum_Af293,Afum_A1163,Afum_W72310	full text (PMC5872305); UniProt entry found by ORF name (AFUA: entry cites paper; AFUB: TrEMBL A1163 entry by ORF name; AFUA_1G175250 is written so in the paper, UniProt ORF is AFUA_1G17250)
+Luciano-Rosario et al. 2022 mBio	36374077	PEXP_062290 (HfbA)	A0A0A2K7M3	Pexp_MD-8	full text (PMC9765440); paper lists 7 Pe21 IDs then 'termed [names lost in PMC text], respectively'; name order HfbA-G assumed; sequence from Swiss-Prot HfbA entry (strain MD-8, cites the paper)
+Luciano-Rosario et al. 2022 mBio	36374077	PEXP_02490 (HfbB)	A0A0A2JSZ6	Pexp_MD-8	full text (PMC9765440); paper lists 7 Pe21 IDs then 'termed [names lost in PMC text], respectively'; name order HfbA-G assumed; sequence from Swiss-Prot HfbB entry (strain MD-8, cites the paper)
+Luciano-Rosario et al. 2022 mBio	36374077	PEXP_071760 (HfbC)	A0A0A2IC94	Pexp_MD-8	full text (PMC9765440); paper lists 7 Pe21 IDs then 'termed [names lost in PMC text], respectively'; name order HfbA-G assumed; sequence from Swiss-Prot HfbC entry (strain MD-8, cites the paper)
+Luciano-Rosario et al. 2022 mBio	36374077	PEXP_055790 (HfbD)	A0A0A2K253	Pexp_MD-8	full text (PMC9765440); paper lists 7 Pe21 IDs then 'termed [names lost in PMC text], respectively'; name order HfbA-G assumed; sequence from Swiss-Prot HfbD entry (strain MD-8, cites the paper)
+Luciano-Rosario et al. 2022 mBio	36374077	PEXP_096890 (HfbE)	A0A0A2KI06	Pexp_MD-8	full text (PMC9765440); paper lists 7 Pe21 IDs then 'termed [names lost in PMC text], respectively'; name order HfbA-G assumed; sequence from Swiss-Prot HfbE entry (strain MD-8, cites the paper)
+Luciano-Rosario et al. 2022 mBio	36374077	PEXP_043320 (HfbF)	A0A0A2JK41	Pexp_MD-8	full text (PMC9765440); paper lists 7 Pe21 IDs then 'termed [names lost in PMC text], respectively'; name order HfbA-G assumed; sequence from Swiss-Prot HfbF entry (strain MD-8, cites the paper)
+Luciano-Rosario et al. 2022 mBio	36374077	PEXP_098360 (HfbG)	A0A0A2J434	Pexp_MD-8	full text (PMC9765440); paper lists 7 Pe21 IDs then 'termed [names lost in PMC text], respectively'; name order HfbA-G assumed; sequence from Swiss-Prot HfbG entry (strain MD-8, cites the paper)
+Feng et al. 2024 Microbiol Res	39724799	Hyd1A	J4KPV6	Bbas_ARSEF2860	abstract only (no PMC); UniProt entry cites the paper
+Feng et al. 2024 Microbiol Res	39724799	Hyd1B	J4W2A8	Bbas_ARSEF2860	abstract only (no PMC); UniProt entry cites the paper
+Feng et al. 2024 Microbiol Res	39724799	Hyd1C	J5JJC1	Bbas_ARSEF2860	abstract only (no PMC); UniProt entry cites the paper
+Feng et al. 2024 Microbiol Res	39724799	Hyd1D	J4VS95	Bbas_ARSEF2860	abstract only (no PMC); UniProt entry cites the paper
+Feng et al. 2024 Microbiol Res	39724799	Hyd1E	J4UGK4	Bbas_ARSEF2860	abstract only (no PMC); UniProt entry cites the paper
+Feng et al. 2024 Microbiol Res	39724799	Hyd1F	J4UJ50	Bbas_ARSEF2860	abstract only (no PMC); UniProt entry cites the paper
+Feng et al. 2024 Microbiol Res	39724799	Hyd2A	J4WDT5	Bbas_ARSEF2860	abstract only (no PMC); UniProt entry cites the paper
+Feng et al. 2024 Microbiol Res	39724799	Hyd2B	J5JTB1	Bbas_ARSEF2860	abstract only (no PMC); UniProt entry cites the paper
+Feng et al. 2024 Microbiol Res	39724799	Hyd2C	J4WMI6	Bbas_ARSEF2860	abstract only (no PMC); UniProt entry cites the paper
+Segers et al. 1999 Mol Gen Genet	10394901	HCf-1	Q00367	Fful_Race5	abstract only; UniProt entry cites the paper
+Segers et al. 1999 Mol Gen Genet	10394901	HCf-2	O94217	Fful_Race5	abstract only; UniProt entry cites the paper
+Segers et al. 1999 Mol Gen Genet	10394901	HCf-3	Q7Z9L5	Fful_Race5	abstract only; UniProt entry cites the paper
+Segers et al. 1999 Mol Gen Genet	10394901	HCf-4	Q7Z9L4	Fful_Race5	abstract only; UniProt entry cites the paper
+Segers et al. 1999 Mol Gen Genet	10394901	HCf-5	O94203	Fful_Race5	abstract only; UniProt entry cites the paper
+Nielsen et al. 2001 Microbiol Res	11372654	HCf-6	Q9C2X0	Fful_Race5	abstract only; UniProt entry cites the paper
+Xu et al. 2021 Microbiol Res	33636611	vmh3	A0A067N648	Post_PC9	abstract only (no PMC); gene name from UniProt entry that cites the paper (UniProt organism 1137138)
+Xu et al. 2021 Microbiol Res	33636611	vhm33	Q9Y7H0	Post_PC9	abstract only (no PMC); gene name from UniProt entry that cites the paper (UniProt organism 5322)
+Xu et al. 2021 Microbiol Res	33636611	Hydph12	A0A067N4P3	Post_PC9	abstract only (no PMC); gene name from UniProt entry that cites the paper (UniProt organism 1137138)
+Xu et al. 2021 Microbiol Res	33636611	fbh1	A0A067NGV3	Post_PC9	abstract only (no PMC); gene name from UniProt entry that cites the paper (UniProt organism 1137138)
+Xu et al. 2021 Microbiol Res	33636611	Hydph17	A0A067NHE1	Post_PC9	abstract only (no PMC); gene name from UniProt entry that cites the paper (UniProt organism 1137138)
+Xu et al. 2021 Microbiol Res	33636611	Hydph16	A0A067P943	Post_PC9	abstract only (no PMC); gene name from UniProt entry that cites the paper (UniProt organism 1137138)
+Xu et al. 2021 Microbiol Res	33636611	POH1	O13502	Post_PC9	abstract only (no PMC); gene name from UniProt entry that cites the paper (UniProt organism 5322)
+Xu et al. 2021 Microbiol Res	33636611	POH2	O13503	Post_PC9	abstract only (no PMC); gene name from UniProt entry that cites the paper (UniProt organism 5322)
+Xu et al. 2021 Microbiol Res	33636611	fbh1	O60047	Post_PC9	abstract only (no PMC); gene name from UniProt entry that cites the paper (UniProt organism 5322)
+Xu et al. 2021 Microbiol Res	33636611	POH3	O60048	Post_PC9	abstract only (no PMC); gene name from UniProt entry that cites the paper (UniProt organism 5322)
+Xu et al. 2021 Microbiol Res	33636611	Hydph9	A0A067N4P7	Post_PC9	abstract only (no PMC); gene name from UniProt entry that cites the paper (UniProt organism 1137138)
+Xu et al. 2021 Microbiol Res	33636611	Hydph5	A0A067N582	Post_PC9	abstract only (no PMC); gene name from UniProt entry that cites the paper (UniProt organism 1137138)
+Xu et al. 2021 Microbiol Res	33636611	Hydph20	A0A067N7P3	Post_PC9	abstract only (no PMC); gene name from UniProt entry that cites the paper (UniProt organism 1137138)
+Xu et al. 2021 Microbiol Res	33636611	Hydph18	A0A067NEJ5	Post_PC9	abstract only (no PMC); gene name from UniProt entry that cites the paper (UniProt organism 1137138)
+Xu et al. 2021 Microbiol Res	33636611	Hydph8	A0A067NFU6	Post_PC9	abstract only (no PMC); gene name from UniProt entry that cites the paper (UniProt organism 1137138)
+Xu et al. 2021 Microbiol Res	33636611	Hydph15	A0A067NHW8	Post_PC9	abstract only (no PMC); gene name from UniProt entry that cites the paper (UniProt organism 1137138)
+Xu et al. 2021 Microbiol Res	33636611	Hydph21	A0A067NMT6	Post_PC9	abstract only (no PMC); gene name from UniProt entry that cites the paper (UniProt organism 1137138)
+Xu et al. 2021 Microbiol Res	33636611	Hydph10	A0A067NN74	Post_PC9	abstract only (no PMC); gene name from UniProt entry that cites the paper (UniProt organism 1137138)
+Xu et al. 2021 Microbiol Res	33636611	Hydph19	A0A067NRJ8	Post_PC9	abstract only (no PMC); gene name from UniProt entry that cites the paper (UniProt organism 1137138)
+Xu et al. 2021 Microbiol Res	33636611	Hydph14	A0A067NRQ5	Post_PC9	abstract only (no PMC); gene name from UniProt entry that cites the paper (UniProt organism 1137138)
+Xu et al. 2021 Microbiol Res	33636611	Hydph11	A0A067P0I9	Post_PC9	abstract only (no PMC); gene name from UniProt entry that cites the paper (UniProt organism 1137138)
+Xu et al. 2021 Microbiol Res	33636611	Hydph7	A0A067P1E6	Post_PC9	abstract only (no PMC); gene name from UniProt entry that cites the paper (UniProt organism 1137138)
+Xu et al. 2021 Microbiol Res	33636611	Hydph13	A0A067P494	Post_PC9	abstract only (no PMC); gene name from UniProt entry that cites the paper (UniProt organism 1137138)
+Xu et al. 2021 Microbiol Res	33636611	Hydph6	A0A067PCX8	Post_PC9	abstract only (no PMC); gene name from UniProt entry that cites the paper (UniProt organism 1137138)
+UniProt A0A067N4H9 (Vmh2)	see UniProt	vmh2	A0A067N4H9	Post_PC9	UniProt Swiss-Prot entry citing 14 PMIDs (12147487 first); papers not read

@@ -33,7 +33,7 @@ The 22 extra calls in the two over-limit proteomes include proteins that look li
 ## 3. Evidence sheets (L8)
 
 `evidence_sheets.tsv` has 61 rows, one per protein with a Pfam or relaxed call and no label: 40 relaxed-only, 18 strict and relaxed, 3 strict-only. Columns: length, cysteine count and gaps, R0, TMHMM, strict families, relaxed score and model, frozen-spacing class, BLAST top hits against the 174 known hydrophobins and Swiss-Prot 2023_03 (E <= 1e-3), and empty `owner_decision` and `owner_reason` columns.
-Triage counts (a heuristic, not a label): among the 40 relaxed-only rows, 7 have a strong Swiss-Prot hit (at least 40% identity over at least 70% of the query) to a non-hydrophobin, 4 are longer than 250 aa, 3 have a weak hit and 26 have no Swiss-Prot hit. None of the 61 has a BLAST hit to the 174 known hydrophobins at E <= 1e-3, including the 21 with a Pfam call, which shows how divergent the family is.
+Triage counts (a heuristic, not a label): among the 40 relaxed-only rows, 7 have a strong Swiss-Prot hit (at least 40% identity over at least 70% of the query) to a non-hydrophobin, 4 are longer than 250 aa, 3 have a weak hit and 26 have no Swiss-Prot hit. 24 of the 61 have a BLAST hit to the 174 known hydrophobins at E <= 1e-3. **Correction:** an earlier version of this report said none did. That was a bug in `evidence_sheets.py` (BLAST drops a repeated output field name, so the parser discarded every row of that column). It is fixed and tested, and the sheets were regenerated; the Swiss-Prot column was not affected.
 
 ## 4. What this means for the ship rule
 
