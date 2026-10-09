@@ -1,0 +1,22 @@
+# PROPOSED changes to data/curated/adhesins/adhesins.tsv hard_negative rows (task 07). NOT applied. The owner decides.
+# Same columns as data/curated/adhesins/manual_overrides.tsv.
+accession	gene	cls	evidence_level	note
+P32334	MSB2	surface_other_adhesion_phenotype	-	Msb2 family: A. nidulans MsbA influences adhesion and biofilm (PMID 25294314). Task rule excludes proteins whose function includes adhesion in another organism. Same class as msbA Q5AXD9 in the existing overrides.
+D3W9Z7	aspf2	surface_other_adhesion_phenotype	-	C. albicans ortholog Pra1 is the ligand that supports leukocyte alphaMbeta2 adhesion (PMID 17277107). Aspf2 binds Factor H and plasminogen (PMID 30166981).
+Q4WL79	bglH	hard_negative	N2	No experimental source found (UniProt function by similarity). Same 30% cluster as E2 PA14 beta-glucosidase positives A0A1D8PJB5 and A0AAW0V6D7.
+Q4WU49	bglI	hard_negative	N2	As bglH.
+Q4WLY1	bglJ	hard_negative	N2	As bglH.
+Q4WA69	bglK	hard_negative	N2	As bglH.
+Q1E3R8	CTS1	hard_negative	N2	Evidence is homology of the cloned gene to a purified chitinase antigen (PMID 8566773); activity of the C. posadasii recombinant protein is shown in PMID 16272471 (row P0CB51, N1).
+Q4WLB9	cfmA	hard_negative	N1	UniProt FUNCTION with ECO:0000269 (PMID 24361821): wall stabilising; not implicated in biofilm formation. Was N2.
+Q4WNE1	cfmC	hard_negative	N1	As cfmA. Was N2.
+P47178	DAN1	hard_negative	N2	Unchanged. No experimental function in UniProt.
+P28319	CWP1	hard_negative	N2	UniProt FUNCTION 'Component of the cell wall' has no evidence code; was N1.
+P43497	CWP2	hard_negative	N2	As CWP1. Was N1.
+P29029	CTS1	hard_negative	N2	UniProt FUNCTION and CATALYTIC ACTIVITY carry no ECO:0000269 PubMed evidence in the record that I read; was N1. A literature source can restore N1.
+P23776	EXG1	hard_negative	N2	As P29029 (no ECO:0000269 in FUNCTION or CATALYTIC ACTIVITY). Also shares a 30% cluster with the gp43 positive Q9HDL9.
+P10863	TIR1	hard_negative	N1	UniProt FUNCTION with ECO:0000269: 'Required for anaerobic growth'. Was N2.
+P40552	TIR3	hard_negative	N1	As TIR1. Was N2.
+Q12218	TIR4	hard_negative	N1	As TIR1. Was N2.
+P42835	EGT2	hard_negative	N1	UniProt FUNCTION with ECO:0000269 (cell separation timing). Was N2.
+Q01589	SED1	hard_negative	N1	UniProt FUNCTION with ECO:0000269 (cell wall stability). Was N2.
