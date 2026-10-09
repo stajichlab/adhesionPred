@@ -39,6 +39,9 @@ evidence:
   - expression.log2fc
   - tm.n_tm
   - tm.n_tm_mature
+  - pfam_adhesion.families
+  - pfam_hydrophobin.families
+  - pfam_hsba.families
 
 calls:
   - name: signal_peptide_protein
