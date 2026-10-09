@@ -10,6 +10,8 @@
 - M5 SOWgp-like spec: rev 1 failed review 1 (2 blockers, 9 major); rev 2 and rev 3 written. Review 2: PASS (0 blockers, 3 major, 8 minor). Rev 3 addresses the 3 major. The 8 minor findings are not applied (`...-sowgp-like-calls-design-review-2.md`). Commits `f444f97`, `df0f767`. No M5 code written.
 - Task 07 (shared hard-negative set): an agent built 161 rows in 91 clusters (`data/controls/hard-negatives-shared/`, commit `9962ea7`). Not owner-reviewed. Size target mostly not met: only `laccase_etc` has 20 or more clusters per stratum; Basidiomycota 14, Onygenales 15, Taphrinomycotina 5 clusters. Six rows share a cluster with a positive (flagged, not removed).
 
+- Descriptive scan finished: all 15 jobs completed; converters ran on 56 proteomes without error; report `docs/reports/2026-10-09-fungi-scan-descriptive.md` with tables in `docs/reports/data/sorting_hat/fungi_scan/` (1,053 surface attachment candidates). The SOWgp unit HMM hits only the two *Coccidioides* proteomes.
+
 ## Owner decision points reached (work stopped here)
 
 **M5 (needed before M5b):**
@@ -35,6 +37,6 @@ None. M5 failed review 1 and passed review 2 after revision.
 
 ## Next steps
 
-1. Scan: when the 15 jobs end, run `analysis/fungi_scan/run/scan_converters.sh` and `summarize_scan.py`, then write the descriptive report (state below).
+1. Read the scan report. Say whether to keep the tables in the repository (about 1,500 lines).
 2. Owner answers O1 to O4 (M5) and the task 07 questions.
 3. Then M5a (plan first, review before code).
