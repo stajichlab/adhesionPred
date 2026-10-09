@@ -41,8 +41,14 @@ def test_hmm_decision_branches():
     )
     assert (
         m.hmm_decision(u=3, recovered_by_hmm={"c2"}, unrecovered_by_relaxed=["c2", "c3", "c4"])
+        == "recall rule not met"
+    )  # ceil(3/2) = 2 needed, only 1 recovered
+    assert (
+        m.hmm_decision(
+            u=3, recovered_by_hmm={"c2", "c3"}, unrecovered_by_relaxed=["c2", "c3", "c4"]
+        )
         == "recall rule met"
-    )  # ceil(3/2) = 2 needed
+    )
     assert (
         m.hmm_decision(u=3, recovered_by_hmm={"c9"}, unrecovered_by_relaxed=["c2", "c3", "c4"])
         == "recall rule not met"

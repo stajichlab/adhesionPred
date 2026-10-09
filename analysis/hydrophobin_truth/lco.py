@@ -96,7 +96,19 @@ def read_aligned_fasta(text):
     return out
 
 
-def build_hmm(seqs, workdir, name, threads=4):
+def aligner_command(aligner, faa, threads):
+    """Command line of an aligner that writes an aligned FASTA to stdout (or to a file named by the second item)."""
+    if aligner == "mafft":
+        return ["mafft", *MAFFT_ARGS, "--thread", str(threads), str(faa)], None
+    if aligner == "famsa":
+        return ["famsa", "-t", str(threads), str(faa), "-"], None
+    if aligner == "muscle5":
+        out = str(faa) + ".muscle.afa"
+        return ["muscle", "-align", str(faa), "-output", out, "-threads", str(threads)], out
+    raise ValueError(f"unknown aligner {aligner}")
+
+
+def build_hmm(seqs, workdir, name, threads=4, aligner="mafft"):
     wd = Path(workdir)
     wd.mkdir(parents=True, exist_ok=True)
     faa = wd / f"{name}.faa"
@@ -140,6 +152,12 @@ def main():
     ap.add_argument("--out", required=True)
     ap.add_argument("--threads", type=int, default=4)
     ap.add_argument(
+        "--aligner",
+        default="mafft",
+        choices=["mafft", "famsa", "muscle5"],
+        help="v1 is mafft; the others are for the aligner comparison",
+    )
+    ap.add_argument(
         "--only", default="", help="comma list of fold numbers or 'all'; default every fold and all"
     )
     a = ap.parse_args()
@@ -160,7 +178,7 @@ def main():
         held = None if w == "all" else next(f["held_out_cluster"] for f in folds if f["fold"] == w)
         ids = training_ids(clusters, held)
         name = "fold_all" if w == "all" else f"fold_{int(w):02d}"
-        r = build_hmm({i: truth[i] for i in ids}, a.out, name, a.threads)
+        r = build_hmm({i: truth[i] for i in ids}, a.out, name, a.threads, a.aligner)
         aligned = read_aligned_fasta(Path(r["aln"]).read_text())
         ok = cys_slots_check(aligned)
         diag = ordinal_cys_check(aligned)

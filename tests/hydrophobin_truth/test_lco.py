@@ -117,3 +117,18 @@ def test_slots_check_accepts_a_cysteine_split_over_distant_columns_and_refuses_a
         seq([10 * k + i for k in range(8)]) for i in range(10)
     ]  # every column holds a cysteine in 1 of 10 sequences
     assert not m.cys_slots_check(garbled)
+
+
+def test_aligner_commands():
+    cmd, out = m.aligner_command("mafft", "x.faa", 4)
+    assert cmd[0] == "mafft" and "--localpair" in cmd and out is None
+    cmd, out = m.aligner_command("famsa", "x.faa", 4)
+    assert cmd[:3] == ["famsa", "-t", "4"] and cmd[-1] == "-" and out is None
+    cmd, out = m.aligner_command("muscle5", "x.faa", 4)
+    assert cmd[:2] == ["muscle", "-align"] and out == "x.faa.muscle.afa"
+    try:
+        m.aligner_command("clustalo", "x.faa", 1)
+    except ValueError:
+        pass
+    else:
+        raise AssertionError("expected ValueError")

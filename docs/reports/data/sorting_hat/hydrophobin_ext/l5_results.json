@@ -1,0 +1,199 @@
+{
+ "freeze_commit": "f1986e202a98818f2122586263acaf75e21018ff",
+ "label": "leave-cluster-out numbers are partial (the author saw the Pfam-missed entries before the freeze); negatives are assumed",
+ "pfam_ga_missed_t2": [
+  "A0A0A2KI06",
+  "A0A6V8R0V1",
+  "G9MKB2",
+  "I1RDP9",
+  "I1RDQ0",
+  "O94217",
+  "Q00367",
+  "Q0KKA0",
+  "Q7Z9L4"
+ ],
+ "strict_sequence_level_tblout_hits_t2": 123,
+ "tblout_hits_that_are_not_strict_domain_hits": [
+  "Q0KKA0"
+ ],
+ "relaxed": {
+  "cutoff": 2.6,
+  "option": "nobias",
+  "pfam_missed_proteins_called": [
+   "A0A0A2KI06",
+   "A0A6V8R0V1",
+   "I1RDP9",
+   "I1RDQ0",
+   "O94217",
+   "Q00367",
+   "Q0KKA0",
+   "Q7Z9L4"
+  ],
+  "pfam_missed_clusters": 6,
+  "clusters_recovered": [
+   "G9MKB2",
+   "I1RDP9",
+   "Q0KKA0",
+   "Q4WEK0",
+   "Q7Z9L4",
+   "Q7Z9L5"
+  ],
+  "clusters_recovered_n": 6,
+  "wilson_clusters": [
+   0.6096657083436265,
+   1.0
+  ],
+  "wilson_proteins": [
+   0.565000291629209,
+   0.9801091125830901
+  ],
+  "u": 0,
+  "unrecovered": [],
+  "recall_rule_pass": true
+ },
+ "extended_recall_t2": {
+  "strict_ga": 122,
+  "extended": 130,
+  "n": 131,
+  "wilson_strict": [
+   0.8745837367107834,
+   0.9634374545274134
+  ],
+  "wilson_extended": [
+   0.9580278480549256,
+   0.9986512109692105
+  ]
+ },
+ "cys8_pattern": {
+  "pfam_missed_called": [
+   "A0A6V8R0V1",
+   "G9MKB2",
+   "I1RDQ0"
+  ],
+  "t2_called": 78
+ },
+ "hmm_loco": {
+  "option": "default (frozen)",
+  "t2_called": 76,
+  "t2_n": 131,
+  "wilson_t2": [
+   0.494536358857295,
+   0.6612020926117503
+  ],
+  "pfam_missed_proteins_called": [
+   "I1RDP9",
+   "I1RDQ0",
+   "O94217",
+   "Q00367",
+   "Q0KKA0",
+   "Q7Z9L4"
+  ],
+  "clusters_recovered": [
+   "G9MKB2",
+   "I1RDP9",
+   "Q0KKA0",
+   "Q7Z9L4",
+   "Q7Z9L5"
+  ],
+  "clusters_recovered_n": 5,
+  "nobias_clusters_recovered_n": 6,
+  "nobias_t2_called": 118,
+  "decision": "not testable"
+ },
+ "t2_lost_to_conditions": {
+  "n": 7,
+  "ids": [
+   "A0A0A2K253",
+   "A0A0A2K7M3",
+   "A0A2H4SHM4",
+   "J5JTB1",
+   "P52755",
+   "Q4WE22",
+   "W8NQ71"
+  ],
+  "no_r0_call": [
+   "Q4WE22"
+  ],
+  "fewer_than_8_cys": [
+   "A0A0A2K253",
+   "A0A0A2K7M3",
+   "A0A2H4SHM4",
+   "J5JTB1",
+   "P52755",
+   "W8NQ71"
+  ]
+ },
+ "hard_negatives_test": {
+  "CFEM": {
+   "n_test": 128,
+   "pfam_ga": 0,
+   "relaxed": 0,
+   "hmm_all": 0,
+   "rate_relaxed": 0.0,
+   "rate_hmm_all": 0.0,
+   "threshold": 0.05,
+   "relaxed_passes": true
+  },
+  "HsbA": {
+   "n_test": 165,
+   "pfam_ga": 0,
+   "relaxed": 0,
+   "hmm_all": 0,
+   "rate_relaxed": 0.0,
+   "rate_hmm_all": 0.0,
+   "threshold": null,
+   "relaxed_passes": null
+  },
+  "cell_wall_cys": {
+   "n_test": 238,
+   "pfam_ga": 0,
+   "relaxed": 0,
+   "hmm_all": 0,
+   "rate_relaxed": 0.0,
+   "rate_hmm_all": 0.0,
+   "threshold": 0.05,
+   "relaxed_passes": true
+  },
+  "cerato_platanin": {
+   "n_test": 288,
+   "pfam_ga": 0,
+   "relaxed": 0,
+   "hmm_all": 0,
+   "rate_relaxed": 0.0,
+   "rate_hmm_all": 0.0,
+   "threshold": 0.05,
+   "relaxed_passes": true
+  },
+  "small_secreted_cys": {
+   "n_test": 74,
+   "pfam_ga": 0,
+   "relaxed": 0,
+   "hmm_all": 0,
+   "rate_relaxed": 0.0,
+   "rate_hmm_all": 0.0,
+   "threshold": 0.05,
+   "relaxed_passes": true
+  }
+ },
+ "lp_secondary": {
+  "scored": 37,
+  "pfam_ga_hits": 34,
+  "pfam_ga_missed": [
+   "LP_AFLA_014260",
+   "LP_AO090012000143",
+   "LP_ATEG_08089"
+  ],
+  "relaxed_on_missed": [
+   "LP_AFLA_014260",
+   "LP_AO090012000143",
+   "LP_ATEG_08089"
+  ],
+  "hmm_all_on_missed": [
+   "LP_AFLA_014260",
+   "LP_AO090012000143",
+   "LP_ATEG_08089"
+  ],
+  "cys8_on_missed": [],
+  "note": "predictions (Jensen 2010 genome screen); consistency check, not a measurement; the reserved clusters and the 8 unverified proteins are not scored"
+ }
+}

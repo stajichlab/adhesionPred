@@ -5,3 +5,5 @@ h6/
 hmm_models/
 scores_pre_freeze_hmm/
 scores_pre_freeze/*.tblout
+scores_post_freeze/*.tblout
+aligner_compare/

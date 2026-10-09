@@ -129,7 +129,7 @@ def tiers(d):
         for r in csv.DictReader(open(manual), delimiter="\t"):
             if not r["pmid"].strip():
                 raise SystemExit(f"{manual}: every T1 row needs a PMID ({r['accession']})")
-            rows.append({**{k: "" for k in rows[0]}, **r, "tier": "T1"})
+            rows.append({**dict.fromkeys(rows[0], ""), **r, "tier": "T1"})
     with open(d / "truth_all.tsv", "w", newline="") as fh:
         w = csv.DictWriter(fh, fieldnames=list(rows[0]), delimiter="\t")
         w.writeheader()
