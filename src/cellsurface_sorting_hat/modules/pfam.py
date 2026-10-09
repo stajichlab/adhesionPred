@@ -106,6 +106,8 @@ def parse_domtblout(path):
                 "acc": f[4].split(".")[0],
                 "ievalue": float(f[12]),
                 "score": float(f[13]),
+                "seq_score": float(f[7]),
+                "query": f[3],
             }
         )
     return hits
