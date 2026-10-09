@@ -111,3 +111,15 @@ Checks (commands in this session):
 - The cysteine pattern stated in the Jensen supplement is found exactly in the resolved sequence for 41 of 49 proteins. It is not found for 8 (An07g03340, An08g09880, AN6401.2, ACLA_001890, ACLA_048810, ACLA_072820, ACLA_018290, ACLA_007980). Possible causes: a different gene model, or an error in the transcription. Not resolved. Those 8 are not used until checked.
 - `hmmsearch --cut_ga` of the seven hydrophobin-class Pfam models (Pfam 38.2): 43 of 50 have a hit. Seven do not: AO090012000143, ATEG_10285, ATEG_08089, AFLA_060780, AFLA_014260, AFLA_063080, ACLA_001890. Jensen reported 5 without a Pfam domain in 2010. The difference is the Pfam release and model set.
 - Evidence level: gene prediction only (Jensen's pattern, size and signal-sequence screen). Tier "literature, predicted", held out from training.
+
+## L1 result (2026-10-08, `lp_clusters.py`; commands and tables in this folder)
+
+- Joint clustering of the 50 LP proteins with the 131 T2 proteins (MMseqs2 17, 30% identity, coverage 0.5): 12 LP clusters; 8 have a T2 member; **4 clusters (5 proteins) are reserved for the v2 test** (`v2_reserve.tsv`). This clustering is used only for the reserve. Folds use `clusters_positives.tsv`.
+- Gap check of the 8 proteins whose stated pattern was not found (`unverified_gap_report.tsv`):
+  - **Five ACLA proteins are a row offset in the transcription, not a sequence problem.** The actual gaps of each ACLA sequence equal the stated gaps of the next row, in a cycle:
+    ACLA_048810 actual (7,39,21,5,17) = stated for ACLA_072820; ACLA_072820 actual (5,32,6,5,13) = stated for ACLA_018290; ACLA_018290 actual (7,36,18,5,17) = stated for ACLA_007980;
+    ACLA_007980 actual (7,16,6,5,26) = stated for ACLA_001890; ACLA_001890 actual (7,33,11,5,15) = stated for ACLA_048810. The `cys_pattern_stated` column of these five rows in `protein_lists.tsv` is shifted by one row. Not corrected in the table. The 2010 supplement image would confirm.
+  - An07g03340 has 13 cysteines (258 aa). The stated pattern matches only its first five gaps. Unresolved.
+  - An08g09880: last gap 9 in the sequence, 10 stated. Unresolved.
+  - AN6401.2: last gap 16 in the sequence, 35 stated. Unresolved.
+- All 8 stay excluded from the reserve and from any use until checked.
