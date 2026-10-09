@@ -17,3 +17,4 @@ Q12140	BSC1	adhesin	E3	Flo11 domain, no adhesion evidence; shipped-model false p
 P0CI66		adhesin	E3	198-aa subtelomeric flocculin-repeat ORF (likely pseudogene fragment)
 P0CI67		adhesin	E3	198-aa subtelomeric flocculin-repeat ORF (likely pseudogene fragment)
 Q6B2U8	TDA8	adhesin	E3	126-aa PA14 fragment ORF
+Q5A312	ALS7	adhesin	E3	GO IMP annotation cites PMID 17510860, which studies Als1p and Als5p only and does not mention Als7p. Sheppard 2004 (PMID 15128742): S. cerevisiae expressing Als7p adhered to none of the substrates tested. Als family member by sequence (4 UniProt Repeat features). Adhesion not directly shown; owner to confirm (2026-10-08)

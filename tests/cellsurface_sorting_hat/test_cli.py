@@ -3,6 +3,8 @@
 import csv
 import gzip
 import json
+import os
+from pathlib import Path
 
 import pytest
 
@@ -905,3 +907,167 @@ def test_a_legacy_entry_without_call_in_its_notes_keeps_its_status(
     code, out = _run(tmp_path, nodes_dmp, fasta, taxon_map, wd)
     assert code == 0
     assert read_long(out)[("ENZ1", "signal_peptide_protein", "R0")]["status"] == "estimated"
+
+
+GOLDEN = Path(__file__).parent / "golden"
+
+
+def _golden_texts(out):
+    """The decompressed calls.long text and the report without the installed-version line."""
+    with gzip.open(out / "calls.long.tsv.gz", "rt") as fh:
+        long_text = fh.read()
+    report = "".join(
+        line
+        for line in (out / "report.md").read_text().splitlines(keepends=True)
+        if not line.startswith("- version:")
+    )
+    return long_text, report
+
+
+def test_run_output_is_pinned(tmp_path, write_module, nodes_dmp):
+    """The whole output of the toy run, taken from the engine before call status files existed.
+
+    A change here is a change in what every run reports. Regenerate on purpose only:
+    UPDATE_GOLDEN=1 pytest tests/cellsurface_sorting_hat/test_cli.py -k pinned
+    """
+    code, out, _ = run_cli(tmp_path, write_module, nodes_dmp)
+    assert code == 0
+    long_text, report = _golden_texts(out)
+    if os.environ.get("UPDATE_GOLDEN") == "1":
+        (GOLDEN / "calls.long.expected.tsv").write_text(long_text)
+        (GOLDEN / "report.expected.md").write_text(report)
+    assert long_text == (GOLDEN / "calls.long.expected.tsv").read_text()
+    assert report == (GOLDEN / "report.expected.md").read_text()
+
+
+# ---- call status files -----------------------------------------------------------------------------
+
+REPEAT = "tandem_repeat_protein"
+
+
+def _call_measure(calibration_set="S1"):
+    return {
+        "calibration_set": calibration_set,
+        "truth_source": "truth.tsv",
+        "n_pos": 10,
+        "n_neg": 30,
+        "n_clusters_pos": 8,
+        "n_clusters_neg": 25,
+        "sensitivity": {"value": 0.5, "lo": 0.3, "hi": 0.7},
+        "specificity": {"value": 0.97, "lo": 0.9, "hi": 1.0},
+        "notes": f"call={REPEAT}; leakage: none",
+    }
+
+
+def _write_call_file(wd, taxon=40):
+    from cellsurface_sorting_hat.calibration.call_files import write_call_status
+    from cellsurface_sorting_hat.calibration.measure import make_entry
+    from cellsurface_sorting_hat.engine import load_config
+
+    cfg = load_config()
+    entry = make_entry([taxon], _call_measure(), source="truth.tsv")
+    return write_call_status(wd, cfg, REPEAT, "", cfg.sha256, [entry])
+
+
+def _run_with_call_file(tmp_path, write_module, nodes_dmp, before=None):
+    fasta, taxon_map, wd = build(tmp_path, write_module)
+    _write_call_file(wd)
+    if before:
+        before(wd)
+    out = tmp_path / "out"
+    argv = ["--fasta", str(fasta), "--taxon-map", str(taxon_map), "--taxdump", str(nodes_dmp)]
+    argv += ["--workdir", str(wd), "--out", str(out)]
+    return main(argv), out, wd
+
+
+def test_a_call_status_file_sets_the_status_of_its_call(tmp_path, write_module, nodes_dmp):
+    code, out, _ = _run_with_call_file(tmp_path, write_module, nodes_dmp)
+    assert code == 0
+    got = read_long(out)
+    for pid in ("ENZ1", "STAR1"):  # taxon 40: tested
+        r = got[(pid, REPEAT, "")]
+        assert (r["status"], r["status_basis"]) == ("smoke", "call:tandem_repeat_protein:taxon:40")
+    assert got[("SOW1", REPEAT, "")]["status"] == "unvalidated"  # taxon 41: not tested
+    # other calls are unchanged
+    assert got[("ENZ1", "signal_peptide_protein", "R0")]["status"] == "estimated"
+    run = json.loads((out / "run.json").read_text())
+    rows = run["call_status_sources"]
+    assert [(r["call"], r["taxon"], r["status"], r["valid"]) for r in rows] == [
+        (REPEAT, 40, "smoke", True)
+    ]
+    report = (out / "report.md").read_text()
+    assert "## Call calibration" in report
+    assert "derived" in report  # the note on composite statuses
+    assert "| validity |" in report and "| valid |" in report
+
+
+def test_a_stale_call_file_is_reported_and_not_used(tmp_path, write_module, nodes_dmp):
+    def bump_repeat14(wd):
+        meta = json.loads((wd / "modules" / "repeat14.json").read_text())
+        meta["version"] = "2"
+        (wd / "modules" / "repeat14.json").write_text(json.dumps(meta))
+
+    code, out, _ = _run_with_call_file(tmp_path, write_module, nodes_dmp, bump_repeat14)
+    assert code == 0
+    r = read_long(out)[("ENZ1", REPEAT, "")]
+    assert r["status"] == "unvalidated"  # the module statuses are used; none exists
+    assert "call status stale (identity differs: repeat14)" in r["status_basis"]
+    rows = json.loads((out / "run.json").read_text())["call_status_sources"]
+    assert rows[0]["valid"] is False and rows[0]["reason"] == "identity differs: repeat14"
+    assert "identity differs: repeat14" in (out / "report.md").read_text()
+
+
+def test_an_unusable_module_state_makes_the_call_file_stale(tmp_path, write_module, nodes_dmp):
+    def make_unavailable(wd):
+        meta = json.loads((wd / "modules" / "repeat14.json").read_text())
+        meta["run_state"] = "unavailable"
+        (wd / "modules" / "repeat14.json").write_text(json.dumps(meta))
+
+    code, out, _ = _run_with_call_file(tmp_path, write_module, nodes_dmp, make_unavailable)
+    assert code == 0
+    rows = json.loads((out / "run.json").read_text())["call_status_sources"]
+    assert (
+        rows[0]["valid"] is False
+        and "module state not ok: repeat14 (unavailable)" in rows[0]["reason"]
+    )
+
+
+def test_a_call_file_for_an_unknown_call_stops_the_run(tmp_path, write_module, nodes_dmp, capsys):
+    def orphan(wd):
+        folder = wd / "status" / "calls"
+        (folder / "gone.json").write_text(json.dumps({"call": "gone"}))
+
+    code, _, _ = _run_with_call_file(tmp_path, write_module, nodes_dmp, orphan)
+    assert code == 2
+    assert "gone.json" in capsys.readouterr().err
+
+
+def test_a_legacy_module_file_and_a_call_file_for_the_same_call_are_both_reported(
+    tmp_path, write_module, nodes_dmp
+):
+    def legacy(wd):
+        entry = {
+            "taxa": [40],
+            "status": "unvalidated",
+            "source": "old",
+            "measure": {"calibration_set": "L", "n_pos": 0, "notes": f"call={REPEAT}"},
+        }
+        (wd / "status").mkdir(exist_ok=True)
+        (wd / "status" / "repeat02.json").write_text(
+            json.dumps(
+                {
+                    "module": "repeat02",
+                    "version": "1",
+                    "params_hash": "p",
+                    "artefact_hash": "a",
+                    "entries": [entry],
+                }
+            )
+        )
+
+    code, out, _ = _run_with_call_file(tmp_path, write_module, nodes_dmp, legacy)
+    assert code == 0
+    assert read_long(out)[("ENZ1", REPEAT, "")]["status"] == "smoke"  # the call file wins
+    report = (out / "report.md").read_text()
+    assert "## Module calibration" in report and "## Call calibration" in report
+    assert "| repeat02 | 40 | unvalidated | tandem_repeat_protein | L |" in report

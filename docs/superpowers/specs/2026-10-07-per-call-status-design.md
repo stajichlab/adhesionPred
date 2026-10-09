@@ -20,7 +20,7 @@ R2. A call status is valid only for the exact modules (name, version, parameters
 R3. A stale or invalid call status is never used. It must never raise a status.
 R4. Existing module status files stay valid and unchanged. The R0 files need no migration.
 R5. A call without a valid call status behaves as today, byte for byte in `calls.long.tsv.gz` and `report.md`.
-R6. The report shows call statuses with the measure (positives, negatives, clusters, sensitivity, specificity, leakage).
+R6. The report shows call statuses with the measure (positives, negatives, sensitivity, specificity). Clusters and leakage are in the stored `measure` and its notes; the report table does not list them (code review 1, F7).
 R7. Lineage rules stay as today: a status applies to the tested taxon and its descendants, the most specific tested taxon wins, a sibling clade does not inherit.
 R8. One source per call (owner question Q8): a call has either a module file path or a call file path, never both.
 
@@ -54,7 +54,7 @@ Loader rules (stricter than `load_status_source`): `measure` is required in ever
 
 SHA-256 of the canonical JSON (sorted keys, no spaces) of an object with:
 
-- the call's `expr`, with every threshold reference replaced by the numeric value in force (only the thresholds the call references, so an unrelated threshold change does not make the file stale);
+- the call's `expr`, with every threshold reference replaced by the numeric value in force (only the thresholds the call references). Note (code review 1, F12): the reader also compares `config_sha256`, and any threshold edit changes the config file, so any threshold change makes a file stale with the reason `config differs`; `call_hash` adds the call expression and `ENGINE_SEMANTICS` as a second, clearer check;
 - `per_variant`;
 - for `{step1}` calls, the variant label and the module name it maps to;
 - `ENGINE_SEMANTICS`, a constant in `engine.py`, bumped by hand when the evaluation rules change (Kleene tables, NA handling, `_bad_value`).
