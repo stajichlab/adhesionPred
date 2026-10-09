@@ -1,0 +1,51 @@
+protein_id	species	source	matched_header	length	status	n_hits
+AO090012000143	A. oryzae RIB40	FungiDB-31_AoryzaeRIB40_AnnotatedProteins.fasta	AO090012000143-T-p1 | transcript=AO090012000143-T | gene=AO090012000143 | organism=Aspergi	145	resolved	1
+AO090020000588	A. oryzae RIB40	FungiDB-31_AoryzaeRIB40_AnnotatedProteins.fasta	AO090020000588-T-p1 | transcript=AO090020000588-T | gene=AO090020000588 | organism=Aspergi	151	resolved	1
+An03g02360	A. niger CBS 513.88	FungiDB-31_AnigerCBS513-88_AnnotatedProteins.fasta	An03g02360-T-p1 | transcript=An03g02360-T | gene=An03g02360 | organism=Aspergillus_niger_C	122	resolved	1
+An03g02400	A. niger CBS 513.88	FungiDB-31_AnigerCBS513-88_AnnotatedProteins.fasta	An03g02400-T-p1 | transcript=An03g02400-T | gene=An03g02400 | organism=Aspergillus_niger_C	131	resolved	1
+An04g08500	A. niger CBS 513.88	FungiDB-31_AnigerCBS513-88_AnnotatedProteins.fasta	An04g08500-T-p1 | transcript=An04g08500-T | gene=An04g08500 | organism=Aspergillus_niger_C	146	resolved	1
+An15g03800	A. niger CBS 513.88	FungiDB-31_AnigerCBS513-88_AnnotatedProteins.fasta	An15g03800-T-p1 | transcript=An15g03800-T | gene=An15g03800 | organism=Aspergillus_niger_C	130	resolved	1
+An01g10940	A. niger CBS 513.88	FungiDB-31_AnigerCBS513-88_AnnotatedProteins.fasta	An01g10940-T-p1 | transcript=An01g10940-T | gene=An01g10940 | organism=Aspergillus_niger_C	100	resolved	1
+An07g03340	A. niger CBS 513.88	FungiDB-31_AnigerCBS513-88_AnnotatedProteins.fasta	An07g03340-T-p1 | transcript=An07g03340-T | gene=An07g03340 | organism=Aspergillus_niger_C	258	resolved	1
+An09g05530	A. niger CBS 513.88	FungiDB-31_AnigerCBS513-88_AnnotatedProteins.fasta	An09g05530-T-p1 | transcript=An09g05530-T | gene=An09g05530 | organism=Aspergillus_niger_C	202	resolved	1
+An08g09880	A. niger CBS 513.88	FungiDB-31_AnigerCBS513-88_AnnotatedProteins.fasta	An08g09880-T-p1 | transcript=An08g09880-T | gene=An08g09880 | organism=Aspergillus_niger_C	83	resolved	1
+JGI128530	A. niger ATCC 1015	FungiDB-31_AnigerATCC1015_AnnotatedProteins.fasta	ASPNIDRAFT_128530-t26_1-p1 | transcript=ASPNIDRAFT_128530-t26_1 | gene=ASPNIDRAFT_128530 |	105	resolved	1
+JGI35683	A. niger ATCC 1015	FungiDB-31_AnigerATCC1015_AnnotatedProteins.fasta	ASPNIDRAFT_35683-t26_1-p1 | transcript=ASPNIDRAFT_35683-t26_1 | gene=ASPNIDRAFT_35683 | or	100	resolved	1
+JGI45683	A. niger ATCC 1015	FungiDB-31_AnigerATCC1015_AnnotatedProteins.fasta	ASPNIDRAFT_45683-t26_1-p1 | transcript=ASPNIDRAFT_45683-t26_1 | gene=ASPNIDRAFT_45683 | or	131	resolved	1
+JGI45685	A. niger ATCC 1015	FungiDB-31_AnigerATCC1015_AnnotatedProteins.fasta	ASPNIDRAFT_45685-t26_1-p1 | transcript=ASPNIDRAFT_45685-t26_1 | gene=ASPNIDRAFT_45685 | or	132	resolved	1
+JGI53462	A. niger ATCC 1015	FungiDB-31_AnigerATCC1015_AnnotatedProteins.fasta	ASPNIDRAFT_53462-t26_1-p1 | transcript=ASPNIDRAFT_53462-t26_1 | gene=ASPNIDRAFT_53462 | or	130	resolved	1
+JGI194815	A. niger ATCC 1015	FungiDB-31_AnigerATCC1015_AnnotatedProteins.fasta	ASPNIDRAFT_194815-t26_1-p1 | transcript=ASPNIDRAFT_194815-t26_1 | gene=ASPNIDRAFT_194815 |	146	resolved	1
+JGI43184	A. niger ATCC 1015	FungiDB-31_AnigerATCC1015_AnnotatedProteins.fasta	ASPNIDRAFT_43184-t26_1-p1 | transcript=ASPNIDRAFT_43184-t26_1 | gene=ASPNIDRAFT_43184 | or	201	resolved	1
+AN7539.2	E. nidulans FGSC A4	FungiDB-31_AnidulansFGSCA4_AnnotatedProteins.fasta	AN7539-T-p1 | transcript=AN7539-T | gene=AN7539 | organism=Aspergillus_nidulans_FGSC_A4 | 	109	resolved	1
+AN8803.2	E. nidulans FGSC A4	FungiDB-31_AnidulansFGSCA4_AnnotatedProteins.fasta	AN8803-T-p1 | transcript=AN8803-T | gene=AN8803 | organism=Aspergillus_nidulans_FGSC_A4 | 	157	resolved	1
+AN6401.2	E. nidulans FGSC A4	FungiDB-31_AnidulansFGSCA4_AnnotatedProteins.fasta	AN6401-T-p1 | transcript=AN6401-T | gene=AN6401 | organism=Aspergillus_nidulans_FGSC_A4 | 	143	resolved	1
+AN8006.2	E. nidulans FGSC A4	FungiDB-31_AnidulansFGSCA4_AnnotatedProteins.fasta	AN8006-T-p1 | transcript=AN8006-T | gene=AN8006 | organism=Aspergillus_nidulans_FGSC_A4 | 	135	resolved	1
+AN1837.2	E. nidulans FGSC A4	FungiDB-31_AnidulansFGSCA4_AnnotatedProteins.fasta	AN1837-T-p1 | transcript=AN1837-T | gene=AN1837 | organism=Aspergillus_nidulans_FGSC_A4 | 	135	resolved	1
+AN0940.2	E. nidulans FGSC A4	FungiDB-31_AnidulansFGSCA4_AnnotatedProteins.fasta	AN0940-T-p1 | transcript=AN0940-T | gene=AN0940 | organism=Aspergillus_nidulans_FGSC_A4 | 	101	resolved	1
+AFUA_8G07060	A. fumigatus AF293	UniProt REST gene:AFUA_8G07060	Q4WBR8|Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / Af293)	155	resolved	1
+AFUA_5G09580	A. fumigatus AF293	UniProt REST gene:AFUA_5G09580	P41746|Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / Af293)	159	resolved	1
+AFUA_2G14661	A. fumigatus AF293	UniProt REST gene:AFUA_2G14661	Q4X055|Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / Af293)	125	resolved	1
+AFUA_1G17250	A. fumigatus AF293	UniProt REST gene:AFUA_1G17250	E9QT94|Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / Af293)	140	resolved	1
+AFUA_5G03280	A. fumigatus AF293	UniProt REST gene:AFUA_5G03280	Q4WEK0|Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / Af293)	190	resolved	1
+AFUB_016640	A. fumigatus A1163	Afum_A1163.faa	tr|B0XPA4|B0XPA4_ASPFC Hydrophobin OS=Aspergillus fumigatus (strain CBS 144.89 / FGSC A116	140	resolved	1
+AFUB_057130	A. fumigatus A1163	Afum_A1163.faa	tr|B0Y4B1|B0Y4B1_ASPFC Hydrophobin OS=Aspergillus fumigatus (strain CBS 144.89 / FGSC A116	159	resolved	1
+AFUB_080740	A. fumigatus A1163	Afum_A1163.faa	tr|B0Y9E4|B0Y9E4_ASPFC Hydrophobin OS=Aspergillus fumigatus (strain CBS 144.89 / FGSC A116	155	resolved	1
+AFUB_051810	A. fumigatus A1163	Afum_A1163.faa	tr|B0Y2S5|B0Y2S5_ASPFC Hydrophobin OS=Aspergillus fumigatus (strain CBS 144.89 / FGSC A116	190	resolved	1
+ATEG_10285	A. terreus NIH 2624	FungiDB-31_AterreusNIH2624_AnnotatedProteins.fasta	ATEG_10285-t26_1-p1 | transcript=ATEG_10285-t26_1 | gene=ATEG_10285 | organism=Aspergillus	129	resolved	1
+ATEG_08089	A. terreus NIH 2624	FungiDB-31_AterreusNIH2624_AnnotatedProteins.fasta	ATEG_08089-t26_1-p1 | transcript=ATEG_08089-t26_1 | gene=ATEG_08089 | organism=Aspergillus	177	resolved	1
+ATEG_07808	A. terreus NIH 2624	FungiDB-31_AterreusNIH2624_AnnotatedProteins.fasta	ATEG_07808-t26_1-p1 | transcript=ATEG_07808-t26_1 | gene=ATEG_07808 | organism=Aspergillus	115	resolved	1
+ATEG_06492	A. terreus NIH 2624	FungiDB-31_AterreusNIH2624_AnnotatedProteins.fasta	ATEG_06492-t26_1-p1 | transcript=ATEG_06492-t26_1 | gene=ATEG_06492 | organism=Aspergillus	175	resolved	1
+ATEG_04730	A. terreus NIH 2624	FungiDB-31_AterreusNIH2624_AnnotatedProteins.fasta	ATEG_04730-t26_1-p1 | transcript=ATEG_04730-t26_1 | gene=ATEG_04730 | organism=Aspergillus	121	resolved	1
+AFLA_094600	A. flavus NRRL 3357	FungiDB-31_AflavusNRRL3357_AnnotatedProteins.fasta	AFLA_094600-t26_1-p1 | transcript=AFLA_094600-t26_1 | gene=AFLA_094600 | organism=Aspergil	83	resolved	1
+AFLA_131460	A. flavus NRRL 3357	FungiDB-31_AflavusNRRL3357_AnnotatedProteins.fasta	AFLA_131460-t26_1-p1 | transcript=AFLA_131460-t26_1 | gene=AFLA_131460 | organism=Aspergil	106	resolved	1
+AFLA_060780	A. flavus NRRL 3357	FungiDB-31_AflavusNRRL3357_AnnotatedProteins.fasta	AFLA_060780-t26_1-p1 | transcript=AFLA_060780-t26_1 | gene=AFLA_060780 | organism=Aspergil	251	resolved	1
+AFLA_014260	A. flavus NRRL 3357	FungiDB-31_AflavusNRRL3357_AnnotatedProteins.fasta	AFLA_014260-t26_1-p1 | transcript=AFLA_014260-t26_1 | gene=AFLA_014260 | organism=Aspergil	145	resolved	1
+AFLA_063080	A. flavus NRRL 3357	FungiDB-31_AflavusNRRL3357_AnnotatedProteins.fasta	AFLA_063080-t26_1-p1 | transcript=AFLA_063080-t26_1 | gene=AFLA_063080 | organism=Aspergil	87	resolved	1
+AFLA_098380	A. flavus NRRL 3357	FungiDB-31_AflavusNRRL3357_AnnotatedProteins.fasta	AFLA_098380-t26_1-p1 | transcript=AFLA_098380-t26_1 | gene=AFLA_098380 | organism=Aspergil	217	resolved	1
+AFLA_064900	A. flavus NRRL 3357	FungiDB-31_AflavusNRRL3357_AnnotatedProteins.fasta	AFLA_064900-t26_1-p1 | transcript=AFLA_064900-t26_1 | gene=AFLA_064900 | organism=Aspergil	91	resolved	1
+ACLA_001890	A. clavatus NRRL 1	FungiDB-31_AclavatusNRRL1_AnnotatedProteins.fasta	ACLA_001890-t26_1-p1 | transcript=ACLA_001890-t26_1 | gene=ACLA_001890 | organism=Aspergil	182	resolved	1
+ACLA_048810	A. clavatus NRRL 1	FungiDB-31_AclavatusNRRL1_AnnotatedProteins.fasta	ACLA_048810-t26_1-p1 | transcript=ACLA_048810-t26_1 | gene=ACLA_048810 | organism=Aspergil	145	resolved	1
+ACLA_010960	A. clavatus NRRL 1	FungiDB-31_AclavatusNRRL1_AnnotatedProteins.fasta	ACLA_010960-t26_1-p1 | transcript=ACLA_010960-t26_1 | gene=ACLA_010960 | organism=Aspergil	158	resolved	1
+ACLA_072820	A. clavatus NRRL 1	FungiDB-31_AclavatusNRRL1_AnnotatedProteins.fasta	ACLA_072820-t26_1-p1 | transcript=ACLA_072820-t26_1 | gene=ACLA_072820 | organism=Aspergil	126	resolved	1
+ACLA_018290	A. clavatus NRRL 1	FungiDB-31_AclavatusNRRL1_AnnotatedProteins.fasta	ACLA_018290-t26_1-p1 | transcript=ACLA_018290-t26_1 | gene=ACLA_018290 | organism=Aspergil	144	resolved	1
+ACLA_007980	A. clavatus NRRL 1	FungiDB-31_AclavatusNRRL1_AnnotatedProteins.fasta	ACLA_007980-t26_1-p1 | transcript=ACLA_007980-t26_1 | gene=ACLA_007980 | organism=Aspergil	100	resolved	1
