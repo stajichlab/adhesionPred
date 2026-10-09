@@ -100,3 +100,7 @@ Decisions 1 to 4 of 2026-10-06 are in `03-status-and-validation-rules.md`, secti
    rests on assumed negatives and is a lower bound of unknown size (19 of 22 unlabelled calls have 8 or more
    cysteines), and the published spacing recovers only 60% of Swiss-Prot hydrophobins. Do not report a hydrophobin
    specificity. Do not report the rescue as an improvement.
+9. The hydrophobin call in the tool is the strict Pfam call only (`hydrophobin_domain`). The relaxed level (`hydrophobin_relaxed`) recovers
+   most hydrophobins that the strict call misses, but in whole proteomes its extra calls could not be shown to be hydrophobins and the cost
+   limit failed in 2 of 7 test proteomes. The owner decided on 2026-10-08 not to bring it into the tool. The curation behind this is tier T4
+   (assistant, from evidence, not owner-reviewed). Do not describe the relaxed level as part of the tool's hydrophobin detection.
