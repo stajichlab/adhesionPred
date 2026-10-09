@@ -3,7 +3,7 @@
 - proteins: 5 (1 invalid, excluded from all modules; 1 had a trailing `*`, removed)
 - taxa (taxon ID: proteins): 40: 3, 41: 2
 - taxonomy file sha256: 492f746e8af7ed537fe0bcf4920a583e583410d1ebf5b12cd6c1284e44d474df
-- categories.yaml sha256: fd397b941d9d7eb7bb94b2b48e8afaaabda55d3342dae0e4933c3f242a1fb6d9
+- categories.yaml sha256: 8c32064a91a74f17e5f2b9ddf492a60283d03aa765a99db5efd02d0cda2559d1
 - default gate: step1_rule@R0
 - thresholds: allergen_coverage_min = 80, allergen_hit_identity_min = 35, allergen_hit_length_min = 80, allergen_identity_min = 70, antigen_percentile_max = 15
 
@@ -79,12 +79,24 @@ Unavailable step 1 variants: step1_rule@R1, step1_rule@R2, step1_ml@card
 | other_surface_no_mechanism | R0 | 1 | 3 | 1 |
 | serodiagnostic_marker_candidate | R0 | 2 | 1 | 2 |
 | signal_peptide_protein | R0 | 3 | 1 | 1 |
+| surface_attachment_candidate | R0 | 2 | 2 | 1 |
 | tandem_repeat_protein | - | 2 | 2 | 1 |
 | wall_family_domain | - | 0 | 4 | 1 |
 
 ## `other_basis` (categories left out because they were not assessable)
 
 - cocci_specificity_rank_top15: 2
+
+## Surface attachment: which evidence held
+
+A protein can hold more than one. Surface-active proteins adsorb to surfaces. They are not shown to be adhesins.
+
+| evidence | proteins |
+|---|---|
+| proteins called | 2 |
+| adhesin repeat | 2 |
+| adhesion or wall family domain | 0 |
+| surface-active (hydrophobin, HsbA) | 0 |
 
 ## Known limits
 

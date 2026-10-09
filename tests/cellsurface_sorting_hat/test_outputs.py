@@ -158,3 +158,29 @@ def test_the_last_known_limit_says_the_signalp_leakage_was_not_measured():
         "9. Leakage: overlap between the Phase C positives and the SignalP 6 training data was "
         "not measured." in report
     )
+
+
+def test_report_counts_the_surface_attachment_basis_by_sub_label():
+    records = [
+        rec("a", "surface_attachment_candidate", "R0", "called", other="hydrophobin_domain"),
+        rec(
+            "b",
+            "surface_attachment_candidate",
+            "R0",
+            "called",
+            other="tandem_repeat_protein,hsba_domain",
+        ),
+        rec("c", "surface_attachment_candidate", "R0", "called", other="hydrophobin_domain"),
+        rec("d", "surface_attachment_candidate", "R0", "not_called"),
+    ]
+    text = render_report(info(), records)
+    assert "## Surface attachment: which evidence held" in text
+    assert "| adhesin repeat | 1 |" in text
+    assert "| surface-active (hydrophobin, HsbA) | 3 |" in text
+    assert "| adhesion or wall family domain | 0 |" in text
+    assert "| proteins called | 3 |" in text
+
+
+def test_report_has_no_attachment_section_without_called_proteins():
+    text = render_report(info(), [rec("a", "surface_attachment_candidate", "R0", "not_called")])
+    assert "Surface attachment: which evidence held" not in text

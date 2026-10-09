@@ -269,6 +269,34 @@ def render_report(info, records):
     if basis:
         lines += ["", "## `other_basis` (categories left out because they were not assessable)", ""]
         lines += [f"- {b}: {n}" for b, n in sorted(basis.items())]
+    attach = [r for r in records if r.call == "surface_attachment_candidate" and r.value == CALLED]
+    if attach:
+        labels = {
+            "tandem_repeat_protein": "adhesin repeat",
+            "wall_family_domain": "adhesion or wall family domain",
+            "hydrophobin_domain": "surface-active (hydrophobin, HsbA)",
+            "hsba_domain": "surface-active (hydrophobin, HsbA)",
+        }
+        per = Counter()
+        for r in attach:
+            for label in {labels[b] for b in r.other_basis.split(",") if b}:
+                per[label] += 1
+        lines += [
+            "",
+            "## Surface attachment: which evidence held",
+            "",
+            "A protein can hold more than one. Surface-active proteins adsorb to surfaces. They are not shown to be adhesins.",
+            "",
+            "| evidence | proteins |",
+            "|---|---|",
+            f"| proteins called | {len(attach)} |",
+        ]
+        for label in (
+            "adhesin repeat",
+            "adhesion or wall family domain",
+            "surface-active (hydrophobin, HsbA)",
+        ):
+            lines.append(f"| {label} | {per[label]} |")
     lines += ["", "## Known limits", ""] + [
         f"{i}. {t}" for i, t in enumerate(_known_limits(info.thresholds), 1)
     ]

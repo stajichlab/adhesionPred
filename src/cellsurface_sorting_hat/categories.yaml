@@ -59,6 +59,17 @@ calls:
       and:
         - or: [{ref: tandem_repeat_protein}, {ref: wall_family_domain}]
         - {ref: signal_peptide_protein}
+  # Broader than cell_wall_adhesion_candidate: a secreted protein with any evidence of a surface-attachment mechanism.
+  # basis_calls names the evidence calls that held; they are written to the basis column of calls.long.
+  # adhesin repeat: tandem_repeat_protein. adhesion or wall family domain: wall_family_domain.
+  # surface-active (adsorption, not ligand binding): hydrophobin_domain and hsba_domain.
+  - name: surface_attachment_candidate
+    per_variant: true
+    basis_calls: [tandem_repeat_protein, wall_family_domain, hydrophobin_domain, hsba_domain]
+    expr:
+      and:
+        - or: [{ref: tandem_repeat_protein}, {ref: wall_family_domain}, {ref: hydrophobin_domain}, {ref: hsba_domain}]
+        - {ref: signal_peptide_protein}
   - name: cocci_specificity_rank_top15
     expr:
       test: {module: antigen_lookup, field: percentile, op: "<=", value: "$antigen_percentile_max"}
