@@ -1,0 +1,13 @@
+proteome	part	proteins	relaxed_hits	strict_also	hsba_overlap	labelled_extra	unlabelled_extra	unlabelled_per_10000	limit	within_limit
+Afum_Af293	test	9647	7	6	0	0	1	1.04	5	True
+Afum_A1163	test	9942	6	5	0	0	1	1.01	5	True
+Afum_W72310	test	10556	9	7	0	0	2	1.89	5	True
+Scer_S288C	tuning	6722	0	0	0	0	0	0.0	5	True
+Calb_SC5314	tuning	6212	1	0	0	0	1	1.61	5	True
+Cimm_RS	test	9910	3	2	0	0	1	1.01	5	True
+Bder_ER3	tuning	8107	6	2	0	0	4	4.93	5	True
+Bbas_ARSEF2860	test	9478	17	7	0	0	10	10.55	5	False
+Fful_Race5	tuning	13560	11	6	0	3	2	1.47	5	True
+Fgra_PH-1	test	11193	17	3	0	2	12	10.72	5	False
+Pexp_MD-8	test	10624	8	5	0	1	2	1.88	5	True
+Post_PC9	tuning	10483	13	9	0	0	4	3.82	5	True
