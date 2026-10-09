@@ -49,11 +49,26 @@ calls:
       or: [{call: repeat02}, {call: repeat14}]
   - name: wall_family_domain
     expr: {flag: pfam_adhesion.hit}
+  - name: hydrophobin_domain
+    expr: {flag: pfam_hydrophobin.hit}
+  - name: hsba_domain
+    expr: {flag: pfam_hsba.hit}
   - name: cell_wall_adhesion_candidate
     per_variant: true
     expr:
       and:
         - or: [{ref: tandem_repeat_protein}, {ref: wall_family_domain}]
+        - {ref: signal_peptide_protein}
+  # Broader than cell_wall_adhesion_candidate: a secreted protein with any evidence of a surface-attachment mechanism.
+  # basis_calls names the evidence calls that held; they are written to the basis column of calls.long.
+  # adhesin repeat: tandem_repeat_protein. adhesion or wall family domain: wall_family_domain.
+  # surface-active (adsorption, not ligand binding): hydrophobin_domain and hsba_domain.
+  - name: surface_attachment_candidate
+    per_variant: true
+    basis_calls: [tandem_repeat_protein, wall_family_domain, hydrophobin_domain, hsba_domain]
+    expr:
+      and:
+        - or: [{ref: tandem_repeat_protein}, {ref: wall_family_domain}, {ref: hydrophobin_domain}, {ref: hsba_domain}]
         - {ref: signal_peptide_protein}
   - name: cocci_specificity_rank_top15
     expr:
@@ -79,10 +94,10 @@ calls:
     kind: other
     surface: signal_peptide_protein
     surface_is: not_called
-    mechanism: [tandem_repeat_protein, wall_family_domain, cocci_specificity_rank_top15]
+    mechanism: [tandem_repeat_protein, wall_family_domain, hydrophobin_domain, hsba_domain, cocci_specificity_rank_top15]
   - name: other_surface_no_mechanism
     per_variant: true
     kind: other
     surface: signal_peptide_protein
     surface_is: called
-    mechanism: [tandem_repeat_protein, wall_family_domain, cocci_specificity_rank_top15]
+    mechanism: [tandem_repeat_protein, wall_family_domain, hydrophobin_domain, hsba_domain, cocci_specificity_rank_top15]

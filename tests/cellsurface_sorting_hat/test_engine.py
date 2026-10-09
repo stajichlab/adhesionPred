@@ -48,6 +48,8 @@ def base_modules(step1="not_called", **over):
         "repeat02": table("repeat02", {"P": ok(call="not_called")}),
         "repeat14": table("repeat14", {"P": ok(call="not_called")}),
         "pfam_adhesion": table("pfam_adhesion", {"P": ok(hit="0")}),
+        "pfam_hydrophobin": table("pfam_hydrophobin", {"P": ok(hit="0")}),
+        "pfam_hsba": table("pfam_hsba", {"P": ok(hit="0")}),
         "pfam_allergen": table("pfam_allergen", {"P": ok(hit="0")}),
         "antigen_lookup": table("antigen_lookup", {"P": ok(percentile="50")}),
         "allergen_homology": table("allergen_homology", {"P": ok(identity="0", coverage="0")}),
@@ -62,7 +64,10 @@ def test_packaged_config_loads_and_has_the_spec_calls():
         "signal_peptide_protein",
         "tandem_repeat_protein",
         "wall_family_domain",
+        "hydrophobin_domain",
+        "hsba_domain",
         "cell_wall_adhesion_candidate",
+        "surface_attachment_candidate",
         "cocci_specificity_rank_top15",
         "serodiagnostic_marker_candidate",
         "iuis_allergen_similarity",
@@ -205,6 +210,10 @@ def test_invalid_protein_rows_make_every_call_unknown():
     assert {r.value for r in res.values()} == {"not_assessable"}
 
 
+def _call(data, name):
+    return next(c for c in data["calls"] if c["name"] == name)
+
+
 def _config_with(tmp_path, mutate):
     packaged = Path(engine.__file__).with_name("categories.yaml")
     data = yaml.safe_load(packaged.read_text())
@@ -221,8 +230,16 @@ def _config_with(tmp_path, mutate):
         (lambda d: d["calls"].append(dict(d["calls"][0])), "duplicate call"),
         (lambda d: d["calls"][1].update(expr={"ref": "later_call"}), "unknown or later"),
         (lambda d: d["calls"][1].update(expr={"bogus": 1}), "bad node"),
-        (lambda d: d["calls"][4]["expr"]["test"].update(op="~"), "bad operator"),
-        (lambda d: d["calls"][4]["expr"]["test"].update(value="$nope"), "unknown threshold"),
+        (
+            lambda d: _call(d, "cocci_specificity_rank_top15")["expr"]["test"].update(op="~"),
+            "bad operator",
+        ),
+        (
+            lambda d: _call(d, "cocci_specificity_rank_top15")["expr"]["test"].update(
+                value="$nope"
+            ),
+            "unknown threshold",
+        ),
         (
             lambda d: d["calls"][1].update(expr={"ref": "signal_peptide_protein"}),
             "ungated call cannot use",
@@ -288,6 +305,8 @@ def test_referenced_modules_expand_the_step1_variants():
         "repeat02",
         "repeat14",
         "pfam_adhesion",
+        "pfam_hydrophobin",
+        "pfam_hsba",
         "pfam_allergen",
         "antigen_lookup",
         "allergen_homology",
@@ -299,7 +318,7 @@ def test_referenced_modules_expand_the_step1_variants():
     "mutate,message",
     [
         (
-            lambda d: d["calls"][-2].update(surface="tandem_repeat_protein"),
+            lambda d: _call(d, "other_not_surface").update(surface="tandem_repeat_protein"),
             "needs an earlier per_variant surface",
         ),
         (
@@ -346,6 +365,8 @@ def test_other_true_status_uses_surface_and_not_called_mechanisms_only():
             "repeat02": "smoke",
             "repeat14": "estimated",
             "pfam_adhesion": "estimated",
+            "pfam_hydrophobin": "estimated",
+            "pfam_hsba": "estimated",
             "allergen_homology": "estimated",
             "pfam_allergen": "estimated",
         }
@@ -358,6 +379,8 @@ def test_other_true_status_uses_surface_and_not_called_mechanisms_only():
         "repeat02",
         "repeat14",
         "pfam_adhesion",
+        "pfam_hydrophobin",
+        "pfam_hsba",
     }  # antigen_lookup is unknown and does not contribute; allergen flags are not mechanisms
 
 
@@ -648,3 +671,78 @@ def test_a_stale_call_status_falls_back_to_the_module_status_and_says_why():
     r = run(mods, _all_estimated, call_status_of=hook)[("P", REPEAT, "")]
     assert r.status == "estimated"
     assert r.status_basis == "repeat02:call status stale (reads differ); taxon:40"
+
+
+def test_hydrophobin_hit_is_not_a_wall_family_hit_and_counts_as_mechanism():
+    mods = base_modules(
+        step1="called", pfam_hydrophobin=table("pfam_hydrophobin", {"P": ok(hit="1")})
+    )
+    res = run(mods)
+    assert res[("P", "hydrophobin_domain", "")].value == "called"
+    assert res[("P", "wall_family_domain", "")].value == "not_called"
+    assert res[("P", "cell_wall_adhesion_candidate", "R0")].value == "not_called"
+    assert res[("P", "other_surface_no_mechanism", "R0")].value == "not_called"
+
+
+def test_hsba_hit_is_a_separate_call_and_counts_as_mechanism():
+    mods = base_modules(step1="called", pfam_hsba=table("pfam_hsba", {"P": ok(hit="1")}))
+    res = run(mods)
+    assert res[("P", "hsba_domain", "")].value == "called"
+    assert res[("P", "hydrophobin_domain", "")].value == "not_called"
+    assert res[("P", "other_surface_no_mechanism", "R0")].value == "not_called"
+
+
+def _attach(mods_over, step1="called"):
+    mods = base_modules(step1=step1, **mods_over)
+    return run(mods)
+
+
+def test_surface_attachment_needs_a_signal_peptide_and_names_the_evidence_that_held():
+    hyd = {"pfam_hydrophobin": table("pfam_hydrophobin", {"P": ok(hit="1")})}
+    r = _attach(hyd)[("P", "surface_attachment_candidate", "R0")]
+    assert r.value == "called" and r.other_basis == "hydrophobin_domain"
+    both = {
+        "pfam_hsba": table("pfam_hsba", {"P": ok(hit="1")}),
+        "repeat02": table("repeat02", {"P": ok(call="called")}),
+    }
+    r = _attach(both)[("P", "surface_attachment_candidate", "R0")]
+    assert r.value == "called" and r.other_basis == "tandem_repeat_protein,hsba_domain"
+    r = _attach(hyd, step1="not_called")[("P", "surface_attachment_candidate", "R0")]
+    assert r.value == "not_called" and r.other_basis == ""
+
+
+def test_surface_attachment_is_not_called_without_evidence_and_leaves_the_narrow_call_alone():
+    res = _attach({})
+    assert res[("P", "surface_attachment_candidate", "R0")].value == "not_called"
+    hyd = {"pfam_hydrophobin": table("pfam_hydrophobin", {"P": ok(hit="1")})}
+    res = _attach(hyd)
+    assert (
+        res[("P", "cell_wall_adhesion_candidate", "R0")].value == "not_called"
+    )  # hydrophobin does not set the narrow call
+
+
+def test_wall_family_hit_sets_both_calls_and_is_named_in_the_basis():
+    mods = {"pfam_adhesion": table("pfam_adhesion", {"P": ok(hit="1")})}
+    res = _attach(mods)
+    assert res[("P", "cell_wall_adhesion_candidate", "R0")].value == "called"
+    assert res[("P", "surface_attachment_candidate", "R0")].other_basis == "wall_family_domain"
+
+
+@pytest.mark.parametrize(
+    "mutate,message",
+    [
+        (
+            lambda d: _call(d, "surface_attachment_candidate").update(basis_calls=["no_such_call"]),
+            "basis_calls",
+        ),
+        (
+            lambda d: _call(d, "surface_attachment_candidate").update(
+                basis_calls=["signal_peptide_protein"]
+            ),
+            "ungated",
+        ),
+    ],
+)
+def test_basis_calls_must_be_earlier_ungated_calls(tmp_path, mutate, message):
+    with pytest.raises(ConfigError, match=message):
+        load_config(_config_with(tmp_path, mutate))

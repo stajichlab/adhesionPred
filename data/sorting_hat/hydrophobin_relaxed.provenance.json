@@ -1,0 +1,27 @@
+{
+ "file": "data/sorting_hat/hydrophobin_relaxed.hmm",
+ "sha256": "1f0b2c3db959b3f045deeaba6854c3b1180d52053a697db3a4b018e23280bf59",
+ "what": "the seven hydrophobin-class Pfam models (hmmfetch, unchanged) with the GA line rewritten to the frozen full-sequence cutoff and a domain cutoff of -1000",
+ "models": [
+  "Hydrophobin",
+  "Hydrophobin_2",
+  "Eas",
+  "DewD",
+  "Hyd1F",
+  "Hydrophobin_D",
+  "Hydrophobin_like"
+ ],
+ "pfam_resolved": "/bigdata/operations/pkgadmin/srv/projects/db/pfam/2026-01-27-Pfam38.2/Pfam-A.hmm",
+ "pfam_sha256": "4b0da6399b97d2b23329de82190b2e5705bde1dea4cb2d028a52712d5966739e",
+ "template_sha256": "d149c2dd234c6678fa2471bb1a70567fbe9ecd94ccd47ba4403034dc3b759fdd",
+ "full_sequence_cutoff_bits": 2.6,
+ "domain_ga": -1000.0,
+ "search_option": "nobias",
+ "run_as": "hmmsearch --nobias --cut_ga --domtblout (hydrophobin_relaxed.hmm)",
+ "conditions": "R0 called; at least 8 cysteines in the full sequence; not called by pfam_hydrophobin or pfam_hsba; not labelled",
+ "chosen_by": "lowest_cutoff over the tuning proteomes and tuning hard-negative parts (no positive score); option chosen by recovered Pfam-missed clusters, positives used only for that choice",
+ "freeze_commit": "f1986e202a98818f2122586263acaf75e21018ff",
+ "freeze_file": "analysis/hydrophobin_truth/freeze.json",
+ "spec": "docs/superpowers/specs/2026-10-08-hydrophobin-custom-hmm-design.md (revision 4, E11)",
+ "status": "measured in docs/reports/2026-10-08-hydrophobin-extended-level-L5.md (smoke; assumed negatives; partial leakage)"
+}

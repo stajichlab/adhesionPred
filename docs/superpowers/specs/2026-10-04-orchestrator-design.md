@@ -230,8 +230,10 @@ Known limits, printed in the report header (the text is `_known_limits` in `src/
    in version 1. There is no `cell_wall_protein` call.
 4. `tandem_repeat_protein` and `wall_family_domain` are evidence. Repeat proteins include
    intracellular ones (ubiquitin, calmodulin, ankyrin proteins). A domain of a family that is linked
-   to adhesion or wall function in at least one species (CFEM, Bys1, hydrophobin, Als) is not shown
-   to mediate adhesion here. The adhesion call needs a signal peptide.
+   to adhesion or wall function in at least one species (CFEM, Bys1, Als) is not shown
+   to mediate adhesion here. The adhesion call needs a signal peptide. `hydrophobin_domain`
+   (hydrophobin Pfam models, category 2c) and `hsba_domain` (HsbA, PF12296, which may not be a
+   hydrophobin) are separate evidence calls. They do not set `wall_family_domain`.
 5. `cocci_specificity_rank_top15` is the top P% (the configured percentile) of a fixed Coccidioides
    immitis ranking (similarity to IEDB antigens, prevalence, absence of orthologs in confounder
    fungi). It is not epitope prediction. The cut was set after the four anchors were seen. The

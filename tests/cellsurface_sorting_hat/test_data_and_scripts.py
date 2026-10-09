@@ -19,15 +19,33 @@ SH = ROOT / "scripts" / "sorting_hat"
 # Families the owner has signed off. A family is made active only after its specificity review and the
 # owner's sign-off (active_by and active_date in the table). Changing this set is a deliberate act:
 # edit this line in the same commit as the table.
-SIGNED_OFF = {"PF07691"}  # PA14, signed off 2026-10-07
+SIGNED_OFF = {
+    "PF07691",  # PA14, 2026-10-07
+    "PF01185",  # Hydrophobin, 2026-10-08
+    "PF05730",  # CFEM, 2026-10-08
+    # Hydrophobin-class models, 2026-10-08. Owner rule: a hydrophobin Pfam model places a protein
+    # in the category.
+    "PF06766",
+    "PF22354",
+    "PF28987",
+    "PF29785",
+    "PF29802",
+    "PF29465",
+    "PF12296",
+}
 
 
 def test_shipped_family_table_loads_and_only_signed_off_families_are_active():
     path = ROOT / "data" / "sorting_hat" / "family_table.tsv"
     families = load_family_table(path)
-    assert len(families) == 15
+    assert len(families) == 24
     assert {f.pfam_acc for f in families if f.active} == SIGNED_OFF
-    assert {f.module for f in families} == {"pfam_adhesion", "pfam_allergen"}
+    assert {f.module for f in families} == {
+        "pfam_adhesion",
+        "pfam_allergen",
+        "pfam_hydrophobin",
+        "pfam_hsba",
+    }
     with open(path, newline="") as fh:
         rows = {r["pfam_acc"]: r for r in csv.DictReader(fh, delimiter="\t")}
     for acc in SIGNED_OFF:

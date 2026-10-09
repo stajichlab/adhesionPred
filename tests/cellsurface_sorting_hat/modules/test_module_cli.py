@@ -75,16 +75,20 @@ def test_pfam_command_writes_both_modules_and_uses_the_recorded_pfam_digest(tmp_
         active_date="2026-10-05",
     )
     row2 = dict(row, pfam_acc="PF16541", name="AltA1", module="pfam_allergen")
+    row3 = dict(row, pfam_acc="PF01185", name="Hydrophobin", module="pfam_hydrophobin")
+    row4 = dict(row, pfam_acc="PF12296", name="HsbA", module="pfam_hsba")
     table.write_text(
         "\n".join(
             "\t".join(r[c] for c in FAMILY_COLUMNS)
-            for r in [dict(zip(FAMILY_COLUMNS, FAMILY_COLUMNS, strict=True)), row, row2]
+            for r in [dict(zip(FAMILY_COLUMNS, FAMILY_COLUMNS, strict=True)), row, row2, row3, row4]
         )
         + "\n"
     )
     dom = tmp_path / "d.domtbl"
     write_domtbl(
-        dom, "XP_1 - 11 CFEM PF05730.17 70 1e-20 60 8 1 1 1e-21 2e-20 59 8 1 70 2 9 2 9 0.9 -\n"
+        dom,
+        "XP_1 - 11 CFEM PF05730.17 70 1e-20 60 8 1 1 1e-21 2e-20 59 8 1 70 2 9 2 9 0.9 -\n"
+        "XP_2 - 10 Hydrophobin PF01185.24 70 1e-20 60 8 1 1 1e-21 2e-20 59 8 1 70 2 9 2 9 0.9 -\n",
     )
     wd = tmp_path / "wd"
     assert (
@@ -110,6 +114,10 @@ def test_pfam_command_writes_both_modules_and_uses_the_recorded_pfam_digest(tmp_
         == 0
     )
     assert read(wd, "pfam_adhesion")["XP_1"]["hit"] == "1"
+    assert read(wd, "pfam_adhesion")["XP_2"]["hit"] == "0"
+    assert read(wd, "pfam_hydrophobin")["XP_2"]["hit"] == "1"
+    assert read(wd, "pfam_hydrophobin")["XP_1"]["hit"] == "0"
+    assert read(wd, "pfam_hsba")["XP_2"]["hit"] == "0"
     assert read(wd, "pfam_allergen")["XP_1"]["hit"] == "0"
     rec = json.loads((wd / "modules" / "pfam_adhesion.json").read_text())
     assert rec["artefact_hash"].startswith("abc:") and rec["params"]["families"] == ["PF05730"]
@@ -982,7 +990,7 @@ def test_pfam_protein_without_a_domain_hit_stays_ok_when_its_tm_row_is_error(tmp
     assert json.loads((wd / "modules" / "pfam_adhesion.json").read_text())["run_state"] == "ok"
 
 
-def test_the_pfam_command_prints_the_state_of_both_modules(tmp_path, fasta, capsys):
+def test_the_pfam_command_prints_the_state_of_every_pfam_module(tmp_path, fasta, capsys):
     args, wd = _tm_and_pfam(tmp_path, fasta)
     table = tmp_path / "f.tsv"
     table.write_text(table.read_text().replace("\tyes\t", "\tno\t"))
@@ -992,6 +1000,8 @@ def test_the_pfam_command_prints_the_state_of_both_modules(tmp_path, fasta, caps
     assert [(x["module"], x["run_state"]) for x in lines] == [
         ("pfam_adhesion", "unavailable"),
         ("pfam_allergen", "unavailable"),
+        ("pfam_hydrophobin", "unavailable"),
+        ("pfam_hsba", "unavailable"),
     ]
 
 

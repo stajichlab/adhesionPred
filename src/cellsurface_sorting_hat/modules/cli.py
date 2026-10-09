@@ -7,7 +7,15 @@ from pathlib import Path
 
 from cellsurface_sorting_hat.cli import InputError, RunError, assign_taxa, read_taxon_map
 from cellsurface_sorting_hat.fasta import FastaError, read_fasta
-from cellsurface_sorting_hat.modules import allergen, lookups, pfam, repeats, signalp
+from cellsurface_sorting_hat.modules import (
+    allergen,
+    cys8,
+    hydrophobin_relaxed,
+    lookups,
+    pfam,
+    repeats,
+    signalp,
+)
 from cellsurface_sorting_hat.modules.base import ModuleSpec, invalid_row, write_module
 
 APPLICABLE_RS = {
@@ -58,7 +66,10 @@ def build_parser():
     p.add_argument("--signalp-version", required=True, help="for example 6.0h-gpu (recorded)")
     p.add_argument("--signalp-mode", default="fast")
 
-    p = sub.add_parser("pfam", help="hmmsearch --domtblout -> pfam_adhesion and pfam_allergen")
+    p = sub.add_parser(
+        "pfam",
+        help="hmmsearch --domtblout -> the Pfam modules (pfam_adhesion, pfam_allergen, pfam_hydrophobin, pfam_hsba)",
+    )
     _common(p)
     p.add_argument("--domtbl", required=True)
     p.add_argument("--family-table", required=True)
@@ -118,6 +129,35 @@ def build_parser():
     _taxa_args(p)
     p.add_argument("--table", required=True)
     p.add_argument("--protein-map", required=True)
+
+    p = sub.add_parser(
+        "hydrophobin_relaxed", help="relaxed hydrophobin Pfam level -> hydrophobin_relaxed"
+    )
+    _common(p)
+    p.add_argument(
+        "--domtbl",
+        required=True,
+        help="hmmsearch --cut_ga --domtblout with hydrophobin_relaxed.hmm",
+    )
+    p.add_argument(
+        "--hmm", required=True, help="hydrophobin_relaxed.hmm (GA lines carry the frozen cutoff)"
+    )
+    p.add_argument("--search-option", required=True, choices=["default", "nobias"])
+    p.add_argument("--hmmer-version", required=True)
+    p.add_argument(
+        "--sp-module",
+        default="step1_rule@R0",
+        help="step 1 module table in --workdir (column call)",
+    )
+
+    p = sub.add_parser("cys8", help="eight-cysteine spacing plus R0 signal peptide -> cys8_pattern")
+    _common(p)
+    p.add_argument("--spacing", required=True, help="cys8_spacing.yaml (published spacing sets)")
+    p.add_argument(
+        "--sp-module",
+        default="step1_rule@R0",
+        help="step 1 module table in --workdir (column call)",
+    )
 
     p = sub.add_parser("tm", help="TMHMM table -> tm")
     _common(p)
@@ -182,11 +222,13 @@ def _write(workdir, spec, columns, rows, extra_note=""):
     return write_module(workdir, spec, columns, rows, run_state=state, note=note)
 
 
-def _family_digest(families):
-    """Hash of what decides a call (accession, module, condition, active), not of the free text."""
+def _family_digest(families, module):
+    """Hash of what decides a call (accession, condition, active) for one module, not of the free text."""
     import hashlib
 
-    rows = sorted((f.pfam_acc, f.module, f.second_condition, f.active) for f in families)
+    rows = sorted(
+        (f.pfam_acc, f.module, f.second_condition, f.active) for f in families if f.module == module
+    )
     return hashlib.sha256(repr(rows).encode()).hexdigest()
 
 
@@ -245,7 +287,7 @@ def run(args):
                 params,
                 (),
                 {"hmmer": args.hmmer_version},
-                artefact_digest=args.pfam_sha256 + ":" + _family_digest(families),
+                artefact_digest=args.pfam_sha256 + ":" + _family_digest(families, module),
             )
             if not active:  # no family has passed its specificity test: no domain test was made
                 rows = [
@@ -300,6 +342,33 @@ def run(args):
         rows = allergen.allergen_rows(proteins, best, meta)
         note = f"{len(best)} of {len(proteins)} FASTA protein(s) have a BLAST hit"
         return _write(w, spec, allergen.COLUMNS, rows, extra_note=note)
+    if args.cmd == "hydrophobin_relaxed":
+        info = hydrophobin_relaxed.model_info(args.hmm)
+        try:
+            hits = hydrophobin_relaxed.check_table(args.domtbl, info, args.search_option)
+        except ValueError as err:
+            raise InputError(str(err)) from err
+        _check_ids(args.domtbl, {h["target"] for h in hits}, ids)
+        sp_calls, condition = _condition_table(w, args.sp_module, "call", ids, "--sp-module")
+        sp_calls = {k: v for k, v in sp_calls.items() if v in ("called", "not_called")}
+        spec = ModuleSpec(
+            "hydrophobin_relaxed",
+            "1",
+            hydrophobin_relaxed.module_params(info, args.search_option, condition),
+            (args.hmm,),
+            {"hmmer": args.hmmer_version},
+        )
+        return _write(
+            w,
+            spec,
+            hydrophobin_relaxed.COLUMNS,
+            hydrophobin_relaxed.relaxed_rows(proteins, hits, sp_calls, info),
+        )
+    if args.cmd == "cys8":
+        spacing = cys8.load_sets(args.spacing)
+        sp_calls, condition = _condition_table(w, args.sp_module, "call", ids, "--sp-module")
+        spec = ModuleSpec("cys8_pattern", "1", cys8.module_params(spacing, condition), ())
+        return _write(w, spec, cys8.COLUMNS, cys8.cys8_rows(proteins, spacing, sp_calls))
     if args.cmd == "tm":
         table, _ = lookups.read_table(args.table, "protein_id", unique=True)
         _check_ids(args.table, table, ids)

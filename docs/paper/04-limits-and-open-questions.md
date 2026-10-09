@@ -78,3 +78,29 @@ Decisions 1 to 4 of 2026-10-06 are in `03-status-and-validation-rules.md`, secti
 4. The WHO/IUIS counts (120 molecules, 31 species) are from downloads of 2026-10-04.
 5. Whether the study design (training on two yeasts only, testing elsewhere) is the design the paper
    should present, or whether the paper should present Phase C as exploratory.
+6. The 8-cysteine rescue rule for hydrophobins (`docs/superpowers/specs/2026-10-08-hydrophobin-validation-design.md`).
+   The pattern is not novel (docs/paper/05, sections 5 and 6). Updated 2026-10-08 after full-text reads and a
+   wider search (PubMed, bioRxiv by web search, InterPro and Pfam entries; docs/paper/05 section 6.4). Found:
+   Jensen 2010 (PMID 21182770) screens genomes with the eight-cysteine pattern plus a signal sequence and
+   reports 5 of 50 hydrophobins with no Pfam hit. Li 2021 (PMID 33440688) takes the union of Pfam hits and
+   class I and II cysteine-spacing signatures. Lovett 2022 (bioRxiv, not peer reviewed, doi
+   10.1101/2022.08.19.504535) combines a 6-cysteine pattern, Pfam hmmsearch and SignalP, and reports 15
+   candidates found only by the pattern, plus 996 other proteins with the pattern. Yang 2006 used the pattern
+   as a filter, not a rescue. No source found that measures the sensitivity and false-positive cost of a rule
+   "8-cysteine pattern plus signal peptide added to a Pfam call" against a truth set. This covers only the
+   sources named. Not searched: Google Scholar, Scopus, and the full text of Wessels 1994, Linder 2005 and
+   Sunde 2008 (not readable). Do not claim novelty of the pattern, of the pattern-plus-Pfam union or of the
+   signal-peptide condition. Claim only measured sensitivity and false-positive cost. The published spacings
+   disagree in places (docs/paper/05 section 6.3). The paper must state which spacing was used and why.
+7. On `hydrophobin-validation` the hydrophobin Pfam models have their own module (`pfam_hydrophobin`) and a hit
+   no longer sets `wall_family_domain`. PR #75, as pushed, still has them in `pfam_adhesion`, so a hydrophobin hit
+   there sets `wall_family_domain` and can set `cell_wall_adhesion_candidate`. Report class counts with this in mind
+   until the branch is merged.
+8. Hydrophobin measurement (docs/reports/2026-10-08-hydrophobin-validation.md): every status is `smoke`, specificity
+   rests on assumed negatives and is a lower bound of unknown size (19 of 22 unlabelled calls have 8 or more
+   cysteines), and the published spacing recovers only 60% of Swiss-Prot hydrophobins. Do not report a hydrophobin
+   specificity. Do not report the rescue as an improvement.
+9. The hydrophobin call in the tool is the strict Pfam call only (`hydrophobin_domain`). The relaxed level (`hydrophobin_relaxed`) recovers
+   most hydrophobins that the strict call misses, but in whole proteomes its extra calls could not be shown to be hydrophobins and the cost
+   limit failed in 2 of 7 test proteomes. The owner decided on 2026-10-08 not to bring it into the tool. The curation behind this is tier T4
+   (assistant, from evidence, not owner-reviewed). Do not describe the relaxed level as part of the tool's hydrophobin detection.

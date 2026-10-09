@@ -119,6 +119,11 @@ def _validate(cfg):
                     raise ConfigError(f"{name}: mechanism {m} must be an earlier ungated call")
         else:
             _validate_node(call["expr"], seen, per_variant, cfg.thresholds, name)
+            for b in call.get("basis_calls", []):
+                if b not in seen:
+                    raise ConfigError(f"{name}: basis_calls entry {b!r} is not an earlier call")
+                if seen[b]:
+                    raise ConfigError(f"{name}: basis_calls entry {b!r} must be an ungated call")
         seen[name] = per_variant
 
 
@@ -321,6 +326,10 @@ def evaluate(
                     res, other_basis = _eval_other(call, ctx)
                 else:
                     res = _eval(call["expr"], ctx)
+                    if call.get("basis_calls") and res.value == CALLED:
+                        other_basis = ",".join(
+                            b for b in call["basis_calls"] if results[(b, "")].value == CALLED
+                        )
                 results[(call["name"], label)] = res
                 if res.contributors:
                     names = sorted(res.contributors)

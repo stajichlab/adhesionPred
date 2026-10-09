@@ -40,6 +40,8 @@ def build(tmp_path, write_module):
     write_module(wd, "repeat02", call(["called", "not_called", "called", "not_called"]))
     write_module(wd, "repeat14", call(["not_called"] * 4))
     write_module(wd, "pfam_adhesion", [{"id": i, "state": "ok", "hit": "0"} for i in VALID])
+    write_module(wd, "pfam_hydrophobin", [{"id": i, "state": "ok", "hit": "0"} for i in VALID])
+    write_module(wd, "pfam_hsba", [{"id": i, "state": "ok", "hit": "0"} for i in VALID])
     write_module(wd, "pfam_allergen", [{"id": i, "state": "ok", "hit": "0"} for i in VALID])
     write_module(
         wd,

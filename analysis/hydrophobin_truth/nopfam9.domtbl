@@ -1,0 +1,22 @@
+#                                                                                --- full sequence --- -------------- this domain -------------   hmm coord   ali coord   env coord
+# target name            accession   tlen query name           accession   qlen   E-value  score  bias   #  of  c-Evalue  i-Evalue  score  bias  from    to  from    to  from    to  acc description of target
+#    ------------------- ---------- ----- -------------------- ---------- ----- --------- ------ ----- --- --- --------- --------- ------ ----- ----- ----- ----- ----- ----- ----- ---- ---------------------
+sp|Q0KKA0|PSH_FLAVE      -            515 Hydrophobin          PF01185.24    78   2.4e-08   23.9   9.0   1   1   1.9e-08   8.8e-08   22.1   9.0     4    65   448   510   439   514 0.79 Pileus specific hydrophobin-like protein OS=Flammulina velutipes OX=38945 GN=psh PE=2 SV=1
+sp|A0A0A2KI06|HFBE_PENEN -            170 Hydrophobin          PF01185.24    78   7.4e-06   15.9   6.0   1   1   2.8e-06   1.3e-05   15.2   6.0     3    67    65   132    62   145 0.73 Class I hydrophobin E OS=Penicillium expansum OX=27334 GN=HfbE PE=3 SV=1
+sp|O94217|HCF2_FULFL     -            121 Eas                  PF22354.3     88   2.1e-08   23.6  12.0   1   1   2.3e-08   5.3e-08   22.3  12.0     1    83     1   114     1   118 0.78 Class I hydrophobin 2 OS=Fulvia fulva OX=5499 GN=hcf-2 PE=2 SV=1
+sp|I1RDP9|HYD1_GIBZE     -            117 Eas                  PF22354.3     88   7.6e-07   18.6  12.7   1   1   1.8e-06   4.1e-06   16.3  12.7     1    74     1    91     1   100 0.74 Class I hydrophobin 1 OS=Gibberella zeae (strain ATCC MYA-4620 / CBS 123657 / FGSC 9075 / NRRL 31084 / PH-1) OX=229533 GN=Hyd1 PE=2 SV=1
+sp|A0A0A2KI06|HFBE_PENEN -            170 Eas                  PF22354.3     88   0.00016   11.2  10.1   1   3      0.28      0.62   -0.3   0.0     1    26     1    27     1    36 0.64 Class I hydrophobin E OS=Penicillium expansum OX=27334 GN=HfbE PE=3 SV=1
+sp|A0A0A2KI06|HFBE_PENEN -            170 Eas                  PF22354.3     88   0.00016   11.2  10.1   2   3   0.00048    0.0011    8.5   0.7    13    60    43    94    31   111 0.68 Class I hydrophobin E OS=Penicillium expansum OX=27334 GN=HfbE PE=3 SV=1
+sp|A0A0A2KI06|HFBE_PENEN -            170 Eas                  PF22354.3     88   0.00016   11.2  10.1   3   3   0.00074    0.0017    7.9   2.1    22    44   107   129    88   140 0.72 Class I hydrophobin E OS=Penicillium expansum OX=27334 GN=HfbE PE=3 SV=1
+sp|I1RDQ0|HYD2_GIBZE     -            157 Eas                  PF22354.3     88   0.00099    8.6  19.1   1   2    0.0013    0.0029    7.1   0.1     1    23     1    23     1    38 0.81 Class I hydrophobin 2 OS=Gibberella zeae (strain ATCC MYA-4620 / CBS 123657 / FGSC 9075 / NRRL 31084 / PH-1) OX=229533 GN=Hyd2 PE=2 SV=1
+sp|I1RDQ0|HYD2_GIBZE     -            157 Eas                  PF22354.3     88   0.00099    8.6  19.1   2   2      0.03     0.068    2.8  15.6    20    73    71   118    59   130 0.79 Class I hydrophobin 2 OS=Gibberella zeae (strain ATCC MYA-4620 / CBS 123657 / FGSC 9075 / NRRL 31084 / PH-1) OX=229533 GN=Hyd2 PE=2 SV=1
+#
+# Program:         hmmsearch
+# Version:         3.4 (Aug 2023)
+# Pipeline mode:   SEARCH
+# Query file:      ../../_workdir/sorting_hat/calibration/hydrophobin_discovery/models.hmm
+# Target file:     nopfam9.faa
+# Option settings: hmmsearch --domtblout nopfam9.domtbl --noali -E 1e-3 ../../_workdir/sorting_hat/calibration/hydrophobin_discovery/models.hmm nopfam9.faa 
+# Current dir:     /bigdata/stajichlab/jstajich/projects/adhesionPred/analysis/hydrophobin_truth
+# Date:            Thu Oct  8 09:02:29 2026
+# [ok]

@@ -1,0 +1,13 @@
+proteome	group	has_truth	part	seed
+Afum_Af293	Afum	1	test	20261008
+Afum_A1163	Afum	1	test	20261008
+Afum_W72310	Afum	1	test	20261008
+Scer_S288C	Scer	0	tuning	20261008
+Calb_SC5314	Calb	0	tuning	20261008
+Cimm_RS	Cimm	0	test	20261008
+Bder_ER3	Bder	0	tuning	20261008
+Bbas_ARSEF2860	Bbas	1	test	20261008
+Fful_Race5	Fful	1	tuning	20261008
+Fgra_PH-1	Fgra	1	test	20261008
+Pexp_MD-8	Pexp	1	test	20261008
+Post_PC9	Post	1	tuning	20261008

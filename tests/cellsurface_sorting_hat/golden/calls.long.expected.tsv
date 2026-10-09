@@ -2,7 +2,10 @@ protein	call	variant	value	status	status_basis	other_basis
 SOW1	signal_peptide_protein	R0	called	unvalidated	step1_rule@R0:taxon not tested	
 SOW1	tandem_repeat_protein		called	unvalidated	repeat02:no status_source	
 SOW1	wall_family_domain		not_called	unvalidated	pfam_adhesion:no status_source	
+SOW1	hydrophobin_domain		not_called	unvalidated	pfam_hydrophobin:no status_source	
+SOW1	hsba_domain		not_called	unvalidated	pfam_hsba:no status_source	
 SOW1	cell_wall_adhesion_candidate	R0	called	unvalidated	repeat02:no status_source;step1_rule@R0:taxon not tested	
+SOW1	surface_attachment_candidate	R0	called	unvalidated	repeat02:no status_source;step1_rule@R0:taxon not tested	tandem_repeat_protein
 SOW1	cocci_specificity_rank_top15		called	unvalidated	antigen_lookup:no status_source	
 SOW1	serodiagnostic_marker_candidate	R0	called	unvalidated	antigen_lookup:no status_source;step1_rule@R0:taxon not tested	
 SOW1	iuis_allergen_similarity		not_called	unvalidated	allergen_homology:no status_source	
@@ -12,17 +15,23 @@ SOW1	other_surface_no_mechanism	R0	not_called	unvalidated	antigen_lookup:no stat
 ENZ1	signal_peptide_protein	R0	not_called	estimated	step1_rule@R0:taxon:40	
 ENZ1	tandem_repeat_protein		not_called	unvalidated	repeat02:no status_source;repeat14:no status_source	
 ENZ1	wall_family_domain		not_called	unvalidated	pfam_adhesion:no status_source	
+ENZ1	hydrophobin_domain		not_called	unvalidated	pfam_hydrophobin:no status_source	
+ENZ1	hsba_domain		not_called	unvalidated	pfam_hsba:no status_source	
 ENZ1	cell_wall_adhesion_candidate	R0	not_called	unvalidated	pfam_adhesion:no status_source;repeat02:no status_source;repeat14:no status_source;step1_rule@R0:taxon:40	
+ENZ1	surface_attachment_candidate	R0	not_called	unvalidated	pfam_adhesion:no status_source;pfam_hsba:no status_source;pfam_hydrophobin:no status_source;repeat02:no status_source;repeat14:no status_source;step1_rule@R0:taxon:40	
 ENZ1	cocci_specificity_rank_top15		not_assessable	unvalidated		
 ENZ1	serodiagnostic_marker_candidate	R0	not_called	estimated	step1_rule@R0:taxon:40	
 ENZ1	iuis_allergen_similarity		called	unvalidated	allergen_homology:no status_source	
 ENZ1	iuis_allergen_homolog		called	unvalidated	allergen_homology:no status_source	
-ENZ1	other_not_surface	R0	called	unvalidated	pfam_adhesion:no status_source;repeat02:no status_source;repeat14:no status_source;step1_rule@R0:taxon:40	cocci_specificity_rank_top15
+ENZ1	other_not_surface	R0	called	unvalidated	pfam_adhesion:no status_source;pfam_hsba:no status_source;pfam_hydrophobin:no status_source;repeat02:no status_source;repeat14:no status_source;step1_rule@R0:taxon:40	cocci_specificity_rank_top15
 ENZ1	other_surface_no_mechanism	R0	not_called	estimated	step1_rule@R0:taxon:40	
 DUP1	signal_peptide_protein	R0	called	unvalidated	step1_rule@R0:taxon not tested	
 DUP1	tandem_repeat_protein		called	unvalidated	repeat02:no status_source	
 DUP1	wall_family_domain		not_called	unvalidated	pfam_adhesion:no status_source	
+DUP1	hydrophobin_domain		not_called	unvalidated	pfam_hydrophobin:no status_source	
+DUP1	hsba_domain		not_called	unvalidated	pfam_hsba:no status_source	
 DUP1	cell_wall_adhesion_candidate	R0	called	unvalidated	repeat02:no status_source;step1_rule@R0:taxon not tested	
+DUP1	surface_attachment_candidate	R0	called	unvalidated	repeat02:no status_source;step1_rule@R0:taxon not tested	tandem_repeat_protein
 DUP1	cocci_specificity_rank_top15		called	unvalidated	antigen_lookup:no status_source	
 DUP1	serodiagnostic_marker_candidate	R0	called	unvalidated	antigen_lookup:no status_source;step1_rule@R0:taxon not tested	
 DUP1	iuis_allergen_similarity		not_called	unvalidated	allergen_homology:no status_source	
@@ -32,7 +41,10 @@ DUP1	other_surface_no_mechanism	R0	not_called	unvalidated	antigen_lookup:no stat
 BAD1	signal_peptide_protein	R0	not_assessable	unvalidated		
 BAD1	tandem_repeat_protein		not_assessable	unvalidated		
 BAD1	wall_family_domain		not_assessable	unvalidated		
+BAD1	hydrophobin_domain		not_assessable	unvalidated		
+BAD1	hsba_domain		not_assessable	unvalidated		
 BAD1	cell_wall_adhesion_candidate	R0	not_assessable	unvalidated		
+BAD1	surface_attachment_candidate	R0	not_assessable	unvalidated		
 BAD1	cocci_specificity_rank_top15		not_assessable	unvalidated		
 BAD1	serodiagnostic_marker_candidate	R0	not_assessable	unvalidated		
 BAD1	iuis_allergen_similarity		not_assessable	unvalidated		
@@ -42,10 +54,13 @@ BAD1	other_surface_no_mechanism	R0	not_assessable	unvalidated
 STAR1	signal_peptide_protein	R0	called	estimated	step1_rule@R0:taxon:40	
 STAR1	tandem_repeat_protein		not_called	unvalidated	repeat02:no status_source;repeat14:no status_source	
 STAR1	wall_family_domain		not_called	unvalidated	pfam_adhesion:no status_source	
+STAR1	hydrophobin_domain		not_called	unvalidated	pfam_hydrophobin:no status_source	
+STAR1	hsba_domain		not_called	unvalidated	pfam_hsba:no status_source	
 STAR1	cell_wall_adhesion_candidate	R0	not_called	unvalidated	pfam_adhesion:no status_source;repeat02:no status_source;repeat14:no status_source	
+STAR1	surface_attachment_candidate	R0	not_called	unvalidated	pfam_adhesion:no status_source;pfam_hsba:no status_source;pfam_hydrophobin:no status_source;repeat02:no status_source;repeat14:no status_source	
 STAR1	cocci_specificity_rank_top15		not_assessable	unvalidated		
 STAR1	serodiagnostic_marker_candidate	R0	not_assessable	unvalidated		
 STAR1	iuis_allergen_similarity		called	unvalidated	allergen_homology:no status_source	
 STAR1	iuis_allergen_homolog		not_called	unvalidated	allergen_homology:no status_source;pfam_allergen:no status_source	
 STAR1	other_not_surface	R0	not_called	estimated	step1_rule@R0:taxon:40	
-STAR1	other_surface_no_mechanism	R0	called	unvalidated	pfam_adhesion:no status_source;repeat02:no status_source;repeat14:no status_source;step1_rule@R0:taxon:40	cocci_specificity_rank_top15
+STAR1	other_surface_no_mechanism	R0	called	unvalidated	pfam_adhesion:no status_source;pfam_hsba:no status_source;pfam_hydrophobin:no status_source;repeat02:no status_source;repeat14:no status_source;step1_rule@R0:taxon:40	cocci_specificity_rank_top15

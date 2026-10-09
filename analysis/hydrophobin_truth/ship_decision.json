@@ -1,0 +1,50 @@
+{
+ "ship": false,
+ "conditions": {
+  "recall": true,
+  "cost": false,
+  "hard_negatives": true,
+  "precision": "fail"
+ },
+ "cost_test_proteomes": {
+  "Afum_Af293": [
+   "1.04",
+   "True"
+  ],
+  "Afum_A1163": [
+   "1.01",
+   "True"
+  ],
+  "Afum_W72310": [
+   "1.89",
+   "True"
+  ],
+  "Cimm_RS": [
+   "1.01",
+   "True"
+  ],
+  "Bbas_ARSEF2860": [
+   "10.55",
+   "False"
+  ],
+  "Fgra_PH-1": [
+   "10.72",
+   "False"
+  ],
+  "Pexp_MD-8": [
+   "1.88",
+   "True"
+  ]
+ },
+ "precision": {
+  "basis": "relaxed-only unlabelled extra calls, clustered across proteomes (MMseqs2 30%, 0.5); outcomes are T4 (not owner-reviewed)",
+  "extra_calls": 40,
+  "clusters": 36,
+  "hydrophobin": 0,
+  "not_hydrophobin": 7,
+  "unresolved": 29,
+  "resolved": 7,
+  "wilson_lower_bound": 0.0
+ },
+ "note": "hydrophobin_extended is added to categories.yaml only if ship is true"
+}

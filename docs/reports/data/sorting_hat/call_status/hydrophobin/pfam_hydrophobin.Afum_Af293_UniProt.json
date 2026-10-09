@@ -1,0 +1,34 @@
+{
+  "artefact_hash": "4b0da6399b97d2b23329de82190b2e5705bde1dea4cb2d028a52712d5966739e:32dfa465a796b3f2e144b250e7cff12b8a421c2a2167cee16454b0be46f20895",
+  "entries": [
+    {
+      "measure": {
+        "calibration_set": "hydrophobin_truth_v1",
+        "n_clusters_neg": 7692,
+        "n_clusters_pos": 5,
+        "n_neg": 9640,
+        "n_pos": 7,
+        "notes": "T1/T2 positives from UniProt evidence codes; negatives assumed; spacing frozen before truth built; 9 no-model entries and discovery proteomes seen by the author truth rows without a call: 0; not assessable: 0; sensitivity if not assessable positives count as missed: 1.000 call=hydrophobin_domain; module=pfam_hydrophobin; variant= leakage: partial",
+        "sensitivity": {
+          "hi": 1.0,
+          "lo": 0.5655175313406071,
+          "value": 1.0
+        },
+        "specificity": {
+          "hi": 1.0,
+          "lo": 0.9995008396545302,
+          "value": 1.0
+        },
+        "truth_source": "analysis/hydrophobin_truth/calibration/Afum_Af293/truth_all.tsv"
+      },
+      "source": "analysis/hydrophobin_truth/calibration/Afum_Af293/truth_all.tsv",
+      "status": "smoke",
+      "taxa": [
+        330879
+      ]
+    }
+  ],
+  "module": "pfam_hydrophobin",
+  "params_hash": "b150dec30f4e95fab76d671e7b732f401baf12ce5fae8f5cb51ac84651b66089",
+  "version": "1"
+}

@@ -1,0 +1,17 @@
+{
+  "artefact_hash": "6a9c0183d0b7de5685ff56e60cacca9e16f3779f104f7223e372d3245a78c0c7",
+  "module": "step1_rule@R0",
+  "n_rows": 1608,
+  "note": "",
+  "params": {
+    "mode": "fast",
+    "organism": "eukarya",
+    "rule": "R0"
+  },
+  "params_hash": "131b801fe3b1ea470b8391d44a7655bc01968eb9518321b459e1e226bbe6aee4",
+  "run_state": "ok",
+  "tools": {
+    "signalp": "module=signalp/6-gpu;signalp6_version=SignalP 6.0 Signal peptide prediction tool 6.0h"
+  },
+  "version": "1"
+}

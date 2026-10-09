@@ -1,0 +1,1080 @@
+{
+ "per10k_limit": 5,
+ "hard_negative_rate": 0.05,
+ "floor": 0.0,
+ "folds": {
+  "fold_01": {
+   "default": {
+    "cutoff": 11.7,
+    "extra_calls": {
+     "Scer_S288C": 0,
+     "Calb_SC5314": 0,
+     "Bder_ER3": 3,
+     "Fful_Race5": 1,
+     "Post_PC9": 2
+    },
+    "hn_rates": {
+     "CFEM": 0.0,
+     "cerato_platanin": 0.0,
+     "HsbA": 0.0,
+     "cell_wall_cys": 0.0,
+     "small_secreted_cys": 0.0
+    }
+   },
+   "nobias": {
+    "cutoff": 12.5,
+    "extra_calls": {
+     "Scer_S288C": 0,
+     "Calb_SC5314": 0,
+     "Bder_ER3": 4,
+     "Fful_Race5": 2,
+     "Post_PC9": 3
+    },
+    "hn_rates": {
+     "CFEM": 0.0,
+     "cerato_platanin": 0.0,
+     "HsbA": 0.0,
+     "cell_wall_cys": 0.0,
+     "small_secreted_cys": 0.0
+    }
+   },
+   "chosen_option": "default"
+  },
+  "fold_02": {
+   "default": {
+    "cutoff": 11.9,
+    "extra_calls": {
+     "Scer_S288C": 0,
+     "Calb_SC5314": 0,
+     "Bder_ER3": 3,
+     "Fful_Race5": 1,
+     "Post_PC9": 2
+    },
+    "hn_rates": {
+     "CFEM": 0.0,
+     "cerato_platanin": 0.0,
+     "HsbA": 0.0,
+     "cell_wall_cys": 0.0,
+     "small_secreted_cys": 0.0
+    }
+   },
+   "nobias": {
+    "cutoff": 8.9,
+    "extra_calls": {
+     "Scer_S288C": 0,
+     "Calb_SC5314": 0,
+     "Bder_ER3": 4,
+     "Fful_Race5": 5,
+     "Post_PC9": 5
+    },
+    "hn_rates": {
+     "CFEM": 0.0,
+     "cerato_platanin": 0.0,
+     "HsbA": 0.0,
+     "cell_wall_cys": 0.0,
+     "small_secreted_cys": 0.0
+    }
+   },
+   "chosen_option": "default"
+  },
+  "fold_03": {
+   "default": {
+    "cutoff": 13.6,
+    "extra_calls": {
+     "Scer_S288C": 0,
+     "Calb_SC5314": 0,
+     "Bder_ER3": 3,
+     "Fful_Race5": 2,
+     "Post_PC9": 3
+    },
+    "hn_rates": {
+     "CFEM": 0.0,
+     "cerato_platanin": 0.0,
+     "HsbA": 0.0,
+     "cell_wall_cys": 0.0,
+     "small_secreted_cys": 0.0
+    }
+   },
+   "nobias": {
+    "cutoff": 10.1,
+    "extra_calls": {
+     "Scer_S288C": 0,
+     "Calb_SC5314": 1,
+     "Bder_ER3": 4,
+     "Fful_Race5": 4,
+     "Post_PC9": 4
+    },
+    "hn_rates": {
+     "CFEM": 0.0,
+     "cerato_platanin": 0.0,
+     "HsbA": 0.0,
+     "cell_wall_cys": 0.0,
+     "small_secreted_cys": 0.0
+    }
+   },
+   "chosen_option": "default"
+  },
+  "fold_04": {
+   "default": {
+    "cutoff": 10.4,
+    "extra_calls": {
+     "Scer_S288C": 0,
+     "Calb_SC5314": 0,
+     "Bder_ER3": 2,
+     "Fful_Race5": 3,
+     "Post_PC9": 3
+    },
+    "hn_rates": {
+     "CFEM": 0.0,
+     "cerato_platanin": 0.0,
+     "HsbA": 0.0,
+     "cell_wall_cys": 0.0,
+     "small_secreted_cys": 0.0
+    }
+   },
+   "nobias": {
+    "cutoff": 10.5,
+    "extra_calls": {
+     "Scer_S288C": 0,
+     "Calb_SC5314": 0,
+     "Bder_ER3": 4,
+     "Fful_Race5": 2,
+     "Post_PC9": 5
+    },
+    "hn_rates": {
+     "CFEM": 0.0,
+     "cerato_platanin": 0.0,
+     "HsbA": 0.0,
+     "cell_wall_cys": 0.0,
+     "small_secreted_cys": 0.0
+    }
+   },
+   "chosen_option": "default"
+  },
+  "fold_05": {
+   "default": {
+    "cutoff": 8.6,
+    "extra_calls": {
+     "Scer_S288C": 0,
+     "Calb_SC5314": 0,
+     "Bder_ER3": 2,
+     "Fful_Race5": 1,
+     "Post_PC9": 2
+    },
+    "hn_rates": {
+     "CFEM": 0.0,
+     "cerato_platanin": 0.0,
+     "HsbA": 0.0,
+     "cell_wall_cys": 0.0,
+     "small_secreted_cys": 0.0
+    }
+   },
+   "nobias": {
+    "cutoff": 12.8,
+    "extra_calls": {
+     "Scer_S288C": 0,
+     "Calb_SC5314": 0,
+     "Bder_ER3": 4,
+     "Fful_Race5": 1,
+     "Post_PC9": 5
+    },
+    "hn_rates": {
+     "CFEM": 0.0,
+     "cerato_platanin": 0.0,
+     "HsbA": 0.0,
+     "cell_wall_cys": 0.0,
+     "small_secreted_cys": 0.0
+    }
+   },
+   "chosen_option": "default"
+  },
+  "fold_06": {
+   "default": {
+    "cutoff": 10.3,
+    "extra_calls": {
+     "Scer_S288C": 0,
+     "Calb_SC5314": 0,
+     "Bder_ER3": 2,
+     "Fful_Race5": 3,
+     "Post_PC9": 2
+    },
+    "hn_rates": {
+     "CFEM": 0.0,
+     "cerato_platanin": 0.0,
+     "HsbA": 0.0,
+     "cell_wall_cys": 0.0,
+     "small_secreted_cys": 0.0
+    }
+   },
+   "nobias": {
+    "cutoff": 13.3,
+    "extra_calls": {
+     "Scer_S288C": 0,
+     "Calb_SC5314": 0,
+     "Bder_ER3": 4,
+     "Fful_Race5": 1,
+     "Post_PC9": 4
+    },
+    "hn_rates": {
+     "CFEM": 0.0,
+     "cerato_platanin": 0.0,
+     "HsbA": 0.0,
+     "cell_wall_cys": 0.0,
+     "small_secreted_cys": 0.0
+    }
+   },
+   "chosen_option": "default"
+  },
+  "fold_07": {
+   "default": {
+    "cutoff": 9.5,
+    "extra_calls": {
+     "Scer_S288C": 0,
+     "Calb_SC5314": 0,
+     "Bder_ER3": 3,
+     "Fful_Race5": 2,
+     "Post_PC9": 3
+    },
+    "hn_rates": {
+     "CFEM": 0.0,
+     "cerato_platanin": 0.0,
+     "HsbA": 0.0,
+     "cell_wall_cys": 0.0,
+     "small_secreted_cys": 0.0
+    }
+   },
+   "nobias": {
+    "cutoff": 12.8,
+    "extra_calls": {
+     "Scer_S288C": 0,
+     "Calb_SC5314": 0,
+     "Bder_ER3": 4,
+     "Fful_Race5": 1,
+     "Post_PC9": 4
+    },
+    "hn_rates": {
+     "CFEM": 0.0,
+     "cerato_platanin": 0.0,
+     "HsbA": 0.0,
+     "cell_wall_cys": 0.0,
+     "small_secreted_cys": 0.0
+    }
+   },
+   "chosen_option": "default"
+  },
+  "fold_08": {
+   "default": {
+    "cutoff": 8.1,
+    "extra_calls": {
+     "Scer_S288C": 0,
+     "Calb_SC5314": 0,
+     "Bder_ER3": 3,
+     "Fful_Race5": 2,
+     "Post_PC9": 3
+    },
+    "hn_rates": {
+     "CFEM": 0.0,
+     "cerato_platanin": 0.0,
+     "HsbA": 0.0,
+     "cell_wall_cys": 0.0,
+     "small_secreted_cys": 0.0
+    }
+   },
+   "nobias": {
+    "cutoff": 12.6,
+    "extra_calls": {
+     "Scer_S288C": 0,
+     "Calb_SC5314": 0,
+     "Bder_ER3": 4,
+     "Fful_Race5": 1,
+     "Post_PC9": 5
+    },
+    "hn_rates": {
+     "CFEM": 0.0,
+     "cerato_platanin": 0.0,
+     "HsbA": 0.0,
+     "cell_wall_cys": 0.0,
+     "small_secreted_cys": 0.0
+    }
+   },
+   "chosen_option": "default"
+  },
+  "fold_09": {
+   "default": {
+    "cutoff": 6.9,
+    "extra_calls": {
+     "Scer_S288C": 0,
+     "Calb_SC5314": 0,
+     "Bder_ER3": 3,
+     "Fful_Race5": 2,
+     "Post_PC9": 3
+    },
+    "hn_rates": {
+     "CFEM": 0.0,
+     "cerato_platanin": 0.0,
+     "HsbA": 0.0,
+     "cell_wall_cys": 0.0,
+     "small_secreted_cys": 0.0
+    }
+   },
+   "nobias": {
+    "cutoff": 8.6,
+    "extra_calls": {
+     "Scer_S288C": 0,
+     "Calb_SC5314": 2,
+     "Bder_ER3": 4,
+     "Fful_Race5": 5,
+     "Post_PC9": 5
+    },
+    "hn_rates": {
+     "CFEM": 0.0,
+     "cerato_platanin": 0.0,
+     "HsbA": 0.0,
+     "cell_wall_cys": 0.0,
+     "small_secreted_cys": 0.0
+    }
+   },
+   "chosen_option": "default"
+  },
+  "fold_10": {
+   "default": {
+    "cutoff": 9.0,
+    "extra_calls": {
+     "Scer_S288C": 0,
+     "Calb_SC5314": 0,
+     "Bder_ER3": 2,
+     "Fful_Race5": 2,
+     "Post_PC9": 3
+    },
+    "hn_rates": {
+     "CFEM": 0.0,
+     "cerato_platanin": 0.0,
+     "HsbA": 0.0,
+     "cell_wall_cys": 0.0,
+     "small_secreted_cys": 0.0
+    }
+   },
+   "nobias": {
+    "cutoff": 12.7,
+    "extra_calls": {
+     "Scer_S288C": 0,
+     "Calb_SC5314": 0,
+     "Bder_ER3": 4,
+     "Fful_Race5": 1,
+     "Post_PC9": 3
+    },
+    "hn_rates": {
+     "CFEM": 0.0,
+     "cerato_platanin": 0.0,
+     "HsbA": 0.0,
+     "cell_wall_cys": 0.0,
+     "small_secreted_cys": 0.0
+    }
+   },
+   "chosen_option": "default"
+  },
+  "fold_11": {
+   "default": {
+    "cutoff": 9.7,
+    "extra_calls": {
+     "Scer_S288C": 0,
+     "Calb_SC5314": 0,
+     "Bder_ER3": 4,
+     "Fful_Race5": 1,
+     "Post_PC9": 1
+    },
+    "hn_rates": {
+     "CFEM": 0.0,
+     "cerato_platanin": 0.0,
+     "HsbA": 0.0,
+     "cell_wall_cys": 0.0,
+     "small_secreted_cys": 0.0
+    }
+   },
+   "nobias": {
+    "cutoff": 12.7,
+    "extra_calls": {
+     "Scer_S288C": 0,
+     "Calb_SC5314": 0,
+     "Bder_ER3": 4,
+     "Fful_Race5": 1,
+     "Post_PC9": 3
+    },
+    "hn_rates": {
+     "CFEM": 0.0,
+     "cerato_platanin": 0.0,
+     "HsbA": 0.0,
+     "cell_wall_cys": 0.0,
+     "small_secreted_cys": 0.0
+    }
+   },
+   "chosen_option": "default"
+  },
+  "fold_12": {
+   "default": {
+    "cutoff": 2.7,
+    "extra_calls": {
+     "Scer_S288C": 0,
+     "Calb_SC5314": 0,
+     "Bder_ER3": 2,
+     "Fful_Race5": 2,
+     "Post_PC9": 4
+    },
+    "hn_rates": {
+     "CFEM": 0.0,
+     "cerato_platanin": 0.0,
+     "HsbA": 0.0,
+     "cell_wall_cys": 0.0,
+     "small_secreted_cys": 0.0
+    }
+   },
+   "nobias": {
+    "cutoff": 8.8,
+    "extra_calls": {
+     "Scer_S288C": 0,
+     "Calb_SC5314": 0,
+     "Bder_ER3": 4,
+     "Fful_Race5": 4,
+     "Post_PC9": 5
+    },
+    "hn_rates": {
+     "CFEM": 0.0,
+     "cerato_platanin": 0.0,
+     "HsbA": 0.0,
+     "cell_wall_cys": 0.0,
+     "small_secreted_cys": 0.0
+    }
+   },
+   "chosen_option": "default"
+  },
+  "fold_13": {
+   "default": {
+    "cutoff": 8.3,
+    "extra_calls": {
+     "Scer_S288C": 0,
+     "Calb_SC5314": 0,
+     "Bder_ER3": 3,
+     "Fful_Race5": 1,
+     "Post_PC9": 2
+    },
+    "hn_rates": {
+     "CFEM": 0.0,
+     "cerato_platanin": 0.0,
+     "HsbA": 0.0,
+     "cell_wall_cys": 0.0,
+     "small_secreted_cys": 0.0
+    }
+   },
+   "nobias": {
+    "cutoff": 13.3,
+    "extra_calls": {
+     "Scer_S288C": 0,
+     "Calb_SC5314": 0,
+     "Bder_ER3": 4,
+     "Fful_Race5": 1,
+     "Post_PC9": 3
+    },
+    "hn_rates": {
+     "CFEM": 0.0,
+     "cerato_platanin": 0.0,
+     "HsbA": 0.0,
+     "cell_wall_cys": 0.0,
+     "small_secreted_cys": 0.0
+    }
+   },
+   "chosen_option": "default"
+  },
+  "fold_14": {
+   "default": {
+    "cutoff": 9.1,
+    "extra_calls": {
+     "Scer_S288C": 0,
+     "Calb_SC5314": 0,
+     "Bder_ER3": 2,
+     "Fful_Race5": 2,
+     "Post_PC9": 2
+    },
+    "hn_rates": {
+     "CFEM": 0.0,
+     "cerato_platanin": 0.0,
+     "HsbA": 0.0,
+     "cell_wall_cys": 0.0,
+     "small_secreted_cys": 0.0
+    }
+   },
+   "nobias": {
+    "cutoff": 12.0,
+    "extra_calls": {
+     "Scer_S288C": 0,
+     "Calb_SC5314": 0,
+     "Bder_ER3": 4,
+     "Fful_Race5": 1,
+     "Post_PC9": 3
+    },
+    "hn_rates": {
+     "CFEM": 0.0,
+     "cerato_platanin": 0.0,
+     "HsbA": 0.0,
+     "cell_wall_cys": 0.0,
+     "small_secreted_cys": 0.0
+    }
+   },
+   "chosen_option": "default"
+  },
+  "fold_15": {
+   "default": {
+    "cutoff": 19.1,
+    "extra_calls": {
+     "Scer_S288C": 0,
+     "Calb_SC5314": 0,
+     "Bder_ER3": 2,
+     "Fful_Race5": 1,
+     "Post_PC9": 0
+    },
+    "hn_rates": {
+     "CFEM": 0.0,
+     "cerato_platanin": 0.0,
+     "HsbA": 0.0,
+     "cell_wall_cys": 0.0,
+     "small_secreted_cys": 0.0
+    }
+   },
+   "nobias": {
+    "cutoff": 9.5,
+    "extra_calls": {
+     "Scer_S288C": 0,
+     "Calb_SC5314": 0,
+     "Bder_ER3": 4,
+     "Fful_Race5": 1,
+     "Post_PC9": 4
+    },
+    "hn_rates": {
+     "CFEM": 0.0,
+     "cerato_platanin": 0.0,
+     "HsbA": 0.0,
+     "cell_wall_cys": 0.0,
+     "small_secreted_cys": 0.0
+    }
+   },
+   "chosen_option": "default"
+  },
+  "fold_16": {
+   "default": {
+    "cutoff": 7.1,
+    "extra_calls": {
+     "Scer_S288C": 0,
+     "Calb_SC5314": 0,
+     "Bder_ER3": 3,
+     "Fful_Race5": 2,
+     "Post_PC9": 3
+    },
+    "hn_rates": {
+     "CFEM": 0.0,
+     "cerato_platanin": 0.0,
+     "HsbA": 0.0,
+     "cell_wall_cys": 0.0,
+     "small_secreted_cys": 0.0
+    }
+   },
+   "nobias": {
+    "cutoff": 12.0,
+    "extra_calls": {
+     "Scer_S288C": 0,
+     "Calb_SC5314": 0,
+     "Bder_ER3": 4,
+     "Fful_Race5": 1,
+     "Post_PC9": 4
+    },
+    "hn_rates": {
+     "CFEM": 0.0,
+     "cerato_platanin": 0.0,
+     "HsbA": 0.0,
+     "cell_wall_cys": 0.0,
+     "small_secreted_cys": 0.0
+    }
+   },
+   "chosen_option": "default"
+  },
+  "fold_17": {
+   "default": {
+    "cutoff": 7.5,
+    "extra_calls": {
+     "Scer_S288C": 0,
+     "Calb_SC5314": 0,
+     "Bder_ER3": 3,
+     "Fful_Race5": 2,
+     "Post_PC9": 2
+    },
+    "hn_rates": {
+     "CFEM": 0.0,
+     "cerato_platanin": 0.0,
+     "HsbA": 0.0,
+     "cell_wall_cys": 0.0,
+     "small_secreted_cys": 0.0
+    }
+   },
+   "nobias": {
+    "cutoff": 12.7,
+    "extra_calls": {
+     "Scer_S288C": 0,
+     "Calb_SC5314": 0,
+     "Bder_ER3": 4,
+     "Fful_Race5": 1,
+     "Post_PC9": 4
+    },
+    "hn_rates": {
+     "CFEM": 0.0,
+     "cerato_platanin": 0.0,
+     "HsbA": 0.0,
+     "cell_wall_cys": 0.0,
+     "small_secreted_cys": 0.0
+    }
+   },
+   "chosen_option": "default"
+  },
+  "fold_18": {
+   "default": {
+    "cutoff": 9.2,
+    "extra_calls": {
+     "Scer_S288C": 0,
+     "Calb_SC5314": 0,
+     "Bder_ER3": 2,
+     "Fful_Race5": 2,
+     "Post_PC9": 3
+    },
+    "hn_rates": {
+     "CFEM": 0.0,
+     "cerato_platanin": 0.0,
+     "HsbA": 0.0,
+     "cell_wall_cys": 0.0,
+     "small_secreted_cys": 0.0
+    }
+   },
+   "nobias": {
+    "cutoff": 13.1,
+    "extra_calls": {
+     "Scer_S288C": 0,
+     "Calb_SC5314": 0,
+     "Bder_ER3": 4,
+     "Fful_Race5": 2,
+     "Post_PC9": 4
+    },
+    "hn_rates": {
+     "CFEM": 0.0,
+     "cerato_platanin": 0.0,
+     "HsbA": 0.0,
+     "cell_wall_cys": 0.0,
+     "small_secreted_cys": 0.0
+    }
+   },
+   "chosen_option": "default"
+  },
+  "fold_19": {
+   "default": {
+    "cutoff": 10.5,
+    "extra_calls": {
+     "Scer_S288C": 0,
+     "Calb_SC5314": 0,
+     "Bder_ER3": 3,
+     "Fful_Race5": 2,
+     "Post_PC9": 3
+    },
+    "hn_rates": {
+     "CFEM": 0.0,
+     "cerato_platanin": 0.0,
+     "HsbA": 0.0,
+     "cell_wall_cys": 0.0,
+     "small_secreted_cys": 0.0
+    }
+   },
+   "nobias": {
+    "cutoff": 13.6,
+    "extra_calls": {
+     "Scer_S288C": 0,
+     "Calb_SC5314": 0,
+     "Bder_ER3": 4,
+     "Fful_Race5": 1,
+     "Post_PC9": 4
+    },
+    "hn_rates": {
+     "CFEM": 0.0,
+     "cerato_platanin": 0.0,
+     "HsbA": 0.0,
+     "cell_wall_cys": 0.0,
+     "small_secreted_cys": 0.0
+    }
+   },
+   "chosen_option": "default"
+  },
+  "fold_20": {
+   "default": {
+    "cutoff": 9.3,
+    "extra_calls": {
+     "Scer_S288C": 0,
+     "Calb_SC5314": 0,
+     "Bder_ER3": 1,
+     "Fful_Race5": 3,
+     "Post_PC9": 5
+    },
+    "hn_rates": {
+     "CFEM": 0.0,
+     "cerato_platanin": 0.0,
+     "HsbA": 0.0,
+     "cell_wall_cys": 0.0,
+     "small_secreted_cys": 0.0
+    }
+   },
+   "nobias": {
+    "cutoff": 12.7,
+    "extra_calls": {
+     "Scer_S288C": 0,
+     "Calb_SC5314": 0,
+     "Bder_ER3": 3,
+     "Fful_Race5": 3,
+     "Post_PC9": 4
+    },
+    "hn_rates": {
+     "CFEM": 0.0,
+     "cerato_platanin": 0.0,
+     "HsbA": 0.0,
+     "cell_wall_cys": 0.0,
+     "small_secreted_cys": 0.0
+    }
+   },
+   "chosen_option": "default"
+  },
+  "fold_21": {
+   "default": {
+    "cutoff": 7.5,
+    "extra_calls": {
+     "Scer_S288C": 0,
+     "Calb_SC5314": 0,
+     "Bder_ER3": 3,
+     "Fful_Race5": 2,
+     "Post_PC9": 3
+    },
+    "hn_rates": {
+     "CFEM": 0.0,
+     "cerato_platanin": 0.0,
+     "HsbA": 0.0,
+     "cell_wall_cys": 0.0,
+     "small_secreted_cys": 0.0
+    }
+   },
+   "nobias": {
+    "cutoff": 12.0,
+    "extra_calls": {
+     "Scer_S288C": 0,
+     "Calb_SC5314": 0,
+     "Bder_ER3": 4,
+     "Fful_Race5": 2,
+     "Post_PC9": 5
+    },
+    "hn_rates": {
+     "CFEM": 0.0,
+     "cerato_platanin": 0.0,
+     "HsbA": 0.0,
+     "cell_wall_cys": 0.0,
+     "small_secreted_cys": 0.0
+    }
+   },
+   "chosen_option": "default"
+  },
+  "fold_22": {
+   "default": {
+    "cutoff": 10.7,
+    "extra_calls": {
+     "Scer_S288C": 0,
+     "Calb_SC5314": 0,
+     "Bder_ER3": 3,
+     "Fful_Race5": 2,
+     "Post_PC9": 3
+    },
+    "hn_rates": {
+     "CFEM": 0.0,
+     "cerato_platanin": 0.0,
+     "HsbA": 0.0,
+     "cell_wall_cys": 0.0,
+     "small_secreted_cys": 0.0
+    }
+   },
+   "nobias": {
+    "cutoff": 11.6,
+    "extra_calls": {
+     "Scer_S288C": 0,
+     "Calb_SC5314": 0,
+     "Bder_ER3": 4,
+     "Fful_Race5": 3,
+     "Post_PC9": 4
+    },
+    "hn_rates": {
+     "CFEM": 0.0,
+     "cerato_platanin": 0.0,
+     "HsbA": 0.0,
+     "cell_wall_cys": 0.0,
+     "small_secreted_cys": 0.0
+    }
+   },
+   "chosen_option": "default"
+  },
+  "fold_23": {
+   "default": {
+    "cutoff": 9.7,
+    "extra_calls": {
+     "Scer_S288C": 0,
+     "Calb_SC5314": 0,
+     "Bder_ER3": 4,
+     "Fful_Race5": 2,
+     "Post_PC9": 2
+    },
+    "hn_rates": {
+     "CFEM": 0.0,
+     "cerato_platanin": 0.0,
+     "HsbA": 0.0,
+     "cell_wall_cys": 0.0,
+     "small_secreted_cys": 0.0
+    }
+   },
+   "nobias": {
+    "cutoff": 12.7,
+    "extra_calls": {
+     "Scer_S288C": 0,
+     "Calb_SC5314": 0,
+     "Bder_ER3": 4,
+     "Fful_Race5": 0,
+     "Post_PC9": 3
+    },
+    "hn_rates": {
+     "CFEM": 0.0,
+     "cerato_platanin": 0.0,
+     "HsbA": 0.0,
+     "cell_wall_cys": 0.0,
+     "small_secreted_cys": 0.0
+    }
+   },
+   "chosen_option": "default"
+  },
+  "fold_24": {
+   "default": {
+    "cutoff": 5.5,
+    "extra_calls": {
+     "Scer_S288C": 0,
+     "Calb_SC5314": 0,
+     "Bder_ER3": 4,
+     "Fful_Race5": 3,
+     "Post_PC9": 2
+    },
+    "hn_rates": {
+     "CFEM": 0.0,
+     "cerato_platanin": 0.0,
+     "HsbA": 0.0,
+     "cell_wall_cys": 0.0,
+     "small_secreted_cys": 0.0
+    }
+   },
+   "nobias": {
+    "cutoff": 12.8,
+    "extra_calls": {
+     "Scer_S288C": 0,
+     "Calb_SC5314": 0,
+     "Bder_ER3": 4,
+     "Fful_Race5": 1,
+     "Post_PC9": 5
+    },
+    "hn_rates": {
+     "CFEM": 0.0,
+     "cerato_platanin": 0.0,
+     "HsbA": 0.0,
+     "cell_wall_cys": 0.0,
+     "small_secreted_cys": 0.0
+    }
+   },
+   "chosen_option": "default"
+  },
+  "fold_25": {
+   "default": {
+    "cutoff": 11.3,
+    "extra_calls": {
+     "Scer_S288C": 0,
+     "Calb_SC5314": 0,
+     "Bder_ER3": 4,
+     "Fful_Race5": 3,
+     "Post_PC9": 2
+    },
+    "hn_rates": {
+     "CFEM": 0.0,
+     "cerato_platanin": 0.0,
+     "HsbA": 0.0,
+     "cell_wall_cys": 0.0,
+     "small_secreted_cys": 0.0
+    }
+   },
+   "nobias": {
+    "cutoff": 11.3,
+    "extra_calls": {
+     "Scer_S288C": 0,
+     "Calb_SC5314": 1,
+     "Bder_ER3": 4,
+     "Fful_Race5": 4,
+     "Post_PC9": 4
+    },
+    "hn_rates": {
+     "CFEM": 0.0,
+     "cerato_platanin": 0.0,
+     "HsbA": 0.0,
+     "cell_wall_cys": 0.0,
+     "small_secreted_cys": 0.0
+    }
+   },
+   "chosen_option": "default"
+  },
+  "fold_26": {
+   "default": {
+    "cutoff": 6.8,
+    "extra_calls": {
+     "Scer_S288C": 0,
+     "Calb_SC5314": 0,
+     "Bder_ER3": 3,
+     "Fful_Race5": 3,
+     "Post_PC9": 3
+    },
+    "hn_rates": {
+     "CFEM": 0.0,
+     "cerato_platanin": 0.0,
+     "HsbA": 0.0,
+     "cell_wall_cys": 0.0,
+     "small_secreted_cys": 0.0
+    }
+   },
+   "nobias": {
+    "cutoff": 12.5,
+    "extra_calls": {
+     "Scer_S288C": 0,
+     "Calb_SC5314": 0,
+     "Bder_ER3": 4,
+     "Fful_Race5": 1,
+     "Post_PC9": 4
+    },
+    "hn_rates": {
+     "CFEM": 0.0,
+     "cerato_platanin": 0.0,
+     "HsbA": 0.0,
+     "cell_wall_cys": 0.0,
+     "small_secreted_cys": 0.0
+    }
+   },
+   "chosen_option": "default"
+  },
+  "fold_27": {
+   "default": {
+    "cutoff": 10.5,
+    "extra_calls": {
+     "Scer_S288C": 0,
+     "Calb_SC5314": 0,
+     "Bder_ER3": 3,
+     "Fful_Race5": 1,
+     "Post_PC9": 3
+    },
+    "hn_rates": {
+     "CFEM": 0.0,
+     "cerato_platanin": 0.0,
+     "HsbA": 0.0,
+     "cell_wall_cys": 0.0,
+     "small_secreted_cys": 0.0
+    }
+   },
+   "nobias": {
+    "cutoff": 13.5,
+    "extra_calls": {
+     "Scer_S288C": 0,
+     "Calb_SC5314": 0,
+     "Bder_ER3": 4,
+     "Fful_Race5": 1,
+     "Post_PC9": 3
+    },
+    "hn_rates": {
+     "CFEM": 0.0,
+     "cerato_platanin": 0.0,
+     "HsbA": 0.0,
+     "cell_wall_cys": 0.0,
+     "small_secreted_cys": 0.0
+    }
+   },
+   "chosen_option": "default"
+  },
+  "fold_28": {
+   "default": {
+    "cutoff": 10.8,
+    "extra_calls": {
+     "Scer_S288C": 0,
+     "Calb_SC5314": 0,
+     "Bder_ER3": 4,
+     "Fful_Race5": 2,
+     "Post_PC9": 1
+    },
+    "hn_rates": {
+     "CFEM": 0.0,
+     "cerato_platanin": 0.0,
+     "HsbA": 0.0,
+     "cell_wall_cys": 0.0,
+     "small_secreted_cys": 0.0
+    }
+   },
+   "nobias": {
+    "cutoff": 11.7,
+    "extra_calls": {
+     "Scer_S288C": 0,
+     "Calb_SC5314": 0,
+     "Bder_ER3": 4,
+     "Fful_Race5": 2,
+     "Post_PC9": 4
+    },
+    "hn_rates": {
+     "CFEM": 0.0,
+     "cerato_platanin": 0.0,
+     "HsbA": 0.0,
+     "cell_wall_cys": 0.0,
+     "small_secreted_cys": 0.0
+    }
+   },
+   "chosen_option": "default"
+  },
+  "fold_all": {
+   "default": {
+    "cutoff": 7.9,
+    "extra_calls": {
+     "Scer_S288C": 0,
+     "Calb_SC5314": 0,
+     "Bder_ER3": 2,
+     "Fful_Race5": 2,
+     "Post_PC9": 3
+    },
+    "hn_rates": {
+     "CFEM": 0.0,
+     "cerato_platanin": 0.0,
+     "HsbA": 0.0,
+     "cell_wall_cys": 0.0,
+     "small_secreted_cys": 0.0
+    }
+   },
+   "nobias": {
+    "cutoff": 11.4,
+    "extra_calls": {
+     "Scer_S288C": 0,
+     "Calb_SC5314": 0,
+     "Bder_ER3": 4,
+     "Fful_Race5": 1,
+     "Post_PC9": 5
+    },
+    "hn_rates": {
+     "CFEM": 0.0,
+     "cerato_platanin": 0.0,
+     "HsbA": 0.0,
+     "cell_wall_cys": 0.0,
+     "small_secreted_cys": 0.0
+    }
+   },
+   "chosen_option": "default"
+  }
+ }
+}

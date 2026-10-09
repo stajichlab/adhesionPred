@@ -19,7 +19,7 @@ FAMILY_COLUMNS = [
     "active_by",
     "active_date",
 ]
-MODULES = ("pfam_adhesion", "pfam_allergen")
+MODULES = ("pfam_adhesion", "pfam_allergen", "pfam_hydrophobin", "pfam_hsba")
 SECOND_CONDITIONS = ("", "signal_peptide", "no_tm")
 COLUMNS = ["hit", "families"]
 
@@ -106,6 +106,8 @@ def parse_domtblout(path):
                 "acc": f[4].split(".")[0],
                 "ievalue": float(f[12]),
                 "score": float(f[13]),
+                "seq_score": float(f[7]),
+                "query": f[3],
             }
         )
     return hits

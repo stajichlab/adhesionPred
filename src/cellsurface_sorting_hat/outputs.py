@@ -28,8 +28,10 @@ def _known_limits(thresholds):
         "label in version 1. There is no `cell_wall_protein` call.",
         "`tandem_repeat_protein` and `wall_family_domain` are evidence. Repeat proteins include "
         "intracellular ones (ubiquitin, calmodulin, ankyrin proteins). A domain of a family that is "
-        "linked to adhesion or wall function in at least one species (CFEM, Bys1, hydrophobin, Als) is "
-        "not shown to mediate adhesion here. The adhesion call needs a signal peptide.",
+        "linked to adhesion or wall function in at least one species (CFEM, Bys1, Als) is "
+        "not shown to mediate adhesion here. The adhesion call needs a signal peptide. "
+        "`hydrophobin_domain` (hydrophobin Pfam models, category 2c) and `hsba_domain` (HsbA, PF12296, "
+        "which may not be a hydrophobin) are separate evidence calls. They do not set `wall_family_domain`.",
         f"`cocci_specificity_rank_top15` is the top {percent}% of a fixed Coccidioides immitis ranking "
         "(similarity to IEDB antigens, prevalence, absence of orthologs in confounder fungi). It is not "
         "epitope prediction. The cut was set after the four anchors were seen. The ranking prints NOT "
@@ -267,6 +269,34 @@ def render_report(info, records):
     if basis:
         lines += ["", "## `other_basis` (categories left out because they were not assessable)", ""]
         lines += [f"- {b}: {n}" for b, n in sorted(basis.items())]
+    attach = [r for r in records if r.call == "surface_attachment_candidate" and r.value == CALLED]
+    if attach:
+        labels = {
+            "tandem_repeat_protein": "adhesin repeat",
+            "wall_family_domain": "adhesion or wall family domain",
+            "hydrophobin_domain": "surface-active (hydrophobin, HsbA)",
+            "hsba_domain": "surface-active (hydrophobin, HsbA)",
+        }
+        per = Counter()
+        for r in attach:
+            for label in {labels[b] for b in r.other_basis.split(",") if b}:
+                per[label] += 1
+        lines += [
+            "",
+            "## Surface attachment: which evidence held",
+            "",
+            "A protein can hold more than one. Surface-active proteins adsorb to surfaces. They are not shown to be adhesins.",
+            "",
+            "| evidence | proteins |",
+            "|---|---|",
+            f"| proteins called | {len(attach)} |",
+        ]
+        for label in (
+            "adhesin repeat",
+            "adhesion or wall family domain",
+            "surface-active (hydrophobin, HsbA)",
+        ):
+            lines.append(f"| {label} | {per[label]} |")
     lines += ["", "## Known limits", ""] + [
         f"{i}. {t}" for i, t in enumerate(_known_limits(info.thresholds), 1)
     ]

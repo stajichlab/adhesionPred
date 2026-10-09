@@ -1,0 +1,2 @@
+module=signalp/6-gpu
+signalp6_version=SignalP 6.0 Signal peptide prediction tool 6.0h
