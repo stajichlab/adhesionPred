@@ -93,13 +93,8 @@ def report(families, min_genera=3):
     }
 
 
-def fitch_gains_losses(newick, present, all_tips):
-    """Gains and losses of presence on a rooted tree: Fitch two-pass reconstruction with ties resolved to the parent state
-    (a root tie resolves to absent), then 0->1 and 1->0 changes counted on the branches. Unrooted input is the caller's problem."""
-    from Bio import Phylo
-
-    tree = Phylo.read(io.StringIO(newick), "newick")
-    tips = set(all_tips)
+def _reconstruct(tree, present):
+    """Fitch two-pass reconstruction with ties resolved to the parent state (a root tie resolves to absent)."""
 
     def down(node):
         if node.is_terminal():
@@ -118,20 +113,42 @@ def fitch_gains_losses(newick, present, all_tips):
         for c in node.clades:
             up(c, node.state)
 
+    import sys
+
+    sys.setrecursionlimit(1_000_000)
     down(tree.root)
     up(tree.root, None)
-    gains = losses = 0
+
+
+def fitch_detail(newick, present, target=frozenset()):
+    """{"gains_in_target", "gains_elsewhere", "losses"} on a rooted tree.
+
+    A gain is a 0->1 change on a branch. It is "in target" when every tip below the branch is a target tip.
+    The tree must be rooted by the caller (root_and_prune in run_discovery.py).
+    """
+    from Bio import Phylo
+
+    tree = Phylo.read(io.StringIO(newick), "newick")
+    _reconstruct(tree, present)
+    out = {"gains_in_target": 0, "gains_elsewhere": 0, "losses": 0}
     stack = [tree.root]
     while stack:
         n = stack.pop()
         for c in n.clades:
             if n.state == 0 and c.state == 1:
-                gains += 1
+                inside = target and all(x.name in target for x in c.get_terminals())
+                out["gains_in_target" if inside else "gains_elsewhere"] += 1
             elif n.state == 1 and c.state == 0:
-                losses += 1
+                out["losses"] += 1
             stack.append(c)
-    assert tips >= {n.name for n in tree.get_terminals()}
-    return gains, losses
+    return out
 
 
-__all__ = ["bh", "family_stats", "report", "fitch_gains_losses"]
+def fitch_gains_losses(newick, present, all_tips):
+    """(gains, losses) on a rooted tree; see fitch_detail."""
+    d = fitch_detail(newick, present)
+    assert set(all_tips) >= set(present)
+    return d["gains_in_target"] + d["gains_elsewhere"], d["losses"]
+
+
+__all__ = ["bh", "family_stats", "report", "fitch_gains_losses", "fitch_detail"]

@@ -45,3 +45,16 @@ def test_pruned_tree_keeps_only_the_chosen_tips():
 
     tips = sorted(t.name for t in Phylo.read(io.StringIO(out), "newick").get_terminals())
     assert tips == ["A", "C", "E"]
+
+
+def test_rooting_on_an_outgroup_then_pruning_keeps_the_outgroup_split():
+    nwk = "((A:1,B:1):1,(C:1,(X:1,Y:1):1):1);"
+    out = m.root_and_prune(nwk, outgroup={"X", "Y"}, keep={"A", "B", "C", "X"})
+    import io
+
+    from Bio import Phylo
+
+    t = Phylo.read(io.StringIO(out), "newick")
+    kids = [sorted(x.name for x in c.get_terminals()) for c in t.root.clades]
+    assert ["X"] in kids  # the outgroup sits alone on one side of the root
+    assert sorted(sum(kids, [])) == ["A", "B", "C", "X"]

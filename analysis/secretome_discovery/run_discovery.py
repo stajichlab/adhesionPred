@@ -71,14 +71,42 @@ def prune_newick(newick, keep):
     return out.getvalue()
 
 
+def root_and_prune(newick, outgroup, keep):
+    """Root on the MRCA of the outgroup tips, then keep only the tips in keep or outgroup-kept ones (the outgroup stays if in keep)."""
+    from Bio import Phylo
+
+    tree = Phylo.read(io.StringIO(newick), "newick")
+    sys.setrecursionlimit(1_000_000)
+    tree.root_with_outgroup([t for t in tree.get_terminals() if t.name in outgroup])
+    buf = io.StringIO()
+    Phylo.write(tree, buf, "newick")
+    return prune_newick(buf.getvalue(), keep)
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--selection", required=True)
     ap.add_argument("--pools", required=True)
     ap.add_argument("--out", required=True)
     ap.add_argument("--min-genera", type=int, default=3)
+    ap.add_argument("--tree", help="species tree (newick); gains and losses are added when given")
+    ap.add_argument("--samples", help="Fungi_5k samples.csv (outgroup = Basidiomycota)")
+    ap.add_argument("--prefix", help="Fungi_5k proteinfile2prefix.tsv (locus tag to proteome name)")
     a = ap.parse_args()
     sel = list(csv.DictReader(open(a.selection), delimiter="\t"))
+    g2name = {r["genus"]: r["name"] for r in sel}
+    rooted = None
+    if a.tree:
+        tag2name = {}
+        for line in open(a.prefix):
+            name, tag = line.rstrip("\n").split("\t")[:2]
+            tag2name[tag] = name
+        outgroup = {
+            tag2name[r["LOCUSTAG"]]
+            for r in csv.DictReader(open(a.samples))
+            if r["PHYLUM"] == "Basidiomycota" and r["LOCUSTAG"] in tag2name
+        }
+        rooted = root_and_prune(open(a.tree).read(), outgroup, {r["name"] for r in sel})
     out = Path(a.out)
     out.mkdir(parents=True, exist_ok=True)
     for pool in ("S", "U"):
@@ -95,7 +123,13 @@ def main():
                 for g, (grp, s, h) in data.items()
                 if grp in (target, "background")
             }
-            res = stats.report(family_rows(sub), min_genera=a.min_genera)
+            fams = family_rows(sub)
+            res = stats.report(fams, min_genera=a.min_genera)
+            if rooted:
+                tgt = {g2name[g] for g, (grp, _, _) in sub.items() if grp == "target"}
+                for s in res["enriched"]:
+                    present = {g2name[r["genus"]] for r in fams[s["family"]] if r["hits"] > 0}
+                    s.update(stats.fitch_detail(rooted, present, tgt))
             for kind in ("enriched", "depleted"):
                 rows = res[kind]
                 p = out / f"{pool}_{target}_{kind}.tsv"

@@ -95,3 +95,9 @@ def test_fitch_counts_two_gains_for_two_separate_clades():
     nwk = "(((A,B),(C,D)),((E,F),(G,H)));"
     g, lo = m.fitch_gains_losses(nwk, {"A", "B", "G", "H"}, all_tips=list("ABCDEFGH"))
     assert (g, lo) == (2, 0)
+
+
+def test_gains_inside_and_outside_the_target_clade_are_counted_apart():
+    nwk = "(((A,B),(C,D)),((E,F),(G,H)));"
+    d = m.fitch_detail(nwk, {"A", "B", "G", "H"}, target={"A", "B", "C", "D"})
+    assert d == {"gains_in_target": 1, "gains_elsewhere": 1, "losses": 0}
