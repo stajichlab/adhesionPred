@@ -51,7 +51,7 @@ None. M5 failed review 1 and passed review 2 after revision.
 | M5 O3 | BAD1 dropped; BAD1-type arrays are outside the call. |
 | M5 O4 | The 20 class 2a candidates and the 74 look-alikes are reported only. |
 | M2 O1 | (a) CFEM stays in `cell_wall_adhesion_candidate`; the family is shown. |
-| M2 O2 | Five families go active now: PF00624, PF13928, PF15789, PF22799, PF30910 (done: `family_table.tsv`, test updated). The other nine stay inactive. **Next: test all 14 and decide how to incorporate them (owner, "move next to testing all of these").** |
+| M2 O2 | Five families went active: PF00624, PF13928, PF15789, PF22799, PF30910. PF30910 was turned off again the same day after the family test; four stay on. The other nine stay inactive. **Next: test all 14 and decide how to incorporate them (owner, "move next to testing all of these").** |
 | M2 O3 | (a) `iuis_allergen_homolog` keeps its Pfam branch; may be `not_assessable`; antigen and allergen categories stay in the report as `unvalidated`. |
 | M2 O5 | No "derived" marker in `status_basis` for now. |
 | Task 07 Q1 | Msb2 family stays rejected. |
@@ -73,7 +73,9 @@ None. M5 failed review 1 and passed review 2 after revision.
 ## Family tests (M4) run 2026-10-09 after the owner request
 
 Report: `docs/reports/2026-10-09-family-tests.md`; code `analysis/family_tests/`; table `docs/reports/data/sorting_hat/family_tests/family_tests.tsv`. Key facts for the owner:
-- **PF30910 ALS_M (turned on today) does not hit the Candida Als positives** (0 of 14 with a Candida_ALS_N hit, even at E 1e-3). Decision needed: turn it off?
+- **PF30910 ALS_M (turned on today) does not hit the Candida Als positives** (0 of 14 with a Candida_ALS_N hit, even at E 1e-3). **Decision (owner, 2026-10-09): turned off again** (`family_table.tsv`; the other four of the five stay on).
 - **PF22799 PIR1-like_C (turned on today) hits 3 N1 and 1 N2 hard negatives** and no E1 positive.
 - **CFEM hits 12 N1 negatives in 9 of 76 clusters** (and 1 of 54 E1 positives): new evidence for M2 O1.
 - Hyr1 has no E1 positive to test it; the allergen families need an IUIS test; Candida_ALS_N, Candida_ALS, Flo11 and GLEYA are the next candidates to turn on.
+
+**Owner decision 2026-10-09 (after the family test):** PF30910 ALS_M off; PF11766 Candida_ALS_N, PF05792 Candida_ALS, PF10182 Flo11 and PF10528 GLEYA on. Active families now: 10 + PF00624, PF13928, PF15789, PF22799 + these four = 18 of 24. Inactive: Bys1 PF04681, Hyphal_reg_CWP PF11765, PIR PF00399, ALS_M PF30910, AltA1 PF16541, Allergen_Asp_f_4 PF25312. Known at the time of the decision: GLEYA hits 1 N2 negative; the four families overlap the repeat call in 3 to 15 scan proteins each. The repeat call's status files are not stale (only `categories.yaml` changes the hash), but the pfam family digest changed; the Pfam-reading calls need a new measure when next run in a real work directory (not done).

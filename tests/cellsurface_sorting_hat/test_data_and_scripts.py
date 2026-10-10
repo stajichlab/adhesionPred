@@ -37,7 +37,11 @@ SIGNED_OFF = {
     "PF13928",  # Flocculin_t3
     "PF15789",  # Hyr1
     "PF22799",  # PIR1-like_C
-    "PF30910",  # ALS_M
+    # Owner decision 2026-10-09 after the family test (docs/reports/2026-10-09-family-tests.md).
+    "PF11766",  # Candida_ALS_N
+    "PF05792",  # Candida_ALS
+    "PF10182",  # Flo11
+    "PF10528",  # GLEYA
 }
 
 
