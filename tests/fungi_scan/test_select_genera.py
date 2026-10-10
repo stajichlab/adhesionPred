@@ -67,3 +67,9 @@ def test_groups_target_background_and_excluded():
     assert m.group_of(row("A", "x", 1, order="Eurotiales", family="Trichocomaceae")) == "background"
     assert m.group_of(row("A", "x", 1, order="Hypocreales")) == "background"
     assert m.group_of(row("A", "x", 1, order="Saccharomycetales", sub="Saccharomycotina")) == "out"
+
+
+def test_fasta_count_counts_records(tmp_path):
+    f = tmp_path / "x.fa"
+    f.write_text(">a\nMK\n>b\nMM\n")
+    assert m.fasta_count(f) == 2

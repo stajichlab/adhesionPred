@@ -18,6 +18,12 @@ ROOT = Path("/bigdata/stajichlab/shared/projects/Fungi_5k")
 MIN_PROTEINS = 4000
 
 
+def fasta_count(path):
+    """Number of records of a FASTA file (protein_counts.tsv lists 1 for 16 files that hold thousands)."""
+    with open(path) as fh:
+        return sum(1 for line in fh if line.startswith(">"))
+
+
 def group_of(r):
     if r["SUBPHYLUM"] != "Pezizomycotina":
         return "out"
@@ -69,6 +75,8 @@ def main():
         name = prefix.get(r["LOCUSTAG"])
         r["_name"] = name
         r["_n"] = counts.get(name, 0) if name else 0
+        if name and r["_n"] < 100 and (ROOT / "input" / f"{name}.proteins.fa").exists():
+            r["_n"] = fasta_count(ROOT / "input" / f"{name}.proteins.fa")
     rows = [
         r for r in rows if r["_name"] and (ROOT / "input" / f"{r['_name']}.proteins.fa").exists()
     ]
