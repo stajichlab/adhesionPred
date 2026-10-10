@@ -69,3 +69,11 @@ None. M5 failed review 1 and passed review 2 after revision.
 2. M5a plan (review before code), then M5a.
 3. Re-measure the repeat call when `categories.yaml` next changes (M5b2).
 4. Hard-negative set: add N1 rows for species near 20 clusters (*S. cerevisiae* 16, *A. fumigatus* 15).
+
+## Family tests (M4) run 2026-10-09 after the owner request
+
+Report: `docs/reports/2026-10-09-family-tests.md`; code `analysis/family_tests/`; table `docs/reports/data/sorting_hat/family_tests/family_tests.tsv`. Key facts for the owner:
+- **PF30910 ALS_M (turned on today) does not hit the Candida Als positives** (0 of 14 with a Candida_ALS_N hit, even at E 1e-3). Decision needed: turn it off?
+- **PF22799 PIR1-like_C (turned on today) hits 3 N1 and 1 N2 hard negatives** and no E1 positive.
+- **CFEM hits 12 N1 negatives in 9 of 76 clusters** (and 1 of 54 E1 positives): new evidence for M2 O1.
+- Hyr1 has no E1 positive to test it; the allergen families need an IUIS test; Candida_ALS_N, Candida_ALS, Flo11 and GLEYA are the next candidates to turn on.
