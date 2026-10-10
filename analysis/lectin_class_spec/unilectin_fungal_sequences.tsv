@@ -1,0 +1,58 @@
+uniprot	species	unilectin_class	unilectin_family	protein_name	n_pdb_structures	cluster30	pfam_ga_hits
+P18891	Aleuria aurantia	AAL-like (PropLec6A)	AAL	Fucose-specific lectin (Aleuria aurantia lectin) (AAL)	3	P18891	PF07938:Fungal_lectin
+G1XA82	Arthrobotrys oligospora	AAL-like (PropLec6A)	AOL, AFL / FleA	NULL	6	G1XA82	PF07938:Fungal_lectin
+Q4WW81	Aspergillus fumigatus	AAL-like (PropLec6A)	AOL, AFL / FleA	Fucose-specific lectin (Aspergillus fumigatus lectin) (AFL)	9	Q2UNX8	PF07938:Fungal_lectin
+Q2UNX8	Aspergillus oryzae	AAL-like (PropLec6A)	AOL, AFL / FleA	Fucose-specific lectin (Aspergillus oryzea lectin) (AOL)	3	Q2UNX8	PF07938:Fungal_lectin
+A0A084FYP2	Pseudallescheria apiosperma (Scedosporium apiospermum)	AAL-like (PropLec6A)	SapL1	Fucose-specific lectin	1	P18891	PF07938:Fungal_lectin
+A0A0S4TLR1	Ralstonia solanacearum	AAL-like (PropLec6A)	RSL, BambL	Fucose-binding lectin protein (Putative fucose-binding lectin protein)	3	A0A0S4TLR1	PF07938:Fungal_lectin
+E7E2M2	Pleurotus ostreatus	CBM67-like	POL	NULL	7	E7E2M2	none
+B3VS76	Coprinopsis cinerea	CML-like	CML	Mucin-binding lectin 1	3	B3VS76	none
+B3GA02	Coprinopsis cinerea	Coprinus trefoil lectin-like	CCL2	CCL2 lectin	4	B3GA02	PF21595:CCL2-like
+Q00022	Agaricus bisporus	Fungal fruit body lectin	ABL	Agaricus bisporus lectin (ABL) (Agaricus bisporus agglutinin) (ABA) (Gal-beta-1,3-GalNAc-binding lectin) (TF antigen-binding lectin)	5	A0A0M3KL30	PF07367:FB_lectin
+F2Z266	Boletus edulis	Fungal fruit body lectin	BEL and XCL	Boletus edulis lectin (BEL)	7	A0A0M3KL30	PF07367:FB_lectin
+A0A0M3KL30	Sclerotium rolfsii	Fungal fruit body lectin	SRL	Lectin (Sclerotium Rolfsii lectin variant 1 (SSR1))	2	A0A0M3KL30	PF07367:FB_lectin
+A0A0M3KL31	Sclerotium rolfsii	Fungal fruit body lectin	SRL	Lectin variant 2 (Sclerotium Rolfsii lectin variant)	2	A0A0M3KL30	PF07367:FB_lectin
+UPI000150AC21	Sclerotium rolfsii	Fungal fruit body lectin	SRL	NULL	3	NA	none
+Q8WZC9	Xerocomus chrysenteron	Fungal fruit body lectin	BEL and XCL	Lectin	2	A0A0M3KL30	PF07367:FB_lectin
+A0A384E107	Pholiota squarrosa	Fungal prism lectins	PhoSL	Lectin (PhoSL)	4	A0A384E107	none
+A0A3B6UEU4	Pholiota squarrosa	Fungal prism lectins	PhoSL	Lectin	6	A0A384E107	none
+P80412	Flammulina velutipes	Ig-like	Fip-Fve	Immunomodulatory protein FIP-Fve	1	P80412	PF09259:Fve
+R4GRU4	Boletus edulis	Laetiporus trefoil lectin-like	BEL	BEL-beta trefoil	1	R4GRU5	none
+R4GRU5	Boletus edulis	Laetiporus trefoil lectin-like	BEL	BEL-beta trefoil	6	R4GRU5	none
+R4GRU6	Boletus edulis	Laetiporus trefoil lectin-like	BEL	BEL beta-trefoil	1	R4GRU5	none
+R4GRU9	Boletus edulis	Laetiporus trefoil lectin-like	BEL	BEL beta-trefoil	1	R4GRU5	none
+B0D650	Laccaria bicolor	Laetiporus trefoil lectin-like	BEL	Predicted protein	1	B0D650	none
+Q7Z8V1	Laetiporus sulphureus	Laetiporus trefoil lectin-like	LSLa	Hemolytic lectin LSLa	5	Q7Z8V1	PF03318:ETX_MTX2
+A7UNK4	Lyophyllum decastes	Lyophyllum ginkbilobin-like	LDL	Alpha-galactosyl-binding lectin	4	A7UNK4	PF21691:LDL
+B3VBK9	Cladosporium fulvum	LysM-like	Ecp6	Extracellular protein 6	2	B3VBK9	PF01476:LysM
+F9XHX3	Zymoseptoria tritici	LysM-like	Mg1LysM	NULL	1	F9XHX3	PF01476:LysM
+I7H471	Marasmius oreades	Monocot-lectin like	MOL	Mannose recognizing lectin	2	I7H471	none
+B4UMX2	Candida glabrata	PA14 yeast adhesin	Epa9A	PA14 domain-containing protein	4	B4UMX2	PF07691:PA14,PF10528:GLEYA
+Q6FUW5	Candida glabrata	PA14 yeast adhesin	Epa1A, Epa6A	PA14 domain-containing protein	3	Q6FX55	PF07691:PA14,PF10528:GLEYA
+Q6FX55	Candida glabrata	PA14 yeast adhesin	Epa1A, Epa6A	PA14 domain-containing protein	5	Q6FX55	PF07691:PA14,PF10528:GLEYA
+Q6VBJ0	Candida glabrata	PA14 yeast adhesin	Epa1A, Epa6A	Epa1p	5	Q6FX55	PF07691:PA14,PF10528:GLEYA
+A0A1A9TAD0	Komagataella pastoris	PA14 yeast adhesin	Flo1	CEA1	2	A0A1A9TAD0	PF07691:PA14,PF10528:GLEYA
+A0A1B2JGH2	Komagataella pastoris	PA14 yeast adhesin	Flo2	BA75_04148T0	1	A0A1B2JGH2	PF07691:PA14,PF10528:GLEYA
+P32768	Saccharomyces cerevisiae	PA14 yeast adhesin	Flo1 and Flo6	Flocculation protein FLO1 (Flocculin-1)	2	P38894	PF00624:Flocculin,PF07691:PA14,PF10528:GLEYA
+P38894	Saccharomyces cerevisiae	PA14 yeast adhesin	Flo1 and Flo6	Flocculation protein FLO5 (Flocculin-5)	7	P38894	PF00624:Flocculin,PF07691:PA14,PF10528:GLEYA,PF13928:Flocculin_t3
+B3IUA8	Saccharomyces pastorianus	PA14 yeast adhesin	Flo1	Flocculin	1	P38894	PF00624:Flocculin,PF07691:PA14,PF10528:GLEYA,PF13928:Flocculin_t3
+B3IUB3	Saccharomyces pastorianus	PA14 yeast adhesin	Flo1	Flocculin (Fragment)	1	B3IUB3	PF07691:PA14,PF10528:GLEYA
+H6CS64	Agrocybe aegerita	PVL-like (PropLec7B)	AAL2	Lectin 2	3	Q309D1	PF13517:FG-GAP_3
+A0A1U7Q1Z0	Psathyrella asperospora	PVL-like (PropLec7B)	PVL, PAL	GlcNAc specific lectin	1	Q309D1	PF13517:FG-GAP_3
+Q309D1	Psathyrella velutina (or Lacrimaria velutina)	PVL-like (PropLec7B)	PVL, PAL	Lectin PVL (Fragment)	5	Q309D1	PF13517:FG-GAP_3
+F6KMV5	Macrolepiota procera	Ricin-like	Macrolepiota	Ricin B-like lectin	4	F6KMV5	PF14200:RicinB_lectin_2
+Q8X123	Marasmius oreades	Ricin-like	MOA	Agglutinin	2	Q75WT9	PF14200:RicinB_lectin_2,PF18021:Agglutinin_C,PF18022:Lectin_C_term
+Q75WT9	Polyporus squamosus	Ricin-like	PSL	Ricin B-related lectin	1	Q75WT9	PF14200:RicinB_lectin_2,PF18021:Agglutinin_C,PF18022:Lectin_C_term
+L8WGI4	Rhizoctonia solani	Ricin-like	RSA	Ricin-type beta-trefoil lectin domain-containing protein	2	L8WGI4	PF14200:RicinB_lectin_2
+A7XUK7	Sclerotinia sclerotiorum	Sclerotinia trefoil lectin-like	Sclerotinia	Agglutinin (SSA)	2	A7XUK7	PF14200:RicinB_lectin_2
+B0CZL6	Laccaria bicolor	Tectonin (PropLec6B)	tectonin-2	Tectonin 2	2	B0CZL6	PF19193:Tectonin
+P43555	Saccharomyces cerevisiae	Yeast Emp L-type	Emp47p	Protein EMP47 (47 kDa endomembrane protein) (Endosomal P44 protein)	4	Q12396	PF03388:Lectin_leg-like
+Q12396	Saccharomyces cerevisiae	Yeast Emp L-type	Emp46p	Protein EMP46 (46 kDa endomembrane protein)	3	Q12396	PF03388:Lectin_leg-like
+I1RM03	Gibberella zeae	cyanovirin-like	GzCVNH	CVNH domain-containing protein	1	I1RM03	PF08881:CVNH
+G4N991	Magnaporthe oryzae	cyanovirin-like	MoCVNH	LysM domain-containing protein	1	G4N991	PF01476:LysM,PF08881:CVNH
+Q7S6U4	Neurospora crassa	cyanovirin-like	NcCVNH	Cyanovirin-N homolog (CV-N homolog)	5	I1RM03	PF08881:CVNH
+Q5MK11	Tuber borchii	cyanovirin-like	TbCVNH	Cyanovirin-N homolog (CV-N homolog)	1	I1RM03	PF08881:CVNH
+A0A2D0TCI3	Agrocybe cylindracea	galectin-like	agrocybe ACG	Galectin	1	Q9P4R8	PF00337:Gal-bind_lectin
+Q6WY08	Agrocybe cylindracea	galectin-like	agrocybe ACG	Anti-tumor lectin (EC 3.1.21.-) (AAL) (Fragment)	24	Q9P4R8	PF00337:Gal-bind_lectin
+Q206Z5	Coprinopsis cinerea	galectin-like	coprinus galectin-3	Galectin-3 (Cgl-III) (Galectin III)	2	Q9P4R8	PF00337:Gal-bind_lectin
+Q9P4R8	Coprinopsis cinerea	galectin-like	coprinus galectin-2	Galectin-2 (Cgl-II) (Galectin II)	7	Q9P4R8	PF00337:Gal-bind_lectin
