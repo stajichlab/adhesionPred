@@ -1,0 +1,16 @@
+missing tbl 0 of 653
+CCL2-like proteins 2 genera 2 (0.3%) {'background': 2}
+FB_lectin proteins 75 genera 68 (10.4%) {'aspergillaceae': 1, 'background': 66, 'onygenales': 1}
+Fungal_lectin proteins 997 genera 392 (60.0%) {'aspergillaceae': 4, 'background': 377, 'onygenales': 11}
+Gal-bind_lectin proteins 41 genera 31 (4.7%) {'aspergillaceae': 1, 'background': 23, 'onygenales': 7}
+LDL proteins 39 genera 36 (5.5%) {'background': 30, 'onygenales': 6}
+Fungal_lectin seq score >= 25.3: proteins 997, genera 392 (60.0%)
+Fungal_lectin seq score >= 50: proteins 335, genera 188 (28.8%)
+Fungal_lectin seq score >= 100: proteins 150, genera 104 (15.9%)
+Fungal_lectin seq score >= 200: proteins 62, genera 52 (8.0%)
+Fungal_lectin seq score >= 300: proteins 42, genera 40 (6.1%)
+FB_lectin seq score >= 25.3: proteins 75, genera 68 (10.4%)
+FB_lectin seq score >= 50: proteins 58, genera 54 (8.3%)
+FB_lectin seq score >= 100: proteins 48, genera 46 (7.0%)
+FB_lectin seq score >= 200: proteins 6, genera 6 (0.9%)
+FB_lectin seq score >= 300: proteins 0, genera 0 (0.0%)
