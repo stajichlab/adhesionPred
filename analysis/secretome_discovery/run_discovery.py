@@ -147,6 +147,9 @@ def main():
                         "t_copies_median",
                         "b_copies_median",
                         "mwu_p",
+                        "gains_in_target",
+                        "gains_elsewhere",
+                        "losses",
                     ]
                     w = csv.DictWriter(fh, fieldnames=cols, delimiter="\t", extrasaction="ignore")
                     w.writeheader()

@@ -58,3 +58,9 @@ def test_rooting_on_an_outgroup_then_pruning_keeps_the_outgroup_split():
     kids = [sorted(x.name for x in c.get_terminals()) for c in t.root.clades]
     assert ["X"] in kids  # the outgroup sits alone on one side of the root
     assert sorted(sum(kids, [])) == ["A", "B", "C", "X"]
+
+
+def test_the_output_columns_include_gains_and_losses():
+    src = SCRIPT.read_text()
+    for c in ("gains_in_target", "gains_elsewhere", "losses"):
+        assert f'"{c}",' in src
