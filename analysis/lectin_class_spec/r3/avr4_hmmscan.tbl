@@ -1,0 +1,14 @@
+#                                                               --- full sequence ---- --- best 1 domain ---- --- domain number estimation ----
+# target name        accession  query name           accession    E-value  score  bias   E-value  score  bias   exp reg clu  ov env dom rep inc description of target
+#------------------- ---------- -------------------- ---------- --------- ------ ----- --------- ------ -----   --- --- --- --- --- --- --- --- ---------------------
+CBM_14               PF01607.30 sp|Q00363|AVR4_FULFL -            1.8e-06   28.7   6.1     3e-06   28.0   6.1   1.4   1   0   0   1   1   1   1 Chitin binding Peritrophin-A domain
+#
+# Program:         hmmscan
+# Version:         3.4 (Aug 2023)
+# Pipeline mode:   SCAN
+# Query file:      _r3_scratch/Avr4.faa
+# Target file:     /srv/projects/db/pfam/2026-01-27-Pfam38.2/Pfam-A.hmm
+# Option settings: /opt/linux/rocky/8.x/x86_64/pkgs/hmmer/3.4/bin/hmmscan --tblout _r3_scratch/avr4.tbl --noali --cut_ga /srv/projects/db/pfam/2026-01-27-Pfam38.2/Pfam-A.hmm _r3_scratch/Avr4.faa 
+# Current dir:     /bigdata/stajichlab/jstajich/projects/adhesionPred/.claude/worktrees/agent-af714731202a766b8
+# Date:            Sat Oct 10 15:38:03 2026
+# [ok]
