@@ -97,3 +97,11 @@ Report: `docs/reports/2026-10-09-family-tests.md`; code `analysis/family_tests/`
 ## Status of B2 jobs (2026-10-10, early morning)
 
 All 45 discovery jobs (`_workdir/fungi_scan/jobs_discovery.txt`) are still PENDING with reason `AssocGrpCpuLimit`: the group CPU allowance is held by other jobs of the same user (about 170 running and 180 pending `nf-PREDICT` jobs). No job has started, failed or timed out. B3 (pools, composition, Pfam/GPI join), the B4 statistics, the driver and the tree rooting are written and tested (20 tests), but have not run on real data. They need the converters, which need the jobs. If the Nextflow jobs finish first the queue will clear by itself. Otherwise decide whether to cancel or reduce the Nextflow run.
+
+## Discovery pass results (2026-10-10)
+
+- All 45 B2 jobs COMPLETED (queue wait about 7 h on the group CPU limit). All 653 proteomes have complete raw outputs; converters ran with no errors; every proteome lists the same 18 active families (blocker B-1 of review 1 closed for the discovery set; the 41 scan proteomes outside the discovery list still hold the old 10-family calls).
+- B3, B4, B5 done: `analysis/secretome_discovery/` (pools, statistics, driver, stability, report tables; 21 tests), report `docs/reports/2026-10-10-secretome-discovery-pass.md`, tables in `docs/reports/data/sorting_hat/secretome_discovery/`.
+- Result: 49 Pfam families enriched in Onygenales pool U at q < 0.05 (39 stable in 5 of 5 background subsamples); only 2 for Aspergillaceae (7 genera; not stable), so no Aspergillaceae pattern can be claimed with this design. Families of interest by description (T4 reading): Tos1, Ecm33, Bys1 (cell wall), fungal lectins PF07938/PF18647/PF21691 (glycan binding), Big defensin PF14862 and DUF6528 (absent or rare in the background, gains inside the target clade).
+- Not done (listed in the report): Mann-Whitney BH correction, Pfam-free cluster test, pathogen contrast, *Aspergillus* supplement, second-proteome check, literature sources for the hybrid list. The role column is "no stated role": the spec required the roles to be written before the statistics, and they were not.
+- Owner decisions needed: whether to run the remaining parts of the design; whether Bys1, Tos1 and Ecm33 join the broad-tier families (workstream C); which candidate families get literature evidence rows.

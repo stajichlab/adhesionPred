@@ -6,7 +6,9 @@
 
 You build **control datasets**: lists of proteins that are known positives or known negatives for
 one line of evidence. The sorting tool (`cellsurface_sorting_hat`) uses them to measure how well a
-module works. You do not train models. You do not change module code. You do not set thresholds.
+module works. You do not train models, except as the owner allows for a named task (for allergen
+evidence, owner decision 2026-10-09: an evidence-only model may be trained, with weak Swiss-Prot
+negatives). You do not change module code. You do not set thresholds.
 
 ## What counts as a control
 

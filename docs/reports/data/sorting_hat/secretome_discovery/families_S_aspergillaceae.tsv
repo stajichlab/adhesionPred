@@ -1,0 +1,4 @@
+family	name	description	role	t_present	n_target	b_present	n_background	odds_ratio	fisher_q	logit_p	t_copies_median	b_copies_median	mwu_p	gains_in_target	gains_elsewhere	losses	seeds_q_lt_0.05_of_5
+PF11693	DUF2990	Protein of unknown function (DUF2990)	no stated role	5	7	35	619	41.714285714285715	0.04344341805180985	5.2668361397621794e-05	2.100840336134454	0.0	1.5526631095011505e-12	0	11	7	5
+PF09430	EMC7_beta-sandw	ER membrane protein complex subunit 7, beta-sandwich domain	no stated role	7	7	139	619	inf	0.04344341805180985	6.747109560005944e-06	2.192982456140351	0.0	6.265307834744244e-08	0	68	33	4
+PF01185	Hydrophobin	Fungal hydrophobin	no stated role	7	7	148	619	inf	0.045325268061488476	1.2209216388764116e-06	5.270092226613966	0.0	1.7221936109673412e-08	0	54	20	3
