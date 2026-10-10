@@ -130,7 +130,7 @@ def main():
                 for s in res["enriched"]:
                     present = {g2name[r["genus"]] for r in fams[s["family"]] if r["hits"] > 0}
                     s.update(stats.fitch_detail(rooted, present, tgt))
-            for kind in ("enriched", "depleted"):
+            for kind in ("enriched", "depleted", "all"):
                 rows = res[kind]
                 p = out / f"{pool}_{target}_{kind}.tsv"
                 with open(p, "w", newline="") as fh:
@@ -147,6 +147,7 @@ def main():
                         "t_copies_median",
                         "b_copies_median",
                         "mwu_p",
+                        "mwu_q",
                         "gains_in_target",
                         "gains_elsewhere",
                         "losses",

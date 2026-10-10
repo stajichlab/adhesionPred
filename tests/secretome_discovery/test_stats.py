@@ -101,3 +101,22 @@ def test_gains_inside_and_outside_the_target_clade_are_counted_apart():
     nwk = "(((A,B),(C,D)),((E,F),(G,H)));"
     d = m.fitch_detail(nwk, {"A", "B", "G", "H"}, target={"A", "B", "C", "D"})
     assert d == {"gains_in_target": 1, "gains_elsewhere": 1, "losses": 0}
+
+
+def test_mann_whitney_gets_its_own_bh_over_families_with_three_target_genera():
+    # PF_E: presence equal in both groups, copy number much higher in the target
+    def r(genus, group, hits, pool=400):
+        return {"genus": genus, "group": group, "pool": pool, "hits": hits}
+
+    rows_e = [r(f"T{i}", "target", 8) for i in range(10)] + [
+        r(f"B{i}", "background", 1) for i in range(40)
+    ]
+    rows_f = (
+        [r(f"T{i}", "target", 1) for i in range(2)]
+        + [r(f"T{i}", "target", 0) for i in range(2, 10)]
+        + [r(f"B{i}", "background", 1) for i in range(40)]
+    )
+    out = m.report({"PF_E": rows_e, "PF_F": rows_f}, min_genera=3)
+    allrows = {s["family"]: s for s in out["all"]}
+    assert allrows["PF_E"]["mwu_q"] < 1e-5
+    assert allrows["PF_F"]["mwu_q"] != allrows["PF_F"]["mwu_q"]  # nan: fewer than 3 target genera
