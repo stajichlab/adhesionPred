@@ -1,17 +1,25 @@
 #!/usr/bin/env python3.12
 """Compare an MMseqs2 cluster table with the cluster30 column of unilectin_fungal_sequences.tsv.
 
-Usage: cluster_check.py MMSEQS_CLUSTER_TSV UNILECTIN_TABLE_TSV OUT_CLUSTERS_TSV
+Usage: cluster_check.py MMSEQS_CLUSTER_TSV UNILECTIN_TABLE_TSV OUT_CLUSTERS_TSV [MODEL_SET ...]
 Writes accession<TAB>cluster_id (representative accession) and prints whether the partitions are equal,
-and the M1 coverage count (sequences and clusters with a Pfam GA hit to an M1 model) after the three
+and the coverage count (sequences and clusters with a Pfam GA hit to a model set) after the three
 exclusions of spec section 4.4 (PA14 class, yeast Emp L-type class, Ralstonia).
+Default model sets: "five" (PF07938, PF21691, PF00337, PF07367, PF21595; revision-1 M1) and "PF07938"
+(revision-2 M1). Extra sets: pass each as a comma-separated list of Pfam accessions, for example
+PF07938,PF21691. The Ascomycota-only counts need the species list of review2/cov.py and are not printed here.
 """
 
 import csv
 import sys
 
 clu_tsv, table_tsv, out = sys.argv[1:4]
-M1 = {"PF07938", "PF21691", "PF00337", "PF07367", "PF21595"}
+SETS = {
+    "five": {"PF07938", "PF21691", "PF00337", "PF07367", "PF21595"},
+    "PF07938": {"PF07938"},
+}
+for extra in sys.argv[4:]:
+    SETS[extra] = set(extra.split(","))
 rep = {}
 for line in open(clu_tsv):
     r, m = line.rstrip("\n").split("\t")
@@ -40,10 +48,14 @@ def excl(r):
 
 keep = {a: r for a, r in tab.items() if not excl(r)}
 kc = {rep[a] for a in keep}
-hit = {
-    a for a, r in keep.items() if M1 & {h.split(":")[0] for h in r["pfam_ga_hits"].split(";") if h}
-}
-hc = {rep[a] for a in hit}
-print(
-    f"after exclusions: sequences {len(keep)}, clusters {len(kc)}; M1 hit sequences {len(hit)}, clusters {len(hc)}"
-)
+print(f"after exclusions: sequences {len(keep)}, clusters {len(kc)}")
+for name, models in SETS.items():
+    hit = {
+        a
+        for a, r in keep.items()
+        if models & {h.split(":")[0] for h in r["pfam_ga_hits"].split(";") if h}
+    }
+    hc = {rep[a] for a in hit}
+    print(
+        f"model set {name} ({','.join(sorted(models))}): hit sequences {len(hit)}, clusters {len(hc)}"
+    )
