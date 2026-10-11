@@ -1,0 +1,8 @@
+# The six PF07938 proteins of spec F27 (group 1), one per genus, all Onygenales.
+# ID<TAB>note. Made by extract_six.py. Use as --name-list.
+FC452C90_000306-T1	Myotisia sp. PD_48 (F27)
+FCE2ACBB_004168-T1	Microsporum canis (F27)
+FA49FE15_006535-T1	Arthroderma uncinatum (F27)
+F1215351_005656-T1	Onygena corvina (F27)
+F94BF6A1_004981-T1	Nannizzia gypsea (F27)
+F3F37487_006503-T1	Trichophyton benhamiae (F27)

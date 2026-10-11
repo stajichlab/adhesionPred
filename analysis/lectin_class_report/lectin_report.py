@@ -21,6 +21,15 @@ Usage:
   /usr/bin/python3.12 lectin_report.py --out-dir OUT --pfam-hmm Pfam-A.hmm \
       [--signalp FILE] [--tmpdir DIR] [--cpu 2] [--fasta-list LIST] [FASTA ...]
 
+Optional --name-list FILE: proteins to name in the report (ID, then a free note per line).
+With --signalp the table goes in the (a2) section. Without it, a "Named proteins" section.
+
+ID assumption (owner decision 2026-10-10): signal peptide data and the name list are matched
+on the protein ID alone (the first word of the FASTA header; for sp|ACC|NAME also ACC). This is
+safe for the ID sources in use (Fungi_5k, UniProt, NCBI). The script warns on stderr, and in the
+report, if the same ID occurs in two input proteomes. It does not stop. --no-dup-check skips the
+check. The check keeps all IDs of the run in memory (about 100 bytes per protein).
+
 Temp files go to --tmpdir, or to $SCRATCH when --tmpdir is not given. The script stops if
 neither is set. Paths come from arguments only. No file location is derived from the
 script path.
@@ -96,6 +105,15 @@ ENDEMIC_NOTE = (
     "found no fungal lectin literature. The hits in this report are domain hits only."
 )
 
+F27_NOTE = (
+    "Spec F27 names six full-length PF07938 proteins (score 288 to 331) in six Onygenales "
+    "genera. No paper on the function of these proteins was found: a PubMed search for a "
+    "dermatophyte AAL-like or fucose-binding lectin gave 0 hits (spec F27, review 3). "
+    '"Not found" is not "does not exist". Kerr 2016 (PMID 27058347) reports putative '
+    "FleA orthologs in dermatophytes, found by BLAST of AAL against NCBI sequences "
+    "(S1 Fig legend). Orthology of these proteins to FleA is not checked by this report."
+)
+
 NO_CALL_TEXT = (
     "This report makes no call. It writes no status file. It does not claim a function "
     "for any protein. Every model here is reported only (spec decision D1, option c)."
@@ -158,12 +176,17 @@ def read_signalp(path):
             line = line.rstrip("\n")
             if not line.strip() or line.startswith("#"):
                 continue
-            parts = line.split()
+            if "\t" in line:
+                # SignalP 6 file: the ID column can hold the whole FASTA header
+                cols = line.split("\t")
+                parts = [cols[0].split()[0] if cols[0].split() else "", *cols[1:]]
+            else:
+                parts = line.split()
             pid = parts[0]
             if len(parts) == 1:
                 has = True
             else:
-                pred = parts[1].upper()
+                pred = parts[1].strip().upper()
                 if pred == "ID" or pid == "ID":
                     continue
                 has = pred not in ("OTHER", "NO_SP")
@@ -285,23 +308,37 @@ def run_hmmsearch(hmmsearch, models_hmm, fasta, tbl_path, cpu, tmpdir):
         raise ReportError("hmmsearch failed on %s (exit %d): %s" % (fasta, rc, msg))
 
 
-def count_sequences(fasta):
-    """Exact number of FASTA records (a line that starts with >)."""
+def scan_fasta(fasta):
+    """Return (number of records, set of IDs). An ID is the first word of the header."""
     stream, close = open_binary(fasta)
     n = 0
-    at_start = True
+    ids = set()
     try:
-        while True:
-            chunk = stream.read(1 << 20)
-            if not chunk:
-                break
-            if at_start and chunk.startswith(b">"):
+        for line in stream:
+            if line.startswith(b">"):
                 n += 1
-            n += chunk.count(b"\n>")
-            at_start = False
+                words = line[1:].split()
+                ids.add(words[0].decode("utf-8", "replace") if words else "")
     finally:
         close()
-    return n
+    return n, ids
+
+
+def read_name_list(path):
+    """Read the list of proteins to name. Return {protein id: note}.
+
+    One protein per line. The first tab- or space-separated word is the ID. The rest of the
+    line is a free note (for example the genus). Lines that start with # are skipped.
+    """
+    out = {}
+    with open(path) as fh:
+        for line in fh:
+            line = line.rstrip("\n")
+            if not line.strip() or line.startswith("#"):
+                continue
+            parts = line.split(None, 1)
+            out[parts[0]] = parts[1].strip() if len(parts) > 1 else ""
+    return out
 
 
 def parse_tblout(path):
@@ -335,7 +372,40 @@ def write_atomic(path, text):
     os.replace(tmp, path)
 
 
-def build_outputs(args, proteomes, info, hits, n_prot, sp, versions):
+def named_section(hits, sp, named, heading):
+    """Lines for the table of named proteins (the --name-list option)."""
+    md = [heading, ""]
+    md.append(
+        "These proteins were named by the person who ran the report (--name-list). "
+        "Each row shows its PF07938 result in the input proteomes. No call is made. "
+        "No function is claimed.\n"
+    )
+    md.append("| protein | note | proteome | PF07938 score | signal peptide | label |")
+    md.append("|---|---|---|---|---|---|")
+    by_prot = {}
+    for h in hits:
+        if h["model_acc"] == "PF07938":
+            by_prot.setdefault(h["protein"], []).append(h)
+    for pid, note in named.items():
+        rows = by_prot.get(pid)
+        sp_val = lookup_sp(sp, pid) if sp is not None else None
+        sp_txt = "NA" if sp_val is None else ("yes" if sp_val else "no")
+        if not rows:
+            md.append(
+                "| %s | %s | not in the input proteomes, or no PF07938 hit | NA | %s | NA |"
+                % (pid, note, sp_txt)
+            )
+            continue
+        for h in rows:
+            md.append(
+                "| %s | %s | %s | %.1f | %s | %s |"
+                % (pid, note, h["proteome"], h["seq_score"], sp_txt, PF07938_LABEL)
+            )
+    md.append("")
+    return md
+
+
+def build_outputs(args, proteomes, info, hits, n_prot, sp, versions, named=None, dup_ids=None):
     """Make the three output texts. hits is a list of dict rows."""
     accs = [m[0] for m in MODELS]
     meta = {m[0]: m for m in MODELS}
@@ -532,6 +602,12 @@ def build_outputs(args, proteomes, info, hits, n_prot, sp, versions):
             md.append('\nFixed text for every row: "%s"\n' % FIXED_TEXT)
         else:
             md.append("No protein is in the group.\n")
+        md.append(F27_NOTE + "\n")
+        if named:
+            md.extend(named_section(hits, sp, named, "### Named proteins"))
+    elif named:
+        md.extend(named_section(hits, sp, named, "## Named proteins"))
+        md.append(F27_NOTE + "\n")
 
     md.append("## Notes\n")
     md.append(
@@ -554,11 +630,16 @@ def build_outputs(args, proteomes, info, hits, n_prot, sp, versions):
         "- The report items 4 and 5 of spec 6.2 (UniLectin3D sequence table, T4 outcomes) "
         "are not made by this script."
     )
-    if sp is not None:
+    if sp is not None or named:
         md.append(
-            "- Signal peptide IDs are matched on the protein ID alone, not on the "
-            "proteome name. Equal IDs in two proteomes would share one value."
+            "- Signal peptide data and the name list are matched on the protein ID alone, not "
+            "on the proteome name. Equal IDs in two proteomes would share one value."
         )
+        if dup_ids:
+            md.append(
+                "- **Warning:** %d protein IDs occur in more than one input proteome. "
+                "Matching can mix proteomes." % len(dup_ids)
+            )
     md.append("")
 
     return "\n".join(count_lines) + "\n", "\n".join(hit_lines) + "\n", "\n".join(md)
@@ -576,6 +657,16 @@ def parse_args(argv):
     ap.add_argument("--hmmsearch", default="hmmsearch", help="hmmsearch executable")
     ap.add_argument(
         "--signalp", default=None, help="optional signal peptide table; enables the (a2) section"
+    )
+    ap.add_argument(
+        "--name-list",
+        default=None,
+        help="optional list of proteins to name in the report (ID, then a free note)",
+    )
+    ap.add_argument(
+        "--no-dup-check",
+        action="store_true",
+        help="skip the check for equal protein IDs in two proteomes (saves memory)",
     )
     ap.add_argument("--tmpdir", default=None, help="temp dir (default: $SCRATCH)")
     ap.add_argument("--cpu", type=int, default=2)
@@ -604,6 +695,7 @@ def main(argv=None):
         if not os.path.isfile(f):
             raise ReportError("input not found: " + f)
     sp = read_signalp(args.signalp) if args.signalp else None
+    named = read_name_list(args.name_list) if args.name_list else None
 
     os.makedirs(args.out_dir, exist_ok=True)
     os.makedirs(base, exist_ok=True)
@@ -613,10 +705,16 @@ def main(argv=None):
         info = extract_models(args.pfam_hmm, [m[0] for m in MODELS], models_hmm)
         versions = {"hmmer": hmmsearch_version(args.hmmsearch), "pfam": pfam_release(args.pfam_hmm)}
         hits, n_prot = [], {}
+        check_dups = not args.no_dup_check
+        seen_ids, dup_ids = set(), {}
         for name, fasta in zip(names, args.fasta, strict=False):
             tbl = os.path.join(tmp, name + ".tbl")
             run_hmmsearch(args.hmmsearch, models_hmm, fasta, tbl, args.cpu, tmp)
-            n_prot[name] = count_sequences(fasta)
+            n_prot[name], ids = scan_fasta(fasta)
+            if check_dups:
+                for pid in ids & seen_ids:
+                    dup_ids.setdefault(pid, []).append(name)
+                seen_ids |= ids
             for prot, acc, _name, ev, score, dscore in parse_tblout(tbl):
                 hits.append(
                     {
@@ -629,7 +727,17 @@ def main(argv=None):
                     }
                 )
             os.remove(tbl)
-        counts, hit_tsv, md = build_outputs(args, names, info, hits, n_prot, sp, versions)
+        if dup_ids:
+            ex = ", ".join(sorted(dup_ids)[:5])
+            print(
+                "WARNING: %d protein IDs occur in more than one input proteome (examples: %s). "
+                "Signal peptide and name-list matching uses the protein ID alone, so equal IDs "
+                "share one value." % (len(dup_ids), ex),
+                file=sys.stderr,
+            )
+        counts, hit_tsv, md = build_outputs(
+            args, names, info, hits, n_prot, sp, versions, named, dup_ids
+        )
         write_atomic(os.path.join(args.out_dir, "lectin_report_counts.tsv"), counts)
         write_atomic(os.path.join(args.out_dir, "lectin_report_hits.tsv"), hit_tsv)
         write_atomic(os.path.join(args.out_dir, "lectin_report.md"), md)

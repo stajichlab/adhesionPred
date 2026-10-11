@@ -232,6 +232,76 @@ def test_duplicate_names_stop(env):
         run(env, [tmp / "d1/x.faa", tmp / "d2/x.fasta"])
 
 
+def test_signalp6_file_with_header_in_id_column(tmp_path):
+    sp = tmp_path / "sp.txt"
+    sp.write_text(
+        "# SignalP-6.0\tOrganism: Eukarya\tTimestamp: 1\n"
+        "# ID\tPrediction\tOTHER\tSP(Sec/SPI)\tCS Position\n"
+        "p1 Genus_species_strain\tSP\t0.0002\t0.9998\tCS pos: 21-22. Pr: 0.98\n"
+        "p2 Genus_other\tOTHER\t1.0\t0.0\t\n"
+    )
+    assert lr.read_signalp(str(sp)) == {"p1": True, "p2": False}
+
+
+def test_name_list_with_signalp(env):
+    tmp = env[0]
+    a = tmp / "specA.faa"
+    write_fasta(a, ["p1 PF07938=250.0", "p2 PF07938=300.0", "p3 PF07938=70.0"])
+    sp = tmp / "sp.txt"
+    sp.write_text("p1\tSP\np2\tSP\np3\tOTHER\n")
+    names = tmp / "names.txt"
+    names.write_text("# six\np1\tGenus one\np2\tGenus two\npX\tnot there\n")
+    out = run(env, [a], ["--signalp", str(sp), "--name-list", str(names)])
+    md = (out / "lectin_report.md").read_text()
+    a2 = md.split("## (a2) group")[1].split("## Notes")[0]
+    assert "### Named proteins" in a2
+    assert (
+        "| p1 | Genus one | specA | 250.0 | yes | PF07938 (AAL-like / FleA-family) domain hit |"
+        in a2
+    )
+    assert "| pX | not there | not in the input proteomes, or no PF07938 hit |" in a2
+    assert "No paper on the function of these proteins was found" in a2
+    assert "Kerr 2016" in a2
+    assert "Orthology of these proteins to FleA is not checked" in a2
+
+
+def test_name_list_without_signalp(env):
+    tmp = env[0]
+    a = tmp / "specA.faa"
+    write_fasta(a, ["p1 PF07938=250.0"])
+    names = tmp / "names.txt"
+    names.write_text("p1\tGenus one\n")
+    out = run(env, [a], ["--name-list", str(names)])
+    md = (out / "lectin_report.md").read_text()
+    assert "## Named proteins" in md
+    assert "(a2) group: PF07938" not in md  # the (a2) section needs signal peptide data
+    assert "| p1 | Genus one | specA | 250.0 | NA |" in md
+
+
+def test_duplicate_ids_warn_not_fail(env, capsys):
+    tmp = env[0]
+    a = tmp / "specA.faa"
+    b = tmp / "specB.faa"
+    write_fasta(a, ["same PF07938=250.0", "u1"])
+    write_fasta(b, ["same PF07938=150.0", "u2"])
+    sp = tmp / "sp.txt"
+    sp.write_text("same\n")
+    out = run(env, [a, b], ["--signalp", str(sp)])
+    err = capsys.readouterr().err
+    assert "WARNING: 1 protein IDs occur in more than one input proteome" in err
+    assert "Warning:" in (out / "lectin_report.md").read_text()
+
+
+def test_no_duplicate_warning_when_ids_differ(env, capsys):
+    tmp = env[0]
+    a = tmp / "specA.faa"
+    b = tmp / "specB.faa"
+    write_fasta(a, ["a1"])
+    write_fasta(b, ["b1"])
+    run(env, [a, b])
+    assert "WARNING" not in capsys.readouterr().err
+
+
 def test_proteome_name():
     assert lr.proteome_name("/a/b/Sp_one.proteins.fa") == "Sp_one"
     assert lr.proteome_name("UP000000560.fasta.gz") == "UP000000560"
