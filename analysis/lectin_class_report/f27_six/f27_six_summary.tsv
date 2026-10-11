@@ -1,0 +1,7 @@
+accession	genus	proteome	length	pf07938_score	signalp6_prediction	p_sp_sec_spi	cleavage_site	cleavage_prob	blastp_identity_to_FleA_Q4WW81	blastp_aligned_aa	blastp_evalue
+FA49FE15_006535-T1	Arthroderma	Arthroderma_uncinatum_CBS_119779	337	291.1	SP	0.999810	21-22	0.9804	39.0	315	9.8e-65
+FCE2ACBB_004168-T1	Microsporum	Microsporum_canis_CBS_113480	336	296.6	SP	0.999786	21-22	0.9785	42.2	313	1.1e-70
+FC452C90_000306-T1	Myotisia	Myotisia_sp._PD_48_PD_48	327	330.6	SP	0.999749	17-18	0.9831	44.7	311	7.8e-79
+F94BF6A1_004981-T1	Nannizzia	Nannizzia_gypsea_CBS_118893	337	290.4	SP	0.999666	21-22	0.9801	41.2	318	4.0e-70
+F1215351_005656-T1	Onygena	Onygena_corvina_CBS_281.48	356	291.0	SP	0.999766	21-22	0.9683	38.4	323	4.5e-64
+F3F37487_006503-T1	Trichophyton	Trichophyton_benhamiae_CBS_112371	337	288.3	SP	0.999752	21-22	0.9812	43.8	313	1.3e-72
