@@ -24,7 +24,9 @@ rm -rf "$R/out/tmp"
 $PY "$R/measure.py" --truth "$R/out/truth_final.tsv" --hits "$R/out/scan.hits.tsv" --out-dir "$R/results" --miss-dir "$R/results"
 $PY "$R/swissprot_background.py" "$R/out/scan_swissprot.hits.tsv" "$R/data/raw/swissprot_fungi.tsv.gz" \
   "$R/out/truth_final.tsv" "$R/results/swissprot_background"
-rm -rf "$R/out/chk"
+$PY "$R/margins.py" "$R/out/truth_final.tsv" "$R/out/scan.hits.tsv" "$R/out/scan.models.hmm" "$R/results/ga_margins.tsv"
+$PY "$R/d4al26_vs_six.py" "$R/data/raw/uniprot_candidates.json.gz" "$R/../lectin_class_report/f27_six/six.faa" "$R/results/d4al26_vs_six.m8" "$R/out/tmp"
+rm -rf "$R/out/tmp" "$R/out/chk"
 $PY "$R/check_report_script.py" "$R/../lectin_class_report/lectin_report.py" "$R/out/truth_final.tsv" \
   "$R/out/sequences.faa" "$R/out/scan.hits.tsv" "$R/out/chk" "$R/results/report_script_check.tsv"
 rm -rf "$R/out/chk"

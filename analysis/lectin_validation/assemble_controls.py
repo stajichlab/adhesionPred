@@ -15,6 +15,9 @@ os.makedirs(dest, exist_ok=True)
 shutil.copy(work + "/truth_final.tsv", dest + "/controls.tsv")
 shutil.copy(work + "/sequences.faa", dest + "/sequences.faa")
 shutil.copy(work + "/clusters.tsv", dest + "/clusters.tsv")
+shutil.copy(
+    os.path.dirname(os.path.abspath(manual)) + "/unverified_notes.md", dest + "/unverified_notes.md"
+)
 rows = list(csv.DictReader(open(work + "/rejected_build.tsv"), delimiter="\t"))
 rows += list(csv.DictReader(open(manual), delimiter="\t"))
 with open(dest + "/rejected.tsv", "w", newline="") as fh:

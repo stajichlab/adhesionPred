@@ -426,17 +426,29 @@ def main():
     # ------------------------------------------------------------------ species clusters (20-cluster floor)
     sp = defaultdict(lambda: defaultdict(set))
     for r in truth:
-        sp[r["species"]][r["label"]].add(r["cluster30"])
+        if r["label"] == "positive":
+            key = "pos_all" if r["label_class"] == "pa14_owned_elsewhere" else "pos_primary"
+        else:
+            key = "neg_assumed" if r["label_class"] == "assumed" else "neg_reasoned"
+        sp[r["species"]][key].add(r["cluster30"])
     rows = [
         {
             "species": k,
             "taxon_id": next(x["taxon_id"] for x in truth if x["species"] == k),
-            "positive_clusters": len(v["positive"]),
-            "negative_clusters": len(v["negative"]),
+            "primary_positive_clusters": len(v["pos_primary"]),
+            "pa14_positive_clusters": len(v["pos_all"]),
+            "reasoned_negative_clusters": len(v["neg_reasoned"]),
+            "assumed_negative_clusters": len(v["neg_assumed"]),
         }
         for k, v in sp.items()
     ]
-    rows.sort(key=lambda x: (-x["positive_clusters"], -x["negative_clusters"], x["species"]))
+    rows.sort(
+        key=lambda x: (
+            -x["primary_positive_clusters"],
+            -x["reasoned_negative_clusters"],
+            x["species"],
+        )
+    )
     write_tsv(a.out_dir + "/species_clusters.tsv", rows, list(rows[0].keys()))
     print("ok; union15 hits", len(union15), "of", len(truth))
 
