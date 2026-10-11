@@ -1,0 +1,16 @@
+model	hits_in_swissprot_fungi	labelled_positive	labelled_negative	unlabelled
+PF07938	7	3	0	4
+PF01476	53	11	0	42
+PF08881	2	2	0	0
+PF07367	2	2	0	0
+PF21691	1	1	0	0
+PF00337	7	4	0	3
+PF21595	0	0	0	0
+PF18647	0	0	0	0
+PF22803	1	0	0	1
+PF01419	2	0	0	2
+PF00652	9	0	8	1
+PF14200	6	2	2	2
+PF13385	0	0	0	0
+PF01607	1	1	0	0
+PF00187	6	0	0	6

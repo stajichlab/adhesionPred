@@ -1,0 +1,18 @@
+accession	species	label_class	unilectin_class	protein_name	length	expected_model	sub_ga_hits_to_the_20_models	full_pfam_ga_hits
+C1G842	Paracoccidioides brasiliensis	known_gap		Chitinase	218	none	none (E<=10)	Glyco_hydro_18:36.0
+A0A1U7Q1Z0	Psathyrella	structure_backed	PVL-like (PropLec7B)	GlcNAc specific lectin	401	none	none (E<=10)	FG-GAP_3:83.2
+A0A384E107	Pholiota squarrosa	structure_backed	Fungal prism lectins	Lectin (PhoSL)	40	none	none (E<=10)	none
+A0A3B6UEU4	Pholiota squarrosa	structure_backed	Fungal prism lectins	Lectin	43	none	none (E<=10)	none
+B0CZL6	Laccaria bicolor	structure_backed	Tectonin (PropLec6B)	Tectonin 2	227	none	none (E<=10)	Tectonin:201.0
+B0D650	Laccaria bicolor	structure_backed	Laetiporus trefoil lectin-like	Predicted protein	568	none	PF14200:22.0(GA 25.6)	none
+B3VS76	Coprinopsis cinerea	structure_backed	CML-like	Mucin-binding lectin 1	127	none	none (E<=10)	none
+E7E2M2	Pleurotus ostreatus	structure_backed	CBM67-like	Lectin	373	none	PF13385:22.1(GA 27.6)	Bac_rhamnosid_N:39.7
+H6CS64	Cyclocybe aegerita	structure_backed	PVL-like (PropLec7B)	Lectin 2	407	none	none (E<=10)	FG-GAP_3:79.9
+I7H471	Marasmius oreades	structure_backed	Monocot-lectin like	Mannose recognizing lectin	120	none	none (E<=10)	none
+P80412	Flammulina velutipes	structure_backed	Ig-like	Immunomodulatory protein FIP-Fve	114	none	none (E<=10)	Fve:128.6
+Q309D1	Lacrymaria velutina	structure_backed	PVL-like (PropLec7B)	Lectin PVL	395	none	none (E<=10)	FG-GAP_3:98.9
+Q7Z8V1	Laetiporus sulphureus	structure_backed	Laetiporus trefoil lectin-like	Hemolytic lectin LSLa	315	none	PF14200:15.3(GA 25.6)	ETX_MTX2:25.9
+R4GRU4	Boletus edulis	structure_backed	Laetiporus trefoil lectin-like	BEL-beta trefoil	146	none	PF14200:24.9(GA 25.6)	none
+R4GRU5	Boletus edulis	structure_backed	Laetiporus trefoil lectin-like	BEL-beta trefoil	146	none	PF14200:24.7(GA 25.6)	none
+R4GRU6	Boletus edulis	structure_backed	Laetiporus trefoil lectin-like	BEL beta-trefoil	146	none	PF14200:24.6(GA 25.6)	none
+R4GRU9	Boletus edulis	structure_backed	Laetiporus trefoil lectin-like	BEL beta-trefoil	146	none	PF14200:21.2(GA 25.6)	none

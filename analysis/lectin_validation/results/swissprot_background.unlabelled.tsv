@@ -1,0 +1,62 @@
+model	model_name	accession	score	species	protein_name	uniprot_keyword_lectin
+PF00187	Chitin_bind_1	A0A1L3THR9	37.9	Pestalotiopsis sp	Chitin deacetylase (EC 3.5.1.41)	no
+PF00187	Chitin_bind_1	A0A0A2JH00	35.4	Penicillium expansum (Blue mold rot fung	Secreted LysM effector LysM9 (LysM domain-containing protein 9)	no
+PF00187	Chitin_bind_1	P09805	34.5	Kluyveromyces lactis (strain ATCC 8585 /	Killer toxin subunits alpha/beta (RF2 protein) [Cleaved into: Killer t	no
+PF00187	Chitin_bind_1	A0A0A2JT36	31.7	Penicillium expansum (Blue mold rot fung	Secreted LysM effector LysM6 (LysM domain-containing protein 6)	no
+PF00187	Chitin_bind_1	G2XC45	30.3	Verticillium dahliae (strain VdLs.17 / A	Chitin deacetylase PDA2 (EC 3.5.1.41) (Polysaccharide deacetylase 2)	no
+PF00187	Chitin_bind_1	A0A0A2JP37	28.2	Penicillium expansum (Blue mold rot fung	Secreted chitinase LysM12 (EC 3.2.1.14) (LysM domain-containing protei	no
+PF00337	Gal-bind_lectin	A8NSH0	39.7	Coprinopsis cinerea (strain Okayama-7 / 	Galectin-1	yes
+PF00337	Gal-bind_lectin	A8NSH3	37.8	Coprinopsis cinerea (strain Okayama-7 / 	Galectin-2 (Cgl-II) (Galectin II)	yes
+PF00337	Gal-bind_lectin	A8N3G7	26.5	Coprinopsis cinerea (strain Okayama-7 / 	Galectin-3 (Cgl-III) (Galectin III)	yes
+PF00652	Ricin_B_lectin	I1C083	45.0	Rhizopus delemar (strain RA 99-880 / ATC	Mucoricin (EC 3.2.2.22) (Ricin-like toxin) (rRNA N-glycosidase)	no
+PF01419	Jacalin	P40483	36.7	Saccharomyces cerevisiae (strain ATCC 20	Putative zinc metalloproteinase YIL108W (EC 3.4.24.-)	no
+PF01419	Jacalin	Q9US12	23.9	Schizosaccharomyces pombe (strain 972 / 	Putative zinc metalloproteinase C607.06c (EC 3.4.24.-)	yes
+PF01476	LysM	A0A1X7S690	138.1	Zymoseptoria tritici (strain ST99CH_3D7)	Secreted LysM effector Mg3LysM (LysM domain-containing protein Mg3LysM	no
+PF01476	LysM	A0A0A2JVC2	93.7	Penicillium expansum (Blue mold rot fung	Secreted LysM effector LysM2 (LysM domain-containing protein 2)	no
+PF01476	LysM	Q9P403	91.7	Colletotrichum lindemuthianum (Bean anth	Intracellular hyphae protein 1	no
+PF01476	LysM	D4ALG0	84.3	Arthroderma benhamiae (strain ATCC MYA-4	LysM domain-containing protein ARB_05157	no
+PF01476	LysM	A0A4Q7K9F4	77.1	Pochonia chlamydosporia (strain 123) (Me	Secreted LysM effector Lys3 (LysM domain-containing protein 3)	no
+PF01476	LysM	G2X444	70.1	Verticillium dahliae (strain VdLs.17 / A	Secreted LysM effector Vd5LysM (Five LysM domain-containing protein) (	no
+PF01476	LysM	Q4WER9	63.3	Aspergillus fumigatus (strain ATCC MYA-4	Secreted LysM effector ldpA (LysM domain protein A)	no
+PF01476	LysM	J4VU52	62.4	Beauveria bassiana (strain ARSEF 2860) (	Secreted LysM effector Blys7 (LysM domain-containing protein 7)	no
+PF01476	LysM	D4AZ68	59.2	Arthroderma benhamiae (strain ATCC MYA-4	LysM domain-containing protein ARB_01488	no
+PF01476	LysM	G4N891	59.2	Pyricularia oryzae (strain 70-15 / ATCC 	Secreted LysM effector slp2 (LysM domain-containing protein 2) (Secret	no
+PF01476	LysM	W7LFX0	58.6	Gibberella moniliformis (strain M3125 / 	Non-secreted LysM effector LCP1 (LysM domain-containing protein LCP1) 	no
+PF01476	LysM	Q4WRR0	57.5	Aspergillus fumigatus (strain ATCC MYA-4	Secreted LysM effector ldpB (LysM domain protein B)	no
+PF01476	LysM	A0A0A2IRW3	57.2	Penicillium expansum (Blue mold rot fung	Secreted LysM effector LysM7 (LysM domain-containing protein 7)	no
+PF01476	LysM	J5JHE8	45.9	Beauveria bassiana (strain ARSEF 2860) (	Secreted LysM effector Blys4 (LysM domain-containing protein 4)	no
+PF01476	LysM	A0A4Q7JG83	45.4	Pochonia chlamydosporia (strain 123) (Me	Secreted LysM effector Lys4 (LysM domain-containing protein 4)	no
+PF01476	LysM	A0A0A2KDU4	45.3	Penicillium expansum (Blue mold rot fung	Secreted LysM effector LysM13 (LysM domain-containing protein 13)	no
+PF01476	LysM	A0A0A2KE57	44.1	Penicillium expansum (Blue mold rot fung	Secreted LysM effector LysM8 (LysM domain-containing protein 8)	no
+PF01476	LysM	A0A0A2IBU9	43.1	Penicillium expansum (Blue mold rot fung	Non-secreted LysM effector LysM5 (LysM domain-containing protein 5)	no
+PF01476	LysM	J4KL74	42.7	Beauveria bassiana (strain ARSEF 2860) (	Secreted LysM effector Blys8 (LysM domain-containing protein 8)	no
+PF01476	LysM	A0A0A2JFC6	40.8	Penicillium expansum (Blue mold rot fung	Non-secreted LysM effector LysM17 (LysM domain-containing protein 17)	no
+PF01476	LysM	A0A0A2JT36	37.6	Penicillium expansum (Blue mold rot fung	Secreted LysM effector LysM6 (LysM domain-containing protein 6)	no
+PF01476	LysM	D4AVW3	37.0	Arthroderma benhamiae (strain ATCC MYA-4	LysM domain-containing protein ARB_00327	no
+PF01476	LysM	A0A0A2JP37	36.3	Penicillium expansum (Blue mold rot fung	Secreted chitinase LysM12 (EC 3.2.1.14) (LysM domain-containing protei	no
+PF01476	LysM	A0A1X7S1V5	36.1	Zymoseptoria tritici (strain ST99CH_3D7)	Secreted LysM effector Mgx1LysM (LysM domain-containing protein Mgx1Ly	no
+PF01476	LysM	D4B5F9	36.0	Arthroderma benhamiae (strain ATCC MYA-4	Probable peptidoglycan-N-acetylglucosamine deacetylase ARB_03699 (Pept	no
+PF01476	LysM	D4B4P8	35.6	Arthroderma benhamiae (strain ATCC MYA-4	LysM domain-containing protein ARB_03438	no
+PF01476	LysM	A0A0A2JVV3	33.2	Penicillium expansum (Blue mold rot fung	Probable chitinase LysM18 (EC 3.2.1.14) (LysM domain-containing protei	no
+PF01476	LysM	A0A1X7S147	32.5	Zymoseptoria tritici (strain ST99CH_3D7)	Secreted LysM effector Mg1LysM (LysM domain-containing protein Mg1LysM	no
+PF01476	LysM	A0A0A2KPB9	31.4	Penicillium expansum (Blue mold rot fung	Non-secreted LysM effector LysM15 (LysM domain-containing protein 15)	no
+PF01476	LysM	P9WEM2	30.0	Zymoseptoria tritici (strain CBS 115943 	Secreted LysM effector Mgx1LysM	no
+PF01476	LysM	A0A4Q7K4T8	30.0	Pochonia chlamydosporia (strain 123) (Me	Secreted LysM effector Lys2 (LysM domain-containing protein 2)	no
+PF01476	LysM	G2WSX9	29.9	Verticillium dahliae (strain VdLs.17 / A	Secreted LysM effector Vd4LysM (Four LysM domain-containing protein) (	no
+PF01476	LysM	A0A0A2J621	29.5	Penicillium expansum (Blue mold rot fung	Secreted LysM effector LysM14 (LysM domain-containing protein 14)	no
+PF01476	LysM	J5JFB6	28.2	Beauveria bassiana (strain ARSEF 2860) (	Secreted LysM effector Blys6 (LysM domain-containing protein 6)	no
+PF01476	LysM	D4AY86	27.1	Arthroderma benhamiae (strain ATCC MYA-4	LysM domain-containing protein ARB_01155/01156	no
+PF01476	LysM	A0A0A2J9B0	27.1	Penicillium expansum (Blue mold rot fung	Probable chitinase LysM11 (EC 3.2.1.14) (LysM domain-containing protei	no
+PF01476	LysM	A0A0A2JAR6	26.2	Penicillium expansum (Blue mold rot fung	Secreted LysM effector LysM10 (LysM domain-containing protein 10)	no
+PF01476	LysM	D4B4Q2	26.1	Arthroderma benhamiae (strain ATCC MYA-4	LysM domain-containing protein ARB_03442	no
+PF01476	LysM	A0A0A2K2W7	25.5	Penicillium expansum (Blue mold rot fung	Non-secreted LysM effector LysM16 (LysM domain-containing protein 16)	no
+PF01476	LysM	P09805	24.0	Kluyveromyces lactis (strain ATCC 8585 /	Killer toxin subunits alpha/beta (RF2 protein) [Cleaved into: Killer t	no
+PF01476	LysM	A0A0A2JH00	24.0	Penicillium expansum (Blue mold rot fung	Secreted LysM effector LysM9 (LysM domain-containing protein 9)	no
+PF01476	LysM	A0A0A2JQ23	23.7	Penicillium expansum (Blue mold rot fung	Non-secreted LysM effector LysM19 (LysM domain-containing protein 19)	no
+PF07938	Fungal_lectin	Q8TGE0	518.4	Aspergillus oryzae (Yellow koji mold)	Fucose-specific lectin (Aspergillus oryzea lectin) (AOL)	yes
+PF07938	Fungal_lectin	Q8NJT4	484.1	Aspergillus fumigatus (Neosartorya fumig	Fucose-specific lectin (Aspergillus fumigatus lectin) (AFL)	yes
+PF07938	Fungal_lectin	D4AL26	260.1	Arthroderma benhamiae (strain ATCC MYA-4	Fucose-specific lectin	yes
+PF07938	Fungal_lectin	G1X5Y2	60.7	Arthrobotrys oligospora (strain ATCC 249	Fucose-specific lectin g276	no
+PF14200	RicinB_lectin_2	I1C083	68.0	Rhizopus delemar (strain RA 99-880 / ATC	Mucoricin (EC 3.2.2.22) (Ricin-like toxin) (rRNA N-glycosidase)	no
+PF14200	RicinB_lectin_2	A7EWX9	47.5	Sclerotinia sclerotiorum (strain ATCC 18	Agglutinin	yes
+PF22803	GBD_Y3	P83811	106.8	Coprinus comatus (Shaggy mane)	Antiviral protein CAP	no

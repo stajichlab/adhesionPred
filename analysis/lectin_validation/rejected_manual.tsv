@@ -1,0 +1,10 @@
+accession	candidate_class	reason
+BbLec1 (Beauveria bassiana)	positive candidate	PMID 34649678 (Peng 2021) abstract: "BbLec1 could bind to chitobiose and chitin"; Fruit Body domain. No UniProt accession could be verified: UniProt search for Pfam PF07367 in Beauveria (taxon 176275) and for lit_pubmed:34649678 gave no entry. Not added (no sequence).
+Histoplasma beta-galactose lectin activity	positive candidate	Ramos-Martinez 2026 (PMID 41805922) and earlier papers describe a beta-galactose-inhibited hemagglutinating activity of yeasts. No gene or sequence (L3b report). Not added.
+CFP28 (Coccidioides posadasii)	positive candidate	Lunetta and Pappagianis 2014 (PMID 25023485): CBM9-like domain by sequence match; carbohydrate binding was not tested in the abstract. No sequence fetched. Not a positive.
+Talaromyces marneffei sialic-acid-inhibited adherence; dermatophyte and Chrysosporium hemagglutinins; A. fumigatus 32-kDa sialic-acid lectin	positive candidate	Activity without a gene or sequence (L3b report: Hamilton 1998, Bouchara 1987, Tronchin 2002). Not added.
+Q4WMH4 (Aspergillus fumigatus, weak PF07938 hit, spec 4.3)	positive or negative candidate	Unlabelled hit of the model, no paper read, score 30.2 against GA 25.3. A label from the model hit would be circular. T4 review target only. Not in the table.
+Six Onygenales PF07938 proteins of spec F27	positive candidate	Found by the discovery pass and by the model. No function paper. Orthology to FleA not checked. Not truth (circular). Not in the table.
+Q12396 and P43555 (Emp46p, Emp47p)	positive (UniLectin3D rows)	In the UniLectin3D fungal table but house-keeping ER-to-Golgi cargo receptors (spec 3.1 row M3; PMID 12134087). Moved to the negative class er_housekeeping.
+J9VLH0 (CNE1, Cryptococcus neoformans calnexin)	negative (shared N1)	Counted once, as er_housekeeping (the shared set has it as N1 secretory_non_surface). Not duplicated in n1_shared.
+Slp2 (G4N891, Pyricularia oryzae)	positive candidate	Named in PMID 22267486 but the abstract reports binding for Slp1 only. Not added.

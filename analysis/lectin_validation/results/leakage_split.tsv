@@ -1,0 +1,11 @@
+leakage	group	model_set	n_seq	k_seq	seq_ci	n_clu	k_clu	clu_ci	recall_clu
+none	structure_backed	union15	19	3	3/19 (0.06-0.38)	11	1	1/11 (0.02-0.38)	0.091
+in_reference	structure_backed	union15	20	20	20/20 (0.84-1.00)	13	13	13/13 (0.77-1.00)	1.000
+none	host_binding_h1a	union15	1	1	1/1 (0.21-1.00)	1	1	1/1 (0.21-1.00)	1.000
+in_reference	host_binding_h1a	union15	3	3	3/3 (0.44-1.00)	3	3	3/3 (0.44-1.00)	1.000
+none	chitin_masking_h1b	union15	0	0	n=0	0	0	n=0	
+in_reference	chitin_masking_h1b	union15	10	10	10/10 (0.72-1.00)	5	5	5/5 (0.57-1.00)	1.000
+none	literature_binding	union15	1	1	1/1 (0.21-1.00)	1	1	1/1 (0.21-1.00)	1.000
+in_reference	literature_binding	union15	1	1	1/1 (0.21-1.00)	1	1	1/1 (0.21-1.00)	1.000
+none	ALL_PRIMARY_POSITIVES	union15	22	5	5/22 (0.10-0.43)	14	3	3/14 (0.08-0.48)	0.214
+in_reference	ALL_PRIMARY_POSITIVES	union15	34	34	34/34 (0.90-1.00)	18	18	18/18 (0.82-1.00)	1.000
