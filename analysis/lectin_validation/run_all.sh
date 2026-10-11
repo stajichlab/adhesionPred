@@ -22,6 +22,11 @@ $PY "$R/measure.py" --truth "$R/out/truth_final.tsv" --hits "$R/out/scan.hits.ts
 $PY "$R/scan_misses.py" "$R/results/misses.tsv" "$R/out/sequences.faa" "$R/out/scan.models.hmm" "$R/results" --tmpdir "$R/out/tmp"
 rm -rf "$R/out/tmp"
 $PY "$R/measure.py" --truth "$R/out/truth_final.tsv" --hits "$R/out/scan.hits.tsv" --out-dir "$R/results" --miss-dir "$R/results"
+# Swiss-Prot background scan (needs data/raw/swissprot_fungi.faa.gz, not in git; see controls/README.md)
+mkdir -p "$R/out/tmp"
+zcat "$R/data/raw/swissprot_fungi.faa.gz" > "$R/out/tmp/sp.faa"
+$PY "$R/scan_models.py" "$R/out/tmp/sp.faa" "$R/out/scan_swissprot" --cpu 8
+rm -rf "$R/out/tmp"
 $PY "$R/swissprot_background.py" "$R/out/scan_swissprot.hits.tsv" "$R/data/raw/swissprot_fungi.tsv.gz" \
   "$R/out/truth_final.tsv" "$R/results/swissprot_background"
 $PY "$R/margins.py" "$R/out/truth_final.tsv" "$R/out/scan.hits.tsv" "$R/out/scan.models.hmm" "$R/results/ga_margins.tsv"

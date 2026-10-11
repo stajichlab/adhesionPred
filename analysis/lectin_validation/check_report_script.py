@@ -82,6 +82,7 @@ for r in csv.DictReader(open(scan_path), delimiter="\t"):
     if r["model"] in M12:
         own[(cls[r["accession"]], r["model"])][r["accession"]] = float(r["score"])
 n_mis = 0
+n_nonempty = 0
 with open(out_path, "w") as out:
     out.write(
         "class\tmodel\tscript_proteins_with_hit\town_proteins_with_hit\tsame_set\tmax_abs_score_diff\n"
@@ -91,9 +92,12 @@ with open(out_path, "w") as out:
             s = script_hits.get((c, m), {})
             o = own.get((c, m), {})
             same = set(s) == set(o)
+            n_nonempty += bool(s or o)
             diff = max([abs(s[k] - o[k]) for k in s if k in o] or [0.0])
             if not same or diff > 0.05:
                 n_mis += 1
             out.write(f"{c}\t{m}\t{len(s)}\t{len(o)}\t{'yes' if same else 'NO'}\t{diff:.2f}\n")
-    out.write(f"#mismatches\t{n_mis}\n")
+    out.write(
+        f"#mismatches\t{n_mis}\n#non_empty_cells\t{n_nonempty}\t(of {len(files) * len(M12)})\n"
+    )
 print("mismatches", n_mis)

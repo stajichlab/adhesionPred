@@ -8,10 +8,10 @@ This set is for a measurement of the lectin-like Pfam models. It is not a calibr
 
 | File | Content |
 |---|---|
-| `controls.tsv` | 729 rows. COMMON-RULES columns, plus `label_class`, `tier`, `h_flag`, `protein_name`, `length`, `strain_taxid`, `unilectin_class`, `pdb_ids`, `pdb_sugar_comps`, `uniprot_status`, `negative_evidence`, `phylum`, `cluster30`, `seed_hits` |
+| `controls.tsv` | 732 rows. COMMON-RULES columns, plus `label_class`, `tier`, `h_flag`, `protein_name`, `length`, `strain_taxid`, `unilectin_class`, `pdb_ids`, `pdb_sugar_comps`, `uniprot_status`, `negative_evidence`, `phylum`, `selection_route`, `cluster30`, `seed_hits` |
 | `sequences.faa` | Sequences, header = accession |
 | `clusters.tsv` | accession, cluster representative (MMseqs2 30% identity, 50% coverage) |
-| `rejected.tsv` | 76 candidates not added, with the reason |
+| `rejected.tsv` | 78 candidates not added, with the reason |
 | `counts.md` | Rows, sequences and clusters per class |
 | `unverified_notes.md` | Claims not checked (copy of `../unverified_notes.md`) |
 
@@ -29,3 +29,7 @@ The raw Swiss-Prot lists (`data/raw/swissprot_fungi.tsv.gz`, `.faa.gz`) are not 
 ## Weakest rows
 
 The 39 `structure_backed` rows (tier T2: the ligand was not checked per structure), Vd2LysM (G2X4U8), the 12 `er_housekeeping` rows with evidence by similarity, and all `enzyme_lectin_like_domain` rows. `assumed` rows have no reason.
+
+## Location
+
+COMMON-RULES asks for `data/controls/<task-name>/`. This set stays in `analysis/lectin_validation/controls/` because it is a measurement table and not a calibration set. Exception recorded in the report, section 9.

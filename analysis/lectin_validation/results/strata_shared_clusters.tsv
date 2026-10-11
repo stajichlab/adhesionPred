@@ -1,0 +1,6 @@
+cluster	strata
+F2ST24	chitin_masking_h1b,host_binding_h1a
+P18891	host_binding_h1a,structure_backed
+Q2UNX8	host_binding_h1a,structure_backed
+Q9P4R8	literature_binding,structure_backed
+#sum_of_stratum_cluster_counts	36	distinct_clusters	32

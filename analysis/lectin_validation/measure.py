@@ -53,7 +53,9 @@ CLASS_TO_MODEL = {
     "CML-like": "none",
     "Monocot-lectin like": "none",
     "Fungal prism lectins": "none",
-    "Laetiporus trefoil lectin-like": "none",
+    # Review 1 (M4): ricin-B-type beta-trefoil lectins. Mapped to the RicinB_lectin_2 family. Five of the six
+    # rows score 21.2 to 24.9 against the GA of 25.6. They are misses of an existing model, not of a missing model.
+    "Laetiporus trefoil lectin-like": "PF14200",
     "Ig-like": "none",
     "PVL-like (PropLec7B)": "none",
     "Tectonin (PropLec6B)": "none",
@@ -72,6 +74,9 @@ ACC_TO_MODEL = {  # literature rows without a UniLectin3D class (expected model 
     "B2ZRS9": "PF14200",
     "Q06100": "PF00337",
     "C1G842": "none",
+    "P9WEM2": "PF01476",
+    "G1X5Y2": "PF07938",
+    "G3JGU5": "PF00652",
 }
 PRIMARY = [
     "structure_backed",
@@ -259,6 +264,12 @@ def main():
     pos_groups["ALL_PRIMARY_POSITIVES"] = prim
     pos_groups["ALL_PRIMARY_leakage_none"] = [r for r in prim if r["leakage"] == "none"]
     pos_groups["ALL_PRIMARY_in_reference"] = [r for r in prim if r["leakage"] == "in_reference"]
+    pos_groups["ALL_PRIMARY_independent_route"] = [
+        r for r in prim if r["selection_route"] != "model_gated_pfam_xref"
+    ]
+    pos_groups["ALL_PRIMARY_model_gated_route"] = [
+        r for r in prim if r["selection_route"] == "model_gated_pfam_xref"
+    ]
     pos_groups["ALL_PRIMARY_T1"] = [r for r in prim if r["tier"] == "T1"]
     pos_groups["ALL_PRIMARY_ascomycota"] = [r for r in prim if r["phylum"] == "Ascomycota"]
     pos_groups["ALL_PRIMARY_basidiomycota"] = [r for r in prim if r["phylum"] == "Basidiomycota"]
@@ -270,8 +281,7 @@ def main():
 
     # ------------------------------------------------------------------ false hits
     neg_groups = {
-        c: by_class[c]
-        for c in ("er_housekeeping", "enzyme_lectin_like_domain", "n1_shared", "assumed")
+        c: by_class[c] for c in ("er_housekeeping", "enzyme_lectin_like_domain", "n1_shared")
     }
     neg_groups["ALL_REASONED_NEGATIVES"] = reasoned
     neg_groups["er_housekeeping_experimental_only"] = [
@@ -284,6 +294,13 @@ def main():
             x["fhr_clu"] = x.pop("recall_clu")
             fh_rows.append(x)
     write_tsv(a.out_dir + "/false_hits.tsv", fh_rows, list(fh_rows[0].keys()))
+    # construction check (review 1, M3): the assumed set was filtered by UniProt Pfam cross-references
+    cc = []
+    for sname in ("union15", "PF07938"):
+        x = row_for("assumed_construction_check", by_class["assumed"], sname, sets[sname])
+        x["fhr_clu"] = x.pop("recall_clu")
+        cc.append(x)
+    write_tsv(a.out_dir + "/construction_check.tsv", cc, list(cc[0].keys()))
 
     # ------------------------------------------------------------------ PF07938 floors
     fl = []
@@ -298,7 +315,6 @@ def main():
             ("PF07938_family_positives", fam),
             ("ALL_PRIMARY_POSITIVES", prim),
             ("ALL_REASONED_NEGATIVES", reasoned),
-            ("assumed", by_class["assumed"]),
         ):
             for sname, hs in (("PF07938_only", pf), ("union15_with_floor", un)):
                 x = row_for(g, rows, sname, hs)
@@ -306,57 +322,42 @@ def main():
                 fl.append(x)
     write_tsv(a.out_dir + "/floors.tsv", fl, ["floor"] + [k for k in fl[0] if k != "floor"])
 
-    # ------------------------------------------------------------------ family recall + seed split
+    # ------------------------------------------------------------------ family recall + seed split (cluster level)
     fam_rows = []
+    SPLIT_SIM = "cluster has a member with 30% identity or more to a seed of this model"
+    SPLIT_IND = "cluster has no such member (seed-independent)"
+
+    def fam_row(model, split, rows, hs, variant="all"):
+        x = row_for("family", rows, model, hs)
+        x.pop("group")
+        x.pop("model_set")
+        return {"model": model, "variant": variant, "split": split, **x}
+
     for m in M12:
         fam = [r for r in prim if expected_model(r) == m]
         if not fam:
             continue
         hs = sets[m]
-        fam_rows.append(
-            dict(
-                model=m,
-                split="all",
-                **{
-                    k: v
-                    for k, v in row_for("family", fam, m, hs).items()
-                    if k not in ("group", "model_set")
-                },
+        variants = [("all", fam)]
+        if m == "PF14200":
+            variants.append(
+                (
+                    "excluding_laetiporus_trefoil_rows",
+                    [r for r in fam if r["unilectin_class"] != "Laetiporus trefoil lectin-like"],
+                )
             )
-        )
-        for split, sub in (
-            (
-                "seed_similar(>=30% id to a seed of this model)",
-                [r for r in fam if m + ":" in r["seed_hits"]],
-            ),
-            ("not_seed_similar", [r for r in fam if m + ":" not in r["seed_hits"]]),
-        ):
-            if sub:
-                fam_rows.append(
-                    dict(
-                        model=m,
-                        split=split,
-                        **{
-                            k: v
-                            for k, v in row_for("family", sub, m, hs).items()
-                            if k not in ("group", "model_set")
-                        },
-                    )
-                )
-            else:
-                fam_rows.append(
-                    {
-                        "model": m,
-                        "split": split,
-                        "n_seq": 0,
-                        "k_seq": 0,
-                        "seq_ci": "n=0",
-                        "n_clu": 0,
-                        "k_clu": 0,
-                        "clu_ci": "n=0",
-                        "recall_clu": "",
-                    }
-                )
+        for variant, rows_v in variants:
+            fam_rows.append(fam_row(m, "all", rows_v, hs, variant))
+            flagged = {r["accession"] for r in rows_v if m + ":" in r["seed_hits"]}
+            sim, ind = lm.cluster_seed_split(members(rows_v), flagged)
+            sim_acc = {a_ for a_, _ in sim}
+            ind_acc = {a_ for a_, _ in ind}
+            fam_rows.append(
+                fam_row(m, SPLIT_SIM, [r for r in rows_v if r["accession"] in sim_acc], hs, variant)
+            )
+            fam_rows.append(
+                fam_row(m, SPLIT_IND, [r for r in rows_v if r["accession"] in ind_acc], hs, variant)
+            )
     write_tsv(a.out_dir + "/family_recall.tsv", fam_rows, list(fam_rows[0].keys()))
     # families with no model
     nomodel = [r for r in prim if expected_model(r) in ("none", "unmapped")]
@@ -366,6 +367,8 @@ def main():
         fh.write(f"{s['n_seq']}\t{s['k_seq']}\t{s['n_clu']}\t{s['k_clu']}\n")
 
     # ------------------------------------------------------------------ leakage split for the union
+    # Row level: a row is in_reference or none. Clusters can span both, so cluster counts of the two
+    # groups can add up to more than the clusters of the group. Cluster level: a cluster goes to one group.
     ls = []
     for g in (
         "structure_backed",
@@ -379,10 +382,55 @@ def main():
             sub = [r for r in rows if r["leakage"] == lk]
             x = row_for(g, sub, "union15", union15)
             x["leakage"] = lk
+            x["basis"] = "row_level (clusters can be counted in both groups)"
+            ls.append(x)
+        flagged = {r["accession"] for r in rows if r["leakage"] == "in_reference"}
+        sim, ind = lm.cluster_seed_split(members(rows), flagged)
+        for lk, grp in (("cluster_has_in_reference_member", sim), ("cluster_all_none", ind)):
+            acc_set = {a_ for a_, _ in grp}
+            x = row_for(g, [r for r in rows if r["accession"] in acc_set], "union15", union15)
+            x["leakage"] = lk
+            x["basis"] = "cluster_level (each cluster in one group)"
             ls.append(x)
     write_tsv(
-        a.out_dir + "/leakage_split.tsv", ls, ["leakage"] + [k for k in ls[0] if k != "leakage"]
+        a.out_dir + "/leakage_split.tsv",
+        ls,
+        ["basis", "leakage"] + [k for k in ls[0] if k not in ("basis", "leakage")],
     )
+
+    # identity to the nearest seed sequence (any of the 20 models), primary positives
+    def best_ident(r):
+        v = [float(x.split(":")[1]) for x in r["seed_hits"].split(";") if x]
+        return max(v) if v else None
+
+    bins = defaultdict(list)
+    for r in prim:
+        bins[lm.identity_bin(best_ident(r))].append(r)
+    order = ["98% or more", "90 to 97.9%", "50 to 89.9%", "30 to 49.9%", "no seed hit (<30%)"]
+    ib = []
+    for b in order:
+        x = row_for(b, bins.get(b, []), "union15", union15)
+        x["identity_bin"] = x.pop("group")
+        x.pop("model_set")
+        ib.append(x)
+    write_tsv(
+        a.out_dir + "/identity_bins.tsv",
+        ib,
+        ["identity_bin"] + [k for k in ib[0] if k != "identity_bin"],
+    )
+    # strata that share clusters
+    clu_strata = defaultdict(set)
+    for r in prim:
+        clu_strata[r["cluster30"]].add(r["label_class"])
+    with open(a.out_dir + "/strata_shared_clusters.tsv", "w") as fh:
+        fh.write("cluster\tstrata\n")
+        for c, st in sorted(clu_strata.items()):
+            if len(st) > 1:
+                fh.write(c + "\t" + ",".join(sorted(st)) + "\n")
+        fh.write(
+            f"#sum_of_stratum_cluster_counts\t{sum(len(v) for v in clu_strata.values())}\t"
+            f"distinct_clusters\t{len(clu_strata)}\n"
+        )
 
     # ------------------------------------------------------------------ misses
     sub = {}
@@ -416,6 +464,15 @@ def main():
                 "protein_name": r["protein_name"][:50],
                 "length": r["length"],
                 "expected_model": em,
+                "reason": (
+                    "no model among the 15"
+                    if em in ("none", "unmapped")
+                    else (
+                        "below GA of the expected model"
+                        if any(x.startswith(em + ":") for x in sub.get(r["accession"], []))
+                        else "no hit to the expected model (E<=10)"
+                    )
+                ),
                 "sub_ga_hits_to_the_20_models": ";".join(sub.get(r["accession"], []))
                 or "none (E<=10)",
                 "full_pfam_ga_hits": ";".join(pf.get(r["accession"], [])) or "none",
@@ -430,6 +487,8 @@ def main():
             key = "pos_all" if r["label_class"] == "pa14_owned_elsewhere" else "pos_primary"
         else:
             key = "neg_assumed" if r["label_class"] == "assumed" else "neg_reasoned"
+            if r["label_class"] == "n1_shared":
+                sp[r["species"]]["neg_n1"].add(r["cluster30"])
         sp[r["species"]][key].add(r["cluster30"])
     rows = [
         {
@@ -438,6 +497,7 @@ def main():
             "primary_positive_clusters": len(v["pos_primary"]),
             "pa14_positive_clusters": len(v["pos_all"]),
             "reasoned_negative_clusters": len(v["neg_reasoned"]),
+            "n1_negative_clusters": len(v["neg_n1"]),
             "assumed_negative_clusters": len(v["neg_assumed"]),
         }
         for k, v in sp.items()
@@ -445,7 +505,7 @@ def main():
     rows.sort(
         key=lambda x: (
             -x["primary_positive_clusters"],
-            -x["reasoned_negative_clusters"],
+            -x["n1_negative_clusters"],
             x["species"],
         )
     )

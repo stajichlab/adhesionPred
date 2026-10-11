@@ -91,3 +91,32 @@ def fmt(k, n, lo, hi):
 def meets_floor(n_pos_clusters, n_neg_clusters, floor=20):
     """True when both classes have at least `floor` independent clusters (COMMON-RULES rule 7, first part)."""
     return n_pos_clusters >= floor and n_neg_clusters >= floor
+
+
+def cluster_seed_split(members, flagged):
+    """Split a group at the cluster level by a flag (for example "in_reference").
+
+    members: list of (accession, cluster_id). flagged: set of accessions with the flag.
+    A cluster is `similar` when at least one of its members in the group is flagged. Every
+    member of a `similar` cluster goes to the `similar` list, flagged or not. The `independent`
+    list holds the members of clusters with no flagged member. A cluster is in exactly one
+    list, so the cluster counts of the two lists add up to the number of clusters of the group.
+    Returns (similar, independent), both lists of (accession, cluster_id).
+    """
+    similar_clusters = {c for a, c in members if a in flagged}
+    similar = [(a, c) for a, c in members if c in similar_clusters]
+    independent = [(a, c) for a, c in members if c not in similar_clusters]
+    return similar, independent
+
+
+def identity_bin(pident):
+    """Bin for the best identity to a seed sequence (None = no seed hit at 30% or more)."""
+    if pident is None:
+        return "no seed hit (<30%)"
+    if pident >= 98.0:
+        return "98% or more"
+    if pident >= 90.0:
+        return "90 to 97.9%"
+    if pident >= 50.0:
+        return "50 to 89.9%"
+    return "30 to 49.9%"

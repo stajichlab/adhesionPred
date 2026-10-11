@@ -1,188 +1,189 @@
-species	taxon_id	primary_positive_clusters	pa14_positive_clusters	reasoned_negative_clusters	assumed_negative_clusters
-Coprinopsis cinerea	5346	3	0	2	1
-Pyricularia oryzae	318829	2	0	2	9
-Beauveria bassiana	176275	2	0	0	3
-Boletus edulis	36056	2	0	0	0
-Cyclocybe aegerita	1973307	2	0	0	0
-Fulvia fulva	5499	2	0	0	2
-Laccaria bicolor	29883	2	0	0	1
-Marasmius oreades	181124	2	0	0	0
-Aspergillus fumigatus	746128	1	0	19	17
-Verticillium dahliae	27337	1	0	9	3
-Trichophyton rubrum	5551	1	0	8	1
-Fusarium graminearum	5518	1	0	6	8
-Neurospora crassa	5141	1	0	2	15
-Agaricus bisporus	5341	1	0	1	0
-Aspergillus oryzae	5062	1	0	1	15
-Agroathelia rolfsii	39291	1	0	0	0
-Aleuria aurantia	5188	1	0	0	0
-Cerioporus squamosus	2829415	1	0	0	0
-Clitocybe nebularis	117024	1	0	0	1
-Colletotrichum higginsianum	80884	1	0	0	0
-Cyclocybe cylindracea	1593264	1	0	0	0
-Flammulina velutipes	38945	1	0	0	1
-Lacrymaria velutina	71681	1	0	0	0
-Laetiporus sulphureus	5630	1	0	0	0
-Lyophyllum decastes	64660	1	0	0	0
-Macrolepiota procera	56183	1	0	0	0
-Orbilia oligospora	2813651	1	0	0	1
-Paracoccidioides brasiliensis	121759	1	0	0	3
-Pholiota squarrosa	75321	1	0	0	0
-Pleurotus ostreatus	5322	1	0	0	0
-Psathyrella	71729	1	0	0	0
-Rhizoctonia solani	456999	1	0	0	0
-Scedosporium apiospermum	563466	1	0	0	1
-Sclerotinia sclerotiorum	5180	1	0	0	4
-Tuber borchii	42251	1	0	0	1
-Xerocomellus chrysenteron	1354920	1	0	0	0
-Zymoseptoria tritici	1047171	1	0	0	0
-Saccharomyces cerevisiae	4932	0	1	19	30
-Aspergillus nidulans	162425	0	0	11	16
-Schizosaccharomyces pombe	4896	0	0	6	15
-Cryptococcus neoformans	5207	0	0	5	1
-Mycosarcoma maydis	5270	0	0	4	7
-Trichoderma harzianum	5544	0	0	4	0
-Coccidioides posadasii	199306	0	0	3	1
-Metarhizium anisopliae	5530	0	0	3	0
-Trichoderma reesei	51453	0	0	3	0
-Aspergillus niger	5061	0	0	2	11
-Botrytis cinerea	40559	0	0	2	2
-Aspergillus clavatus	5057	0	0	1	6
-Aspergillus fischeri	36630	0	0	1	10
-Aspergillus flavus	5059	0	0	1	5
-Aspergillus terreus	33178	0	0	1	8
-Candida albicans	5476	0	0	1	17
-Colletotrichum lindemuthianum	290576	0	0	1	0
-Cryptococcus deneoformans	40410	0	0	1	19
-Debaryomyces hansenii	4959	0	0	1	13
-Fomitopsis schrenkii	2126942	0	0	1	0
-Fusarium oxysporum	5507	0	0	1	2
-Histoplasma capsulatum	5037	0	0	1	6
-Histoplasma ohiense	2902605	0	0	1	0
-Malassezia globosa	76773	0	0	1	3
-Melanocarpus albomyces	204285	0	0	1	0
-Metarhizium robertsii	568076	0	0	1	1
-Microsporum canis	63405	0	0	1	3
-Moniliophthora perniciosa	153609	0	0	1	0
-Mortierella alpina	64518	0	0	1	0
-Mycetinis scorodonius	182058	0	0	1	0
-Mycothermus thermophilus	85995	0	0	1	0
-Nakaseomyces glabratus	5478	0	2	1	15
-Penicillium rubens	1108849	0	0	1	5
-Phanerodontia chrysosporium	2822231	0	0	1	0
-Pleurotus eryngii	5323	0	0	1	0
-Podila clonocystis	979688	0	0	1	0
-Podospora anserina	2587412	0	0	1	2
-Rhizomucor miehei	4839	0	0	1	0
-Talaromyces marneffei	37727	0	0	1	0
-Talaromyces purpureogenus	1266744	0	0	1	0
-Thermothelomyces thermophilus	78579	0	0	1	1
-Trametes cinnabarina	5643	0	0	1	0
-Trametes hirsuta	5327	0	0	1	0
-Trichophyton benhamiae	63400	0	0	1	8
-Yarrowia lipolytica	4952	0	0	1	11
-Agaricus bitorquis	5343	0	0	0	1
-Albifimbria verrucaria	1859699	0	0	0	1
-Alternaria alternata	5599	0	0	0	1
-Alternaria brassicicola	29001	0	0	0	1
-Amanita bisporigera	87325	0	0	0	1
-Amphichorda felina	37994	0	0	0	1
-Annulohypoxylon moriforme	326622	0	0	0	1
-Apiospora sacchari	166626	0	0	0	1
-Armillaria ostoyae	47428	0	0	0	1
-Aspergillus aculeatus	5053	0	0	0	2
-Aspergillus candidus	41067	0	0	0	2
-Aspergillus hancockii	1873369	0	0	0	1
-Aspergillus sp. MF297-2	877550	0	0	0	1
-Aspergillus versicolor	46472	0	0	0	1
-Aureobasidium pullulans	5580	0	0	0	1
-Batrachochytrium dendrobatidis	109871	0	0	0	1
-Bipolaris zeicola	5017	0	0	0	1
-Blastobotrys adeninivorans	409370	0	0	0	1
-Blastomyces gilchristii	1681229	0	0	0	1
-Boreostereum vibrans	1826779	0	0	0	1
-Candida dubliniensis	42374	0	0	0	2
-Candida parapsilosis	5480	0	0	0	1
-Candida tropicalis	5482	0	0	0	1
-Candidozyma auris	498019	0	0	0	1
-Cercospora beticola	122368	0	0	0	1
-Cercospora nicotianae	29003	0	0	0	1
-Chaetomium globosum	38033	0	0	0	8
-Cladosporium herbarum	29918	0	0	0	2
-Claviceps purpurea	5111	0	0	0	3
-Clavispora lusitaniae	36911	0	0	0	1
-Coccidioides immitis	5501	0	0	0	3
-Colletotrichum orbiculare	5465	0	0	0	1
-Curvularia lunata	5503	0	0	0	1
-Diaporthe amygdali	1214568	0	0	0	1
-Dothistroma septosporum	64363	0	0	0	1
-Encephalitozoon cuniculi	6035	0	0	0	8
-Enterocytozoon bieneusi	31281	0	0	0	1
-Epicoccum sorghinum	749593	0	0	0	1
-Eremothecium gossypii	33169	0	0	0	15
-Floropilus chiversii	2587399	0	0	0	1
-Fusarium fujikuroi	5127	0	0	0	1
-Fusarium mangiferae	192010	0	0	0	1
-Fusarium verticillioides	117187	0	0	0	5
-Glarea lozoyensis	101852	0	0	0	1
-Gloeophyllum trabeum	104355	0	0	0	1
-Histoplasma mississippiense	2059318	0	0	0	3
-Hormonema carpetanum	284138	0	0	0	1
-Kluyveromyces lactis	28985	0	0	0	15
-Komagataella pastoris	4922	0	2	0	2
-Komagataella phaffii	460519	0	0	0	2
-Lachancea fermentati	4955	0	0	0	1
-Lachancea kluyveri	4934	0	0	0	1
-Lachancea thermotolerans	381046	0	0	0	3
-Lodderomyces elongisporus	36914	0	0	0	1
-Malbranchea aurantiaca	78605	0	0	0	1
-Metarhizium acridum	92637	0	0	0	1
-Metarhizium brunneum	500148	0	0	0	1
-Meyerozyma guilliermondii	4929	0	0	0	3
-Neocallimastix patriciarum	4758	0	0	0	1
-Omphalotus olearius	72120	0	0	0	1
-Paecilomyces divaricatus	644132	0	0	0	1
-Paecilomyces variotii	264951	0	0	0	1
-Panus similis	292560	0	0	0	1
-Parastagonospora nodorum	13684	0	0	0	7
-Penicillium aethiopicum	36650	0	0	0	1
-Penicillium brasilianum	104259	0	0	0	1
-Penicillium chrysogenum	5076	0	0	0	1
-Penicillium citrinum	5077	0	0	0	1
-Penicillium ochrochloron	69780	0	0	0	1
-Penicillium oxalicum	69781	0	0	0	4
-Penicillium roqueforti	5082	0	0	0	1
-Penicillium shearii	904690	0	0	0	1
-Penicillium terrestre	374132	0	0	0	1
-Pholiota microspora	1538424	0	0	0	1
-Phoma sp. MF5453	1828523	0	0	0	1
-Plenodomus lingam	5022	0	0	0	2
-Polytolypa hystricis	221428	0	0	0	1
-Preussia isomera	325670	0	0	0	1
-Pseudocercospora fijiensis	1873960	0	0	0	1
-Puccinia graminis	5297	0	0	0	2
-Pyrenochaetopsis sp.	1756125	0	0	0	1
-Pyrenophora tritici-repentis	45151	0	0	0	2
-Pyricularia grisea	148305	0	0	0	1
-Rhizopus delemar	936053	0	0	0	1
-Rhizopus niveus	4844	0	0	0	2
-Saccharomyces pastorianus	27292	0	2	0	0
-Saccharomyces uvarum	230603	0	0	0	1
-Scheffersomyces stipitis	4924	0	0	0	5
-Schizosaccharomyces japonicus	4897	0	0	0	2
-Schwanniomyces occidentalis	27300	0	0	0	1
-Serpula lacrymans	85982	0	0	0	1
-Stereocaulon alpinum	350623	0	0	0	1
-Talaromyces stipitatus	28564	0	0	0	4
-Talaromyces verruculosus	198730	0	0	0	1
-Thermochaetoides thermophila	209285	0	0	0	1
-Thermothielavioides terrestris	2587410	0	0	0	1
-Trichoderma arundinaceum	490622	0	0	0	1
-Trichoderma atroviride	63577	0	0	0	1
-Trichoderma virens	29875	0	0	0	1
-Vanderwaltozyma polyspora	36033	0	0	0	4
-Venturia inaequalis	5025	0	0	0	1
-Verticillium alfalfae	1051613	0	0	0	1
-Zygosaccharomyces bailii	4954	0	0	0	1
-Zygosaccharomyces rouxii	4956	0	0	0	1
-fungal sp. ATCC 74256	1729595	0	0	0	1
+species	taxon_id	primary_positive_clusters	pa14_positive_clusters	reasoned_negative_clusters	n1_negative_clusters	assumed_negative_clusters
+Coprinopsis cinerea	5346	3	0	2	2	1
+Pyricularia oryzae	318829	2	0	2	2	9
+Beauveria bassiana	176275	2	0	0	0	3
+Boletus edulis	36056	2	0	0	0	0
+Cyclocybe aegerita	1973307	2	0	0	0	0
+Fulvia fulva	5499	2	0	0	0	2
+Laccaria bicolor	29883	2	0	0	0	1
+Marasmius oreades	181124	2	0	0	0	0
+Orbilia oligospora	2813651	2	0	0	0	1
+Aspergillus fumigatus	746128	1	0	19	15	17
+Verticillium dahliae	27337	1	0	9	9	3
+Trichophyton rubrum	5551	1	0	8	8	1
+Fusarium graminearum	5518	1	0	6	5	8
+Agaricus bisporus	5341	1	0	1	1	0
+Neurospora crassa	5141	1	0	2	1	15
+Agroathelia rolfsii	39291	1	0	0	0	0
+Aleuria aurantia	5188	1	0	0	0	0
+Aspergillus oryzae	5062	1	0	1	0	15
+Cerioporus squamosus	2829415	1	0	0	0	0
+Clitocybe nebularis	117024	1	0	0	0	1
+Colletotrichum higginsianum	80884	1	0	0	0	0
+Cordyceps militaris	73501	1	0	0	0	0
+Cyclocybe cylindracea	1593264	1	0	0	0	0
+Flammulina velutipes	38945	1	0	0	0	1
+Lacrymaria velutina	71681	1	0	0	0	0
+Laetiporus sulphureus	5630	1	0	0	0	0
+Lyophyllum decastes	64660	1	0	0	0	0
+Macrolepiota procera	56183	1	0	0	0	0
+Paracoccidioides brasiliensis	121759	1	0	0	0	3
+Pholiota squarrosa	75321	1	0	0	0	0
+Pleurotus ostreatus	5322	1	0	0	0	0
+Psathyrella	71729	1	0	0	0	0
+Rhizoctonia solani	456999	1	0	0	0	0
+Scedosporium apiospermum	563466	1	0	0	0	1
+Sclerotinia sclerotiorum	5180	1	0	0	0	4
+Tuber borchii	42251	1	0	0	0	1
+Xerocomellus chrysenteron	1354920	1	0	0	0	0
+Zymoseptoria tritici	1047171	1	0	0	0	0
+Saccharomyces cerevisiae	4932	0	1	19	16	30
+Aspergillus nidulans	162425	0	0	11	10	16
+Cryptococcus neoformans	5207	0	0	5	4	1
+Schizosaccharomyces pombe	4896	0	0	6	4	15
+Trichoderma harzianum	5544	0	0	4	4	0
+Coccidioides posadasii	199306	0	0	3	3	1
+Metarhizium anisopliae	5530	0	0	3	3	0
+Mycosarcoma maydis	5270	0	0	4	3	7
+Trichoderma reesei	51453	0	0	3	3	0
+Botrytis cinerea	40559	0	0	2	2	2
+Aspergillus niger	5061	0	0	2	1	11
+Colletotrichum lindemuthianum	290576	0	0	1	1	0
+Cryptococcus deneoformans	40410	0	0	1	1	19
+Fomitopsis schrenkii	2126942	0	0	1	1	0
+Fusarium oxysporum	5507	0	0	1	1	2
+Histoplasma capsulatum	5037	0	0	1	1	6
+Histoplasma ohiense	2902605	0	0	1	1	0
+Malassezia globosa	76773	0	0	1	1	3
+Melanocarpus albomyces	204285	0	0	1	1	0
+Metarhizium robertsii	568076	0	0	1	1	1
+Microsporum canis	63405	0	0	1	1	3
+Moniliophthora perniciosa	153609	0	0	1	1	0
+Mortierella alpina	64518	0	0	1	1	0
+Mycetinis scorodonius	182058	0	0	1	1	0
+Mycothermus thermophilus	85995	0	0	1	1	0
+Penicillium rubens	1108849	0	0	1	1	5
+Phanerodontia chrysosporium	2822231	0	0	1	1	0
+Pleurotus eryngii	5323	0	0	1	1	0
+Podila clonocystis	979688	0	0	1	1	0
+Podospora anserina	2587412	0	0	1	1	2
+Rhizomucor miehei	4839	0	0	1	1	0
+Talaromyces marneffei	37727	0	0	1	1	0
+Talaromyces purpureogenus	1266744	0	0	1	1	0
+Thermothelomyces thermophilus	78579	0	0	1	1	1
+Trametes cinnabarina	5643	0	0	1	1	0
+Trametes hirsuta	5327	0	0	1	1	0
+Agaricus bitorquis	5343	0	0	0	0	1
+Albifimbria verrucaria	1859699	0	0	0	0	1
+Alternaria alternata	5599	0	0	0	0	1
+Alternaria brassicicola	29001	0	0	0	0	1
+Amanita bisporigera	87325	0	0	0	0	1
+Amphichorda felina	37994	0	0	0	0	1
+Annulohypoxylon moriforme	326622	0	0	0	0	1
+Apiospora sacchari	166626	0	0	0	0	1
+Armillaria ostoyae	47428	0	0	0	0	1
+Aspergillus aculeatus	5053	0	0	0	0	2
+Aspergillus candidus	41067	0	0	0	0	2
+Aspergillus clavatus	5057	0	0	1	0	6
+Aspergillus fischeri	36630	0	0	1	0	10
+Aspergillus flavus	5059	0	0	1	0	5
+Aspergillus hancockii	1873369	0	0	0	0	1
+Aspergillus sp. MF297-2	877550	0	0	0	0	1
+Aspergillus terreus	33178	0	0	1	0	8
+Aspergillus versicolor	46472	0	0	0	0	1
+Aureobasidium pullulans	5580	0	0	0	0	1
+Batrachochytrium dendrobatidis	109871	0	0	0	0	1
+Bipolaris zeicola	5017	0	0	0	0	1
+Blastobotrys adeninivorans	409370	0	0	0	0	1
+Blastomyces gilchristii	1681229	0	0	0	0	1
+Boreostereum vibrans	1826779	0	0	0	0	1
+Candida albicans	5476	0	0	1	0	17
+Candida dubliniensis	42374	0	0	0	0	2
+Candida parapsilosis	5480	0	0	0	0	1
+Candida tropicalis	5482	0	0	0	0	1
+Candidozyma auris	498019	0	0	0	0	1
+Cercospora beticola	122368	0	0	0	0	1
+Cercospora nicotianae	29003	0	0	0	0	1
+Chaetomium globosum	38033	0	0	0	0	8
+Cladosporium herbarum	29918	0	0	0	0	2
+Claviceps purpurea	5111	0	0	0	0	3
+Clavispora lusitaniae	36911	0	0	0	0	1
+Coccidioides immitis	5501	0	0	0	0	3
+Colletotrichum orbiculare	5465	0	0	0	0	1
+Curvularia lunata	5503	0	0	0	0	1
+Debaryomyces hansenii	4959	0	0	1	0	13
+Diaporthe amygdali	1214568	0	0	0	0	1
+Dothistroma septosporum	64363	0	0	0	0	1
+Encephalitozoon cuniculi	6035	0	0	0	0	8
+Enterocytozoon bieneusi	31281	0	0	0	0	1
+Epicoccum sorghinum	749593	0	0	0	0	1
+Eremothecium gossypii	33169	0	0	0	0	15
+Floropilus chiversii	2587399	0	0	0	0	1
+Fusarium fujikuroi	5127	0	0	0	0	1
+Fusarium mangiferae	192010	0	0	0	0	1
+Fusarium verticillioides	117187	0	0	0	0	5
+Glarea lozoyensis	101852	0	0	0	0	1
+Gloeophyllum trabeum	104355	0	0	0	0	1
+Histoplasma mississippiense	2059318	0	0	0	0	3
+Hormonema carpetanum	284138	0	0	0	0	1
+Kluyveromyces lactis	28985	0	0	0	0	15
+Komagataella pastoris	4922	0	2	0	0	2
+Komagataella phaffii	460519	0	0	0	0	2
+Lachancea fermentati	4955	0	0	0	0	1
+Lachancea kluyveri	4934	0	0	0	0	1
+Lachancea thermotolerans	381046	0	0	0	0	3
+Lodderomyces elongisporus	36914	0	0	0	0	1
+Malbranchea aurantiaca	78605	0	0	0	0	1
+Metarhizium acridum	92637	0	0	0	0	1
+Metarhizium brunneum	500148	0	0	0	0	1
+Meyerozyma guilliermondii	4929	0	0	0	0	3
+Nakaseomyces glabratus	5478	0	2	1	0	15
+Neocallimastix patriciarum	4758	0	0	0	0	1
+Omphalotus olearius	72120	0	0	0	0	1
+Paecilomyces divaricatus	644132	0	0	0	0	1
+Paecilomyces variotii	264951	0	0	0	0	1
+Panus similis	292560	0	0	0	0	1
+Parastagonospora nodorum	13684	0	0	0	0	7
+Penicillium aethiopicum	36650	0	0	0	0	1
+Penicillium brasilianum	104259	0	0	0	0	1
+Penicillium chrysogenum	5076	0	0	0	0	1
+Penicillium citrinum	5077	0	0	0	0	1
+Penicillium ochrochloron	69780	0	0	0	0	1
+Penicillium oxalicum	69781	0	0	0	0	4
+Penicillium roqueforti	5082	0	0	0	0	1
+Penicillium shearii	904690	0	0	0	0	1
+Penicillium terrestre	374132	0	0	0	0	1
+Pholiota microspora	1538424	0	0	0	0	1
+Phoma sp. MF5453	1828523	0	0	0	0	1
+Plenodomus lingam	5022	0	0	0	0	2
+Polytolypa hystricis	221428	0	0	0	0	1
+Preussia isomera	325670	0	0	0	0	1
+Pseudocercospora fijiensis	1873960	0	0	0	0	1
+Puccinia graminis	5297	0	0	0	0	2
+Pyrenochaetopsis sp.	1756125	0	0	0	0	1
+Pyrenophora tritici-repentis	45151	0	0	0	0	2
+Pyricularia grisea	148305	0	0	0	0	1
+Rhizopus delemar	936053	0	0	0	0	1
+Rhizopus niveus	4844	0	0	0	0	2
+Saccharomyces pastorianus	27292	0	2	0	0	0
+Saccharomyces uvarum	230603	0	0	0	0	1
+Scheffersomyces stipitis	4924	0	0	0	0	5
+Schizosaccharomyces japonicus	4897	0	0	0	0	2
+Schwanniomyces occidentalis	27300	0	0	0	0	1
+Serpula lacrymans	85982	0	0	0	0	1
+Stereocaulon alpinum	350623	0	0	0	0	1
+Talaromyces stipitatus	28564	0	0	0	0	4
+Talaromyces verruculosus	198730	0	0	0	0	1
+Thermochaetoides thermophila	209285	0	0	0	0	1
+Thermothielavioides terrestris	2587410	0	0	0	0	1
+Trichoderma arundinaceum	490622	0	0	0	0	1
+Trichoderma atroviride	63577	0	0	0	0	1
+Trichoderma virens	29875	0	0	0	0	1
+Trichophyton benhamiae	63400	0	0	1	0	8
+Vanderwaltozyma polyspora	36033	0	0	0	0	4
+Venturia inaequalis	5025	0	0	0	0	1
+Verticillium alfalfae	1051613	0	0	0	0	1
+Yarrowia lipolytica	4952	0	0	1	0	11
+Zygosaccharomyces bailii	4954	0	0	0	0	1
+Zygosaccharomyces rouxii	4956	0	0	0	0	1
+fungal sp. ATCC 74256	1729595	0	0	0	0	1

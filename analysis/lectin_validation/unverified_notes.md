@@ -28,3 +28,15 @@ Each line is a claim in the tables or the report that I did not verify. Items th
 16. **D4AL26 and the Onygenales group of spec F27.** D4AL26 (365 aa) is 92.3% identical to F3F37487_006503-T1 (337 aa) of *Trichophyton benhamiae* CBS 112371 (mmseqs2). It carries the same strain as D4AL26 (CBS 112371). I did not check whether they are the same gene.
 17. **Wilson intervals** treat each cluster as independent. Clusters at 30% identity are not a proof of independence.
 18. **Truncated gene models.** I looked for missed positives that are truncated. I found none among the 17 misses, but I did not compare lengths to full-length family members.
+
+## Added in revision 2
+
+19. **Item 15 is closed.** Review 1 aligned Q8NJT4 and Q8TGE0 with Q4WW81 and Q2UNX8 (313 of 314 and 307 of 310 residues match). I did not do this myself.
+20. **CMRBL (G3JGU5).** The accession is matched to the paper by the gene ID CCM_03832 in the abstract and the UniProt ORF name. I did not read the full text. UniProt gives G3JGU5 protein existence "predicted".
+21. **BbLec1 / J4UPT0.** PMID 34649678 has no open full text. J4UPT0 (BBA_03816) is the only PF07367 protein of *B. bassiana* ARSEF 2860, but the link to the paper is not verified. Not added.
+22. **Candidates without accession (not added):** CmLec4 (35718153), CmRlec (37073122), RsLysM (31076860), Cg2LysM (36876102), TAL6 (23289754, 31608044), MfAvr4 (20368413), CaAvr4 and CbAvr4 (25845605; UniProt D5KLB5 and D5KLB3 cite 20368413, which reports binding for the *M. fijiensis* protein only). Abstracts only.
+23. **J4KR73** (*B. bassiana*, "Peptidase M64, IgA", PF07938 cross-reference, protein existence "inferred from homology") is a candidate PF07938 look-alike. No paper gives a reason. Also 52 fungal TrEMBL proteins with a PF07938 cross-reference and a non-lectin automatic name (`data/raw/uniprot_fungi_pf07938_xref.tsv.gz`). None used.
+24. **Mgx1LysM (P9WEM2) and the Z. tritici strains.** I treat A0A1X7S1V5 as the same gene in another strain without alignment.
+25. **D4AL26 secretome evidence.** UniProt cites PMID 21919205 (ECO:0000269, subcellular location "secreted"). The abstract does not name this protein; I did not read the full text or its supplementary tables.
+26. **The 5 or 6 beta-trefoil rows.** Mapping the UniLectin3D class "Laetiporus trefoil lectin-like" to PF14200 is my choice (ricin-B-type beta-trefoil fold). Q7Z8V1 (hemolytic lectin LSLa) also hits the toxin model ETX_MTX2.
+27. **T. rubrum LysM H1a.** The abstract also reports binding to chitin and to N-linked oligosaccharides of fungal glycoproteins. The label H1a is a reading of the abstract.

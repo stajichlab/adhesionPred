@@ -15,7 +15,7 @@ assumed	PF13385	0	0	yes	0.00
 assumed	PF01607	0	0	yes	0.00
 assumed	PF00187	0	0	yes	0.00
 chitin_masking_h1b	PF07938	0	0	yes	0.00
-chitin_masking_h1b	PF01476	9	9	yes	0.00
+chitin_masking_h1b	PF01476	10	10	yes	0.00
 chitin_masking_h1b	PF08881	0	0	yes	0.00
 chitin_masking_h1b	PF07367	0	0	yes	0.00
 chitin_masking_h1b	PF21691	0	0	yes	0.00
@@ -89,7 +89,7 @@ known_gap	PF14200	0	0	yes	0.00
 known_gap	PF13385	0	0	yes	0.00
 known_gap	PF01607	0	0	yes	0.00
 known_gap	PF00187	0	0	yes	0.00
-literature_binding	PF07938	0	0	yes	0.00
+literature_binding	PF07938	1	1	yes	0.00
 literature_binding	PF01476	0	0	yes	0.00
 literature_binding	PF08881	0	0	yes	0.00
 literature_binding	PF07367	0	0	yes	0.00
@@ -99,8 +99,8 @@ literature_binding	PF21595	0	0	yes	0.00
 literature_binding	PF18647	0	0	yes	0.00
 literature_binding	PF22803	0	0	yes	0.00
 literature_binding	PF01419	0	0	yes	0.00
-literature_binding	PF00652	0	0	yes	0.00
-literature_binding	PF14200	1	1	yes	0.00
+literature_binding	PF00652	1	1	yes	0.00
+literature_binding	PF14200	2	2	yes	0.00
 literature_binding	PF13385	0	0	yes	0.00
 literature_binding	PF01607	0	0	yes	0.00
 literature_binding	PF00187	0	0	yes	0.00
@@ -150,3 +150,4 @@ structure_backed	PF13385	0	0	yes	0.00
 structure_backed	PF01607	0	0	yes	0.00
 structure_backed	PF00187	0	0	yes	0.00
 #mismatches	0
+#non_empty_cells	18	(of 150)

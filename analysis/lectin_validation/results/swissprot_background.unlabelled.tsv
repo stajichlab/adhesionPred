@@ -40,7 +40,6 @@ PF01476	LysM	D4B4P8	35.6	Arthroderma benhamiae (strain ATCC MYA-4	LysM domain-co
 PF01476	LysM	A0A0A2JVV3	33.2	Penicillium expansum (Blue mold rot fung	Probable chitinase LysM18 (EC 3.2.1.14) (LysM domain-containing protei	no
 PF01476	LysM	A0A1X7S147	32.5	Zymoseptoria tritici (strain ST99CH_3D7)	Secreted LysM effector Mg1LysM (LysM domain-containing protein Mg1LysM	no
 PF01476	LysM	A0A0A2KPB9	31.4	Penicillium expansum (Blue mold rot fung	Non-secreted LysM effector LysM15 (LysM domain-containing protein 15)	no
-PF01476	LysM	P9WEM2	30.0	Zymoseptoria tritici (strain CBS 115943 	Secreted LysM effector Mgx1LysM	no
 PF01476	LysM	A0A4Q7K4T8	30.0	Pochonia chlamydosporia (strain 123) (Me	Secreted LysM effector Lys2 (LysM domain-containing protein 2)	no
 PF01476	LysM	G2WSX9	29.9	Verticillium dahliae (strain VdLs.17 / A	Secreted LysM effector Vd4LysM (Four LysM domain-containing protein) (	no
 PF01476	LysM	A0A0A2J621	29.5	Penicillium expansum (Blue mold rot fung	Secreted LysM effector LysM14 (LysM domain-containing protein 14)	no
@@ -56,7 +55,6 @@ PF01476	LysM	A0A0A2JQ23	23.7	Penicillium expansum (Blue mold rot fung	Non-secret
 PF07938	Fungal_lectin	Q8TGE0	518.4	Aspergillus oryzae (Yellow koji mold)	Fucose-specific lectin (Aspergillus oryzea lectin) (AOL)	yes
 PF07938	Fungal_lectin	Q8NJT4	484.1	Aspergillus fumigatus (Neosartorya fumig	Fucose-specific lectin (Aspergillus fumigatus lectin) (AFL)	yes
 PF07938	Fungal_lectin	D4AL26	260.1	Arthroderma benhamiae (strain ATCC MYA-4	Fucose-specific lectin	yes
-PF07938	Fungal_lectin	G1X5Y2	60.7	Arthrobotrys oligospora (strain ATCC 249	Fucose-specific lectin g276	no
 PF14200	RicinB_lectin_2	I1C083	68.0	Rhizopus delemar (strain RA 99-880 / ATC	Mucoricin (EC 3.2.2.22) (Ricin-like toxin) (rRNA N-glycosidase)	no
 PF14200	RicinB_lectin_2	A7EWX9	47.5	Sclerotinia sclerotiorum (strain ATCC 18	Agglutinin	yes
 PF22803	GBD_Y3	P83811	106.8	Coprinus comatus (Shaggy mane)	Antiviral protein CAP	no

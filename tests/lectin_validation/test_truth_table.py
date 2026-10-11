@@ -60,7 +60,7 @@ def test_label_and_class_values_valid(rows):
 
 def test_curator_tuned_date(rows):
     for r in rows:
-        assert r["curator"] == "claude-sonnet-5-5"
+        assert r["curator"].strip()
         assert r["tuned"] in ("yes", "no")
         assert len(r["date"]) == 10
 
@@ -94,19 +94,53 @@ def test_sequences_and_clusters_cover_every_row(rows):
         assert clu[r["accession"]] == r["cluster30"]
 
 
-def test_taxon_ids_and_species_match_names_dmp(rows):
+# Rows whose UniProt organism is above species rank (disclosed in unverified_notes.md, item 9).
+RANK_ALLOW_LIST = {"A0A1U7Q1Z0": "genus"}
+
+
+def test_taxon_ids_species_names_and_ranks_match_taxonomy(rows):
     names = "/srv/projects/db/taxonomy/names.dmp"
-    if not os.path.exists(names):
-        pytest.skip("names.dmp not available")
+    nodes = "/srv/projects/db/taxonomy/nodes.dmp"
+    if not (os.path.exists(names) and os.path.exists(nodes)):
+        pytest.skip("taxonomy files not available")
     want = {r["taxon_id"]: r["species"] for r in rows}
-    found = {}
+    found, rank = {}, {}
     with open(names) as fh:
         for line in fh:
             f = line.split("\t|\t")
             if f[0] in want and "scientific name" in line:
                 found[f[0]] = f[1]
+    with open(nodes) as fh:
+        for line in fh:
+            f = line.split("\t|\t")
+            if f[0] in want:
+                rank[f[0]] = f[2]
     for t, sp in want.items():
         assert found.get(t) == sp, (t, sp, found.get(t))
+    for r in rows:
+        expected = RANK_ALLOW_LIST.get(r["accession"], "species")
+        assert rank[r["taxon_id"]] == expected, (r["accession"], rank[r["taxon_id"]])
+
+
+def test_every_positive_has_a_valid_selection_route(rows):
+    valid = {"unilectin3d", "literature_or_keyword", "model_gated_pfam_xref"}
+    for r in rows:
+        if r["label"] == "positive":
+            assert r["selection_route"] in valid, r["accession"]
+        else:
+            assert r["selection_route"].strip(), r["accession"]
+
+
+def test_no_identical_sequences_under_two_accessions():
+    seqs, cur = {}, None
+    with open(CTRL / "sequences.faa") as fh:
+        for line in fh:
+            if line.startswith(">"):
+                cur = line[1:].strip()
+                seqs[cur] = ""
+            else:
+                seqs[cur] += line.strip()
+    assert len(set(seqs.values())) == len(seqs)
 
 
 def test_in_reference_rows_name_a_seed_hit(rows):

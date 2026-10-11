@@ -62,6 +62,7 @@ COLS = [
     "uniprot_status",
     "negative_evidence",
     "phylum",
+    "selection_route",
 ]
 
 
@@ -563,11 +564,9 @@ def main():
         "Q8NJT4": "Same protein as Q4WW81 (FleA) under another accession (taxon 746128). Duplicate; identity checked in finalize step.",
         "Q8TGE0": "Same protein as Q2UNX8 (AOL) under another accession (taxon 5062). Duplicate.",
         "A0A1X7S147": "Mg1LysM of another Zymoseptoria tritici strain (ST99CH). Same gene as F9XHX3. Duplicate.",
-        "A0A1X7S1V5": "MgxLysM of another strain; the abstract of PMID 21467214 does not show binding for MgxLysM (only Mg1 and Mg3). Not used.",
-        "P9WEM2": "MgxLysM; the abstract of PMID 21467214 does not show binding for MgxLysM (only Mg1 and Mg3). UniProt cites PMID 33797163, which I did not read. Not used.",
+        "A0A1X7S1V5": "Mgx1LysM of another strain (ST99CH). Same gene as P9WEM2. Duplicate.",
         "A0A1X7S690": "Mg3LysM of another strain (ST99CH). Same gene as F9XMT4. Duplicate.",
-        "G1X5Y2": "Arthrobotrys oligospora AOL_s00054g276 'fucose-specific lectin'. The abstract of PMID 35142828 reports a deletion phenotype (trap formation). It does not report a binding experiment. UniProt cites the paper for fucose binding. Tier T3 (name or similarity), not used as truth.",
-        "D4AL26": "Arthroderma benhamiae 'Fucose-specific lectin': UniProt function 'Probable L-fucose-binding lectin', evidence ECO:0000250 (by similarity to P18891). Tier T3. Not used as truth. It is an Onygenales PF07938-family protein; see report.",
+        "D4AL26": "Arthroderma benhamiae Fucose-specific lectin: UniProt FUNCTION is by similarity to P18891 (ECO:0000250). Protein-level evidence is secretome mass spectrometry (PMID 21919205, subcellular location ECO:0000269). There is no binding evidence. Fails the T2 rule (no experimental sugar-binding statement). It is an Onygenales PF07938-family protein; see report.",
         "Q4WER9": "LysM effector ldpA of A. fumigatus: UniProt FUNCTION 'might have a role in sequestration of chitin' (ECO:0000305). Spec 4.3 lists it as a look-alike candidate. Probably a LysM effector, so it is not a negative. Not used.",
         "Q4WRR0": "LysM effector ldpB of A. fumigatus: same as Q4WER9. Not used.",
         "I1C083": "Mucoricin of Rhizopus delemar: ricin-like toxin and N-glycosylase (PMID 33462434). A ricin-like toxin may bind host glycans through its ricin-B-like module. Ambiguous. Not used.",
@@ -612,6 +611,24 @@ def main():
         r["tuned"] = "no"
         r["leakage"] = "unknown"
         r["phylum"] = phylum_of(int(r["taxon_id"]))
+        acc = r["accession"]
+        if r["label"] == "positive":
+            if acc in ul_rows:
+                r["selection_route"] = "unilectin3d"
+            else:
+                r["selection_route"] = curated[acc]["selection_route"]
+        elif r["label_class"] == "er_housekeeping":
+            r["selection_route"] = "m3_pfam_xref_or_unilectin3d"
+        elif r["label_class"] == "enzyme_lectin_like_domain":
+            r["selection_route"] = (
+                "shared_set"
+                if r["negative_evidence"] == "shared_set_N2"
+                else "keyword_or_pfam_xref_pool"
+            )
+        elif r["label_class"] == "n1_shared":
+            r["selection_route"] = "shared_set"
+        else:
+            r["selection_route"] = "random_sample_filtered_by_pfam_xref"
         r["curator"] = CURATOR
         r["date"] = DATE
     rows.sort(key=lambda r: (r["label"], r["label_class"], r["accession"]))

@@ -33,7 +33,7 @@ PF = {
     "PF02157",
     "PF11721",
 }
-EXTRA = ["C1G842", "Q4WVZ3", "Q4WER9", "Q4WRR0", "J9VLH0", "G4N906", "Q00363"]
+EXTRA = ["C1G842", "Q4WVZ3", "Q4WER9", "Q4WRR0", "J9VLH0", "G4N906", "Q00363", "G3JGU5"]
 
 accs = []
 for r in csv.DictReader(gzip.open(sys.argv[1], "rt"), delimiter="\t"):

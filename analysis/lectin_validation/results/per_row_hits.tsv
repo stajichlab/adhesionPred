@@ -671,6 +671,7 @@ H1UVH3	positive	chitin_masking_h1b	F9XHX3	Colletotrichum higginsianum	in_referen
 H1VSQ9	positive	chitin_masking_h1b	F9XHX3	Colletotrichum higginsianum	in_reference	PF01476:47.7;PF08881:32.9	PF01476	PF01476:78.2		yes	
 J4URT3	positive	chitin_masking_h1b	F2ST24	Beauveria bassiana	in_reference	PF01476:35.4	PF01476	PF01476:89.4		yes	
 J5J7Y8	positive	chitin_masking_h1b	J5J7Y8	Beauveria bassiana	in_reference	PF01476:40.0	PF01476	PF01476:37.7		yes	
+P9WEM2	positive	chitin_masking_h1b	F9XHX3	Zymoseptoria tritici	in_reference	PF01476:45.8	PF01476	PF01476:30.0		yes	
 Q00363	positive	chitin_masking_h1b	Q00363	Fulvia fulva	in_reference	PF01607:37.7	PF01607	PF01607:28.7		yes	
 A0A084FYP2	positive	host_binding_h1a	P18891	Scedosporium apiospermum	in_reference	PF07938:43.7	PF07938	PF07938:300.7		yes	300.7
 F2SIK4	positive	host_binding_h1a	F2ST24	Trichophyton rubrum	none		PF01476	PF01476:59.7		yes	
@@ -678,6 +679,8 @@ F2ST24	positive	host_binding_h1a	F2ST24	Trichophyton rubrum	in_reference	PF01476
 Q4WW81	positive	host_binding_h1a	Q2UNX8	Aspergillus fumigatus	in_reference	PF07938:81.7	PF07938	PF07938:489.1		yes	489.1
 C1G842	positive	known_gap	Q12713	Paracoccidioides brasiliensis	none		none			no	
 B2ZRS9	positive	literature_binding	B2ZRS9	Clitocybe nebularis	none		PF14200	PF14200:52.8		yes	
+G1X5Y2	positive	literature_binding	G1X5Y2	Orbilia oligospora	none		PF07938	PF07938:60.7		yes	60.7
+G3JGU5	positive	literature_binding	G3JGU5	Cordyceps militaris	in_reference	PF00652:30.9;PF14200:38.4	PF00652	PF00652:40.2;PF14200:43.6		yes	
 Q06100	positive	literature_binding	Q9P4R8	Coprinopsis cinerea	in_reference	PF00337:31.3	PF00337	PF00337:39.7		yes	
 A0A1A9TAD0	positive	pa14_owned_elsewhere	A0A1A9TAD0	Komagataella pastoris	none		unmapped			no	
 A0A1B2JGH2	positive	pa14_owned_elsewhere	A0A1B2JGH2	Komagataella pastoris	none		unmapped			no	
@@ -698,7 +701,7 @@ A0A3B6UEU4	positive	structure_backed	A0A384E107	Pholiota squarrosa	none		none			
 A7UNK4	positive	structure_backed	A7UNK4	Lyophyllum decastes	in_reference	PF21691:43.2	PF21691	PF21691:63.4		yes	
 A7XUK7	positive	structure_backed	A7XUK7	Sclerotinia sclerotiorum	in_reference	PF14200:77.6	PF14200	PF14200:47.5		yes	
 B0CZL6	positive	structure_backed	B0CZL6	Laccaria bicolor	none		none			no	
-B0D650	positive	structure_backed	B0D650	Laccaria bicolor	none		none			no	
+B0D650	positive	structure_backed	B0D650	Laccaria bicolor	none		PF14200			no	
 B3GA02	positive	structure_backed	B3GA02	Coprinopsis cinerea	in_reference	PF21595:93.7	PF21595	PF21595:169.9		yes	
 B3VS76	positive	structure_backed	B3VS76	Coprinopsis cinerea	none		none			no	
 E7E2M2	positive	structure_backed	E7E2M2	Pleurotus ostreatus	none		none			no	
@@ -720,11 +723,11 @@ Q5MK11	positive	structure_backed	I1RM03	Tuber borchii	in_reference	PF08881:71.4	
 Q6WY08	positive	structure_backed	Q9P4R8	Cyclocybe aegerita	none		PF00337	PF00337:30.2		yes	
 Q75WT9	positive	structure_backed	Q75WT9	Cerioporus squamosus	in_reference	PF14200:41.9	PF14200	PF14200:55.9		yes	
 Q7S6U4	positive	structure_backed	I1RM03	Neurospora crassa	in_reference	PF08881:72.6	PF08881	PF08881:95.9		yes	
-Q7Z8V1	positive	structure_backed	Q7Z8V1	Laetiporus sulphureus	none		none			no	
+Q7Z8V1	positive	structure_backed	Q7Z8V1	Laetiporus sulphureus	none		PF14200			no	
 Q8WZC9	positive	structure_backed	A0A0M3KL30	Xerocomellus chrysenteron	in_reference	PF07367:55.7	PF07367	PF07367:184.4		yes	
 Q8X123	positive	structure_backed	Q75WT9	Marasmius oreades	in_reference	PF14200:46.2	PF14200	PF14200:68.8		yes	
 Q9P4R8	positive	structure_backed	Q9P4R8	Coprinopsis cinerea	in_reference	PF00337:38.0	PF00337	PF00337:37.8		yes	
-R4GRU4	positive	structure_backed	R4GRU5	Boletus edulis	none		none			no	
-R4GRU5	positive	structure_backed	R4GRU5	Boletus edulis	none		none			no	
-R4GRU6	positive	structure_backed	R4GRU5	Boletus edulis	none		none			no	
-R4GRU9	positive	structure_backed	R4GRU5	Boletus edulis	none		none			no	
+R4GRU4	positive	structure_backed	R4GRU5	Boletus edulis	none		PF14200			no	
+R4GRU5	positive	structure_backed	R4GRU5	Boletus edulis	none		PF14200			no	
+R4GRU6	positive	structure_backed	R4GRU5	Boletus edulis	none		PF14200			no	
+R4GRU9	positive	structure_backed	R4GRU5	Boletus edulis	none		PF14200			no	
