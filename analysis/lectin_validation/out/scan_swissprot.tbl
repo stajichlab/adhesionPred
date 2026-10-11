@@ -131,5 +131,5 @@ sp|O59745|YN29_SCHPO -          Man-6-P_recep        PF02157.22   5.5e-15   56.3
 # Target file:     /bigdata/stajichlab/jstajich/projects/adhesionPred/.claude/worktrees/agent-ab7c4389a5872ab68/analysis/lectin_validation/out/tmp/sp.faa
 # Option settings: hmmsearch -o /dev/null --tblout /bigdata/stajichlab/jstajich/projects/adhesionPred/.claude/worktrees/agent-ab7c4389a5872ab68/analysis/lectin_validation/out/scan_swissprot.tbl --noali --cut_ga --cpu 8 /bigdata/stajichlab/jstajich/projects/adhesionPred/.claude/worktrees/agent-ab7c4389a5872ab68/analysis/lectin_validation/out/scan_swissprot.models.hmm /bigdata/stajichlab/jstajich/projects/adhesionPred/.claude/worktrees/agent-ab7c4389a5872ab68/analysis/lectin_validation/out/tmp/sp.faa 
 # Current dir:     /bigdata/stajichlab/jstajich/projects/adhesionPred/.claude/worktrees/agent-ab7c4389a5872ab68
-# Date:            Sat Oct 10 23:09:52 2026
+# Date:            Sat Oct 10 23:23:57 2026
 # [ok]

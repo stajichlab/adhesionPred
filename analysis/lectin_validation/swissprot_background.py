@@ -67,4 +67,12 @@ with open(prefix + ".unlabelled.tsv", "w", newline="") as fh:
     w = csv.DictWriter(fh, fieldnames=list(unl[0]), delimiter="\t", lineterminator="\n")
     w.writeheader()
     w.writerows(unl)
+distinct = set()
+for r in csv.DictReader(open(hits_path), delimiter="\t"):
+    if r["model"] in M12:
+        distinct.add(r["accession"])
+with open(prefix + ".distinct.tsv", "w") as fh:
+    fh.write("item\tvalue\n")
+    fh.write(f"distinct_proteins_with_a_hit_to_the_15_models\t{len(distinct)}\n")
+    fh.write(f"swissprot_fungi_proteins\t{len(sp)}\n")
 print(len(unl), "unlabelled hits")

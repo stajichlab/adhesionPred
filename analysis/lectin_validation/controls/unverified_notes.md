@@ -40,3 +40,11 @@ Each line is a claim in the tables or the report that I did not verify. Items th
 25. **D4AL26 secretome evidence.** UniProt cites PMID 21919205 (ECO:0000269, subcellular location "secreted"). The abstract does not name this protein; I did not read the full text or its supplementary tables.
 26. **The 5 or 6 beta-trefoil rows.** Mapping the UniLectin3D class "Laetiporus trefoil lectin-like" to PF14200 is my choice (ricin-B-type beta-trefoil fold). Q7Z8V1 (hemolytic lectin LSLa) also hits the toxin model ETX_MTX2.
 27. **T. rubrum LysM H1a.** The abstract also reports binding to chitin and to N-linked oligosaccharides of fungal glycoproteins. The label H1a is a reading of the abstract.
+
+## Added in revision 3
+
+28. **PPL (B6ZK51).** The abstract of PMID 41342409 says "we report the sugar binding properties"; it does not name the sugar or the assay (the keywords list glycan array). I did not read the full text. UniProt B6ZK51 is TrEMBL with a CAUTION comment (a rule-based note on feature annotation). The row is in the UniLectin3D-like family of ricin-B-type beta-trefoil lectins by the Pfam match, not by a UniLectin3D record.
+29. **FFSL (*T. harzianum*, PMID 41534670).** The abstract reports ITC binding to fucose. No gene ID. A0A2T3ZYI0 is only a candidate (PF07938 cross-reference, "Uncharacterized protein"). Not added.
+30. **Not added, abstract only:** Rbd proteins of *C. neoformans* (PMID 42016327, no binding assay in the abstract); *Pleurotus* galectin-like lectin gene (PMID 37180275, no binding assay, no gene ID); *Histoplasma* beta-galactose lectin (PMID 41805922, no gene).
+31. **G1X5Y2.** UniProt gives protein existence "inferred from homology". The Swiss-Prot FUNCTION statement cites PMID 35142828, whose abstract reports a deletion phenotype only.
+32. **PF07938 name count.** The script rule gives 52 entries with a non-lectin name. Review 2 counted 53 with another rule. Names are UniProt automatic annotation.

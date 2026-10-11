@@ -679,6 +679,7 @@ F2ST24	positive	host_binding_h1a	F2ST24	Trichophyton rubrum	in_reference	PF01476
 Q4WW81	positive	host_binding_h1a	Q2UNX8	Aspergillus fumigatus	in_reference	PF07938:81.7	PF07938	PF07938:489.1		yes	489.1
 C1G842	positive	known_gap	Q12713	Paracoccidioides brasiliensis	none		none			no	
 B2ZRS9	positive	literature_binding	B2ZRS9	Clitocybe nebularis	none		PF14200	PF14200:52.8		yes	
+B6ZK51	positive	literature_binding	L8WGI4	Pleurocybella porrigens	in_reference	PF14200:42.3	PF14200	PF14200:47.3		yes	
 G1X5Y2	positive	literature_binding	G1X5Y2	Orbilia oligospora	none		PF07938	PF07938:60.7		yes	60.7
 G3JGU5	positive	literature_binding	G3JGU5	Cordyceps militaris	in_reference	PF00652:30.9;PF14200:38.4	PF00652	PF00652:40.2;PF14200:43.6		yes	
 Q06100	positive	literature_binding	Q9P4R8	Coprinopsis cinerea	in_reference	PF00337:31.3	PF00337	PF00337:39.7		yes	

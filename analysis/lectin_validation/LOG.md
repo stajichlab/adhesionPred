@@ -43,3 +43,9 @@ See `rejected_manual.tsv` and `controls/rejected.tsv` (76 lines). Main reasons:
 17. **Added after review.** CMRBL G3JGU5 (PMID 36632960; accession verified by the gene ID CCM_03832 in the abstract), Mgx1LysM P9WEM2 (PMID 33797163), G1X5Y2 (rule of decision 12). Not added: BbLec1 (no open full text; gene ID not checkable), CmLec4, CmRlec, RsLysM, Cg2LysM, TAL6, MfAvr4, Cercospora Avr4 (no verifiable accession). J4KR73 not used as a negative (no paper).
 18. **Other fixes.** Per-species negative floor uses N1 rows only. Identity-to-seed table added. Strata that share clusters are listed. Report-script check reports the number of non-empty cells. `run_all.sh` now makes `out/scan_swissprot.hits.tsv`. Tests: grouped numbers of `measure.py` on a toy table with a cluster that spans two leakage groups; taxon rank check with an allow-list; selection route; no identical sequences; curator name no longer hard-coded.
 19. **Output location.** COMMON-RULES says `data/controls/<task-name>/`. The set stays in `analysis/lectin_validation/controls/`. Exception recorded in the report (section 9).
+
+## Revision 3 (after independent review 2)
+
+20. **N1.** G1X5Y2 is model-gated; seed-independent recall is given as 2 of 13 and 1 of 12 (CNL only).
+21. **PPL (B6ZK51) added** (PMID 41342409; UniProt protein-level entry citing the paper, PDB 9KL2 and 9KL3, PF14200). T1, independent route, `in_reference`. FFSL not added (no gene ID; A0A2T3ZYI0 not confirmed). Rbd proteins (42016327) and the Pleurotus galectin-like gene (37180275) not added: no binding assay in the abstract.
+22. **Scripts.** `pf07938_xref_names.py` makes the count of non-lectin names. `swissprot_background.py` also writes the number of distinct proteins. `measure.py` writes `species_count.tsv`.

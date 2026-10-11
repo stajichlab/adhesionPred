@@ -77,6 +77,7 @@ ACC_TO_MODEL = {  # literature rows without a UniLectin3D class (expected model 
     "P9WEM2": "PF01476",
     "G1X5Y2": "PF07938",
     "G3JGU5": "PF00652",
+    "B6ZK51": "PF14200",
 }
 PRIMARY = [
     "structure_backed",
@@ -510,6 +511,17 @@ def main():
         )
     )
     write_tsv(a.out_dir + "/species_clusters.tsv", rows, list(rows[0].keys()))
+    sp_no_assumed = {r["species"] for r in truth if r["label_class"] != "assumed"}
+    sp_prim = {
+        r["species"]
+        for r in truth
+        if r["label"] == "positive" and r["label_class"] != "pa14_owned_elsewhere"
+    }
+    with open(a.out_dir + "/species_count.tsv", "w") as fh:
+        fh.write("item\tvalue\n")
+        fh.write(f"species_all_rows\t{len({r['species'] for r in truth})}\n")
+        fh.write(f"species_without_assumed\t{len(sp_no_assumed)}\n")
+        fh.write(f"species_with_primary_positive\t{len(sp_prim)}\n")
     print("ok; union15 hits", len(union15), "of", len(truth))
 
 

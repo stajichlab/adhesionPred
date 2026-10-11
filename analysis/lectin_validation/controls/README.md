@@ -8,10 +8,10 @@ This set is for a measurement of the lectin-like Pfam models. It is not a calibr
 
 | File | Content |
 |---|---|
-| `controls.tsv` | 732 rows. COMMON-RULES columns, plus `label_class`, `tier`, `h_flag`, `protein_name`, `length`, `strain_taxid`, `unilectin_class`, `pdb_ids`, `pdb_sugar_comps`, `uniprot_status`, `negative_evidence`, `phylum`, `selection_route`, `cluster30`, `seed_hits` |
+| `controls.tsv` | 733 rows. COMMON-RULES columns, plus `label_class`, `tier`, `h_flag`, `protein_name`, `length`, `strain_taxid`, `unilectin_class`, `pdb_ids`, `pdb_sugar_comps`, `uniprot_status`, `negative_evidence`, `phylum`, `selection_route`, `cluster30`, `seed_hits` |
 | `sequences.faa` | Sequences, header = accession |
 | `clusters.tsv` | accession, cluster representative (MMseqs2 30% identity, 50% coverage) |
-| `rejected.tsv` | 78 candidates not added, with the reason |
+| `rejected.tsv` | 82 candidates not added, with the reason |
 | `counts.md` | Rows, sequences and clusters per class |
 | `unverified_notes.md` | Claims not checked (copy of `../unverified_notes.md`) |
 
