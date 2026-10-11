@@ -2,6 +2,22 @@
 
 *2026-10-10. Revision 5. Author: Claude Code (claude-sonnet-5-5). Task: `docs/agent-tasks/09-lectin-class-spec.md`. Owner decision of 2026-10-10: lectins become a new candidate class in the host-interaction tier, spec first. Status: draft, revised after independent review 1 (`2026-10-10-lectin-class-design-review-1.md`), review 2 (`2026-10-10-lectin-class-design-review-2.md`, verdict FAIL, Opus) and review 3 (`2026-10-10-lectin-class-design-review-3.md`, verdict pass with changes, Opus). Review 4 (`2026-10-10-lectin-class-design-review-4.md`, verdict pass with changes, Opus) found two text errors and several small ones. Revision 5 corrects them. It is a text revision: no new compute, no new design choice. It has no fifth review. **The main design choice (section 3.1, option (a), (a2), (b) or (c)) is an owner decision. This revision does not settle it.** No code is written. `categories.yaml`, `family_table.tsv`, status files, `data/curated/adhesins/adhesins.tsv` and the agent task files are not changed. Every number below comes from a file or PMID named in the text. Items I could not verify are listed in section 10.*
 
+## Owner decisions recorded (2026-10-10, after revision 5)
+
+The owner answered the questions of section 8 in a grilling session. This block records the answers. The text below this block was written before them and still says "owner decision" in places. This block overrides it.
+
+| Decision | Owner answer | Note |
+|---|---|---|
+| D1, option for the call | **(c): no lectin call in v1.** All lectin-like models are reported only. The 6 pool S Onygenales PF07938 proteins are named in the report. | The ranking behind it is reasoning only. No performance data supports it. |
+| D12, report build | **(c-i):** a script outside the tool. No change to `src/`, `family_table.tsv` or `categories.yaml`. | The script is not written yet. |
+| D7, label | **Option A:** family label only, "PF07938 (AAL-like / FleA-family) domain hit". No adhesin or non-adhesin decision. | The Sakai 2019 adhesion direction is still not read in the full PDF. |
+| L3b, next literature step | **Yes:** full-text pass on Sakai 2019, Kerr 2016 and the endemic-fungi lectin papers. | Not started. It needs full-text access, which is not checked. |
+| D2, D6, D4b | Moot under (c): no call, so no gate and no status file. | Recorded, not asked. |
+| D5 | No for v1 (no call can feed `surface_attachment_candidate`). | Recorded default, not asked. |
+| D11 | H1a only. CBM_14 and Chitin_bind_1 are in M2 (reported). | Recorded default, not asked. Moot under (c) except for the report grouping. |
+| D9 | No custom paracoccin model. Report it as a known gap. | Recorded default, not asked. |
+| Publish | Branch pushed, draft PR opened (no merge). Roadmap row M10 added. | |
+
 ## Changes from revision 4 (review 4, verdict pass with changes)
 
 | Review 4 finding | Action |
