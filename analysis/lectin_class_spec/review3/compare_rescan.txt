@@ -1,0 +1,6 @@
+sample proteomes 25
+proteins: rescan 36 committed 36 same set True
+max score difference 0.0
+proteomes with hit: rescan 14 committed 14
+only rescan []
+only committed []

@@ -1,0 +1,21 @@
+model_acc	model_name	set	Afum_Af293_UniProt	Anid_FGSC_A4	Calb_SC5314	Cneo_H99	Mmay_521	N1_shared	Scer_S288C
+PF07938	Fungal_lectin	M1	2	0	0	0	0	0	0
+PF21691		M1	0	0	0	0	0	0	0
+PF00337		M1	0	0	0	0	0	0	0
+PF07367	FB_lectin	M1	1	0	0	0	0	0	0
+PF21595		M1	0	0	0	0	0	0	0
+PF18647		M2	0	0	0	0	0	0	0
+PF22803		M2	0	0	0	0	0	0	0
+PF01419	Jacalin	M2	3	2	1	0	0	0	1
+PF00652	Ricin_B_lectin	M2	1	0	0	5	0	0	0
+PF14200	RicinB_lectin_2	M2	0	0	0	1	0	0	0
+PF13385	Laminin_G_3	M2	1	1	0	0	0	0	0
+PF08881	CVNH	M2	3	2	0	0	0	0	0
+PF01476	LysM	M2	7	17	0	2	2	0	0
+PF03388	Lectin_leg-like	M3	2	2	2	1	1	0	3
+PF00262	Calreticulin	M3	1	1	1	1	1	1	1
+PF11721		M3	0	0	0	0	0	0	0
+PF07915	PRKCSH	M3	2	2	1	2	2	0	1
+PF02157	Man-6-P_recep	M3	1	1	1	0	0	0	0
+PF07691	PA14	own	6	4	1	5	0	0	6
+PF10528	GLEYA	own	0	0	0	0	0	0	6

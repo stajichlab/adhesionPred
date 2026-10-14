@@ -79,3 +79,29 @@ Report: `docs/reports/2026-10-09-family-tests.md`; code `analysis/family_tests/`
 - Hyr1 has no E1 positive to test it; the allergen families need an IUIS test; Candida_ALS_N, Candida_ALS, Flo11 and GLEYA are the next candidates to turn on.
 
 **Owner decision 2026-10-09 (after the family test):** PF30910 ALS_M off; PF11766 Candida_ALS_N, PF05792 Candida_ALS, PF10182 Flo11 and PF10528 GLEYA on. Active families now: 10 + PF00624, PF13928, PF15789, PF22799 + these four = 18 of 24. Inactive: Bys1 PF04681, Hyphal_reg_CWP PF11765, PIR PF00399, ALS_M PF30910, AltA1 PF16541, Allergen_Asp_f_4 PF25312. Known at the time of the decision: GLEYA hits 1 N2 negative; the four families overlap the repeat call in 3 to 15 scan proteins each. The repeat call's status files are not stale (only `categories.yaml` changes the hash), but the pfam family digest changed; the Pfam-reading calls need a new measure when next run in a real work directory (not done).
+
+## Tiers and discovery pass (owner decisions 2026-10-09, later in the day)
+
+- Structure agreed: broad (cell wall and surface), narrow (adhesion), host interaction and immune evasion. Order of work: B (discovery pass), C (broad-tier truth set, spec first), A (rename and split categories, config change, re-measure the repeat call).
+- Tier table accepted (broad: signal peptide, CFEM, PIR, PIR1-like_C, Hyr1, Bys1, hydrophobins and HsbA; narrow: Candida_ALS_N, Candida_ALS, ALS_M, Flo11, Flocculin, Flocculin_t3, GLEYA, Hyphal_reg_CWP; both: PA14 and `tandem_repeat_protein`; host interaction: SOWgp calls, antigen, allergen).
+- Discovery pass: genus is the unit, 3-genus minimum; *Aspergillus* handled as Aspergillaceae (main) plus a within-*Aspergillus* supplement. Spec `docs/superpowers/specs/2026-10-09-secretome-discovery-pass-design.md`: review 1 FAILED (1 blocker, 9 major); rev 2 written; review 2 pending. O1 (all passing Pezizomycotina genera as background), O2 (Fitch origin count beside each q) and O3 (reuse Fungi_5k SignalP, TMHMM, Pfam-A 37.x, PredGPI if B2a shows agreement) accepted by the owner.
+- Why the hard negatives are hit: the hit scores are far above the GA cutoffs, so cutoffs are not the main issue. Many N1 negatives are wall or surface proteins, which a broad wall call should call (see `docs/reports/2026-10-09-family-tests.md`).
+
+## Discovery pass progress (B1, B2a done; B2 running)
+
+- Spec rev 3 passed review 2 (`...-secretome-discovery-pass-design-review-2.md`; 0 blockers, 4 major and 8 minor addressed).
+- B1 (`365d5d7`, `f8d3c06`): 653 proteomes, one per named genus: 27 Onygenales, 7 Aspergillaceae, 619 background. `protein_counts.tsv` lists 1 for 16 files that hold thousands of proteins; the script counts FASTA records for those. Hybrids excluded: `analysis/fungi_scan/hybrids.tsv` (literature sources still to be added before B5).
+- B2a (`002df49`): Fungi_5k SignalP 6 and TMHMM are identical to the scan run on the 56 proteomes (`docs/reports/2026-10-09-discovery-b2a-fungi5k-agreement.md`). Reused through `analysis/fungi_scan/run/fungi5k_to_raw.py`.
+- B2: 638 proteomes are new (15 were in the scan). 45 SLURM jobs submitted (13 pfam, 19 repeats, 13 allergen; list in `_workdir/fungi_scan/jobs_discovery.txt`). The 56 scan proteomes also need their converters and core command re-run with the current 18 active families (blocker B-1 of review 1). Next: when the jobs finish, run `scan_converters.sh` on `run_list_discovery_all.tsv` and the 56 scan proteomes, check every `run.json` lists the same active set, then B3.
+
+## Status of B2 jobs (2026-10-10, early morning)
+
+All 45 discovery jobs (`_workdir/fungi_scan/jobs_discovery.txt`) are still PENDING with reason `AssocGrpCpuLimit`: the group CPU allowance is held by other jobs of the same user (about 170 running and 180 pending `nf-PREDICT` jobs). No job has started, failed or timed out. B3 (pools, composition, Pfam/GPI join), the B4 statistics, the driver and the tree rooting are written and tested (20 tests), but have not run on real data. They need the converters, which need the jobs. If the Nextflow jobs finish first the queue will clear by itself. Otherwise decide whether to cancel or reduce the Nextflow run.
+
+## Discovery pass results (2026-10-10)
+
+- All 45 B2 jobs COMPLETED (queue wait about 7 h on the group CPU limit). All 653 proteomes have complete raw outputs; converters ran with no errors; every proteome lists the same 18 active families (blocker B-1 of review 1 closed for the discovery set; the 41 scan proteomes outside the discovery list still hold the old 10-family calls).
+- B3, B4, B5 done: `analysis/secretome_discovery/` (pools, statistics, driver, stability, report tables; 21 tests), report `docs/reports/2026-10-10-secretome-discovery-pass.md`, tables in `docs/reports/data/sorting_hat/secretome_discovery/`.
+- Result: 49 Pfam families enriched in Onygenales pool U at q < 0.05 (39 stable in 5 of 5 background subsamples); only 2 for Aspergillaceae (7 genera; not stable), so no Aspergillaceae pattern can be claimed with this design. Families of interest by description (T4 reading): Tos1, Ecm33, Bys1 (cell wall), fungal lectins PF07938/PF18647/PF21691 (glycan binding), Big defensin PF14862 and DUF6528 (absent or rare in the background, gains inside the target clade).
+- Not done (listed in the report): Mann-Whitney BH correction, Pfam-free cluster test, pathogen contrast, *Aspergillus* supplement, second-proteome check, literature sources for the hybrid list. The role column is "no stated role": the spec required the roles to be written before the statistics, and they were not.
+- Owner decisions needed: whether to run the remaining parts of the design; whether Bys1, Tos1 and Ecm33 join the broad-tier families (workstream C); which candidate families get literature evidence rows.
