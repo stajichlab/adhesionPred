@@ -75,24 +75,23 @@ Lessons carried into this spec:
 - Source: reviewed Swiss-Prot entries with protein-level evidence, no allergen keyword (KW-0020), no allergen
   comment, and no "antigen" word, length 10-850 aa (DeepPlantAllergy's range). Also exclude human (taxon 9606)
   and viruses (10239), require annotation score above 3, and exclude "Cancer" (DeepPlantAllergy's other filters).
-- **Pairing (owner decision, Applm design):** each weak negative is paired with a positive at identity >= T_C,
-  so training negatives resemble allergens in similarity. **T_C is swept at 0.6 and 0.7** (owner decision).
-  Each value gives its own training set and its own row in every table.
-- **Build gate (owner decision A):** before any training, count the pairable weak negatives at each T_C. An
-  arm with fewer than **500 paired negatives** is dropped and reported as not feasible. 500 is a planning
-  value, revised once the count is measured. The same gate checks that the length filter (above) and the
-  length-matched run (M1L) still leave a feasible set together. If they do not, the report says so.
-- **Pair-in-cluster exception (owner decision F, 2026-10-10).** A pair at T_C 0.6-0.7 may lie inside one
-  positive's 30% cluster. Task 05 treats that as a conflict. The owner granted an exception for this model
-  only, recorded in `docs/agent-tasks/05-allergen-controls.md`. The cluster is never split across train and
-  test. The exception does not apply to evidence-grade negatives.
-- **Label-noise check:** count the paired negatives that match a WHO/IUIS or AllergenOnline entry. Such hits
-  are possible unannotated allergens and are reported, not removed silently. The count is a limit on the
-  negatives, not a result.
-- Kingdom mix: pairing wins. The resulting kingdom mix is reported as a table (owner decision B).
+- **Negative selection (owner decision, 2026-10-10: pairing dropped).** Weak negatives are sampled from the
+  filtered candidate pool so that their length distribution matches the positives' length distribution
+  (length-matched sampling, the Applm Length Control idea). No similarity condition is applied to the choice of
+  negatives. Sampling is done with a fixed seed, in length bins, with the bin counts written to `counts.md`.
+- **Similarity is measured, not controlled.** Pairing is no longer part of the design. Similarity between
+  negatives and positives is measured by B6 (nearest neighbour), which is a required shortcut check
+  (section 5). Its result decides whether the model can be read at all (stop margin, section 5).
+- **Build gate (planning value 500):** the build counts the length-matched negatives available per split. A
+  split with fewer than **500 negatives** is reported as not feasible for that split. 500 is a planning value,
+  revised once the count is measured.
+- **Label-noise check:** count the candidate negatives that match a WHO/IUIS or AllergenOnline positive at
+  identity >= 0.6 (coverage >= 0.5). Such hits are possible unannotated allergens. They are reported as a
+  limit, not removed silently. Candidates at identity >= 0.9 are removed from the pool (owner decision, 2026-10-10).
+- Kingdom mix: not controlled. The resulting kingdom mix of the sampled negatives is reported as a table.
 - Label: `weak_negative`, with the query and date recorded. Not evidence-grade.
-- Candidates that cannot be paired are dropped (owner decision C). They are logged in `rejected.tsv` with the
-  count for each T_C.
+- Pair-in-cluster exception (owner decision F) and the T_C sweep (0.6, 0.7) no longer apply. Pairing is
+  dropped. The O7 coverage rule is kept only for the label-noise check.
 - The count of these negatives is **not yet measured**. No number is assumed here.
 
 ### 3.3 Negatives for evaluation (evidence-grade)
@@ -120,8 +119,9 @@ Order of operations (follows Applm's pipeline; corrects draft 4, which was circu
    draft. The fungal floor (section 6) decides whether a fungal table is reported.
 3. Remove positive violations of T_S: any positive pair that crosses a split at identity >= T_S is resolved
    by removing one protein. **T_S = 0.4** (owner decision G(a), 2026-10-10), measured with MMseqs2 all-vs-all.
-4. Pair each weak negative with a positive at identity >= T_C (section 3.2). A negative takes the **split of
-   its paired positive**. Candidates with no pair are dropped.
+4. Length-matched sampling of weak negatives (section 3.2). Each sampled negative is assigned to the split of
+   its **sequence cluster** (MMseqs2 clusters of positives and candidates together, section 4 step 1). A cluster
+   is never split across train and test. Candidates in a cluster with no positive are assigned by cluster alone.
 5. Remove negative violations of T_S across splits, in both classes (Applm's order).
 6. Measure, do not assume, the inter-split identity: all-vs-all alignment across splits (aligner and parameters
    recorded), and report the measured maximum. A split is valid only if the measured maximum is at or below T_S.
@@ -159,16 +159,19 @@ Each baseline is required. No baseline is dropped without a written reason.
 | B4 | Length only | protein length, logistic regression | checks the length shortcut |
 | B5 | One-hot + linear head | one-hot per residue, pooled | encoding floor (DeepPlantAllergy, Applm) |
 | B6 | Nearest neighbour to training positives | best identity to any training positive (MMseqs2, training split only) | sanity floor (see note) |
-| X1 | One published external predictor (owner decision) | scored on the primary test set, output reported, not used for tuning | external reference. Candidates: AllerCatPro 2.0, AlgPred 2.0. Allerdictor's server is not reachable. See the disclosure below. |
+| X1 | One published external predictor (owner decision) | **Dropped (owner decision O5, 2026-10-10).** Reason: AllerCatPro 2.0 caps batch submissions at 50 sequences and states no terms of use; the AlgPred 2.0 host did not resolve; Allerdictor's server is not reachable. The report states this reason. | not run |
 | M1 | ESM-2 650M + logistic regression | mean-pooled embedding, padding excluded | main candidate |
 | M1b | ESM-2 650M + random forest | same embedding | classifier comparison (Applm) |
 | M1L | M1 with length-matched negatives | as M1, negatives filtered to the positives' length range | length sensitivity run |
 
 Notes:
-- **B2 and B6 are sanity floors, not competitors.** Negatives are paired at identity >= T_C by design, so
-  similarity-based methods should score near or below chance on this set. A near-chance B2 or B6 is the
-  expected result, not evidence that the model beats them. The report states the expected behaviour before
-  the run and records the actual values.
+- **B6 is a required shortcut check (updated 2026-10-10, pairing dropped).** Negatives are no longer chosen by
+  similarity, so similarity to positives may separate the classes. B6 (nearest-neighbour identity to training
+  positives) therefore measures whether similarity alone explains the result. The stop margin of owner decision
+  O1 applies, as amended 2026-10-10: the stop uses the mean validation B6 AUROC over four split seeds (20261010, 1, 2, 3),
+  with the seed standard deviation reported. A mean above 0.60 halts the arm for owner review before any embedding model
+  is trained. Single-seed results are reported but do not halt. The
+  report records the B6 value whether or not it halts. B2 is kept as a reference to the existing module.
 - Use ESM-2 650M (`esm2_t33_650M_UR50D`, the variant AllerTrans names). Record the version.
 - Mean pooling excludes padding. Padding in the mean makes scores batch-dependent (`AGENTS.md`).
 - Hyperparameters are chosen on the validation split only.
@@ -259,8 +262,9 @@ Notes:
 
 - Q1 Positives: all kingdoms, fungal results reported separately.
 - Q2 Weak negatives: Swiss-Prot, protein-level evidence, no allergen keyword or comment, no "antigen" word.
-- Pairing: negatives paired to positives by similarity, Applm design. T_C swept at 0.6 and 0.7, both reported.
-  This supersedes the training-pool-only identity filter (draft 2).
+- Pairing (2026-10-10): dropped. Pairing gave too few candidates (74 at T_C 0.6, 39 at 0.7, against a 500
+  floor), so length-matched sampling replaces it. Revisit only if more positives change the pairable count.
+  The T_C sweep (0.6, 0.7) no longer applies.
 - A (2026-10-10): build gate; arm dropped below 500 paired negatives (planning value).
 - B (2026-10-10): pairing wins over kingdom mix; the resulting mix is reported.
 - C (2026-10-10): hard-negative stratum deleted; unpaired candidates dropped and logged.

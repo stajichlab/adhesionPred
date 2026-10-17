@@ -1,0 +1,72 @@
+AAM77471.1	sp|P79085|ALTA1_ALTAL	97.391	115	100	2.51e-80	Major allergen Alt a 1 OS=Alternaria alternata OX=5599 GN=ALTA1 PE=1 SV=1
+AAM77471.1	sp|Q5EZ82|ALTA1_ALTBO	96.296	108	94	3.06e-74	Allergen Ulo b 1 (Fragment) OS=Alternaria botrytis OX=119956 GN=alta1 PE=1 SV=1
+AAM77471.1	sp|Q5EZC5|ALTA1_STEBT	78.125	96	83	2.59e-51	Allergen Ste b 1 (Fragment) OS=Stemphylium botryosum OX=120510 GN=alta1 PE=1 SV=1
+OWY50380.1	sp|P42058|ALTA7_ALTAL	98.429	191	73	9.38e-138	Minor allergen Alt a 7 OS=Alternaria alternata OX=5599 GN=ALTA7 PE=1 SV=1
+OWY50380.1	sp|P42059|CLAH7_DAVTA	64.706	187	72	1.45e-89	Minor allergen Cla h 7 OS=Davidiella tassiana OX=29918 GN=CLAH7 PE=1 SV=1
+OWY50380.1	sp|P25349|YCP4_YEAST	48.062	258	99	5.94e-74	Flavoprotein-like protein YCP4 OS=Saccharomyces cerevisiae (strain ATCC 204508 / S288c) OX=559292 GN=YCP4 PE=1 SV=1
+CAD23613.1	sp|Q8J077|SUB6_TRISH	95.890	292	100	0.0	Subtilisin-like protease 6 (Fragment) OS=Trichophyton schoenleinii OX=34386 GN=SUB6 PE=1 SV=1
+CAD23613.1	sp|A1XIH0|SUB6_TRIEQ	94.863	292	100	0.0	Subtilisin-like protease 6 OS=Trichophyton equinum OX=63418 GN=SUB6 PE=1 SV=1
+CAD23613.1	sp|Q3ZEJ8|SUB6_TRITO	94.521	292	100	0.0	Subtilisin-like protease 6 OS=Trichophyton tonsurans OX=34387 GN=SUB6 PE=3 SV=1
+CAD23614.1	sp|Q8J077|SUB6_TRISH	99.753	405	100	0.0	Subtilisin-like protease 6 (Fragment) OS=Trichophyton schoenleinii OX=34386 GN=SUB6 PE=1 SV=1
+CAD23614.1	sp|A1XIH0|SUB6_TRIEQ	92.840	405	100	0.0	Subtilisin-like protease 6 OS=Trichophyton equinum OX=63418 GN=SUB6 PE=1 SV=1
+CAD23614.1	sp|Q3ZEJ8|SUB6_TRITO	92.593	405	100	0.0	Subtilisin-like protease 6 OS=Trichophyton tonsurans OX=34387 GN=SUB6 PE=3 SV=1
+BAH09387.1	sp|B6V869|DPP5_TRITO	99.725	726	100	0.0	Dipeptidyl-peptidase 5 OS=Trichophyton tonsurans OX=34387 GN=DPP5 PE=3 SV=1
+BAH09387.1	sp|A7UKV4|DPP5_TRIEQ	99.587	726	100	0.0	Dipeptidyl-peptidase 5 OS=Trichophyton equinum OX=63418 GN=DPP5 PE=3 SV=1
+BAH09387.1	sp|D4D5P5|DPP5_TRIVH	97.796	726	100	0.0	Probable dipeptidyl-peptidase 5 OS=Trichophyton verrucosum (strain HKI 0517) OX=663202 GN=DPP5 PE=3 SV=1
+CAA06305.1	sp|P67876|RNMG_ASPRE	93.600	125	100	3.07e-86	Ribonuclease mitogillin OS=Aspergillus restrictus OX=5064 GN=ret PE=1 SV=1
+CAA06305.1	sp|P67875|RNMG_ASPFU	93.600	125	100	3.07e-86	Ribonuclease mitogillin OS=Neosartorya fumigata (strain ATCC MYA-4609 / Af293 / CBS 101355 / FGSC A1100) OX=330879 GN=mitF PE=1 SV=1
+CAA06305.1	sp|P00655|RNAS_ASPGI	88.000	125	100	2.98e-80	Ribonuclease alpha-sarcin OS=Aspergillus giganteus OX=5060 GN=sar PE=1 SV=2
+KEY81716.1	sp|O60024|ALL4_ASPFU	99.689	322	100	0.0	Allergen Asp f 4 OS=Neosartorya fumigata (strain ATCC MYA-4609 / Af293 / CBS 101355 / FGSC A1100) OX=330879 GN=AFUA_2G03830 PE=1 SV=2
+KEY78748.1	sp|O42799|ALL7_ASPFU	99.630	270	100	0.0	Allergen Asp f 7 OS=Neosartorya fumigata (strain ATCC MYA-4609 / Af293 / CBS 101355 / FGSC A1100) OX=330879 GN=AFUA_4G06670 PE=1 SV=2
+KEY78748.1	sp|D4B2H3|ALL7_ARTBC	38.889	144	47	5.80e-24	Allergen Asp f 7 homolog OS=Arthroderma benhamiae (strain ATCC MYA-4681 / CBS 112371) OX=663331 GN=ARB_02701 PE=3 SV=1
+ADE74975.1	sp|Q00208|ORYZ_EMENI	82.630	403	100	0.0	Alkaline protease 1 OS=Emericella nidulans (strain FGSC A4 / ATCC 38163 / CBS 112.46 / NRRL 194 / M139) OX=227321 GN=alp1 PE=2 SV=1
+ADE74975.1	sp|A1CWF3|ORYZ_NEOFI	78.803	401	99	0.0	Alkaline protease 1 OS=Neosartorya fischeri (strain ATCC 1020 / DSM 3700 / CBS 544.65 / FGSC A1164 / JCM 1740 / NRRL 181 / WB 181) OX=331117 GN=alp1 PE=2 SV=1
+ADE74975.1	sp|P28296|ORYZ_ASPFU	77.805	401	99	0.0	Alkaline protease 1 OS=Neosartorya fumigata (strain ATCC MYA-4609 / Af293 / CBS 101355 / FGSC A1100) OX=330879 GN=alp1 PE=1 SV=2
+AAD25927.1	sp|Q9Y7R8|MDHM_SCHPO	56.686	344	99	2.81e-124	Malate dehydrogenase, mitochondrial OS=Schizosaccharomyces pombe (strain 972 / ATCC 24843) OX=284812 GN=MDH1 PE=3 SV=1
+AAD25927.1	sp|P17505|MDHM_YEAST	59.327	327	94	1.53e-121	Malate dehydrogenase, mitochondrial OS=Saccharomyces cerevisiae (strain ATCC 204508 / S288c) OX=559292 GN=MDH1 PE=1 SV=2
+AAD25927.1	sp|O02640|MDHM_CAEEL	55.718	341	99	5.11e-121	Malate dehydrogenase, mitochondrial OS=Caenorhabditis elegans OX=6239 GN=mdh-2 PE=1 SV=1
+CCU97864.1	sp|O59838|HSP7F_SCHPO	54.252	682	88	0.0	Heat shock protein homolog pss1 OS=Schizosaccharomyces pombe (strain 972 / ATCC 24843) OX=284812 GN=pss1 PE=1 SV=2
+CCU97864.1	sp|O74225|HSP88_NEUCR	53.754	666	85	0.0	Heat shock protein hsp88 OS=Neurospora crassa (strain ATCC 24698 / 74-OR23-1A / CBS 708.71 / DSM 1257 / FGSC 987) OX=367110 GN=hsp88 PE=1 SV=1
+CCU97864.1	sp|P48722|HS74L_MOUSE	41.241	822	99	0.0	Heat shock 70 kDa protein 4L OS=Mus musculus OX=10090 GN=Hspa4l PE=1 SV=2
+CCV00099.1	sp|Q92450|SODM_ASPFU	56.000	200	98	2.08e-76	Superoxide dismutase [Mn], mitochondrial OS=Neosartorya fumigata (strain ATCC MYA-4609 / Af293 / CBS 101355 / FGSC A1100) OX=330879 GN=sodB PE=1 SV=3
+CCV00099.1	sp|Q9UQX0|SODM_SCHPO	54.359	195	96	1.01e-71	Superoxide dismutase [Mn], mitochondrial OS=Schizosaccharomyces pombe (strain 972 / ATCC 24843) OX=284812 GN=sod2 PE=1 SV=1
+CCV00099.1	sp|Q92429|SODM_GANMI	54.229	201	97	1.87e-68	Superoxide dismutase [Mn], mitochondrial OS=Ganoderma microsporum OX=34462 PE=2 SV=1
+CCU98198.1	sp|Q1RQI9|THIO_MALSM	100.000	105	98	3.10e-72	Thioredoxin (Fragment) OS=Malassezia sympodialis OX=76777 PE=1 SV=1
+CCU98198.1	sp|Q9UW02|THIO_COPCM	51.429	105	98	3.70e-38	Thioredoxin OS=Coprinus comatus OX=56187 PE=1 SV=1
+CCU98198.1	sp|Q1RQJ0|THX29_ASPFM	50.467	107	99	1.58e-33	Thioredoxin Asp f 29 OS=Neosartorya fumigata OX=746128 GN=CDV57_00134 PE=1 SV=1
+CCU99457.1	sp|P56578|MALF3_MALFU	58.683	167	97	2.37e-73	Putative peroxiredoxin (Fragment) OS=Malassezia furfur OX=55194 PE=1 SV=1
+CCU99457.1	sp|P56577|MALF2_MALFU	58.084	167	97	1.62e-71	Putative peroxiredoxin OS=Malassezia furfur OX=55194 PE=1 SV=1
+CCU99457.1	sp|Q9Y8B8|PRX5_PENCI	43.103	174	100	3.81e-40	Peroxiredoxin Pen c 3 OS=Penicillium citrinum OX=5077 PE=1 SV=1
+AIS82657.1	sp|P07267|CARP_YEAST	55.990	384	95	3.86e-153	Saccharopepsin OS=Saccharomyces cerevisiae (strain ATCC 204508 / S288c) OX=559292 GN=PEP4 PE=1 SV=1
+AIS82657.1	sp|P10977|CARPV_CANAX	49.279	416	100	3.22e-146	Vacuolar aspartic protease OS=Candida albicans OX=5476 GN=APR1 PE=3 SV=3
+AIS82657.1	sp|O42630|CARP_ASPFU	52.120	401	99	9.02e-146	Vacuolar protease A OS=Neosartorya fumigata (strain ATCC MYA-4609 / Af293 / CBS 101355 / FGSC A1100) OX=330879 GN=pep2 PE=2 SV=1
+XP_003030591.1	sp|D8Q9M3|AMYG_SCHCM	100.000	576	100	0.0	Glucoamylase ARB_02327-1 OS=Schizophyllum commune (strain H4-8 / FGSC 9210) OX=578458 GN=SCHCODRAFT_57589 PE=1 SV=1
+XP_003030591.1	sp|P36914|AMYG_ASPOR	51.613	589	97	0.0	Glucoamylase OS=Aspergillus oryzae (strain ATCC 42149 / RIB 40) OX=510516 GN=glaA PE=2 SV=2
+XP_003030591.1	sp|P14804|AMYG_NEUCR	51.520	592	96	0.0	Glucoamylase OS=Neurospora crassa (strain ATCC 24698 / 74-OR23-1A / CBS 708.71 / DSM 1257 / FGSC 987) OX=367110 GN=gla-1 PE=1 SV=3
+ABS29033.1	sp|Q5EZC5|ALTA1_STEBT	89.600	125	91	2.05e-80	Allergen Ste b 1 (Fragment) OS=Stemphylium botryosum OX=120510 GN=alta1 PE=1 SV=1
+ABS29033.1	sp|P79085|ALTA1_ALTAL	83.846	130	95	6.61e-79	Major allergen Alt a 1 OS=Alternaria alternata OX=5599 GN=ALTA1 PE=1 SV=1
+ABS29033.1	sp|Q5EZ82|ALTA1_ALTBO	84.800	125	91	3.84e-76	Allergen Ulo b 1 (Fragment) OS=Alternaria botrytis OX=119956 GN=alta1 PE=1 SV=1
+ACJ65836.1	sp|Q5EZ82|ALTA1_ALTBO	99.270	137	100	1.81e-98	Allergen Ulo b 1 (Fragment) OS=Alternaria botrytis OX=119956 GN=alta1 PE=1 SV=1
+ACJ65836.1	sp|P79085|ALTA1_ALTAL	96.350	137	100	1.07e-96	Major allergen Alt a 1 OS=Alternaria alternata OX=5599 GN=ALTA1 PE=1 SV=1
+ACJ65836.1	sp|Q5EZC5|ALTA1_STEBT	80.800	125	91	1.99e-71	Allergen Ste b 1 (Fragment) OS=Stemphylium botryosum OX=120510 GN=alta1 PE=1 SV=1
+AGC36415.1	sp|Q5EZ82|ALTA1_ALTBO	99.275	138	100	3.30e-98	Allergen Ulo b 1 (Fragment) OS=Alternaria botrytis OX=119956 GN=alta1 PE=1 SV=1
+AGC36415.1	sp|P79085|ALTA1_ALTAL	96.377	138	100	1.98e-96	Major allergen Alt a 1 OS=Alternaria alternata OX=5599 GN=ALTA1 PE=1 SV=1
+AGC36415.1	sp|Q5EZC5|ALTA1_STEBT	81.600	125	91	4.37e-73	Allergen Ste b 1 (Fragment) OS=Stemphylium botryosum OX=120510 GN=alta1 PE=1 SV=1
+ACI44002.1	sp|Q5EZ82|ALTA1_ALTBO	95.200	125	91	2.96e-87	Allergen Ulo b 1 (Fragment) OS=Alternaria botrytis OX=119956 GN=alta1 PE=1 SV=1
+ACI44002.1	sp|P79085|ALTA1_ALTAL	93.496	123	89	9.13e-85	Major allergen Alt a 1 OS=Alternaria alternata OX=5599 GN=ALTA1 PE=1 SV=1
+ACI44002.1	sp|Q5EZC5|ALTA1_STEBT	80.000	125	91	5.15e-72	Allergen Ste b 1 (Fragment) OS=Stemphylium botryosum OX=120510 GN=alta1 PE=1 SV=1
+ABQ59259.1	sp|P79085|ALTA1_ALTAL	97.080	137	100	1.14e-98	Major allergen Alt a 1 OS=Alternaria alternata OX=5599 GN=ALTA1 PE=1 SV=1
+ABQ59259.1	sp|Q5EZ82|ALTA1_ALTBO	100.000	130	95	3.60e-95	Allergen Ulo b 1 (Fragment) OS=Alternaria botrytis OX=119956 GN=alta1 PE=1 SV=1
+ABQ59259.1	sp|Q5EZC5|ALTA1_STEBT	81.600	125	91	5.28e-73	Allergen Ste b 1 (Fragment) OS=Stemphylium botryosum OX=120510 GN=alta1 PE=1 SV=1
+ABQ59258.1	sp|P79085|ALTA1_ALTAL	96.350	137	100	5.20e-98	Major allergen Alt a 1 OS=Alternaria alternata OX=5599 GN=ALTA1 PE=1 SV=1
+ABQ59258.1	sp|Q5EZ82|ALTA1_ALTBO	99.231	130	95	1.73e-94	Allergen Ulo b 1 (Fragment) OS=Alternaria botrytis OX=119956 GN=alta1 PE=1 SV=1
+ABQ59258.1	sp|Q5EZC5|ALTA1_STEBT	80.800	125	91	2.45e-72	Allergen Ste b 1 (Fragment) OS=Stemphylium botryosum OX=120510 GN=alta1 PE=1 SV=1
+ABQ59255.1	sp|Q5EZ82|ALTA1_ALTBO	99.270	137	100	2.65e-99	Allergen Ulo b 1 (Fragment) OS=Alternaria botrytis OX=119956 GN=alta1 PE=1 SV=1
+ABQ59255.1	sp|P79085|ALTA1_ALTAL	96.350	137	100	1.68e-97	Major allergen Alt a 1 OS=Alternaria alternata OX=5599 GN=ALTA1 PE=1 SV=1
+ABQ59255.1	sp|Q5EZC5|ALTA1_STEBT	80.800	125	91	2.08e-72	Allergen Ste b 1 (Fragment) OS=Stemphylium botryosum OX=120510 GN=alta1 PE=1 SV=1
+ACJ54737.1	sp|Q5EZ82|ALTA1_ALTBO	93.600	125	91	2.19e-85	Allergen Ulo b 1 (Fragment) OS=Alternaria botrytis OX=119956 GN=alta1 PE=1 SV=1
+ACJ54737.1	sp|P79085|ALTA1_ALTAL	92.623	122	88	3.37e-83	Major allergen Alt a 1 OS=Alternaria alternata OX=5599 GN=ALTA1 PE=1 SV=1
+ACJ54737.1	sp|Q5EZC5|ALTA1_STEBT	78.400	125	91	3.67e-70	Allergen Ste b 1 (Fragment) OS=Stemphylium botryosum OX=120510 GN=alta1 PE=1 SV=1
+AGC36416.1	sp|Q5EZ82|ALTA1_ALTBO	99.270	137	100	2.51e-99	Allergen Ulo b 1 (Fragment) OS=Alternaria botrytis OX=119956 GN=alta1 PE=1 SV=1
+AGC36416.1	sp|P79085|ALTA1_ALTAL	96.350	137	100	1.10e-97	Major allergen Alt a 1 OS=Alternaria alternata OX=5599 GN=ALTA1 PE=1 SV=1
+AGC36416.1	sp|Q5EZC5|ALTA1_STEBT	80.800	125	91	2.17e-72	Allergen Ste b 1 (Fragment) OS=Stemphylium botryosum OX=120510 GN=alta1 PE=1 SV=1

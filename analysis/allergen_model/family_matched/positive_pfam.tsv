@@ -1,0 +1,175 @@
+accession	in_uniprot	reviewed	pfam	length
+A0A075DVI9	true	reviewed	PF00923	323
+A0A0F6N3V8	true	unreviewed	PF05922,PF00082	507
+A0A0U1Y1N5	true	unreviewed	PF00082	386
+A0A3G3LP85	true	unreviewed	PF16541	158
+A1KXP4	true	reviewed	PF00838	169
+A2I7W3	true	unreviewed	PF00544	290
+A4FSH5	true	reviewed	PF30672	185
+B0L0W9	true	unreviewed	PF04681	151
+B0L807	true	unreviewed	PF00082	388
+B0Y004	true	reviewed	PF30672	185
+B0Y473	true	reviewed	PF05922,PF00082	495
+B3V0K8	true	reviewed	PF05922,PF00082	506
+B7ZK61	true	reviewed	PF05922,PF00082	518
+B8N106	true	reviewed	PF05922,PF00082	403
+C7E9V9	true	reviewed	PF25484	221
+C7E9W0	true	reviewed		144
+D0MQ50	true	reviewed	PF00838	169
+D4ALV6	true	reviewed	PF07249	205
+D4AN50	true	reviewed	PF00933,PF01915	820
+D4ANW6	true	reviewed	PF00328	456
+D4AQ83	true	reviewed	PF10287,PF10290	440
+D4AS55	true	reviewed		160
+D4AV66	true	reviewed	PF30672	186
+D4AVD4	true	reviewed	PF00262	563
+D4AYT4	true	reviewed	PF00728,PF14845	616
+D4B2H3	true	reviewed		288
+D4B2L8	true	reviewed	PF00085,PF13848	523
+D4B2W4	true	reviewed	PF29664	308
+D4B327	true	reviewed	PF00188	309
+D4B4J2	true	reviewed	PF00722	365
+D8Q9M3	true	reviewed	PF00686,PF00723	576
+G8Z407	true	unreviewed	PF00923	325
+G8Z408	true	unreviewed	PF00923	324
+H2E5X2	true	reviewed	PF00428	107
+I1CLC6	true	unreviewed	PF00026	401
+M5EAX2	true	reviewed	PF05199,PF00732	618
+O42799	true	reviewed		270
+O43099	true	reviewed	PF08534	168
+O60022	true	reviewed	PF07249	152
+O60024	true	reviewed	PF25312	322
+O60025	true	unreviewed	PF12296	197
+Q8J0P4	true	reviewed	PF00722	395
+O00089	true	reviewed	PF14310,PF00933,PF01915	804
+O93969	true	unreviewed	PF08534	172
+O93970	true	unreviewed	PF00160	162
+O93971	true	unreviewed		187
+O93972	true	unreviewed		179
+O93973	true	unreviewed		342
+O94095	true	reviewed	PF30996	190
+P0C0Y4	true	reviewed	PF13561	266
+P0C0Y5	true	reviewed	PF13561	267
+P0DN29	true	reviewed	PF00686,PF00723	610
+P12547	true	reviewed	PF05922,PF00082	403
+P14292	true	reviewed	PF08534	167
+P14293	true	reviewed	PF08534	167
+P28296	true	reviewed	PF05922,PF00082	403
+P34754	true	reviewed	PF00328	479
+P40108	true	reviewed	PF00171	496
+P40292	true	reviewed	PF13589,PF00183	706
+P40918	true	reviewed	PF00012	643
+P42037	true	reviewed	PF00428	113
+P42039	true	reviewed	PF00428	111
+P42040	true	reviewed	PF00113,PF03952	440
+P42041	true	reviewed	PF00171	497
+P42058	true	reviewed	PF03358	204
+P42059	true	reviewed	PF00258	204
+P43067	true	reviewed	PF08240,PF00107	350
+P46075	true	reviewed	PF07504,PF02128	634
+P49148	true	reviewed	PF00428	110
+P50344	true	reviewed	PF00428	110
+P56577	true	reviewed	PF08534	177
+P56578	true	reviewed	PF08534	166
+P67875	true	reviewed	PF00545	176
+P78983	true	reviewed	PF00012	152
+P79017	true	reviewed	PF13933	310
+P79085	true	reviewed	PF16541	157
+P80514	true	reviewed		26
+P81010	true	reviewed		8
+P82257	true	reviewed		32
+P82258	true	reviewed		20
+P82259	true	reviewed		32
+P83340	true	reviewed		18
+P85444	true	reviewed		11
+P85445	true	reviewed		17
+P85446	true	reviewed		114
+P86254	true	reviewed		25
+P87184	true	reviewed	PF05922,PF00082	495
+P9WEW3	true	reviewed	PF05922,PF00082	398
+P9WEW5	true	reviewed	PF05922,PF00082	494
+Q00002	true	reviewed	PF00085,PF13848	436
+Q01940	true	reviewed	PF22701	350
+Q02352	true	unreviewed	PF00728	117
+P41748	true	reviewed	PF00026	395
+Q1RQI9	true	reviewed	PF00085	105
+Q1RQJ0	true	reviewed	PF00085	110
+Q1RQJ1	true	reviewed	PF00085	108
+Q2TL59	true	unreviewed	PF00262	557
+Q2V6Q5	true	unreviewed	PF00199,PF06628,PF18011	733
+Q32ZM1	true	reviewed	PF00082	342
+Q49KL9	true	reviewed	PF00428	107
+Q4WB37	true	reviewed	PF07335	242
+Q4WV97	true	unreviewed	PF00085	110
+Q4WWX5	true	unreviewed	PF00160	163
+Q5EZ82	true	reviewed	PF16541	137
+Q5EZC5	true	reviewed	PF16541	137
+Q5GMY3	true	reviewed	PF05199,PF00732	618
+Q69BZ7	true	reviewed	PF10587,PF00736	228
+Q6Q128	true	unreviewed	PF16541	157
+Q6R4B4	true	reviewed	PF13409	231
+Q6YK78	true	unreviewed	PF01965	236
+Q870B9	true	reviewed	PF00113,PF03952	439
+Q873M4	true	unreviewed	PF02777,PF00081	237
+Q875I9	true	reviewed	PF07335	238
+Q8J077	true	reviewed	PF05922,PF00082	405
+Q8J1L4	true	reviewed	PF00326	726
+Q8J1M3	true	reviewed	PF00326	726
+Q8J1X7	true	reviewed	PF00010	450
+Q8NIN9	true	reviewed	PF22354	105
+Q8NJ52	true	reviewed	PF02136	125
+Q8NKF4	true	reviewed	PF00297	392
+Q8TFM8	true	reviewed	PF00085	121
+Q8TFM9	true	reviewed	PF00428	109
+Q8TGH3	true	unreviewed	PF00012,PF27508	773
+Q92260	true	reviewed	PF00012	503
+Q92450	true	reviewed	PF02777,PF00081	210
+Q96VP3	true	reviewed	PF00034	108
+Q96VP4	true	reviewed	PF00113,PF03952	440
+Q96X30	true	reviewed	PF00113,PF03952	438
+Q96X46	true	reviewed	PF00113,PF03952	438
+Q9HDT3	true	reviewed	PF00113,PF03952	438
+Q9HF12	true	unreviewed	PF05922,PF00082	503
+Q9P8G3	true	reviewed	PF05922,PF00082	494
+Q9URB4	true	reviewed	PF01116	359
+Q9URR2	true	reviewed	PF05922,PF00082	397
+Q9UUZ6	true	reviewed	PF00428	111
+Q9UVZ9	true	unreviewed		152
+Q9UW00	true	reviewed		141
+Q9UW01	true	unreviewed	PF00076	328
+Q9UW02	true	reviewed	PF00085	106
+Q9UW97	true	reviewed	PF05922,PF00082	412
+Q9UW98	true	reviewed	PF00326	726
+Q9Y749	true	reviewed	PF05922,PF00082	397
+Q9Y750	true	unreviewed	PF02866,PF00056	342
+Q9Y755	true	reviewed	PF05922,PF00082	457
+Q9Y7F6	true	unreviewed	PF00160	178
+Q9Y7G3	true	unreviewed		81
+Q9Y8B8	true	reviewed	PF08534	167
+A0A0S1TLZ7	true	unreviewed	PF00160	164
+B8K1W4	true	unreviewed	PF12697	274
+C3S7S7	true	unreviewed	PF16541	137
+C3S7S9	true	unreviewed	PF16541	137
+C3S7T0	true	unreviewed	PF16541	134
+M5EEC6	true	unreviewed		200
+O74265	true	unreviewed	PF05922,PF00082	341
+P0C1B3	true	reviewed	PF09260,PF00128	499
+P0C1B4	true	reviewed	PF09260,PF00128	499
+P30575	true	reviewed	PF00113,PF03952	440
+P33295	true	reviewed	PF05922,PF00082	533
+Q1RQJ2	true	unreviewed	PF00160	163
+Q2HYZ7	true	unreviewed	PF08240,PF00107	352
+Q5EZ80	true	unreviewed	PF16541	137
+Q5EZ81	true	unreviewed	PF16541	137
+Q5EZ83	true	unreviewed	PF16541	138
+Q5EZC3	true	unreviewed	PF16541	137
+Q5EZC4	true	unreviewed	PF16541	137
+Q8NKB7	true	unreviewed	PF02136	124
+Q9HF11	true	unreviewed	PF00082	358
+Q9P4F0	true	unreviewed	PF00545	150
+Q9UVU3	true	unreviewed	PF05922,PF00082	403
+S5VXK9	true	unreviewed	PF02777,PF00081	191
+A0A4D6DDA1	true	unreviewed	PF00113,PF03952	438
+A0A7S8F9B7	true	unreviewed	PF02826	363
+A8PX28	true	unreviewed		183
+A8Q7G1	true	reviewed	PF00026	390

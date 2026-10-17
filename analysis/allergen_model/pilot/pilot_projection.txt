@@ -1,0 +1,8 @@
+sample_candidates=1000 full_candidates=6627
+projected_search_seconds=31
+projected_cluster_seconds_2x_margin=117
+suggested_pairs_time_limit_h=.01
+suggested_cluster_time_limit_h=.04
+note=linear projection; cluster scaling is not linear; verify with the full run
+mmseqs=b804fbe384e6f6c9fe96322ec0e92d48bccd0a42
+date=2026-10-10

@@ -1,0 +1,8 @@
+mmseqs=b804fbe384e6f6c9fe96322ec0e92d48bccd0a42
+command=easy-cluster --min-seq-id 0.3 -c 0.5 --cov-mode 0 -s 7.5
+arm=shared
+input=/bigdata/stajichlab/jstajich/projects/adhesionPred/analysis/allergen_model/cluster_in_full.faa
+input_sha256=ecef93f6ff5df17c6706be189d123789eb6dfeb08debf208974a97fd56633186
+sequences=6815 positives=200 candidates=6615 clusters=4010
+repo_commit=48f864c
+date=2026-10-10

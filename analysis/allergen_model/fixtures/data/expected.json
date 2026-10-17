@@ -1,0 +1,33 @@
+{
+  "pairs_at_T_C_0.6": {
+    "N_c1": "P_B1"
+  },
+  "pairs_at_T_C_0.7": {},
+  "fails_coverage": [
+    "N_c3"
+  ],
+  "no_hits": [
+    "N_c4"
+  ],
+  "cross_split_violation": [
+    "P_B1",
+    "P_B1m"
+  ],
+  "cross_split_max_fident_min": 0.75,
+  "cluster_same": [
+    [
+      "P_B1",
+      "P_B1m"
+    ],
+    [
+      "P_B1",
+      "N_c1"
+    ]
+  ],
+  "cluster_different": [
+    [
+      "P_B1",
+      "P_B2"
+    ]
+  ]
+}

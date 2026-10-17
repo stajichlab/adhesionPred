@@ -1,0 +1,5 @@
+split	group	positives	negatives	clusters	auroc	ci_low	ci_high
+validation	plant	94	323	133	0.805	0.733	0.86
+validation	animal	111	309	140	0.81	0.725	0.889
+test	plant	95	226	113	0.859	0.754	0.94
+test	animal	151	222	117	0.906	0.769	0.964

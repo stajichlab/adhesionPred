@@ -1,0 +1,7 @@
+# Owner decision 2026-10-10: remove candidates with identity >= 0.9 to a positive (fident, coverage >= 0.5)
+P67876
+P34755
+Q5AF03
+Q5ASN8
+J9MJK9
+Q5B135

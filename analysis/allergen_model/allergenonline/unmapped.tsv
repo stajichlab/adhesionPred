@@ -1,0 +1,27 @@
+source_accession	species	source_db	reason
+AAM77471.1	Alternaria alternata	EMBL-GenBank-DDBJ_CDS	no UniProt mapping
+OWY50380.1	Alternaria alternata	EMBL-GenBank-DDBJ_CDS	no UniProt mapping
+CAD23613.1	Arthroderma benhamiae	EMBL-GenBank-DDBJ_CDS	no UniProt mapping
+CAD23614.1	Arthroderma benhamiae	EMBL-GenBank-DDBJ_CDS	no UniProt mapping
+BAH09387.1	Arthroderma vanbreuseghemii	EMBL-GenBank-DDBJ_CDS	no UniProt mapping
+CAA06305.1	Aspergillus fumigatus	EMBL-GenBank-DDBJ_CDS	no UniProt mapping
+KEY81716.1	Aspergillus fumigatus var. RP-2014	EMBL-GenBank-DDBJ_CDS	no UniProt mapping
+KEY78748.1	Aspergillus fumigatus var. RP-2014	EMBL-GenBank-DDBJ_CDS	no UniProt mapping
+ADE74975.1	Aspergillus versicolor	EMBL-GenBank-DDBJ_CDS	no UniProt mapping
+AAD25927.1	Malassezia furfur	EMBL-GenBank-DDBJ_CDS	no UniProt mapping
+CCU97864.1	Malassezia sympodialis ATCC 42132	EMBL-GenBank-DDBJ_CDS	no UniProt mapping
+CCV00099.1	Malassezia sympodialis ATCC 42132	EMBL-GenBank-DDBJ_CDS	no UniProt mapping
+CCU98198.1	Malassezia sympodialis ATCC 42132	EMBL-GenBank-DDBJ_CDS	no UniProt mapping
+CCU99457.1	Malassezia sympodialis ATCC 42132	EMBL-GenBank-DDBJ_CDS	no UniProt mapping
+CCU99206.1	Malassezia sympodialis ATCC 42132	EMBL-GenBank-DDBJ_CDS	no UniProt mapping
+AIS82657.1	Rhizopus oryzae	EMBL-GenBank-DDBJ_CDS	no UniProt mapping
+XP_003030591.1	Schizophyllum commune H4-8	RefSeq_Protein	no UniProt mapping
+ABS29033.1	Stemphylium sp. CID1012	EMBL-GenBank-DDBJ_CDS	no UniProt mapping
+ACJ65836.1	Ulocladium dauci	EMBL-GenBank-DDBJ_CDS	no UniProt mapping
+AGC36415.1	Ulocladium microsporum	EMBL-GenBank-DDBJ_CDS	no UniProt mapping
+ACI44002.1	Ulocladium oudemansii	EMBL-GenBank-DDBJ_CDS	no UniProt mapping
+ABQ59259.1	Ulocladium sp. CID262	EMBL-GenBank-DDBJ_CDS	no UniProt mapping
+ABQ59258.1	Ulocladium sp. CID598	EMBL-GenBank-DDBJ_CDS	no UniProt mapping
+ABQ59255.1	Ulocladium sp. CID68	EMBL-GenBank-DDBJ_CDS	no UniProt mapping
+ACJ54737.1	Ulocladium sp. HSAUP1144	EMBL-GenBank-DDBJ_CDS	no UniProt mapping
+AGC36416.1	Ulocladium sp. XGZ-2011a	EMBL-GenBank-DDBJ_CDS	no UniProt mapping

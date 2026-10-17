@@ -1,0 +1,13 @@
+HTTP/1.1 200 OK
+Server: nginx/1.14.2
+Date: Sat, 10 Oct 2026 15:48:04 GMT
+Content-Type: application/json; charset=utf-8
+Content-Length: 69171
+Connection: keep-alive
+Content-Range: 0-177/178
+Content-Location: /bcell_search?antibody_isotype=eq.IgE&limit=2000&order=bcell_id&qualitative_measure=eq.Positive&select=bcell_id%2Cparent_source_antigen_iri%2Cparent_source_antigen_name%2Csource_organism_name%2Csource_organism_iri%2Chost_organism_name%2Cantibody_isotype%2Cqualitative_measure%2Cstructure_type%2Clinear_sequence&source_organism_iri_search=cs.%7BNCBITaxon%3A4751%7D
+Preference-Applied: count=exact
+Access-Control-Allow-Methods: POST, GET, PATCH, DELETE, PUT, OPTIONS
+Access-Control-Allow-Headers: Origin, Authorization, Accept
+Access-Control-Allow-Credentials: true
+

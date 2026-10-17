@@ -1,0 +1,167 @@
+species	common	iuis_allergen	type	allergenicity	source_accession	source_db	uniprot	reviewed	in_positives	new
+Alternaria alternata	Fungus	Alt a 1.0101	Aero Fungi	IgE plus basophil+ or SPT+	AAB47552.1	EMBL-GenBank-DDBJ_CDS	P79085	yes	yes	no
+Alternaria alternata	Fungus	Unassigned	Aero Fungi	IgE plus basophil+ or SPT+	AAM77471.1	EMBL-GenBank-DDBJ_CDS			no	no
+Alternaria alternata	Fungus	Alt a 1.0102	Aero Fungi	IgE plus basophil+ or SPT+	AAS75297.1	EMBL-GenBank-DDBJ_CDS	Q6Q128	yes	yes	no
+Alternaria alternata	Fungus	Unassigned	Aero Fungi	IgE plus basophil+ or SPT+	3V0R_A	PDB	P79085	yes	yes	no
+Alternaria alternata	Fungus	Unassigned	Aero Fungi	IgE plus basophil+ or SPT+	4AUD_B	PDB	P79085	yes	yes	no
+Alternaria alternata	Fungus	Alt a 10.01	Aero Fungi	IgE but no biological test	CAA55071.2	EMBL-GenBank-DDBJ_CDS	P42041	yes	yes	no
+Alternaria alternata	Fungus	Alt a 12.0101	Aero Fungi	IgE but no biological test	P49148.1	UniProtKB_AC-ID	P49148	yes	yes	no
+Alternaria alternata	Fungus	Alt a 13.0101	Aero Fungi	IgE plus basophil+ or SPT+	Q6R4B4.1	UniProtKB_AC-ID	Q6R4B4	yes	yes	no
+Alternaria alternata	Fungus	Unassigned	Aero Fungi	IgE but no biological test	AHZ97469.1	EMBL-GenBank-DDBJ_CDS	A0A0F6N3V8	yes	yes	no
+Alternaria alternata	Fungus	Alt a 3.0101	Aero Fungi	IgE but no biological test	P78983.2	UniProtKB_AC-ID	P78983	yes	yes	no
+Alternaria alternata	Fungus	Alt a 4.0101	Aero Fungi	IgE but no biological test	Q00002.2	UniProtKB_AC-ID	Q00002	yes	yes	no
+Alternaria alternata	Fungus	Alt a 5.0101	Aero Fungi	IgE but no biological test	AAB48041.1	EMBL-GenBank-DDBJ_CDS	P42037	yes	yes	no
+Alternaria alternata	Fungus	Unassigned	Aero Fungi	IgE but no biological test	P42037.1	UniProtKB_AC-ID	P42037	yes	yes	no
+Alternaria alternata	Fungus	Alt a 6.0101	Aero Fungi	IgE but no biological test	Q9HDT3.2	UniProtKB_AC-ID	Q9HDT3	yes	yes	no
+Alternaria alternata	Fungus	Alt a 7.0101	Aero Fungi	IgE but no biological test	P42058.1	UniProtKB_AC-ID	P42058	yes	yes	no
+Alternaria alternata	Fungus	Unassigned	Aero Fungi	IgE but no biological test	OWY50380.1	EMBL-GenBank-DDBJ_CDS			no	no
+Alternaria alternata	Fungus	Alt a 8.0101	Aero Fungi	IgE plus basophil+ or SPT+	AAO91800.1	EMBL-GenBank-DDBJ_CDS	P0C0Y4	yes	yes	no
+Alternaria alternata	Fungus	Unassigned	Aero Fungi	IgE plus basophil+ or SPT+	P0C0Y4.2	UniProtKB_AC-ID	P0C0Y4	yes	yes	no
+Alternaria alternata	Fungus	Alt a 14.0101	Aero Fungi	IgE but no biological test	AGS80276.1	EMBL-GenBank-DDBJ_CDS	S5VXK9	yes	no	yes
+Alternaria alternata	Fungus	Unassigned	Aero Fungi	IgE plus basophil+ or SPT+	CAD38167.1	EMBL-GenBank-DDBJ_CDS	Q8NKB7	yes	no	yes
+Alternaria alternata	Fungus	Unassigned	Aero Fungi	IgE but no biological test	ABI26088.1	EMBL-GenBank-DDBJ_CDS	D0MQ50	yes	yes	no
+Arthroderma benhamiae	Fungus	Unassigned	Contact	IgE plus basophil+ or SPT+	CAD23611.1	EMBL-GenBank-DDBJ_CDS	Q8J1M3	yes	yes	no
+Arthroderma benhamiae	Fungus	Unassigned	Contact	IgE plus basophil+ or SPT+	CAD23613.1	EMBL-GenBank-DDBJ_CDS			no	no
+Arthroderma benhamiae	Fungus	Unassigned	Contact	IgE plus basophil+ or SPT+	CAD23614.1	EMBL-GenBank-DDBJ_CDS			no	no
+Arthroderma vanbreuseghemii	Fungus	Unassigned	Contact	IgE plus basophil+ or SPT+	BAH09387.1	EMBL-GenBank-DDBJ_CDS			no	no
+Aspergillus flavus	Fungus	Unassigned	Aero Fungi	IgE but no biological test	Q9UVU3	UniProtKB_AC-ID	Q9UVU3	yes	no	yes
+Aspergillus fumigatus	Fungus	Asp f 1	Aero Fungi	IgE plus basophil+ or SPT+	CAA06305.1	EMBL-GenBank-DDBJ_CDS			no	no
+Aspergillus fumigatus	Fungus	Asp f 1	Aero Fungi	IgE plus basophil+ or SPT+	AAF86369.1	EMBL-GenBank-DDBJ_CDS	Q9P4F0	yes	no	yes
+Aspergillus fumigatus	Fungus	Unassigned	Aero Fungi	IgE plus basophil+ or SPT+	P67875.1	UniProtKB_AC-ID	P67875	yes	yes	no
+Aspergillus fumigatus	Fungus	Asp f 10.0101	Aero Fungi	IgE but no biological test	CAA59419.1	EMBL-GenBank-DDBJ_CDS	P41748	yes	yes	no
+Aspergillus fumigatus	Fungus	Asp f 11.0101	Aero Fungi	IgE plus basophil+ or SPT+	CAB44442.1	EMBL-GenBank-DDBJ_CDS	Q9Y7F6	yes	yes	no
+Aspergillus fumigatus	Fungus	Asp f 18.0101	Aero Fungi	IgE but no biological test	CAA73782.1	EMBL-GenBank-DDBJ_CDS	P87184	yes	yes	no
+Aspergillus fumigatus	Fungus	Asp f 2	Aero Fungi	IgE but no biological test	AAB07620.1	EMBL-GenBank-DDBJ_CDS	P79017	yes	yes	no
+Aspergillus fumigatus	Fungus	Asp f 2.0101	Aero Fungi	IgE but no biological test	P79017.2	UniProtKB_AC-ID	P79017	yes	yes	no
+Aspergillus fumigatus	Fungus	Asp f 22.0101	Aero Fungi	IgE but no biological test	AAK49451.1	EMBL-GenBank-DDBJ_CDS	Q96X30	yes	yes	no
+Aspergillus fumigatus	Fungus	Unassigned	Aero Fungi	IgE but no biological test	Q96X30.3	UniProtKB_AC-ID	Q96X30	yes	yes	no
+Aspergillus fumigatus	Fungus	Asp f 23.0101	Aero Fungi	IgE but no biological test	AAM43909.1	EMBL-GenBank-DDBJ_CDS	Q8NKF4	yes	yes	no
+Aspergillus fumigatus	Fungus	Unassigned	Aero Fungi	IgE but no biological test	Q8NKF4.2	UniProtKB_AC-ID	Q8NKF4	yes	yes	no
+Aspergillus fumigatus	Fungus	Asp f 27.0101	Aero Fungi	IgE but no biological test	CAI78448.1	EMBL-GenBank-DDBJ_CDS	Q1RQJ2	yes	no	yes
+Aspergillus fumigatus	Fungus	Asp f 28.0101	Aero Fungi	IgE but no biological test	CAI78449.1	EMBL-GenBank-DDBJ_CDS	Q1RQJ1	yes	yes	no
+Aspergillus fumigatus	Fungus	Asp f 29.0101	Aero Fungi	IgE but no biological test	CAI78450.1	EMBL-GenBank-DDBJ_CDS	Q1RQJ0	yes	yes	no
+Aspergillus fumigatus	Fungus	Asp f 3.0101	Aero Fungi	IgE plus basophil+ or SPT+	AAB95638.1	EMBL-GenBank-DDBJ_CDS	O43099	yes	yes	no
+Aspergillus fumigatus	Fungus	Asp f 34.0101	Aero Fungi	IgE plus basophil+ or SPT+	CAM54066.1	EMBL-GenBank-DDBJ_CDS	A4FSH5	yes	yes	no
+Aspergillus fumigatus	Fungus	Asp f 4.0101	Aero Fungi	IgE plus basophil+ or SPT+	CAA04959.1	EMBL-GenBank-DDBJ_CDS	O60024	yes	yes	no
+Aspergillus fumigatus	Fungus	Unassigned	Aero Fungi	IgE plus basophil+ or SPT+	O60024.2	UniProtKB_AC-ID	O60024	yes	yes	no
+Aspergillus fumigatus	Fungus	Asp f 5.0101	Aero Fungi	IgE but no biological test	CAA83015.1	EMBL-GenBank-DDBJ_CDS	P46075	yes	yes	no
+Aspergillus fumigatus	Fungus	Unassigned	Aero Fungi	IgE but no biological test	P46075.3	UniProtKB_AC-ID	P46075	yes	yes	no
+Aspergillus fumigatus	Fungus	Asp f 6.0101	Aero Fungi	IgE plus basophil+ or SPT+	AAB60779.1	EMBL-GenBank-DDBJ_CDS	Q92450	yes	yes	no
+Aspergillus fumigatus	Fungus	Unassigned	Aero Fungi	IgE plus basophil+ or SPT+	Q92450.3	UniProtKB_AC-ID	Q92450	yes	yes	no
+Aspergillus fumigatus	Fungus	Asp f 7.0101	Aero Fungi	IgE but no biological test	O42799.2	UniProtKB_AC-ID	O42799	yes	yes	no
+Aspergillus fumigatus	Fungus	Asp f 8.0101	Aero Fungi	IgE plus basophil+ or SPT+	CAB64688.1	EMBL-GenBank-DDBJ_CDS	Q9UUZ6	yes	yes	no
+Aspergillus fumigatus	Fungus	Unassigned	Aero Fungi	IgE plus basophil+ or SPT+	Q9UUZ6.2	UniProtKB_AC-ID	Q9UUZ6	yes	yes	no
+Aspergillus fumigatus	Fungus	Asp f 9.0101	Aero Fungi	IgE but no biological test	CAA11266.1	EMBL-GenBank-DDBJ_CDS	Q8J0P4	yes	yes	no
+Aspergillus fumigatus	Fungus	Unassigned	Aero Fungi	IgE but no biological test	Q875I9.1	UniProtKB_AC-ID	Q875I9	yes	yes	no
+Aspergillus fumigatus	Fungus	Unassigned	Aero Fungi	IgE but no biological test	CAA77666.1	EMBL-GenBank-DDBJ_CDS	P28296	yes	yes	no
+Aspergillus fumigatus	Fungus	Unassigned	Aero Fungi	IgE but no biological test	CAA75805.1	EMBL-GenBank-DDBJ_CDS	O74265	yes	no	yes
+Aspergillus fumigatus Af293	Fungus	Unassigned	Aero Fungi	IgE but no biological test	EAL89830.1	EMBL-GenBank-DDBJ_CDS	P79017	yes	yes	no
+Aspergillus fumigatus Af293	Fungus	Unassigned	Aero Fungi	IgE but no biological test	Q4WB37.1	UniProtKB_AC-ID	Q4WB37	yes	yes	no
+Aspergillus fumigatus Af293	Fungus	Unassigned	Unassigned	IgE but no biological test	8U45_A	PDB	P28296	yes	yes	no
+Aspergillus fumigatus Af293	Fungus	Unassigned	Unassigned	IgE but no biological test	8GKQ_C	PDB	P28296	yes	yes	no
+Aspergillus fumigatus Af293	Fungus	Unassigned	Unassigned	IgE but no biological test	8GKQ_A	PDB	P28296	yes	yes	no
+Aspergillus fumigatus Af293	Fungus	Unassigned	Unassigned	IgE but no biological test	8GKP_D	PDB	P28296	yes	yes	no
+Aspergillus fumigatus Af293	Fungus	Unassigned	Unassigned	IgE but no biological test	8GKP_J	PDB	P28296	yes	yes	no
+Aspergillus fumigatus Af293	Fungus	Unassigned	Unassigned	IgE but no biological test	8GKP_C	PDB	P28296	yes	yes	no
+Aspergillus fumigatus Af293	Fungus	Unassigned	Unassigned	IgE but no biological test	8GKP_I	PDB	P28296	yes	yes	no
+Aspergillus fumigatus Af293	Fungus	Unassigned	Unassigned	IgE but no biological test	8GKO_C	PDB	P28296	yes	yes	no
+Aspergillus fumigatus Af293	Fungus	Unassigned	Unassigned	IgE but no biological test	8GKO_A	PDB	P28296	yes	yes	no
+Aspergillus fumigatus var. RP-2014	Fungus	Unassigned	Aero Fungi	IgE plus basophil+ or SPT+	KEY81716.1	EMBL-GenBank-DDBJ_CDS			no	no
+Aspergillus fumigatus var. RP-2014	Fungus	Unassigned	Aero Fungi	IgE but no biological test	KEY78748.1	EMBL-GenBank-DDBJ_CDS			no	no
+Aspergillus niger	Fungus	Unassigned	Aero Fungi	IgE but no biological test	AAA32702.1	EMBL-GenBank-DDBJ_CDS	P33295	yes	no	yes
+Aspergillus niger	Fungus	Asp n 14	Aero Fungi	IgE but no biological test	CAB06417.1	EMBL-GenBank-DDBJ_CDS	O00089	yes	yes	no
+Aspergillus niger	Fungus	Asp n 14.0101	Aero Fungi	IgE but no biological test	AAD13106.1	EMBL-GenBank-DDBJ_CDS	O00089	yes	yes	no
+Aspergillus oryzae	Fungus	Asp o 21	Aero Fungi	IgE plus basophil+ or SPT+	P0C1B3.1	UniProtKB_AC-ID	P0C1B3	yes	no	yes
+Aspergillus oryzae	Fungus	Asp o 21.0101	Aero Fungi	IgE plus basophil+ or SPT+	AAA32708.1	EMBL-GenBank-DDBJ_CDS	P0C1B4	yes	no	yes
+Aspergillus oryzae	Fungus	Asp f o 13.0101	Aero Fungi	IgE but no biological test	P12547.2	UniProtKB_AC-ID	P12547	yes	yes	no
+Aspergillus versicolor	Fungus	Asp v 13.0101	Aero Fungi	IgE but no biological test	ADE74975.1	EMBL-GenBank-DDBJ_CDS			no	no
+Candida albicans	Yeast	Cand a 1.0101	Contact	IgE but no biological test	CAA57342.1	EMBL-GenBank-DDBJ_CDS	P43067	yes	yes	no
+Candida albicans	Yeast	Cand a 3.0101	Contact	IgE but no biological test	AAN11300.1	EMBL-GenBank-DDBJ_CDS	Q6YK78	yes	yes	no
+Candida albicans	Yeast	Unassigned	Contact	IgE plus basophil+ or SPT+	P30575.1	UniProtKB_AC-ID	P30575	yes	no	yes
+Cladosporium cladosporioides	Fungus	Cla c 14.0101	Aero Fungi	IgE but no biological test	ADK47394.1	EMBL-GenBank-DDBJ_CDS	G8Z407	yes	yes	no
+Cladosporium cladosporioides	Fungus	Cla c 9.0101	Aero Fungi	IgE but no biological test	ABQ59329.1	EMBL-GenBank-DDBJ_CDS	B0L807	yes	yes	no
+Cochliobolus lunatus	Fungus	Cur l 2.0101	Aero Fungi	IgE but no biological test	AAK67491.1	EMBL-GenBank-DDBJ_CDS	Q96VP4	yes	yes	no
+Cochliobolus lunatus	Fungus	Cur l 3.0101	Aero Fungi	IgE plus basophil+ or SPT+	AAK67492.1	EMBL-GenBank-DDBJ_CDS	Q96VP3	yes	yes	no
+Cochliobolus lunatus	Fungus	Cur l 4.0101	Aero Fungi	IgE plus basophil+ or SPT+	ACF19589.1	EMBL-GenBank-DDBJ_CDS	B3V0K8	yes	yes	no
+Cochliobolus lunatus	Fungus	Unassigned	Aero Fungi	IgE but no biological test	ABC88428.1	EMBL-GenBank-DDBJ_CDS	Q2HYZ7	yes	no	yes
+Coprinus comatus	Shaggy mane	Cop c 1.0101	Food Fungi	IgE but no biological test	CAB39376.1	EMBL-GenBank-DDBJ_CDS	Q9Y7G3	yes	yes	no
+Davidiella tassiana	Fungus	Cla h 10.0101	Aero Fungi	IgE but no biological test	CAA55072.2	EMBL-GenBank-DDBJ_CDS	P40108	yes	yes	no
+Davidiella tassiana	Fungus	Cla h 5.0101	Aero Fungi	IgE but no biological test	CAA55067.2	EMBL-GenBank-DDBJ_CDS	P42039	yes	yes	no
+Davidiella tassiana	Fungus	Cla h 6.0101	Aero Fungi	IgE but no biological test	CAA55070.1	EMBL-GenBank-DDBJ_CDS	P42040	yes	yes	no
+Davidiella tassiana	Fungus		Aero Fungi	IgE but no biological test	P42040.2	UniProtKB_AC-ID	P42040	yes	yes	no
+Davidiella tassiana	Fungus	Cla h 7.0101	Aero Fungi	IgE but no biological test	CAA55068.1	EMBL-GenBank-DDBJ_CDS	P42059	yes	yes	no
+Davidiella tassiana	Fungus	Cla h 8.0101	Aero Fungi	IgE plus basophil+ or SPT+	AAO91801.1	EMBL-GenBank-DDBJ_CDS	P0C0Y5	yes	yes	no
+Davidiella tassiana	Fungus	Cla h 9.0101	Aero Fungi	IgE but no biological test	AAX14379.1	EMBL-GenBank-DDBJ_CDS	B7ZK61	yes	yes	no
+Davidiella tassiana	Fungus	Unassigned	Aero Fungi	IgE but no biological test	P40918.1	UniProtKB_AC-ID	P40918	yes	yes	no
+Davidiella tassiana	Fungus	Unassigned	Aero Fungi	IgE plus basophil+ or SPT+	CAD42710.1	EMBL-GenBank-DDBJ_CDS	Q8NIN9	yes	yes	no
+Davidiella tassiana	Fungus	Unassigned	Aero Fungi	IgE but no biological test	ABA42918.1	EMBL-GenBank-DDBJ_CDS	B8K1W4	yes	no	yes
+Davidiella tassiana	Fungus	Unassigned	Aero Fungi	IgE plus basophil+ or SPT+	CAD38166.1	EMBL-GenBank-DDBJ_CDS	Q8NJ52	yes	yes	no
+Davidiella tassiana	Fungus	Unassigned	Aero Fungi	IgE but no biological test	A1KXP4.1	UniProtKB_AC-ID	A1KXP4	yes	yes	no
+Epicoccum nigrum	Fungus	Epi p 1.0101	Aero Fungi	IgE plus basophil+ or SPT+	P83340.1	UniProtKB_AC-ID	P83340	yes	yes	no
+Fusarium culmorum	Fungus	Unassigned	Aero Fungi	IgE but no biological test	AAN73248.1	EMBL-GenBank-DDBJ_CDS	Q8J1X7	yes	yes	no
+Fusarium culmorum	Fungus	Fus c 1.0101	Aero Fungi	IgE plus basophil+ or SPT+	AAL79930.1	EMBL-GenBank-DDBJ_CDS	Q8TFM9	yes	yes	no
+Fusarium culmorum	Fungus	Fus c 2.0101	Aero Fungi	IgE but no biological test	AAL79931.1	EMBL-GenBank-DDBJ_CDS	Q8TFM8	yes	yes	no
+Fusarium proliferatum	Fungus	Fus p 4.0101	Aero Fungi	IgE but no biological test	AHY02994.1	EMBL-GenBank-DDBJ_CDS	A0A075DVI9	yes	yes	no
+Fusarium proliferatum	Fungus	Fus p 9	Aero Fungi	IgE but no biological test	AJA79001.1	EMBL-GenBank-DDBJ_CDS	A0A0U1Y1N5	yes	yes	no
+Malassezia furfur	Yeast	Mala f 2.0101	Contact	IgE but no biological test	BAA32435.1	EMBL-GenBank-DDBJ_CDS	P56577	yes	yes	no
+Malassezia furfur	Yeast	Mala f 3.0101	Contact	IgE but no biological test	BAA32436.1	EMBL-GenBank-DDBJ_CDS	P56578	yes	yes	no
+Malassezia furfur	Yeast	Mala f 4.0101	Contact	IgE but no biological test	AAD25927.1	EMBL-GenBank-DDBJ_CDS			no	no
+Malassezia sympodialis	Yeast	Mala s 1.0101	Contact	IgE plus basophil+ or SPT+	CAA65341.1	EMBL-GenBank-DDBJ_CDS	Q01940	yes	yes	no
+Malassezia sympodialis	Yeast	Mala s 10.0101	Contact	IgE but no biological test	CAD20981.3	EMBL-GenBank-DDBJ_CDS	Q8TGH3	yes	yes	no
+Malassezia sympodialis	Yeast	Mala s 11.0101	Contact	IgE but no biological test	CAD68071.1	EMBL-GenBank-DDBJ_CDS	Q873M4	yes	yes	no
+Malassezia sympodialis	Yeast	Mala s 12.0101	Contact	IgE but no biological test	CAI43283.4	EMBL-GenBank-DDBJ_CDS	Q5GMY3	yes	yes	no
+Malassezia sympodialis	Yeast	Mala s 5.0101	Contact	IgE but no biological test	CAA09883.1	EMBL-GenBank-DDBJ_CDS	O93969	yes	yes	no
+Malassezia sympodialis	Yeast	Mala s 6.0101	Contact	IgE but no biological test	CAA09884.1	EMBL-GenBank-DDBJ_CDS	O93970	yes	yes	no
+Malassezia sympodialis	Yeast	Mala s 7.0101	Contact	IgE but no biological test	CAA09885.1	EMBL-GenBank-DDBJ_CDS	O93971	yes	yes	no
+Malassezia sympodialis	Yeast	Mala s 8.0101	Contact	IgE but no biological test	CAA09886.2	EMBL-GenBank-DDBJ_CDS	O93972	yes	yes	no
+Malassezia sympodialis	Yeast	Mala s 9.0101	Contact	IgE but no biological test	CAA09887.4	EMBL-GenBank-DDBJ_CDS	O93973	yes	yes	no
+Malassezia sympodialis ATCC 42132	Yeast	Unassigned	Contact	IgE but no biological test	CCU97864.1	EMBL-GenBank-DDBJ_CDS			no	no
+Malassezia sympodialis ATCC 42132	Yeast	Unassigned	Contact	IgE but no biological test	CCV00099.1	EMBL-GenBank-DDBJ_CDS			no	no
+Malassezia sympodialis ATCC 42132	Yeast	Mala s 13	Contact	IgE plus basophil+ or SPT+	CCU98198.1	EMBL-GenBank-DDBJ_CDS			no	no
+Malassezia sympodialis ATCC 42132	Yeast	Unassigned	Contact	IgE but no biological test	CCU99457.1	EMBL-GenBank-DDBJ_CDS			no	no
+Malassezia sympodialis ATCC 42132	Yeast	Unassigned	Contact	IgE but no biological test	SHO79205.1	EMBL-GenBank-DDBJ_CDS	M5EEC6	yes	no	yes
+Malassezia sympodialis ATCC 42132	Yeast	Unassigned	Contact	IgE but no biological test	CCU99206.1	EMBL-GenBank-DDBJ_CDS			no	no
+Penicillium brevicompactum	Fungus	Pen b 26.0101	Aero Fungi	IgE but no biological test	AAX11194.1	EMBL-GenBank-DDBJ_CDS	Q49KL9	yes	yes	no
+Penicillium chrysogenum	Fungus	Pen ch 18.0101	Aero Fungi	IgE but no biological test	AAF71379.1	EMBL-GenBank-DDBJ_CDS	Q9P8G3	yes	yes	no
+Penicillium chrysogenum	Fungus		Aero Fungi	IgE but no biological test	AAG44693.2	EMBL-GenBank-DDBJ_CDS	P9WEW5	yes	yes	no
+Penicillium chrysogenum	Fungus	Pen ch 13.0101	Aero Fungi	IgE plus basophil+ or SPT+	AAF23726.1	EMBL-GenBank-DDBJ_CDS	Q9URR2	yes	yes	no
+Penicillium chrysogenum	Fungus		Aero Fungi	IgE plus basophil+ or SPT+	AAM33821.1	EMBL-GenBank-DDBJ_CDS	P9WEW3	yes	yes	no
+Penicillium chrysogenum	Fungus	Pen ch 20.0101	Aero Fungi	IgE but no biological test	AAB34785.1	EMBL-GenBank-DDBJ_CDS	Q02352	yes	yes	no
+Penicillium chrysogenum	Fungus	Pen ch 35.0101	Aero Fungi	IgE but no biological test	ADK27483.1	EMBL-GenBank-DDBJ_CDS	G8Z408	yes	yes	no
+Penicillium citrinum	Fungus	Unassigned	Aero Fungi	IgE but no biological test	AAD25995.1	EMBL-GenBank-DDBJ_CDS	Q9Y755	yes	yes	no
+Penicillium citrinum	Fungus	Unassigned	Aero Fungi	IgE but no biological test	AAG44480.1	EMBL-GenBank-DDBJ_CDS	Q9HF11	yes	no	yes
+Penicillium citrinum	Fungus	Pen c 19.0101	Aero Fungi	IgE but no biological test	Q92260.1	UniProtKB_AC-ID	Q92260	yes	yes	no
+Penicillium citrinum	Fungus	Pen c 22.0101	Aero Fungi	IgE but no biological test	AAK51201.1	EMBL-GenBank-DDBJ_CDS	Q96X46	yes	yes	no
+Penicillium citrinum	Fungus	Pen c 24.0101	Aero Fungi	IgE but no biological test	AAR17475.1	EMBL-GenBank-DDBJ_CDS	Q69BZ7	yes	yes	no
+Penicillium citrinum	Fungus	Pen c 3.0101	Aero Fungi	IgE but no biological test	AAD42074.1	EMBL-GenBank-DDBJ_CDS	Q9Y8B8	yes	yes	no
+Penicillium citrinum	Fungus	Pen c 30.0101	Aero Fungi	IgE but no biological test	ABB89950.1	EMBL-GenBank-DDBJ_CDS	Q2V6Q5	yes	yes	no
+Penicillium citrinum	Fungus	Pen c 32.0101	Aero Fungi	IgE but no biological test	ABM60783.1	EMBL-GenBank-DDBJ_CDS	A2I7W3	yes	yes	no
+Penicillium citrinum	Fungus	Pen c 3.0101	Aero Fungi	IgE plus basophil+ or SPT+	AAD25926.1	EMBL-GenBank-DDBJ_CDS	Q9Y749	yes	yes	no
+Penicillium crustosum	Fungus	Pen cr 26.0101	Aero Fungi	IgE but no biological test	AEX34122.1	EMBL-GenBank-DDBJ_CDS	H2E5X2	yes	yes	no
+Penicillium oxalicum	Fungus	Pen o 18.0101	Aero Fungi	IgE but no biological test	AAG44478.1	EMBL-GenBank-DDBJ_CDS	Q9HF12	yes	yes	no
+Rhizopus oryzae	Fungus	Rhi o 2.0101	Aero Fungi	IgE plus basophil+ or SPT+	ALM24136.1	EMBL-GenBank-DDBJ_CDS	A0A0S1TLZ7	yes	no	yes
+Rhizopus oryzae	Fungus	Unassigned	Aero Fungi	IgE plus basophil+ or SPT+	AIS82657.1	EMBL-GenBank-DDBJ_CDS			no	no
+Rhodotorula mucilaginosa	Fungus	Rho m 1.0101	Aero Fungi	IgE but no biological test	AAP30720.1	EMBL-GenBank-DDBJ_CDS	Q870B9	yes	yes	no
+Rhodotorula mucilaginosa	Fungus	Rho m 2.0101	Aero Fungi	IgE but no biological test	AAT37679.1	EMBL-GenBank-DDBJ_CDS	Q32ZM1	yes	yes	no
+Schizophyllum commune H4-8	Mushroom	Sch c 1.0101	Aero Fungi	IgE but no biological test	XP_003030591.1	RefSeq_Protein			no	no
+Stemphylium callistephi	Fungus	Unassigned	Aero Fungi	IgE but no biological test	AAT66567.1	EMBL-GenBank-DDBJ_CDS	Q5EZC3	yes	no	yes
+Stemphylium sp. CID1012	Fungus	Unassigned	Aero Fungi	IgE but no biological test	ABS29033.1	EMBL-GenBank-DDBJ_CDS			no	no
+Stemphylium vesicarium	Fungus	Unassigned	Aero Fungi	IgE but no biological test	AAT66566.1	EMBL-GenBank-DDBJ_CDS	Q5EZC4	yes	no	yes
+Trichophyton rubrum	Fungus	Tri r 2.0101	Contact	IgE plus basophil+ or SPT+	AAD52013.1	EMBL-GenBank-DDBJ_CDS	Q9UW97	yes	yes	no
+Trichophyton rubrum	Fungus	Tri r 4.0101	Contact	IgE plus basophil+ or SPT+	AAD52012.1	EMBL-GenBank-DDBJ_CDS	Q9UW98	yes	yes	no
+Trichophyton schoenleinii	Fungus	Unassigned	Contact	IgE plus basophil+ or SPT+	Q8J077.1	UniProtKB_AC-ID	Q8J077	yes	yes	no
+Trichophyton schoenleinii	Fungus	Unassigned	Contact	IgE plus basophil+ or SPT+	CAD23374.1	EMBL-GenBank-DDBJ_CDS	Q8J1L4	yes	yes	no
+Ulocladium alternariae	Fungus	Unassigned	Aero Fungi	IgE but no biological test	AAT66607.1	EMBL-GenBank-DDBJ_CDS	Q5EZ83	yes	no	yes
+Ulocladium atrum	Fungus	Unassigned	Aero Fungi	IgE but no biological test	AAT66609.1	EMBL-GenBank-DDBJ_CDS	Q5EZ81	yes	no	yes
+Ulocladium capsicum		Unassigned	Aero Fungi	IgE but no biological test	ACH42744.1	EMBL-GenBank-DDBJ_CDS	C3S7T0	yes	no	yes
+Ulocladium chartarum	Fungus	Unassigned	Aero Fungi	IgE but no biological test	AAT66610.1	EMBL-GenBank-DDBJ_CDS	Q5EZ80	yes	no	yes
+Ulocladium dauci		Unassigned	Aero Fungi	IgE but no biological test	ACJ65836.1	EMBL-GenBank-DDBJ_CDS			no	no
+Ulocladium microsporum		Unassigned	Aero Fungi	IgE but no biological test	AGC36415.1	EMBL-GenBank-DDBJ_CDS			no	no
+Ulocladium oudemansii		Unassigned	Aero Fungi	IgE but no biological test	ACH42743.1	EMBL-GenBank-DDBJ_CDS	C3S7S9	yes	no	yes
+Ulocladium oudemansii		Unassigned	Aero Fungi	IgE but no biological test	ACI44002.1	EMBL-GenBank-DDBJ_CDS			no	no
+Ulocladium sp. CID262		Unassigned	Aero Fungi	IgE but no biological test	ABQ59259.1	EMBL-GenBank-DDBJ_CDS			no	no
+Ulocladium sp. CID598		Unassigned	Aero Fungi	IgE but no biological test	ABQ59258.1	EMBL-GenBank-DDBJ_CDS			no	no
+Ulocladium sp. CID68		Unassigned	Aero Fungi	IgE but no biological test	ABQ59255.1	EMBL-GenBank-DDBJ_CDS			no	no
+Ulocladium sp. HSAUP1144		Unassigned	Aero Fungi	IgE but no biological test	ACJ54737.1	EMBL-GenBank-DDBJ_CDS			no	no
+Ulocladium sp. XGZ-2008		Unassigned	Aero Fungi	IgE but no biological test	ACH42741.1	EMBL-GenBank-DDBJ_CDS	C3S7S7	yes	no	yes
+Ulocladium sp. XGZ-2011a		Unassigned	Aero Fungi	IgE but no biological test	AGC36416.1	EMBL-GenBank-DDBJ_CDS			no	no
