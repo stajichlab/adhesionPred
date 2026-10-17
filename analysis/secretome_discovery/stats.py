@@ -78,9 +78,17 @@ def report(families, min_genera=3):
         stats[name] = family_stats(rows)
     names = sorted(stats)
     q = bh([stats[n]["fisher_p"] for n in names])
-    enriched, depleted = [], []
+    # Mann-Whitney: its own BH family, only for families present in at least min_genera target genera
+    mw_names = [
+        n
+        for n in names
+        if stats[n]["t_present"] >= min_genera and stats[n]["mwu_p"] == stats[n]["mwu_p"]
+    ]
+    mw_q = dict(zip(mw_names, bh([stats[n]["mwu_p"] for n in mw_names]), strict=True))
+    enriched, depleted, all_rows = [], [], []
     for n, qi in zip(names, q, strict=True):
-        s = dict(stats[n], family=n, fisher_q=qi)
+        s = dict(stats[n], family=n, fisher_q=qi, mwu_q=mw_q.get(n, float("nan")))
+        all_rows.append(s)
         if s["t_frac"] > s["b_frac"] and s["t_present"] >= min_genera:
             enriched.append(s)
         elif s["t_frac"] < s["b_frac"]:
@@ -89,7 +97,9 @@ def report(families, min_genera=3):
     return {
         "enriched": sorted(enriched, key=key),
         "depleted": sorted(depleted, key=key),
+        "all": all_rows,
         "n_tested": len(names),
+        "n_mwu_tested": len(mw_names),
     }
 
 

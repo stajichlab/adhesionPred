@@ -1,0 +1,28 @@
+genus	group	source	note
+Coccidioides	mammal_pathogen	PMID 19717792	Sharpton 2009 abstract: Coccidioides immitis and C. posadasii are primary pathogens of immunocompetent mammals, including humans
+Histoplasma	mammal_pathogen	PMID 19717792	Sharpton 2009 abstract: Histoplasma capsulatum named as a pathogenic fungus
+Blastomyces	mammal_pathogen	PMID 28176377	Dukik 2017 abstract: Blastomyces in the family of thermally dimorphic systemic pathogens; Blastomyces percursus described as a novel dimorphic pathogen
+Emergomyces	mammal_pathogen	PMID 28176377	Dukik 2017 abstract: Emergomyces africanus is the agent of disseminated infections in South Africa
+Paracoccidioides	mammal_pathogen	PMID 36074014	Hahn 2022 abstract: Paracoccidioides brasiliensis is the agent of paracoccidioidomycosis (humans)
+Trichophyton	mammal_pathogen	PMID 19457268; PMID 27783317	Wu 2009 abstract: dermatophytes cause infections of skin, hair and nails; de Hoog 2016 abstract: Trichophyton holds nearly all anthropophilic dermatophytes and zoophilic species that regularly infect humans
+Microsporum	mammal_pathogen	PMID 19457268; PMID 27783317	Wu 2009 abstract: dermatophyte genus; de Hoog 2016 abstract: Microsporum restricted to species around M. canis
+Emmonsia	mammal_pathogen_mixed	PMID 28176377	Dukik 2017 abstract lists Emmonsia in the Ajellomycetaceae with the genera of systemic pathogens; species-level host data not read
+Nannizzia	mammal_pathogen_mixed	PMID 27783317	de Hoog 2016 abstract: Nannizzia holds geophilic species and zoophilic species more remote from the human sphere
+Arthroderma	mammal_pathogen_mixed	PMID 27783317	de Hoog 2016 abstract: Arthroderma holds geophilic species and zoophilic species more remote from the human sphere
+Nannizziopsis	reptile_pathogen	PMID 30487306	Woodburn 2019 abstract: onygenalean fungi are emerging pathogens of reptiles; the genus names are elided in the metadata returned (confirm in the full text, PMC6355550)
+Ophidiomyces	reptile_pathogen	PMID 30487306	same as Nannizziopsis; confirm genus in the full text
+Emydomyces	reptile_pathogen	PMID 30487306	Woodburn 2019: new genus from shell lesions of freshwater aquatic turtles
+Uncinocarpus	other_nonpathogen	PMID 19717792	Sharpton 2009 abstract: Uncinocarpus reesii is a close, nonpathogenic relative of Coccidioides
+Amauroascus	unclassified		not assessed
+Aphanoascus	unclassified		not assessed
+Arachnomyces	unclassified		not assessed
+Ascosphaera	unclassified		not assessed (bee pathogen by general knowledge; not sourced here)
+Byssoonygena	unclassified		not assessed
+Chrysosporium	unclassified		not assessed
+Emmonsiellopsis	unclassified		not assessed
+Helicocarpus	unclassified		not assessed
+Malbranchea	unclassified		not assessed
+Myotisia	unclassified		not assessed
+Onygena	unclassified		not assessed
+Polytolypa	unclassified		not assessed
+Spiromastigoides	unclassified		not assessed
