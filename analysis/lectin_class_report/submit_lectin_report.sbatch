@@ -6,8 +6,8 @@
 # FASTA_LIST: one FASTA path per line (plain, .gz or .zst). Optional: SIGNALP_FILE, PFAM_HMM.
 # No BASH_SOURCE is used. All paths come from the environment.
 #SBATCH -p short
-#SBATCH -c 8
-#SBATCH --mem=8G
+#SBATCH -c 4
+#SBATCH --mem=16G
 #SBATCH --time=2:00:00
 #SBATCH -J lectin_report
 set -euo pipefail
@@ -18,7 +18,7 @@ TMP="${SCRATCH:?SCRATCH is not set; run this as a SLURM job}/lectin_report.$$"
 trap 'rm -rf "$TMP"' EXIT
 mkdir -p "$TMP"
 module load hmmer/3.4
-ARGS=(--out-dir "$TMP/out" --tmpdir "$TMP" --cpu "${SLURM_CPUS_PER_TASK:-8}")
+ARGS=(--out-dir "$TMP/out" --tmpdir "$TMP" --cpu "${SLURM_CPUS_PER_TASK:-4}")
 [ -n "${PFAM_HMM:-}" ] && ARGS+=(--pfam-hmm "$PFAM_HMM")
 [ -n "${SIGNALP_FILE:-}" ] && ARGS+=(--signalp "$SIGNALP_FILE")
 /usr/bin/python3.12 "$REPORT_SCRIPT" "${ARGS[@]}" --fasta-list "$FASTA_LIST"
