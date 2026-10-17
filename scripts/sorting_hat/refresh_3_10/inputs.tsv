@@ -1,0 +1,15 @@
+prot	taxon	n_proteins	run	r0	hyd
+Afum_A1163	451804	9942	yes	no	yes
+Afum_Af293_Fungi5k	330879	9161	yes	no	no
+Afum_Af293_UniProt	330879	9647	yes	yes	yes
+Afum_W72310	746128	10556	yes	no	yes
+Bder_ER3	559297	8107	yes	no	no
+Calb_SC5314	237561	6212	yes	yes	no
+Cimm_RS	246410	9910	yes	no	no
+Scer_S288C	559292	6722	yes	yes	no
+Scer_S288C_nodubious	559292	6039	yes	yes	no
+Bbas_ARSEF2860	-	-	no	no	yes
+Fful_Race5	-	-	no	no	yes
+Fgra_PH-1	-	-	no	no	yes
+Pexp_MD-8	-	-	no	no	yes
+Post_PC9	-	-	no	no	yes
