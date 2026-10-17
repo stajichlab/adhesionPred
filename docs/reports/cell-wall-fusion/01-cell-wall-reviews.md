@@ -1,3 +1,5 @@
+Errata applied 2026-10-17 from reports 05 to 07; items still unverified are marked.
+
 # Cell wall biosynthesis and remodeling: gene sets from three reviews
 
 Date: 2026-10-17. Literature research only. No code was changed.
@@ -66,7 +68,7 @@ Note on S. pombe: the text states that S. pombe lacks wall chitin and that Bgs1p
 ### 3b. My inference (not stated in the papers)
 
 Plausibly adhesion-relevant (could change what is displayed or how it is retained):
-1. GPI-anchored CWP cross-linkers (GEL/GH-72, CRH/GH-16, Dfg5/Dcw1-like GH76): they set how many GPI-CWPs, which can include adhesins, are retained in the wall. Dfg5/Dcw1 are not in the text I read; the GH76 link is from my own background knowledge and is unverified.
+1. GPI-anchored CWP cross-linkers (GEL/GH-72 [unresolved conflict, see 05] (Gel4 is called CAZy family 17 in 03:162; not resolved), CRH/GH-16, Dfg5/Dcw1-like GH76): they set how many GPI-CWPs, which can include adhesins, are retained in the wall. Dfg5/Dcw1 are not in the text I read; the GH76 link is from my own background knowledge and is unverified.
 2. Kre9-domain GPI proteins (ACW-2,-3,-7) and beta-1,6-glucan machinery: beta-1,6-glucan is a common attachment point for GPI-CWPs in yeast (background knowledge, unverified here).
 3. alpha-1,3-glucan and chitin/glucan exposure (chitin synthases, chitinases, glucanases): they change surface masking and thickness. Section 5 of this report lists papers on beta-glucan masking in Candida.
 4. CWI signalling (RHO-1, PKC-1, MAK-1; Cek1 in Candida per follow-up papers) regulates wall remodeling and, in Candida, unmasking.
@@ -100,3 +102,11 @@ Practical suggestions (inference): (a) treat PF03142 (CHS catalytic domain, stat
 Species names in some of these titles were dropped by the PubMed tool output; I filled them in brackets from the abstracts (Candida auris for 42813837 from keywords; Candida albicans for 41891702 and 40531863 from MeSH terms). I did not read these papers beyond abstracts.
 
 Not found by my searches: classic S. cerevisiae reviews on GPI-CWP cross-linking (Dfg5/Dcw1/Crh) and beta-1,6-glucan. Recommend a targeted PubMed search by author (for example Klis, Kapteyn, Lesage, Gow) and verifying the PMIDs before use. No PMIDs are given here for them because I did not verify any.
+
+## Errata log
+
+Applied 2026-10-17 from reports 05, 06, 07. Line numbers are those of the file before this errata (the added header line shifts later lines by 2).
+
+1. Line 69. Old: `(GEL/GH-72, CRH/GH-16, Dfg5/Dcw1-like GH76)`. New: same text with an added marker. Source: 05 Summary item 4 / Table B GH17 row.
+
+Reviewed and left unchanged: 01:40 and 01:80 (PF01644, PF03142, PF08407 names are correct per 05; the "domain" wording is the paper's); 01:69 Dfg5/Dcw1 GH76 link remains unverified in 05 (07 measured a Pfam hit for S. cerevisiae Dfg5/Dcw1 in PF03663 but the report's point is about the literature text).

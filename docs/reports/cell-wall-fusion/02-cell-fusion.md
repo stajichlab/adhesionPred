@@ -1,3 +1,5 @@
+Errata applied 2026-10-17 from reports 05 to 07; items still unverified are marked.
+
 # Fungal cell fusion and its relation to adhesion and cell wall remodeling
 
 Literature research only. No code was changed. Date: 2026-10-17.
@@ -15,7 +17,7 @@ Scope: mating cell fusion (S. cerevisiae, S. pombe, Candida, Cryptococcus), vege
 
 | PMID | Title (year) | What it is | Fusion or hyphal fusion content |
 |---|---|---|---|
-| 31501435 | Comparative genomics reveals the origin of fungal hyphae and multicellularity (Nat Commun 2019, Kiss et al.) | Comparative genomics of 72 fungal genomes on the origin of hyphae. Not a cell fusion paper. | The full text has no occurrence of "fusion" or "anastomosis". It is useful only for adhesion: it defines 23 families of putative adhesion-related proteins and reports no expansion of adhesive, kinase or receptor families when filamentous fungi arose (stated, abstract and results). |
+| 31501435 | Comparative genomics reveals the origin of fungal hyphae and multicellularity (Nat Commun 2019, Kiss et al.) | Comparative genomics of 72 fungal genomes on the origin of hyphae. Not a cell fusion paper. | The full text has no occurrence of "fusion" or "anastomosis". It is useful only for adhesion: it defines 23 families of putative adhesion-related proteins [corrected 2026-10-17, see 06 section 2 and 7: the 23 families contain the 45 literature-curated adhesion genes of its Methods; they are families of those genes, not families defined by a sequence profile] and reports no expansion of adhesive, kinase or receptor families when filamentous fungi arose (stated, abstract and results). |
 | 26541633 | Role of BGT-1 and BGT-2, two predicted GPI-anchored glycoside hydrolases/glycosyltransferases, in cell wall remodeling in Neurospora crassa (Fungal Genet Biol 2015, Martinez-Nunez and Riquelme) | Primary paper, GFP localisation and mutants in N. crassa. Abstract only was available to me (not in PMC). | Stated in the abstract: BGT-1-GFP and BGT-2-GFP were seen at germling and hyphal fusion sites (also septa, conidial poles, branch sites, hyphal apical dome subapex). Mutants show altered resistance to calcofluor white and Congo red and conidiation defects. No fusion defect is reported in the abstract. |
 
 ### Reviews and primary papers used
@@ -65,7 +67,7 @@ Species abbreviations: Sc = S. cerevisiae, Sp = S. pombe, Nc = N. crassa, Ca = C
 
 | Genes (species) | Ortholog statement | Family or domain (stated) | Evidence | PMID |
 |---|---|---|---|---|
-| alpha-agglutinin (MATalpha, Sc); gene symbol not stated in that paper, so "SAG1" is unverified here | Structure "highly reminiscent of the Als adhesin family of C. albicans" | 650 aa; signal peptide (19 aa); GPI anchor addition signal; glycosylated C-terminal stalk (~300 aa); N-terminal beta-sheet-rich Ig-like region homologous to Als N-terminal domains; contains the a-agglutinin binding site | Stated | 33397995 |
+| alpha-agglutinin (MATalpha, Sc); gene symbol not stated in that paper, so "SAG1" is unverified here [corrected 2026-10-17, see 07 row 1: UniProt P20840 gene SAG1 (also AGAL1), 650 aa, signal 1-19, GPI site 627] | Structure "highly reminiscent of the Als adhesin family of C. albicans" | 650 aa; signal peptide (19 aa); GPI anchor addition signal; glycosylated C-terminal stalk (~300 aa); N-terminal beta-sheet-rich Ig-like region homologous to Als N-terminal domains; contains the a-agglutinin binding site | Stated | 33397995 |
 | a-agglutinin: Aga1 (725 aa, wall anchor subunit) plus Aga2 (69 aa, binding subunit) (MATa, Sc) | | Aga2 joined to Aga1 by two disulfide bonds; Aga2 C-terminal peptide inserts in the alpha-agglutinin binding cleft; both agglutinins are covalently linked to wall polysaccharide through the GPI remnant | Stated | 33397995 |
 | Agglutinin regulation | Pheromone raises agglutinin expression; agglutinins constitutively low; single a-alpha bond ~100 pN, requires pheromone induction; tension strengthens binding | | | Stated | 33397995 |
 | FGR23 (Ct) | "agglutinin-like protein"; enhances mating and sexual biofilm | Suggests conserved role of sexual agglutinins in mating, cell cohesion and biofilm (authors' wording) | Agglutinin-like (Pfam not stated) | Stated (abstract) | 24612417 |
@@ -93,7 +95,7 @@ Species abbreviations: Sc = S. cerevisiae, Sp = S. pombe, Nc = N. crassa, Ca = C
 
 | Genes (species) | Role stated | Family or domain (stated) | Evidence | PMID |
 |---|---|---|---|---|
-| Prm1 (Sc, Sp, Nc PRM-1, Cn/Cd PRM1) | Plasma membrane fusion after wall breakdown; 4-pass TM; two extracellular loops; not the fusogen (Merlini reading). Sp prm1 deletion nearly blocks fusion. | 4-pass TM (Phobius for Cryptococcus) | Stated | 23466674, 24514900, 29176784, 31001214 |
+| Prm1 (Sc, Sp, Nc PRM-1, Cn/Cd PRM1) | Plasma membrane fusion after wall breakdown; 4-pass TM; two extracellular loops; not the fusogen (Merlini reading). Sp prm1 deletion nearly blocks fusion. | 4-pass TM (Phobius for Cryptococcus) [corrected 2026-10-17, see 07 row 25: UniProt lists 5 TM features for S. cerevisiae Prm1; Fus1 1 TM and Fig1 4 TM confirmed; the papers' wording is unchanged] | Stated | 23466674, 24514900, 29176784, 31001214 |
 | Fig1 (Sc), Dni1 (Sp), FIG-1 (Nc) | 4-pass TM Ca2+ influx regulator; Nc FIG-1 is a low-affinity Ca2+ channel | Claudin-like (Sp/Sc) | Stated | 23466674, 31001214 |
 | Kex2 (Sc) | Golgi protease; processes alpha-factor; acts additively with Prm1 | Protease | Stated | 23466674 |
 | LFD-1, LFD-2, NCU01697 (Nc) | Mutants chemotrop normally but fail fusion with lysis; LFD-1 is Pezizomycotina-specific 1-TM; LFD-2 is Golgi/ER; NCU01697 has predicted acyltransferase domain | 1-TM (LFD-1); acyltransferase (NCU01697) | Stated | 31001214 |
@@ -125,7 +127,7 @@ This section is mostly inference built on the stated features above.
 
 | Protein | Stated feature supporting visibility | Comment (inference) |
 |---|---|---|
-| Sc alpha-agglutinin | Signal peptide, GPI signal, glycosylated stalk, Als-like Ig N-terminal domain (33397995) | The repo already lists Pfam Candida_ALS_N (PF11766) and Candida_ALS (PF05792) as inactive in `family_table.tsv`. Whether Sc alpha-agglutinin hits these is untested by me; the Als-like description only supports it being a candidate. |
+| Sc alpha-agglutinin | Signal peptide, GPI signal, glycosylated stalk, Als-like Ig N-terminal domain (33397995) | The repo already lists Pfam Candida_ALS_N (PF11766) and Candida_ALS (PF05792) as inactive in `family_table.tsv` [corrected 2026-10-17, see 07 rows 5, 6: both rows are active=yes since commit d94a8ab (2026-10-09)]. Whether Sc alpha-agglutinin hits these is untested by me [corrected 2026-10-17, see 07 row 4, 5: SAG1 hits PF11766 (244.9, domain 50-300); PF05792 hits none of the 23 test proteins, none even at E 10]; the Als-like description only supports it being a candidate. |
 | Sc Aga1 (GPI wall anchor) | Wall-anchored through GPI remnant (33397995) | Aga2 is a 69 aa peptide; very short proteins may fall below a length filter (inference). |
 | Ct FGR23 and Candida agglutinin-like proteins | Agglutinin-like (24612417) | Same Als-type family logic. |
 | Nc HAM-7 and WSC-1 | GPI-anchored wall proteins (31001214) | Fusion relevance is for HAM-7 only. |
@@ -154,7 +156,7 @@ The practical consequence (inference): a Pfam or surface classifier would catch 
 3. Mating cells "initially bind to each other at their shmoo tips using mating agglutinins" before wall dissolution (25329559). Contact via agglutinins is proposed to raise the local concentration of wall remodeling enzymes, restricting wall dissolution to touching surfaces (25329559, a model supported by confinement experiments).
 4. In C. tropicalis, an agglutinin-like gene (FGR23) enhances both mating and sexual biofilm formation, and the biofilm depends on pheromone receptors Ste2 and Ste3 (24612417). The authors suggest a conserved role for sexual agglutinins in mating, cell cohesion and biofilm formation.
 5. In the filamentous Ascomycete Nc, the reviews I read describe somatic fusion as chemotropic signalling (MAK-2, SOFT, STRIPAK, NOX) and membrane fusion genes, and do not mention adhesins, agglutinins or flocculins at all (31001214, text search). The pheromone GPCRs are dispensable for somatic fusion (31001214).
-6. Across 72 fungal genomes, adhesion-related families (flocculins, lectins, hydrophobins, GPI wall proteins, 23 families) did not expand when filamentous fungi arose, and adhesion "becomes key only in fruiting bodies or attachment to host surfaces" (31501435).
+6. Across 72 fungal genomes, adhesion-related families (flocculins, lectins, hydrophobins, GPI wall proteins, 23 families [corrected 2026-10-17, see 06 section 2: 23 families = 45 curated genes]) did not expand when filamentous fungi arose, and adhesion "becomes key only in fruiting bodies or attachment to host surfaces" (31501435).
 7. Wall integrity machinery is a brake on fusion: Mid2 and Pkc1 negatively regulate Sc fusion (30586320). In Nc, HAM-7 (GPI wall protein) feeds MAK-1 and is needed for fusion (31001214). Both link wall-resident or wall-sensing proteins to fusion control.
 8. Wall remodeling enzymes appear at fusion sites in Nc (BGT-1, BGT-2 localisation, 26541633), and putative glucanases Scw4 and Scw11 contribute in Sc (25329559).
 
@@ -172,7 +174,7 @@ The practical consequence (inference): a Pfam or surface classifier would catch 
 
 ### Open questions
 
-1. Do Sc alpha-agglutinin, Aga1 and Candida sexual agglutinin-like proteins hit the Als Pfam models already in `family_table.tsv` (PF11766, PF05792, both inactive)? This is testable on proteomes in the repo; I did not run it.
+1. Do Sc alpha-agglutinin, Aga1 and Candida sexual agglutinin-like proteins hit the Als Pfam models already in `family_table.tsv` (PF11766, PF05792, both inactive)? This is testable on proteomes in the repo; I did not run it. [corrected 2026-10-17, see 07 rows 4-7: both are active; SAG1 hits PF11766 only; PF05792 hits none; Aga1 has no Pfam-A hit and Aga2 hits only PF17366, which is not in the table. Candida sexual agglutinin-like proteins were not tested]
 2. Are Scw4 and Scw11 GPI anchored or free secreted proteins, and what are their Pfam domains? Not stated in the papers read; check UniProt/Pfam directly (unverified).
 3. Which Nc or Fusarium wall enzymes (glucanases, chitinases) are induced at fusion? Only BGT-1/BGT-2 localisation was found; no knockout fusion phenotype in the abstract. Search with Neurospora gene names (e.g. NCU numbers) should be done.
 4. Basidiomycete mating and clamp fusion genes: no review found in this search; Fischer and Glass mention clamp connections only briefly (31001214). Candidates retrieved but not read: PMID 31416583 (Schizophyllum commune septa), 29129696 (mushroom mitosis and nuclear migration), 30062773 (Thn1 and pheromone response in S. commune).
@@ -201,3 +203,16 @@ The practical consequence (inference): a Pfam or surface classifier would catch 
 - PubMed searches treated all words as AND, so long queries returned nothing; short queries were used.
 - Gene names lost in plain-text extraction of PMC6455062 were recovered from Europe PMC full-text XML.
 - No claim in this report is taken from my own memory except where marked "unverified"; e.g. the S. cerevisiae SAG1 symbol and any Pfam IDs for fusion proteins are not stated in the papers and are not asserted.
+
+## Errata log
+
+Applied 2026-10-17 from reports 05, 06, 07. Line numbers are those of the file before this errata (the added header line shifts later lines by 2).
+
+1. Line 18. Old: `it defines 23 families of putative adhesion-related proteins`. New: same text with an added marker. Source: 06 s2, s7.
+2. Line 68. Old: `gene symbol not stated in that paper, so "SAG1" is unverified here`. New: same text with an added marker. Source: 07 s3 row 1.
+3. Line 96. Old: `| 4-pass TM (Phobius for Cryptococcus) |`. New: same text with an added marker. Source: 07 s3 row 25.
+4. Line 128. Old: `as inactive in `family_table.tsv`. Whether Sc alpha-agglutinin hits these is untested by me;`. New: same text with an added marker. Source: 07 s3 rows 4-6.
+5. Line 157. Old: `GPI wall proteins, 23 families)`. New: same text with an added marker. Source: 06 s2.
+6. Line 175. Old: `(PF11766, PF05792, both inactive)? This is testable on proteomes in the repo; I did not run it.`. New: same text with an added marker. Source: 07 s3 rows 4-7.
+
+Still unverified after 05 to 07: Scw4/Scw11 GPI status (07 row 24); FLO5, FLO9, FLO10 (07 row 28); Candida sexual agglutinin-like proteins.

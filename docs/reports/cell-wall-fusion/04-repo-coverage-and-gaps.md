@@ -1,3 +1,5 @@
+Errata applied 2026-10-17 from reports 05 to 07; items still unverified are marked.
+
 # Cell wall remodeling and cell fusion: what the repo covers and where the gaps are
 
 *2026-10-17. Read-only inspection by Claude Code (claude-sonnet-5-5). Nothing in the repo was changed. This note is one of four in `docs/reports/cell-wall-fusion/`. It describes the repo, not the literature.*
@@ -9,7 +11,7 @@
 - `main` (checked out): the family table, `categories.yaml`, the hydrophobin and surface-attachment work (PR #77).
 - Unmerged remote branches (read with `git show`, not checked out): `origin/lectin-reviews-and-full-run` (2026-10-17) and `origin/allergen-predictor-wip` (2026-10-16, adds the secretome discovery reports). Cited as `origin/<branch>:path`. These hold `docs/CLASSES.md`, the M2 spec of the v1 class list, the lectin class spec, the lectin report script and the secretome discovery reports. **None of these exist on `main`.** `docs/CLASSES.md` is absent from the working tree (checked with `find`).
 
-**Verification level of Pfam IDs.** I did not run `hmmfetch` or open InterPro. "In repo" means the ID and name appear in text I read. The 2026-10-04 report says it checked each accession against a local `Pfam-A.hmm` of 30,134 models, and that it did not check that a family covers every gene named in the papers (`docs/reports/2026-10-04-cell-wall-gene-classes-vs-tools.md:20-23`). I did not repeat that check. An ID seen only as an annotation on a data row is marked as such. Anything else is marked "unverified: check InterPro/Pfam before use".
+**Verification level of Pfam IDs.** I did not run `hmmfetch` or open InterPro [corrected 2026-10-17, see 05: all 53 Pfam IDs in reports 01 to 04 and the family table were later fetched from InterPro and resolve; names match, except that which proteins sit in GH76, GH17, GH16 and GH5 is only partly settled, see 05 Summary item 3 and 07]. "In repo" means the ID and name appear in text I read. The 2026-10-04 report says it checked each accession against a local `Pfam-A.hmm` of 30,134 models, and that it did not check that a family covers every gene named in the papers (`docs/reports/2026-10-04-cell-wall-gene-classes-vs-tools.md:20-23`). I did not repeat that check. An ID seen only as an annotation on a data row is marked as such. Anything else is marked "unverified: check InterPro/Pfam before use".
 
 **Discrepancy to resolve before any use.** The task brief names `PF03142` as Chitin_synth_1 and `PF01644` as Chitin_synth_2. The repo says the reverse: `PF01644` Chitin_synth_1, `PF03142` Chitin_synth_2, `PF08407` Chitin_synth_1N (`docs/reports/2026-10-04-cell-wall-gene-classes-vs-tools.md:56`). The orchestrator spec lists the two IDs without names (`docs/superpowers/specs/2026-10-04-orchestrator-design.md:305`). Check both against Pfam.
 
@@ -31,8 +33,8 @@ Status column: state on `main` / state on `origin/lectin-reviews-and-full-run` (
 | PIR PF00399 | covalently bound Pir wall protein repeat (structural, not adhesin) | `family_table.tsv:15` | inactive / inactive | none. The note says "counted as a wall family only" |
 | PIR1-like_C PF22799 | cell wall mannoprotein | `family_table.tsv:24` | inactive / active | `wall_family_domain` on the branch |
 | Hyr1 PF15789, Hyphal_reg_CWP PF11765 | hyphally regulated GPI wall proteins (Hyr/Iff) | `family_table.tsv:23,14` | inactive / PF15789 active, PF11765 inactive | `wall_family_domain` on the branch (PF15789) |
-| Flocculin PF00624, Flocculin_t3 PF13928, Flo11 PF10182, GLEYA PF10528 | flocculin and Epa-type adhesin domains | `family_table.tsv:21,22,12,13` | inactive / active | `wall_family_domain` on the branch |
-| Candida_ALS_N PF11766, Candida_ALS PF05792, ALS_M PF30910 | Als adhesins | `family_table.tsv:8,9,25` | inactive / PF11766 and PF05792 active, PF30910 inactive | `wall_family_domain` on the branch |
+| Flocculin PF00624, Flocculin_t3 PF13928, Flo11 PF10182, GLEYA PF10528 | flocculin and Epa-type adhesin domains | `family_table.tsv:21,22,12,13` | inactive / active [corrected 2026-10-17, see 07 section 2 tables: Flocculin, Flocculin_t3, Flo11 and GLEYA are active=yes on main now (owner 2026-10-09, commit d94a8ab); the "inactive" main state is the pre-10-09 state] | `wall_family_domain` on the branch |
+| Candida_ALS_N PF11766, Candida_ALS PF05792, ALS_M PF30910 | Als adhesins | `family_table.tsv:8,9,25` | inactive / PF11766 and PF05792 active, PF30910 inactive [corrected 2026-10-17, see 07 row 6: PF11766 and PF05792 are active=yes on main since commit d94a8ab (2026-10-09); only PF30910 is still inactive; the "inactive" main entry describes the pre-10-09 state] | `wall_family_domain` on the branch |
 | AltA1 PF16541, Allergen_Asp_f_4 PF25312 | allergen families, not wall enzyme families | `family_table.tsv:10,11` | inactive / inactive | none |
 
 The wall families in the table are adhesion and structural wall protein families. **No row is an enzyme family** (GH72, GH16, GH17, GH18, chitin synthase, glucan synthase), and there is no enzyme module in `MODULES` (`modules/pfam.py:22`).
@@ -51,7 +53,7 @@ Rules that matter for remodeling enzymes:
 
 | Class | Pfam named by the report | Line | Repo status |
 |---|---|---|---|
-| Transglycosidases (GEL, PHR, GAS, Crh, Sps2, Dfg) | Glyco_hydro_72 PF03198 ("to verify"), Glyco_hydro_16 PF00722 ("to verify") | `:53` | not in any table; no label for enzymes |
+| Transglycosidases (GEL, PHR, GAS, Crh, Sps2, Dfg) | Glyco_hydro_72 PF03198 ("to verify"), Glyco_hydro_16 PF00722 ("to verify") [corrected 2026-10-17, see 05 Table A: both IDs and names verified in InterPro (Glyco_hydro_72, Glyco_hydro_16)] | `:53` | not in any table; no label for enzymes |
 | Yapsins and wall proteases | Asp PF00026 (generic) | `:54` | none |
 | Chitinases, glucanases, chitin deacetylases | Glyco_hydro_18 PF00704, Cellulase (GH5) PF00150, Polysacc_deac_1 PF01522 | `:55` | none |
 | Chitin synthases | PF01644, PF03142, PF08407 (see section 0) | `:56` | none |
@@ -76,7 +78,7 @@ The same report states the design finding: GPI remodeling enzymes and hydrolases
 **Nothing in the repo targets cell fusion.** I searched for Fus1, Prm1, Fig1, Fus2, Kar5, Hap2/Gcs1, "cell fusion" and "mating" across `docs`, `src`, `analysis/curation`, `data/curated/adhesins`, `data/sorting_hat` and `TODO.md`. The only hits are mating adhesins:
 
 - AGA1 and SAG1 are E1 adhesin rows (`data/curated/adhesins/adhesins.tsv:38,45`). AGA1, AGA2, SAG1 and FIG2 are among the 9 "known adhesins" of the S288C check (`docs/model-review/2026-09-27-review-and-framework-plan.md:152`).
-- SAG1 hits Candida_ALS_N PF11766 (`docs/reports/2026-10-07-pfam-family-proposals.md:41`).
+- SAG1 hits Candida_ALS_N PF11766 (`docs/reports/2026-10-07-pfam-family-proposals.md:41`). [corrected 2026-10-17, see 07 rows 4, 5, 8: confirmed, score 244.9; PF05792 (Candida_ALS) does not hit SAG1 (none at GA, none at E 10)]
 - A CGD gene headline says a Candida protein is "repressed during the mating process" (`docs/reports/data/sorting_hat/specificity/Calb_SC5314/cgd_gene_names.json:12`). It is a gene annotation and not a class.
 
 Fusion membrane proteins (Fus1, Prm1, Fig1, Hap2) appear in no table.
@@ -116,10 +118,10 @@ Fusion membrane proteins (Fus1, Prm1, Fig1, Hap2) appear in no table.
 
 | Candidate family or gene set | Pfam ID | Verification | Note |
 |---|---|---|---|
-| GH72 (GEL, GAS, PHR; Gel1, Gas1, Phr1) | PF03198 | In repo (`2026-10-04 report:53`, itself "to verify"; `orchestrator spec:303`; annotation on `coccidioides_candidates.tsv:57`) | Often with the X8 domain PF07983 (same row; name X8 per the discovery report). GPI-anchored. Hard negatives exist. |
-| GH16 (Crh, Utr2) | PF00722 | In repo (`2026-10-04 report:53`, "to verify") | Also holds non-wall glucanases; needs a signal peptide and GPI second condition. |
-| GH76 (Dfg5, Dcw1 alpha-1,6-mannanases) | PF03663 | ID in repo only as an annotation on mannan endo-1,6-alpha-mannosidase rows (`surface.tsv:172`); name and the Dfg5/Dcw1 link are my recall | unverified: check InterPro/Pfam before use |
-| GH17 (Bgl2, Exg-like) | PF00332 | ID only as annotation on BGL2 rows (`surface.tsv:930,3051`); name unverified | unverified: check InterPro/Pfam before use |
+| GH72 (GEL, GAS, PHR; Gel1, Gas1, Phr1) | PF03198 | In repo (`2026-10-04 report:53`, itself "to verify"; `orchestrator spec:303`; annotation on `coccidioides_candidates.tsv:57`) | Often with the X8 domain PF07983 (same row; name X8 per the discovery report) [corrected 2026-10-17, see 05 Table A (PF03198 and PF07983 names verified) and 07 row 17 (Gas1 hits PF03198 504.4 and X8 102.4)]. GPI-anchored. Hard negatives exist. |
+| GH16 (Crh, Utr2) | PF00722 | In repo (`2026-10-04 report:53`, "to verify") [corrected 2026-10-17, see 05 Table A: ID and name verified; 07 row 18: Crh1 and Utr2 hit it, 170.8 and 159.5] | Also holds non-wall glucanases; needs a signal peptide and GPI second condition. |
+| GH76 (Dfg5, Dcw1 alpha-1,6-mannanases) | PF03663 | ID in repo only as an annotation on mannan endo-1,6-alpha-mannosidase rows (`surface.tsv:172`); name and the Dfg5/Dcw1 link are my recall [corrected 2026-10-17, see 05 Table A: PF03663 = Glyco_hydro_76 verified (Pfam type is repeat); 07 row 19: Dfg5 530.8 and Dcw1 547.4 hit it by hmmsearch --cut_ga] | verified ID and name (05); Dfg5/Dcw1 hits measured (07); CAZy records alone do not name Dfg5/Dcw1 (05 Table B) |
+| GH17 (Bgl2, Exg-like) | PF00332 | ID only as annotation on BGL2 rows (`surface.tsv:930,3051`); name unverified [corrected 2026-10-17, see 05 Table A: PF00332 = Glyco_hydro_17 verified; 07 row 20: Bgl2 hits it at 353.2, Scw4 45.6] | verified ID and name (05); Bgl2 hit measured (07) |
 | GH5 glucanases (Exg1) | PF00150 | In repo (`2026-10-04 report:55`) | large family with intracellular members |
 | GH18 chitinases (Cts1, Cts2) | PF00704 | In repo (`orchestrator spec:303`; `2026-10-04 report:55`) | very large; needs a second condition |
 | Chitin deacetylase (CE4) | PF01522 | In repo (`2026-10-04 report:55`) | Cda2 of Cryptococcus is already a hard-negative candidate (`data/curated/biofilm/basidiomycete_seeds.tsv:63`) |
@@ -129,7 +131,7 @@ Fusion membrane proteins (Fus1, Prm1, Fig1, Hap2) appear in no table.
 | Kre6/Skn1 (beta-1,6-glucan) | none | not in repo | unverified: check InterPro/Pfam before use |
 | Kre9/Knh1 | PF10342 | In repo (`2026-10-04 report:58`) | The same domain is on uncharacterized Aspergillus GPI proteins (`surface.tsv:216,327`), so a hit is not Kre9 by itself. |
 | SUN family (Sun4, Sun41, Sim1, Uth1, Nca3) | PF03856 | In repo only as quoted in the discovery report | SUN41 is a curated `surface_other_adhesion_phenotype` row (`adhesins.tsv:134`) |
-| Ecm33 / Sps2 | PF12454 | In repo only as quoted in the discovery report | ECM33 is an N1 negative (`hard_negative_seeds.tsv:14`) |
+| Ecm33 / Sps2 | PF12454 | In repo only as quoted in the discovery report [corrected 2026-10-17, see 05 Table A (PF12454 = Ecm33 verified) and 07 row 22: S. cerevisiae Ecm33 has NO hit to PF12454, none even at E 10, and no Pfam-A hit at GA, so "ECM33 a member" is refuted for the S288C protein] | ECM33 is an N1 negative (`hard_negative_seeds.tsv:14`) |
 | Tos1 | PF10287, PF10290 | In repo only as quoted in the discovery report | |
 | Scw4/Scw10, Ssg1 and other soluble wall glucanases | none | not in repo | unverified: check InterPro/Pfam before use |
 | Yapsin (Yps), Sap9/Sap10 | PF00026 | In repo, generic | needs curated examples (`2026-10-04 report:54`) |
@@ -143,15 +145,15 @@ Fusion membrane proteins (Fus1, Prm1, Fig1, Hap2) appear in no table.
 
 ### 3.2 Cell fusion
 
-No family in the repo. Every ID is unverified. I give none.
+No family in the repo. Every ID is unverified. I give none. [corrected 2026-10-17, see 07 row 26: Pfam models exist for Prm1 and Fig1 (below); they are not in the family table]
 
 | Candidate | Role | Pfam ID |
 |---|---|---|
 | Fus1 | fusion zone wall protein | unverified: check InterPro/Pfam before use |
-| Prm1, Fig1, Kar5, Prm2 | membrane and cell fusion | unverified: check InterPro/Pfam before use |
+| Prm1, Fig1, Kar5, Prm2 | membrane and cell fusion | unverified: check InterPro/Pfam before use [corrected 2026-10-17, see 07 rows 26, 27 and Fusion table: Prm1 = PF27758 (hit 475.5 on S. cerevisiae PRM1) and Fig1 = PF12351 (hit 192.3 on FIG1) verified by hmmsearch; neither is in the family table; Kar5 and Prm2 remain unverified] |
 | Hap2/Gcs1 | gamete fusion fusogen | unverified: check InterPro/Pfam before use |
 | Ham-2, Ham-5, Ham-6, Ham-7 (Neurospora anastomosis) | cell-cell fusion | unverified: check InterPro/Pfam before use |
-| Mating agglutinins Aga1, Aga2, Sag1 | mating adhesion before fusion | Sag1 hits PF11766 in repo (above); Aga1 and Aga2: unverified: check InterPro/Pfam before use. FIG2 is a curated adhesin row with no family. |
+| Mating agglutinins Aga1, Aga2, Sag1 | mating adhesion before fusion | Sag1 hits PF11766 in repo (above); Aga1 and Aga2: unverified: check InterPro/Pfam before use [corrected 2026-10-17, see 07 row 7: Aga1 has no Pfam-A hit; Aga2 hits PF17366 (AGA2, 95.8), which is not in the family table; neither hits a table row]. FIG2 is a curated adhesin row with no family [corrected 2026-10-17, see 07 row 9: FIG2 hits Flocculin_t3 PF13928 (64.8, five weak domains of 24-28 each), an active row; the "no family" statement is refuted]. |
 | Fus2, Rvs161/Rvs167, Spa2 | fusion zone scaffolds | cytosolic, out of scope for a surface tool |
 
 ### 3.3 Structural gaps in the tool
@@ -227,7 +229,29 @@ This is the route the lectin spec decided against. Files that would change, from
 ## 5. Unknowns
 
 - I ran no tool, test, script or `hmmfetch`. All Pfam names are from repo text.
-- `PF00722` and `PF03198` are "to verify" in the 2026-10-04 report itself (`:53`).
-- The GH76 = PF03663 and GH17 = PF00332 readings, and the Dfg5/Dcw1 link, are my recall. Treat as unverified.
+- `PF00722` and `PF03198` are "to verify" in the 2026-10-04 report itself (`:53`). [corrected 2026-10-17, see 05 Table A: both IDs verified in InterPro]
+- The GH76 = PF03663 and GH17 = PF00332 readings, and the Dfg5/Dcw1 link, are my recall. Treat as unverified. [corrected 2026-10-17, see 05 Table A and Summary item 3: the IDs and names are verified (Glyco_hydro_76 PF03663, Glyco_hydro_17 PF00332); see 07 rows 19, 20: Dfg5/Dcw1 and Bgl2 hit them by hmmsearch. 05 Table B notes CAZy records alone do not name Dfg5/Dcw1, Bgl2, Crh/Utr2 or Exg1]
 - For branch files I read only the parts cited. The lectin spec has five revisions and an owner block that overrides earlier text (`:5-7`); I relied on that block and the sections cited.
 - I did not read the sibling reports `01-cell-wall-reviews.md`, `02-cell-fusion.md` or `03-multicellularity-hyphae.md`.
+
+## Errata log
+
+Applied 2026-10-17 from reports 05, 06, 07. Line numbers are those of the file before this errata (the added header line shifts later lines by 2).
+
+1. Line 12. Old: `I did not run `hmmfetch` or open InterPro.`. New: same text with an added marker. Source: 05 Method, Summary.
+2. Line 34. Old: `| `family_table.tsv:21,22,12,13` | inactive / active |`. New: same text with an added marker. Source: 07 s2 (Active column).
+3. Line 35. Old: `| inactive / PF11766 and PF05792 active, PF30910 inactive |`. New: same text with an added marker. Source: 07 s3 row 6.
+4. Line 54. Old: `Glyco_hydro_72 PF03198 ("to verify"), Glyco_hydro_16 PF00722 ("to verify")`. New: same text with an added marker. Source: 05 Table A.
+5. Line 79. Old: `- SAG1 hits Candida_ALS_N PF11766 (`docs/reports/2026-10-07-pfam-family-proposals.md:41`).`. New: same text with an added marker. Source: 07 s3 rows 4, 5, 8.
+6. Line 119. Old: `Often with the X8 domain PF07983 (same row; name X8 per the discovery report).`. New: same text with an added marker. Source: 05 Table A; 07 row 17.
+7. Line 120. Old: `| In repo (`2026-10-04 report:53`, "to verify") |`. New: same text with an added marker. Source: 05 Table A; 07 row 18.
+8. Line 121. Old: `name and the Dfg5/Dcw1 link are my recall | unverified: check InterPro/Pfam before use |`. New: same text with an added marker. Source: 05 Table A/B; 07 row 19.
+9. Line 122. Old: `name unverified | unverified: check InterPro/Pfam before use |`. New: same text with an added marker. Source: 05 Table A; 07 row 20.
+10. Line 132. Old: `| In repo only as quoted in the discovery report | ECM33 is an N1 negative`. New: same text with an added marker. Source: 05 Table A; 07 row 22.
+11. Line 146. Old: `No family in the repo. Every ID is unverified. I give none.`. New: same text with an added marker. Source: 07 row 26.
+12. Line 151. Old: `| Prm1, Fig1, Kar5, Prm2 | membrane and cell fusion | unverified: check InterPro/Pfam before use |`. New: same text with an added marker. Source: 07 s2, rows 26-27.
+13. Line 154. Old: `Aga1 and Aga2: unverified: check InterPro/Pfam before use. FIG2 is a curated adhesin row with no family. |`. New: same text with an added marker. Source: 07 rows 7, 9.
+14. Line 230. Old: `are "to verify" in the 2026-10-04 report itself (`:53`).`. New: same text with an added marker. Source: 05 Table A.
+15. Line 231. Old: `are my recall. Treat as unverified.`. New: same text with an added marker. Source: 05 Table A, Summary 3; 07 rows 19, 20.
+
+Still unverified after 05 to 07: PF10333 as Pig-X; CE4 for PF01522; Pfam-to-CBM links; Avr4; Kar5/Prm2/Fus1 IDs; 12/20 hard-negative figure is not testable on the 07 set (07 row 15).
