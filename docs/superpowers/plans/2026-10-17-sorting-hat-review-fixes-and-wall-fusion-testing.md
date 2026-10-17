@@ -209,9 +209,12 @@ Steps:
 2. **Show the scripts to the owner. Submit nothing to SLURM without the owner's explicit go-ahead, each time. No heavy work on the login node.**
 3. Commit the refreshed status tables like the existing ones. Note whether numbers changed. Update the `CLASSES.md` citations.
 4. In the same commit as the first refreshed file, add one interim sentence to `CLASSES.md`: call statuses are `unvalidated` where the call file is stale until the refresh is merged. Remove it when all 20 files are current.
+   *Update 2026-10-17 (owner, Q5).* Only `owner_definition` is refreshed per species. The other ten `tandem_repeat_protein.*` files (`broad_truth`, `curated_only`, three `owner_definition.config-*`, per species) stay as dated history. The sentence names the current set (the two refreshed repeat files and the eight hydrophobin files) instead of waiting for all 20 files, and says the other ten are history. The 20 files are not all re-measured.
 5. Add a dated note to the classifier-runs report: counts were measured on a given commit and family table; the PR shows the new counts (FD-A9). This is a re-run, not an edit framed as a D4 consequence.
+   *Update 2026-10-17 (owner, Q6).* The committed 2026-10-07 counts (commit `9a3202c`, config `f97cb085`) are the historical "before". The note says that 10-07 to now spans several changes: CFEM and fifteen other families activated on 10-08 and 10-09, the hydrophobin calls, and the D4/D12 narrow sign-off. The isolating comparison is computed from `out_final` with no extra job, by `scripts/sorting_hat/refresh_3_10/compare_old_new_rule.py`: the old rule (`cell_wall_adhesion_candidate` reading all active families through the broad `wall_family_domain` flag) against the new rule (the narrow call) on the same run.
 Tests: every committed new status file loads (Task 3.1 test 6); `stale_reason` (`call_status.py:179,194`) is empty for each new file with the final config.
 Done when: the owner has reviewed the new files and the golden commit; then the PR is marked ready.
+*Update 2026-10-17 (Q5).* "Current files" means the two refreshed `owner_definition` repeat files and the eight hydrophobin files; the other ten are labelled history, not refreshed. `stale_reason` is checked for the current set only.
 
 ## PR 4: tests that did not fit PR 3
 

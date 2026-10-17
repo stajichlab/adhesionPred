@@ -292,7 +292,7 @@ Each block gives the decision, the alternatives, the reason, what changes and wh
 - **Decision (Owner decision 2026-10-17).** The HPCC re-runs are a numbered task inside PR 3's acceptance: `calibrate phasec` for R0 (so it carries `leakage_exception` and the reworded note) and the two repeat call-status files. PR 3 is not marked ready until they are done. The refreshed status tables are committed like the existing ones. The same commit adds an interim sentence to CLASSES.md. The job scripts are shown to the owner first, and NOTHING is submitted to SLURM without the owner's explicit go-ahead each time. Heavy work never runs on the login node (FD-A11, FD-B3).
 - **Alternatives.** Leave the re-runs outside the PR (the earlier plan, task 3.9).
 - **Reason.** R0 and every call file drop in status between the merge and a re-run, and the docs go wrong in the interval (FD-A11). The R0 status files are not in git (`docs/CLASSES.md:11`); only `calibrate phasec` writes them.
-- **Acceptance tests.** The committed new status files load. CLASSES.md contains the interim sentence until the files are current.
+- **Acceptance tests.** The committed new status files load. CLASSES.md contains the interim sentence until the files are current. *Update 2026-10-17 (owner, Q5):* "current" means the two refreshed `owner_definition` repeat files and the eight hydrophobin files; the other ten `tandem_repeat_protein.*` files stay as labelled history.
 
 ## 4. Testing framework
 

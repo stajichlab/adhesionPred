@@ -4,6 +4,8 @@
 
 **Status.** These scripts were written and syntax-checked (`bash -n`) on a laptop. They have **not** been run and **not** submitted. I used `ssh hpcc` only for read-only listings (appendix A). Nothing was written on HPCC. Each submission needs the owner's explicit go-ahead.
 
+**Update 2026-10-17.** The owner answered the six questions of the first draft. The answers are recorded below as `Owner decision 2026-10-17` paragraphs and in section 6. The scripts were not run after this update either.
+
 ## 1. What is tied to what
 
 | item | value |
@@ -22,7 +24,7 @@ Every job calls `check_pin` (in `lib.sh`). It stops unless: commit `51252bb` exi
 
 ## 2. Run order and dependencies
 
-Variables used below: `PROJ_ROOT` = a clone of this branch on HPCC; `NEW=/bigdata/stajichlab/jstajich/projects/adhesionPred/_workdir/sorting_hat_refresh_3_10` (all outputs); `OLD=.../_workdir/sorting_hat` (read only).
+Variables used below: `PROJ_ROOT` = `/bigdata/stajichlab/jstajich/projects/adhesionPred-3_10` (a clone of this branch; section 5); `NEW=/bigdata/stajichlab/jstajich/projects/adhesionPred/_workdir/sorting_hat_refresh_3_10` (all outputs); `OLD=.../_workdir/sorting_hat` (read only).
 
 | order | script | needs | submit as | task count |
 |---|---|---|---|---|
@@ -35,22 +37,26 @@ Variables used below: `PROJ_ROOT` = a clone of this branch on HPCC; `NEW=/bigdat
 
 Jobs 1 and 2 are independent of each other and can run together. `sbatch --dependency=afterok:` is not used on purpose: the owner approves each submission, so each one is a separate decision.
 
-Submit commands (the owner copies and runs them; `<clone>` is the clone path):
+Submit commands (the owner copies and runs them):
 
 ```
+NEW=/bigdata/stajichlab/jstajich/projects/adhesionPred/_workdir/sorting_hat_refresh_3_10
+PROJ_ROOT=/bigdata/stajichlab/jstajich/projects/adhesionPred-3_10
+WHEEL_DIR=/bigdata/stajichlab/jstajich/projects/adhesionPred-3_10_wheels
 mkdir -p $NEW/logs        # the only manual write: sbatch needs the log directory
-S=<clone>/scripts/sorting_hat/refresh_3_10
-sbatch --export=ALL,PROJ_ROOT=<clone> -o $NEW/logs/%x.%j.log -e $NEW/logs/%x.%j.log $S/00_stage_workdirs.sbatch
-sbatch --export=ALL,PROJ_ROOT=<clone> -o $NEW/logs/%x.%j.log -e $NEW/logs/%x.%j.log $S/01_phasec_r0.sbatch
-sbatch --export=ALL,PROJ_ROOT=<clone> -o $NEW/logs/%x.%j.log -e $NEW/logs/%x.%j.log $S/02_pfam_modules.sbatch
-sbatch --array=0-8%3 --export=ALL,PROJ_ROOT=<clone>,OUTNAME=out_pre -o $NEW/logs/%x.%A_%a.log -e $NEW/logs/%x.%A_%a.log $S/03_core_runs.sbatch
-sbatch --array=0-1   --export=ALL,PROJ_ROOT=<clone> -o $NEW/logs/%x.%A_%a.log -e $NEW/logs/%x.%A_%a.log $S/04_truth_repeat_call.sbatch
-sbatch --array=0-8%3 --export=ALL,PROJ_ROOT=<clone>,OUTNAME=out_final -o $NEW/logs/%x.%A_%a.log -e $NEW/logs/%x.%A_%a.log $S/03_core_runs.sbatch
+S=$PROJ_ROOT/scripts/sorting_hat/refresh_3_10
+E=ALL,PROJ_ROOT=$PROJ_ROOT,WHEEL_DIR=$WHEEL_DIR
+sbatch --export=$E -o $NEW/logs/%x.%j.log -e $NEW/logs/%x.%j.log $S/00_stage_workdirs.sbatch
+sbatch --export=$E -o $NEW/logs/%x.%j.log -e $NEW/logs/%x.%j.log $S/01_phasec_r0.sbatch
+sbatch --export=$E -o $NEW/logs/%x.%j.log -e $NEW/logs/%x.%j.log $S/02_pfam_modules.sbatch
+sbatch --array=0-8%3 --export=$E,OUTNAME=out_pre -o $NEW/logs/%x.%A_%a.log -e $NEW/logs/%x.%A_%a.log $S/03_core_runs.sbatch
+sbatch --array=0-1   --export=$E -o $NEW/logs/%x.%A_%a.log -e $NEW/logs/%x.%A_%a.log $S/04_truth_repeat_call.sbatch
+sbatch --array=0-8%3 --export=$E,OUTNAME=out_final -o $NEW/logs/%x.%A_%a.log -e $NEW/logs/%x.%A_%a.log $S/03_core_runs.sbatch
 ```
 
 Common to all jobs: `#!/bin/bash -l`, `set -euo pipefail`, partition `short` (no account line: the existing scripts name none; `sacctmgr` shows account `stajichlab` for `short`, which is the default), `${SCRATCH:?}` with a `trap` that removes it, outputs copied to `/bigdata` under a temporary name and renamed, no `/tmp`, no `BASH_SOURCE`, absolute paths. `module load hmmer/3.4` appears only in job 2 (as in `pfam_hmmsearch.sbatch`), only to read the version.
 
-**Python.** `/usr/bin/python3.12` (the rule of `docs/agent-tasks/COMMON-RULES.md`), in a virtual environment made on `$SCRATCH` with `pip install pyyaml numpy` (as Plan 2, Task 12 step 1). Reason: the package needs `pyyaml` and `numpy`; `/usr/bin/python3.12` has neither (its `site-packages` is empty), and the conda env named in `analysis/step1_compare/README.md` (`/rhome/jstajich/.conda/envs/adhesionPred`) is Python 3.14 and shows no `yaml` in its `site-packages`. The package is not installed: the jobs set `PYTHONPATH=$PROJ_ROOT/src` and run `python -m cellsurface_sorting_hat.cli`, `...modules.cli` and `...calibration.cli`. A consequence: `run.json` will show `version 0+unknown` instead of `0.2.0.dev421`. I assume this is not part of any identity hash (module identities use `tools`, `params` and artefact hashes); the owner should confirm it. If compute nodes cannot reach PyPI, set `WHEEL_DIR=<dir with pyyaml and numpy wheels>` in `--export` (the scripts then use `--no-index`).
+**Python.** `/usr/bin/python3.12` (the rule of `docs/agent-tasks/COMMON-RULES.md`), in a virtual environment made on `$SCRATCH` by `make_venv` in `lib.sh`. The packages come from the wheelhouse `WHEEL_DIR`, with `pip install --no-index --find-links "$WHEEL_DIR"` (no network from a compute node). Reason: the package needs `pyyaml` and `numpy`; `/usr/bin/python3.12` has neither (its `site-packages` is empty), and the job venv does not see the owner's `~/.local/lib/python3.12/site-packages` (PyYAML 6.0.3, numpy 2.5.2 there). The job environment pins the wheelhouse versions: numpy 2.5.4 and PyYAML 6.0.3 (section 5). The package is not installed: the jobs set `PYTHONPATH=$PROJ_ROOT/src` and run `python -m cellsurface_sorting_hat.cli`, `...modules.cli` and `...calibration.cli`. A consequence: `run.json` will show `version 0+unknown` instead of `0.2.0.dev421`. I assume this is not part of any identity hash (module identities use `tools`, `params` and artefact hashes); the owner should confirm it.
 
 ## 3. The jobs
 
@@ -64,7 +70,8 @@ Estimates: run times and memory of jobs 1 to 4 were **not measured** (I ran noth
 - **Outputs.** `$NEW/<p>/modules/`, `$NEW/<p>/raw/pfam/`, `$NEW/<p>/status/pfam_hydrophobin.json` (+ `.sha256`) for `hyd=yes`.
 - **Success.** The log ends with `staged 14 work directories`; `ls $NEW` shows 14 directories and `logs`; no hidden `.<p>.tmp.*` directory.
 - **Failure leaves.** Nothing in `$OLD`. A directory is renamed into place only after its copy finished; a stop leaves earlier proteomes complete and removes this job's temporary directory (the `trap`). A re-run stops at the first existing `$NEW/<p>`: the owner removes the directories of a failed job 0 (or sets `NEW` to a new path).
-- **Owner decides.** (a) The location `NEW`. (b) Which proteomes: I staged the 9 run proteomes and 5 hydrophobin-only proteomes (Bbas_ARSEF2860, Fful_Race5, Fgra_PH-1, Pexp_MD-8, Post_PC9). I left out `Cneo_H99` (4 modules, a 512-byte domain table, no committed status) and `Calb_SC5314_withdups`. (c) The venv source (PyPI or `WHEEL_DIR`). (d) That `PROJ_ROOT` is a clone with `51252bb` in it (the branch is not pushed; the HPCC clone `.../projects/adhesionPred` is on branch `allergen-predictor-wip`, so it cannot be used as is).
+- **Owner decides.** (a) The location `NEW`. (b) Which proteomes: I staged the 9 run proteomes and 5 hydrophobin-only proteomes (Bbas_ARSEF2860, Fful_Race5, Fgra_PH-1, Pexp_MD-8, Post_PC9). I left out `Cneo_H99` (4 modules, a 512-byte domain table, no committed status) and `Calb_SC5314_withdups`. 
+  **Owner decision 2026-10-17 (Q1, Q2).** (c) The venv source is the wheelhouse `WHEEL_DIR=/bigdata/stajichlab/jstajich/projects/adhesionPred-3_10_wheels`. (d) `PROJ_ROOT=/bigdata/stajichlab/jstajich/projects/adhesionPred-3_10` exists: a clone of the pushed branch (single branch `sorting-hat-engine-changes`, head `35900de`, clean tree; the sha256 of `family_table.tsv`, `categories.yaml` and `phasec_set_species.tsv` equal section 1). `35900de` holds no change of `src`, `data/sorting_hat` or the pinned analysis files against `51252bb`, so `check_pin` passes. (a) and (b) are not answered in the 2026-10-17 note: the location `NEW` and the proteome list stay as drafted until the owner says otherwise.
 
 ### Job 1: `01_phasec_r0.sbatch`
 - **Purpose.** Write `status/step1_rule@R0.json` again with `calibrate phasec`, so it carries `leakage_exception`, the reworded note, `negative_basis` per stratum (N-int and N-sec `curated`, PM-TM `assumed`) and the per-stratum rates. Without it R0 drops below `estimated` (spec D21, `docs/CLASSES.md:11`). **There is no `--negative-basis` option on `calibrate phasec`:** `phasec.py` sets the curated basis itself (D16); `--negative-basis curated` exists only on `calibrate truth`.
@@ -75,7 +82,7 @@ Estimates: run times and memory of jobs 1 to 4 were **not measured** (I ran noth
 - **Outputs.** `$NEW/<p>/status/step1_rule@R0.json` (+ `.sha256`). The log shows `diff` old against new.
 - **Success.** `r0-check` prints one line per set with `leakage_exception True negative_basis True`; the log ends with four `wrote` lines. After the run the owner reads the diff: only the new keys and the reworded note should change; a change in the numbers of an old key needs an explanation.
 - **Failure leaves.** Nothing in `$NEW` (all four results are built in scratch first; copied only if all four worked). The command refuses on a mismatch of the SignalP module or mode, or of the counts of `metrics.json` and the eval table (`_curated_headline`): that is a real finding to report, not to work around.
-- **Owner decides.** That `signalp/6-gpu` and mode `fast` are what Phase C used (taken from `run_converters.sh`); that the four proteomes are the right set.
+- **Open (not covered by the 2026-10-17 answers).** That `signalp/6-gpu` and mode `fast` are what Phase C used (taken from `run_converters.sh`); that the four proteomes are the right set.
 
 ### Job 2: `02_pfam_modules.sbatch`
 - **Purpose.** Rebuild `pfam_adhesion`, `pfam_hydrophobin`, `pfam_hsba` and `pfam_allergen` so their identity matches the new family table (the digest of `pfam_adhesion` now includes `tier` and `narrow_ok`; its params have `narrow_families`; it has the new column `hit_narrow`). Old tables stop the engine with `missing column`.
@@ -87,7 +94,7 @@ Estimates: run times and memory of jobs 1 to 4 were **not measured** (I ran noth
 - **Outputs.** `$NEW/<p>/modules/pfam_{adhesion,allergen,hydrophobin,hsba}.{json,tsv.gz}` with `.sha256` files. The log lists old and new identities of each module.
 - **Success.** The log ends with 14 `wrote four Pfam modules` lines and 8 `same identity` lines. `pfam_adhesion` must show a **new** artefact hash (expected); the other three must show an unchanged artefact hash for `pfam_hydrophobin`, and for `pfam_allergen` and `pfam_hsba` an unchanged one too if their rows did not change (a difference there is informative, not an error).
 - **Failure leaves.** Nothing in `$NEW` (copy happens last, after every check); nothing in `$OLD`.
-- **Owner decides.** Convert the existing domain tables, or search again (see above). That `pfam_allergen` stays `unavailable` (no active allergen family, as in the committed runs).
+- **Owner decision 2026-10-17 (Q3).** The job converts the existing 2026-10-08 domain tables; no new hmmsearch. If its model check fails for a proteome, only that proteome falls back to a fresh search, and the failure is reported to the owner before anything is run. **As drafted, the script does not do the per-proteome fallback:** any failed check stops the whole job with nothing copied (`fail`), and no search is started. That fits the decision (stop and report); the fresh search per proteome (`scripts/sorting_hat/pfam_hmmsearch.sbatch`, a separate job) would be written and submitted only after the owner has read the failure. Still open: that `pfam_allergen` stays `unavailable` (no active allergen family, as in the committed runs).
 
 ### Job 3 (array, twice): `03_core_runs.sbatch`
 - **Purpose.** The classifier run on the nine proteomes of `docs/reports/2026-10-07-classifier-runs-and-scale.md`, with the new config, for the before/after counts of D12. Run `out_pre` first (the repeat call status is measured on it), then `out_final` after job 4 (same inputs plus all status files). The counts come from `out_final`.
@@ -97,25 +104,29 @@ Estimates: run times and memory of jobs 1 to 4 were **not measured** (I ran noth
 - **Outputs.** `$NEW/<p>/out_pre` and later `$NEW/<p>/out_final`: `calls.long.tsv.gz`, `calls.wide.tsv.gz`, `evidence.tsv.gz`, `proteins.tsv.gz`, `report.md`, `run.json`.
 - **Success.** Each log prints `config_sha256` (must be the sha256 of the pinned `categories.yaml` as the engine computes it), `taxonomy_sha256` (the committed runs show `78392a6926b01fadda65ab819b75e0685e62593fffc0efe09c70b04d26cb7f6b`; a difference means another taxdump, say so), and `wrote .../out_*`. `run.json` `n_proteins` equals `inputs.tsv`.
 - **Failure leaves.** An existing `$NEW/<p>/$OUTNAME` stops the task before any work. A failed run leaves no output directory (copy and rename are the last step).
-- **Owner decides.** (a) That the committed 2026-10-07 numbers are the "before" (they came from commit `9a3202c` and config `f97cb085`, not from a re-run). If the owner wants a measured baseline on the same modules, a third run with the old config is needed; I did not draft it. (b) **Module sets differ.** `Afum_Af293_Fungi5k` and `Scer_S288C_nodubious` have no `cys8_pattern` and no `hydrophobin_relaxed` table (no relaxed-hydrophobin raw table exists for them), so those two runs will show these modules as absent; the other seven have them. The before/after for those two mixes the module set with the config change. (c) The proteome list.
+- **Owner decision 2026-10-17 (Q6).** (a) The committed 2026-10-07 counts (commit `9a3202c`, config `f97cb085`) are the historical "before". The dated note must say that 10-07 to now spans several changes: CFEM and fifteen other families activated on 10-08 and 10-09, the hydrophobin calls, and the D4/D12 narrow sign-off. The comparison that isolates the D4 change is computed from `out_final` with no extra job (section 6). No third run with the old config is drafted or needed. Still open: (b) **Module sets differ.** `Afum_Af293_Fungi5k` and `Scer_S288C_nodubious` have no `cys8_pattern` and no `hydrophobin_relaxed` table (no relaxed-hydrophobin raw table exists for them), so those two runs will show these modules as absent; the other seven have them. The before/after for those two mixes the module set with the config change; the dated note says so. (c) The proteome list.
 
 ### Job 4 (array): `04_truth_repeat_call.sbatch`
 - **Purpose.** Measure the status of `tandem_repeat_protein` again in S288C (taxon 4932) and *C. albicans* (taxon 5476) with the new config (M2d, M5b2). It writes `status/calls/tandem_repeat_protein.json` into the new work directories.
 - **Inputs (the same as the committed files `.../call_status/<p>/tandem_repeat_protein.owner_definition.json`).** `analysis/calibration_truth/repeat_call_truth/truth_v3.<p>.tsv` (321 and 225 lines, committed); the run `$NEW/<p>/out_pre/{calls.long.tsv.gz,run.json,proteins.tsv.gz}` (about 0.7 MB); module records of `repeat02` and `repeat14`; `nodes.dmp`.
 - **Command.** `python -m cellsurface_sorting_hat.calibration.cli truth --workdir <scratch> --call-status --config categories.yaml --calls-long <scratch>/out/calls.long.tsv.gz --call tandem_repeat_protein --truth truth_v3.<p>.tsv --calibration-set repeat_motif_definition_<S288C|Calb> --taxa <4932|5476> --nodes-dmp nodes.dmp --notes "<text read from the committed file>" --leakage tuned_on_truth --negative-basis assumed` (`--n-boot 2000 --seed 1` are the defaults).
-- **Parameters I reused and one I did not change.** `--leakage tuned_on_truth` and the calibration-set names are those of the committed entries. `--negative-basis assumed`: the committed note says "negatives assumed from absent annotation". Writing `curated` would be false. The notes text is read from the committed file, so the wording is identical.
+- **Parameters I reused and one I did not change.** `--leakage tuned_on_truth` and the calibration-set names are those of the committed entries. `--negative-basis assumed`: the committed note says "negatives assumed from absent annotation" (D7, D16). Writing `curated` would be false. The notes text is read from the committed file, so the wording is identical.
 - **Resources.** 1 CPU, 6 GB, 30 min. Estimate 2 to 5 minutes (reads `nodes.dmp`; the bootstrap of 2,000 draws on about 320 rows takes seconds).
 - **Outputs.** `$NEW/<p>/status/calls/tandem_repeat_protein.json` (+ `.sha256`).
 - **Success.** The log shows `expected ... MATCH`: S288C sensitivity 0.435 [0.067, 0.667], specificity 0.987, 23 positives (16 clusters), 297 negatives (227 clusters); *C. albicans* 0.462 [0.000, 0.788], 0.976, 13 and 211. If the numbers differ the job still writes the file (a new path), exits 3, and the owner stops and reads it (the plan of 2026-10-08 says: if they differ, stop and report). The status stays `smoke` (the leakage cap).
 - **Failure leaves.** Nothing, unless only the comparison failed (exit 3): then the new file exists in `$NEW` and nothing is committed. The command refuses a run whose `config_sha256`, module states or module identities do not fit (`_check_call_run`).
-- **Owner decides.** (a) Only `owner_definition` is refreshed (it is the current measurement). The ten other `tandem_repeat_protein.*` files (per species: `broad_truth`, `curated_only`, and three `owner_definition.config-*` files) are history under older truth definitions or configs; they cannot be refreshed without re-deciding what they mean. The plan says "all 20 files" must be current before the interim sentence goes. With 8 hydrophobin files kept valid and 2 refreshed, **10 of 20 are current**; the owner decides whether the other 10 are marked as history and the sentence goes, or are re-measured (broad_truth would need `truth_v2.*` and its own calibration-set name: `repeat_curated_plus_uniprot_secreted_S288C` and `_Calb`). (b) Whether `--negative-basis assumed` is final.
+- **Owner decision 2026-10-17 (Q4, Q5).** (Q4) `--negative-basis assumed` is final: the repeat negatives are assumed from missing annotation (D7, D16); the status stays `smoke`. Expected values: S288C sensitivity 0.435, specificity 0.987; *C. albicans* 0.462 and 0.976. (Q5) Only `owner_definition` is refreshed per species. The other ten `tandem_repeat_protein.*` files (per species `broad_truth`, `curated_only` and three `owner_definition.config-*`) stay in place as dated history and are labelled so (section 6). They are not re-measured. The CLASSES.md interim sentence names the current set (the two refreshed repeat files and the eight hydrophobin files) instead of waiting for all 20 files.
 
 ## 4. After the jobs (not part of the scripts)
-Task 3.10 steps 3 to 5: copy the new status files to `docs/reports/data/sorting_hat/call_status/` as new files (old ones stay), check `stale_reason` is empty for each with the final config (Task 3.1 test 6), take the counts from `out_final/report.md`, write the CLASSES.md sentence and the dated note in the classifier-runs report. The R0 status files are not in git (`docs/CLASSES.md:11`); decide whether to commit them (they are about 9.6 KB each).
+Task 3.10 steps 3 to 5: copy the new status files to `docs/reports/data/sorting_hat/call_status/` as new files (old ones stay), check `stale_reason` is empty for each with the final config (Task 3.1 test 6), take the counts from `out_final/report.md`, write the CLASSES.md sentence (naming the current set, Q5) and the dated note in the classifier-runs report (Q6; section 6). The R0 status files are not in git (`docs/CLASSES.md:11`); decide whether to commit them (they are about 9.6 KB each).
 
-## 5. Not found, assumed, open
-- **No persistent Python environment with PyYAML on HPCC.** The plan's venv recipe needs network from a compute node (not tested).
-- **No clone of this branch on HPCC.** The branch is local (not pushed). The owner pushes it (or copies it) and makes `PROJ_ROOT`.
+## 5. Found, assumed, open
+- **Clone exists (Q1).** `/bigdata/stajichlab/jstajich/projects/adhesionPred-3_10`: single branch `sorting-hat-engine-changes`, head `35900de`, clean tree, the three hashes equal section 1.
+- **Wheelhouse exists (Q2).** `WHEEL_DIR=/bigdata/stajichlab/jstajich/projects/adhesionPred-3_10_wheels`, beside the clone and not inside it (so the clean-tree pin rule holds), holding:
+  `numpy-2.5.4-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl` (sha256 `fbde6962867ee75b48b0ee29b2b9372ec5d617799dbaf38e82dc0596f2f7738a`) and
+  `pyyaml-6.0.3-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl` (sha256 `ba1cc08a7ccde2d2ec775841541641e4548226580ab850948cbfda66a1befcdc`).
+  A clean-venv install with `--no-index --find-links` from it was tested on the login node (imports yaml 6.0.3, numpy 2.5.4).
+- **PyYAML on HPCC (corrects the first draft).** The first draft said HPCC has no PyYAML anywhere. The owner's `~/.local/lib/python3.12/site-packages` has PyYAML 6.0.3 and numpy 2.5.2; the job venv does not see them. The job environment pins the wheelhouse versions (PyYAML 6.0.3, numpy 2.5.4).
 - **Pfam domain tables are reused** (assumption above). Raw tool tables (SignalP, TMHMM, repeats, BLAST) are reused unchanged: no change of config or table affects them.
 - **Module identity of reused modules.** `step1_rule@R0`, `tm`, `repeat02`, `repeat14`, `allergen_homology`, `cys8_pattern`, `hydrophobin_relaxed` and the Cimm lookups are copied unchanged. I assume their identities do not depend on the config or family table; the engine and `_check_run_identity` will refuse a mismatch.
 - **`run.json` version** will read `0+unknown` (package not installed).
@@ -123,6 +134,24 @@ Task 3.10 steps 3 to 5: copy the new status files to `docs/reports/data/sorting_
 - **Memory and run times** are estimates (section 3).
 - **Calb input.** The Calb run uses `$OLD/Calb_SC5314.faa` (6,212 proteins, the deduplicated proteome, as in the committed provenance); the truth ids (for example `C1_12510W_A`) are from that proteome.
 - **Not drafted:** a baseline re-run with the old config; a fresh `hmmsearch`; `Cneo_H99`; the other ten repeat status files; HPCC work of PR 5 (clustering and similar).
+
+## 6. The isolating comparison and the history files (Owner decision 2026-10-17, Q5 and Q6)
+
+**Before and after.** The committed 2026-10-07 counts (commit `9a3202c`, config `f97cb085`) stay the historical "before". From 10-07 to now the runs span several changes, not only D4: CFEM and fifteen other families were activated on 10-08 and 10-09, the hydrophobin calls were added, and the D4/D12 narrow sign-off was given. Two proteomes also differ in module set (section 3, job 3). So the 10-07 to now difference must not be read as the effect of D4 alone.
+
+**The isolating comparison, with no extra job.** `compare_old_new_rule.py` reads one or more `out_final` directories (read only) and compares, on the same run, the old rule (`signal_peptide_protein` AND (`tandem_repeat_protein` OR `wall_family_domain`); the broad flag reads all active families) with the new rule (the narrow `cell_wall_adhesion_candidate` as written). It counts `called`, `not_called`, `not_assessable` and `not_applicable` apart, the proteins only the old rule calls, and the same counts for `surface_attachment_candidate`. The old-only proteins are split by the accession in the `pfam_adhesion` `families` evidence field (the families of the broad flag). It makes no call. It runs on a laptop or the login node in seconds; it needs `calls.long.tsv.gz` and/or `calls.wide.tsv.gz` and `evidence.tsv.gz`, nothing else:
+
+```
+python $PROJ_ROOT/scripts/sorting_hat/refresh_3_10/compare_old_new_rule.py --out old_vs_new_rule.tsv $NEW/*/out_final
+```
+
+A non-zero `rule_mismatch` means the written narrow call differs from the narrow rule recomputed from its inputs: stop and read it.
+
+**History files.** Only `owner_definition` is refreshed per species. These ten stay in `docs/reports/data/sorting_hat/call_status/` unchanged, as dated history under older truth definitions or configs (they are stale under the new config and never raise a status):
+`tandem_repeat_protein.broad_truth`, `tandem_repeat_protein.curated_only` and the three `tandem_repeat_protein.owner_definition.config-of-2026-10-08-hydrophobin`, `...config-with-family-evidence` and `...config-with-surface-attachment` files, in each of the `Scer_S288C` and `Calb_SC5314` directories. They are named here and in the CLASSES.md sentence as history. The current set is the two refreshed `owner_definition` repeat files and the eight hydrophobin files.
+
+## 7. What remains before the first submission
+The owner's go-ahead for each job (section 2); `mkdir -p $NEW/logs`; the answers to the items marked "not covered" (job 0 location and proteome list, job 1 SignalP settings, job 2 `pfam_allergen`, job 3 proteome list); the run times and memory of the first job checked with `sacct`.
 
 ## Appendix A: read-only HPCC listings I ran (2026-10-17)
 

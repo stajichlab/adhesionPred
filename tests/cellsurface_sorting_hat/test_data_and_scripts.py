@@ -12,7 +12,7 @@ import pytest
 from cellsurface_sorting_hat.modules.pfam import load_family_table
 
 ROOT = Path(__file__).resolve().parents[2]
-SCRIPTS = sorted((ROOT / "scripts" / "sorting_hat").glob("*"))
+SCRIPTS = sorted(p for p in (ROOT / "scripts" / "sorting_hat").glob("*") if p.is_file())
 SH = ROOT / "scripts" / "sorting_hat"
 
 

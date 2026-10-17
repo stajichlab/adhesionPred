@@ -43,7 +43,7 @@ check_pin() {
 make_venv() {
   /usr/bin/python3.12 -m venv "$1/venv"
   if [ -n "${WHEEL_DIR:-}" ]; then
-    "$1/venv/bin/pip" install --quiet --no-index --find-links "$WHEEL_DIR" pyyaml numpy
+    "$1/venv/bin/pip" install --quiet --no-index --find-links "$WHEEL_DIR" pyyaml==6.0.3 numpy==2.5.4
   else
     "$1/venv/bin/pip" install --quiet pyyaml numpy
   fi
