@@ -1,12 +1,8 @@
 """Task 3.2: the Calls table of the report has a fourth value column."""
 
-import pytest
 from test_cli import run_cli
 
-XFAIL_32 = pytest.mark.xfail(strict=True, reason="Task 3.2: not_applicable column in the report")
 
-
-@XFAIL_32
 def test_the_calls_table_counts_not_applicable_apart(tmp_path, write_module, nodes_dmp):
     code, out, _ = run_cli(tmp_path, write_module, nodes_dmp)
     assert code == 0

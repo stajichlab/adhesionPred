@@ -30,14 +30,11 @@ OR_ROWS = {
 AND = {(a, b): r for a, row in AND_ROWS.items() for b, r in zip(SECOND, row, strict=True)}
 OR = {(a, b): r for a, row in OR_ROWS.items() for b, r in zip(SECOND, row, strict=True)}
 
-XFAIL_NA = pytest.mark.xfail(strict=True, reason="Task 3.2: not_applicable in logic.py")
-
 
 def _marked(cases):
     for key, want in cases:
         key_t = key if isinstance(key, tuple) else (key,)
-        marks = [XFAIL_NA] if NA in key_t else []
-        yield pytest.param(key, want, marks=marks, id="-".join(key_t) + "->" + want)
+        yield pytest.param(key, want, id="-".join(key_t) + "->" + want)
 
 
 @pytest.mark.parametrize(("a", "want"), list(_marked(NOT.items())))
@@ -61,7 +58,6 @@ def test_or(pair, want):
     assert k_or(*pair) == want
 
 
-@pytest.mark.xfail(strict=True, reason="Task 3.2: not_applicable in logic.py")
 def test_and_and_or_never_return_not_applicable():
     from cellsurface_sorting_hat.logic import k_and, k_or
 
@@ -71,7 +67,6 @@ def test_and_and_or_never_return_not_applicable():
     assert k_and(NA) == N and k_or(NA) == N  # one operand: NA acts as not_called
 
 
-@pytest.mark.xfail(strict=True, reason="Task 3.2: not_applicable in logic.py")
 def test_the_value_vocabulary_has_four_values():
     from cellsurface_sorting_hat import logic
 

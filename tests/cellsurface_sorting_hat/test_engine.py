@@ -98,7 +98,7 @@ def test_unknown_or_input_with_a_false_other_is_unknown():
 def test_false_surface_makes_gated_antigen_false_even_when_antigen_is_unknown():
     mods = base_modules(antigen_lookup=table("antigen_lookup", {"P": {"state": "not_applicable"}}))
     res = run(mods)
-    assert res[("P", "cocci_specificity_rank_top15", "")].value == "not_assessable"
+    assert res[("P", "cocci_specificity_rank_top15", "")].value == "not_applicable"
     assert res[("P", "serodiagnostic_marker_candidate", "R0")].value == "not_called"
 
 
@@ -143,10 +143,16 @@ def test_allergen_needs_no_surface_call():
     assert res[("P", "iuis_allergen_homolog", "")].value == "called"
 
 
-def test_other_not_surface_leaves_out_unknown_calls_and_names_them():
+def test_other_not_surface_skips_a_not_applicable_mechanism():
     mods = base_modules(antigen_lookup=table("antigen_lookup", {"P": {"state": "not_applicable"}}))
     r = run(mods)[("P", "other_not_surface", "R0")]
-    assert (r.value, r.other_basis) == ("called", "cocci_specificity_rank_top15")
+    assert (r.value, r.other_basis) == ("called", "")
+
+
+def test_other_not_surface_is_not_assessable_when_a_mechanism_input_is_unknown():
+    mods = base_modules(antigen_lookup=table("antigen_lookup", {"P": {"state": "error"}}))
+    r = run(mods)[("P", "other_not_surface", "R0")]
+    assert (r.value, r.other_basis) == ("not_assessable", "cocci_specificity_rank_top15")
 
 
 def test_other_not_surface_is_false_when_a_mechanism_call_is_true():

@@ -163,14 +163,14 @@ def test_golden_calls(tmp_path, write_module, nodes_dmp):
     )
     # ENZ1: A. fumigatus (40), step 1 estimated; antigen not applicable; allergen homology called
     assert v("ENZ1", "signal_peptide_protein", "R0") == ("not_called", "estimated")
-    assert v("ENZ1", "cocci_specificity_rank_top15")[0] == "not_assessable"
+    assert v("ENZ1", "cocci_specificity_rank_top15")[0] == "not_applicable"
     assert v("ENZ1", "serodiagnostic_marker_candidate", "R0") == ("not_called", "estimated")
     assert v("ENZ1", "iuis_allergen_homolog")[0] == "called"
     r = got[("ENZ1", "other_not_surface", "R0")]  # allergen flags are not mechanism calls
-    assert (r["value"], r["other_basis"]) == ("called", "cocci_specificity_rank_top15")
-    # STAR1: surface, no mechanism called, antigen left out of the basis
+    assert (r["value"], r["other_basis"]) == ("called", "")  # a not applicable mechanism is skipped
+    # STAR1: surface, no mechanism called, antigen not applicable and skipped
     r = got[("STAR1", "other_surface_no_mechanism", "R0")]
-    assert (r["value"], r["other_basis"]) == ("called", "cocci_specificity_rank_top15")
+    assert (r["value"], r["other_basis"]) == ("called", "")
     # BAD1: invalid protein, every call unknown
     assert {r["value"] for k, r in got.items() if k[0] == "BAD1"} == {"not_assessable"}
 
@@ -370,7 +370,7 @@ def test_wide_table_and_run_json(tmp_path, write_module, nodes_dmp):
     assert [r["protein"] for r in rows] == ["SOW1", "ENZ1", "DUP1", "BAD1", "STAR1"]
     star = rows[-1]
     assert star["other_surface_no_mechanism[R0]"] == "called"
-    assert star["other_surface_no_mechanism[R0]_basis"] == "cocci_specificity_rank_top15"
+    assert star["other_surface_no_mechanism[R0]_basis"] == ""
     assert star["signal_peptide_protein[R0]_status"] == "estimated"
     run = json.loads((out / "run.json").read_text())
     assert run["n_proteins"] == 5 and run["n_invalid"] == 1
@@ -382,8 +382,8 @@ def test_report_has_the_known_limits_and_counts(tmp_path, write_module, nodes_dm
     report = (out / "report.md").read_text()
     assert "## Known limits" in report
     assert "means that SignalP calls a signal peptide" in report
-    assert "| signal_peptide_protein | R0 | 3 | 1 | 1 |" in report
-    assert "- cocci_specificity_rank_top15: " in report
+    assert "| signal_peptide_protein | R0 | 3 | 1 | 1 | 0 |" in report
+    assert "## `other_basis`" not in report  # no other_* call had an unknown mechanism input
 
 
 def _run(tmp_path, nodes_dmp, fasta, taxon_map, wd, out="out"):

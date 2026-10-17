@@ -3,14 +3,11 @@
 import csv
 import gzip
 
-import pytest
 from test_truth_call_status import args, call_file, setup
 
 from cellsurface_sorting_hat.calibration.cli import main
 from cellsurface_sorting_hat.call_status import load_call_source
 from cellsurface_sorting_hat.engine import load_config
-
-XFAIL_32 = pytest.mark.xfail(strict=True, reason="Task 3.2: truth accepts not_applicable")
 
 
 def _make_two_not_applicable(tmp_path, positives=1):
@@ -25,7 +22,6 @@ def _make_two_not_applicable(tmp_path, positives=1):
         csv.writer(fh, delimiter="\t").writerows(rows)
 
 
-@XFAIL_32
 def test_a_table_with_not_applicable_is_accepted_and_the_count_is_reported(tmp_path):
     setup(tmp_path, n_pos=40, n_neg=40, called_pos=30, called_neg=2)
     _make_two_not_applicable(tmp_path, positives=1)
@@ -36,7 +32,6 @@ def test_a_table_with_not_applicable_is_accepted_and_the_count_is_reported(tmp_p
     assert entry.measure["n_pos"] == 39 and entry.measure["n_neg"] == 39
 
 
-@XFAIL_32
 def test_a_not_applicable_positive_counts_as_missed_in_the_pessimistic_bound(tmp_path):
     setup(tmp_path, n_pos=40, n_neg=40, called_pos=30, called_neg=2)
     _make_two_not_applicable(tmp_path, positives=1)

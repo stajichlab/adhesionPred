@@ -18,7 +18,6 @@ def antigen_na():
 # ---- Task 3.2: unknown mechanism input, not_applicable -----------------------------------------
 
 
-@pytest.mark.xfail(strict=True, reason="Task 3.2: unknown mechanism makes other_* not_assessable")
 def test_probe_p2_an_unknown_mechanism_makes_other_surface_no_mechanism_not_assessable():
     mods = base_modules(step1="called", pfam_hsba=table("pfam_hsba", {"P": {"state": "error"}}))
     got = run_eval(mods)
@@ -37,7 +36,6 @@ def test_a_called_mechanism_wins_over_another_unknown_one():
     assert run_eval(mods)[("P", "other_surface_no_mechanism", "R0")].value == "not_called"
 
 
-@pytest.mark.xfail(strict=True, reason="Task 3.2: not_applicable value")
 def test_probe_p3_not_applicable_antigen_rank():
     mods = base_modules(step1="called", antigen_lookup=antigen_na())
     got = run_eval(mods, status_of=ESTIMATED)
@@ -49,7 +47,6 @@ def test_probe_p3_not_applicable_antigen_rank():
     assert got[("P", "other_surface_no_mechanism", "R0")].value == "called"
 
 
-@pytest.mark.xfail(strict=True, reason="Task 3.2: not_applicable value")
 def test_a_not_applicable_record_has_no_status_and_names_the_module():
     got = run_eval(base_modules(step1="called", antigen_lookup=antigen_na()), status_of=ESTIMATED)
     r = got[("P", "cocci_specificity_rank_top15", "")]
@@ -64,7 +61,6 @@ def test_a_secreted_protein_outside_rs_is_never_a_serodiagnostic_candidate():
         assert run_eval(mods)[("P", "serodiagnostic_marker_candidate", "R0")].value != "called"
 
 
-@pytest.mark.xfail(strict=True, reason="Task 3.2: not(NA) is NA in the engine")
 def test_not_of_a_not_applicable_call_is_not_applicable(tmp_path):
     cfg = config_with(
         tmp_path,
@@ -85,7 +81,6 @@ def test_call_hash_changes_with_the_engine_semantics():
     assert (engine.ENGINE_SEMANTICS == "1") == (got == old)  # the hash follows the semantics
 
 
-@pytest.mark.xfail(strict=True, reason="Task 3.2: ENGINE_SEMANTICS is bumped")
 def test_engine_semantics_were_bumped():
     from cellsurface_sorting_hat import engine
 

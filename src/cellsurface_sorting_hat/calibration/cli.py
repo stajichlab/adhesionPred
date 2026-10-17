@@ -137,7 +137,7 @@ def build_parser():
 
 
 LEAKAGE = LEAKAGE_VALUES
-CALL_VALUES = ("called", "not_called", "not_assessable")
+CALL_VALUES = ("called", "not_called", "not_assessable", "not_applicable")
 
 
 def _check_taxon(taxon, what):
@@ -479,15 +479,19 @@ def run(args):
         protein_taxa = _read_protein_taxa(args.calls_long)
         calls = _read_call_values(args.calls_long, args.call, args.variant)
         y, called, clusters, unmatched, unknown, unknown_pos = [], [], [], 0, 0, 0
+        not_applicable = 0
         matched = []
         for pid, label, value, cluster in _read_truth(args.truth, calls):
             if value is not None:
                 matched.append(pid)
             if value is None:
                 unmatched += 1
-            elif value == "not_assessable":
+            elif value in ("not_assessable", "not_applicable"):
+                # a row that does not apply has no call: it is not a miss and not a hit, and it
+                # is counted with the rows that cannot be assessed (D18)
                 unknown += 1
                 unknown_pos += label == 1
+                not_applicable += value == "not_applicable"
             else:
                 y.append(label)
                 called.append(value == "called")
@@ -505,7 +509,8 @@ def run(args):
         n_pos_all = sum(1 for lab in y if lab == 1) + unknown_pos
         bound = f"{n_pos_called / n_pos_all:.3f}" if n_pos_all else "NA"
         notes = (
-            f"{args.notes} truth rows without a call: {unmatched}; not assessable: {unknown}; "
+            f"{args.notes} truth rows without a call: {unmatched}; not assessable: {unknown}"
+            f"{f' (not applicable: {not_applicable})' if not_applicable else ''}; "
             f"sensitivity if not assessable positives count as missed: {bound}"
         ).strip()
         if not any(lab == 0 for lab in y):

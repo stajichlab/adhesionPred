@@ -8,7 +8,7 @@ from collections import Counter
 from dataclasses import asdict, dataclass, field
 
 from cellsurface_sorting_hat.cache import write_atomic
-from cellsurface_sorting_hat.logic import CALLED, NOT_ASSESSABLE, NOT_CALLED
+from cellsurface_sorting_hat.logic import CALLED, NOT_APPLICABLE, NOT_ASSESSABLE, NOT_CALLED
 
 LONG_COLUMNS = ["protein", "call", "variant", "value", "status", "status_basis", "other_basis"]
 MAX_LISTED_INVALID = 20
@@ -277,15 +277,22 @@ def render_report(info, records):
         "",
         "## Calls",
         "",
-        "| call | variant | called | not_called | not_assessable |",
-        "|---|---|---|---|---|",
+        "| call | variant | called | not_called | not_assessable | not_applicable |",
+        "|---|---|---|---|---|---|",
     ]
     for call, variant in keys:
-        c = [counts[(call, variant, v)] for v in (CALLED, NOT_CALLED, NOT_ASSESSABLE)]
-        lines.append(f"| {call} | {variant or '-'} | {c[0]} | {c[1]} | {c[2]} |")
+        c = [
+            counts[(call, variant, v)] for v in (CALLED, NOT_CALLED, NOT_ASSESSABLE, NOT_APPLICABLE)
+        ]
+        lines.append(f"| {call} | {variant or '-'} | {c[0]} | {c[1]} | {c[2]} | {c[3]} |")
     basis = Counter(r.other_basis for r in records if r.call.startswith("other_") and r.other_basis)
     if basis:
-        lines += ["", "## `other_basis` (categories left out because they were not assessable)", ""]
+        lines += [
+            "",
+            "## `other_basis` (mechanism inputs of an `other_*` call that were not assessable; "
+            "the call is then not_assessable)",
+            "",
+        ]
         lines += [f"- {b}: {n}" for b, n in sorted(basis.items())]
     attach = [r for r in records if r.call == "surface_attachment_candidate" and r.value == CALLED]
     if attach:

@@ -16,6 +16,7 @@ import yaml
 
 from cellsurface_sorting_hat.logic import (
     CALLED,
+    NOT_APPLICABLE,
     NOT_ASSESSABLE,
     NOT_CALLED,
     k_and,
@@ -27,7 +28,8 @@ from cellsurface_sorting_hat.status import UNVALIDATED, weakest
 OK_STATE = "ok"
 # Bump by hand when the evaluation rules change (Kleene tables, NA handling). It is part of call_hash,
 # so a call status file measured under other rules is stale.
-ENGINE_SEMANTICS = "1"
+# 2: not_applicable value (acts as not_called in and/or); an unknown mechanism makes other_* unknown.
+ENGINE_SEMANTICS = "2"
 _OPS = {">=": operator.ge, "<=": operator.le, ">": operator.gt, "<": operator.lt, "==": operator.eq}
 _NODE_KEYS = {"call", "flag", "test", "ref", "and", "or", "not"}
 
@@ -169,6 +171,9 @@ class _Result:
     contributors: (
         frozenset  # of (module, call): the call in which the leaf that reads the module sits
     )
+    # modules whose row is not applicable for a leaf below this result. They give no status; the
+    # basis column names them so that a not_called caused by one never has an empty basis.
+    na: frozenset = frozenset()
 
 
 def _leaf(value, module, ctx):
@@ -187,20 +192,37 @@ def _row(modules, module, protein_id):
     return row
 
 
+def _not_applicable(modules, module, protein_id):
+    """True when the module table says the protein is not applicable (state ``not_applicable``)."""
+    table = modules.get(module)
+    row = table.get(protein_id) if table is not None else None
+    return row is not None and row.get("state") == NOT_APPLICABLE
+
+
+def _na_leaf(module):
+    return _Result(NOT_APPLICABLE, frozenset(), frozenset([module]))
+
+
 def _eval(node, ctx):
     kind, arg = next(iter(node.items()))
     if kind == "call":
         module = arg.replace("{step1}", ctx["step1"] or "")
+        if _not_applicable(ctx["modules"], module, ctx["protein"]):
+            return _na_leaf(module)
         row = _row(ctx["modules"], module, ctx["protein"])
         value = row.get("call") if row else None
         return _leaf(value if value in (CALLED, NOT_CALLED) else NOT_ASSESSABLE, module, ctx)
     if kind == "flag":
         module, fld = arg.split(".", 1)
+        if _not_applicable(ctx["modules"], module, ctx["protein"]):
+            return _na_leaf(module)
         row = _row(ctx["modules"], module, ctx["protein"])
         raw = row.get(fld, "") if row else ""
         value = {"1": CALLED, "0": NOT_CALLED}.get(str(raw).strip(), NOT_ASSESSABLE)
         return _leaf(value, module, ctx)
     if kind == "test":
+        if _not_applicable(ctx["modules"], arg["module"], ctx["protein"]):
+            return _na_leaf(arg["module"])
         row = _row(ctx["modules"], arg["module"], ctx["protein"])
         limit = arg["value"]
         if isinstance(limit, str):
@@ -219,9 +241,10 @@ def _eval(node, ctx):
         return ctx["results"][(arg, label)]
     if kind == "not":
         child = _eval(arg, ctx)
-        return _Result(k_not(child.value), child.contributors)
+        return _Result(k_not(child.value), child.contributors, child.na)
     children = [_eval(c, ctx) for c in arg]
     values = [c.value for c in children]
+    na = frozenset().union(*(c.na for c in children))
     if kind == "and":
         out = k_and(*values)
         decisive = [c for c in children if out != NOT_CALLED or c.value == NOT_CALLED]
@@ -230,27 +253,34 @@ def _eval(node, ctx):
         decisive = [c for c in children if out != CALLED or c.value == CALLED]
     if out == NOT_ASSESSABLE:  # an unknown result has no deciding module
         return _Result(out, frozenset())
-    return _Result(out, frozenset().union(*(c.contributors for c in decisive)))
+    return _Result(out, frozenset().union(*(c.contributors for c in decisive)), na)
 
 
 def _eval_other(call, ctx):
+    """``other_*``: the surface call has the wanted value and no mechanism is called.
+
+    A called mechanism gives ``not_called``. Else an unknown mechanism gives ``not_assessable``
+    (``other_basis`` lists it): the call cannot say that no mechanism exists. A mechanism that is
+    not applicable is skipped. It is not evidence for or against the call."""
     surface = ctx["results"][(call["surface"], ctx["label"])]
-    if surface.value == NOT_ASSESSABLE:
-        return _Result(NOT_ASSESSABLE, frozenset()), ""
+    if surface.value in (NOT_ASSESSABLE, NOT_APPLICABLE):
+        return _Result(surface.value, frozenset()), ""
     if surface.value != call["surface_is"]:
         return _Result(NOT_CALLED, surface.contributors), ""
-    contributors, called, left_out = set(surface.contributors), set(), []
+    contributors, called, unknown = set(surface.contributors), set(), []
     for name in call["mechanism"]:
         res = ctx["results"][(name, "")]
         if res.value == CALLED:
             called |= res.contributors  # a false AND takes its status from all false inputs
         elif res.value == NOT_ASSESSABLE:
-            left_out.append(name)
-        else:
+            unknown.append(name)
+        elif res.value == NOT_CALLED:
             contributors |= res.contributors
     if called:
         return _Result(NOT_CALLED, frozenset(called)), ""
-    return _Result(CALLED, frozenset(contributors)), ",".join(left_out)
+    if unknown:
+        return _Result(NOT_ASSESSABLE, frozenset()), ",".join(unknown)
+    return _Result(CALLED, frozenset(contributors)), ""
 
 
 def available_variants(cfg, modules):
@@ -347,6 +377,10 @@ def evaluate(
                         status, basis = _status_with_calls(names, leaf_status, status_for, taxon)
                 else:
                     status, basis = UNVALIDATED, ""
+                if res.na and res.value in (NOT_CALLED, NOT_APPLICABLE):
+                    # no status from an NA leaf; the basis says why the value is what it is
+                    items = [f"not_applicable: {m}" for m in sorted(res.na)]
+                    basis = ";".join(([basis] if basis else []) + items)
                 records.append(
                     CallRecord(pid, call["name"], label, res.value, status, basis, other_basis)
                 )

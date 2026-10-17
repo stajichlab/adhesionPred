@@ -95,7 +95,6 @@ def test_gap_call_values_and_other_basis(gap_run):
         assert (r["value"], r["other_basis"]) == (e["value"], e["other_basis"]), e
 
 
-@pytest.mark.xfail(strict=True, reason="Task 3.2: not_applicable basis")
 def test_gap_status_basis_names_the_not_applicable_module(gap_run):
     got = _long(gap_run)
     for e in _tsv(GAPS / "expected_basis.tsv"):
