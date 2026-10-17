@@ -25,7 +25,8 @@ CLASSES = (ROOT / "docs" / "CLASSES.md").read_text(encoding="utf-8")
     ],
 )
 def test_the_rules_file_names_each_new_term(term):
-    section = RULES.split("## 8. Decisions of 2026-10-17")[1].split("## 7.")[0]
+    section = RULES.split("## 8. Decisions of 2026-10-17")[1]
+    assert RULES.index("## 7.") < RULES.index("## 8.")  # the sections stay in order
     assert f"`{term}" in section
 
 

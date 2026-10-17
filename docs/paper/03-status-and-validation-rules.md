@@ -130,6 +130,14 @@ Rules (owner decisions Q6 to Q8, 2026-10-07):
   only when call files exist.
 - A call whose value is `not_assessable` never takes a call status.
 
+## 7. What a reader can rely on today
+
+| Claim | Basis |
+|---|---|
+| R0 is `estimated` in *A. nidulans*. | Re-derived on the curated negative strata (S1, 2026-10-17, `analysis/phasec_r0_floor_check/README.md`): 109 positives, 163 curated negatives in 150 clusters (164 and 151 pooled), half-widths 0.0935 (sensitivity) and 0.0174 (specificity). The old status file on disk carries the pooled numbers and is refused by the loader until `calibrate phasec` is run again (section 8). |
+| R0 is `smoke` in the other five Phase C species. | Re-derived: label or fewer than 20 positives. |
+| `pfam_hydrophobin` is `smoke` in 8 proteomes (negatives are assumed, so `smoke` is the most the measure allows; the 8 files stay valid after the Pfam rebuild because only `pfam_adhesion` has the tier and `narrow_ok` in its identity); the call `tandem_repeat_protein` is `smoke` in S288C and *C. albicans*. No other module or call has a status above `unvalidated`. | Re-derived 2026-10-09: `docs/reports/data/sorting_hat/call_status/` (hydrophobin x8, repeat call x2). The earlier statement (no calibration run) was true on 2026-10-06. |
+
 ## 8. Decisions of 2026-10-17 (PR 3 of the review-fixes plan)
 
 Source: `docs/superpowers/specs/2026-10-17-sorting-hat-review-fixes-and-wall-fusion-testing-design.md`
@@ -144,7 +152,10 @@ Source: `docs/superpowers/specs/2026-10-17-sorting-hat-review-fixes-and-wall-fus
   evidence; the call status describes the call's measurement; neither implies the other.*
 - **`narrow_ok` (D4, D12).** `cell_wall_adhesion_candidate` reads `wall_family_narrow_domain`, which counts
   a family only if its tier is `smoke` or better and the owner signed `narrow_ok = yes` with who, when and
-  an evidence summary. `surface_attachment_candidate` and the `other_*` calls read `wall_family_domain`
+  an evidence summary. The loader refuses `yes` while `narrow_ok_evidence` still carries the draft marker
+  (`draft`, `not signed`). A narrow family whose condition value (signal peptide, TM count) is unknown makes
+  `hit_narrow` empty, which the engine reads as not assessable; it is `0` only when every narrow family is
+  decided negative. `surface_attachment_candidate` and the `other_*` calls read `wall_family_domain`
   (every active family). The report warns when no family is signed.
 - **`not_applicable` (D5, D18).** A module row can say that a call does not apply (the antigen rank outside
   *C. immitis* RS). The call value is `not_applicable`. It acts as `not_called` inside `and` and `or`,
@@ -163,7 +174,9 @@ Source: `docs/superpowers/specs/2026-10-17-sorting-hat-review-fixes-and-wall-fus
   derives, a taxon below 2, leakage other than `none` (or no `leakage:` value) above `smoke`, and a
   measure-less entry above `unvalidated`. A lower status loads.
 - **`leakage_exception` (D13).** The measure key `{reason, signer, date}` is the owner's recorded exception
-  that lifts the leakage cap (rule R0, section 6, item 1). `phasec` writes it and the note
+  that lifts the leakage cap (rule R0, section 6, item 1). It lifts the cap of `leakage: unknown` only;
+  an entry with `partial`, `tuned_on_truth` or `in_reference` leakage keeps the cap, and a call status file
+  always needs a legal `leakage:` value. `phasec` writes it and the note
   `leakage: unknown (...)`; the reason is in `status_basis`.
 - **`primary_label` (D1, D14).** `calls.wide` ends with `primary_label` and `primary_basis`: one label per
   protein for the default gate, first match wins: `cell_wall_adhesion_candidate`,
@@ -171,12 +184,5 @@ Source: `docs/superpowers/specs/2026-10-17-sorting-hat-review-fixes-and-wall-fus
   `mechanism_without_class`, `not_assessable`. The calls stay independent flags; they are labels, not a
   partition.
 - **R0 snapshot (D6).** A Pfam module records a digest of the condition table it read (`sp_module`,
-  `tm_module`). The core command compares it with the table of the run and warns on a mismatch.
-
-## 7. What a reader can rely on today
-
-| Claim | Basis |
-|---|---|
-| R0 is `estimated` in *A. nidulans*. | Re-derived: 109 positives, 164 negatives, half-widths 0.092 and 0.016 from the file's intervals. |
-| R0 is `smoke` in the other five Phase C species. | Re-derived: label or fewer than 20 positives. |
-| `pfam_hydrophobin` is `smoke` in 8 proteomes; the call `tandem_repeat_protein` is `smoke` in S288C and *C. albicans*. No other module or call has a status above `unvalidated`. | Re-derived 2026-10-09: `docs/reports/data/sorting_hat/call_status/` (hydrophobin x8, repeat call x2). The earlier statement (no calibration run) was true on 2026-10-06. |
+  `tm_module`) in the field `condition_snapshots` of its run record, outside `params`, so the digest does
+  not change the params hash of a module. The core command compares it with the table of the run and warns on a mismatch.

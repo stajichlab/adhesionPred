@@ -310,7 +310,7 @@ def run(args):
                 artefact_digest=args.pfam_sha256 + ":" + _family_digest(families, module),
                 snapshots=snapshots,
             )
-            if not active:  # no family has passed its specificity test: no domain test was made
+            if not active:  # the owner has enabled no family: no domain test was made
                 rows = [
                     invalid_row(p) if p.state != "ok" else {"id": p.id, "state": "unavailable"}
                     for p in proteins
