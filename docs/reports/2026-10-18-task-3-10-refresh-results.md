@@ -18,15 +18,16 @@ The run pin is commit `51252bb`; the clone commit is `fdb75a5`. The `categories.
 
 | job ID | script | state | elapsed | peak memory |
 |---|---|---|---|---|
-| not stated | job 0, `00_stage_workdirs.sbatch` | COMPLETED | not recorded here | not recorded here |
-| not stated | job 1, `01_phasec_r0.sbatch` | COMPLETED | 3 min 30 s | not recorded here |
-| not stated | job 2, `02_pfam_modules.sbatch` | COMPLETED | not recorded here | not recorded here |
-| not stated | job 2b, `02b_antigen_modules.sbatch` | COMPLETED | not recorded here | about 0.19 GB |
-| 30043811 | job 3a, `03_core_runs.sbatch`, `out_pre`, 8 proteomes | COMPLETED | not recorded here | about 1.17 GB |
-| 30044277 | job 4, `04_truth_repeat_call.sbatch` | COMPLETED | not recorded here | about 0.96 GB |
-| 30044416 | job 3b, `03_core_runs.sbatch`, `out_final` | COMPLETED | not recorded here | about 1.17 GB |
+| 30042875 | job 0, `00_stage_workdirs.sbatch` | COMPLETED | 44 s | not reported by `sacct` |
+| 30043011 | job 1, `01_phasec_r0.sbatch` | COMPLETED | 3 min 30 s | not reported by `sacct` |
+| 30043012 | job 2, `02_pfam_modules.sbatch` | COMPLETED | 55 s | not reported by `sacct` |
+| 30043066 | job 3a, `03_core_runs.sbatch`, `out_pre`, 9 proteomes (first round; superseded for 8 proteomes, see below) | COMPLETED | 41 to 53 s per task | about 1.17 GB |
+| 30043515 | job 2b, `02b_antigen_modules.sbatch` | COMPLETED | 34 s | about 0.19 GB |
+| 30043811 | job 3a again, `out_pre`, 8 proteomes (all except `Cimm_RS`) | COMPLETED | 38 to 51 s per task | about 1.17 GB |
+| 30044277 | job 4, `04_truth_repeat_call.sbatch` | COMPLETED | 39 s per task | about 0.96 GB |
+| 30044416 | job 3b, `03_core_runs.sbatch`, `out_final`, 9 proteomes | COMPLETED | 33 to 53 s per task | about 1.17 GB |
 
-The earlier job IDs 30042875, 30043011, 30043012, 30043515 and 30043066 belong to jobs 0 to 3a. The task record does not say which ID is which job, so they are not assigned here. Peak memory of about 1.17 GB is the value for the core runs.
+Job IDs, states and times were read from `sacct` on 2026-10-17. The first round of job 3a (30043066) ran before the antigen finding (section 4). Its eight outputs for the proteomes other than `Cimm_RS` were moved aside on HPCC as `out_pre_noantigen`, and the second round (30043811) rebuilt them. The `Cimm_RS` output of the first round was kept, because that proteome already had the antigen record.
 
 ## 3. R0 result
 
@@ -87,7 +88,7 @@ Counted with `python3 -I` from `calls.wide.tsv.gz` of `out_final` (the tables ar
 | Scer_S288C_nodubious | 5727 | 280 | 8 | 1 | 15 | 8 |
 | total | 69,385 | 4,424 | 1,489 | 105 | 107 | 786 |
 
-The `cell_wall_adhesion_candidate` column equals the new rule column of section 6. The two *C. immitis* values (1,375 and 770) are large against the other proteomes. I did not look for the cause; the `inconsistent` record (section 9) is for the same proteome.
+The `cell_wall_adhesion_candidate` column equals the new rule column of section 6. The two *C. immitis* values (1,375 and 770) are large against the other proteomes. They follow from the antigen rank of the same run (read on 2026-10-17 from `calls.wide`): `cocci_specificity_rank_top15` is `called` for 1,376 proteins and `not_assessable` for 771 of the 9,910. Under D14 the top-15 rank is a mechanism that no class uses, so a protein with that rank and no earlier label gets `mechanism_without_class`; a protein whose rank is unknown gets `not_assessable`. The counts agree to within one protein each way; which protein accounts for the difference was not checked. The `inconsistent` record (section 9) is for the same proteome and is unchanged from 2026-10-07.
 
 ## 8. What these numbers are not
 

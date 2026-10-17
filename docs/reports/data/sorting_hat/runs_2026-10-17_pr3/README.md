@@ -26,10 +26,14 @@ The nine proteomes are Afum_A1163, Afum_Af293_Fungi5k, Afum_Af293_UniProt, Afum_
 
 | job ID | what |
 |---|---|
-| 30043811 | `out_pre`, 8 proteomes |
+| 30042875 | job 0, stage the 14 work directories |
+| 30043011 | job 1, `calibrate phasec` for R0 (the R0 status file in `../call_status/R0/`) |
+| 30043012 | job 2, rebuild the four Pfam modules |
+| 30043066 | job 3a, first round of `out_pre`, 9 proteomes (superseded for 8 proteomes, see job 30043811) |
+| 30043515 | job 2b, the antigen module for the 8 proteomes other than `Cimm_RS` |
+| 30043811 | job 3a again, `out_pre`, 8 proteomes (all except `Cimm_RS`, whose first-round output was kept) |
 | 30044277 | the repeat call status (job 4; the two files in `../call_status/{Scer_S288C,Calb_SC5314}/tandem_repeat_protein.owner_definition.config-of-2026-10-17-pr3.json`) |
 | 30044416 | `out_final`, the source of every file in this directory |
-| 30042875, 30043011, 30043012, 30043515, 30043066 | earlier jobs of the same refresh (before the repeat call); the task did not state which ID is which, so the roles are not assigned here |
 
 The roles of the scripts are in `scripts/sorting_hat/refresh_3_10/README.md`. The R0 status file made by this refresh is in `../call_status/R0/`.
 
