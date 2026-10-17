@@ -20,6 +20,18 @@ P7. **Names are PROVISIONAL** (spec Q2). Use the names of the spec; a rename is 
 
 The owner (or the plan's author, where stated) must finish these before Task 3.0 starts:
 - S1. **R0 per-stratum floor gate (D16, Q4).** Compute, from the Phase C `metrics.json`, eval table and cluster files on HPCC (read-only, small job; the owner approves the job), whether N-int plus N-sec alone meet the floors for R0: at least 20 negatives, at least 20 clusters, interval half-width at most 0.10 for specificity. Put the three numbers in this plan (a new line under this list) and in the PR description. If any floor fails, stop: D6 and D13 need the owner again.
+  - **S1 result (run 2026-10-17, owner approved the run and, after seeing the numbers, accepted the gate as PASSED).** Read-only script on the HPCC login node over `phasec/eval_table.tsv.gz`, `clusters.tsv.gz` and `metrics.json`; N-int plus N-sec only (PM-TM and proteins in both left out). Specificity interval is Wilson on proteins, widened with Wilson on clusters (the bootstrap interval of `metrics.json` cannot be combined across strata). Floors: at least 20 negatives, at least 20 clusters, half-width at most 0.10.
+
+    | Species (taxon) | Curated negatives | Clusters | Specificity | Half-width | Floors |
+    |---|---|---|---|---|---|
+    | S. cerevisiae (4932) | 3783 | 3154 | 0.966 | 0.006 | met |
+    | C. albicans (5476) | 438 | 399 | 0.952 | 0.021 | met |
+    | A. fumigatus (746128) | 45 | 38 | 1.000 | 0.046 | met |
+    | A. nidulans (162425) | 163 | 150 | 0.994 | 0.017 | met |
+    | C. neoformans H99 (5207) | 32 | 31 | 0.938 | 0.094 | met |
+    | U. maydis (5270) | 27 | 23 | 0.926 | 0.116 | not met (half-width) |
+
+    Reading: A. nidulans, the only species where R0 is `estimated`, meets every specificity floor without PM-TM, so D6 and D13 stand (the sensitivity floors are unchanged by D16). U. maydis fails the half-width floor but R0 is already `smoke` there (pooled half-width 0.144). C. neoformans shows 0.094 curated against 0.102 pooled with no PM-TM-only negatives (32 of 32): the difference is the interval method, not the exclusion, and R0 stays `smoke` there. Script and output: `r0_stratum_floor_check.py` and `result.tsv` (HPCC `~/s1_r0_floor/`); the script is to be committed with PR 3 for reproducibility. The strict rule "if any floor fails, stop" was applied by the owner as: the gate concerns species whose status depends on D16, so U. maydis does not stop it.
 - S2. The owner confirms the names of the spec's Q2 or accepts them.
 - S3. SETTLED by the owner on 2026-10-17: Q7 (the strict cluster rule applies to all measures) and Q8 (`narrow_ok=no` for rows D12 does not name; the column has meaning only on `pfam_adhesion` rows). No action.
 
