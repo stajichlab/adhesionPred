@@ -29,7 +29,7 @@ class FamilyTableError(ValueError):
 
 
 class NoActiveFamilyError(ValueError):
-    """No family of the module has passed its specificity test and sign-off."""
+    """No family of the module is active (enabled by the owner; a row's specificity_note says whether a test was run)."""
 
 
 @dataclass(frozen=True)

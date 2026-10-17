@@ -28,7 +28,7 @@ def _known_limits(thresholds):
         "label in version 1. There is no `cell_wall_protein` call.",
         "`tandem_repeat_protein` and `wall_family_domain` are evidence. Repeat proteins include "
         "intracellular ones (ubiquitin, calmodulin, ankyrin proteins). A domain of a family that is "
-        "linked to adhesion or wall function in at least one species (CFEM, Bys1, Als) is "
+        "linked to adhesion or wall function in at least one species (CFEM, ALS, Flo11) is "
         "not shown to mediate adhesion here. The adhesion call needs a signal peptide. "
         "`hydrophobin_domain` (hydrophobin Pfam models, category 2c) and `hsba_domain` (HsbA, PF12296, "
         "which may not be a hydrophobin) are separate evidence calls. They do not set `wall_family_domain`.",
@@ -291,7 +291,7 @@ def render_report(info, records):
     if attach:
         labels = {
             "tandem_repeat_protein": "tandem repeat",
-            "wall_family_domain": "wall family domain (PA14, CFEM)",
+            "wall_family_domain": "wall family domain",
             "hydrophobin_domain": "hydrophobin",
             "hsba_domain": "HsbA",
         }
@@ -314,7 +314,7 @@ def render_report(info, records):
             "|---|---|",
             f"| proteins called | {len({r.protein for r in attach})} |",
         ]
-        for label in ("tandem repeat", "wall family domain (PA14, CFEM)", "hydrophobin", "HsbA"):
+        for label in ("tandem repeat", "wall family domain", "hydrophobin", "HsbA"):
             lines.append(f"| {label} | {per[label]} |")
     lines += ["", "## Known limits", ""] + [
         f"{i}. {t}" for i, t in enumerate(_known_limits(info.thresholds), 1)

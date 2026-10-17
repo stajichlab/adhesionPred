@@ -27,11 +27,13 @@ Counts of proteins called. `n/a` is `not_assessable` (S288C: 8 invalid sequences
 | antigen rank top 15% | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 1,376 | 0 |
 
 Read these rows as follows.
-- Signal peptide, candidate, no-mechanism and not-surface partition the assessable proteins (in Af293: 8 + 745 = 753 with a signal peptide, and 8,879 without).
+- Signal peptide, candidate, no-mechanism and not-surface are labels, not a partition of the assessable proteins (in Af293: 8 + 745 = 753 with a signal peptide, and 8,879 without). Update 2026-10-17: see the note below this list.
 - Between 4.5% and 7.8% of proteins have a signal peptide (S288C 4.6%, *B. dermatitidis* 4.5%, Af293 7.8%). Between 6 and 15 proteins per proteome are `cell_wall_adhesion_candidate`.
 - The repeat call fires for 19 to 27 proteins per proteome. A large share has no signal peptide, so it is not a candidate (Af293: 23 repeat calls, 8 candidates).
 - The antigen rows are meaningful for *C. immitis* RS only. The module is limited to that reference, so every other proteome shows 0 or `n/a`.
 - Status: `signal_peptide_protein[R0]` is `smoke` for Af293, S288C and *C. albicans*. It is `unvalidated` for the other proteomes and for every other call.
+
+**Update 2026-10-17.** The first version of this report called these calls a partition. They are not exhaustive. `other_not_surface` needs no signal peptide and every assessable mechanism call not called; `other_surface_no_mechanism` needs a signal peptide and every assessable mechanism call not called; the composites need a signal peptide (`categories.yaml`, `engine.py`). So two groups get none of these labels: (1) a protein with no signal peptide and a mechanism hit (for example an intracellular repeat protein) has no composite and no `other_*` call; (2) a protein with a signal peptide and only a hydrophobin or HsbA hit has `surface_attachment_candidate` called, but neither `cell_wall_adhesion_candidate` nor `other_surface_no_mechanism`. The Af293 sum above (8 + 745 = 753) closes only because this table was made before the hydrophobin and HsbA calls existed; group (1) is not in that sum because it counts proteins with a signal peptide only. The count of proteins in neither group is not reported here.
 
 ## 3. Check against curated labels (exploratory)
 
@@ -67,7 +69,7 @@ The distribution in section 2 is typical: 366 signal peptides (4.5%), 8 candidat
 **The framing.** The tool was meant to take a proteome and return a breakdown of the classes it can identify.
 
 **What it returns today.** The configuration defines ten calls (section 2). They are:
-- a partition of the proteome by signal peptide: not surface, surface without mechanism evidence, and cell wall adhesion candidate (repeat or domain evidence plus a signal peptide);
+- labels by signal peptide and mechanism evidence, which do not cover every protein: not surface, surface without mechanism evidence, and cell wall adhesion candidate (repeat or domain evidence plus a signal peptide). Update 2026-10-17: see the note below this list;
 - evidence calls: tandem repeat, wall family domain, allergen similarity, allergen homolog;
 - *Coccidioides* only: antigen rank top 15% and serodiagnostic marker candidate.
 
