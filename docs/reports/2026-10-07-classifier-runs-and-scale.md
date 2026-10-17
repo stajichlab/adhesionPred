@@ -100,3 +100,5 @@ The model-based step 1 (issue #15) is not on this list because decision 1 of 202
 - The `wall_family_domain` row depends on the number of active families (one).
 - The Pfam, repeat and allergen modules use the data in the stored runs. The Af293 Fungi_5k and A1163 and W72310 runs have no status source, so their statuses are `unvalidated`.
 - *B. dermatitidis* has no truth set, so section 4 is a distribution only.
+
+**Update 2026-10-18.** The runs were repeated with the PR 3 engine and config on the same nine proteomes: see `docs/reports/2026-10-18-task-3-10-refresh-results.md`. The numbers in this report were measured on commit `9a3202c` with config `f97cb085`. They span several changes since then (CFEM and fifteen other families activated on 10-08 and 10-09, hydrophobin calls, the D4/D12 narrow sign-off), so they are not comparable with the new counts as the effect of one change. The numbers above are not edited.

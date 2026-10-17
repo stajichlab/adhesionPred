@@ -2,7 +2,7 @@
 
 *2026-10-17. Author: Claude Code (claude-sonnet-5-5). Plan: `docs/superpowers/plans/2026-10-17-sorting-hat-review-fixes-and-wall-fusion-testing.md`, Task 3.10, step 1. Decisions: D21 and D22 of the spec `docs/superpowers/specs/2026-10-17-sorting-hat-review-fixes-and-wall-fusion-testing-design.md` (section 3.14).*
 
-**Status.** These scripts were written and syntax-checked (`bash -n`) on a laptop. They have **not** been run and **not** submitted. I used `ssh hpcc` only for read-only listings (appendix A). Nothing was written on HPCC. Each submission needs the owner's explicit go-ahead.
+**Status (updated 2026-10-18).** These scripts were run on HPCC on 2026-10-17, each with the owner's go-ahead, and all jobs COMPLETED with exit code 0: jobs 0, 1, 2, 2b, 3a, 4 and 3b. Job IDs known from the task record: 30043811 (job 3a, `out_pre`, 8 proteomes), 30044277 (job 4, repeat call status), 30044416 (job 3b, `out_final`); the earlier jobs were 30042875, 30043011, 30043012, 30043515 and 30043066. Task 3.10 steps 3 to 5 are done in the branch `task-3-10-results`: the new status files and run records are committed, and the results are in `docs/reports/2026-10-18-task-3-10-refresh-results.md`. The text below is the draft as written before the runs; it is kept unchanged.
 
 **Update 2026-10-17.** The owner answered the six questions of the first draft. The answers are recorded below as `Owner decision 2026-10-17` paragraphs and in section 6. The scripts were not run after this update either.
 
