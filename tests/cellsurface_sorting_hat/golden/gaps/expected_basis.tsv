@@ -1,0 +1,15 @@
+protein	call	variant	status_basis
+G1	cocci_specificity_rank_top15		not_applicable: antigen_lookup
+G1	serodiagnostic_marker_candidate	R0	step1_rule@R0:no status_source;not_applicable: antigen_lookup
+G2	cocci_specificity_rank_top15		not_applicable: antigen_lookup
+G2	serodiagnostic_marker_candidate	R0	not_applicable: antigen_lookup
+G3	cocci_specificity_rank_top15		not_applicable: antigen_lookup
+G3	serodiagnostic_marker_candidate	R0	not_applicable: antigen_lookup
+G4	cocci_specificity_rank_top15		not_applicable: antigen_lookup
+G4	serodiagnostic_marker_candidate	R0	not_applicable: antigen_lookup
+G5	cocci_specificity_rank_top15		not_applicable: antigen_lookup
+G5	serodiagnostic_marker_candidate	R0	not_applicable: antigen_lookup
+G6	cocci_specificity_rank_top15		not_applicable: antigen_lookup
+G6	serodiagnostic_marker_candidate	R0	not_applicable: antigen_lookup
+G7	cocci_specificity_rank_top15		antigen_lookup:no status_source
+G7	serodiagnostic_marker_candidate	R0	antigen_lookup:no status_source;step1_rule@R0:no status_source

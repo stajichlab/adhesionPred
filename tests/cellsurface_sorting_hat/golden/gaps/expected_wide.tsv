@@ -1,0 +1,8 @@
+protein	primary_label	primary_basis
+G1	mechanism_without_class	tandem_repeat_protein
+G2	surface_attachment_candidate	hydrophobin_domain
+G3	surface_attachment_candidate	hsba_domain
+G4	not_assessable	hsba_domain
+G5	other_surface_no_mechanism	
+G6	surface_attachment_candidate	wall_family_domain
+G7	mechanism_without_class	cocci_specificity_rank_top15
