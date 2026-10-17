@@ -10,7 +10,16 @@ from dataclasses import asdict, dataclass, field
 from cellsurface_sorting_hat.cache import write_atomic
 from cellsurface_sorting_hat.logic import CALLED, NOT_APPLICABLE, NOT_ASSESSABLE, NOT_CALLED
 
-LONG_COLUMNS = ["protein", "call", "variant", "value", "status", "status_basis", "other_basis"]
+LONG_COLUMNS = [
+    "protein",
+    "call",
+    "variant",
+    "value",
+    "status",
+    "status_basis",
+    "other_basis",
+    "derived_from",
+]
 MAX_LISTED_INVALID = 20
 
 
@@ -49,7 +58,8 @@ def _known_limits(thresholds):
         "non-protein adhesins, moonlighting proteins and biofilm are not categories.",
         "The taxon you give is recorded as given. It is not checked against the sequences.",
         "Leakage: overlap between the Phase C positives and the SignalP 6 training data was not "
-        "measured. The status of rule R0 does not account for it.",
+        "measured. The status of rule R0 does not account for it. This is the owner's recorded "
+        "exception: the R0 status entry carries `leakage_exception`, and its text is in the basis.",
     ]
 
 
@@ -99,7 +109,16 @@ def column_name(call, variant):
 
 def write_long(path, records):
     rows = [
-        [r.protein, r.call, r.variant, r.value, r.status, r.status_basis, r.other_basis]
+        [
+            r.protein,
+            r.call,
+            r.variant,
+            r.value,
+            r.status,
+            r.status_basis,
+            r.other_basis,
+            r.derived_from,
+        ]
         for r in records
     ]
     write_atomic(path, _tsv(LONG_COLUMNS, rows))

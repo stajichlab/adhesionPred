@@ -42,6 +42,7 @@ from cellsurface_sorting_hat.outputs import (
 from cellsurface_sorting_hat.status import (
     UNVALIDATED,
     ModuleIdentity,
+    exception_text,
     load_status_source,
     negative_rows,
     resolve_entry,
@@ -316,7 +317,7 @@ class StatusResolver:
         entry, tested, reason = self.entry(module, taxon)
         if entry is None:
             return UNVALIDATED, reason
-        return entry.status, f"taxon:{tested}"
+        return entry.status, f"taxon:{tested}{exception_text(entry)}"
 
 
 def _rate_text(rate):

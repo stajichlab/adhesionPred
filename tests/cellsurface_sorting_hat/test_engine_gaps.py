@@ -4,7 +4,6 @@ Tests that fail on ``main`` carry ``xfail(strict=True)`` with the task id. The t
 behaviour removes the mark in the same commit.
 """
 
-import pytest
 from engine_helpers import base_modules, config_with, ok, run_eval, table
 
 NA = "not_applicable"
@@ -119,7 +118,6 @@ def test_the_narrow_call_needs_a_signal_peptide():
 # ---- Task 3.5: derived marker -------------------------------------------------------------------
 
 
-@pytest.mark.xfail(strict=True, reason="Task 3.5: derived_from column")
 def test_composite_and_other_records_name_their_leaf_calls():
     mods = base_modules(step1="called", repeat02=table("repeat02", {"P": ok(call="called")}))
     got = run_eval(mods)
@@ -133,7 +131,6 @@ def test_composite_and_other_records_name_their_leaf_calls():
     assert "signal_peptide_protein" in other.derived_from.split(",")
 
 
-@pytest.mark.xfail(strict=True, reason="Task 3.5: derived_from column")
 def test_leaf_records_have_no_derived_marker():
     got = run_eval(
         base_modules(step1="called", repeat02=table("repeat02", {"P": ok(call="called")}))

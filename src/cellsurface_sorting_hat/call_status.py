@@ -30,6 +30,7 @@ from cellsurface_sorting_hat.status import (  # noqa: F401  (LEAKAGE_VALUES, MIN
     _check_measure,
     best_entry,
     check_entry,
+    exception_text,
     leakage_of,
 )
 
@@ -217,7 +218,7 @@ class CallStatusResolver:
         if best is None:
             return None
         entry, tested = best
-        return entry.status, f"call:{call}:taxon:{tested}"
+        return entry.status, f"call:{call}:taxon:{tested}{exception_text(entry)}"
 
     def rows(self):
         """One row per entry and tested taxon of a valid file, and one row per stale file."""

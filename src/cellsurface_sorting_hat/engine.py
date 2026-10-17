@@ -74,6 +74,9 @@ class CallRecord:
     status: str
     status_basis: str
     other_basis: str
+    # Leaf calls that decided a composite or other_* value, comma separated; empty for a leaf call.
+    # The status of such a record is derived from them, not measured on the composite itself.
+    derived_from: str = ""
 
 
 def variant_label(step1_module):
@@ -377,12 +380,17 @@ def evaluate(
                         status, basis = _status_with_calls(names, leaf_status, status_for, taxon)
                 else:
                     status, basis = UNVALIDATED, ""
+                derived = ""
+                if call.get("kind") == "other" or _has_ref(call["expr"]):
+                    derived = ",".join(sorted({leaf for _, leaf in res.contributors}))
                 if res.na and res.value in (NOT_CALLED, NOT_APPLICABLE):
                     # no status from an NA leaf; the basis says why the value is what it is
                     items = [f"not_applicable: {m}" for m in sorted(res.na)]
                     basis = ";".join(([basis] if basis else []) + items)
                 records.append(
-                    CallRecord(pid, call["name"], label, res.value, status, basis, other_basis)
+                    CallRecord(
+                        pid, call["name"], label, res.value, status, basis, other_basis, derived
+                    )
                 )
     return records
 

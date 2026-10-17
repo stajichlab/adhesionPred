@@ -2,13 +2,11 @@
 
 import gzip
 
-import pytest
 from test_cli import VALID, build, read_long
 from test_status_loader_rules import measure
 
 from cellsurface_sorting_hat.cli import main
 
-XFAIL_35 = pytest.mark.xfail(strict=True, reason="Task 3.5: derived marker and exception text")
 EXCEPTION = {
     "reason": "leakage unmeasured (SignalP training overlap), uncapped by owner decision",
     "signer": "owner",
@@ -36,7 +34,6 @@ def _run(tmp_path, write_module, nodes_dmp, exception=True):
     return main(argv), out
 
 
-@XFAIL_35
 def test_a_record_whose_status_comes_from_the_r0_entry_has_the_exception_text(
     tmp_path, write_module, nodes_dmp
 ):
@@ -50,14 +47,12 @@ def test_a_record_whose_status_comes_from_the_r0_entry_has_the_exception_text(
     assert "uncapped" not in leaf["status_basis"]
 
 
-@XFAIL_35
 def test_a_composite_that_reads_r0_shows_the_exception_too(tmp_path, write_module, nodes_dmp):
     _, out = _run(tmp_path, write_module, nodes_dmp)
     composite = read_long(out)[("ENZ1", "serodiagnostic_marker_candidate", "R0")]
     assert "uncapped by owner decision" in composite["status_basis"]
 
 
-@XFAIL_35
 def test_calls_long_has_a_derived_from_column_and_calls_wide_does_not(
     tmp_path, write_module, nodes_dmp
 ):

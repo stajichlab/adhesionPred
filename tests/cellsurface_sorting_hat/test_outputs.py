@@ -46,7 +46,8 @@ def test_long_table_has_the_documented_columns(tmp_path):
     )
     rows = read(tmp_path / "l.tsv.gz")
     assert rows[0] == LONG_COLUMNS
-    assert rows[1] == ["A", "tandem_repeat_protein", "", "called", "smoke", "m:t", ""]
+    assert rows[1] == ["A", "tandem_repeat_protein", "", "called", "smoke", "m:t", "", ""]
+    assert LONG_COLUMNS[-1] == "derived_from"
 
 
 def test_wide_table_names_gated_columns_with_the_variant(tmp_path):

@@ -255,7 +255,8 @@ Known limits, printed in the report header (the text is `_known_limits` in `src/
    adhesins, moonlighting proteins and biofilm are not categories.
 8. The taxon you give is recorded as given. It is not checked against the sequences.
 9. Leakage: overlap between the Phase C positives and the SignalP 6 training data was not
-   measured. The status of rule R0 does not account for it.
+   measured. The status of rule R0 does not account for it. This is the owner's recorded
+   exception: the R0 status entry carries `leakage_exception`, and its text is in the basis.
 
 **Update 2026-10-17.** Item 4 first named "CFEM, Bys1, Als" as examples. Bys1 is inactive in `data/sorting_hat/family_table.tsv`; the examples now read "CFEM, ALS, Flo11" (active rows), and the report text in `outputs.py` matches.
 

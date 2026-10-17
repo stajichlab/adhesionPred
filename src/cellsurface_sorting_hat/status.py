@@ -295,9 +295,16 @@ def resolve_entry(record, running, taxon, lineage):
     return best[0], best[1], ""
 
 
+def exception_text(entry):
+    """`` (<reason>)`` when the entry carries the owner's leakage exception, else an empty string.
+    The reason goes into the basis column so that a reader sees that the cap was lifted."""
+    exc = (entry.measure or {}).get("leakage_exception")
+    return f" ({exc['reason']})" if exc else ""
+
+
 def resolve_status(record, running, taxon, lineage):
     """Return (status, basis)."""
     entry, tested, reason = resolve_entry(record, running, taxon, lineage)
     if entry is None:
         return UNVALIDATED, reason
-    return entry.status, f"taxon:{tested}"
+    return entry.status, f"taxon:{tested}{exception_text(entry)}"
