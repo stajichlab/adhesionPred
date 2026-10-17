@@ -1,0 +1,13 @@
+missing tbl 0 of 653
+CBM_14 proteins 54 genera 31 (4.7%) {'aspergillaceae': 1, 'background': 28, 'onygenales': 2}
+Chitin_bind_1 proteins 2222 genera 572 (87.6%) {'aspergillaceae': 6, 'background': 540, 'onygenales': 26}
+CBM_14 seq score >= 25.3: proteins 53, genera 30 (4.6%)
+CBM_14 seq score >= 50: proteins 3, genera 3 (0.5%)
+CBM_14 seq score >= 100: proteins 0, genera 0 (0.0%)
+CBM_14 seq score >= 200: proteins 0, genera 0 (0.0%)
+CBM_14 seq score >= 300: proteins 0, genera 0 (0.0%)
+Chitin_bind_1 seq score >= 25.3: proteins 2222, genera 572 (87.6%)
+Chitin_bind_1 seq score >= 50: proteins 649, genera 340 (52.1%)
+Chitin_bind_1 seq score >= 100: proteins 27, genera 25 (3.8%)
+Chitin_bind_1 seq score >= 200: proteins 0, genera 0 (0.0%)
+Chitin_bind_1 seq score >= 300: proteins 0, genera 0 (0.0%)

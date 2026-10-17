@@ -1,0 +1,58 @@
+uniprot	species	unilectin_class	pfam_ga_hits	signalp6_prediction	p_sp	cs_position
+P18891	Aleuria aurantia	AAL-like (PropLec6A)	PF07938:Fungal_lectin	OTHER	0.000420	
+G1XA82	Arthrobotrys oligospora	AAL-like (PropLec6A)	PF07938:Fungal_lectin	OTHER	0.000017	
+Q4WW81	Aspergillus fumigatus	AAL-like (PropLec6A)	PF07938:Fungal_lectin	OTHER	0.000002	
+Q2UNX8	Aspergillus oryzae	AAL-like (PropLec6A)	PF07938:Fungal_lectin	OTHER	0.000001	
+A0A084FYP2	Pseudallescheria apiosperma (Scedosporium apiospermum)	AAL-like (PropLec6A)	PF07938:Fungal_lectin	OTHER	0.000000	
+A0A0S4TLR1	Ralstonia solanacearum	AAL-like (PropLec6A)	PF07938:Fungal_lectin	OTHER	0.002805	
+E7E2M2	Pleurotus ostreatus	CBM67-like	none	SP	0.999748	CS pos: 20-21. Pr: 0.9688
+B3VS76	Coprinopsis cinerea	CML-like	none	OTHER	0.000004	
+B3GA02	Coprinopsis cinerea	Coprinus trefoil lectin-like	PF21595:CCL2-like	OTHER	0.000014	
+Q00022	Agaricus bisporus	Fungal fruit body lectin	PF07367:FB_lectin	OTHER	0.000003	
+F2Z266	Boletus edulis	Fungal fruit body lectin	PF07367:FB_lectin	OTHER	0.000000	
+A0A0M3KL30	Sclerotium rolfsii	Fungal fruit body lectin	PF07367:FB_lectin	OTHER	0.000000	
+A0A0M3KL31	Sclerotium rolfsii	Fungal fruit body lectin	PF07367:FB_lectin	OTHER	0.000000	
+Q8WZC9	Xerocomus chrysenteron	Fungal fruit body lectin	PF07367:FB_lectin	OTHER	0.000001	
+A0A384E107	Pholiota squarrosa	Fungal prism lectins	none	OTHER	0.000002	
+A0A3B6UEU4	Pholiota squarrosa	Fungal prism lectins	none	OTHER	0.000002	
+P80412	Flammulina velutipes	Ig-like	PF09259:Fve	OTHER	0.000002	
+R4GRU4	Boletus edulis	Laetiporus trefoil lectin-like	none	OTHER	0.000000	
+R4GRU5	Boletus edulis	Laetiporus trefoil lectin-like	none	OTHER	0.000000	
+R4GRU6	Boletus edulis	Laetiporus trefoil lectin-like	none	OTHER	0.000000	
+R4GRU9	Boletus edulis	Laetiporus trefoil lectin-like	none	OTHER	0.000000	
+B0D650	Laccaria bicolor	Laetiporus trefoil lectin-like	none	OTHER	0.000000	
+Q7Z8V1	Laetiporus sulphureus	Laetiporus trefoil lectin-like	PF03318:ETX_MTX2	OTHER	0.000000	
+A7UNK4	Lyophyllum decastes	Lyophyllum ginkbilobin-like	PF21691:LDL	OTHER	0.000002	
+B3VBK9	Cladosporium fulvum	LysM-like	PF01476:LysM	SP	0.999724	CS pos: 18-19. Pr: 0.9718
+F9XHX3	Zymoseptoria tritici	LysM-like	PF01476:LysM	SP	0.999728	CS pos: 18-19. Pr: 0.9853
+I7H471	Marasmius oreades	Monocot-lectin like	none	OTHER	0.000000	
+B4UMX2	Candida glabrata	PA14 yeast adhesin	PF07691:PA14,PF10528:GLEYA	SP	0.999721	CS pos: 20-21. Pr: 0.9789
+Q6FUW5	Candida glabrata	PA14 yeast adhesin	PF07691:PA14,PF10528:GLEYA	SP	0.999741	CS pos: 30-31. Pr: 0.9766
+Q6FX55	Candida glabrata	PA14 yeast adhesin	PF07691:PA14,PF10528:GLEYA	SP	0.999709	CS pos: 25-26. Pr: 0.9772
+Q6VBJ0	Candida glabrata	PA14 yeast adhesin	PF07691:PA14,PF10528:GLEYA	SP	0.999741	CS pos: 30-31. Pr: 0.9766
+A0A1A9TAD0	Komagataella pastoris	PA14 yeast adhesin	PF07691:PA14,PF10528:GLEYA	OTHER	0.000273	
+A0A1B2JGH2	Komagataella pastoris	PA14 yeast adhesin	PF07691:PA14,PF10528:GLEYA	SP	0.999747	CS pos: 32-33. Pr: 0.9810
+P32768	Saccharomyces cerevisiae	PA14 yeast adhesin	PF00624:Flocculin,PF07691:PA14,PF10528:GLEYA	SP	0.999719	CS pos: 24-25. Pr: 0.9748
+P38894	Saccharomyces cerevisiae	PA14 yeast adhesin	PF00624:Flocculin,PF07691:PA14,PF10528:GLEYA,PF13928:Flocculin_t3	SP	0.999805	CS pos: 24-25. Pr: 0.9805
+B3IUA8	Saccharomyces pastorianus	PA14 yeast adhesin	PF00624:Flocculin,PF07691:PA14,PF10528:GLEYA,PF13928:Flocculin_t3	SP	0.999792	CS pos: 24-25. Pr: 0.9595
+B3IUB3	Saccharomyces pastorianus	PA14 yeast adhesin	PF07691:PA14,PF10528:GLEYA	SP	0.999796	CS pos: 24-25. Pr: 0.9608
+H6CS64	Agrocybe aegerita	PVL-like (PropLec7B)	PF13517:FG-GAP_3	OTHER	0.000001	
+A0A1U7Q1Z0	Psathyrella asperospora	PVL-like (PropLec7B)	PF13517:FG-GAP_3	OTHER	0.000003	
+Q309D1	Psathyrella velutina (or Lacrimaria velutina)	PVL-like (PropLec7B)	PF13517:FG-GAP_3	OTHER	0.000001	
+F6KMV5	Macrolepiota procera	Ricin-like	PF14200:RicinB_lectin_2	OTHER	0.000016	
+Q8X123	Marasmius oreades	Ricin-like	PF14200:RicinB_lectin_2,PF18021:Agglutinin_C,PF18022:Lectin_C_term	OTHER	0.000004	
+Q75WT9	Polyporus squamosus	Ricin-like	PF14200:RicinB_lectin_2,PF18021:Agglutinin_C,PF18022:Lectin_C_term	OTHER	0.000193	
+L8WGI4	Rhizoctonia solani	Ricin-like	PF14200:RicinB_lectin_2	OTHER	0.000000	
+A7XUK7	Sclerotinia sclerotiorum	Sclerotinia trefoil lectin-like	PF14200:RicinB_lectin_2	OTHER	0.000000	
+B0CZL6	Laccaria bicolor	Tectonin (PropLec6B)	PF19193:Tectonin	OTHER	0.009619	
+P43555	Saccharomyces cerevisiae	Yeast Emp L-type	PF03388:Lectin_leg-like	SP	0.999709	CS pos: 28-29. Pr: 0.9727
+Q12396	Saccharomyces cerevisiae	Yeast Emp L-type	PF03388:Lectin_leg-like	SP	0.711751	CS pos: 46-47. Pr: 0.6409
+I1RM03	Gibberella zeae	cyanovirin-like	PF08881:CVNH	OTHER	0.000038	
+G4N991	Magnaporthe oryzae	cyanovirin-like	PF01476:LysM,PF08881:CVNH	OTHER	0.000000	
+Q7S6U4	Neurospora crassa	cyanovirin-like	PF08881:CVNH	OTHER	0.000000	
+Q5MK11	Tuber borchii	cyanovirin-like	PF08881:CVNH	OTHER	0.000002	
+A0A2D0TCI3	Agrocybe cylindracea	galectin-like	PF00337:Gal-bind_lectin	OTHER	0.000086	
+Q6WY08	Agrocybe cylindracea	galectin-like	PF00337:Gal-bind_lectin	OTHER	0.000698	
+Q206Z5	Coprinopsis cinerea	galectin-like	PF00337:Gal-bind_lectin	OTHER	0.000021	
+Q9P4R8	Coprinopsis cinerea	galectin-like	PF00337:Gal-bind_lectin	OTHER	0.000001	
+C1G842				SP	0.999744	CS pos: 22-23. Pr: 0.9724

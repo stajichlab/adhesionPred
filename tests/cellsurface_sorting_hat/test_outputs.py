@@ -175,10 +175,46 @@ def test_report_counts_the_surface_attachment_basis_by_sub_label():
     ]
     text = render_report(info(), records)
     assert "## Surface attachment: which evidence held" in text
-    assert "| adhesin repeat | 1 |" in text
-    assert "| surface-active (hydrophobin, HsbA) | 3 |" in text
-    assert "| adhesion or wall family domain | 0 |" in text
+    assert "| tandem repeat | 1 |" in text
+    assert "| hydrophobin | 2 |" in text
+    assert "| HsbA | 1 |" in text
+    assert "| wall family domain (PA14, CFEM) | 0 |" in text
     assert "| proteins called | 3 |" in text
+    assert "adhesin repeat" not in text
+
+
+def test_report_counts_a_protein_once_when_two_variants_call_it():
+    records = [
+        rec("a", "surface_attachment_candidate", "R0", "called", other="hydrophobin_domain"),
+        rec("a", "surface_attachment_candidate", "R1", "called", other="hydrophobin_domain"),
+    ]
+    text = render_report(info(), records)
+    assert "| proteins called | 1 |" in text
+    assert "| hydrophobin | 1 |" in text
+
+
+def test_wide_table_has_a_basis_column_for_surface_attachment_candidate(tmp_path):
+    records = [
+        rec(
+            "A",
+            "surface_attachment_candidate",
+            "R0",
+            "called",
+            other="tandem_repeat_protein,hsba_domain",
+        )
+    ]
+    write_wide(tmp_path / "w.tsv.gz", records, ["A"])
+    rows = read(tmp_path / "w.tsv.gz")
+    assert rows[0][-1] == "surface_attachment_candidate[R0]_basis"
+    assert rows[1][-1] == "tandem_repeat_protein,hsba_domain"
+
+
+def test_report_defines_the_three_statuses_and_says_composites_are_derived():
+    text = render_report(info(), [])
+    assert "## What the statuses mean" in text
+    for word in ("`unvalidated`", "`smoke`", "`estimated`"):
+        assert word in text
+    assert "weakest status of the leaf calls that decided" in text
 
 
 def test_report_has_no_attachment_section_without_called_proteins():

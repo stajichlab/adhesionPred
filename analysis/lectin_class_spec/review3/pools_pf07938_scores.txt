@@ -1,0 +1,41 @@
+columns ['protein', 'pool', 'length', 'pct_cys', 'pct_pro', 'pct_st', 'sequons_per_100aa', 'gpi', 'pfam']
+columns ['protein', 'pool', 'length', 'pct_cys', 'pct_pro', 'pct_st', 'sequons_per_100aa', 'gpi', 'pfam']
+columns ['protein', 'pool', 'length', 'pct_cys', 'pct_pro', 'pct_st', 'sequons_per_100aa', 'gpi', 'pfam']
+columns ['protein', 'pool', 'length', 'pct_cys', 'pct_pro', 'pct_st', 'sequons_per_100aa', 'gpi', 'pfam']
+Myotisia_sp._PD_48_PD_48	onygenales	FC452C90_000306-T1	U	330.6
+Microsporum_canis_CBS_113480	onygenales	FCE2ACBB_004168-T1	U	296.6
+Arthroderma_uncinatum_CBS_119779	onygenales	FA49FE15_006535-T1	U	291.1
+Onygena_corvina_CBS_281.48	onygenales	F1215351_005656-T1	U	291.0
+Nannizzia_gypsea_CBS_118893	onygenales	F94BF6A1_004981-T1	U	290.4
+Trichophyton_benhamiae_CBS_112371	onygenales	F3F37487_006503-T1	U	288.3
+Antarctomyces_pellizariae_UFMG-CB-12416	background	F4ABCCAB_001993-T1	U	66.6
+Aphanocladium_album_MX95	background	FCE0DFBC_000915-T1	U	50.7
+Thyridium_curvatum_D216	background	FF800694_002177-T1	U	46.4
+Immersiella_caudata_CBS_606.72	background	FB70174C_004108-T1	U	44.9
+Pseudomonodictys_pantanalensis_A73	background	FC9298C0_007404-T1	U	43.3
+Pseudocyphellaria_aurata_Werth_ST10-01b	background	FA787783_004609-T1	U	41.0
+Neopestalotiopsis_sp._37M_37M	background	FB61C939_006389-T1	U	38.5
+Pseudopestalotiopsis_chinensis_AH-3-21*	background	F0AEDD87_012783-T1	U	38.5
+Thozetella_sp._PMI_491_PMI_491	background	F75E41DE_000821-T1	U	38.3
+Pestalotiopsis_fici_W106-1	background	F140786E_003508-T1	U	38.0
+Bimuria_novae-zelandiae_CBS_107.79	background	FAD1CB17_002060-T1	U	35.8
+Dendryphion_nanum_MPI-CAGE-CH-0243	background	FED00E8C_003084-T1	U	35.8
+Pleoardoris_graminearum_DS1613	background	F8FD6942_005264-T1	U	35.4
+Gnomoniopsis_sp._IMI_355080_IMI_355080	background	F5564136_004434-T1	U	34.7
+Aphanocladium_album_MX95	background	FCE0DFBC_000914-T1	S	32.2
+Caloplaca_ligustica_LIQ85CALI	background	F87A99EF_004686-T1	U	31.8
+Pseudocyphellaria_aurata_Werth_ST10-01b	background	FA787783_003201-T1	U	31.0
+Botryotinia_calthae_MUCL2830	background	F6EB27D3_001846-T1	U	30.5
+Immersiella_caudata_CBS_606.72	background	FB70174C_007360-T1	U	30.3
+Nigrograna_mackinnonii_E5202H	background	FEDC52AB_007869-T1	U	30.2
+Lobaria_immixta_Werth_ST12-03b	background	F93AFDF8_009208-T1	U	29.9
+Trematosphaeria_pertusa_CBS_122368	background	F4D4E94A_014113-T1	U	29.9
+Byssothecium_circinans_CBS_675.92	background	F451B373_009769-T1	U	29.6
+Lentithecium_fluviatile_CBS_122367	background	FBC64C10_011336-T1	U	29.4
+Pseudocyphellaria_aurata_Werth_ST10-01b	background	FA787783_000220-T1	U	28.5
+Passalora_sequoiae_9LC2	background	F5FCF485_001636-T1	U	26.2
+pool S PF07938 proteins 32 with GA hit in whole-proteome table 32
+>=50 8 proteins 8 genera
+>=100 6 proteins 6 genera
+>=200 6 proteins 6 genera
+>=300 1 proteins 1 genera

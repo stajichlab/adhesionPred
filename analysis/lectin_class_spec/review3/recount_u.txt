@@ -1,0 +1,38 @@
+proteomes 653 unique genera 653
+groups {'onygenales': 27, 'aspergillaceae': 7, 'background': 619}
+total proteins 6847098
+CCL2-like >=0 proteins 2 genera 2 0.3% {'background': 2} not_in_selection 0
+CCL2-like >=50 proteins 1 genera 1 0.2% {'background': 1} not_in_selection 0
+CCL2-like >=100 proteins 1 genera 1 0.2% {'background': 1} not_in_selection 0
+CCL2-like >=200 proteins 0 genera 0 0.0% {} not_in_selection 0
+CCL2-like >=300 proteins 0 genera 0 0.0% {} not_in_selection 0
+FB_lectin >=0 proteins 75 genera 68 10.4% {'background': 66, 'onygenales': 1, 'aspergillaceae': 1} not_in_selection 0
+FB_lectin >=50 proteins 58 genera 54 8.3% {'background': 53, 'aspergillaceae': 1} not_in_selection 0
+FB_lectin >=100 proteins 48 genera 46 7.0% {'background': 45, 'aspergillaceae': 1} not_in_selection 0
+FB_lectin >=200 proteins 6 genera 6 0.9% {'background': 6} not_in_selection 0
+FB_lectin >=300 proteins 0 genera 0 0.0% {} not_in_selection 0
+Fungal_lectin >=0 proteins 997 genera 392 60.0% {'background': 377, 'onygenales': 11, 'aspergillaceae': 4} not_in_selection 0
+Fungal_lectin >=50 proteins 335 genera 188 28.8% {'background': 177, 'onygenales': 8, 'aspergillaceae': 3} not_in_selection 0
+Fungal_lectin >=100 proteins 150 genera 104 15.9% {'background': 95, 'onygenales': 6, 'aspergillaceae': 3} not_in_selection 0
+Fungal_lectin >=200 proteins 62 genera 52 8.0% {'background': 43, 'onygenales': 6, 'aspergillaceae': 3} not_in_selection 0
+Fungal_lectin >=300 proteins 42 genera 40 6.1% {'background': 37, 'onygenales': 1, 'aspergillaceae': 2} not_in_selection 0
+Gal-bind_lectin >=0 proteins 41 genera 31 4.7% {'onygenales': 7, 'background': 23, 'aspergillaceae': 1} not_in_selection 0
+Gal-bind_lectin >=50 proteins 3 genera 2 0.3% {'background': 2} not_in_selection 0
+Gal-bind_lectin >=100 proteins 0 genera 0 0.0% {} not_in_selection 0
+Gal-bind_lectin >=200 proteins 0 genera 0 0.0% {} not_in_selection 0
+Gal-bind_lectin >=300 proteins 0 genera 0 0.0% {} not_in_selection 0
+LDL >=0 proteins 39 genera 36 5.5% {'background': 30, 'onygenales': 6} not_in_selection 0
+LDL >=50 proteins 6 genera 4 0.6% {'background': 4} not_in_selection 0
+LDL >=100 proteins 0 genera 0 0.0% {} not_in_selection 0
+LDL >=200 proteins 0 genera 0 0.0% {} not_in_selection 0
+LDL >=300 proteins 0 genera 0 0.0% {} not_in_selection 0
+CBM_14 >=0 proteins 54 genera 31 4.7% {'background': 28, 'onygenales': 2, 'aspergillaceae': 1} not_in_selection 0
+CBM_14 >=50 proteins 3 genera 3 0.5% {'background': 3} not_in_selection 0
+CBM_14 >=100 proteins 0 genera 0 0.0% {} not_in_selection 0
+CBM_14 >=200 proteins 0 genera 0 0.0% {} not_in_selection 0
+CBM_14 >=300 proteins 0 genera 0 0.0% {} not_in_selection 0
+Chitin_bind_1 >=0 proteins 2222 genera 572 87.6% {'background': 540, 'onygenales': 26, 'aspergillaceae': 6} not_in_selection 0
+Chitin_bind_1 >=50 proteins 649 genera 340 52.1% {'background': 336, 'onygenales': 2, 'aspergillaceae': 2} not_in_selection 0
+Chitin_bind_1 >=100 proteins 27 genera 25 3.8% {'background': 25} not_in_selection 0
+Chitin_bind_1 >=200 proteins 0 genera 0 0.0% {} not_in_selection 0
+Chitin_bind_1 >=300 proteins 0 genera 0 0.0% {} not_in_selection 0

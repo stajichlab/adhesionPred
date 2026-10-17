@@ -57,6 +57,10 @@ State this plainly in `counts.md`.
 
 - Cluster the positives **and** the negatives together (30% identity). A negative in the same
   cluster as a positive is a conflict: list it in `rejected.tsv` with both rows.
+  **Owner exception (2026-10-10), allergen predictor only:** a weak negative may be paired with a positive
+  in the same cluster, for the paired-negative design of the allergen predictor spec
+  (`docs/superpowers/specs/2026-10-09-allergen-predictor-spec.md`). The cluster is never split across
+  train and test. This exception does not apply to evidence-grade negatives (section "Negative controls").
 - The reference set of the module is the IUIS fungal set. A positive that is in the reference set
   has `leakage=in_reference` for any measure that compares it with itself. Leave-species-out removes
   the species of the query from the reference. Say how.
@@ -69,7 +73,10 @@ Onygenales, Eurotiales (*Aspergillus*, *Penicillium*), Pleosporales (*Alternaria
 
 ## Do not
 
-- Do not train or test an allergenicity model.
+- Do not train or test an allergenicity model. **Owner decision 2026-10-09:** this rule is lifted
+  for an evidence-only model (`unvalidated`, its own evidence call). Weak Swiss-Prot negatives may
+  train it. Evaluation negatives still need an independent reason. The rule came from the agent
+  directive of 2026-10-06, not from an owner statement.
 - Do not call IgE cross-reactivity a result.
 - Do not submit the COMPARE form. Tell the owner it needs an email address.
 - Do not use publisher texts in the repository.

@@ -69,12 +69,12 @@ This is the one genuinely general tool, and it does not need ML.
 
 | class | exemplars | architecture | detectable from sequence? | status |
 |---|---|---|---|---|
-| **2a. Repeat/avidity surface proteins** | FLO11, ALS1, AGA1, SOWgp, BAD1, CspA | tandem repeats, repeat coverage ≈ 1.0 | **yes, easily** | **works**: PR-AUC 0.98 homology-grouped, 0.94 leave-genome-out |
+| **2a. Repeat/avidity surface proteins** | FLO11, ALS1, AGA1, SOWgp, BAD1, CspA | tandem repeats, repeat coverage ≈ 1.0 | **yes, easily** | **works for the old composition classifier**: PR-AUC 0.98 homology-grouped, 0.94 leave-genome-out (that classifier does not ship; the sorting hat's repeat call is `smoke`, sensitivity 0.44 to 0.46 in S288C and *C. albicans*, 2026-10-08) |
 | **2b. Small secreted proteins** — *see below; this was one row and is now three* | CalA (177 aa), Ag2/PRA, PRA3 | **not one architecture** | **no** — scores ~0.000 | **split 2026-09-30.** The single row was a residual bucket, not a mechanism class |
 | **2b-i. CFEM-domain surface proteins** | Ag2/PRA, PRA2, ~7 per Onygenales genome | CFEM hemophore fold, structurally confirmed | **yes** — PF05730 | *HMM problem, not ML*. Same standing as 2c |
 | **2b-ii. Small Cys-knot secreted proteins** | PRA3 | 38 aa 7-Cys knot on a disordered stalk; no fold assignment | **no** | **open structural question**, one protein. Not a classification task |
 | **2b-iii. Bys1-domain invasins** | CalA | Bys1 domain (thaumatin-*like* fold) | **yes** — PF04681 | *HMM problem, not ML* |
-| **2c. Hydrophobin/repellent attachment** | RodA, RodB, Ustilago Rep1 | 8-Cys hydrophobin pattern | **yes, trivially** — PF01185/PF06766 | *solved by HMMs*; was misfiled as an ML failure |
+| **2c. Hydrophobin/repellent attachment** | RodA, RodB, Ustilago Rep1 | 8-Cys hydrophobin pattern | **yes, trivially** — PF01185/PF06766 | *detected by Pfam HMMs*: the strict call finds 122 of 131 experimentally supported Swiss-Prot hydrophobins and has a `smoke` status in 8 proteomes; 9 are missed (2026-10-08, `docs/reports/2026-10-08-hydrophobin-validation.md`); it was misfiled as an ML failure |
 | **2d. Moonlighting surface proteins** | Histoplasma Hsp60, *Paracoccidioides* gp43 | cytoplasmic or enzymatic proteins on the surface | **no, by construction** | violates the stage-1 premise; must be held out, not predicted |
 
 ### Why class 2b was split (2026-09-30)
@@ -243,9 +243,9 @@ mistake as one classifier covering all adhesins.
 | tool | state |
 |---|---|
 | Stage 1 surface/secreted | works; needs SignalP/NetGPI run directly (issue #15) |
-| 2a repeat/avidity adhesin | works within Saccharomycotina; PR-AUC 0.94–0.98 |
+| 2a repeat/avidity adhesin | old classifier: works within Saccharomycotina, PR-AUC 0.94–0.98 (does not ship). Sorting hat repeat call: `smoke`, sensitivity 0.44 to 0.46 (2026-10-08) |
 | 2a repeat *detector* | divergence floor measured 2026-09-30: `02` ≈ 75% unit identity, `14` ≈ 35%. Neither supersedes the other |
-| 2c hydrophobin | solved by existing HMMs; no work needed |
+| 2c hydrophobin | strict Pfam call in the tool (`smoke`, 8 proteomes); 9 known hydrophobins missed; a relaxed level was built and not brought in (owner decision 2026-10-08) |
 | *Coccidioides* antigen | built, 3/4 calibration, 14 Tier-1 / 45 Tier-2 candidates |
 | Biofilm | **not built** — blocked on phenotype linkage, not on modelling |
 | 2b-i CFEM (Ag2/PRA, PRA2) | fold confirmed against experimental `4Y7S`; **HMM problem** (PF05730), not ML |
