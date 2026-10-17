@@ -1,0 +1,24 @@
+# Fixture for the fake Pfam-A file of the tests. Kept apart from wall_fusion_models.tsv on purpose.
+acc	name
+PF03198	Glyco_hydro_72
+PF00722	Glyco_hydro_16
+PF00332	Glyco_hydro_17
+PF03663	Glyco_hydro_76
+PF00704	Glyco_hydro_18
+PF00150	Cellulase
+PF01522	Polysacc_deac_1
+PF29664	BtgE-BtgC_glyc-hydro
+PF01644	Chitin_synth_1
+PF03142	Chitin_synth_2
+PF08407	Chitin_synth_1N
+PF02364	Glucan_synthase
+PF10342	Kre9_KNH
+PF05390	Kre9_KNH1_C
+PF03856	SUN
+PF12454	Ecm33
+PF10287	YJL171C_Tos1_C
+PF10290	YJL171C_Tos1_N
+PF07983	X8
+PF27758	PRM1
+PF12351	Fig1
+PF00026	Asp

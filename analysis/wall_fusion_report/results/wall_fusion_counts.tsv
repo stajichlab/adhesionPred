@@ -1,0 +1,24 @@
+# wall_fusion_report: family-only context table. This report makes no call. It writes no status file. It has no call or status column. A hit is a hit to a Pfam family model. It is NOT evidence of adhesion, of cell fusion or of a cell wall remodeling function.
+# Cell wall enzymes are known false-positive sources for surface-glycoprotein detection. In the S288C check of docs/reports/cell-wall-fusion/07-model-hit-check.md the ESM classifier called 6 of 13 wall enzymes above 0.5 (CRH1, UTR2, SCW11, CTS1, SUN4, KRE9), and none of the 13 hit an active family-table row. Do not read a family hit here as an adhesin.
+proteome	n_proteins	set	model_acc	model_name	family	n_hit_proteins	best_score	n_hit_domain_ge_ga
+test_set	23	wall_remodeling	PF03198	Glyco_hydro_72	GH72	1	504.4	1
+test_set	23	wall_remodeling	PF00722	Glyco_hydro_16	GH16	2	170.8	2
+test_set	23	wall_remodeling	PF00332	Glyco_hydro_17	GH17	2	353.2	2
+test_set	23	wall_remodeling	PF03663	Glyco_hydro_76	GH76	2	547.4	2
+test_set	23	wall_remodeling	PF00704	Glyco_hydro_18	GH18	1	81.6	1
+test_set	23	wall_remodeling	PF00150	Cellulase	GH5	1	43.7	1
+test_set	23	wall_remodeling	PF01522	Polysacc_deac_1	chitin_deacetylase	0	NA	0
+test_set	23	wall_remodeling	PF29664	BtgE-BtgC_glyc-hydro	BtgE-BtgC	3	283.2	3
+test_set	23	wall_synthesis	PF01644	Chitin_synth_1	chitin_synthase_1	0	NA	0
+test_set	23	wall_synthesis	PF03142	Chitin_synth_2	chitin_synthase_2	0	NA	0
+test_set	23	wall_synthesis	PF08407	Chitin_synth_1N	chitin_synthase_1N	0	NA	0
+test_set	23	wall_synthesis	PF02364	Glucan_synthase	glucan_synthase	0	NA	0
+test_set	23	wall_structural_other	PF10342	Kre9_KNH	Kre9_Knh1	1	46.7	1
+test_set	23	wall_structural_other	PF05390	Kre9_KNH1_C	Kre9_Knh1_C	1	166.2	1
+test_set	23	wall_structural_other	PF03856	SUN	SUN	1	330.1	1
+test_set	23	wall_structural_other	PF12454	Ecm33	Ecm33	0	NA	0
+test_set	23	wall_structural_other	PF10287	YJL171C_Tos1_C	Tos1_C	0	NA	0
+test_set	23	wall_structural_other	PF10290	YJL171C_Tos1_N	Tos1_N	0	NA	0
+test_set	23	wall_structural_other	PF07983	X8	X8	1	102.4	1
+test_set	23	cell_fusion_candidate_models	PF27758	PRM1	Prm1	1	475.9	1
+test_set	23	cell_fusion_candidate_models	PF12351	Fig1	Fig1	1	192.3	1
