@@ -75,6 +75,14 @@ All optimizations maintain full backward compatibility with the existing API. No
 - Key review findings fixed: one species per status entry; a leakage cap on `truth` entries; FASTA membership checks for every input table; closed paths that gave silent zeros (empty BLAST file, missing condition values for Pfam, short or non-finite repeat rows, duplicate lookup keys); NCBI scientific names for the Phase C species table; `truth` checks module, call and protein taxa. Later change (2026-10-06): a status counts only for the call that was measured (`call=` in the notes), `run.json` lists module identities, and `phasec` records cluster counts.
 - Not done: the HPCC runs and calibrations (Tasks 11 to 15 of the plan). No status file has been written in a real work directory. The Phase C R0 numbers exist and `calibrate phasec` can convert them.
 
+## Sorting-hat review fixes, PR 3 engine changes (October 2026)
+
+### Agent: Claude Code (claude-sonnet-5-5)
+**Task:** Implement PR 3 (Tasks 3.0 to 3.9) of `docs/superpowers/plans/2026-10-17-sorting-hat-review-fixes-and-wall-fusion-testing.md` (owner decisions D1 to D22 of 2026-10-17).
+
+- Tests first (strict xfail, flipped task by task), then: loader re-validation and `negative_basis` per stratum, `not_applicable` and the `other_*` rule, `family_tier` derivation and `family_measure.tsv`, family table columns with the `wall_family_narrow_domain` call, `derived_from` and `leakage_exception`, the condition-table digest, `primary_label`. Golden files are regenerated in their own commit.
+- Not done: Task 3.10 (HPCC re-runs of `calibrate phasec` and the call status files; nothing was run on HPCC or submitted to SLURM). The owner signs `narrow_ok` per family (all rows are `no`; the D12 draft is in `narrow_ok_draft`). Conflicts between the decisions and the code are listed in the PR description.
+
 ---
 
 *This file tracks AI agent contributions to maintain transparency about automated code improvements.*

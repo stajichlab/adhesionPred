@@ -130,6 +130,49 @@ Rules (owner decisions Q6 to Q8, 2026-10-07):
   only when call files exist.
 - A call whose value is `not_assessable` never takes a call status.
 
+## 8. Decisions of 2026-10-17 (PR 3 of the review-fixes plan)
+
+Source: `docs/superpowers/specs/2026-10-17-sorting-hat-review-fixes-and-wall-fusion-testing-design.md`
+(D1 to D22, owner decisions of 2026-10-17). Each rule is stated once here.
+
+- **`active` is not a test result (D2).** A Pfam family with `active = yes` is enabled by the owner.
+  The column `specificity_tier` of `data/sorting_hat/family_table.tsv` says how well the family model
+  is known: `untested`, `smoke` or `estimated`. The tier is derived by `cellsurface_sorting_hat.family_tier`
+  from `data/sorting_hat/family_measure.tsv` and CI fails when the table disagrees (D3). A measurement
+  on shared descriptive sets (`measure_basis = descriptive_shared_sets`) gives `smoke` at most; its hit
+  count is a `coverage`, never a sensitivity (D11, D19). *The family tier describes the family model's own
+  evidence; the call status describes the call's measurement; neither implies the other.*
+- **`narrow_ok` (D4, D12).** `cell_wall_adhesion_candidate` reads `wall_family_narrow_domain`, which counts
+  a family only if its tier is `smoke` or better and the owner signed `narrow_ok = yes` with who, when and
+  an evidence summary. `surface_attachment_candidate` and the `other_*` calls read `wall_family_domain`
+  (every active family). The report warns when no family is signed.
+- **`not_applicable` (D5, D18).** A module row can say that a call does not apply (the antigen rank outside
+  *C. immitis* RS). The call value is `not_applicable`. It acts as `not_called` inside `and` and `or`,
+  `not(not_applicable)` is `not_applicable`, and it is skipped in the mechanism list of an `other_*` call. It
+  gives no status; the basis column says `not_applicable: <module>`. An unknown (not assessable) mechanism
+  input makes the `other_*` call `not_assessable`. `calibrate truth` counts the value with the rows that
+  cannot be assessed.
+- **`derived` (D6).** `calls.long` has a `derived_from` column. A composite or `other_*` record names the
+  leaf calls that decided it; its status is derived from them, not measured on the composite.
+- **Basis of the negatives, per stratum (D7, D16, D17).** `measure.negative_basis` maps each stratum to
+  `curated` or `assumed` with its count. Only curated negatives count for the floors, the specificity and
+  its interval; the headline `n_neg` is the curated count. PM-TM (predicted topology) is `assumed` and has its
+  own row. A measure without `negative_basis` is at most `smoke`. `calibrate truth --negative-basis` sets it
+  (default `assumed`). A missing cluster count does not meet the cluster floor.
+- **The loader re-validates (D7, D17).** `load_status_source` refuses a status above the one the measure
+  derives, a taxon below 2, leakage other than `none` (or no `leakage:` value) above `smoke`, and a
+  measure-less entry above `unvalidated`. A lower status loads.
+- **`leakage_exception` (D13).** The measure key `{reason, signer, date}` is the owner's recorded exception
+  that lifts the leakage cap (rule R0, section 6, item 1). `phasec` writes it and the note
+  `leakage: unknown (...)`; the reason is in `status_basis`.
+- **`primary_label` (D1, D14).** `calls.wide` ends with `primary_label` and `primary_basis`: one label per
+  protein for the default gate, first match wins: `cell_wall_adhesion_candidate`,
+  `surface_attachment_candidate`, `other_surface_no_mechanism`, `other_not_surface`,
+  `mechanism_without_class`, `not_assessable`. The calls stay independent flags; they are labels, not a
+  partition.
+- **R0 snapshot (D6).** A Pfam module records a digest of the condition table it read (`sp_module`,
+  `tm_module`). The core command compares it with the table of the run and warns on a mismatch.
+
 ## 7. What a reader can rely on today
 
 | Claim | Basis |

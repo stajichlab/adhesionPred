@@ -70,14 +70,14 @@ calls:
     kind: evidence
     gated: false
     category: antigen
-    meaning: Top 15% of the Coccidioides genus-specificity ranking (C. immitis RS only).
+    meaning: Top 15% of the Coccidioides genus-specificity ranking (C. immitis RS only). Not applicable (`not_applicable`) for every other protein.
     reads: [antigen_lookup]
     status: unvalidated (the ranking prints NOT CALIBRATED)
   - call: serodiagnostic_marker_candidate
     kind: composite
     gated: true
     category: antigen
-    meaning: Top 15% ranking and signal peptide.
+    meaning: Top 15% ranking and signal peptide. Never called where the ranking is not applicable.
     reads: [step1_rule@R0, antigen_lookup]
     status: derived from the leaf calls that decided each record
   - call: iuis_allergen_similarity
@@ -98,14 +98,14 @@ calls:
     kind: other
     gated: true
     category: other
-    meaning: No signal peptide, with the mechanism calls not called.
+    meaning: No signal peptide, with the mechanism calls not called. Not assessable when a mechanism input is unknown; a not applicable mechanism is skipped.
     reads: [step1_rule@R0]
     status: derived from the leaf calls that decided each record
   - call: other_surface_no_mechanism
     kind: other
     gated: true
     category: other
-    meaning: Signal peptide and no mechanism evidence (repeat, wall family, hydrophobin, HsbA, antigen rank).
+    meaning: Signal peptide and no mechanism evidence (repeat, wall family, hydrophobin, HsbA, antigen rank). Not assessable when a mechanism input is unknown; a not applicable mechanism is skipped. A protein with a mechanism and no signal peptide, or with a mechanism that no composite reads, has neither this call nor a composite; its `primary_label` is `mechanism_without_class`.
     reads: [step1_rule@R0]
     status: derived from the leaf calls that decided each record
 modules_not_calls:
