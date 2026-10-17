@@ -1,0 +1,24 @@
+gene	uniprot	systematic_id	group	family_table_hits	context_enzyme_hits	other_pfam_hits_full_scan	uniprot_gpi_site	shipped_esm_p	R0_signal_peptide_committed_run	tandem_repeat_committed_run
+AGA1	P32323	YNR044W	agglutinin_adhesin	none	none	none	699	0.9999	called	not_called
+AGA2	P32781	YGL032C	agglutinin_adhesin	none	none	AGA2(PF17366) 95.8	-	0.4061	called	not_called
+SAG1	P20840	YJR004C	agglutinin_adhesin	Candida_ALS_N(PF11766) 244.9 [active]	none	none	627	0.9592	called	not_called
+FIG2	P25653	YCR089W	agglutinin_adhesin	Flocculin_t3(PF13928) seq 64.8, 5 dom [active]	none	none	1588	0.9991	not in committed rows	not in committed rows
+FLO1	P32768	YAR050W	agglutinin_adhesin	GLEYA(PF10528) 67.0 [active]; PA14(PF07691) 115.7 [active, cond signal_peptide]; Flocculin(PF00624) seq 388.1, 18 dom [active]	none	none	1514	0.9984	called	called
+FLO11	P08640	YIR019C	agglutinin_adhesin	Flo11(PF10182) 240.1 [active]	none	none	1346	0.9998	called	not_called
+GAS1	P22146	YMR307W	wall_enzyme_or_wall	none	Glyco_hydro_72(PF03198) 504.4; X8(PF07983) 102.4	none	528	0.0299	called	not_called
+CRH1	P53301	YGR189C	wall_enzyme_or_wall	none	Glyco_hydro_16(PF00722) 170.8	none	482	0.7128	called	not_called
+UTR2	P32623	YEL040W	wall_enzyme_or_wall	none	Glyco_hydro_16(PF00722) 159.5	none	445	0.6340	called	not_called
+SCW4	P53334	YGR279C	wall_enzyme_or_wall	none	Glyco_hydro_17(PF00332) 45.6	BtgE-BtgC_glyc-hydro(PF29664) 283.2	-	0.0331	not in committed rows	not in committed rows
+SCW11	P53189	YGL028C	wall_enzyme_or_wall	none	none	BtgE-BtgC_glyc-hydro(PF29664) 266.9	-	0.8255	not in committed rows	not in committed rows
+EXG1	P23776	YLR300W	wall_enzyme_or_wall	none	Cellulase(PF00150) 43.7	none	-	0.0111	called	not_called
+CTS1	P29029	YLR286C	wall_enzyme_or_wall	none	Glyco_hydro_18(PF00704) 81.6	CBM_19(PF03427) 32.4	-	0.5982	called	not_called
+SUN4	P53616	YNL066W	wall_enzyme_or_wall	none	SUN(PF03856) 330.1	none	-	0.9348	called	not_called
+ECM33	P38248	YBR078W	wall_enzyme_or_wall	none	none	none	406	0.0332	called	not_called
+DFG5	Q05031	YMR238W	wall_enzyme_or_wall	none	Glyco_hydro_76(PF03663) 530.8	none	437	0.0197	not in committed rows	not in committed rows
+DCW1	P36091	YKL046C	wall_enzyme_or_wall	none	Glyco_hydro_76(PF03663) 547.4	none	428	0.0195	not in committed rows	not in committed rows
+KRE9	P39005	YJL174W	wall_enzyme_or_wall	none	Kre9_KNH(PF10342) 46.7	Kre9_KNH1_C(PF05390) 166.2	-	0.6046	called	not_called
+BGL2	P15703	YGR282C	wall_enzyme_or_wall	none	Glyco_hydro_17(PF00332) 353.2	BtgE-BtgC_glyc-hydro(PF29664) 224.2	-	0.0168	not in committed rows	not in committed rows
+FUS1	P11710	YCL027W	fusion	none	none	SH3_1(PF00018) 23.5	-	0.0478	not in committed rows	not in committed rows
+FUS2	Q05670	YMR232W	fusion	none	none	none	-	0.0017	not in committed rows	not in committed rows
+PRM1	P53835	YNL279W	fusion	none	none	PRM1(PF27758) 475.5	-	0.0110	not in committed rows	not in committed rows
+FIG1	P38224	YBR040W	fusion	none	none	Fig1(PF12351) 192.3	-	0.0068	not in committed rows	not in committed rows

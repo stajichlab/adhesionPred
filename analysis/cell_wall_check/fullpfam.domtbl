@@ -1,0 +1,61 @@
+#                                                                            --- full sequence --- -------------- this domain -------------   hmm coord   ali coord   env coord
+# target name        accession   tlen query name           accession   qlen   E-value  score  bias   #  of  c-Evalue  i-Evalue  score  bias  from    to  from    to  from    to  acc description of target
+#------------------- ---------- ----- -------------------- ---------- ----- --------- ------ ----- --- --- --------- --------- ------ ----- ----- ----- ----- ----- ----- ----- ---- ---------------------
+AGA2                 PF17366.8     58 YGL032C|AGA2|P32781  -             87   1.1e-27   96.1   4.3   1   1   4.8e-32   1.4e-27   95.8   4.3     1    58    27    87    27    87 0.98 A-agglutinin-binding subunit Aga2
+Candida_ALS_N        PF11766.15   247 YJR004C|SAG1|P20840  -            650   1.2e-72  244.9   7.4   1   1   3.8e-77   1.2e-72  244.9   7.4     1   247    50   300    50   300 0.96 Agglutinin-like protein, N-terminal domain
+Flocculin_t3         PF13928.12    45 YCR089W|FIG2|P25653  -           1609   1.2e-17   64.8  88.7   1   5   2.2e-09   6.6e-05   24.0  18.5     1    45   420   464   420   464 0.90 Flocculin type 3 repeat
+Flocculin_t3         PF13928.12    45 YCR089W|FIG2|P25653  -           1609   1.2e-17   64.8  88.7   2   5   2.2e-09   6.6e-05   24.0  18.5     1    45   529   573   529   573 0.90 Flocculin type 3 repeat
+Flocculin_t3         PF13928.12    45 YCR089W|FIG2|P25653  -           1609   1.2e-17   64.8  88.7   3   5   2.3e-09     7e-05   23.9   7.6    20    44   746   770   726   771 0.87 Flocculin type 3 repeat
+Flocculin_t3         PF13928.12    45 YCR089W|FIG2|P25653  -           1609   1.2e-17   64.8  88.7   4   5   1.1e-10   3.4e-06   28.1   5.0    17    44  1090  1117  1087  1118 0.90 Flocculin type 3 repeat
+Flocculin_t3         PF13928.12    45 YCR089W|FIG2|P25653  -           1609   1.2e-17   64.8  88.7   5   5   1.3e-10   4.1e-06   27.9   7.1    16    45  1147  1176  1139  1176 0.93 Flocculin type 3 repeat
+Flocculin            PF00624.24    41 YAR050W|FLO1|P32768  -           1537  9.4e-119  388.1 568.7   1  18   4.5e-11   4.5e-07   30.7  24.9     1    41   276   315   276   315 0.99 Flocculin repeat
+Flocculin            PF00624.24    41 YAR050W|FLO1|P32768  -           1537  9.4e-119  388.1 568.7   2  18   1.1e-10   1.1e-06   29.4  17.6     2    41   322   360   321   360 0.98 Flocculin repeat
+Flocculin            PF00624.24    41 YAR050W|FLO1|P32768  -           1537  9.4e-119  388.1 568.7   3  18   7.4e-12   7.4e-08   33.2  16.2     2    41   367   405   366   405 0.98 Flocculin repeat
+Flocculin            PF00624.24    41 YAR050W|FLO1|P32768  -           1537  9.4e-119  388.1 568.7   4  18   2.7e-12   2.7e-08   34.6  13.7     3    41   413   450   411   450 0.98 Flocculin repeat
+Flocculin            PF00624.24    41 YAR050W|FLO1|P32768  -           1537  9.4e-119  388.1 568.7   5  18   2.7e-12   2.7e-08   34.6  13.7     3    41   458   495   456   495 0.98 Flocculin repeat
+Flocculin            PF00624.24    41 YAR050W|FLO1|P32768  -           1537  9.4e-119  388.1 568.7   6  18   2.3e-12   2.3e-08   34.8  15.0     3    41   503   540   501   540 0.98 Flocculin repeat
+Flocculin            PF00624.24    41 YAR050W|FLO1|P32768  -           1537  9.4e-119  388.1 568.7   7  18   5.4e-11   5.4e-07   30.4  13.3     3    41   548   585   545   585 0.97 Flocculin repeat
+Flocculin            PF00624.24    41 YAR050W|FLO1|P32768  -           1537  9.4e-119  388.1 568.7   8  18   9.1e-12   9.1e-08   32.9  16.3     2    41   592   630   591   630 0.98 Flocculin repeat
+Flocculin            PF00624.24    41 YAR050W|FLO1|P32768  -           1537  9.4e-119  388.1 568.7   9  18   5.8e-12   5.9e-08   33.5  15.1     2    41   637   675   636   675 0.98 Flocculin repeat
+Flocculin            PF00624.24    41 YAR050W|FLO1|P32768  -           1537  9.4e-119  388.1 568.7  10  18   1.4e-10   1.4e-06   29.1  17.5     3    41   683   720   681   720 0.98 Flocculin repeat
+Flocculin            PF00624.24    41 YAR050W|FLO1|P32768  -           1537  9.4e-119  388.1 568.7  11  18   3.2e-11   3.2e-07   31.1  15.1     3    41   728   765   726   765 0.98 Flocculin repeat
+Flocculin            PF00624.24    41 YAR050W|FLO1|P32768  -           1537  9.4e-119  388.1 568.7  12  18     4e-12     4e-08   34.0  20.3     2    41   772   810   771   810 0.98 Flocculin repeat
+Flocculin            PF00624.24    41 YAR050W|FLO1|P32768  -           1537  9.4e-119  388.1 568.7  13  18   3.6e-11   3.6e-07   31.0  22.7     2    41   817   855   816   855 0.98 Flocculin repeat
+Flocculin            PF00624.24    41 YAR050W|FLO1|P32768  -           1537  9.4e-119  388.1 568.7  14  18   3.8e-12   3.9e-08   34.1  20.3     2    41   862   900   861   900 0.98 Flocculin repeat
+Flocculin            PF00624.24    41 YAR050W|FLO1|P32768  -           1537  9.4e-119  388.1 568.7  15  18   5.7e-11   5.7e-07   30.3  17.9     2    41   907   945   906   945 0.98 Flocculin repeat
+Flocculin            PF00624.24    41 YAR050W|FLO1|P32768  -           1537  9.4e-119  388.1 568.7  16  18   3.6e-12   3.6e-08   34.2  21.5     2    41   952   990   951   990 0.98 Flocculin repeat
+Flocculin            PF00624.24    41 YAR050W|FLO1|P32768  -           1537  9.4e-119  388.1 568.7  17  18     4e-12     4e-08   34.0  20.3     2    41   997  1035   996  1035 0.98 Flocculin repeat
+Flocculin            PF00624.24    41 YAR050W|FLO1|P32768  -           1537  9.4e-119  388.1 568.7  18  18     3e-12     3e-08   34.4  20.3     2    41  1042  1080  1041  1080 0.98 Flocculin repeat
+PA14                 PF07691.18   147 YAR050W|FLO1|P32768  -           1537   2.4e-33  115.7   0.0   1   1   8.3e-37   8.4e-33  114.0   0.0    22   146   112   248    90   249 0.95 PA14 domain
+GLEYA                PF10528.15    91 YAR050W|FLO1|P32768  -           1537   2.2e-18   67.0   0.3   1   1   2.2e-22   2.2e-18   67.0   0.3     2    90   137   236   136   237 0.87 GLEYA domain
+Flo11                PF10182.15   151 YIR019C|FLO11|P08640 -           1367   1.6e-71  240.1   9.5   1   1   5.2e-76   1.6e-71  240.1   9.5     1   151    43   193    43   193 0.99 Flo11 domain
+Glyco_hydro_72       PF03198.21   314 YMR307W|GAS1|P22146  -            559  1.9e-151  504.4  14.4   1   1  1.7e-155  2.6e-151  504.0  14.4     4   314    20   330    17   330 0.98 Glucanosyltransferase
+X8                   PF07983.19    76 YMR307W|GAS1|P22146  -            559   2.6e-29  102.4   5.1   1   1   7.6e-33   1.1e-28  100.3   5.1     2    76   378   452   377   452 0.99 X8 domain
+Glyco_hydro_16       PF00722.29   175 YGR189C|CRH1|P53301  -            507   3.1e-50  170.8   2.6   1   1     1e-54   3.1e-50  170.8   2.6     5   175    69   235    65   235 0.94 Glycosyl hydrolases family 16
+Glyco_hydro_16       PF00722.29   175 YEL040W|UTR2|P32623  -            467   9.1e-47  159.5   5.2   1   1     3e-51   9.1e-47  159.5   5.2     3   174    98   272    96   273 0.93 Glycosyl hydrolases family 16
+BtgE-BtgC_glyc-hydro PF29664.1    250 YGR279C|SCW4|P53334  -            386   2.4e-84  283.2   7.4   1   1   1.6e-88   2.4e-84  283.2   7.4     1   250   135   381   135   381 0.97 BtgE/BtgC glycoside hydrolase domain
+Glyco_hydro_17       PF00332.25   306 YGR279C|SCW4|P53334  -            386   1.1e-11   45.6   2.3   1   1   1.4e-15   2.1e-11   44.8   0.6   157   295   262   384   244   386 0.76 Glycosyl hydrolases family 17
+BtgE-BtgC_glyc-hydro PF29664.1    250 YGL028C|SCW11|P53189 -            542   2.2e-79  266.9   1.2   1   1   7.3e-84   2.2e-79  266.9   1.2     1   250   283   536   283   536 0.97 BtgE/BtgC glycoside hydrolase domain
+Cellulase            PF00150.25   272 YLR300W|EXG1|P23776  -            448   3.7e-11   43.7   1.0   1   1   2.9e-15   8.8e-11   42.5   0.7    11   167   104   269    94   298 0.72 Cellulase (glycosyl hydrolase family 5)
+Glyco_hydro_18       PF00704.35   317 YLR286C|CTS1|P29029  -            562   1.3e-22   81.6   0.3   1   1   8.7e-26   1.3e-21   78.3   0.1     1   233    28   255    28   358 0.74 Glycosyl hydrolases family 18
+CBM_19               PF03427.18    61 YLR286C|CTS1|P29029  -            562   1.1e-07   32.4   6.9   1   1   7.3e-12   1.1e-07   32.4   6.9    18    57   501   540   478   543 0.88 Carbohydrate binding domain (family 19)
+SUN                  PF03856.19   245 YNL066W|SUN4|P53616  -            420   1.3e-98  330.1  10.9   1   1  7.3e-103   2.2e-98  329.4  10.9     1   245   165   407   165   407 0.98 Beta-glucosidase (SUN family)
+Glyco_hydro_76       PF03663.21   366 YMR238W|DFG5|Q05031  -            458  3.7e-159  530.8  14.0   1   1  1.6e-163  4.7e-159  530.5  14.0     1   365    36   402    36   403 0.99 Glycosyl hydrolase family 76
+Glyco_hydro_76       PF03663.21   366 YKL046C|DCW1|P36091  -            449  3.4e-164  547.4  24.6   1   1  1.3e-168  3.9e-164  547.2  24.6     1   365    31   395    31   396 0.98 Glycosyl hydrolase family 76
+Kre9_KNH1_C          PF05390.17   102 YJL174W|KRE9|P39005  -            276   4.2e-49  166.2  11.4   1   1   2.8e-53   4.2e-49  166.2  11.4     1   101   172   272   172   273 0.99 Yeast cell wall synthesis protein KRE9/KNH1 C-terminal
+Kre9_KNH             PF10342.16    94 YJL174W|KRE9|P39005  -            276     7e-12   46.7   1.0   1   1   4.6e-16     7e-12   46.7   1.0     1    94    27   135    27   135 0.90 Kre9/KNH-like N-terminal Ig-like domain
+Glyco_hydro_17       PF00332.25   306 YGR282C|BGL2|P15703  -            313  2.5e-105  353.2   4.9   1   1  1.9e-109  2.9e-105  353.0   4.9     1   306    27   310    27   310 0.99 Glycosyl hydrolases family 17
+BtgE-BtgC_glyc-hydro PF29664.1    250 YGR282C|BGL2|P15703  -            313   2.1e-66  224.4   8.1   1   1   1.7e-70   2.5e-66  224.2   8.1     2   250    29   296    28   296 0.88 BtgE/BtgC glycoside hydrolase domain
+SH3_1                PF00018.35    48 YCL027W|FUS1|P11710  -            512   1.2e-05   25.5   0.1   1   1   3.5e-09   5.3e-05   23.5   0.0     2    44   443   484   442   486 0.92 SH3 domain
+PRM1                 PF27758.1    589 YNL279W|PRM1|P53835  -            661  2.8e-142  475.9  23.8   1   1  1.1e-146  3.4e-142  475.5  23.8     2   584    12   651    11   655 0.88 Plasma membrane fusion protein PRM1
+Fig1                 PF12351.14   188 YBR040W|FIG1|P38224  -            298   1.2e-56  192.3   8.6   1   1   4.1e-61   1.2e-56  192.3   8.6     3   188    67   265    65   265 0.93 Ca2+ regulator and membrane fusion protein Fig1
+#
+# Program:         hmmscan
+# Version:         3.4 (Aug 2023)
+# Pipeline mode:   SCAN
+# Query file:      test_set.faa
+# Target file:     /srv/projects/db/pfam/2026-01-27-Pfam38.2/Pfam-A.hmm
+# Option settings: hmmscan -o /dev/null --domtblout fullpfam.domtbl --noali --cut_ga --cpu 4 /srv/projects/db/pfam/2026-01-27-Pfam38.2/Pfam-A.hmm test_set.faa 
+# Current dir:     /rhome/jstajich/tmp_cwcheck
+# Date:            Sat Oct 17 01:10:02 2026
+# [ok]
