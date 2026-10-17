@@ -8,9 +8,19 @@ from collections import Counter
 from dataclasses import asdict, dataclass, field
 
 from cellsurface_sorting_hat.cache import write_atomic
-from cellsurface_sorting_hat.logic import CALLED, NOT_ASSESSABLE, NOT_CALLED
+from cellsurface_sorting_hat.labels import label_counts
+from cellsurface_sorting_hat.logic import CALLED, NOT_APPLICABLE, NOT_ASSESSABLE, NOT_CALLED
 
-LONG_COLUMNS = ["protein", "call", "variant", "value", "status", "status_basis", "other_basis"]
+LONG_COLUMNS = [
+    "protein",
+    "call",
+    "variant",
+    "value",
+    "status",
+    "status_basis",
+    "other_basis",
+    "derived_from",
+]
 MAX_LISTED_INVALID = 20
 
 
@@ -26,10 +36,14 @@ def _known_limits(thresholds):
         "cell surface, and glycosylation is not assessed. Plasma membrane mucins can be missed.",
         "GPI-anchored and secreted enzymes, and non-adhesive structural wall proteins, get no finer "
         "label in version 1. There is no `cell_wall_protein` call.",
-        "`tandem_repeat_protein` and `wall_family_domain` are evidence. Repeat proteins include "
-        "intracellular ones (ubiquitin, calmodulin, ankyrin proteins). A domain of a family that is "
-        "linked to adhesion or wall function in at least one species (CFEM, ALS, Flo11) is "
-        "not shown to mediate adhesion here. The adhesion call needs a signal peptide. "
+        "`tandem_repeat_protein`, `wall_family_domain` and `wall_family_narrow_domain` are evidence. "
+        "Repeat proteins include intracellular ones (ubiquitin, calmodulin, ankyrin proteins). A domain "
+        "of a family that is linked to adhesion or wall function in at least one species (CFEM, ALS, "
+        "Flo11) is not shown to mediate adhesion here. The adhesion call needs a signal peptide. "
+        "`wall_family_domain` reads every family that the owner enabled (`active`; not a test result). "
+        "`wall_family_narrow_domain` reads only the families with a specificity tier of smoke or "
+        "better that the owner signed with narrow_ok=yes. `cell_wall_adhesion_candidate` reads the "
+        "narrow call; `surface_attachment_candidate` reads the broad one. "
         "`hydrophobin_domain` (hydrophobin Pfam models, category 2c) and `hsba_domain` (HsbA, PF12296, "
         "which may not be a hydrophobin) are separate evidence calls. They do not set `wall_family_domain`.",
         f"`cocci_specificity_rank_top15` is the top {percent}% of a fixed Coccidioides immitis ranking "
@@ -45,7 +59,8 @@ def _known_limits(thresholds):
         "non-protein adhesins, moonlighting proteins and biofilm are not categories.",
         "The taxon you give is recorded as given. It is not checked against the sequences.",
         "Leakage: overlap between the Phase C positives and the SignalP 6 training data was not "
-        "measured. The status of rule R0 does not account for it.",
+        "measured. The status of rule R0 does not account for it. This is the owner's recorded "
+        "exception: the R0 status entry carries `leakage_exception`, and its text is in the basis.",
     ]
 
 
@@ -73,6 +88,10 @@ class RunInfo:
     call_status_sources: list = field(default_factory=list)  # rows from CallStatusResolver.rows()
     # one {name, version, params_hash, artefact_hash} per module that was loaded
     module_identities: list = field(default_factory=list)
+    # accessions of the pfam_adhesion families with narrow_ok=yes (None: not known)
+    narrow_families: list | None = None
+    # one {module, condition, source, result} per condition table that a module was built against
+    condition_checks: list = field(default_factory=list)
 
 
 def _gz(text):
@@ -93,7 +112,16 @@ def column_name(call, variant):
 
 def write_long(path, records):
     rows = [
-        [r.protein, r.call, r.variant, r.value, r.status, r.status_basis, r.other_basis]
+        [
+            r.protein,
+            r.call,
+            r.variant,
+            r.value,
+            r.status,
+            r.status_basis,
+            r.other_basis,
+            r.derived_from,
+        ]
         for r in records
     ]
     write_atomic(path, _tsv(LONG_COLUMNS, rows))
@@ -107,7 +135,8 @@ def _has_basis(name):
     return name.startswith("other_") or name.split("[")[0] in BASIS_CALLS
 
 
-def write_wide(path, records, protein_ids):
+def write_wide(path, records, protein_ids, labels=None):
+    """``labels`` (``labels.primary_labels``) adds the columns primary_label and primary_basis at the end."""
     columns, table = [], {pid: {} for pid in protein_ids}
     for r in records:
         name = column_name(r.call, r.variant)
@@ -124,6 +153,10 @@ def write_wide(path, records, protein_ids):
         if _has_basis(name):
             header.append(name + "_basis")
     rows = [[pid] + [table[pid].get(h, "") for h in header[1:]] for pid in protein_ids]
+    if labels is not None:
+        header += ["primary_label", "primary_basis"]
+        for pid, row in zip(protein_ids, rows, strict=True):
+            row += list(labels.get(pid, ("", "")))
     write_atomic(path, _tsv(header, rows))
 
 
@@ -177,10 +210,40 @@ def _warnings(info):
         )
     if info.map_ids_not_in_fasta:
         out.append(f"{info.map_ids_not_in_fasta} ID(s) in --taxon-map are not in the FASTA.")
+    for c in info.condition_checks:
+        if c["result"] == "mismatch":
+            out.append(
+                f"Module {c['module']} was built against another {c['source']} table than the one "
+                f"in this run (condition {c['condition']}). Rebuild {c['module']} with this table "
+                "or use the table it was built with."
+            )
+    if info.narrow_families == []:
+        out.append(
+            "No family of pfam_adhesion has narrow_ok=yes, so wall_family_narrow_domain is "
+            "not_called for every protein. cell_wall_adhesion_candidate can then be called by a "
+            "tandem repeat only. Sign narrow_ok in data/sorting_hat/family_table.tsv."
+        )
     return out
 
 
-def render_report(info, records):
+def _notes(info):
+    out = []
+    for c in info.condition_checks:
+        if c["result"] == "no_digest":
+            out.append(
+                f"Module {c['module']} records no digest of the {c['source']} table it was built "
+                f"against (condition {c['condition']}; an older record). The tables cannot be compared."
+            )
+        elif c["result"] == "no_table":
+            out.append(
+                f"Module {c['module']} was built against {c['source']} (condition "
+                f"{c['condition']}); that module is not loaded in this run, so the tables "
+                "cannot be compared."
+            )
+    return out
+
+
+def render_report(info, records, labels=None):
     counts = Counter((r.call, r.variant, r.value) for r in records)
     keys = sorted({(r.call, r.variant) for r in records})
     lines = [
@@ -209,6 +272,9 @@ def render_report(info, records):
     warnings = _warnings(info)
     if warnings:
         lines += ["## Warnings", ""] + [f"- **WARNING: {w}**" for w in warnings] + [""]
+    notes = _notes(info)
+    if notes:
+        lines += ["## Notes", ""] + [f"- {n}" for n in notes] + [""]
     if info.invalid:
         shown = info.invalid[:MAX_LISTED_INVALID]
         lines += ["## Invalid proteins", ""] + [f"- {i}: {note}" for i, note in shown]
@@ -277,15 +343,34 @@ def render_report(info, records):
         "",
         "## Calls",
         "",
-        "| call | variant | called | not_called | not_assessable |",
-        "|---|---|---|---|---|",
+        "| call | variant | called | not_called | not_assessable | not_applicable |",
+        "|---|---|---|---|---|---|",
     ]
     for call, variant in keys:
-        c = [counts[(call, variant, v)] for v in (CALLED, NOT_CALLED, NOT_ASSESSABLE)]
-        lines.append(f"| {call} | {variant or '-'} | {c[0]} | {c[1]} | {c[2]} |")
+        c = [
+            counts[(call, variant, v)] for v in (CALLED, NOT_CALLED, NOT_ASSESSABLE, NOT_APPLICABLE)
+        ]
+        lines.append(f"| {call} | {variant or '-'} | {c[0]} | {c[1]} | {c[2]} | {c[3]} |")
+    if labels is not None:
+        lines += [
+            "",
+            "## Primary label",
+            "",
+            "One label per protein for the default gate, from the calls above. The first match wins. "
+            "The calls stay independent flags; the label is a summary for a reader.",
+            "",
+            "| primary label | proteins |",
+            "|---|---|",
+        ]
+        lines += [f"| {label} | {n} |" for label, n in label_counts(labels).items()]
     basis = Counter(r.other_basis for r in records if r.call.startswith("other_") and r.other_basis)
     if basis:
-        lines += ["", "## `other_basis` (categories left out because they were not assessable)", ""]
+        lines += [
+            "",
+            "## `other_basis` (mechanism inputs of an `other_*` call that were not assessable; "
+            "the call is then not_assessable)",
+            "",
+        ]
         lines += [f"- {b}: {n}" for b, n in sorted(basis.items())]
     attach = [r for r in records if r.call == "surface_attachment_candidate" and r.value == CALLED]
     if attach:

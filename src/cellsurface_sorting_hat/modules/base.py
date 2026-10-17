@@ -25,6 +25,12 @@ def params_hash(params):
     return hashlib.sha256(json.dumps(params, sort_keys=True, default=str).encode()).hexdigest()
 
 
+def values_digest(values):
+    """Hash of ``{id: value}``: sorted ``[id, value]`` pairs. It changes when an id or a value changes."""
+    pairs = sorted([str(k), str(v)] for k, v in values.items())
+    return hashlib.sha256(json.dumps(pairs, separators=(",", ":")).encode()).hexdigest()
+
+
 def artefact_hash(paths):
     """Hash of the databases or models a module uses: sorted ``name:sha256`` lines."""
     lines = sorted(f"{Path(p).name}:{sha256_file(p)}" for p in paths)
@@ -41,6 +47,9 @@ class ModuleSpec:
     artefact_digest: str = (
         ""  # use instead of hashing large files (for example a recorded Pfam sha256)
     )
+    # Digests of the condition tables read ({condition: {column, values_sha256}}). They go in the
+    # run record but not in ``params``, so they do not change the params hash.
+    snapshots: dict = field(default_factory=dict)
 
 
 def invalid_row(protein):
@@ -72,6 +81,7 @@ def write_module(workdir, spec, columns, rows, run_state="ok", note=""):
         "artefact_hash": spec.artefact_digest or artefact_hash(spec.artefacts),
         "run_state": run_state,
         "params": spec.params,
+        "condition_snapshots": spec.snapshots,
         "tools": spec.tools,
         "n_rows": len(seen),
         "note": note,

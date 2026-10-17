@@ -47,7 +47,7 @@ def base_modules(step1="not_called", **over):
         R0: table(R0, {"P": ok(call=step1)}),
         "repeat02": table("repeat02", {"P": ok(call="not_called")}),
         "repeat14": table("repeat14", {"P": ok(call="not_called")}),
-        "pfam_adhesion": table("pfam_adhesion", {"P": ok(hit="0")}),
+        "pfam_adhesion": table("pfam_adhesion", {"P": ok(hit="0", hit_narrow="0")}),
         "pfam_hydrophobin": table("pfam_hydrophobin", {"P": ok(hit="0")}),
         "pfam_hsba": table("pfam_hsba", {"P": ok(hit="0")}),
         "pfam_allergen": table("pfam_allergen", {"P": ok(hit="0")}),
@@ -64,6 +64,7 @@ def test_packaged_config_loads_and_has_the_spec_calls():
         "signal_peptide_protein",
         "tandem_repeat_protein",
         "wall_family_domain",
+        "wall_family_narrow_domain",
         "hydrophobin_domain",
         "hsba_domain",
         "cell_wall_adhesion_candidate",
@@ -98,7 +99,7 @@ def test_unknown_or_input_with_a_false_other_is_unknown():
 def test_false_surface_makes_gated_antigen_false_even_when_antigen_is_unknown():
     mods = base_modules(antigen_lookup=table("antigen_lookup", {"P": {"state": "not_applicable"}}))
     res = run(mods)
-    assert res[("P", "cocci_specificity_rank_top15", "")].value == "not_assessable"
+    assert res[("P", "cocci_specificity_rank_top15", "")].value == "not_applicable"
     assert res[("P", "serodiagnostic_marker_candidate", "R0")].value == "not_called"
 
 
@@ -143,10 +144,16 @@ def test_allergen_needs_no_surface_call():
     assert res[("P", "iuis_allergen_homolog", "")].value == "called"
 
 
-def test_other_not_surface_leaves_out_unknown_calls_and_names_them():
+def test_other_not_surface_skips_a_not_applicable_mechanism():
     mods = base_modules(antigen_lookup=table("antigen_lookup", {"P": {"state": "not_applicable"}}))
     r = run(mods)[("P", "other_not_surface", "R0")]
-    assert (r.value, r.other_basis) == ("called", "cocci_specificity_rank_top15")
+    assert (r.value, r.other_basis) == ("called", "")
+
+
+def test_other_not_surface_is_not_assessable_when_a_mechanism_input_is_unknown():
+    mods = base_modules(antigen_lookup=table("antigen_lookup", {"P": {"state": "error"}}))
+    r = run(mods)[("P", "other_not_surface", "R0")]
+    assert (r.value, r.other_basis) == ("not_assessable", "cocci_specificity_rank_top15")
 
 
 def test_other_not_surface_is_false_when_a_mechanism_call_is_true():
@@ -486,12 +493,16 @@ def test_a_legacy_entry_without_call_keeps_the_status_in_every_call():
 
 
 def _composite_modules():
-    # R0 called and pfam_adhesion hit: cell_wall_adhesion_candidate is called through wall_family_domain
-    return base_modules(step1="called", pfam_adhesion=table("pfam_adhesion", {"P": ok(hit="1")}))
+    # R0 called and a narrow pfam_adhesion hit: cell_wall_adhesion_candidate is called through
+    # wall_family_narrow_domain
+    return base_modules(
+        step1="called",
+        pfam_adhesion=table("pfam_adhesion", {"P": ok(hit="1", hit_narrow="1")}),
+    )
 
 
 def test_a_composite_call_follows_the_leaf_call_through_ref():
-    measured = {R0: "signal_peptide_protein", "pfam_adhesion": "wall_family_domain"}
+    measured = {R0: "signal_peptide_protein", "pfam_adhesion": "wall_family_narrow_domain"}
     res = run(_composite_modules(), _all_estimated, measured_call_of=_measured(measured))
     r = res[("P", "cell_wall_adhesion_candidate", "R0")]
     assert (r.value, r.status) == ("called", "estimated")
@@ -506,7 +517,7 @@ def test_a_composite_call_follows_the_leaf_call_through_ref():
 
 
 def test_a_step_1_module_measured_on_a_composite_call_does_not_count_for_its_own_leaf_call():
-    measured = {R0: "cell_wall_adhesion_candidate", "pfam_adhesion": "wall_family_domain"}
+    measured = {R0: "cell_wall_adhesion_candidate", "pfam_adhesion": "wall_family_narrow_domain"}
     res = run(_composite_modules(), _all_estimated, measured_call_of=_measured(measured))
     assert res[("P", "signal_peptide_protein", "R0")].status == "unvalidated"
     assert res[("P", "cell_wall_adhesion_candidate", "R0")].status == "unvalidated"
@@ -721,8 +732,8 @@ def test_surface_attachment_is_not_called_without_evidence_and_leaves_the_narrow
     )  # hydrophobin does not set the narrow call
 
 
-def test_wall_family_hit_sets_both_calls_and_is_named_in_the_basis():
-    mods = {"pfam_adhesion": table("pfam_adhesion", {"P": ok(hit="1")})}
+def test_a_narrow_wall_family_hit_sets_both_calls_and_is_named_in_the_basis():
+    mods = {"pfam_adhesion": table("pfam_adhesion", {"P": ok(hit="1", hit_narrow="1")})}
     res = _attach(mods)
     assert res[("P", "cell_wall_adhesion_candidate", "R0")].value == "called"
     assert res[("P", "surface_attachment_candidate", "R0")].other_basis == "wall_family_domain"

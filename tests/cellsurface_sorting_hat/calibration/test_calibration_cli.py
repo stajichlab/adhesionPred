@@ -432,6 +432,8 @@ def test_leakage_other_than_none_caps_an_estimate_at_smoke(tmp_path):
                 "246410" if name == "a" else "5476",
                 "--leakage",
                 leakage,
+                "--negative-basis",
+                "curated",
                 "--n-boot",
                 "100",
             ]
@@ -713,14 +715,15 @@ def write_cluster_files(tmp_path, sizes, n_clusters=None):
     Each protein of a class gets its own cluster unless ``n_clusters`` (class -> count) is given."""
     import gzip
 
-    cl, ev = ["seq_sha256\tcluster_id"], ["seq_sha256\torigin\tclass\thomology_only\tsource_ids"]
+    cl = ["seq_sha256\tcluster_id"]
+    ev = ["seq_sha256\torigin\tclass\thomology_only\tsource_ids\tstratum"]
     for source, (n_pos, n_neg) in sizes.items():
         for cls, n in (("pos", n_pos), ("neg", n_neg)):
             for k in range(n):
                 h = f"{source}-{cls}-{k}"
                 cluster = f"{source}-{cls}-{k % n_clusters[cls]}" if n_clusters else h
                 cl.append(f"{h}\t{cluster}")
-                ev.append(f"{h}\tgo\t{cls}\tno\t{source}")
+                ev.append(f"{h}\tgo\t{cls}\tno\t{source}\t{'N-int' if cls == 'neg' else ''}")
     paths = []
     for name, lines in (("clusters.tsv.gz", cl), ("eval_table.tsv.gz", ev)):
         paths.append(tmp_path / name)
@@ -752,12 +755,14 @@ def phasec_inputs(
         }
 
     def ts(label, pos):
+        # all 100 negatives are in the curated stratum N-int, so the headline negatives are the pooled ones
+        fpr_only = {"V-go": {"R0": {"recall": {"value": None}, "fpr": cell(0.6, 0.04)["fpr"]}}}
         return {
             "label": label,
             "truth": {
                 "direct": {
-                    "n": {"all": {"pos": pos, "neg": 100}},
-                    "metrics": {"all": {"V-go": {"R0": cell(0.6, 0.04)}}},
+                    "n": {"all": {"pos": pos, "neg": 100}, "N-int": {"neg": 100}},
+                    "metrics": {"all": {"V-go": {"R0": cell(0.6, 0.04)}}, "N-int": fpr_only},
                 }
             },
         }
@@ -1097,8 +1102,8 @@ def test_phasec_notes_carry_call_module_signalp_and_the_leakage_limit(tmp_path):
     assert "call=signal_peptide_protein; module=step1_rule@R0" in notes
     assert "signalp_module=signalp/6-gpu; signalp_mode=fast" in notes
     assert (
-        "leakage: overlap between the Phase C positives and the SignalP 6 training data "
-        "was not measured" in notes
+        "leakage: unknown (overlap between the Phase C positives and the SignalP 6 training "
+        "data was not measured)" in notes
     )
     assert "cluster floor was not checked" not in notes
 

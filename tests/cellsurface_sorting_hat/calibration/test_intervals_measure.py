@@ -66,9 +66,14 @@ def test_bootstrap_refuses_bad_input(args):
 
 def test_status_rule_follows_phase_c_and_needs_negatives_for_an_estimate():
     def m(n_pos, sens, n_neg=None, spec=None):
-        out = {"n_pos": n_pos, "sensitivity": sens}
+        out = {"n_pos": n_pos, "sensitivity": sens, "n_clusters_pos": 1000}
         if spec:
-            out.update(n_neg=n_neg, specificity=spec)
+            out.update(
+                n_neg=n_neg,
+                specificity=spec,
+                n_clusters_neg=1000,
+                negative_basis={"all": {"basis": "curated", "n": n_neg}},
+            )
         return out
 
     tight = {"value": 0.6, "lo": 0.55, "hi": 0.65}
@@ -90,6 +95,9 @@ def test_a_leakage_cap_limits_an_estimate_to_smoke():
     measure = {
         "n_pos": 232,
         "n_neg": 4244,
+        "n_clusters_pos": 232,
+        "n_clusters_neg": 4244,
+        "negative_basis": {"all": {"basis": "curated", "n": 4244}},
         "sensitivity": {"value": 0.6, "lo": 0.55, "hi": 0.65},
         "specificity": {"value": 0.96, "lo": 0.95, "hi": 0.97},
     }
@@ -155,10 +163,15 @@ def test_a_tight_interval_with_few_recorded_clusters_is_not_an_estimate():
     base = {
         "n_pos": 300,
         "n_neg": 3000,
+        "negative_basis": {"all": {"basis": "curated", "n": 3000}},
         "sensitivity": tight,
         "specificity": {"value": 0.96, "lo": 0.95, "hi": 0.97},
     }
     assert status_from_measure({**base, "n_clusters_pos": 40, "n_clusters_neg": 300}) == "estimated"
+    # a cluster count that is missing does not meet the floor (D3)
+    assert status_from_measure({**base, "n_clusters_neg": 300}) == "smoke"
+    assert status_from_measure({**base, "n_clusters_pos": 40}) == "smoke"
+    assert status_from_measure(base) == "smoke"
     assert status_from_measure({**base, "n_clusters_pos": 5, "n_clusters_neg": 300}) == "smoke"
     assert status_from_measure({**base, "n_clusters_pos": 40, "n_clusters_neg": 3}) == "smoke"
 
@@ -171,20 +184,19 @@ def _measure(
     n_neg=100,
     sens=(0.5, 0.6, 0.7),
     spec=(0.9, 0.95, 0.99),
-    cp=None,
-    cn=None,
+    cp=1000,
+    cn=1000,
 ):
-    out = {
+    """Cluster counts are many by default so that they do not bind; the negatives are curated."""
+    return {
         "n_pos": n_pos,
         "n_neg": n_neg,
+        "n_clusters_pos": cp,
+        "n_clusters_neg": cn,
+        "negative_basis": {"all": {"basis": "curated", "n": n_neg}},
         "sensitivity": dict(zip(("lo", "value", "hi"), sens, strict=True)),
         "specificity": dict(zip(("lo", "value", "hi"), spec, strict=True)),
     }
-    if cp is not None:
-        out["n_clusters_pos"] = cp
-    if cn is not None:
-        out["n_clusters_neg"] = cn
-    return out
 
 
 @pytest.mark.parametrize(
@@ -356,7 +368,9 @@ def test_interval_endpoints_stay_within_zero_and_one():
     for k in (r["sensitivity"], r["specificity"]):
         assert 0.0 <= k["lo"] <= k["value"] <= k["hi"] <= 1.0
     # the result must pass the repository validator
-    m = build_measure("s", "t", y, call, [f"c{i}" for i in range(50)], n_boot=100)
+    m = build_measure(
+        "s", "t", y, call, [f"c{i}" for i in range(50)], n_boot=100, negative_basis="curated"
+    )
     assert status_from_measure(m) == "estimated"
 
 

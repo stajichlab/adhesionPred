@@ -21,6 +21,24 @@ TAXA = {"SOW1": 41, "DUP1": 41, "ENZ1": 40, "BAD1": 40, "STAR1": 40}
 VALID = ["SOW1", "ENZ1", "DUP1", "STAR1"]
 
 
+def estimated_measure(n_pos=30, n_neg=30, notes="leakage: none", **over):
+    """A measure that derives ``estimated``: enough proteins and clusters, curated negatives,
+    narrow intervals, leakage none (what the status loader needs for that status)."""
+    m = {
+        "calibration_set": "S1:all",
+        "n_pos": n_pos,
+        "n_neg": n_neg,
+        "n_clusters_pos": n_pos,
+        "n_clusters_neg": n_neg,
+        "negative_basis": {"all": {"basis": "curated", "n": n_neg}},
+        "sensitivity": {"value": 0.6, "lo": 0.55, "hi": 0.65},
+        "specificity": {"value": 0.96, "lo": 0.95, "hi": 0.97},
+        "notes": notes,
+    }
+    m.update(over)
+    return m
+
+
 def build(tmp_path, write_module):
     fasta = tmp_path / "p.faa"
     fasta.write_bytes(FASTA.encode())
@@ -35,11 +53,22 @@ def build(tmp_path, write_module):
         wd,
         "step1_rule@R0",
         call(["called", "not_called", "called", "called"]),
-        status=[{"taxa": [40], "status": "estimated", "source": "phasec"}],
+        status=[
+            {
+                "taxa": [40],
+                "status": "estimated",
+                "source": "phasec",
+                "measure": estimated_measure(),
+            }
+        ],
     )
     write_module(wd, "repeat02", call(["called", "not_called", "called", "not_called"]))
     write_module(wd, "repeat14", call(["not_called"] * 4))
-    write_module(wd, "pfam_adhesion", [{"id": i, "state": "ok", "hit": "0"} for i in VALID])
+    write_module(
+        wd,
+        "pfam_adhesion",
+        [{"id": i, "state": "ok", "hit": "0", "hit_narrow": "0"} for i in VALID],
+    )
     write_module(wd, "pfam_hydrophobin", [{"id": i, "state": "ok", "hit": "0"} for i in VALID])
     write_module(wd, "pfam_hsba", [{"id": i, "state": "ok", "hit": "0"} for i in VALID])
     write_module(wd, "pfam_allergen", [{"id": i, "state": "ok", "hit": "0"} for i in VALID])
@@ -138,14 +167,14 @@ def test_golden_calls(tmp_path, write_module, nodes_dmp):
     )
     # ENZ1: A. fumigatus (40), step 1 estimated; antigen not applicable; allergen homology called
     assert v("ENZ1", "signal_peptide_protein", "R0") == ("not_called", "estimated")
-    assert v("ENZ1", "cocci_specificity_rank_top15")[0] == "not_assessable"
+    assert v("ENZ1", "cocci_specificity_rank_top15")[0] == "not_applicable"
     assert v("ENZ1", "serodiagnostic_marker_candidate", "R0") == ("not_called", "estimated")
     assert v("ENZ1", "iuis_allergen_homolog")[0] == "called"
     r = got[("ENZ1", "other_not_surface", "R0")]  # allergen flags are not mechanism calls
-    assert (r["value"], r["other_basis"]) == ("called", "cocci_specificity_rank_top15")
-    # STAR1: surface, no mechanism called, antigen left out of the basis
+    assert (r["value"], r["other_basis"]) == ("called", "")  # a not applicable mechanism is skipped
+    # STAR1: surface, no mechanism called, antigen not applicable and skipped
     r = got[("STAR1", "other_surface_no_mechanism", "R0")]
-    assert (r["value"], r["other_basis"]) == ("called", "cocci_specificity_rank_top15")
+    assert (r["value"], r["other_basis"]) == ("called", "")
     # BAD1: invalid protein, every call unknown
     assert {r["value"] for k, r in got.items() if k[0] == "BAD1"} == {"not_assessable"}
 
@@ -345,7 +374,7 @@ def test_wide_table_and_run_json(tmp_path, write_module, nodes_dmp):
     assert [r["protein"] for r in rows] == ["SOW1", "ENZ1", "DUP1", "BAD1", "STAR1"]
     star = rows[-1]
     assert star["other_surface_no_mechanism[R0]"] == "called"
-    assert star["other_surface_no_mechanism[R0]_basis"] == "cocci_specificity_rank_top15"
+    assert star["other_surface_no_mechanism[R0]_basis"] == ""
     assert star["signal_peptide_protein[R0]_status"] == "estimated"
     run = json.loads((out / "run.json").read_text())
     assert run["n_proteins"] == 5 and run["n_invalid"] == 1
@@ -357,8 +386,8 @@ def test_report_has_the_known_limits_and_counts(tmp_path, write_module, nodes_dm
     report = (out / "report.md").read_text()
     assert "## Known limits" in report
     assert "means that SignalP calls a signal peptide" in report
-    assert "| signal_peptide_protein | R0 | 3 | 1 | 1 |" in report
-    assert "- cocci_specificity_rank_top15: " in report
+    assert "| signal_peptide_protein | R0 | 3 | 1 | 1 | 0 |" in report
+    assert "## `other_basis`" not in report  # no other_* call had an unknown mechanism input
 
 
 def _run(tmp_path, nodes_dmp, fasta, taxon_map, wd, out="out"):
@@ -642,13 +671,12 @@ def test_calibration_is_shown_when_the_status_source_has_a_measure(
 ):
     fasta, taxon_map, wd = build(tmp_path, write_module)
     status = json.loads((wd / "status" / "step1_rule@R0.json").read_text())
-    status["entries"][0]["measure"] = {
-        "calibration_set": "S1:all",
-        "n_pos": 232,
-        "n_neg": 4244,
-        "sensitivity": {"value": 0.603, "lo": 0.55, "hi": 0.65},
-        "specificity": {"value": 0.963, "lo": 0.95, "hi": 0.97},
-    }
+    status["entries"][0]["measure"] = estimated_measure(
+        232,
+        4244,
+        sensitivity={"value": 0.603, "lo": 0.55, "hi": 0.65},
+        specificity={"value": 0.963, "lo": 0.95, "hi": 0.97},
+    )
     (wd / "status" / "step1_rule@R0.json").write_text(json.dumps(status))
     code, out = _run(tmp_path, nodes_dmp, fasta, taxon_map, wd)
     assert code == 0
@@ -706,7 +734,8 @@ def test_status_source_with_bad_json_names_the_file(tmp_path, write_module, node
 
 def test_a_bad_hit_value_is_bad_value(tmp_path, write_module, nodes_dmp):
     fasta, taxon_map, wd = build(tmp_path, write_module)
-    write_module(wd, "pfam_adhesion", [{"id": i, "state": "ok", "hit": "yes"} for i in VALID])
+    rows = [{"id": i, "state": "ok", "hit": "yes", "hit_narrow": "0"} for i in VALID]
+    write_module(wd, "pfam_adhesion", rows)
     code, out = _run(tmp_path, nodes_dmp, fasta, taxon_map, wd)
     assert code == 0
     assert "| pfam_adhesion | bad_value | 4 |" in (out / "report.md").read_text()
@@ -857,14 +886,9 @@ def test_run_json_identity_follows_a_changed_module_record(tmp_path, write_modul
 def _measure_on(wd, call):
     path = wd / "status" / "step1_rule@R0.json"
     status = json.loads(path.read_text())
-    status["entries"][0]["measure"] = {
-        "calibration_set": "S1:all",
-        "n_pos": 30,
-        "n_neg": 30,
-        "sensitivity": {"value": 0.6, "lo": 0.55, "hi": 0.65},
-        "specificity": {"value": 0.96, "lo": 0.95, "hi": 0.97},
-        "notes": f"x call={call}; module=step1_rule@R0; variant=R0",
-    }
+    status["entries"][0]["measure"] = estimated_measure(
+        notes=f"x call={call}; module=step1_rule@R0; variant=R0; leakage: none"
+    )
     path.write_text(json.dumps(status))
 
 
@@ -904,7 +928,7 @@ def test_a_legacy_entry_without_call_in_its_notes_keeps_its_status(
     _measure_on(wd, "x")
     path = wd / "status" / "step1_rule@R0.json"
     status = json.loads(path.read_text())
-    status["entries"][0]["measure"]["notes"] = "an older file; reads_modules=a,b"
+    status["entries"][0]["measure"]["notes"] = "an older file; reads_modules=a,b; leakage: none"
     path.write_text(json.dumps(status))
     code, out = _run(tmp_path, nodes_dmp, fasta, taxon_map, wd)
     assert code == 0
@@ -1077,7 +1101,7 @@ def test_a_legacy_module_file_and_a_call_file_for_the_same_call_are_both_reporte
 
 def test_evidence_has_family_rows_for_the_three_pfam_modules(tmp_path, write_module, nodes_dmp):
     fasta, taxon_map, wd = build(tmp_path, write_module)
-    base = [{"id": i, "state": "ok", "hit": "0", "families": ""} for i in VALID]
+    base = [{"id": i, "state": "ok", "hit": "0", "hit_narrow": "0", "families": ""} for i in VALID]
     write_module(
         wd, "pfam_adhesion", [dict(base[0], hit="1", families="PF05730,PF07691")] + base[1:]
     )

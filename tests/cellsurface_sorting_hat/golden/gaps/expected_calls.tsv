@@ -1,0 +1,78 @@
+protein	call	variant	value	other_basis
+G1	tandem_repeat_protein		called	
+G1	wall_family_domain		not_called	
+G1	wall_family_narrow_domain		not_called	
+G1	hydrophobin_domain		not_called	
+G1	hsba_domain		not_called	
+G1	cell_wall_adhesion_candidate	R0	not_called	
+G1	surface_attachment_candidate	R0	not_called	
+G1	cocci_specificity_rank_top15		not_applicable	
+G1	serodiagnostic_marker_candidate	R0	not_called	
+G1	other_not_surface	R0	not_called	
+G1	other_surface_no_mechanism	R0	not_called	
+G2	tandem_repeat_protein		not_called	
+G2	wall_family_domain		not_called	
+G2	wall_family_narrow_domain		not_called	
+G2	hydrophobin_domain		called	
+G2	hsba_domain		not_called	
+G2	cell_wall_adhesion_candidate	R0	not_called	
+G2	surface_attachment_candidate	R0	called	hydrophobin_domain
+G2	cocci_specificity_rank_top15		not_applicable	
+G2	serodiagnostic_marker_candidate	R0	not_called	
+G2	other_not_surface	R0	not_called	
+G2	other_surface_no_mechanism	R0	not_called	
+G3	tandem_repeat_protein		not_called	
+G3	wall_family_domain		not_called	
+G3	wall_family_narrow_domain		not_called	
+G3	hydrophobin_domain		not_called	
+G3	hsba_domain		called	
+G3	cell_wall_adhesion_candidate	R0	not_called	
+G3	surface_attachment_candidate	R0	called	hsba_domain
+G3	cocci_specificity_rank_top15		not_applicable	
+G3	serodiagnostic_marker_candidate	R0	not_called	
+G3	other_not_surface	R0	not_called	
+G3	other_surface_no_mechanism	R0	not_called	
+G4	tandem_repeat_protein		not_called	
+G4	wall_family_domain		not_called	
+G4	wall_family_narrow_domain		not_called	
+G4	hydrophobin_domain		not_called	
+G4	hsba_domain		not_assessable	
+G4	cell_wall_adhesion_candidate	R0	not_called	
+G4	surface_attachment_candidate	R0	not_assessable	
+G4	cocci_specificity_rank_top15		not_applicable	
+G4	serodiagnostic_marker_candidate	R0	not_called	
+G4	other_not_surface	R0	not_called	
+G4	other_surface_no_mechanism	R0	not_assessable	hsba_domain
+G5	tandem_repeat_protein		not_called	
+G5	wall_family_domain		not_called	
+G5	wall_family_narrow_domain		not_called	
+G5	hydrophobin_domain		not_called	
+G5	hsba_domain		not_called	
+G5	cell_wall_adhesion_candidate	R0	not_called	
+G5	surface_attachment_candidate	R0	not_called	
+G5	cocci_specificity_rank_top15		not_applicable	
+G5	serodiagnostic_marker_candidate	R0	not_called	
+G5	other_not_surface	R0	not_called	
+G5	other_surface_no_mechanism	R0	called	
+G6	tandem_repeat_protein		not_called	
+G6	wall_family_domain		called	
+G6	wall_family_narrow_domain		not_called	
+G6	hydrophobin_domain		not_called	
+G6	hsba_domain		not_called	
+G6	cell_wall_adhesion_candidate	R0	not_called	
+G6	surface_attachment_candidate	R0	called	wall_family_domain
+G6	cocci_specificity_rank_top15		not_applicable	
+G6	serodiagnostic_marker_candidate	R0	not_called	
+G6	other_not_surface	R0	not_called	
+G6	other_surface_no_mechanism	R0	not_called	
+G7	tandem_repeat_protein		not_called	
+G7	wall_family_domain		not_called	
+G7	wall_family_narrow_domain		not_called	
+G7	hydrophobin_domain		not_called	
+G7	hsba_domain		not_called	
+G7	cell_wall_adhesion_candidate	R0	not_called	
+G7	surface_attachment_candidate	R0	not_called	
+G7	cocci_specificity_rank_top15		called	
+G7	serodiagnostic_marker_candidate	R0	called	
+G7	other_not_surface	R0	not_called	
+G7	other_surface_no_mechanism	R0	not_called	

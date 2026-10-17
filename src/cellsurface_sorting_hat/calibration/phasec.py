@@ -37,8 +37,23 @@ SETS = {
     "S3-Basidiomycota:Umay_MYCMD": ("Umay_MYCMD",),
 }
 STRATA = ("N-int", "N-sec", "PM-TM")
+# N-int and N-sec are defined by GO location terms (non-IEA): curated. PM-TM is a predicted topology:
+# assumed. Only the curated strata give the headline negatives of an entry (D16).
+CURATED_STRATA = ("N-int", "N-sec")
+ASSUMED_STRATA = ("PM-TM",)
 LABELS = ("estimate", "smoke test")
-LEAKAGE_NOTE = "leakage: overlap between the Phase C positives and the SignalP 6 training data was not measured"
+# The first word after "leakage:" is the value that the status loaders read (call_status.LEAKAGE_VALUES).
+LEAKAGE_NOTE = (
+    "leakage: unknown (overlap between the Phase C positives and the SignalP 6 training data "
+    "was not measured)"
+)
+# The owner's exception (docs/paper/03-status-and-validation-rules.md, section 6, item 1): the
+# unmeasured overlap does not cap the status of R0. The key lets the loaders accept `estimated`.
+LEAKAGE_EXCEPTION = {
+    "reason": "leakage unmeasured (SignalP training overlap), uncapped by owner decision",
+    "signer": "owner (docs/paper/03-status-and-validation-rules.md section 6, item 1)",
+    "date": "2026-10-06",
+}
 # the call and module that the R0 measurement belongs to (decision of 2026-10-06)
 R0_CALL = "signal_peptide_protein"
 R0_VARIANT = "R0"
@@ -64,35 +79,60 @@ def _read_tsv(path, columns):
         raise ValueError(f"{path}: cannot be read: {exc}") from exc
 
 
+def _stratum_names(cell):
+    """``"['N-int']"`` or ``"N-int,PM-TM"`` -> ``{"N-int"}`` or ``{"N-int", "PM-TM"}``."""
+    cleaned = cell.replace("[", "").replace("]", "").replace("'", "")
+    return {x.strip() for x in cleaned.split(",") if x.strip()}
+
+
 def count_clusters(clusters_path, eval_table_path):
     """Proteins and distinct clusters per Phase C source and class.
 
     Rows of ``eval_table`` with origin ``go``, ``homology_only`` ``no`` and class ``pos`` or ``neg``
     are joined to ``clusters`` on ``seq_sha256``. A row belongs to every source listed in
     ``source_ids`` (comma separated). Returns ``{source: {"pos": (n_proteins, n_clusters),
-    "neg": (...)}}`` for the sources in ``SETS``. A protein with no cluster is refused."""
+    "neg": (...), "neg_curated": (...) or None}}`` for the sources in ``SETS``. A protein with no
+    cluster is refused.
+
+    ``neg_curated`` counts the negatives that are in a curated stratum (N-int or N-sec) and in no
+    assumed stratum (PM-TM). It is None when the eval table has no ``stratum`` column."""
     cluster_of = {}
     for r in _read_tsv(clusters_path, ("seq_sha256", "cluster_id")):
         if cluster_of.setdefault(r["seq_sha256"], r["cluster_id"]) != r["cluster_id"]:
             raise ValueError(f"{clusters_path}: {r['seq_sha256']} is in two clusters")
     wanted = {s for group in SETS.values() for s in group}
-    proteins = {(s, c): 0 for s in wanted for c in ("pos", "neg")}
+    kinds = ("pos", "neg", "neg_curated")
+    proteins = {(s, c): 0 for s in wanted for c in kinds}
     clusters = {key: set() for key in proteins}
     columns = ("seq_sha256", "origin", "class", "homology_only", "source_ids")
+    has_stratum = False
     for r in _read_tsv(eval_table_path, columns):
         if r["origin"] != "go" or r["homology_only"] != "no" or r["class"] not in ("pos", "neg"):
             continue
+        has_stratum = has_stratum or "stratum" in r
+        curated = False
+        if r["class"] == "neg" and "stratum" in r:
+            names = _stratum_names(r["stratum"] or "")
+            curated = bool(names & set(CURATED_STRATA)) and not names & set(ASSUMED_STRATA)
         for source in {x.strip() for x in r["source_ids"].split(",")} & wanted:
             cluster = cluster_of.get(r["seq_sha256"])
             if cluster is None:
                 raise ValueError(
                     f"{eval_table_path}: {r['seq_sha256']} ({source}) is not in {clusters_path}"
                 )
-            proteins[(source, r["class"])] += 1
-            clusters[(source, r["class"])].add(cluster)
-    return {
-        s: {c: (proteins[(s, c)], len(clusters[(s, c)])) for c in ("pos", "neg")} for s in wanted
-    }
+            for kind in (r["class"], "neg_curated" if curated else None):
+                if kind:
+                    proteins[(source, kind)] += 1
+                    clusters[(source, kind)].add(cluster)
+    out = {}
+    for s in wanted:
+        out[s] = {c: (proteins[(s, c)], len(clusters[(s, c)])) for c in ("pos", "neg")}
+        out[s]["neg_curated"] = (
+            (proteins[(s, "neg_curated")], len(clusters[(s, "neg_curated")]))
+            if has_stratum
+            else None
+        )
+    return out
 
 
 def check_signalp(record_path, module, mode):
@@ -228,7 +268,8 @@ def entries_from_phasec(
         n_pos = _count(_get(counts, "pos", f"{where}.n.all"), f"{where}.n.all.pos")
         n_neg = _count(_get(counts, "neg", f"{where}.n.all"), f"{where}.n.all.neg")
         metrics = _get(t, "metrics", f"{where}.truth.{truth}")
-        (p_pos, c_pos), (p_neg, c_neg) = (cluster_counts[SETS[key][0]][c] for c in ("pos", "neg"))
+        counted = cluster_counts[SETS[key][0]]
+        (p_pos, c_pos), (p_neg, c_neg) = counted["pos"], counted["neg"]
         if (p_pos, p_neg) != (n_pos, n_neg):
             raise ValueError(
                 f"{where}: {path} has n_pos={n_pos}, n_neg={n_neg}; {where_counts} give "
@@ -237,6 +278,14 @@ def entries_from_phasec(
 
         sens = _cell(metrics, "all", "recall", variant, candidate, where)
         fpr = _cell(metrics, "all", "fpr", variant, candidate, where)
+        strata, n_by_stratum = {}, {}
+        for name in STRATA:
+            f = _cell(metrics, name, "fpr", variant, candidate, where)
+            if f:
+                # the per-stratum count is optional; without it the interval is not widened
+                n_raw = t["n"].get(name, {}).get("neg", 0)
+                n_by_stratum[name] = _count(n_raw, f"{where}.n.{name}.neg")
+                strata[name] = (f, widen_at_boundary(_spec_from_fpr(f), n_by_stratum[name]))
         measure = {
             "calibration_set": key,
             "truth_source": f"{path.name}:test_sets/{key}/truth/{truth}",
@@ -250,27 +299,67 @@ def entries_from_phasec(
                 f"cluster count; call={R0_CALL}; module={R0_MODULE}; variant={R0_VARIANT}; "
                 f"{extra_notes + '; ' if extra_notes else ''}{LEAKAGE_NOTE}"
             ),
+            "leakage_exception": dict(LEAKAGE_EXCEPTION),
         }
         if sens:
             measure["sensitivity"] = widest_with_clusters(widen_at_boundary(sens, n_pos), c_pos)
-        if fpr:
+        headline = _curated_headline(
+            counted.get("neg_curated"), strata, n_by_stratum, f"{where}", where_counts
+        )
+        if headline:
+            # the headline negatives are the curated strata only; PM-TM keeps its own row (D16)
+            measure.update(headline["measure"])
+            measure["negative_basis"] = headline["negative_basis"]
+            for name in ASSUMED_STRATA:
+                if name in n_by_stratum:
+                    measure["negative_basis"][name] = {"basis": "assumed", "n": n_by_stratum[name]}
+        elif fpr:
             spec = widen_at_boundary(_spec_from_fpr(fpr), n_neg)
             measure["specificity"] = widest_with_clusters(spec, c_neg)
-        strata = {}
-        for name in STRATA:
-            f = _cell(metrics, name, "fpr", variant, candidate, where)
-            if f:
-                # the per-stratum count is optional; without it the interval is not widened
-                n_raw = t["n"].get(name, {}).get("neg", 0)
-                n_stratum = _count(n_raw, f"{where}.n.{name}.neg")
-                strata[name] = widen_at_boundary(_spec_from_fpr(f), n_stratum)
         if strata:
-            measure["strata"] = strata
+            measure["strata"] = {name: rate for name, (_, rate) in strata.items()}
         entry = make_entry(taxa, measure, source=measure["truth_source"])
         if label != "estimate" and entry["status"] == "estimated":
             entry["status"] = "smoke"
         entries.append(entry)
     return entries
+
+
+def _curated_headline(neg_curated, strata, n_by_stratum, where, where_counts):
+    """Headline negatives from the curated strata only, or None when they cannot be made.
+
+    They need the curated counts from the eval table (``count_clusters``) and a false-positive rate
+    for each curated stratum that has negatives. The counts of ``metrics.json`` and of the eval
+    table must agree. With one curated stratum the interval is the one of that stratum. With two,
+    the false-positive count is the sum of rate times count and the interval is the Wilson interval
+    on that count (the bootstrap intervals of ``metrics.json`` cannot be combined across strata).
+    Either way the interval is widened with the Wilson interval on the number of clusters."""
+    if not neg_curated:
+        return None
+    present = [name for name in CURATED_STRATA if n_by_stratum.get(name, 0) > 0 and name in strata]
+    if not present:
+        return None
+    n_cur = sum(n_by_stratum[name] for name in present)
+    if n_cur != neg_curated[0]:
+        raise ValueError(
+            f"{where}: metrics.json has {n_cur} curated negatives (N-int and N-sec); "
+            f"{where_counts} give {neg_curated[0]}"
+        )
+    if len(present) == 1:
+        spec = strata[present[0]][1]
+    else:
+        false_positives = sum(strata[name][0]["value"] * n_by_stratum[name] for name in present)
+        value = 1 - false_positives / n_cur
+        _, lo, hi = wilson(int(round(false_positives)), n_cur)
+        spec = {"value": value, "lo": min(1 - hi, value), "hi": max(1 - lo, value)}
+    return {
+        "measure": {
+            "n_neg": n_cur,
+            "n_clusters_neg": neg_curated[1],
+            "specificity": widest_with_clusters(spec, neg_curated[1]),
+        },
+        "negative_basis": {name: {"basis": "curated", "n": n_by_stratum[name]} for name in present},
+    }
 
 
 def widest_with_clusters(rate, n_clusters):

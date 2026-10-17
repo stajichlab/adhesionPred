@@ -3,7 +3,7 @@
 - proteins: 5 (1 invalid, excluded from all modules; 1 had a trailing `*`, removed)
 - taxa (taxon ID: proteins): 40: 3, 41: 2
 - taxonomy file sha256: 492f746e8af7ed537fe0bcf4920a583e583410d1ebf5b12cd6c1284e44d474df
-- categories.yaml sha256: e4f3d63d1845a0c5ac65db673cb72b042ca114997938c399e0157bea6e6f4173
+- categories.yaml sha256: 68a35bad9dedcb8c34e0368153817edeb1ef489da0e12ed9d9243d4e52cc3721
 - default gate: step1_rule@R0
 - thresholds: allergen_coverage_min = 80, allergen_hit_identity_min = 35, allergen_hit_length_min = 80, allergen_identity_min = 70, antigen_percentile_max = 15
 
@@ -70,30 +70,40 @@ Unavailable step 1 variants: step1_rule@R1, step1_rule@R2, step1_ml@card
 | repeat02 | 41 | unvalidated | - | - | - | - | not measured | not measured |
 | repeat14 | 40 | unvalidated | - | - | - | - | not measured | not measured |
 | repeat14 | 41 | unvalidated | - | - | - | - | not measured | not measured |
-| step1_rule@R0 | 40 | estimated | - | - | - | - | not measured | not measured |
+| step1_rule@R0 | 40 | estimated | - | S1:all | 30 | 30 | 0.600 [0.550, 0.650] | 0.960 [0.950, 0.970] |
 | step1_rule@R0 | 41 | unvalidated | - | - | - | - | not measured | not measured |
 
 ## Calls
 
-| call | variant | called | not_called | not_assessable |
-|---|---|---|---|---|
-| cell_wall_adhesion_candidate | R0 | 2 | 2 | 1 |
-| cocci_specificity_rank_top15 | - | 2 | 0 | 3 |
-| hsba_domain | - | 0 | 4 | 1 |
-| hydrophobin_domain | - | 0 | 4 | 1 |
-| iuis_allergen_homolog | - | 1 | 3 | 1 |
-| iuis_allergen_similarity | - | 2 | 2 | 1 |
-| other_not_surface | R0 | 1 | 3 | 1 |
-| other_surface_no_mechanism | R0 | 1 | 3 | 1 |
-| serodiagnostic_marker_candidate | R0 | 2 | 1 | 2 |
-| signal_peptide_protein | R0 | 3 | 1 | 1 |
-| surface_attachment_candidate | R0 | 2 | 2 | 1 |
-| tandem_repeat_protein | - | 2 | 2 | 1 |
-| wall_family_domain | - | 0 | 4 | 1 |
+| call | variant | called | not_called | not_assessable | not_applicable |
+|---|---|---|---|---|---|
+| cell_wall_adhesion_candidate | R0 | 2 | 2 | 1 | 0 |
+| cocci_specificity_rank_top15 | - | 2 | 0 | 1 | 2 |
+| hsba_domain | - | 0 | 4 | 1 | 0 |
+| hydrophobin_domain | - | 0 | 4 | 1 | 0 |
+| iuis_allergen_homolog | - | 1 | 3 | 1 | 0 |
+| iuis_allergen_similarity | - | 2 | 2 | 1 | 0 |
+| other_not_surface | R0 | 1 | 3 | 1 | 0 |
+| other_surface_no_mechanism | R0 | 1 | 3 | 1 | 0 |
+| serodiagnostic_marker_candidate | R0 | 2 | 2 | 1 | 0 |
+| signal_peptide_protein | R0 | 3 | 1 | 1 | 0 |
+| surface_attachment_candidate | R0 | 2 | 2 | 1 | 0 |
+| tandem_repeat_protein | - | 2 | 2 | 1 | 0 |
+| wall_family_domain | - | 0 | 4 | 1 | 0 |
+| wall_family_narrow_domain | - | 0 | 4 | 1 | 0 |
 
-## `other_basis` (categories left out because they were not assessable)
+## Primary label
 
-- cocci_specificity_rank_top15: 2
+One label per protein for the default gate, from the calls above. The first match wins. The calls stay independent flags; the label is a summary for a reader.
+
+| primary label | proteins |
+|---|---|
+| cell_wall_adhesion_candidate | 2 |
+| surface_attachment_candidate | 0 |
+| other_surface_no_mechanism | 1 |
+| other_not_surface | 1 |
+| mechanism_without_class | 0 |
+| not_assessable | 1 |
 
 ## Surface attachment: which evidence held
 
@@ -112,9 +122,9 @@ A protein can hold more than one. Hydrophobin and HsbA are surface-active protei
 1. Research use only. This is not a regulatory allergenicity assessment and not a diagnostic result. No row is supported by an IgE, antibody or T-cell measurement.
 2. `signal_peptide_protein` means that SignalP calls a signal peptide (rule R0) and nothing more. Such proteins are secreted, wall-bound or GPI-anchored. They are not shown to be exposed at the cell surface, and glycosylation is not assessed. Plasma membrane mucins can be missed.
 3. GPI-anchored and secreted enzymes, and non-adhesive structural wall proteins, get no finer label in version 1. There is no `cell_wall_protein` call.
-4. `tandem_repeat_protein` and `wall_family_domain` are evidence. Repeat proteins include intracellular ones (ubiquitin, calmodulin, ankyrin proteins). A domain of a family that is linked to adhesion or wall function in at least one species (CFEM, ALS, Flo11) is not shown to mediate adhesion here. The adhesion call needs a signal peptide. `hydrophobin_domain` (hydrophobin Pfam models, category 2c) and `hsba_domain` (HsbA, PF12296, which may not be a hydrophobin) are separate evidence calls. They do not set `wall_family_domain`.
+4. `tandem_repeat_protein`, `wall_family_domain` and `wall_family_narrow_domain` are evidence. Repeat proteins include intracellular ones (ubiquitin, calmodulin, ankyrin proteins). A domain of a family that is linked to adhesion or wall function in at least one species (CFEM, ALS, Flo11) is not shown to mediate adhesion here. The adhesion call needs a signal peptide. `wall_family_domain` reads every family that the owner enabled (`active`; not a test result). `wall_family_narrow_domain` reads only the families with a specificity tier of smoke or better that the owner signed with narrow_ok=yes. `cell_wall_adhesion_candidate` reads the narrow call; `surface_attachment_candidate` reads the broad one. `hydrophobin_domain` (hydrophobin Pfam models, category 2c) and `hsba_domain` (HsbA, PF12296, which may not be a hydrophobin) are separate evidence calls. They do not set `wall_family_domain`.
 5. `cocci_specificity_rank_top15` is the top 15% of a fixed Coccidioides immitis ranking (similarity to IEDB antigens, prevalence, absence of orthologs in confounder fungi). It is not epitope prediction. The cut was set after the four anchors were seen. The ranking prints NOT CALIBRATED. `serodiagnostic_marker_candidate` adds a signal peptide. Peptide level only; glycan epitopes are not assessed.
 6. `iuis_allergen_similarity` and `iuis_allergen_homolog` are sequence similarity to allergens in the WHO/IUIS fungal set (IgE binding in patients). They suggest possible IgE cross-reactivity at most. A protein with no hit is not thereby a non-allergen. WHO/IUIS lists no Coccidioides allergen.
 7. Cell wall integrity signaling, septation, polarized growth, polysaccharide chemistry, non-protein adhesins, moonlighting proteins and biofilm are not categories.
 8. The taxon you give is recorded as given. It is not checked against the sequences.
-9. Leakage: overlap between the Phase C positives and the SignalP 6 training data was not measured. The status of rule R0 does not account for it.
+9. Leakage: overlap between the Phase C positives and the SignalP 6 training data was not measured. The status of rule R0 does not account for it. This is the owner's recorded exception: the R0 status entry carries `leakage_exception`, and its text is in the basis.

@@ -4,8 +4,16 @@ import csv
 from dataclasses import dataclass
 from pathlib import Path
 
+from cellsurface_sorting_hat.family_tier import SMOKE, TIERS, UNTESTED
 from cellsurface_sorting_hat.modules.base import invalid_row
 
+# Columns of data/sorting_hat/family_table.tsv.
+# `active` means the owner enabled the family. It does not mean tested.
+# The family tier describes the family model's own evidence; the call status describes the call's
+# measurement; neither implies the other.
+# A `narrow_ok=yes` needs a tier of smoke or better and a sign-off (who, when) with an evidence
+# summary: the family's own members, how many the model hits, the leakage of those members and the
+# hits on near-neighbour negatives. A count on a shared panel (coverage) is not enough on its own.
 FAMILY_COLUMNS = [
     "pfam_acc",
     "name",
@@ -18,10 +26,25 @@ FAMILY_COLUMNS = [
     "active",
     "active_by",
     "active_date",
+    "specificity_tier",  # derived from family_measure.tsv by family_tier.py; never edited by hand
+    "narrow_ok",  # yes: the narrow call reads this family (owner sign-off); no: only the broad call
+    "narrow_ok_by",
+    "narrow_ok_date",
+    "narrow_ok_evidence",  # members, hits, leakage and near-neighbour negative hits behind a yes
 ]
+# Text that marks a ``narrow_ok_evidence`` as a pre-filled draft. A row with ``narrow_ok=yes`` must
+# not carry it: the owner replaces the draft with the real evidence when signing.
+DRAFT_EVIDENCE_MARKERS = ("draft", "not signed")
 MODULES = ("pfam_adhesion", "pfam_allergen", "pfam_hydrophobin", "pfam_hsba")
 SECOND_CONDITIONS = ("", "signal_peptide", "no_tm")
 COLUMNS = ["hit", "families"]
+NARROW_MODULES = ("pfam_adhesion",)  # the narrow call reads only this module
+
+
+def columns_for(module):
+    """Columns of a Pfam module table after ``id`` and ``state``. Only ``pfam_adhesion`` has
+    ``hit_narrow``: no call reads a narrow flag of the other modules."""
+    return ["hit", "hit_narrow", "families"] if module in NARROW_MODULES else list(COLUMNS)
 
 
 class FamilyTableError(ValueError):
@@ -40,6 +63,8 @@ class Family:
     module: str
     second_condition: str
     active: bool
+    tier: str = UNTESTED  # evidence tier of the family model (family_tier.py)
+    narrow_ok: bool = False  # signed by the owner: the narrow call reads this family
 
 
 def load_family_table(path):
@@ -67,6 +92,27 @@ def load_family_table(path):
                 raise FamilyTableError(f"{where}: active must be yes or no")
             if r["active"] == "yes" and not (r["active_by"].strip() and r["active_date"].strip()):
                 raise FamilyTableError(f"{where}: an active family needs active_by and active_date")
+            if r["specificity_tier"] not in TIERS:
+                raise FamilyTableError(f"{where}: specificity_tier must be one of {TIERS}")
+            if r["narrow_ok"] not in ("yes", "no"):
+                raise FamilyTableError(f"{where}: narrow_ok must be yes or no")
+            if r["narrow_ok"] == "yes":
+                if r["specificity_tier"] == UNTESTED:
+                    raise FamilyTableError(
+                        f"{where}: narrow_ok=yes needs a specificity_tier of {SMOKE} or better, "
+                        f"not {UNTESTED}"
+                    )
+                for column in ("narrow_ok_by", "narrow_ok_date", "narrow_ok_evidence"):
+                    if not r[column].strip():
+                        raise FamilyTableError(f"{where}: narrow_ok=yes needs {column}")
+                evidence = r["narrow_ok_evidence"].lower()
+                if any(marker in evidence for marker in DRAFT_EVIDENCE_MARKERS):
+                    raise FamilyTableError(
+                        f"{where}: narrow_ok=yes but narrow_ok_evidence is still a draft "
+                        f"(it contains one of {DRAFT_EVIDENCE_MARKERS}); replace it with the evidence"
+                    )
+            if r.get("narrow_ok_draft", "") not in ("", "yes", "no"):
+                raise FamilyTableError(f"{where}: narrow_ok_draft must be yes, no or empty")
             rows.append(
                 Family(
                     acc,
@@ -75,6 +121,8 @@ def load_family_table(path):
                     r["module"],
                     r["second_condition"],
                     r["active"] == "yes",
+                    r["specificity_tier"],
+                    r["narrow_ok"] == "yes",
                 )
             )
     return rows
@@ -131,20 +179,28 @@ def pfam_rows(proteins, hits, families, module, sp_calls=None, tm_counts=None):
     ``sp_calls`` and ``tm_counts`` hold only proteins whose row in the condition module is ``ok``.
     A protein with a domain hit of such a family and no usable condition value is ``error``: its
     result is unknown, not 0. A protein with no domain hit is ``ok`` with hit 0.
+
+    ``pfam_adhesion`` rows also have ``hit_narrow``: a hit in a family with tier ``smoke`` or better
+    and ``narrow_ok`` (owner sign-off). It implies ``hit``: every narrow family is an active family.
+    It is empty (unknown) when it is not 1 and a narrow family has a hit whose condition value is
+    unknown; it is 0 only when every narrow family is decided negative.
     """
     wanted = {f.pfam_acc: f for f in families if f.module == module and f.active}
     if not wanted:
         raise NoActiveFamilyError(f"{module}: no family of this module is active")
-    found, unknown = {}, set()
+    found, narrow, unknown, narrow_unknown = {}, set(), set(), set()
     for h in hits:
         fam = wanted.get(h["acc"])
         if fam is None:
             continue
+        is_narrow = fam.narrow_ok and fam.tier != UNTESTED
         cond = fam.second_condition
         if cond == "signal_peptide":
             value = (sp_calls or {}).get(h["target"])
             if value is None:
                 unknown.add(h["target"])
+                if is_narrow:
+                    narrow_unknown.add(h["target"])
                 continue
             if value != "called":
                 continue
@@ -152,10 +208,15 @@ def pfam_rows(proteins, hits, families, module, sp_calls=None, tm_counts=None):
             value = (tm_counts or {}).get(h["target"])
             if value is None:
                 unknown.add(h["target"])
+                if is_narrow:
+                    narrow_unknown.add(h["target"])
                 continue
             if value != 0:
                 continue
         found.setdefault(h["target"], set()).add(fam.pfam_acc)
+        if is_narrow:
+            narrow.add(h["target"])
+    with_narrow = module in NARROW_MODULES
     rows = []
     for p in proteins:
         if p.state != "ok":
@@ -165,9 +226,17 @@ def pfam_rows(proteins, hits, families, module, sp_calls=None, tm_counts=None):
         if p.id in unknown and not accs:
             rows.append({"id": p.id, "state": "error"})
             continue
-        rows.append(
-            {"id": p.id, "state": "ok", "hit": "1" if accs else "0", "families": ",".join(accs)}
-        )
+        row = {"id": p.id, "state": "ok", "hit": "1" if accs else "0", "families": ",".join(accs)}
+        if with_narrow:
+            # A narrow family whose condition is unknown may have been a hit: the narrow result is
+            # then unknown (empty), as for the broad flag, not 0.
+            if p.id in narrow:
+                row["hit_narrow"] = "1"
+            elif p.id in narrow_unknown:
+                row["hit_narrow"] = ""
+            else:
+                row["hit_narrow"] = "0"
+        rows.append(row)
     return rows
 
 

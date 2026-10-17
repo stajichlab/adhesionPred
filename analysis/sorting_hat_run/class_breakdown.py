@@ -6,6 +6,10 @@ One row per proteome: proteins, and the number called for each call. The three `
 run). Evidence calls overlap. `wall_family_domain = not_called` means "no hit in an ACTIVE family".
 Only PA14 is active (2026-10-07), so it does not mean "no wall domain".
 
+A value is `called`, `not_called`, `not_assessable` ("n/a": an input is unknown) or `not_applicable`
+(the call does not apply to the protein, for example the antigen rank outside C. immitis RS). The
+last two are listed in brackets after the called count.
+
 Usage: class_breakdown.py --work WORKDIR --out FILE PROTEOME [PROTEOME ...]
 """
 
@@ -48,9 +52,12 @@ def main():
         row = {"proteome": p, "proteins": len(proteins)}
         for call, var, label in COLUMNS:
             k = c[(call, var)]
-            row[label] = f"{k['called']}" + (
-                f" ({k['not_assessable']} n/a)" if k["not_assessable"] else ""
-            )
+            notes = []
+            if k["not_assessable"]:
+                notes.append(f"{k['not_assessable']} n/a")  # not assessable
+            if k["not_applicable"]:
+                notes.append(f"{k['not_applicable']} not applicable")
+            row[label] = f"{k['called']}" + (f" ({', '.join(notes)})" if notes else "")
         out.append(row)
     with open(a.out, "w", newline="") as f:
         w = csv.DictWriter(f, fieldnames=list(out[0]), delimiter="\t")

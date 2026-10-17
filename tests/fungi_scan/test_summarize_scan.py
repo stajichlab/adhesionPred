@@ -62,6 +62,16 @@ def test_count_calls_counts_called_per_call_and_variant():
     assert c[("surface_attachment_candidate", "R0")]["not_assessable"] == 1
 
 
+def test_call_columns_list_not_applicable_next_to_not_assessable():
+    rs = rows() + [{"protein": "e", "call": "wall_family_domain", "variant": "", "value": "x"}]
+    rs[-1]["value"] = "not_applicable"
+    row = m.call_columns(m.count_calls(rs))
+    assert row["surface_attachment_candidate[R0]"] == 2
+    assert row["surface_attachment_candidate_n/a"] == 1
+    assert row["wall_family_domain_not_applicable"] == 1
+    assert "signal_peptide_protein_not_applicable" not in row
+
+
 def test_basis_combinations():
     out = m.basis_counts(rows(), "surface_attachment_candidate")
     assert out["tandem_repeat_protein,hydrophobin_domain"] == 1 and out["hsba_domain"] == 1

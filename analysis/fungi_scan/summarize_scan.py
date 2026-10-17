@@ -39,6 +39,20 @@ def count_calls(long_rows):
     return c
 
 
+def call_columns(counts):
+    """Columns of one proteome row: the called count of each call, plus the count of
+    `not_assessable` (`_n/a`) and of `not_applicable` (`_not_applicable`) when it is not 0."""
+    row = {}
+    for call, variant in CALLS:
+        k = counts[(call, variant)]
+        row[call + (f"[{variant}]" if variant else "")] = k["called"]
+        if k["not_assessable"]:
+            row[call + "_n/a"] = k["not_assessable"]
+        if k["not_applicable"]:
+            row[call + "_not_applicable"] = k["not_applicable"]
+    return row
+
+
 def basis_counts(long_rows, call):
     return Counter(
         r["other_basis"]
@@ -87,11 +101,7 @@ def main():
             "species": sel[name]["species"],
             "proteins": n,
         }
-        for call, variant in CALLS:
-            k = c[(call, variant)]
-            row[call + (f"[{variant}]" if variant else "")] = k["called"]
-            if k["not_assessable"]:
-                row[call + "_n/a"] = k["not_assessable"]
+        row.update(call_columns(c))
         prow.append(row)
         for mod in ("pfam_adhesion", "pfam_hydrophobin", "pfam_hsba"):
             mp = w / f"modules/{mod}.tsv.gz"

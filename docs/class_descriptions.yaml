@@ -25,7 +25,14 @@ calls:
     kind: evidence
     gated: false
     category: cell wall and adhesion
-    meaning: "A hit to an active wall-family Pfam model that passes that family's condition (the active adhesion-class rows of `data/sorting_hat/family_table.tsv` are read; conditions: CFEM no mature TM helix, PA14 R0 signal peptide, which makes this ungated call depend on R0; the other active rows have none)."
+    meaning: "A hit to an active wall-family Pfam model that passes that family's condition (the active adhesion-class rows of `data/sorting_hat/family_table.tsv` are read; `active` means enabled by the owner, not tested; conditions: CFEM no mature TM helix, PA14 R0 signal peptide, which makes this ungated call depend on R0; the other active rows have none). Feeds `surface_attachment_candidate` and the `other_*` calls."
+    reads: [pfam_adhesion]
+    status: unvalidated
+  - call: wall_family_narrow_domain
+    kind: evidence
+    gated: false
+    category: cell wall and adhesion
+    meaning: "A hit to a wall-family Pfam model whose row has a specificity tier of smoke or better and narrow_ok=yes (owner sign-off with evidence in `data/sorting_hat/family_table.tsv`). It implies `wall_family_domain`. Feeds `cell_wall_adhesion_candidate`. Until the owner signs a family, no family feeds it."
     reads: [pfam_adhesion]
     status: unvalidated
   - call: hydrophobin_domain
@@ -49,7 +56,7 @@ calls:
     kind: composite
     gated: true
     category: cell wall and adhesion
-    meaning: Signal peptide and (repeat or wall-family domain).
+    meaning: Signal peptide and (repeat or narrow wall-family domain).
     reads: [step1_rule@R0, repeat02, repeat14, pfam_adhesion]
     status: derived from the leaf calls that decided each record
   - call: surface_attachment_candidate
@@ -63,14 +70,14 @@ calls:
     kind: evidence
     gated: false
     category: antigen
-    meaning: Top 15% of the Coccidioides genus-specificity ranking (C. immitis RS only).
+    meaning: Top 15% of the Coccidioides genus-specificity ranking (C. immitis RS only). Not applicable (`not_applicable`) for every other protein.
     reads: [antigen_lookup]
     status: unvalidated (the ranking prints NOT CALIBRATED)
   - call: serodiagnostic_marker_candidate
     kind: composite
     gated: true
     category: antigen
-    meaning: Top 15% ranking and signal peptide.
+    meaning: Top 15% ranking and signal peptide. Never called where the ranking is not applicable.
     reads: [step1_rule@R0, antigen_lookup]
     status: derived from the leaf calls that decided each record
   - call: iuis_allergen_similarity
@@ -91,14 +98,14 @@ calls:
     kind: other
     gated: true
     category: other
-    meaning: No signal peptide, with the mechanism calls not called.
+    meaning: No signal peptide, with the mechanism calls not called. Not assessable when a mechanism input is unknown; a not applicable mechanism is skipped.
     reads: [step1_rule@R0]
     status: derived from the leaf calls that decided each record
   - call: other_surface_no_mechanism
     kind: other
     gated: true
     category: other
-    meaning: Signal peptide and no mechanism evidence (repeat, wall family, hydrophobin, HsbA, antigen rank).
+    meaning: Signal peptide and no mechanism evidence (repeat, wall family, hydrophobin, HsbA, antigen rank). Not assessable when a mechanism input is unknown; a not applicable mechanism is skipped. A protein with a mechanism and no signal peptide, or with a mechanism that no composite reads, has neither this call nor a composite; its `primary_label` is `mechanism_without_class`.
     reads: [step1_rule@R0]
     status: derived from the leaf calls that decided each record
 modules_not_calls:

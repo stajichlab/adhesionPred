@@ -9,6 +9,8 @@
 #   {and: [...]}, {or: [...]}, {not: NODE}
 # `{step1}` in a module name is replaced by the step 1 variant module for per_variant calls.
 # A field that is empty, or a module whose state is not `ok`, gives not_assessable.
+# A module row with state `not_applicable` gives not_applicable (a leaf call); it acts as not_called in
+# and/or and is skipped in the mechanism list of an `other` call.
 
 version: 1
 default_gate: "step1_rule@R0"
@@ -52,6 +54,10 @@ calls:
       or: [{call: repeat02}, {call: repeat14}]
   - name: wall_family_domain
     expr: {flag: pfam_adhesion.hit}
+  # Only families with a specificity tier of smoke or better and narrow_ok=yes (owner sign-off in
+  # data/sorting_hat/family_table.tsv). It implies wall_family_domain.
+  - name: wall_family_narrow_domain
+    expr: {flag: pfam_adhesion.hit_narrow}
   - name: hydrophobin_domain
     expr: {flag: pfam_hydrophobin.hit}
   - name: hsba_domain
@@ -60,7 +66,7 @@ calls:
     per_variant: true
     expr:
       and:
-        - or: [{ref: tandem_repeat_protein}, {ref: wall_family_domain}]
+        - or: [{ref: tandem_repeat_protein}, {ref: wall_family_narrow_domain}]
         - {ref: signal_peptide_protein}
   # Broader than cell_wall_adhesion_candidate: a secreted protein with any evidence of a surface-attachment mechanism.
   # basis_calls names the evidence calls that held; they are written to the basis column of calls.long.

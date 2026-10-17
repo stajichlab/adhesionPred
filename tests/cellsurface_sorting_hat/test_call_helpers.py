@@ -109,7 +109,7 @@ def test_call_hash_changes_with_a_referenced_threshold_only(tmp_path):
 def test_call_hash_changes_with_the_engine_semantics(monkeypatch):
     cfg = load_config()
     before = call_hash(cfg, "tandem_repeat_protein")
-    monkeypatch.setattr(engine, "ENGINE_SEMANTICS", "2")
+    monkeypatch.setattr(engine, "ENGINE_SEMANTICS", "next")
     assert call_hash(cfg, "tandem_repeat_protein") != before
 
 

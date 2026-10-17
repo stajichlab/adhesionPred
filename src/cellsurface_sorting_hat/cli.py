@@ -29,6 +29,8 @@ from cellsurface_sorting_hat.engine import (
     referenced_modules,
 )
 from cellsurface_sorting_hat.fasta import NA_INVALID, FastaError, read_fasta
+from cellsurface_sorting_hat.labels import primary_labels
+from cellsurface_sorting_hat.modules.base import values_digest
 from cellsurface_sorting_hat.outputs import (
     RunInfo,
     render_report,
@@ -42,7 +44,9 @@ from cellsurface_sorting_hat.outputs import (
 from cellsurface_sorting_hat.status import (
     UNVALIDATED,
     ModuleIdentity,
+    exception_text,
     load_status_source,
+    negative_rows,
     resolve_entry,
 )
 from cellsurface_sorting_hat.taxonomy import Lineage, TaxonError
@@ -116,6 +120,8 @@ class LoadedModules:
     notes: dict = field(default_factory=dict)
     state_counts: dict = field(default_factory=dict)
     unmatched: dict = field(default_factory=dict)
+    params: dict = field(default_factory=dict)  # module -> params of its run record
+    snapshots: dict = field(default_factory=dict)  # module -> condition_snapshots of its record
 
 
 def _read_json(path):
@@ -205,6 +211,9 @@ def load_modules(workdir, protein_ids, invalid_ids, required=None):
         if state not in RUN_STATES:
             raise InputError(f"{meta_path}: run_state {state!r} is not one of {sorted(RUN_STATES)}")
         loaded.states[name] = state
+        loaded.params[name] = meta.get("params") if isinstance(meta.get("params"), dict) else {}
+        snaps = meta.get("condition_snapshots")
+        loaded.snapshots[name] = snaps if isinstance(snaps, dict) else {}
         if not table_path.exists():
             loaded.notes[name] = "no result table"
             continue
@@ -249,6 +258,10 @@ def _bad_value(columns, row):
     if "call" in columns and row.get("call") not in CALL_VALUES:
         return True
     if "hit" in columns and row.get("hit") not in FLAG_VALUES:
+        return True
+    # an empty hit_narrow is unknown (a narrow family with an unknown condition); the engine reads
+    # it as not assessable
+    if "hit_narrow" in columns and row.get("hit_narrow") not in FLAG_VALUES | {""}:
         return True
     return False
 
@@ -312,13 +325,21 @@ class StatusResolver:
         entry, tested, reason = self.entry(module, taxon)
         if entry is None:
             return UNVALIDATED, reason
-        return entry.status, f"taxon:{tested}"
+        return entry.status, f"taxon:{tested}{exception_text(entry)}"
 
 
 def _rate_text(rate):
     if not rate:
         return "not measured"
     return f"{rate['value']:.3f} [{rate['lo']:.3f}, {rate['hi']:.3f}]"
+
+
+def _negatives_text(measure):
+    """The strata of the negatives with their basis; a stratum that does not count says so."""
+    return "; ".join(
+        f"{r['stratum']} {r['basis']} {r['n']}" + ("" if r["counted"] else " (not counted)")
+        for r in negative_rows(measure)
+    )
 
 
 def calibration_rows(resolver, modules, taxa):
@@ -339,11 +360,55 @@ def calibration_rows(resolver, modules, taxa):
                     "calibration_set": measure.get("calibration_set", ""),
                     "n_pos": measure.get("n_pos", ""),
                     "n_neg": measure.get("n_neg", ""),
+                    "negatives": _negatives_text(measure),
                     "sensitivity": _rate_text(measure.get("sensitivity")),
                     "specificity": _rate_text(measure.get("specificity")),
                 }
             )
     return rows
+
+
+def condition_checks(loaded):
+    """Compare the table of each condition module with the one a module was built against.
+
+    A Pfam module records, for each of its conditions (``sp_module``, ``tm_module``), the module
+    name in ``params`` and the column and a digest of the values it read in ``condition_snapshots``. The result per condition is ``match``,
+    ``mismatch``, ``no_digest`` (an older record) or ``no_table`` (the condition module is not
+    loaded in this run)."""
+    out = []
+    for module in sorted(loaded.params):
+        conditions = loaded.params[module].get("conditions")
+        if not isinstance(conditions, dict):
+            continue
+        for key, cond in sorted(conditions.items()):
+            if not isinstance(cond, dict) or "module" not in cond:
+                continue
+            snap = loaded.snapshots.get(module, {}).get(key)
+            cond = {**cond, **(snap if isinstance(snap, dict) else {})}
+            source, column = cond["module"], cond.get("column")
+            if not cond.get("values_sha256") or not column:
+                result = "no_digest"
+            elif source not in loaded.tables:
+                result = "no_table"
+            else:
+                rows = loaded.tables[source].rows
+                values = {
+                    pid: row.get(column, "")
+                    for pid, row in rows.items()
+                    if row.get("state") == "ok"
+                }
+                result = "match" if values_digest(values) == cond["values_sha256"] else "mismatch"
+            out.append({"module": module, "condition": key, "source": source, "result": result})
+    return out
+
+
+def _narrow_families(loaded):
+    """Accessions of the families that feed the narrow call, from the run record of
+    ``pfam_adhesion``; None when that module was not used or its record does not say."""
+    if loaded.states.get("pfam_adhesion") not in ("ok", "partial"):
+        return None
+    families = loaded.params.get("pfam_adhesion", {}).get("narrow_families")
+    return list(families) if isinstance(families, list) else None
 
 
 def run(args):
@@ -411,10 +476,15 @@ def run(args):
         ],
         calibration=calibration_rows(resolver, set(tables) | {cfg.default_gate}, taxa.values()),
         call_status_sources=call_resolver.rows(),
+        narrow_families=_narrow_families(loaded),
+        condition_checks=condition_checks(loaded),
     )
-    report = render_report(info, records)  # render first: a failure leaves no partial output
+    labels = primary_labels(records, cfg)
+    report = render_report(
+        info, records, labels
+    )  # render first: a failure leaves no partial output
     write_long(out / "calls.long.tsv.gz", records)
-    write_wide(out / "calls.wide.tsv.gz", records, ids)
+    write_wide(out / "calls.wide.tsv.gz", records, ids, labels)
     write_evidence(out / "evidence.tsv.gz", collect_evidence(cfg, ids, tables))
     write_proteins(out / "proteins.tsv.gz", proteins, taxa)
     write_atomic_text(out / "report.md", report)
