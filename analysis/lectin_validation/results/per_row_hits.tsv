@@ -1,0 +1,734 @@
+accession	label	label_class	cluster30	species	leakage	seed_hits	expected_model	m12_models_hit	m3_models_hit	union15_hit	pf07938_score
+A0A084GDU6	negative	assumed	Q2UPA6	Scedosporium apiospermum	none					no	
+A0A0B4FWC3	negative	assumed	A0A0B4FWC3	Metarhizium brunneum	none					no	
+A0A0D1CFF0	negative	assumed	A0A0D1CFF0	Mycosarcoma maydis	none					no	
+A0A0D1CHL0	negative	assumed	A0A0D1CHL0	Mycosarcoma maydis	none					no	
+A0A0D1DUA6	negative	assumed	A0A0D1DUA6	Mycosarcoma maydis	none					no	
+A0A0F7TN06	negative	assumed	A0A0F7TN06	Penicillium brasilianum	none					no	
+A0A0J9UHQ6	negative	assumed	A0A0J9UHQ6	Fusarium oxysporum	none					no	
+A0A0J9UR47	negative	assumed	A0A0J9UR47	Fusarium oxysporum	none					no	
+A0A0S2GKZ1	negative	assumed	S7RK00	Panus similis	none					no	
+A0A140JWT6	negative	assumed	B9WZX6	Penicillium ochrochloron	none					no	
+A0A1D8PJ25	negative	assumed	A0A1D8PJ25	Candida albicans	none					no	
+A0A1D8PLH0	negative	assumed	A0A1D8PLH0	Candida albicans	none					no	
+A0A1I9QLC6	negative	assumed	A0A1I9QLC6	Flammulina velutipes	none					no	
+A0A1L7U5Y7	negative	assumed	A0A1L7U5Y7	Fusarium mangiferae	none					no	
+A0A1L9WLD6	negative	assumed	A0A1L9WLD6	Aspergillus aculeatus	none					no	
+A0A1L9WQW4	negative	assumed	A0A1L9WQW4	Aspergillus aculeatus	none					no	
+A0A284S4Q2	negative	assumed	A0A284S4Q2	Armillaria ostoyae	none					no	
+A0A2B7YEF7	negative	assumed	A0A2B7YEF7	Polytolypa hystricis	none					no	
+A0A2G5IC53	negative	assumed	A0A2G5IC53	Cercospora beticola	none					no	
+A0A2H0ZI42	negative	assumed	A0A2H0ZI42	Candidozyma auris	none					no	
+A0A2I2F2M7	negative	assumed	A0A2I2F2M7	Aspergillus candidus	none					no	
+A0A2I2F2Q7	negative	assumed	A0A2I2F2Q7	Aspergillus candidus	none					no	
+A0A2P1DP77	negative	assumed	A0A2P1DP77	Penicillium terrestre	none					no	
+A0A2Z4HPZ5	negative	assumed	A0A2Z4HPZ5	Hormonema carpetanum	none					no	
+A0A2Z5XAK7	negative	assumed	A0A2Z5XAK7	Pyrenochaetopsis sp.	none					no	
+A0A336U966	negative	assumed	A0A336U966	Aspergillus terreus	none					no	
+A0A345BJP7	negative	assumed	A0A345BJP7	Curvularia lunata	none					no	
+A0A348HAY1	negative	assumed	A0A348HAY1	fungal sp. ATCC 74256	none					no	
+A0A3G1DJJ7	negative	assumed	A0A3G1DJJ7	Phoma sp. MF5453	none					no	
+A0A3G9GNJ4	negative	assumed	A0A3G9GNJ4	Talaromyces verruculosus	none					no	
+A0A411PQP1	negative	assumed	A0A411PQP1	Paecilomyces divaricatus	none					no	
+A0A443HJZ3	negative	assumed	A0A443HJZ3	Paecilomyces variotii	none					no	
+A0A4P8W744	negative	assumed	A0A4P8W744	Pyricularia grisea	none					no	
+A0A8B0M5T9	negative	assumed	A0A8B0M5T9	Amphichorda felina	none					no	
+A0A8F4PN06	negative	assumed	A0A8F4PN06	Stereocaulon alpinum	none					no	
+A1CD74	negative	assumed	A1CD74	Aspergillus clavatus	none					no	
+A1CFB5	negative	assumed	A1CFB5	Aspergillus clavatus	none					no	
+A1CKN7	negative	assumed	A1CKN7	Aspergillus clavatus	none					no	
+A1CNY3	negative	assumed	A1CNY3	Aspergillus clavatus	none					no	
+A1CRM1	negative	assumed	A1CRM1	Aspergillus clavatus	none					no	
+A1CU44	negative	assumed	Q8NK02	Aspergillus clavatus	none					no	
+A1CWD8	negative	assumed	Q2HEF1	Aspergillus fischeri	none					no	
+A1CYR9	negative	assumed	A1CFB5	Aspergillus fischeri	none					no	
+A1D373	negative	assumed	Q755A5	Aspergillus fischeri	none					no	
+A1D3N4	negative	assumed	A1D3N4	Aspergillus fischeri	none					no	
+A1D4S1	negative	assumed	B9W9Z5	Aspergillus fischeri	none					no	
+A1DAY1	negative	assumed	A1DAY1	Aspergillus fischeri	none					no	
+A1DCU0	negative	assumed	A1DCU0	Aspergillus fischeri	none					no	
+A1DDV3	negative	assumed	A1DDV3	Aspergillus fischeri	none					no	
+A1DGN0	negative	assumed	A1DGN0	Aspergillus fischeri	none					no	
+A1DNN8	negative	assumed	Q4WA69	Aspergillus fischeri	none					no	
+A2QCU8	negative	assumed	B8M7Q5	Aspergillus niger	none					no	
+A2QHG0	negative	assumed	A2QHG0	Aspergillus niger	none					no	
+A2QJH4	negative	assumed	A4QT54	Aspergillus niger	none					no	
+A2QKF8	negative	assumed	A2QKF8	Aspergillus niger	none					no	
+A2QLL1	negative	assumed	A2QLL1	Aspergillus niger	none					no	
+A2QNQ8	negative	assumed	A1CFB5	Aspergillus niger	none					no	
+A3LP87	negative	assumed	Q755A5	Scheffersomyces stipitis	none					no	
+A3LRM6	negative	assumed	A3LRM6	Scheffersomyces stipitis	none					no	
+A3LYF7	negative	assumed	A3LYF7	Scheffersomyces stipitis	none					no	
+A3LZ54	negative	assumed	A3LZ54	Scheffersomyces stipitis	none					no	
+A3LZY1	negative	assumed	A3LZY1	Scheffersomyces stipitis	none					no	
+A4QQN1	negative	assumed	A4QQN1	Pyricularia oryzae	none					no	
+A4QT54	negative	assumed	A4QT54	Pyricularia oryzae	none					no	
+A4QU31	negative	assumed	Q755A5	Pyricularia oryzae	none					no	
+A4QUA4	negative	assumed	A4QUA4	Pyricularia oryzae	none					no	
+A4RFH6	negative	assumed	A4RFH6	Pyricularia oryzae	none					no	
+A4RIF1	negative	assumed	Q755A5	Pyricularia oryzae	none					no	
+A5DB26	negative	assumed	A5DB26	Meyerozyma guilliermondii	none					no	
+A5DBF4	negative	assumed	A5DBF4	Meyerozyma guilliermondii	none					no	
+A5DDB7	negative	assumed	A5DDB7	Meyerozyma guilliermondii	none					no	
+A5E2Z9	negative	assumed	Q755A5	Lodderomyces elongisporus	none					no	
+A6QTX7	negative	assumed	A6QTX7	Histoplasma mississippiense	none					no	
+A6R040	negative	assumed	A6R040	Histoplasma mississippiense	none					no	
+A6R918	negative	assumed	Q755A5	Histoplasma mississippiense	none					no	
+A6SEV8	negative	assumed	A6SEV8	Botrytis cinerea	none					no	
+A6X970	negative	assumed	A6X970	Schizosaccharomyces pombe	none					no	
+A6ZKR6	negative	assumed	A6ZKR6	Saccharomyces cerevisiae	none					no	
+A6ZS79	negative	assumed	A6ZS79	Saccharomyces cerevisiae	none					no	
+A6ZV85	negative	assumed	A6ZV85	Saccharomyces cerevisiae	none					no	
+A7BHQ9	negative	assumed	A7BHQ9	Pholiota microspora	none					no	
+A7E4T8	negative	assumed	A7E4T8	Sclerotinia sclerotiorum	none					no	
+A7E664	negative	assumed	Q6BWR0	Sclerotinia sclerotiorum	none					no	
+A7F2R3	negative	assumed	A8PXY6	Sclerotinia sclerotiorum	none					no	
+A7F4L5	negative	assumed	Q755A5	Sclerotinia sclerotiorum	none					no	
+A7KAL5	negative	assumed	A7KAL5	Penicillium rubens	none					no	
+A7MAS3	negative	assumed	A7MAS3	Komagataella pastoris	none					no	
+A7TFD7	negative	assumed	A7TFD7	Vanderwaltozyma polyspora	none					no	
+A7TJI3	negative	assumed	A7TJI3	Vanderwaltozyma polyspora	none					no	
+A7TM20	negative	assumed	A7TM20	Vanderwaltozyma polyspora	none					no	
+A7TSL2	negative	assumed	A7TSL2	Vanderwaltozyma polyspora	none					no	
+A8NZM5	negative	assumed	A8NZM5	Coprinopsis cinerea	none					no	
+A8PWQ8	negative	assumed	A8PWQ8	Malassezia globosa	none					no	
+A8PXY6	negative	assumed	A8PXY6	Malassezia globosa	none					no	
+A8QBZ2	negative	assumed	C5FF46	Malassezia globosa	none					no	
+B0D0T8	negative	assumed	B0D0T8	Laccaria bicolor	none					no	
+B0XZV2	negative	assumed	B0XZV2	Aspergillus fumigatus	none					no	
+B2KWH5	negative	assumed	B2KWH5	Histoplasma capsulatum	none					no	
+B2W1P8	negative	assumed	B2W1P8	Pyrenophora tritici-repentis	none					no	
+B2WGR9	negative	assumed	B2WGR9	Pyrenophora tritici-repentis	none					no	
+B3LHR1	negative	assumed	B3LHR1	Saccharomyces cerevisiae	none					no	
+B3LL20	negative	assumed	B3LL20	Saccharomyces cerevisiae	none					no	
+B3LUQ6	negative	assumed	B3LUQ6	Saccharomyces cerevisiae	none					no	
+B5VGI4	negative	assumed	B5VGI4	Saccharomyces cerevisiae	none					no	
+B5VK87	negative	assumed	B5VK87	Saccharomyces cerevisiae	none					no	
+B6H061	negative	assumed	B6H061	Penicillium rubens	none					no	
+B6H7A4	negative	assumed	B6H7A4	Penicillium rubens	none					no	
+B6HAR6	negative	assumed	B6HAR6	Penicillium rubens	none					no	
+B6HVC6	negative	assumed	B6HVC6	Penicillium rubens	none					no	
+B6JY29	negative	assumed	B6JY29	Schizosaccharomyces japonicus	none					no	
+B6K327	negative	assumed	B6K327	Schizosaccharomyces japonicus	none					no	
+B7XHP6	negative	assumed	B7XHP6	Enterocytozoon bieneusi	none					no	
+B8M7Q5	negative	assumed	B8M7Q5	Talaromyces stipitatus	none					no	
+B8MD74	negative	assumed	B8MD74	Talaromyces stipitatus	none					no	
+B8MKZ3	negative	assumed	B8MKZ3	Talaromyces stipitatus	none					no	
+B8MPW2	negative	assumed	B8MPW2	Talaromyces stipitatus	none					no	
+B8N2I5	negative	assumed	B8N2I5	Aspergillus flavus	none					no	
+B8N513	negative	assumed	A8PXY6	Aspergillus flavus	none					no	
+B8N9M0	negative	assumed	B8N9M0	Aspergillus flavus	none					no	
+B8NHE4	negative	assumed	B8NHE4	Aspergillus flavus	none					no	
+B8NJF4	negative	assumed	B8NJF4	Aspergillus flavus	none					no	
+B8YG19	negative	assumed	B8YG19	Neocallimastix patriciarum	none					no	
+B9W9A9	negative	assumed	B9W9A9	Candida dubliniensis	none					no	
+B9W9Z5	negative	assumed	B9W9Z5	Candida dubliniensis	none					no	
+B9WZX3	negative	assumed	E0Y3X0	Aspergillus fumigatus	none					no	
+B9WZX6	negative	assumed	B9WZX6	Aspergillus fumigatus	none					no	
+C0NIT8	negative	assumed	C0NIT8	Histoplasma capsulatum	none					no	
+C0NSF3	negative	assumed	C0NSF3	Histoplasma capsulatum	none					no	
+C0NZL9	negative	assumed	Q59P53	Histoplasma capsulatum	none					no	
+C0SJ49	negative	assumed	Q5AXE5	Paracoccidioides brasiliensis	none					no	
+C1FZ15	negative	assumed	B8MPW2	Paracoccidioides brasiliensis	none					no	
+C1GEY4	negative	assumed	A7E4T8	Paracoccidioides brasiliensis	none					no	
+C4R7S9	negative	assumed	C4R7S9	Komagataella phaffii	none					no	
+C4R7X9	negative	assumed	C4R7X9	Komagataella phaffii	none					no	
+C4Y3M4	negative	assumed	C4Y3M4	Clavispora lusitaniae	none					no	
+C5DDZ2	negative	assumed	A7TM20	Lachancea thermotolerans	none					no	
+C5DL76	negative	assumed	C5DL76	Lachancea thermotolerans	none					no	
+C5DMW3	negative	assumed	C5DMW3	Lachancea thermotolerans	none					no	
+C5DUX2	negative	assumed	C5DUX2	Zygosaccharomyces rouxii	none					no	
+C5FF46	negative	assumed	C5FF46	Microsporum canis	none					no	
+C5FSW4	negative	assumed	C5FSW4	Microsporum canis	none					no	
+C5FW52	negative	assumed	C5FW52	Microsporum canis	none					no	
+C5H882	negative	assumed	D7PHZ2	Floropilus chiversii	none					no	
+C5JZS0	negative	assumed	C5JZS0	Blastomyces gilchristii	none					no	
+C5NZ70	negative	assumed	C5NZ70	Coccidioides posadasii	none					no	
+C6HCG7	negative	assumed	C6HCG7	Histoplasma capsulatum	none					no	
+C7GWI3	negative	assumed	C7GWI3	Saccharomyces cerevisiae	none					no	
+C8VQG9	negative	assumed	C8VQG9	Aspergillus nidulans	none					no	
+C8ZAW6	negative	assumed	C8ZAW6	Saccharomyces cerevisiae	none					no	
+C8ZCR2	negative	assumed	C8ZCR2	Saccharomyces cerevisiae	none					no	
+C8ZET8	negative	assumed	C8ZET8	Saccharomyces cerevisiae	none					no	
+C8ZIQ5	negative	assumed	C8ZIQ5	Saccharomyces cerevisiae	none					no	
+C9K2Q3	negative	assumed	C9K2Q3	Alternaria brassicicola	none					no	
+C9SUS0	negative	assumed	C9SUS0	Verticillium alfalfae	none					no	
+D0MQ50	negative	assumed	D0MQ50	Alternaria alternata	none					no	
+D4AIP9	negative	assumed	D4AIP9	Trichophyton benhamiae	none					no	
+D4AK75	negative	assumed	D4AK75	Trichophyton benhamiae	none					no	
+D4APA9	negative	assumed	C5NZ70	Trichophyton benhamiae	none					no	
+D4AQ52	negative	assumed	D4AQ52	Trichophyton benhamiae	none					no	
+D4AQV3	negative	assumed	B6JY29	Trichophyton benhamiae	none					no	
+D4AV98	negative	assumed	D4AV98	Trichophyton benhamiae	none					no	
+D4AZ78	negative	assumed	D4AZ78	Trichophyton benhamiae	none					no	
+D4B5D3	negative	assumed	D4B5D3	Trichophyton benhamiae	none					no	
+D7PHZ2	negative	assumed	D7PHZ2	Penicillium aethiopicum	none					no	
+E0Y3X0	negative	assumed	E0Y3X0	Aspergillus sp. MF297-2	none					no	
+E2JFG2	negative	assumed	E2JFG2	Amanita bisporigera	none					no	
+E3LB80	negative	assumed	E3LB80	Puccinia graminis	none					no	
+E5A7E3	negative	assumed	E5A7E3	Plenodomus lingam	none					no	
+E7QCS8	negative	assumed	E7QCS8	Saccharomyces cerevisiae	none					no	
+E7QDA1	negative	assumed	E7QDA1	Saccharomyces cerevisiae	none					no	
+E9E1W3	negative	assumed	E9E1W3	Metarhizium acridum	none					no	
+E9F8M2	negative	assumed	E9F8M2	Metarhizium robertsii	none					no	
+E9QRF2	negative	assumed	G5EAZ3	Aspergillus fumigatus	none					no	
+F2SL82	negative	assumed	M2YMT1	Trichophyton rubrum	none					no	
+F4P6T0	negative	assumed	Q9C206	Batrachochytrium dendrobatidis	none					no	
+F8P1W3	negative	assumed	F8P1W3	Serpula lacrymans	none					no	
+G0KYB3	negative	assumed	G0KYB3	Trichoderma arundinaceum	none					no	
+G0SDP9	negative	assumed	G0SDP9	Thermochaetoides thermophila	none					no	
+G1UB61	negative	assumed	G1UB61	Candida albicans	none					no	
+G1XJZ4	negative	assumed	G1XJZ4	Orbilia oligospora	none					no	
+G2QAB5	negative	assumed	S7RK00	Thermothelomyces thermophilus	none					no	
+G2RB72	negative	assumed	G2RB72	Thermothielavioides terrestris	none					no	
+G2TRK3	negative	assumed	G2TRK3	Schizosaccharomyces pombe	none					no	
+G2X3G9	negative	assumed	G2X3G9	Verticillium dahliae	none					no	
+G2XER7	negative	assumed	G2XER7	Verticillium dahliae	none					no	
+G2XHL4	negative	assumed	G2XHL4	Verticillium dahliae	none					no	
+G2XR75	negative	assumed	G2XR75	Botrytis cinerea	none					no	
+G3XMD1	negative	assumed	W6QN79	Aspergillus niger	none					no	
+G4NBX2	negative	assumed	G4NBX2	Pyricularia oryzae	none					no	
+G8BHG7	negative	assumed	G8BHG7	Candida parapsilosis	none					no	
+G9MNI0	negative	assumed	G9MNI0	Trichoderma virens	none					no	
+I1RB03	negative	assumed	I1RB03	Fusarium graminearum	none					no	
+I1RN14	negative	assumed	I1RN14	Fusarium graminearum	none					no	
+I1RV18	negative	assumed	I1RV18	Fusarium graminearum	none					no	
+I1S160	negative	assumed	I1S160	Fusarium graminearum	none					no	
+J4KQS2	negative	assumed	J4KQS2	Beauveria bassiana	none					no	
+J4UQC2	negative	assumed	J4UQC2	Beauveria bassiana	none					no	
+J5JPY5	negative	assumed	J5JPY5	Beauveria bassiana	none					no	
+J9VW97	negative	assumed	J9VW97	Cryptococcus neoformans	none					no	
+L0E4F8	negative	assumed	L0E4F8	Malbranchea aurantiaca	none					no	
+L0MZK0	negative	assumed	L0MZK0	Diaporthe amygdali	none					no	
+M1VVW5	negative	assumed	M1VVW5	Claviceps purpurea	none					no	
+M1W848	negative	assumed	M1W848	Claviceps purpurea	none					no	
+M1WCF5	negative	assumed	M1WCF5	Claviceps purpurea	none					no	
+M2Y151	negative	assumed	M2Y151	Dothistroma septosporum	none					no	
+M2YMT1	negative	assumed	M2YMT1	Pseudocercospora fijiensis	none					no	
+N4VG36	negative	assumed	N4VG36	Colletotrichum orbiculare	none					no	
+O13285	negative	assumed	O13285	Candida tropicalis	none					no	
+O48334	negative	assumed	O48334	Venturia inaequalis	none					no	
+O59905	negative	assumed	Q9UW83	Cercospora nicotianae	none					no	
+O60053	negative	assumed	O60053	Schizosaccharomyces pombe	none					no	
+O74327	negative	assumed	O74327	Schizosaccharomyces pombe	none					no	
+O74648	negative	assumed	O74648	Schizosaccharomyces pombe	none					no	
+O74742	negative	assumed	O74742	Schizosaccharomyces pombe	none					no	
+O94069	negative	assumed	O94069	Candida albicans	none					no	
+O94203	negative	assumed	O94203	Fulvia fulva	none					no	
+O94353	negative	assumed	O94353	Schizosaccharomyces pombe	none					no	
+O94399	negative	assumed	O94399	Schizosaccharomyces pombe	none					no	
+P00330	negative	assumed	P00330	Saccharomyces cerevisiae	none					no	
+P08417	negative	assumed	P08417	Saccharomyces cerevisiae	none					no	
+P08844	negative	assumed	P08844	Aspergillus nidulans	none					no	
+P0C1I6	negative	assumed	P0C1I6	Rhizopus delemar	none					no	
+P0C955	negative	assumed	Q9Y7Y7	Aspergillus fumigatus	none					no	
+P0CD99	negative	assumed	P0CD99	Saccharomyces cerevisiae	none					no	
+P0CM14	negative	assumed	P0CM14	Cryptococcus deneoformans	none					no	
+P0CM67	negative	assumed	P0CM67	Cryptococcus deneoformans	none					no	
+P0CN26	negative	assumed	P0CN26	Cryptococcus deneoformans	none					no	
+P0CN83	negative	assumed	P0CN83	Cryptococcus deneoformans	none					no	
+P0CN85	negative	assumed	P0CN85	Cryptococcus deneoformans	none					no	
+P0CN92	negative	assumed	P0CN92	Cryptococcus deneoformans	none					no	
+P0CP31	negative	assumed	P0CP31	Cryptococcus deneoformans	none					no	
+P0CP45	negative	assumed	P0CP45	Cryptococcus deneoformans	none					no	
+P0CP59	negative	assumed	A6ZV85	Cryptococcus deneoformans	none					no	
+P0CQ12	negative	assumed	P0CQ12	Cryptococcus deneoformans	none					no	
+P0CQ83	negative	assumed	Q755A5	Cryptococcus deneoformans	none					no	
+P0CQ94	negative	assumed	P0CQ94	Cryptococcus deneoformans	none					no	
+P0CR29	negative	assumed	P0CR29	Cryptococcus deneoformans	none					no	
+P0CR38	negative	assumed	P0CR38	Cryptococcus deneoformans	none					no	
+P0CR67	negative	assumed	P0CR67	Cryptococcus deneoformans	none					no	
+P0CS24	negative	assumed	P0CS24	Cryptococcus deneoformans	none					no	
+P0CS32	negative	assumed	E3LB80	Cryptococcus deneoformans	none					no	
+P0CS36	negative	assumed	P0CS36	Cryptococcus deneoformans	none					no	
+P0CT01	negative	assumed	P0CT01	Encephalitozoon cuniculi	none					no	
+P0CT30	negative	assumed	P0CT30	Mycosarcoma maydis	none					no	
+P0CU72	negative	assumed	A0A411PQP1	Fulvia fulva	none					no	
+P0DUL3	negative	assumed	P0DUL3	Aspergillus hancockii	none					no	
+P0DUR7	negative	assumed	P0DUR7	Penicillium citrinum	none					no	
+P0DYK0	negative	assumed	W6QN79	Epicoccum sorghinum	none					no	
+P0DYK3	negative	assumed	P0DYK3	Boreostereum vibrans	none					no	
+P10069	negative	assumed	P10069	Aspergillus nidulans	none					no	
+P10602	negative	assumed	P10602	Rhizopus niveus	none					no	
+P13742	negative	assumed	P13742	Lachancea fermentati	none					no	
+P17065	negative	assumed	P17065	Saccharomyces cerevisiae	none					no	
+P20285	negative	assumed	P20285	Neurospora crassa	none					no	
+P21228	negative	assumed	P21228	Aspergillus nidulans	none					no	
+P22020	negative	assumed	P22020	Mycosarcoma maydis	none					no	
+P22861	negative	assumed	P22861	Schwanniomyces occidentalis	none					no	
+P29406	negative	assumed	P29406	Rhizopus niveus	none					no	
+P32257	negative	assumed	P32257	Kluyveromyces lactis	none					no	
+P33539	negative	assumed	P33539	Agaricus bitorquis	none					no	
+P34240	negative	assumed	P34240	Saccharomyces cerevisiae	none					no	
+P36071	negative	assumed	P36071	Saccharomyces cerevisiae	none					no	
+P39106	negative	assumed	P39106	Saccharomyces cerevisiae	none					no	
+P40103	negative	assumed	P40103	Saccharomyces cerevisiae	none					no	
+P40918	negative	assumed	Q876N3	Cladosporium herbarum	none					no	
+P40920	negative	assumed	P40920	Aspergillus nidulans	none					no	
+P41742	negative	assumed	P41742	Histoplasma capsulatum	none					no	
+P42039	negative	assumed	P42039	Cladosporium herbarum	none					no	
+P42254	negative	assumed	P42254	Aspergillus niger	none					no	
+P42255	negative	assumed	P42255	Aspergillus niger	none					no	
+P43084	negative	assumed	P43084	Candida albicans	none					no	
+P47126	negative	assumed	P47126	Saccharomyces cerevisiae	none					no	
+P49605	negative	assumed	P49605	Mycosarcoma maydis	none					no	
+P50138	negative	assumed	P50138	Puccinia graminis	none					no	
+P50860	negative	assumed	P50860	Nakaseomyces glabratus	none					no	
+P52718	negative	assumed	P52718	Aspergillus niger	none					no	
+P54898	negative	assumed	P54898	Neurospora crassa	none					no	
+P9WED8	negative	assumed	P9WED8	Penicillium shearii	none					no	
+P9WEG1	negative	assumed	P9WEG1	Annulohypoxylon moriforme	none					no	
+P9WEL2	negative	assumed	P9WEL2	Aspergillus versicolor	none					no	
+P9WET7	negative	assumed	P9WET7	Preussia isomera	none					no	
+P9WEX5	negative	assumed	P9WEX5	Apiospora sacchari	none					no	
+Q00359	negative	assumed	A2QHG0	Bipolaris zeicola	none					no	
+Q01168	negative	assumed	Q01168	Pyricularia oryzae	none					no	
+Q01529	negative	assumed	Q01529	Podospora anserina	none					no	
+Q04516	negative	assumed	Q04516	Saccharomyces cerevisiae	none					no	
+Q07435	negative	assumed	Q07435	Saccharomyces cerevisiae	none					no	
+Q08202	negative	assumed	Q08202	Saccharomyces cerevisiae	none					no	
+Q09094	negative	assumed	Q09094	Schizosaccharomyces pombe	none					no	
+Q0C7K7	negative	assumed	Q0C7K7	Aspergillus terreus	none					no	
+Q0CA25	negative	assumed	Q0CA25	Aspergillus terreus	none					no	
+Q0CCD0	negative	assumed	Q4WBS1	Aspergillus terreus	none					no	
+Q0CFF7	negative	assumed	Q2UCT7	Aspergillus terreus	none					no	
+Q0CMU3	negative	assumed	Q5B508	Aspergillus terreus	none					no	
+Q0CRQ5	negative	assumed	P9WEG1	Aspergillus terreus	none					no	
+Q0CTS1	negative	assumed	Q0CTS1	Aspergillus terreus	none					no	
+Q0H8Y1	negative	assumed	Q0H8Y1	Mycosarcoma maydis	none					no	
+Q0U1A1	negative	assumed	P08844	Parastagonospora nodorum	none					no	
+Q0U2T3	negative	assumed	Q0U2T3	Parastagonospora nodorum	none					no	
+Q0U3N7	negative	assumed	Q0U3N7	Parastagonospora nodorum	none					no	
+Q0U7S9	negative	assumed	Q755A5	Parastagonospora nodorum	none					no	
+Q0UI56	negative	assumed	Q0UI56	Parastagonospora nodorum	none					no	
+Q0URD7	negative	assumed	Q0URD7	Parastagonospora nodorum	none					no	
+Q0V3D5	negative	assumed	Q0V3D5	Parastagonospora nodorum	none					no	
+Q12193	negative	assumed	Q12193	Saccharomyces cerevisiae	none					no	
+Q12510	negative	assumed	Q12510	Saccharomyces cerevisiae	none					no	
+Q12629	negative	assumed	Q12629	Kluyveromyces lactis	none					no	
+Q12657	negative	assumed	Q12657	Penicillium chrysogenum	none					no	
+Q12737	negative	assumed	Q12737	Albifimbria verrucaria	none					no	
+Q1DXN1	negative	assumed	Q04516	Coccidioides immitis	none					no	
+Q1E1R7	negative	assumed	Q755A5	Coccidioides immitis	none					no	
+Q1E5N0	negative	assumed	Q1E5N0	Coccidioides immitis	none					no	
+Q1K615	negative	assumed	Q1K615	Neurospora crassa	none					no	
+Q1K9B6	negative	assumed	Q1K9B6	Schizosaccharomyces pombe	none					no	
+Q2GPS5	negative	assumed	Q2GPS5	Chaetomium globosum	none					no	
+Q2GXT0	negative	assumed	Q2GXT0	Chaetomium globosum	none					no	
+Q2H1Q8	negative	assumed	Q755A5	Chaetomium globosum	none					no	
+Q2H2V8	negative	assumed	Q2H2V8	Chaetomium globosum	none					no	
+Q2HAN0	negative	assumed	Q2HAN0	Chaetomium globosum	none					no	
+Q2HEF1	negative	assumed	Q2HEF1	Chaetomium globosum	none					no	
+Q2HFL6	negative	assumed	Q2HFL6	Chaetomium globosum	none					no	
+Q2HFZ9	negative	assumed	Q2HFZ9	Chaetomium globosum	none					no	
+Q2PGV8	negative	assumed	Q2PGV8	Aureobasidium pullulans	none					no	
+Q2TZ19	negative	assumed	Q2TZ19	Aspergillus oryzae	none					no	
+Q2TZ20	negative	assumed	Q2TZ20	Aspergillus oryzae	none					no	
+Q2U3W7	negative	assumed	Q2U3W7	Aspergillus oryzae	none					no	
+Q2U639	negative	assumed	Q2U639	Aspergillus oryzae	none					no	
+Q2U7S5	negative	assumed	A7E4T8	Aspergillus oryzae	none					no	
+Q2UCT7	negative	assumed	Q2UCT7	Aspergillus oryzae	none					no	
+Q2UEK2	negative	assumed	B8NHE4	Aspergillus oryzae	none					no	
+Q2UF72	negative	assumed	A0A0J9UR47	Aspergillus oryzae	none					no	
+Q2UIM2	negative	assumed	P42255	Aspergillus oryzae	none					no	
+Q2UJJ4	negative	assumed	Q2UJJ4	Aspergillus oryzae	none					no	
+Q2UKS0	negative	assumed	Q2UKS0	Aspergillus oryzae	none					no	
+Q2UMG1	negative	assumed	Q2UMG1	Aspergillus oryzae	none					no	
+Q2UPA6	negative	assumed	Q2UPA6	Aspergillus oryzae	none					no	
+Q2URJ3	negative	assumed	Q2URJ3	Aspergillus oryzae	none					no	
+Q2USL9	negative	assumed	Q2USL9	Aspergillus oryzae	none					no	
+Q3E7Y4	negative	assumed	Q3E7Y4	Saccharomyces cerevisiae	none					no	
+Q4HWE2	negative	assumed	Q4HWE2	Fusarium graminearum	none					no	
+Q4IBK5	negative	assumed	Q4IBK5	Fusarium graminearum	none					no	
+Q4IEV5	negative	assumed	Q4WHF8	Fusarium graminearum	none					no	
+Q4WAQ9	negative	assumed	P0C1I6	Aspergillus fumigatus	none					no	
+Q4WHF8	negative	assumed	Q4WHF8	Aspergillus fumigatus	none					no	
+Q4WHX4	negative	assumed	Q4WHX4	Aspergillus fumigatus	none					no	
+Q4WPW2	negative	assumed	Q4WPW2	Aspergillus fumigatus	none					no	
+Q4WQG5	negative	assumed	Q4WQG5	Aspergillus fumigatus	none					no	
+Q4WQJ2	negative	assumed	Q4WQJ2	Aspergillus fumigatus	none					no	
+Q4WRP2	negative	assumed	Q755A5	Aspergillus fumigatus	none					no	
+Q4WRQ4	negative	assumed	Q4WRQ4	Aspergillus fumigatus	none					no	
+Q4WW98	negative	assumed	Q4WW98	Aspergillus fumigatus	none					no	
+Q4WYV0	negative	assumed	Q59P53	Aspergillus fumigatus	none					no	
+Q4X228	negative	assumed	Q4X228	Aspergillus fumigatus	none					no	
+Q52UT1	negative	assumed	Q52UT1	Omphalotus olearius	none					no	
+Q59P53	negative	assumed	Q59P53	Candida albicans	none					no	
+Q59RL7	negative	assumed	Q59RL7	Candida albicans	none					no	
+Q59VP0	negative	assumed	Q59VP0	Candida albicans	none					no	
+Q5A0Y8	negative	assumed	Q5A0Y8	Candida albicans	none					no	
+Q5A917	negative	assumed	Q5A917	Candida albicans	none					no	
+Q5AB15	negative	assumed	Q5AB15	Candida albicans	none					no	
+Q5AB48	negative	assumed	Q5AB48	Candida albicans	none					no	
+Q5ADQ0	negative	assumed	Q5ADQ0	Candida albicans	none					no	
+Q5AEM5	negative	assumed	Q6BJM5	Candida albicans	none					no	
+Q5ALP1	negative	assumed	Q5ALP1	Candida albicans	none					no	
+Q5AMJ5	negative	assumed	Q5AMJ5	Candida albicans	none					no	
+Q5ATH1	negative	assumed	Q5ATH1	Aspergillus nidulans	none					no	
+Q5AV02	negative	assumed	Q5AV02	Aspergillus nidulans	none					no	
+Q5AVT9	negative	assumed	Q5AVT9	Aspergillus nidulans	none					no	
+Q5AW32	negative	assumed	Q5AW32	Aspergillus nidulans	none					no	
+Q5AXE5	negative	assumed	Q5AXE5	Aspergillus nidulans	none					no	
+Q5AYI7	negative	assumed	Q5AYI7	Aspergillus nidulans	none					no	
+Q5BAX8	negative	assumed	Q5BAX8	Aspergillus nidulans	none					no	
+Q5BB57	negative	assumed	Q754I9	Aspergillus nidulans	none					no	
+Q5BDL9	negative	assumed	Q5BDL9	Aspergillus nidulans	none					no	
+Q5GN51	negative	assumed	Q5GN51	Aspergillus niger	none					no	
+Q5KD76	negative	assumed	Q5KD76	Cryptococcus deneoformans	none					no	
+Q6BJ87	negative	assumed	Q6BJ87	Debaryomyces hansenii	none					no	
+Q6BJM5	negative	assumed	Q6BJM5	Debaryomyces hansenii	none					no	
+Q6BL68	negative	assumed	Q6BL68	Debaryomyces hansenii	none					no	
+Q6BMH4	negative	assumed	Q6BMH4	Debaryomyces hansenii	none					no	
+Q6BP10	negative	assumed	Q6BP10	Debaryomyces hansenii	none					no	
+Q6BPF8	negative	assumed	Q6BPF8	Debaryomyces hansenii	none					no	
+Q6BRV5	negative	assumed	Q6BRV5	Debaryomyces hansenii	none					no	
+Q6BU51	negative	assumed	Q6BU51	Debaryomyces hansenii	none					no	
+Q6BVZ7	negative	assumed	Q6BVZ7	Debaryomyces hansenii	none					no	
+Q6BWR0	negative	assumed	Q6BWR0	Debaryomyces hansenii	none					no	
+Q6BXX1	negative	assumed	Q6BXX1	Debaryomyces hansenii	none					no	
+Q6BY20	negative	assumed	Q6BY20	Debaryomyces hansenii	none					no	
+Q6BYE5	negative	assumed	Q6BYE5	Debaryomyces hansenii	none					no	
+Q6C060	negative	assumed	Q6C060	Yarrowia lipolytica	none					no	
+Q6C5K1	negative	assumed	Q6C5K1	Yarrowia lipolytica	none					no	
+Q6C835	negative	assumed	P0CQ94	Yarrowia lipolytica	none					no	
+Q6C882	negative	assumed	Q6C882	Yarrowia lipolytica	none					no	
+Q6CAX5	negative	assumed	Q6CAX5	Yarrowia lipolytica	none					no	
+Q6CBK1	negative	assumed	Q6CBK1	Yarrowia lipolytica	none					no	
+Q6CDV4	negative	assumed	Q755A5	Yarrowia lipolytica	none					no	
+Q6CGG3	negative	assumed	Q4WHX4	Yarrowia lipolytica	none					no	
+Q6CGP9	negative	assumed	Q6CGP9	Yarrowia lipolytica	none					no	
+Q6CHK0	negative	assumed	Q6CHK0	Yarrowia lipolytica	none					no	
+Q6CJR7	negative	assumed	Q6CJR7	Kluyveromyces lactis	none					no	
+Q6CK11	negative	assumed	Q6CK11	Kluyveromyces lactis	none					no	
+Q6CKI1	negative	assumed	Q755A5	Kluyveromyces lactis	none					no	
+Q6CL25	negative	assumed	Q6CL25	Kluyveromyces lactis	none					no	
+Q6CLA4	negative	assumed	Q6CLA4	Kluyveromyces lactis	none					no	
+Q6CND9	negative	assumed	Q6CND9	Kluyveromyces lactis	none					no	
+Q6CR46	negative	assumed	Q6CR46	Kluyveromyces lactis	none					no	
+Q6CRJ6	negative	assumed	Q6CRJ6	Kluyveromyces lactis	none					no	
+Q6CS52	negative	assumed	Q6CS52	Kluyveromyces lactis	none					no	
+Q6CSH0	negative	assumed	Q6CSH0	Kluyveromyces lactis	none					no	
+Q6CUZ3	negative	assumed	Q6CUZ3	Kluyveromyces lactis	none					no	
+Q6CW22	negative	assumed	Q6CW22	Kluyveromyces lactis	none					no	
+Q6CYD0	negative	assumed	Q6CYD0	Kluyveromyces lactis	none					no	
+Q6FJV4	negative	assumed	Q6FJV4	Nakaseomyces glabratus	none					no	
+Q6FL34	negative	assumed	Q6FL34	Nakaseomyces glabratus	none					no	
+Q6FLC3	negative	assumed	Q6FLC3	Nakaseomyces glabratus	none					no	
+Q6FLM2	negative	assumed	Q6FLM2	Nakaseomyces glabratus	none					no	
+Q6FML9	negative	assumed	Q6FML9	Nakaseomyces glabratus	none					no	
+Q6FNY7	negative	assumed	P0CN26	Nakaseomyces glabratus	none					no	
+Q6FPT1	negative	assumed	Q6FPT1	Nakaseomyces glabratus	none					no	
+Q6FUI5	negative	assumed	Q6FUI5	Nakaseomyces glabratus	none					no	
+Q6FVY2	negative	assumed	Q6FVY2	Nakaseomyces glabratus	none					no	
+Q6FX62	negative	assumed	Q6FX62	Nakaseomyces glabratus	none					no	
+Q6FXC6	negative	assumed	Q6FXC6	Nakaseomyces glabratus	none					no	
+Q6MVL2	negative	assumed	Q6MVL2	Neurospora crassa	none					no	
+Q6Q873	negative	assumed	Q6Q873	Plenodomus lingam	none					no	
+Q6UGN0	negative	assumed	Q6UGN0	Trichoderma atroviride	none					no	
+Q6WRS2	negative	assumed	Q6WRS2	Tuber borchii	none					no	
+Q6YNE9	negative	assumed	Q6YNE9	Penicillium oxalicum	none					no	
+Q70GH4	negative	assumed	D4AK75	Aspergillus fumigatus	none					no	
+Q74ZF1	negative	assumed	Q74ZF1	Eremothecium gossypii	none					no	
+Q751X1	negative	assumed	Q751X1	Eremothecium gossypii	none					no	
+Q752T7	negative	assumed	Q752T7	Eremothecium gossypii	none					no	
+Q754I9	negative	assumed	Q754I9	Eremothecium gossypii	none					no	
+Q755A5	negative	assumed	Q755A5	Eremothecium gossypii	none					no	
+Q758M1	negative	assumed	Q758M1	Eremothecium gossypii	none					no	
+Q759Y6	negative	assumed	Q759Y6	Eremothecium gossypii	none					no	
+Q75AA0	negative	assumed	Q75AA0	Eremothecium gossypii	none					no	
+Q75AV8	negative	assumed	Q75AV8	Eremothecium gossypii	none					no	
+Q75BY3	negative	assumed	Q75BY3	Eremothecium gossypii	none					no	
+Q75C24	negative	assumed	Q75C24	Eremothecium gossypii	none					no	
+Q75CC1	negative	assumed	Q75CC1	Eremothecium gossypii	none					no	
+Q75CK5	negative	assumed	Q75CK5	Eremothecium gossypii	none					no	
+Q75E92	negative	assumed	Q75E92	Eremothecium gossypii	none					no	
+Q75G38	negative	assumed	Q75G38	Eremothecium gossypii	none					no	
+Q7RZI0	negative	assumed	Q7RZI0	Neurospora crassa	none					no	
+Q7S4P3	negative	assumed	Q7S4P3	Neurospora crassa	none					no	
+Q7S8A6	negative	assumed	Q7S8A6	Neurospora crassa	none					no	
+Q7SAB7	negative	assumed	Q7SAB7	Neurospora crassa	none					no	
+Q7SAT8	negative	assumed	A1CD74	Neurospora crassa	none					no	
+Q7SB98	negative	assumed	Q7SB98	Neurospora crassa	none					no	
+Q7SCX7	negative	assumed	Q7SCX7	Neurospora crassa	none					no	
+Q7SDY3	negative	assumed	Q7SDY3	Neurospora crassa	none					no	
+Q7SEK1	negative	assumed	Q7SEK1	Neurospora crassa	none					no	
+Q876K6	negative	assumed	Q876K6	Saccharomyces uvarum	none					no	
+Q876N3	negative	assumed	Q876N3	Nakaseomyces glabratus	none					no	
+Q876N4	negative	assumed	Q876N4	Komagataella pastoris	none					no	
+Q8J1L3	negative	assumed	Q8J1L3	Blastobotrys adeninivorans	none					no	
+Q8SRB3	negative	assumed	Q8SRB3	Encephalitozoon cuniculi	none					no	
+Q8SSA8	negative	assumed	Q8SSA8	Encephalitozoon cuniculi	none					no	
+Q8ST89	negative	assumed	Q8ST89	Encephalitozoon cuniculi	none					no	
+Q8STJ1	negative	assumed	Q8STJ1	Encephalitozoon cuniculi	none					no	
+Q8STK5	negative	assumed	Q8STK5	Encephalitozoon cuniculi	none					no	
+Q8STR6	negative	assumed	Q8STR6	Encephalitozoon cuniculi	none					no	
+Q8SVN9	negative	assumed	Q8STJ1	Encephalitozoon cuniculi	none					no	
+Q8SVP8	negative	assumed	Q8SVP8	Encephalitozoon cuniculi	none					no	
+Q8TFK7	negative	assumed	Q8TFK7	Nakaseomyces glabratus	none					no	
+Q8TG07	negative	assumed	Q8TG07	Nakaseomyces glabratus	none					no	
+Q8TG11	negative	assumed	Q8TG11	Neurospora crassa	none					no	
+Q92250	negative	assumed	Q92250	Neurospora crassa	none					no	
+Q96V81	negative	assumed	Q96V81	Clitocybe nebularis	none					no	
+Q9B6C8	negative	assumed	Q9B6C8	Yarrowia lipolytica	none					no	
+Q9C206	negative	assumed	Q9C206	Podospora anserina	none					no	
+Q9HFX0	negative	assumed	Q9HFX0	Zygosaccharomyces bailii	none					no	
+Q9HGI3	negative	assumed	E9DFH0	Aspergillus nidulans	none					no	
+Q9P377	negative	assumed	Q9P377	Schizosaccharomyces pombe	none					no	
+Q9P380	negative	assumed	Q9P380	Schizosaccharomyces pombe	none					no	
+Q9UT37	negative	assumed	Q9UT37	Schizosaccharomyces pombe	none					no	
+Q9UTB3	negative	assumed	Q9UTB3	Schizosaccharomyces pombe	none					no	
+Q9UU90	negative	assumed	Q9UU90	Schizosaccharomyces pombe	none					no	
+Q9UV71	negative	assumed	Q9C206	Candida albicans	none					no	
+Q9UVR2	negative	assumed	Q9UVR2	Pyricularia oryzae	none					no	
+Q9UW83	negative	assumed	Q9UW83	Aspergillus nidulans	none					no	
+Q9UWF0	negative	assumed	Q9UWF0	Pyricularia oryzae	none					no	
+Q9XLX0	negative	assumed	Q9XLX0	Lachancea kluyveri	none					no	
+S0ENB0	negative	assumed	S0ENB0	Fusarium fujikuroi	none					no	
+S3DQP8	negative	assumed	S3DQP8	Glarea lozoyensis	none					no	
+S7RK00	negative	assumed	S7RK00	Gloeophyllum trabeum	none					no	
+S8AKE6	negative	assumed	S8AKE6	Penicillium oxalicum	none					no	
+S8AWQ1	negative	assumed	S8AWQ1	Penicillium oxalicum	none					no	
+S8B3H6	negative	assumed	S8B3H6	Penicillium oxalicum	none					no	
+V6RVB4	negative	assumed	V6RVB4	Fusarium graminearum	none					no	
+W6QN79	negative	assumed	W6QN79	Penicillium roqueforti	none					no	
+W7LKY5	negative	assumed	W7LKY5	Fusarium verticillioides	none					no	
+W7MMJ0	negative	assumed	W7MMJ0	Fusarium verticillioides	none					no	
+W7MS01	negative	assumed	W7MS01	Fusarium verticillioides	none					no	
+W7N6P0	negative	assumed	W7N6P0	Fusarium verticillioides	none					no	
+W7NDQ0	negative	assumed	W7NDQ0	Fusarium verticillioides	none					no	
+A1CBW8	negative	enzyme_lectin_like_domain	A1CBW8	Aspergillus clavatus	in_reference	PF00652:51.3		PF00652:52.0		yes	
+A1DDD8	negative	enzyme_lectin_like_domain	A1CBW8	Aspergillus fischeri	in_reference	PF00652:50.4		PF00652:57.4		yes	
+A2QL72	negative	enzyme_lectin_like_domain	A1CBW8	Aspergillus niger	in_reference	PF00652:96.3		PF00652:62.2		yes	
+B8MWJ5	negative	enzyme_lectin_like_domain	A1CBW8	Aspergillus flavus	in_reference	PF00652:55.8		PF00652:63.5;PF14200:28.8		yes	
+P28351	negative	enzyme_lectin_like_domain	A1CBW8	Aspergillus niger	in_reference	PF00652:100.0		PF00652:64.6		yes	
+Q0CPK2	negative	enzyme_lectin_like_domain	A1CBW8	Aspergillus terreus	in_reference	PF00652:47.2		PF00652:47.8		yes	
+Q2UT06	negative	enzyme_lectin_like_domain	A1CBW8	Aspergillus oryzae	in_reference	PF00652:55.8		PF00652:63.5;PF14200:28.8		yes	
+Q4WA69	negative	enzyme_lectin_like_domain	Q4WA69	Aspergillus fumigatus	none					no	
+Q4WL79	negative	enzyme_lectin_like_domain	Q4WA69	Aspergillus fumigatus	none					no	
+Q4WLY1	negative	enzyme_lectin_like_domain	Q4WA69	Aspergillus fumigatus	none					no	
+Q4WU49	negative	enzyme_lectin_like_domain	Q4WA69	Aspergillus fumigatus	none					no	
+Q4WVZ3	negative	enzyme_lectin_like_domain	A1CBW8	Aspergillus fumigatus	in_reference	PF00652:49.5		PF00652:52.0		yes	
+A0A0D1C6P2	negative	er_housekeeping	J9VLH0	Mycosarcoma maydis	in_reference	PF00262:68.8			PF00262:564.6	no	
+D4AVD4	negative	er_housekeeping	J9VLH0	Trichophyton benhamiae	in_reference	PF00262:100.0			PF00262:583.9	no	
+J9VLH0	negative	er_housekeeping	J9VLH0	Cryptococcus neoformans	in_reference	PF00262:98.3			PF00262:557.7	no	
+P27825	negative	er_housekeeping	J9VLH0	Saccharomyces cerevisiae	in_reference	PF00262:100.0			PF00262:393.4	no	
+P36581	negative	er_housekeeping	J9VLH0	Schizosaccharomyces pombe	in_reference	PF00262:100.0			PF00262:524.4	no	
+P43555	negative	er_housekeeping	Q12396	Saccharomyces cerevisiae	in_reference	PF03388:100.0			PF03388:201.7	no	
+Q12396	negative	er_housekeeping	Q12396	Saccharomyces cerevisiae	in_reference	PF03388:47.5			PF03388:93.0	no	
+Q4IEA7	negative	er_housekeeping	Q5BDB9	Fusarium graminearum	in_reference	PF07915:100.0			PF07915:65.3	no	
+Q4WCG2	negative	er_housekeeping	Q5BDB9	Aspergillus fumigatus	in_reference	PF07915:100.0			PF07915:75.8	no	
+Q5ACR4	negative	er_housekeeping	Q5ACR4	Candida albicans	in_reference	PF07915:100.0			PF07915:38.5	no	
+Q5BDB9	negative	er_housekeeping	Q5BDB9	Aspergillus nidulans	in_reference	PF07915:100.0			PF07915:73.9	no	
+Q6BJ08	negative	er_housekeeping	Q6BJ08	Debaryomyces hansenii	in_reference	PF07915:100.0			PF07915:47.5	no	
+Q6C3U1	negative	er_housekeeping	Q6C3U1	Yarrowia lipolytica	in_reference	PF07915:100.0			PF07915:44.2	no	
+Q6FV52	negative	er_housekeeping	Q99220	Nakaseomyces glabratus	in_reference	PF07915:100.0			PF07915:43.7	no	
+Q6Q487	negative	er_housekeeping	J9VLH0	Aspergillus fumigatus	in_reference	PF00262:84.7			PF00262:579.4	no	
+Q872S3	negative	er_housekeeping	Q5BDB9	Neurospora crassa	in_reference	PF07915:100.0			PF07915:68.7	no	
+Q99220	negative	er_housekeeping	Q99220	Saccharomyces cerevisiae	in_reference	PF07915:100.0			PF07915:46.9	no	
+Q9UTC8	negative	er_housekeeping	Q9UTC8	Schizosaccharomyces pombe	in_reference	PF07915:32.4			PF07915:34.0	no	
+A0A023I7E1	negative	n1_shared	A0A023I7E1	Rhizomucor miehei	none					no	
+A0A0D1DYI3	negative	n1_shared	A0A0D1DYI3	Mycosarcoma maydis	none					no	
+A0A0D1E2P6	negative	n1_shared	A0A0D2XVZ5	Mycosarcoma maydis	none					no	
+A0A0D2XVZ5	negative	n1_shared	A0A0D2XVZ5	Fusarium oxysporum	none					no	
+A0A384J6C4	negative	n1_shared	A0A384J6C4	Botrytis cinerea	none					no	
+A0A384JN58	negative	n1_shared	A0A384J6C4	Botrytis cinerea	none					no	
+A0A384K116	negative	n1_shared	Q4WI46	Botrytis cinerea	in_reference	PF00187:59.3				no	
+A0A384K4T0	negative	n1_shared	A0A384J6C4	Botrytis cinerea	none					no	
+A0A385MIS5	negative	n1_shared	A0A385MIS5	Moniliophthora perniciosa	none					no	
+A0A9P6LVP5	negative	n1_shared	A0A9P6LVP5	Mortierella alpina	none					no	
+A0ACF1AQZ4	negative	n1_shared	A0ACF1AQZ4	Histoplasma ohiense	none					no	
+A6N6J0	negative	n1_shared	G5EAZ3	Trichoderma harzianum	none					no	
+A6XGK3	negative	n1_shared	A6XGK3	Trichophyton rubrum	none					no	
+A6XHF7	negative	n1_shared	A6XHF7	Trichophyton rubrum	none					no	
+A8NCG7	negative	n1_shared	S7RK00	Coprinopsis cinerea	none					no	
+A8P0V4	negative	n1_shared	A8P0V4	Coprinopsis cinerea	none					no	
+A8PZM4	negative	n1_shared	A8PZM4	Malassezia globosa	none					no	
+B0BK71	negative	n1_shared	B0BK71	Mycetinis scorodonius	none					no	
+B2ABX7	negative	n1_shared	B2ABX7	Podospora anserina	none					no	
+B6GX22	negative	n1_shared	O13716	Penicillium rubens	none					no	
+B6QUR1	negative	n1_shared	B6QUR1	Talaromyces marneffei	none					no	
+C5P3X6	negative	n1_shared	C5P3X6	Coccidioides posadasii	none					no	
+E9DFH0	negative	n1_shared	E9DFH0	Coccidioides posadasii	none					no	
+E9F648	negative	n1_shared	E9RBR0	Metarhizium robertsii	none					no	
+E9R598	negative	n1_shared	O59896	Aspergillus fumigatus	none					no	
+E9RBR0	negative	n1_shared	E9RBR0	Aspergillus fumigatus	none					no	
+F2SL83	negative	n1_shared	E9RBR0	Trichophyton rubrum	none					no	
+G2QFD0	negative	n1_shared	G2QFD0	Thermothelomyces thermophilus	none					no	
+G2WQW0	negative	n1_shared	Q8NK02	Verticillium dahliae	none					no	
+G2WYV9	negative	n1_shared	I1RAQ3	Verticillium dahliae	none					no	
+G2X5B6	negative	n1_shared	G2X5B6	Verticillium dahliae	none					no	
+G2X658	negative	n1_shared	G2X658	Verticillium dahliae	none					no	
+G2X659	negative	n1_shared	G2X659	Verticillium dahliae	none					no	
+G2X962	negative	n1_shared	G2X962	Verticillium dahliae	none					no	
+G2X9U7	negative	n1_shared	Q5AQQ0	Verticillium dahliae	none					no	
+G2XB57	negative	n1_shared	I1REI8	Verticillium dahliae	none					no	
+G2XF09	negative	n1_shared	G5EAZ3	Verticillium dahliae	none					no	
+G4MM92	negative	n1_shared	B2ABX7	Pyricularia oryzae	none					no	
+G4NDG4	negative	n1_shared	P10602	Pyricularia oryzae	none					no	
+G5EAZ3	negative	n1_shared	G5EAZ3	Aspergillus nidulans	none					no	
+G5EB30	negative	n1_shared	Q873Y0	Aspergillus nidulans	none					no	
+I1RAQ3	negative	n1_shared	I1RAQ3	Fusarium graminearum	none					no	
+I1REI8	negative	n1_shared	I1REI8	Fusarium graminearum	none					no	
+I1RET0	negative	n1_shared	I1RET0	Fusarium graminearum	none					no	
+I1RMG9	negative	n1_shared	O59896	Fusarium graminearum	none					no	
+J9VDC2	negative	n1_shared	J9VDC2	Cryptococcus neoformans	none					no	
+J9VH79	negative	n1_shared	J9VH79	Cryptococcus neoformans	none					no	
+J9VKM5	negative	n1_shared	A0A0D2XVZ5	Cryptococcus neoformans	none					no	
+J9VS02	negative	n1_shared	Q4WNV0	Cryptococcus neoformans	none					no	
+O13716	negative	n1_shared	O13716	Schizosaccharomyces pombe	none					no	
+O14456	negative	n1_shared	G5EAZ3	Metarhizium anisopliae	none					no	
+O42720	negative	n1_shared	O42720	Histoplasma capsulatum	none					no	
+O59896	negative	n1_shared	O59896	Trametes cinnabarina	none					no	
+O74199	negative	n1_shared	O74199	Metarhizium anisopliae	none					no	
+O94753	negative	n1_shared	O94753	Pleurotus eryngii	none					no	
+P07981	negative	n1_shared	Q8NK02	Trichoderma reesei	none					no	
+P07982	negative	n1_shared	Q66NB7	Trichoderma reesei	none					no	
+P0C7S9	negative	n1_shared	Q9Y7Y7	Aspergillus fumigatus	none					no	
+P0C954	negative	n1_shared	Q9Y7Y7	Aspergillus fumigatus	none					no	
+P0CB51	negative	n1_shared	G5EAZ3	Coccidioides posadasii	none					no	
+P0CS93	negative	n1_shared	P0CS93	Fusarium graminearum	none					no	
+P0DYC5	negative	n1_shared	A0A9P6LVP5	Podila clonocystis	none					no	
+P0DYC6	negative	n1_shared	A0A9P6LVP5	Mortierella alpina	none					no	
+P10863	negative	n1_shared	P10863	Saccharomyces cerevisiae	none					no	
+P17489	negative	n1_shared	E9RBR0	Aspergillus nidulans	none					no	
+P22146	negative	n1_shared	Q9Y7Y7	Saccharomyces cerevisiae	none					no	
+P32329	negative	n1_shared	P32329	Saccharomyces cerevisiae	none					no	
+P32478	negative	n1_shared	P47001	Saccharomyces cerevisiae	none					no	
+P32623	negative	n1_shared	Q4WI46	Saccharomyces cerevisiae	in_reference	PF00187:53.1				no	
+P36027	negative	n1_shared	P36027	Saccharomyces cerevisiae	none					no	
+P38248	negative	n1_shared	P38248	Saccharomyces cerevisiae	none					no	
+P38993	negative	n1_shared	O59896	Saccharomyces cerevisiae	none					no	
+P39005	negative	n1_shared	P39005	Saccharomyces cerevisiae	none					no	
+P40552	negative	n1_shared	P10863	Saccharomyces cerevisiae	none					no	
+P41748	negative	n1_shared	P10602	Aspergillus fumigatus	none					no	
+P41809	negative	n1_shared	P41809	Saccharomyces cerevisiae	none					no	
+P42835	negative	n1_shared	P42835	Saccharomyces cerevisiae	none					no	
+P47001	negative	n1_shared	P47001	Saccharomyces cerevisiae	none					no	
+P48827	negative	n1_shared	G5EAZ3	Trichoderma harzianum	none					no	
+P53301	negative	n1_shared	A0A384J6C4	Saccharomyces cerevisiae	none					no	
+P53616	negative	n1_shared	P53616	Saccharomyces cerevisiae	none					no	
+P54867	negative	n1_shared	P54867	Saccharomyces cerevisiae	none					no	
+Q00023	negative	n1_shared	S7RK00	Agaricus bisporus	none					no	
+Q01589	negative	n1_shared	Q01589	Saccharomyces cerevisiae	none					no	
+Q02497	negative	n1_shared	O59896	Trametes hirsuta	none					no	
+Q03178	negative	n1_shared	P47001	Saccharomyces cerevisiae	none					no	
+Q04433	negative	n1_shared	Q04433	Saccharomyces cerevisiae	none					no	
+Q12218	negative	n1_shared	P10863	Saccharomyces cerevisiae	none					no	
+Q12713	negative	n1_shared	Q12713	Trichoderma harzianum	none					no	
+Q4PIF8	negative	n1_shared	O59896	Mycosarcoma maydis	none					no	
+Q4U4T0	negative	n1_shared	Q12713	Metarhizium anisopliae	none					no	
+Q4WBR2	negative	n1_shared	Q4WBR2	Aspergillus fumigatus	none					no	
+Q4WBS1	negative	n1_shared	Q4WBS1	Aspergillus fumigatus	none					no	
+Q4WBU0	negative	n1_shared	S7RK00	Aspergillus fumigatus	none					no	
+Q4WD22	negative	n1_shared	A0A384J6C4	Aspergillus fumigatus	none					no	
+Q4WI46	negative	n1_shared	Q4WI46	Aspergillus fumigatus	in_reference	PF00187:66.6				no	
+Q4WLB9	negative	n1_shared	Q4WLB9	Aspergillus fumigatus	none					no	
+Q4WMA6	negative	n1_shared	Q4WMA6	Aspergillus fumigatus	none					no	
+Q4WMW2	negative	n1_shared	A0A384J6C4	Aspergillus fumigatus	none					no	
+Q4WNE1	negative	n1_shared	I1RAQ3	Aspergillus fumigatus	none					no	
+Q4WNS8	negative	n1_shared	Q4WNS8	Aspergillus fumigatus	none					no	
+Q4WNV0	negative	n1_shared	Q4WNV0	Aspergillus fumigatus	none					no	
+Q4WXE6	negative	n1_shared	A0A384J6C4	Aspergillus fumigatus	none					no	
+Q4WZB4	negative	n1_shared	O59896	Aspergillus fumigatus	none					no	
+Q55P57	negative	n1_shared	O59896	Cryptococcus deneoformans	none					no	
+Q5AQQ0	negative	n1_shared	Q5AQQ0	Aspergillus nidulans	none					no	
+Q5AUT0	negative	n1_shared	Q5AUT0	Aspergillus nidulans	none					no	
+Q5B2E8	negative	n1_shared	B2ABX7	Aspergillus nidulans	none					no	
+Q5B508	negative	n1_shared	Q5B508	Aspergillus nidulans	none					no	
+Q5B6Q3	negative	n1_shared	Q5B6Q3	Aspergillus nidulans	none					no	
+Q5BAP5	negative	n1_shared	Q5BAP5	Aspergillus nidulans	none					no	
+Q5J6J1	negative	n1_shared	Q5J6J1	Trichophyton rubrum	none					no	
+Q5J6J2	negative	n1_shared	Q5J6J1	Trichophyton rubrum	none					no	
+Q5J6J3	negative	n1_shared	Q5J6J3	Trichophyton rubrum	none					no	
+Q5QHG5	negative	n1_shared	Q5AXE5	Trichophyton rubrum	none					no	
+Q5QHG6	negative	n1_shared	Q5QHG6	Trichophyton rubrum	none					no	
+Q66NB7	negative	n1_shared	Q66NB7	Phanerodontia chrysosporium	none					no	
+Q6DWK3	negative	n1_shared	Q5AQQ0	Colletotrichum lindemuthianum	none					no	
+Q70KY3	negative	n1_shared	O59896	Melanocarpus albomyces	none					no	
+Q7SDR1	negative	n1_shared	Q66NB7	Neurospora crassa	none					no	
+Q873Y0	negative	n1_shared	Q873Y0	Aspergillus fumigatus	none					no	
+Q8J0D5	negative	n1_shared	Q8J0D5	Microsporum canis	none					no	
+Q8J0I9	negative	n1_shared	Q4WBR2	Trichoderma harzianum	none					no	
+Q8J0P4	negative	n1_shared	A0A384J6C4	Aspergillus fumigatus	none					no	
+Q8NJP6	negative	n1_shared	Q8NJP6	Talaromyces purpureogenus	none					no	
+Q8NJQ5	negative	n1_shared	Q8NJQ5	Trichoderma harzianum	none					no	
+Q8NK02	negative	n1_shared	Q8NK02	Aspergillus nidulans	none					no	
+Q99036	negative	n1_shared	Q4WBS1	Trichoderma reesei	none					no	
+Q9C1S9	negative	n1_shared	B2ABX7	Mycothermus thermophilus	none					no	
+Q9HEZ1	negative	n1_shared	Q66NB7	Phanerodontia chrysosporium	none					no	
+Q9P4W4	negative	n1_shared	Q5B508	Aspergillus niger	none					no	
+Q9URU6	negative	n1_shared	Q9URU6	Schizosaccharomyces pombe	none					no	
+Q9UT45	negative	n1_shared	A0A023I7E1	Schizosaccharomyces pombe	none					no	
+Q9UW98	negative	n1_shared	Q9UW98	Trichophyton rubrum	none					no	
+Q9Y7Y7	negative	n1_shared	Q9Y7Y7	Schizosaccharomyces pombe	none					no	
+S8FIE4	negative	n1_shared	O59896	Fomitopsis schrenkii	none					no	
+B3VBK9	positive	chitin_masking_h1b	F9XHX3	Fulvia fulva	in_reference	PF01476:54.5	PF01476	PF01476:123.4		yes	
+F9XHX3	positive	chitin_masking_h1b	F9XHX3	Zymoseptoria tritici	in_reference	PF01476:47.7	PF01476	PF01476:32.5		yes	
+F9XMT4	positive	chitin_masking_h1b	F9XHX3	Zymoseptoria tritici	in_reference	PF01476:51.7	PF01476	PF01476:138.1		yes	
+G2X4U8	positive	chitin_masking_h1b	G2X4U8	Verticillium dahliae	in_reference	PF01476:40.0	PF01476	PF01476:47.5		yes	
+G4N906	positive	chitin_masking_h1b	F9XHX3	Pyricularia oryzae	in_reference	PF01476:50.0	PF01476	PF01476:68.9		yes	
+H1UVH3	positive	chitin_masking_h1b	F9XHX3	Colletotrichum higginsianum	in_reference	PF01476:59.0	PF01476	PF01476:82.1		yes	
+H1VSQ9	positive	chitin_masking_h1b	F9XHX3	Colletotrichum higginsianum	in_reference	PF01476:47.7;PF08881:32.9	PF01476	PF01476:78.2		yes	
+J4URT3	positive	chitin_masking_h1b	F2ST24	Beauveria bassiana	in_reference	PF01476:35.4	PF01476	PF01476:89.4		yes	
+J5J7Y8	positive	chitin_masking_h1b	J5J7Y8	Beauveria bassiana	in_reference	PF01476:40.0	PF01476	PF01476:37.7		yes	
+P9WEM2	positive	chitin_masking_h1b	F9XHX3	Zymoseptoria tritici	in_reference	PF01476:45.8	PF01476	PF01476:30.0		yes	
+Q00363	positive	chitin_masking_h1b	Q00363	Fulvia fulva	in_reference	PF01607:37.7	PF01607	PF01607:28.7		yes	
+A0A084FYP2	positive	host_binding_h1a	P18891	Scedosporium apiospermum	in_reference	PF07938:43.7	PF07938	PF07938:300.7		yes	300.7
+F2SIK4	positive	host_binding_h1a	F2ST24	Trichophyton rubrum	none		PF01476	PF01476:59.7		yes	
+F2ST24	positive	host_binding_h1a	F2ST24	Trichophyton rubrum	in_reference	PF01476:55.5	PF01476	PF01476:79.2		yes	
+Q4WW81	positive	host_binding_h1a	Q2UNX8	Aspergillus fumigatus	in_reference	PF07938:81.7	PF07938	PF07938:489.1		yes	489.1
+C1G842	positive	known_gap	Q12713	Paracoccidioides brasiliensis	none		none			no	
+B2ZRS9	positive	literature_binding	B2ZRS9	Clitocybe nebularis	none		PF14200	PF14200:52.8		yes	
+B6ZK51	positive	literature_binding	L8WGI4	Pleurocybella porrigens	in_reference	PF14200:42.3	PF14200	PF14200:47.3		yes	
+G1X5Y2	positive	literature_binding	G1X5Y2	Orbilia oligospora	none		PF07938	PF07938:60.7		yes	60.7
+G3JGU5	positive	literature_binding	G3JGU5	Cordyceps militaris	in_reference	PF00652:30.9;PF14200:38.4	PF00652	PF00652:40.2;PF14200:43.6		yes	
+Q06100	positive	literature_binding	Q9P4R8	Coprinopsis cinerea	in_reference	PF00337:31.3	PF00337	PF00337:39.7		yes	
+A0A1A9TAD0	positive	pa14_owned_elsewhere	A0A1A9TAD0	Komagataella pastoris	none		unmapped			no	
+A0A1B2JGH2	positive	pa14_owned_elsewhere	A0A1B2JGH2	Komagataella pastoris	none		unmapped			no	
+B3IUA8	positive	pa14_owned_elsewhere	P32768	Saccharomyces pastorianus	none		unmapped			no	
+B3IUB3	positive	pa14_owned_elsewhere	B3IUB3	Saccharomyces pastorianus	none		unmapped			no	
+B4UMX2	positive	pa14_owned_elsewhere	B4UMX2	Nakaseomyces glabratus	none		unmapped			no	
+P32768	positive	pa14_owned_elsewhere	P32768	Saccharomyces cerevisiae	none		unmapped			no	
+P38894	positive	pa14_owned_elsewhere	P32768	Saccharomyces cerevisiae	none		unmapped			no	
+Q6FUW5	positive	pa14_owned_elsewhere	Q6FX55	Nakaseomyces glabratus	none		unmapped			no	
+Q6FX55	positive	pa14_owned_elsewhere	Q6FX55	Nakaseomyces glabratus	none		unmapped			no	
+Q6VBJ0	positive	pa14_owned_elsewhere	Q6FX55	Nakaseomyces glabratus	none		unmapped			no	
+A0A0M3KL30	positive	structure_backed	A0A0M3KL30	Agroathelia rolfsii	in_reference	PF07367:65.4	PF07367	PF07367:201.0		yes	
+A0A0M3KL31	positive	structure_backed	A0A0M3KL30	Agroathelia rolfsii	in_reference	PF07367:65.0	PF07367	PF07367:202.3		yes	
+A0A1U7Q1Z0	positive	structure_backed	Q309D1	Psathyrella	none		none			no	
+A0A2D0TCI3	positive	structure_backed	Q9P4R8	Cyclocybe cylindracea	none		PF00337	PF00337:35.3		yes	
+A0A384E107	positive	structure_backed	A0A384E107	Pholiota squarrosa	none		none			no	
+A0A3B6UEU4	positive	structure_backed	A0A384E107	Pholiota squarrosa	none		none			no	
+A7UNK4	positive	structure_backed	A7UNK4	Lyophyllum decastes	in_reference	PF21691:43.2	PF21691	PF21691:63.4		yes	
+A7XUK7	positive	structure_backed	A7XUK7	Sclerotinia sclerotiorum	in_reference	PF14200:77.6	PF14200	PF14200:47.5		yes	
+B0CZL6	positive	structure_backed	B0CZL6	Laccaria bicolor	none		none			no	
+B0D650	positive	structure_backed	B0D650	Laccaria bicolor	none		PF14200			no	
+B3GA02	positive	structure_backed	B3GA02	Coprinopsis cinerea	in_reference	PF21595:93.7	PF21595	PF21595:169.9		yes	
+B3VS76	positive	structure_backed	B3VS76	Coprinopsis cinerea	none		none			no	
+E7E2M2	positive	structure_backed	E7E2M2	Pleurotus ostreatus	none		none			no	
+F2Z266	positive	structure_backed	A0A0M3KL30	Boletus edulis	in_reference	PF07367:58.1	PF07367	PF07367:185.3		yes	
+F6KMV5	positive	structure_backed	F6KMV5	Macrolepiota procera	in_reference	PF14200:63.5	PF14200	PF14200:94.5		yes	
+G1XA82	positive	structure_backed	G1XA82	Orbilia oligospora	in_reference	PF07938:36.6	PF07938	PF07938:132.6		yes	132.6
+G4N991	positive	structure_backed	G4N991	Pyricularia oryzae	in_reference	PF01476:47.6;PF08881:63.3	PF08881	PF01476:49.4;PF08881:81.6		yes	
+H6CS64	positive	structure_backed	Q309D1	Cyclocybe aegerita	none		none			no	
+I1RM03	positive	structure_backed	I1RM03	Fusarium graminearum	in_reference	PF08881:100.0	PF08881	PF08881:105.3		yes	
+I7H471	positive	structure_backed	I7H471	Marasmius oreades	none		none			no	
+L8WGI4	positive	structure_backed	L8WGI4	Rhizoctonia solani	in_reference	PF14200:98.7	PF14200	PF14200:73.5		yes	
+P18891	positive	structure_backed	P18891	Aleuria aurantia	in_reference	PF07938:32.8	PF07938	PF07938:158.6		yes	158.6
+P80412	positive	structure_backed	P80412	Flammulina velutipes	none		none			no	
+Q00022	positive	structure_backed	A0A0M3KL30	Agaricus bisporus	in_reference	PF07367:99.2	PF07367	PF07367:205.7		yes	
+Q206Z5	positive	structure_backed	Q9P4R8	Coprinopsis cinerea	none		PF00337	PF00337:27.6		yes	
+Q2UNX8	positive	structure_backed	Q2UNX8	Aspergillus oryzae	in_reference	PF07938:100.0	PF07938	PF07938:525.1		yes	525.1
+Q309D1	positive	structure_backed	Q309D1	Lacrymaria velutina	none		none			no	
+Q5MK11	positive	structure_backed	I1RM03	Tuber borchii	in_reference	PF08881:71.4	PF08881	PF08881:88.2		yes	
+Q6WY08	positive	structure_backed	Q9P4R8	Cyclocybe aegerita	none		PF00337	PF00337:30.2		yes	
+Q75WT9	positive	structure_backed	Q75WT9	Cerioporus squamosus	in_reference	PF14200:41.9	PF14200	PF14200:55.9		yes	
+Q7S6U4	positive	structure_backed	I1RM03	Neurospora crassa	in_reference	PF08881:72.6	PF08881	PF08881:95.9		yes	
+Q7Z8V1	positive	structure_backed	Q7Z8V1	Laetiporus sulphureus	none		PF14200			no	
+Q8WZC9	positive	structure_backed	A0A0M3KL30	Xerocomellus chrysenteron	in_reference	PF07367:55.7	PF07367	PF07367:184.4		yes	
+Q8X123	positive	structure_backed	Q75WT9	Marasmius oreades	in_reference	PF14200:46.2	PF14200	PF14200:68.8		yes	
+Q9P4R8	positive	structure_backed	Q9P4R8	Coprinopsis cinerea	in_reference	PF00337:38.0	PF00337	PF00337:37.8		yes	
+R4GRU4	positive	structure_backed	R4GRU5	Boletus edulis	none		PF14200			no	
+R4GRU5	positive	structure_backed	R4GRU5	Boletus edulis	none		PF14200			no	
+R4GRU6	positive	structure_backed	R4GRU5	Boletus edulis	none		PF14200			no	
+R4GRU9	positive	structure_backed	R4GRU5	Boletus edulis	none		PF14200			no	

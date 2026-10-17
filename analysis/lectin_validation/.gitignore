@@ -1,0 +1,10 @@
+data/raw/swissprot_fungi.tsv.gz
+data/raw/swissprot_fungi.faa.gz
+out/chk/
+out/tmp/
+out/cluster/clu_all_seqs.fasta
+out/cluster/clu_rep_seq.fasta
+out/scan.tbl
+out/scan_swissprot.tbl.gz
+out/scan_swissprot.models.hmm.gz
+__pycache__/
