@@ -13,7 +13,6 @@ import pytest
 ROOT = Path(__file__).resolve().parents[2]
 TABLE = ROOT / "data" / "sorting_hat" / "family_table.tsv"
 MEASURE = ROOT / "data" / "sorting_hat" / "family_measure.tsv"
-XFAIL_33 = pytest.mark.xfail(strict=True, reason="Task 3.3: family_tier module")
 XFAIL_34 = pytest.mark.xfail(strict=True, reason="Task 3.4: tier column in family_table.tsv")
 
 
@@ -50,35 +49,30 @@ def row(**over):
 # ---- derivation ---------------------------------------------------------------------------------
 
 
-@XFAIL_33
 def test_a_reviewed_per_family_measure_with_enough_data_is_estimated():
     from cellsurface_sorting_hat.family_tier import derive_tier
 
     assert derive_tier(row()) == "estimated"
 
 
-@XFAIL_33
 def test_the_same_measure_on_shared_descriptive_sets_is_capped_at_smoke():
     from cellsurface_sorting_hat.family_tier import derive_tier
 
     assert derive_tier(row(measure_basis="descriptive_shared_sets")) == "smoke"
 
 
-@XFAIL_33
 def test_five_and_five_derive_smoke():
     from cellsurface_sorting_hat.family_tier import derive_tier
 
     assert derive_tier(row(n_pos="5", n_neg="5", n_clusters_pos="5", n_clusters_neg="5")) == "smoke"
 
 
-@XFAIL_33
 def test_no_row_derives_untested():
     from cellsurface_sorting_hat.family_tier import derive_tier
 
     assert derive_tier(None) == "untested"
 
 
-@XFAIL_33
 def test_no_positive_or_no_negative_derives_untested():
     from cellsurface_sorting_hat.family_tier import derive_tier
 
@@ -86,7 +80,6 @@ def test_no_positive_or_no_negative_derives_untested():
     assert derive_tier(row(n_neg="0")) == "untested"
 
 
-@XFAIL_33
 def test_a_row_without_n_clusters_pos_derives_at_most_smoke():
     """FD-A3: the E1 positives are not clustered, so the floor must not be skipped."""
     from cellsurface_sorting_hat.family_tier import derive_tier
@@ -95,14 +88,12 @@ def test_a_row_without_n_clusters_pos_derives_at_most_smoke():
     assert derive_tier(row(n_clusters_neg="")) == "smoke"
 
 
-@XFAIL_33
 def test_negatives_that_are_not_curated_derive_at_most_smoke():
     from cellsurface_sorting_hat.family_tier import derive_tier
 
     assert derive_tier(row(negative_basis="assumed")) == "smoke"
 
 
-@XFAIL_33
 def test_positives_that_are_mostly_in_reference_or_unknown_cap_the_tier_at_smoke():
     from cellsurface_sorting_hat.family_tier import derive_tier
 
@@ -111,7 +102,6 @@ def test_positives_that_are_mostly_in_reference_or_unknown_cap_the_tier_at_smoke
     assert derive_tier(row(n_pos_in_reference="6", n_pos_unknown="6")) == "estimated"
 
 
-@XFAIL_33
 def test_an_unknown_measure_basis_is_refused():
     from cellsurface_sorting_hat.family_tier import derive_tier
 
@@ -119,7 +109,6 @@ def test_an_unknown_measure_basis_is_refused():
         derive_tier(row(measure_basis="vibes"))
 
 
-@XFAIL_33
 def test_a_descriptive_row_counts_the_hits_as_positives():
     """A descriptive row has no member list of its own: the E1 hits are its positives (D19)."""
     from cellsurface_sorting_hat.family_tier import derive_tier
@@ -154,7 +143,6 @@ def _read(path):
         return list(reader), reader.fieldnames
 
 
-@XFAIL_33
 def test_the_measurement_file_uses_coverage_not_sensitivity_for_the_shared_sets():
     rows, header = _read(MEASURE)
     assert "coverage" in header and "measure_basis" in header
@@ -163,7 +151,6 @@ def test_the_measurement_file_uses_coverage_not_sensitivity_for_the_shared_sets(
     assert len(rows) == 24
 
 
-@XFAIL_33
 def test_the_committed_measures_derive_no_tier_above_smoke_and_hyr1_is_untested():
     from cellsurface_sorting_hat.family_tier import derive_tiers
 
@@ -200,7 +187,6 @@ def test_a_table_with_one_stronger_tier_fails(tmp_path):
     assert len(problems) == 1 and "PF05730" in problems[0] and "estimated" in problems[0]
 
 
-@XFAIL_33
 def test_write_changes_only_the_tier_column(tmp_path):
     from cellsurface_sorting_hat.family_tier import main
 
@@ -210,8 +196,8 @@ def test_write_changes_only_the_tier_column(tmp_path):
         "\t".join(header) + "\nPF05730\tCFEM\testimated\tkeep me\nPF99999\tOther\tsmoke\tand me\n"
     )
     measure = tmp_path / "m.tsv"
-    with open(MEASURE, encoding="utf-8", newline="") as src, open(measure, "w", newline="") as dst:
-        dst.write(src.read())
+    lines = MEASURE.read_text().splitlines(keepends=True)
+    measure.write_text("".join(ln for ln in lines if ln.startswith(("pfam_acc", "PF05730"))))
     assert main(["--check", "--table", str(table), "--measure", str(measure)]) == 1
     assert main(["--write", "--table", str(table), "--measure", str(measure)]) == 0
     rows = _read(table)[0]
@@ -220,6 +206,17 @@ def test_write_changes_only_the_tier_column(tmp_path):
         ("PF99999", "untested", "and me"),
     ]
     assert main(["--check", "--table", str(table), "--measure", str(measure)]) == 0
+
+
+def test_the_measurement_file_is_what_the_converter_makes_from_the_family_test(tmp_path):
+    from cellsurface_sorting_hat.family_tier import main
+
+    source = (
+        ROOT / "docs" / "reports" / "data" / "sorting_hat" / "family_tests" / "family_tests.tsv"
+    )
+    out = tmp_path / "family_measure.tsv"
+    assert main(["--convert", str(source), "--out", str(out)]) == 0
+    assert out.read_text() == MEASURE.read_text()
 
 
 # ---- code location (D15) ------------------------------------------------------------------------
