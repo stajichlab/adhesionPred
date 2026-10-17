@@ -1,0 +1,114 @@
+# One description per call of src/cellsurface_sorting_hat/categories.yaml (a test checks both directions).
+# Kept outside categories.yaml on purpose: an edit of that file, a comment included, changes its hash and makes the call status files stale.
+# status_files cite committed files only. Statuses hold per species and taxon and only where the status file is installed and current.
+# Written 2026-10-09 (M2 of docs/superpowers/specs/2026-10-09-v1-class-list-design.md). Describes the state of PR #77.
+calls:
+  - call: signal_peptide_protein
+    kind: evidence
+    gated: true
+    category: surface glycoprotein
+    meaning: SignalP 6 predicts a signal peptide (rule R0). Nothing more is claimed.
+    reads: [step1_rule@R0]
+    status: "estimated in A. nidulans (taxon 162425); smoke in taxa 4932, 5476, 746128, 5207 and 5270; unvalidated elsewhere. The status files are in git-ignored work directories; the report is cited."
+    status_files: [docs/reports/2026-10-07-sorting-hat-run-and-calibration.md]
+  - call: tandem_repeat_protein
+    kind: evidence
+    gated: false
+    category: cell wall and adhesion
+    meaning: One of two period detectors finds a tandem array (period above 0, coverage 0.25 or more, 2.5 copies or more). It also fires for intracellular repeat proteins.
+    reads: [repeat02, repeat14]
+    status: "smoke where the call file is current: S288C sensitivity 0.435 [0.067, 0.667], specificity 0.987; C. albicans 0.462 [0.000, 0.788], 0.976. Stale after any edit of categories.yaml."
+    status_files:
+      - docs/reports/data/sorting_hat/call_status/Scer_S288C/tandem_repeat_protein.owner_definition.config-with-family-evidence.json
+      - docs/reports/data/sorting_hat/call_status/Calb_SC5314/tandem_repeat_protein.owner_definition.config-with-family-evidence.json
+  - call: wall_family_domain
+    kind: evidence
+    gated: false
+    category: cell wall and adhesion
+    meaning: "A hit to an active wall-family Pfam model that passes that family's condition (CFEM: no mature TM helix; PA14: R0 signal peptide, which makes this ungated call depend on R0)."
+    reads: [pfam_adhesion]
+    status: unvalidated
+  - call: hydrophobin_domain
+    kind: evidence
+    gated: false
+    category: cell wall and adhesion (surface-active)
+    meaning: A hit to one of seven hydrophobin-class Pfam models at the gathering cutoff.
+    reads: [pfam_hydrophobin]
+    status: "smoke in 8 proteomes (3 to 7 positives each; negatives assumed)."
+    status_files:
+      - docs/reports/data/sorting_hat/call_status/hydrophobin/pfam_hydrophobin.Afum_Af293_UniProt.json
+      - docs/reports/2026-10-08-hydrophobin-validation.md
+  - call: hsba_domain
+    kind: evidence
+    gated: false
+    category: cell wall and adhesion (surface-active)
+    meaning: A hit to HsbA (PF12296), grouped with hydrophobin for now.
+    reads: [pfam_hsba]
+    status: unvalidated (no truth set)
+  - call: cell_wall_adhesion_candidate
+    kind: composite
+    gated: true
+    category: cell wall and adhesion
+    meaning: Signal peptide and (repeat or wall-family domain).
+    reads: [step1_rule@R0, repeat02, repeat14, pfam_adhesion]
+    status: derived from the leaf calls that decided each record
+  - call: surface_attachment_candidate
+    kind: composite
+    gated: true
+    category: cell wall and adhesion
+    meaning: Signal peptide and any of repeat, wall-family domain, hydrophobin or HsbA. The basis column names the evidence that held.
+    reads: [step1_rule@R0, repeat02, repeat14, pfam_adhesion, pfam_hydrophobin, pfam_hsba]
+    status: derived from the leaf calls that decided each record
+  - call: cocci_specificity_rank_top15
+    kind: evidence
+    gated: false
+    category: antigen
+    meaning: Top 15% of the Coccidioides genus-specificity ranking (C. immitis RS only).
+    reads: [antigen_lookup]
+    status: unvalidated (the ranking prints NOT CALIBRATED)
+  - call: serodiagnostic_marker_candidate
+    kind: composite
+    gated: true
+    category: antigen
+    meaning: Top 15% ranking and signal peptide.
+    reads: [step1_rule@R0, antigen_lookup]
+    status: derived from the leaf calls that decided each record
+  - call: iuis_allergen_similarity
+    kind: evidence
+    gated: false
+    category: allergen
+    meaning: Similarity to a WHO/IUIS fungal allergen of at least 35% identity over 80 aa.
+    reads: [allergen_homology]
+    status: unvalidated
+  - call: iuis_allergen_homolog
+    kind: evidence
+    gated: false
+    category: allergen
+    meaning: At least 70% identity over 80% of an allergen, or a hit to an allergen Pfam family. Both allergen families are inactive, so the Pfam branch is not assessable and the call is never not_called in practice.
+    reads: [allergen_homology, pfam_allergen]
+    status: unvalidated
+  - call: other_not_surface
+    kind: other
+    gated: true
+    category: other
+    meaning: No signal peptide, with the mechanism calls not called.
+    reads: [step1_rule@R0]
+    status: derived from the leaf calls that decided each record
+  - call: other_surface_no_mechanism
+    kind: other
+    gated: true
+    category: other
+    meaning: Signal peptide and no mechanism evidence (repeat, wall family, hydrophobin, HsbA, antigen rank).
+    reads: [step1_rule@R0]
+    status: derived from the leaf calls that decided each record
+modules_not_calls:
+  - module: tm
+    note: TMHMM; a condition for CFEM (no mature TM helix) and an evidence field.
+  - module: cys_rich
+    note: Cysteine-rich tiers (Coccidioides RS only); evidence field.
+  - module: expression
+    note: Spherule expression lookup (Coccidioides only); evidence field.
+  - module: cys8_pattern
+    note: Eight-cysteine spacing plus R0; experimental, read by no call.
+  - module: hydrophobin_relaxed
+    note: Relaxed hydrophobin level; experimental, read by no call (owner decision 2026-10-08, strict call only).

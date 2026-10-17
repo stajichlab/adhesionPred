@@ -28,6 +28,7 @@ A one-line hand-over:
 | `06-serodiagnostic-antigen-controls.md` | `cocci_specificity_rank_top15`, `serodiagnostic_marker_candidate` | 4 anchors (tuned); 86 IEDB rows | No independent truth; feasibility of leave-species-out unknown |
 | `07-hard-negatives-shared.md` | Shared by step 1, repeat and family-domain calls | 31 seed rows; 42 rows in `adhesins.tsv` | Mostly *S. cerevisiae*; few non-yeast look-alikes |
 | `08-repeat-adhesins-other-species.md` | `tandem_repeat_protein` outside Saccharomycotina (*Pneumocystis*, *Cryptococcus*, *Rhodotorula*, *Penicillium*, *Histoplasma*, *Exophiala*, *Wallemia*, *Hortaea*, *Knufia*, *Botrytis*, plant pathogens) | Rows for *Pneumocystis* 1, *Ajellomyces* 2, *Pyricularia* 2, *Mycosarcoma* 1, *Metarhizium* 2; none for the other named genera | The 2a rows are mostly *Candida*; literature may be empty for some genera (PubMed hits: *Knufia* 0, *Wallemia* 0, *Hortaea* 1) |
+| `09-lectin-class-spec.md` | New candidate class: lectins, host-interaction tier (spec first) | PA14 and GLEYA active; other lectin-like Pfam models fall in the unexplained pool | No lectin truth set; model choice, literature and curation open |
 
 No control set is needed for the evidence-only modules (Cys-rich finder, expression, TMHMM). They
 make no accuracy claim.

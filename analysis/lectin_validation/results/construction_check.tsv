@@ -1,0 +1,3 @@
+group	model_set	n_seq	k_seq	seq_ci	n_clu	k_clu	clu_ci	fhr_clu
+assumed_construction_check	union15	497	0	0/497 (0.00-0.01)	430	0	0/430 (0.00-0.01)	0.000
+assumed_construction_check	PF07938	497	0	0/497 (0.00-0.01)	430	0	0/430 (0.00-0.01)	0.000

@@ -337,6 +337,7 @@ Curation took longer than planned in the Basidiomycota pilots (`HANDOFF-2026-10-
 | M7 | Onygenales R0 truth (task 01), so *Coccidioides* gets a status | `status/step1_rule@R0.json` with an Onygenales taxon | go/no-go on curation | 4-8 |
 | M8 | Allergen and antigen: task 05 and 06 counts; status where possible, else a stated "cannot be calibrated" | `counts.md` per task; report text | whether to continue these categories in v1 | 2 |
 | M9 | Final runs on all proteomes with the final config; one report with a per-class table (value counts, status, sensitivity, specificity, leakage, species) | `cellsurface_sorting_hat` on the 14 proteomes; a script that checks every report number against a stored table (as L9 plans) | release name and scope | 2 |
+| M10 | Lectin class (host-interaction tier), v1 = report only: a script-made table of lectin-like models (no call, no status file), with the 6 pool S Onygenales PF07938 proteins named; full-text literature pass (L3b). Spec: `docs/superpowers/specs/2026-10-10-lectin-class-design.md` (revision 5, four Opus reviews; owner decisions recorded 2026-10-10) | the report script reproduces the whole-proteome counts of F24 and F25 of the spec; no change to `src/`, `family_table.tsv` or `categories.yaml` | none open for v1; a call needs a new owner decision | 1-2 |
 | Later | R0 rescue (92 misses), GPI module, ML step 1 (#9, #10, #15, #16), enzyme classes, antigen outside RS, biofilm | | | large |
 
 Where the hydrophobin work sits: it is M1. It is the most complete class (truth set of 174 Swiss-Prot entries,

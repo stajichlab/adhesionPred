@@ -136,4 +136,4 @@ Rules (owner decisions Q6 to Q8, 2026-10-07):
 |---|---|
 | R0 is `estimated` in *A. nidulans*. | Re-derived: 109 positives, 164 negatives, half-widths 0.092 and 0.016 from the file's intervals. |
 | R0 is `smoke` in the other five Phase C species. | Re-derived: label or fewer than 20 positives. |
-| No other module has a status above `unvalidated`. | No calibration has been run (Plan 2 Tasks 13 and 14). |
+| `pfam_hydrophobin` is `smoke` in 8 proteomes; the call `tandem_repeat_protein` is `smoke` in S288C and *C. albicans*. No other module or call has a status above `unvalidated`. | Re-derived 2026-10-09: `docs/reports/data/sorting_hat/call_status/` (hydrophobin x8, repeat call x2). The earlier statement (no calibration run) was true on 2026-10-06. |

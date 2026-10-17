@@ -1,0 +1,57 @@
+name	fasta	taxon	order	genus	species	strain	proteins
+Coccidioides_immitis_RS	/bigdata/stajichlab/shared/projects/Fungi_5k/input/Coccidioides_immitis_RS.proteins.fa	246410	Onygenales	Coccidioides	Coccidioides immitis	RS	7630
+Coccidioides_posadasii_Silveira	/bigdata/stajichlab/shared/projects/Fungi_5k/input/Coccidioides_posadasii_Silveira.proteins.fa	443226	Onygenales	Coccidioides	Coccidioides posadasii	Silveira	7505
+Histoplasma_capsulatum_G186AR	/bigdata/stajichlab/shared/projects/Fungi_5k/input/Histoplasma_capsulatum_G186AR.proteins.fa	447093	Onygenales	Histoplasma	Histoplasma capsulatum	G186AR	7538
+Histoplasma_mississippiense_NAm1	/bigdata/stajichlab/shared/projects/Fungi_5k/input/Histoplasma_mississippiense_NAm1.proteins.fa	2059318	Onygenales	Histoplasma	Histoplasma mississippiense	NAm1	8492
+Blastomyces_dermatitidis_ER-3	/bigdata/stajichlab/shared/projects/Fungi_5k/input/Blastomyces_dermatitidis_ER-3.proteins.fa	559297	Onygenales	Blastomyces	Blastomyces dermatitidis	ER-3	8107
+Blastomyces_emzantsi_MRL_BACNE1992	/bigdata/stajichlab/shared/projects/Fungi_5k/input/Blastomyces_emzantsi_MRL_BACNE1992.proteins.fa	2723674	Onygenales	Blastomyces	Blastomyces emzantsi	MRL_BACNE1992	11274
+Emergomyces_africanus_CBS_136260	/bigdata/stajichlab/shared/projects/Fungi_5k/input/Emergomyces_africanus_CBS_136260.proteins.fa	1955775	Onygenales	Emergomyces	Emergomyces africanus	CBS 136260	7634
+Emergomyces_orientalis_5z489	/bigdata/stajichlab/shared/projects/Fungi_5k/input/Emergomyces_orientalis_5z489.proteins.fa	1972497	Onygenales	Emergomyces	Emergomyces orientalis	5z489	8973
+Emmonsia_crescens_UAMH4076	/bigdata/stajichlab/shared/projects/Fungi_5k/input/Emmonsia_crescens_UAMH4076.proteins.fa	73230	Onygenales	Emmonsia	Emmonsia crescens	UAMH4076	8322
+Uncinocarpus_reesii_1704	/bigdata/stajichlab/shared/projects/Fungi_5k/input/Uncinocarpus_reesii_1704.proteins.fa	336963	Onygenales	Uncinocarpus	Uncinocarpus reesii	1704	7265
+Trichophyton_benhamiae_CBS_112371	/bigdata/stajichlab/shared/projects/Fungi_5k/input/Trichophyton_benhamiae_CBS_112371.proteins.fa	663331	Onygenales	Trichophyton	Trichophyton benhamiae	CBS 112371	7420
+Trichophyton_rubrum_CBS_118892	/bigdata/stajichlab/shared/projects/Fungi_5k/input/Trichophyton_rubrum_CBS_118892.proteins.fa	559305	Onygenales	Trichophyton	Trichophyton rubrum	CBS 118892	7605
+Trichophyton_tonsurans_CBS_112818	/bigdata/stajichlab/shared/projects/Fungi_5k/input/Trichophyton_tonsurans_CBS_112818.proteins.fa	647933	Onygenales	Trichophyton	Trichophyton tonsurans	CBS 112818	7431
+Arthroderma_sp._MBC_290_MBC_290	/bigdata/stajichlab/shared/projects/Fungi_5k/input/Arthroderma_sp._MBC_290_MBC_290.proteins.fa	2978605	Onygenales	Arthroderma	Arthroderma sp. MBC 290	MBC 290	8396
+Arthroderma_sp._MBC_293_MBC_293	/bigdata/stajichlab/shared/projects/Fungi_5k/input/Arthroderma_sp._MBC_293_MBC_293.proteins.fa	2978606	Onygenales	Arthroderma	Arthroderma sp. MBC 293	MBC 293	8251
+Microsporum_audouinii_IHEM_2214	/bigdata/stajichlab/shared/projects/Fungi_5k/input/Microsporum_audouinii_IHEM_2214.proteins.fa	34393	Onygenales	Microsporum	Microsporum audouinii	IHEM 2214	8062
+Microsporum_canis_CBS_113480	/bigdata/stajichlab/shared/projects/Fungi_5k/input/Microsporum_canis_CBS_113480.proteins.fa	554155	Onygenales	Microsporum	Microsporum canis	CBS 113480	8161
+Ascosphaera_acerosa_ATCC_201316	/bigdata/stajichlab/shared/projects/Fungi_5k/input/Ascosphaera_acerosa_ATCC_201316.proteins.fa	51565	Onygenales	Ascosphaera	Ascosphaera acerosa	ATCC 201316	6885
+Malbranchea_cinnamomea	/bigdata/stajichlab/shared/projects/Fungi_5k/input/Malbranchea_cinnamomea.proteins.fa	5041	Onygenales	Malbranchea	Malbranchea cinnamomea		7546
+Amauroascus_niger_UAMH_3544	/bigdata/stajichlab/shared/projects/Fungi_5k/input/Amauroascus_niger_UAMH_3544.proteins.fa	89421	Onygenales	Amauroascus	Amauroascus niger	UAMH 3544	11750
+Chrysosporium_keratinophilum_CBS_104.62	/bigdata/stajichlab/shared/projects/Fungi_5k/input/Chrysosporium_keratinophilum_CBS_104.62.proteins.fa	69893	Onygenales	Chrysosporium	Chrysosporium keratinophilum	CBS 104.62	7784
+Nannizziopsis_arthrosporioides_CBS_118890	/bigdata/stajichlab/shared/projects/Fungi_5k/input/Nannizziopsis_arthrosporioides_CBS_118890.proteins.fa	1254446	Onygenales	Nannizziopsis	Nannizziopsis arthrosporioides	CBS 118890	7320
+Ophidiomyces_ophidiicola_CBS_122913	/bigdata/stajichlab/shared/projects/Fungi_5k/input/Ophidiomyces_ophidiicola_CBS_122913.proteins.fa	1387563	Onygenales	Ophidiomyces	Ophidiomyces ophidiicola	CBS 122913	6956
+Onygena_corvina_CBS_281.48	/bigdata/stajichlab/shared/projects/Fungi_5k/input/Onygena_corvina_CBS_281.48.proteins.fa	180788	Onygenales	Onygena	Onygena corvina	CBS 281.48	7101
+Aspergillus_clavatus_NRRL_1	/bigdata/stajichlab/shared/projects/Fungi_5k/input/Aspergillus_clavatus_NRRL_1.proteins.fa	344612	Eurotiales	Aspergillus	Aspergillus clavatus	NRRL 1	8541
+Aspergillus_fischeri_NRRL_181	/bigdata/stajichlab/shared/projects/Fungi_5k/input/Aspergillus_fischeri_NRRL_181.proteins.fa	331117	Eurotiales	Aspergillus	Aspergillus fischeri	NRRL 181	9854
+Aspergillus_flavus_NRRL3357	/bigdata/stajichlab/shared/projects/Fungi_5k/input/Aspergillus_flavus_NRRL3357.proteins.fa	332952	Eurotiales	Aspergillus	Aspergillus flavus	NRRL3357	12132
+Aspergillus_fumigatus_Af293	/bigdata/stajichlab/shared/projects/Fungi_5k/input/Aspergillus_fumigatus_Af293.proteins.fa	330879	Eurotiales	Aspergillus	Aspergillus fumigatus	Af293	9161
+Aspergillus_lentulus_IFM_58399	/bigdata/stajichlab/shared/projects/Fungi_5k/input/Aspergillus_lentulus_IFM_58399.proteins.fa	293939	Eurotiales	Aspergillus	Aspergillus lentulus	IFM 58399	9930
+Aspergillus_nidulans_FGSC_A4	/bigdata/stajichlab/shared/projects/Fungi_5k/input/Aspergillus_nidulans_FGSC_A4.proteins.fa	227321	Eurotiales	Aspergillus	Aspergillus nidulans	FGSC A4	10019
+Aspergillus_niger	/bigdata/stajichlab/shared/projects/Fungi_5k/input/Aspergillus_niger.proteins.fa	5061	Eurotiales	Aspergillus	Aspergillus niger	CBS 513.88	10151
+Aspergillus_oryzae_RIB40	/bigdata/stajichlab/shared/projects/Fungi_5k/input/Aspergillus_oryzae_RIB40.proteins.fa	510516	Eurotiales	Aspergillus	Aspergillus oryzae	RIB40	12274
+Aspergillus_sydowii_CBS_593.65	/bigdata/stajichlab/shared/projects/Fungi_5k/input/Aspergillus_sydowii_CBS_593.65.proteins.fa	1036612	Eurotiales	Aspergillus	Aspergillus sydowii	CBS 593.65	12367
+Aspergillus_terreus_NIH2624	/bigdata/stajichlab/shared/projects/Fungi_5k/input/Aspergillus_terreus_NIH2624.proteins.fa	341663	Eurotiales	Aspergillus	Aspergillus terreus	NIH2624	9975
+Aspergillus_udagawae_IFM_46973	/bigdata/stajichlab/shared/projects/Fungi_5k/input/Aspergillus_udagawae_IFM_46973.proteins.fa	91492	Eurotiales	Aspergillus	Aspergillus udagawae	IFM 46973	10383
+Aspergillus_versicolor_CBS_583.65	/bigdata/stajichlab/shared/projects/Fungi_5k/input/Aspergillus_versicolor_CBS_583.65.proteins.fa	1036611	Eurotiales	Aspergillus	Aspergillus versicolor	CBS 583.65	12326
+Penicillium_alfredii_IBT_34128	/bigdata/stajichlab/shared/projects/Fungi_5k/input/Penicillium_alfredii_IBT_34128.proteins.fa	1506179	Eurotiales	Penicillium	Penicillium alfredii	IBT 34128	8945
+Penicillium_angulare_IBT_27051	/bigdata/stajichlab/shared/projects/Fungi_5k/input/Penicillium_angulare_IBT_27051.proteins.fa	116970	Eurotiales	Penicillium	Penicillium angulare	IBT 27051	11250
+Talaromyces_adpressus_CBS_142503	/bigdata/stajichlab/shared/projects/Fungi_5k/input/Talaromyces_adpressus_CBS_142503.proteins.fa	1974180	Eurotiales	Talaromyces	Talaromyces adpressus	CBS 142503	12020
+Talaromyces_albobiverticillius_Tp-2	/bigdata/stajichlab/shared/projects/Fungi_5k/input/Talaromyces_albobiverticillius_Tp-2.proteins.fa	1441468	Eurotiales	Talaromyces	Talaromyces albobiverticillius	Tp-2	13956
+Candida_albicans_SC5314	/bigdata/stajichlab/shared/projects/Fungi_5k/input/Candida_albicans_SC5314.proteins.fa	237561	Serinales	Candida	Candida albicans	SC5314	5700
+Candida_parapsilosis_CDC317	/bigdata/stajichlab/shared/projects/Fungi_5k/input/Candida_parapsilosis_CDC317.proteins.fa	5480	Serinales	Candida	Candida parapsilosis	CDC317	5678
+Candida_tropicalis_MYA-3404	/bigdata/stajichlab/shared/projects/Fungi_5k/input/Candida_tropicalis_MYA-3404.proteins.fa	294747	Serinales	Candida	Candida tropicalis	MYA-3404	5972
+Nakaseomyces_bracarensis_NRRL_Y-48270	/bigdata/stajichlab/shared/projects/Fungi_5k/input/Nakaseomyces_bracarensis_NRRL_Y-48270.proteins.fa	273131	Saccharomycetales	Nakaseomyces	Nakaseomyces bracarensis	NRRL Y-48270	5151
+Candida_auris_B11220	/bigdata/stajichlab/shared/projects/Fungi_5k/input/Candida_auris_B11220.proteins.fa	498019	Serinales	Candidozyma	Candidozyma auris	B11220	5297
+Kluyveromyces_aestuarii_NRRL_YB-4510	/bigdata/stajichlab/shared/projects/Fungi_5k/input/Kluyveromyces_aestuarii_NRRL_YB-4510.proteins.fa	33165	Saccharomycetales	Kluyveromyces	Kluyveromyces aestuarii	NRRL YB-4510	4765
+Cryptococcus_amylolentus_CBS_6039	/bigdata/stajichlab/shared/projects/Fungi_5k/input/Cryptococcus_amylolentus_CBS_6039.proteins.fa	1295533	Tremellales	Cryptococcus	Cryptococcus amylolentus	CBS 6039	6934
+Cryptococcus_bacillisporus_CA1280	/bigdata/stajichlab/shared/projects/Fungi_5k/input/Cryptococcus_bacillisporus_CA1280.proteins.fa	1296109	Tremellales	Cryptococcus	Cryptococcus bacillisporus	CA1280	6083
+Ustilago_bromivora_UB2112	/bigdata/stajichlab/shared/projects/Fungi_5k/input/Ustilago_bromivora_UB2112.proteins.fa	307758	Ustilaginales	Ustilago	Ustilago bromivora	UB2112	6292
+Malassezia_globosa_CBS_7966	/bigdata/stajichlab/shared/projects/Fungi_5k/input/Malassezia_globosa_CBS_7966.proteins.fa	425265	Malasseziales	Malassezia	Malassezia globosa	CBS 7966	4022
+Pleurotus_citrinopileatus_HfpriPC05-1-Y1	/bigdata/stajichlab/shared/projects/Fungi_5k/input/Pleurotus_citrinopileatus_HfpriPC05-1-Y1.proteins.fa	98342	Agaricales	Pleurotus	Pleurotus citrinopileatus	HfpriPC05-1-Y1	10764
+Schizophyllum_commune_H4-8	/bigdata/stajichlab/shared/projects/Fungi_5k/input/Schizophyllum_commune_H4-8.proteins.fa	578458	Agaricales	Schizophyllum	Schizophyllum commune	H4-8	11670
+Neurospora_crassa_OR74A	/bigdata/stajichlab/shared/projects/Fungi_5k/input/Neurospora_crassa_OR74A.proteins.fa	367110	Sordariales	Neurospora	Neurospora crassa	OR74A	8378
+Fusarium_graminearum_PH-1	/bigdata/stajichlab/shared/projects/Fungi_5k/input/Fusarium_graminearum_PH-1.proteins.fa	229533	Hypocreales	Fusarium	Fusarium graminearum	PH-1	11193
+Pyricularia_grisea_NI907	/bigdata/stajichlab/shared/projects/Fungi_5k/input/Pyricularia_grisea_NI907.proteins.fa	148305	Magnaporthales	Pyricularia	Pyricularia grisea	NI907	10751
+Rhizopus_arrhizus_Y5	/bigdata/stajichlab/shared/projects/Fungi_5k/input/Rhizopus_arrhizus_Y5.proteins.fa	64495	Mucorales	Rhizopus	Rhizopus arrhizus	Y5	14131

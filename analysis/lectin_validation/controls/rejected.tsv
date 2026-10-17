@@ -1,0 +1,83 @@
+accession	candidate_class	reason
+A0A0S4TLR1	unilectin3d	Bacterial protein (Ralstonia solanacearum) labelled fungal in UniLectin3D (spec F9). Not a fungal lectin.
+UPI000150AC21	unilectin3d	UniParc ID without a sequence in the committed sequence file.
+P36137	er_housekeeping	Swiss-Prot entry without FUNCTION text: no reason for a negative label (uncharacterised).
+O42707	er_housekeeping	Swiss-Prot entry without FUNCTION text: no reason for a negative label (uncharacterised).
+O59745	er_housekeeping	Swiss-Prot entry without FUNCTION text: no reason for a negative label (uncharacterised).
+O94401	er_housekeeping	Swiss-Prot entry without FUNCTION text: no reason for a negative label (uncharacterised).
+Q9P7D0	er_housekeeping	Swiss-Prot entry without FUNCTION text: no reason for a negative label (uncharacterised).
+A0A1L3THR9	candidate	No inclusion rule applies (not experimental sugar binding; not house-keeping; not an enzyme with a lectin-like domain).
+A0A0A2JP37	candidate	LysM protein without an experimental binding statement in UniProt FUNCTION (prediction, 'might have a role', or no text). Not a positive. Not a negative: LysM proteins bind chitin.
+A0A1X7S147	candidate	Mg1LysM of another Zymoseptoria tritici strain (ST99CH). Same gene as F9XHX3. Duplicate.
+A0A1X7S1V5	candidate	Mgx1LysM of another strain (ST99CH). Same gene as P9WEM2. Duplicate.
+I1C083	candidate	Mucoricin of Rhizopus delemar: ricin-like toxin and N-glycosylase (PMID 33462434). A ricin-like toxin may bind host glycans through its ricin-B-like module. Ambiguous. Not used.
+P09805	candidate	LysM protein without an experimental binding statement in UniProt FUNCTION (prediction, 'might have a role', or no text). Not a positive. Not a negative: LysM proteins bind chitin.
+W7LFX0	candidate	LysM protein without an experimental binding statement in UniProt FUNCTION (prediction, 'might have a role', or no text). Not a positive. Not a negative: LysM proteins bind chitin.
+G2XC45	candidate	No inclusion rule applies (not experimental sugar binding; not house-keeping; not an enzyme with a lectin-like domain).
+Q9P403	candidate	Colletotrichum lindemuthianum intracellular hyphae protein 1: function 'may have roles' (ECO:0000303). No binding evidence.
+A0A0A2JAR6	candidate	LysM protein without an experimental binding statement in UniProt FUNCTION (prediction, 'might have a role', or no text). Not a positive. Not a negative: LysM proteins bind chitin.
+A0A0A2JFC6	candidate	LysM protein without an experimental binding statement in UniProt FUNCTION (prediction, 'might have a role', or no text). Not a positive. Not a negative: LysM proteins bind chitin.
+A0A0A2JH00	candidate	LysM protein without an experimental binding statement in UniProt FUNCTION (prediction, 'might have a role', or no text). Not a positive. Not a negative: LysM proteins bind chitin.
+A0A0A2JVV3	candidate	LysM protein without an experimental binding statement in UniProt FUNCTION (prediction, 'might have a role', or no text). Not a positive. Not a negative: LysM proteins bind chitin.
+A0A0A2IRW3	candidate	LysM protein without an experimental binding statement in UniProt FUNCTION (prediction, 'might have a role', or no text). Not a positive. Not a negative: LysM proteins bind chitin.
+A0A0A2JVC2	candidate	LysM protein without an experimental binding statement in UniProt FUNCTION (prediction, 'might have a role', or no text). Not a positive. Not a negative: LysM proteins bind chitin.
+A0A0A2KDU4	candidate	LysM protein without an experimental binding statement in UniProt FUNCTION (prediction, 'might have a role', or no text). Not a positive. Not a negative: LysM proteins bind chitin.
+A0A0A2J9B0	candidate	LysM protein without an experimental binding statement in UniProt FUNCTION (prediction, 'might have a role', or no text). Not a positive. Not a negative: LysM proteins bind chitin.
+A0A0A2JT36	candidate	LysM protein without an experimental binding statement in UniProt FUNCTION (prediction, 'might have a role', or no text). Not a positive. Not a negative: LysM proteins bind chitin.
+G2X444	candidate	LysM protein without an experimental binding statement in UniProt FUNCTION (prediction, 'might have a role', or no text). Not a positive. Not a negative: LysM proteins bind chitin.
+J4VU52	candidate	LysM protein without an experimental binding statement in UniProt FUNCTION (prediction, 'might have a role', or no text). Not a positive. Not a negative: LysM proteins bind chitin.
+Q6CNH1	candidate	No inclusion rule applies (not experimental sugar binding; not house-keeping; not an enzyme with a lectin-like domain).
+D4B5F9	candidate	LysM protein without an experimental binding statement in UniProt FUNCTION (prediction, 'might have a role', or no text). Not a positive. Not a negative: LysM proteins bind chitin.
+Q4WER9	candidate	LysM effector ldpA of A. fumigatus: UniProt FUNCTION 'might have a role in sequestration of chitin' (ECO:0000305). Spec 4.3 lists it as a look-alike candidate. Probably a LysM effector, so it is not a negative. Not used.
+G4N891	candidate	LysM protein without an experimental binding statement in UniProt FUNCTION (prediction, 'might have a role', or no text). Not a positive. Not a negative: LysM proteins bind chitin.
+P83973	candidate	Rhizopus stolonifer fucose-specific lectin: UniProt sequence is a 28 aa fragment. Fragment; no gene model.
+J4KL74	candidate	LysM protein without an experimental binding statement in UniProt FUNCTION (prediction, 'might have a role', or no text). Not a positive. Not a negative: LysM proteins bind chitin.
+A0A1X7S690	candidate	Mg3LysM of another strain (ST99CH). Same gene as F9XMT4. Duplicate.
+P86922	candidate	Ganoderma lucidum lectin: UniProt sequence is an 8 aa fragment. Fragment.
+Q4WRR0	candidate	LysM effector ldpB of A. fumigatus: same as Q4WER9. Not used.
+Q756T2	candidate	No inclusion rule applies (not experimental sugar binding; not house-keeping; not an enzyme with a lectin-like domain).
+P40483	candidate	Swiss-Prot entry without FUNCTION text. No reason for either label.
+A0A0A2JQ23	candidate	LysM protein without an experimental binding statement in UniProt FUNCTION (prediction, 'might have a role', or no text). Not a positive. Not a negative: LysM proteins bind chitin.
+A0A0A2KPB9	candidate	LysM protein without an experimental binding statement in UniProt FUNCTION (prediction, 'might have a role', or no text). Not a positive. Not a negative: LysM proteins bind chitin.
+A0A4Q7K4T8	candidate	LysM protein without an experimental binding statement in UniProt FUNCTION (prediction, 'might have a role', or no text). Not a positive. Not a negative: LysM proteins bind chitin.
+A7EWX9	candidate	No inclusion rule applies (not experimental sugar binding; not house-keeping; not an enzyme with a lectin-like domain).
+A8NSH3	candidate	No inclusion rule applies (not experimental sugar binding; not house-keeping; not an enzyme with a lectin-like domain).
+D4AL26	candidate	Arthroderma benhamiae Fucose-specific lectin: UniProt FUNCTION is by similarity to P18891 (ECO:0000250). Protein-level evidence is secretome mass spectrometry (PMID 21919205, subcellular location ECO:0000269). There is no binding evidence. Fails the T2 rule (no experimental sugar-binding statement). It is an Onygenales PF07938-family protein; see report.
+D4ALG0	candidate	LysM protein without an experimental binding statement in UniProt FUNCTION (prediction, 'might have a role', or no text). Not a positive. Not a negative: LysM proteins bind chitin.
+D4B4Q2	candidate	LysM protein without an experimental binding statement in UniProt FUNCTION (prediction, 'might have a role', or no text). Not a positive. Not a negative: LysM proteins bind chitin.
+Q8NJT4	candidate	Same protein as Q4WW81 (FleA) under another accession (taxon 746128). Duplicate; identity checked in finalize step.
+D4AVW3	candidate	LysM protein without an experimental binding statement in UniProt FUNCTION (prediction, 'might have a role', or no text). Not a positive. Not a negative: LysM proteins bind chitin.
+D4AY86	candidate	LysM protein without an experimental binding statement in UniProt FUNCTION (prediction, 'might have a role', or no text). Not a positive. Not a negative: LysM proteins bind chitin.
+A8NSH0	candidate	No inclusion rule applies (not experimental sugar binding; not house-keeping; not an enzyme with a lectin-like domain).
+A0A0A2IBU9	candidate	LysM protein without an experimental binding statement in UniProt FUNCTION (prediction, 'might have a role', or no text). Not a positive. Not a negative: LysM proteins bind chitin.
+A0A0A2KE57	candidate	LysM protein without an experimental binding statement in UniProt FUNCTION (prediction, 'might have a role', or no text). Not a positive. Not a negative: LysM proteins bind chitin.
+A0A4Q7JG83	candidate	LysM protein without an experimental binding statement in UniProt FUNCTION (prediction, 'might have a role', or no text). Not a positive. Not a negative: LysM proteins bind chitin.
+A0A4Q7K9F4	candidate	LysM protein without an experimental binding statement in UniProt FUNCTION (prediction, 'might have a role', or no text). Not a positive. Not a negative: LysM proteins bind chitin.
+D4AZ68	candidate	LysM protein without an experimental binding statement in UniProt FUNCTION (prediction, 'might have a role', or no text). Not a positive. Not a negative: LysM proteins bind chitin.
+J5JFB6	candidate	LysM protein without an experimental binding statement in UniProt FUNCTION (prediction, 'might have a role', or no text). Not a positive. Not a negative: LysM proteins bind chitin.
+P84526	candidate	Xerocomus spadiceus inulin-specific lectin: UniProt sequence is a 13 aa fragment. Fragment.
+Q8TGE0	candidate	Same protein as Q2UNX8 (AOL) under another accession (taxon 5062). Duplicate.
+A0A0A2J621	candidate	LysM protein without an experimental binding statement in UniProt FUNCTION (prediction, 'might have a role', or no text). Not a positive. Not a negative: LysM proteins bind chitin.
+A0A0A2K2W7	candidate	LysM protein without an experimental binding statement in UniProt FUNCTION (prediction, 'might have a role', or no text). Not a positive. Not a negative: LysM proteins bind chitin.
+A8N3G7	candidate	No inclusion rule applies (not experimental sugar binding; not house-keeping; not an enzyme with a lectin-like domain).
+D4B4P8	candidate	LysM protein without an experimental binding statement in UniProt FUNCTION (prediction, 'might have a role', or no text). Not a positive. Not a negative: LysM proteins bind chitin.
+J5JHE8	candidate	LysM protein without an experimental binding statement in UniProt FUNCTION (prediction, 'might have a role', or no text). Not a positive. Not a negative: LysM proteins bind chitin.
+Q9US12	candidate	Swiss-Prot entry without FUNCTION text. No reason for either label.
+P83811	candidate	No inclusion rule applies (not experimental sugar binding; not house-keeping; not an enzyme with a lectin-like domain).
+BbLec1 (Beauveria bassiana)	positive candidate	"PMID 34649678 (Peng 2021) abstract: ""BbLec1 could bind to chitobiose and chitin""; Fruit Body domain. The paper has no open full text (Europe PMC: not open access), so the gene ID could not be checked. UniProt J4UPT0 (BBA_03816, 147 aa, PF07367) is the only PF07367 protein of strain ARSEF 2860 and is a candidate, but the link to the paper is not verified. Left out."
+Histoplasma beta-galactose lectin activity	positive candidate	Ramos-Martinez 2026 (PMID 41805922) and earlier papers describe a beta-galactose-inhibited hemagglutinating activity of yeasts. No gene or sequence (L3b report). Not added.
+CFP28 (Coccidioides posadasii)	positive candidate	Lunetta and Pappagianis 2014 (PMID 25023485): CBM9-like domain by sequence match; carbohydrate binding was not tested in the abstract. No sequence fetched. Not a positive.
+Talaromyces marneffei sialic-acid-inhibited adherence; dermatophyte and Chrysosporium hemagglutinins; A. fumigatus 32-kDa sialic-acid lectin	positive candidate	Activity without a gene or sequence (L3b report: Hamilton 1998, Bouchara 1987, Tronchin 2002). Not added.
+Q4WMH4 (Aspergillus fumigatus, weak PF07938 hit, spec 4.3)	positive or negative candidate	Unlabelled hit of the model, no paper read, score 30.2 against GA 25.3. A label from the model hit would be circular. T4 review target only. Not in the table.
+Six Onygenales PF07938 proteins of spec F27	positive candidate	Found by the discovery pass and by the model. No function paper. Orthology to FleA not checked. Not truth (circular). Not in the table.
+Q12396 and P43555 (Emp46p, Emp47p)	positive (UniLectin3D rows)	In the UniLectin3D fungal table but house-keeping ER-to-Golgi cargo receptors (spec 3.1 row M3; PMID 12134087). Moved to the negative class er_housekeeping.
+J9VLH0 (CNE1, Cryptococcus neoformans calnexin)	negative (shared N1)	Counted once, as er_housekeeping (the shared set has it as N1 secretory_non_surface). Not duplicated in n1_shared.
+Slp2 (G4N891, Pyricularia oryzae)	positive candidate	Named in PMID 22267486 but the abstract reports binding for Slp1 only. Not added.
+CmLec4 (Cordyceps militaris, PMID 35718153); CmRlec (PMID 37073122)	positive candidate	Abstracts report binding (CmLec4: a silkworm storage protein; CmRlec: chitin recognition). Neither abstract gives a gene ID and UniProt has no entry citing the papers or named CmLec4 or CmRlec. Left out (no verifiable accession).
+RsLysM (Rhizoctonia solani, PMID 31076860); Cg2LysM (Colletotrichum gloeosporioides, PMID 36876102); TAL6 (Trichoderma atroviride, PMIDs 23289754, 31608044)	positive candidate	Abstracts report chitin binding. No UniProt entry cites these papers and gene-name searches (RsLysM, Cg2LysM, tal6) gave no entry. Left out (no verifiable accession).
+MfAvr4 (Pseudocercospora fijiensis, PMID 20368413); CaAvr4, CbAvr4 (PMID 25845605)	positive candidate	Abstracts report chitin binding. UniProt D5KLB5 (C. apii Avr4) and D5KLB3 (C. beticola Avr4) cite PMID 20368413, not 25845605, and 20368413 reports chitin binding for the M. fijiensis protein only. No M. fijiensis Avr4 entry was found. Link of the accessions to the binding experiments not verified. Left out.
+"J4KR73 (Beauveria bassiana, ""Peptidase M64, IgA"", PF07938 xref)"	negative candidate (PF07938 look-alike)	UniProt PE3 (inferred from homology), name from automatic annotation, no paper. No paper gives a reason. Not a reasoned negative. Listed in unverified_notes.md.
+FFSL (Trichoderma harzianum, PMID 41534670)	positive candidate	"Abstract: fucose binding by isothermal titration calorimetry. No gene ID in the abstract. UniProt A0A2T3ZYI0 (PF07938 xref) is ""Uncharacterized protein"", protein existence inferred from homology, cited only by a genome paper. Not confirmed by the paper or the record. Not added."
+Rbd proteins (Cryptococcus neoformans, PMID 42016327)	positive candidate	Ricin B lectin-like proteins with phenotypes. The abstract reports no binding assay. Not added.
+Pleurotus galectin-like lectin gene (PMID 37180275)	positive candidate	Gene-level defence phenotype. The abstract reports no binding assay and gives no gene ID. Not added.
+Histoplasma beta-galactose lectin (PMID 41805922)	positive candidate	Activity from yeasts without a gene or sequence (already listed from the L3b report). Not added.

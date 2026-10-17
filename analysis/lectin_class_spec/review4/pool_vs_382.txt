@@ -1,0 +1,6 @@
+Pfam 38.2 GA PF07938 hits that are in pool S: 36
+of these, without a 37.x PF07938 label: 4
+background Diaporthe_citri_NFHF-8-4 F91B3154_013780-T1 37.6 110
+background Reticulascus_tulasneorum_NRRL18230 FE9BC07A_008087-T1 31.2 341
+background Thozetella_sp._PMI_491_PMI_491 F75E41DE_008148-T1 27.6 372
+background Falciphora_oryzae_R5-6-1 F220CD43_004907-T1 27.3 446

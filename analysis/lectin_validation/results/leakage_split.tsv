@@ -1,0 +1,21 @@
+basis	leakage	group	model_set	n_seq	k_seq	seq_ci	n_clu	k_clu	clu_ci	recall_clu
+row_level (clusters can be counted in both groups)	none	structure_backed	union15	19	3	3/19 (0.06-0.38)	11	1	1/11 (0.02-0.38)	0.091
+row_level (clusters can be counted in both groups)	in_reference	structure_backed	union15	20	20	20/20 (0.84-1.00)	13	13	13/13 (0.77-1.00)	1.000
+cluster_level (each cluster in one group)	cluster_has_in_reference_member	structure_backed	union15	23	23	23/23 (0.86-1.00)	13	13	13/13 (0.77-1.00)	1.000
+cluster_level (each cluster in one group)	cluster_all_none	structure_backed	union15	16	0	0/16 (0.00-0.19)	10	0	0/10 (0.00-0.28)	0.000
+row_level (clusters can be counted in both groups)	none	host_binding_h1a	union15	1	1	1/1 (0.21-1.00)	1	1	1/1 (0.21-1.00)	1.000
+row_level (clusters can be counted in both groups)	in_reference	host_binding_h1a	union15	3	3	3/3 (0.44-1.00)	3	3	3/3 (0.44-1.00)	1.000
+cluster_level (each cluster in one group)	cluster_has_in_reference_member	host_binding_h1a	union15	4	4	4/4 (0.51-1.00)	3	3	3/3 (0.44-1.00)	1.000
+cluster_level (each cluster in one group)	cluster_all_none	host_binding_h1a	union15	0	0	n=0	0	0	n=0	
+row_level (clusters can be counted in both groups)	none	chitin_masking_h1b	union15	0	0	n=0	0	0	n=0	
+row_level (clusters can be counted in both groups)	in_reference	chitin_masking_h1b	union15	11	11	11/11 (0.74-1.00)	5	5	5/5 (0.57-1.00)	1.000
+cluster_level (each cluster in one group)	cluster_has_in_reference_member	chitin_masking_h1b	union15	11	11	11/11 (0.74-1.00)	5	5	5/5 (0.57-1.00)	1.000
+cluster_level (each cluster in one group)	cluster_all_none	chitin_masking_h1b	union15	0	0	n=0	0	0	n=0	
+row_level (clusters can be counted in both groups)	none	literature_binding	union15	2	2	2/2 (0.34-1.00)	2	2	2/2 (0.34-1.00)	1.000
+row_level (clusters can be counted in both groups)	in_reference	literature_binding	union15	3	3	3/3 (0.44-1.00)	3	3	3/3 (0.44-1.00)	1.000
+cluster_level (each cluster in one group)	cluster_has_in_reference_member	literature_binding	union15	3	3	3/3 (0.44-1.00)	3	3	3/3 (0.44-1.00)	1.000
+cluster_level (each cluster in one group)	cluster_all_none	literature_binding	union15	2	2	2/2 (0.34-1.00)	2	2	2/2 (0.34-1.00)	1.000
+row_level (clusters can be counted in both groups)	none	ALL_PRIMARY_POSITIVES	union15	23	6	6/23 (0.13-0.46)	15	4	4/15 (0.11-0.52)	0.267
+row_level (clusters can be counted in both groups)	in_reference	ALL_PRIMARY_POSITIVES	union15	37	37	37/37 (0.91-1.00)	19	19	19/19 (0.83-1.00)	1.000
+cluster_level (each cluster in one group)	cluster_has_in_reference_member	ALL_PRIMARY_POSITIVES	union15	41	41	41/41 (0.91-1.00)	19	19	19/19 (0.83-1.00)	1.000
+cluster_level (each cluster in one group)	cluster_all_none	ALL_PRIMARY_POSITIVES	union15	19	2	2/19 (0.03-0.31)	13	2	2/13 (0.04-0.42)	0.154

@@ -1073,3 +1073,42 @@ def test_a_legacy_module_file_and_a_call_file_for_the_same_call_are_both_reporte
     report = (out / "report.md").read_text()
     assert "## Module calibration" in report and "## Call calibration" in report
     assert "| repeat02 | 40 | unvalidated | tandem_repeat_protein | L |" in report
+
+
+def test_evidence_has_family_rows_for_the_three_pfam_modules(tmp_path, write_module, nodes_dmp):
+    fasta, taxon_map, wd = build(tmp_path, write_module)
+    base = [{"id": i, "state": "ok", "hit": "0", "families": ""} for i in VALID]
+    write_module(
+        wd, "pfam_adhesion", [dict(base[0], hit="1", families="PF05730,PF07691")] + base[1:]
+    )
+    write_module(
+        wd, "pfam_hydrophobin", [base[0]] + [dict(base[1], hit="1", families="PF01185")] + base[2:]
+    )
+    write_module(
+        wd, "pfam_hsba", base[:2] + [dict(base[2], hit="1", families="PF12296")] + base[3:]
+    )
+    out = tmp_path / "out"
+    argv = [
+        "--fasta",
+        str(fasta),
+        "--taxon-map",
+        str(taxon_map),
+        "--taxdump",
+        str(nodes_dmp),
+        "--workdir",
+        str(wd),
+        "--out",
+        str(out),
+    ]
+    assert main(argv) == 0
+    with gzip.open(out / "evidence.tsv.gz", "rt") as fh:
+        ev = {
+            (r["protein"], r["module"], r["field"]): r["value"]
+            for r in csv.DictReader(fh, delimiter="\t")
+        }
+    assert ev[(VALID[0], "pfam_adhesion", "families")] == "PF05730,PF07691"
+    assert ev[(VALID[1], "pfam_hydrophobin", "families")] == "PF01185"
+    assert ev[(VALID[2], "pfam_hsba", "families")] == "PF12296"
+    assert not [
+        k for k in ev if k[2] == "families" and k[1] == "pfam_adhesion" and k[0] != VALID[0]
+    ]  # hit 0 rows have an empty field and are skipped

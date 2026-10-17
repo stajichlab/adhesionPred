@@ -1,0 +1,161 @@
+accession	reviewed	length	organism	taxon_id	in_unilectin3d	keyword_lectin	uniprot_pfam	eco269_binding_text	pmids	text
+P43555	yes	445	Saccharomyces cerevisiae (strain ATCC 204508 / S288c)	559292	yes	yes	PF03388	no		
+Q12396	yes	444	Saccharomyces cerevisiae (strain ATCC 204508 / S288c)	559292	yes	yes	PF03388	no		
+P27825	yes	502	Saccharomyces cerevisiae (strain ATCC 204508 / S288c)	559292	no	yes	PF00262	no		
+Q99220	yes	542	Saccharomyces cerevisiae (strain ATCC 204508 / S288c)	559292	no	yes	PF07915,PF17880	no		
+B2ZRS9	yes	149	Clitocybe nebularis	117024	no	yes	PF14200	yes	19100814,21486374,21556921,22044067,22298779	Lectin specific for terminal, non-reducing N-acetylgalactosamine (Gal-NAc)-containing carbohydrates including N,N'-diacetyllactosediamine/LDN (GalNAcbeta1-4GlcNAc, LacdiNAc). Specific also for carbohydrates containing N-acetylglucosamine (-GlcNAc) or N-acetyllactosamine (-Galbeta1-4GlcNAc) at the re
+B3VBK9	yes	228	Fulvia fulva	5499	yes	no	PF01476	yes	18452583,20724636	Secreted effector that enables the plant pathogenic fungus to manipulate host defenses for successful infection (PubMed:18452583). Binds chitin, but not to any other glycan, including the N-linked glycan chitobiose (PubMed:20724636). Outcompetes host immune receptor for chitin binding through intrac
+P18891	yes	313	Aleuria aurantia	5188	yes	yes	PF07938	yes	12732625,14503859,17383961,18493851,19109923,20798114,2193930,21945439,22226468,22738968,2666154,27650323,28800497,7397108	Lectin that specifically binds to L-fucose (PubMed:12732625, PubMed:14503859, PubMed:18493851, PubMed:2193930, PubMed:21945439, PubMed:2666154, PubMed:27650323, PubMed:28800497, PubMed:7397108). Has strongest preference for the alpha-1,6-fucosylated chain (core fucose) on glycoproteins among alpha-1
+P36581	yes	560	Schizosaccharomyces pombe (strain 972 / ATCC 24843)	284812	no	yes	PF00262	no		
+Q06100	yes	150	Coprinopsis cinerea	5346	no	yes	PF00337	yes	8999822	Binds lactose. May play a role in fruiting body formation
+Q9P4R8	yes	150	Coprinopsis cinerea	5346	yes	yes	PF00337	yes	15062091,20062796,8999822	Binds lactose (PubMed:15062091, PubMed:8999822). May play a role in fruiting body formation (PubMed:8999822). Displays toxicity towards the nematode C.elegans by binding to a specific Gal-beta-1,4-Fuc-alpha-1,6 modification of N-glycan cores on C.elegans intestinal cells (PubMed:20062796)
+A0A1L3THR9	yes	298	Pestalotiopsis sp	36460	no	no	PF00187,PF01522	no		
+F9XHX3	yes	97	Zymoseptoria tritici (strain CBS 115943 / IPO323)	336722	yes	no	PF01476	yes	21467214,32574207,33797163	Secreted effector that enables the plant pathogenic fungus to manipulate host defenses for successful infection (PubMed:21467214). Binds chitin but not cellulose or xylan (PubMed:21467214, PubMed:32574207, PubMed:33797163). Chitin-induced polymerization of homodimers forms a contiguous Mg1LysM highl
+A0A0A2JP37	yes	1500	Penicillium expansum	27334	no	no	PF00187,PF00704,PF01476,PF14856,PF30529	no		
+A0A1X7S147	yes	97	Zymoseptoria tritici (strain ST99CH_3D7)	1276538	no	no	PF01476	yes	21467214,32574207,33797163	Secreted effector that enables the plant pathogenic fungus to manipulate host defenses for successful infection (PubMed:21467214, PubMed:32574207, PubMed:33797163). Binds chitin but not cellulose or xylan (PubMed:21467214, PubMed:33797163). Chitin-induced polymerization of homodimers forms a contigu
+F9XMT4	yes	232	Zymoseptoria tritici (strain CBS 115943 / IPO323)	336722	no	no	PF01476	yes	21467214,33797163	Secreted effector that enables the plant pathogenic fungus to manipulate host defenses for successful infection (PubMed:21467214, PubMed:33797163). Binds chitin fragments and blocks the activation of chitin-induced plant defense responses (PubMed:21467214). Protects fungal hyphae against hydrolytic 
+H1UVH3	yes	176	Colletotrichum higginsianum (strain IMI 349063)	759273	no	no	PF01476	yes	27174033,35997573	Secreted effector that enables the plant pathogenic fungus to manipulate host defenses for successful infection (PubMed:27174033). Binds chitin oligomers and polymer with high affinity and plays a dual role, not only in the suppression of chitin-triggered immune responses, but also in appressorium f
+J4URT3	yes	409	Beauveria bassiana (strain ARSEF 2860)	655819	no	no	PF01476	yes	28873459	Secreted effector that enables the plant pathogenic fungus to manipulate host defenses for successful infection (PubMed:28873459). Required for the full virulence to infect insect hosts (PubMed:28873459). In contrast to Blys5, Blys2 is not able to protect fungal hyphae against the hydrolytic activit
+P28351	yes	545	Aspergillus niger	5061	no	yes	PF00652,PF16499,PF17801	no		
+Q2UNX8	yes	311	Aspergillus oryzae (strain ATCC 42149 / RIB 40)	510516	yes	yes	PF07938	yes	12092808,17383961,19109923,21790704,27318092,28041800,28470344	Lectin that specifically binds to L-fucose and weakly reacts with mannose and N-acetyl-neuraminic acid (PubMed:12092808, PubMed:27318092, PubMed:28041800). Has strongest preference for the alpha-1,6-fucosylated chain (core fucose) on glycoproteins among alpha-1,2-, alpha-1,3-, alpha-1,4-, and alpha-
+A0A1X7S1V5	yes	98	Zymoseptoria tritici (strain ST99CH_3D7)	1276538	no	no	PF01476	yes	21467214,33797163	Secreted effector that enables the plant pathogenic fungus to manipulate host defenses for successful infection (PubMed:21467214, PubMed:33797163). Binds chitin and suppresses the chitin-induced reactive oxygen species (ROS) burst (PubMed:33797163). Chitin-induced polymerization of homodimers forms 
+H1VSQ9	yes	170	Colletotrichum higginsianum (strain IMI 349063)	759273	no	no	PF01476	yes	27174033	Secreted effector that enables the plant pathogenic fungus to manipulate host defenses for successful infection (PubMed:27174033). Binds chitin oligomers and polymer with high affinity and plays a dual role, not only in the suppression of chitin-triggeredimmune responses, but also in appressorium fu
+I1C083	yes	147	Rhizopus delemar (strain RA 99-880 / ATCC MYA-4621 / FGSC 9543 / NRRL 43880)	246409	no	no	PF00652	no		
+P09805	yes	1146	Kluyveromyces lactis (strain ATCC 8585 / CBS 2359 / DSM 70799 / NBRC 1267 / NRRL Y-1140 / WM37)	284590	no	no	PF00187,PF00704,PF01476	no		
+P9WEM2	yes	103	Zymoseptoria tritici (strain CBS 115943 / IPO323)	336722	no	no	PF01476	yes	21467214,33797163	Secreted effector that enables the plant pathogenic fungus to manipulate host defenses for successful infection (PubMed:21467214, PubMed:33797163). Binds chitin and suppresses the chitin-induced reactive oxygen species (ROS) burst (PubMed:33797163). Chitin-induced polymerization of homodimers forms 
+W7LFX0	yes	733	Gibberella moniliformis (strain M3125 / FGSC 7600)	334819	no	no	PF01476,PF30480	no		
+G4N906	yes	162	Pyricularia oryzae (strain 70-15 / ATCC MYA-4617 / FGSC 8958)	242507	no	no	PF01476	yes	22267486	Secreted effector that enables the plant pathogenic fungus to manipulate host defenses for successful infection (PubMed:22267486). Binds chitin and acts as a competitive inhibitor of the chitin elicitor receptor CEBiP and suppresses chitin-induced immune responses in rice cells (PubMed:22267486)
+Q206Z5	yes	164	Coprinopsis cinerea	5346	yes	yes	PF00337	yes	18440554	Binds complex carbohydrates, such as chitooligosaccharides. Does not bind lactose. May play a role in fruiting body formation
+Q6WY08	yes	158	Cyclocybe aegerita	1973307	yes	yes	PF00337	yes	12757412,16051274	Anti-tumor lectin with DNase activity. Inhibits the growth of several tumor cell lines in vitro. Induces lymphocyte infiltration and necrosis of tumor cells in a mouse tumor model. Induces apoptosis in HeLa cells. Binds N-acetylneuraminyl lactose (N-acetyl-alpha-neuraminyl-(2->3)-beta-D-galactosyl-(
+G2XC45	yes	395	Verticillium dahliae (strain VdLs.17 / ATCC MYA-4575 / FGSC 10137)	498257	no	no	PF00187,PF01522	no		
+Q4WW81	yes	315	Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / Af293)	330879	yes	yes	PF07938	yes	23695231,24340081,25760594,27058347	Multispecific lectin that is able to recognize L-fucose in all possible linkages (PubMed:23695231, PubMed:24340081, PubMed:25760594, PubMed:27058347). These could be found not only in decomposed plant matter in soil, which is the natural environment for A.fumigatus, but also in various epitopes on h
+Q9P403	yes	230	Colletotrichum lindemuthianum	290576	no	no	PF01476	no		
+A0A0A2JAR6	yes	276	Penicillium expansum	27334	no	no	PF01476	no		
+A0A0A2JFC6	yes	769	Penicillium expansum	27334	no	no	PF01476,PF30529	no		
+A0A0A2JH00	yes	376	Penicillium expansum	27334	no	no	PF00187,PF01476,PF25139	no		
+A0A0A2JVV3	yes	1444	Penicillium expansum	27334	no	no	PF00704,PF01476,PF14856,PF30529	no		
+A0A0A2IRW3	yes	580	Penicillium expansum	27334	no	no	PF01476,PF30480	no		
+A0A0A2JVC2	yes	344	Penicillium expansum	27334	no	no	PF01476	no		
+A0A0A2KDU4	yes	231	Penicillium expansum	27334	no	no	PF01476	no		
+A0A0A2J9B0	yes	1116	Penicillium expansum	27334	no	no	PF00704,PF01476,PF26794,PF30526,PF30529	no		
+A0A0A2JT36	yes	543	Penicillium expansum	27334	no	no	PF00187,PF01476,PF25139	no		
+P36137	yes	443	Saccharomyces cerevisiae (strain ATCC 204508 / S288c)	559292	no	no	PF03388	no		
+A0A0D1C6P2	yes	523	Mycosarcoma maydis	5270	no	no	PF00262	no		
+A7UNK4	yes	94	Lyophyllum decastes	64660	yes	yes	PF21691	yes	17904093	Alpha-galactosyl-binding lectin with preference for galactose-alpha-1,4-galactose
+G2X444	yes	690	Verticillium dahliae (strain VdLs.17 / ATCC MYA-4575 / FGSC 10137)	498257	no	no	PF01476,PF30480	no		
+J4VU52	yes	384	Beauveria bassiana (strain ARSEF 2860)	655819	no	no	PF01476	no		
+Q0CPK2	yes	529	Aspergillus terreus (strain NIH 2624 / FGSC A1156)	341663	no	yes	PF00652,PF16499,PF17801	no		
+Q4WVZ3	yes	532	Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / Af293)	330879	no	yes	PF00652,PF16499,PF17801	no		
+Q5BDB9	yes	509	Emericella nidulans (strain FGSC A4 / ATCC 38163 / CBS 112.46 / NRRL 194 / M139)	227321	no	yes	PF07915	no		
+Q6CNH1	yes	457	Kluyveromyces lactis (strain ATCC 8585 / CBS 2359 / DSM 70799 / NBRC 1267 / NRRL Y-1140 / WM37)	284590	no	yes	PF17880	no		
+A1CBW8	yes	525	Aspergillus clavatus (strain ATCC 1007 / CBS 513.65 / DSM 816 / NCTC 3887 / NRRL 1 / QM 1276 / 107)	344612	no	yes	PF00652,PF16499,PF17801	no		
+A2QL72	yes	537	Aspergillus niger (strain ATCC MYA-4892 / CBS 513.88 / FGSC A1513)	425011	no	yes	PF00652,PF16499,PF17801	no		
+A7XUK7	yes	153	Sclerotinia sclerotiorum	5180	yes	yes	PF14200	yes	12901882,17294128,20566411	Lectin that primarily recognizes glycans with a non-reducing terminal N-acetylgalactosamine (GalNAc), with a preference for the alpha- over the beta-anomer. Can also bind non-reducing terminal galactose (Gal) residues but with a lower affinity. Strongly interacts with glycolipid type glycans with te
+B8MWJ5	yes	534	Aspergillus flavus (strain ATCC 200026 / FGSC A1120 / IAM 13836 / NRRL 3357 / JCM 12722 / SRRC 167)	332952	no	yes	PF00652,PF16499,PF17801	no		
+D4AVD4	yes	563	Arthroderma benhamiae (strain ATCC MYA-4681 / CBS 112371)	663331	no	no	PF00262	no		
+D4B5F9	yes	437	Arthroderma benhamiae (strain ATCC MYA-4681 / CBS 112371)	663331	no	no	PF01476,PF01522	no		
+J5J7Y8	yes	169	Beauveria bassiana (strain ARSEF 2860)	655819	no	no	PF01476	yes	28873459	Secreted effector that enables the plant pathogenic fungus to manipulate host defenses for successful infection (PubMed:28873459). Required for the full virulence to infect insect hosts (PubMed:28873459). Protects fungal hyphae against the hydrolytic activity of chitinase and plays an important role
+Q00022	yes	143	Agaricus bisporus	5341	yes	yes	PF07367	yes	4343164,8402638,9988731	Lectin that recognizes O-linked galactose-beta-1,3-N-acetylgalactosamine, a disaccharide (Thomsen-Friedenreich antigen or T-disaccharide), present on cell surface glycoproteins. Can also bind galactose-beta-1,3-N-acetylglucosamine. Does not bind monosaccharides. Can be internalized by clathrin-coate
+Q2UT06	yes	534	Aspergillus oryzae (strain ATCC 42149 / RIB 40)	510516	no	yes	PF00652,PF16499,PF17801	no		
+Q4WER9	yes	378	Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / Af293)	330879	no	no	PF01476	no		
+F2SIK4	yes	360	Trichophyton rubrum (strain ATCC MYA-4607 / CBS 118892)	559305	no	no	PF01476	yes	30947244	Secreted effector that binds two substrates, chitin and N-linked oligosaccharides associated with human skin glycoproteins (PubMed:30947244). Could provide the pathogen with three important functions including shielding host cell wall chitin from the human immune system, shielding the pathogen's gly
+G4N891	yes	285	Pyricularia oryzae (strain 70-15 / ATCC MYA-4617 / FGSC 8958)	242507	no	no	PF01476	no		
+P83973	yes	28	Rhizopus stolonifer	4846	no	yes		no		
+Q00363	yes	135	Fulvia fulva	5499	no	no	PF01607	no		
+Q4IEA7	yes	512	Gibberella zeae (strain ATCC MYA-4620 / CBS 123657 / FGSC 9075 / NRRL 31084 / PH-1)	229533	no	yes	PF07915	no		
+Q4WCG2	yes	520	Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / Af293)	330879	no	yes	PF07915	no		
+A1DDD8	yes	532	Aspergillus fischeri (strain ATCC 1020 / DSM 3700 / CBS 544.65 / FGSC A1164 / JCM 1740 / NRRL 181 / WB 181)	331117	no	yes	PF00652,PF16499,PF17801	no		
+F2ST24	yes	252	Trichophyton rubrum (strain ATCC MYA-4607 / CBS 118892)	559305	no	no	PF01476	yes	30947244	Secreted effector that binds two substrates, chitin and N-linked oligosaccharides associated with human skin glycoproteins (PubMed:30947244). Could provide the pathogen with three important functions including shielding host cell wall chitin from the human immune system, shielding the pathogen's gly
+G2X4U8	yes	145	Verticillium dahliae (strain VdLs.17 / ATCC MYA-4575 / FGSC 10137)	498257	no	no	PF01476	yes	23685541,27911046	Secreted effector that enables the plant pathogenic fungus to manipulate host defenses for successful infection (PubMed:23685541, PubMed:27911046). Binds chitin, suppresses chitin-induced immune responses and protects hyphae against degradation by plant hydrolytic enzymes (PubMed:27911046). Chitin-i
+J4KL74	yes	401	Beauveria bassiana (strain ARSEF 2860)	655819	no	no	PF01476	no		
+J9VLH0	yes	551	Cryptococcus neoformans (strain H99 / ATCC 208821 / CBS 10515 / FGSC 9487)	235443	no	no	PF00262	no		
+O42707	yes	384	Schizosaccharomyces pombe (strain 972 / ATCC 24843)	284812	no	no	PF03388	no		
+O59745	yes	296	Schizosaccharomyces pombe (strain 972 / ATCC 24843)	284812	no	no	PF02157	no		
+O94401	yes	312	Schizosaccharomyces pombe (strain 972 / ATCC 24843)	284812	no	no	PF03388	no		
+P80412	yes	114	Flammulina velutipes	38945	yes	yes	PF09259	no		
+Q5ACR4	yes	258	Candida albicans (strain SC5314 / ATCC MYA-2876)	237561	no	yes	PF07915	no		
+A0A1X7S690	yes	232	Zymoseptoria tritici (strain ST99CH_3D7)	1276538	no	no	PF01476	yes	21467214,33797163	Secreted effector that enables the plant pathogenic fungus to manipulate host defenses for successful infection (PubMed:21467214, PubMed:33797163). Binds chitin fragments and blocks the activation of chitin-induced plant defense responses (PubMed:21467214). Protects fungal hyphae against hydrolytic 
+P86922	yes	8	Ganoderma lucidum	5315	no	yes		yes	21728991	Has metal-independent hemagglutinating activity against erythrocytes from human, sheep, goat, rat, rabbit and chicken. Hemagglutinating activity is inhibited by glycoproteins fetuin, asialo-fetuin, fibrinogen, asialo-fibrinogen, thyroglobulin, bovine (BSM) as well as porcine submaxillary mucin and a
+Q4WRR0	yes	299	Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / Af293)	330879	no	no	PF01476	no		
+Q6BJ08	yes	589	Debaryomyces hansenii (strain ATCC 36239 / CBS 767 / BCRC 21394 / JCM 1990 / NBRC 0083 / IGC 2968)	284592	no	yes	PF07915	no		
+Q6C3U1	yes	558	Yarrowia lipolytica (strain CLIB 122 / E 150)	284591	no	yes	PF07915	no		
+Q6FV52	yes	696	Candida glabrata (strain ATCC 2001 / BCRC 20586 / JCM 3761 / NBRC 0622 / NRRL Y-65 / CBS 138)	284593	no	yes	PF07915,PF17880	no		
+Q872S3	yes	590	Neurospora crassa (strain ATCC 24698 / 74-OR23-1A / CBS 708.71 / DSM 1257 / FGSC 987)	367110	no	yes	PF07915	no		
+Q9P7D0	yes	381	Schizosaccharomyces pombe (strain 972 / ATCC 24843)	284812	no	no	PF00262	no		
+Q6Q487	yes	563	Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / Af293)	330879	no	yes	PF00262	no		
+Q756T2	yes	421	Eremothecium gossypii (strain ATCC 10895 / CBS 109.51 / FGSC 9923 / NRRL Y-1056)	284811	no	yes	PF17880	no		
+Q9UTC8	yes	288	Schizosaccharomyces pombe (strain 972 / ATCC 24843)	284812	no	yes	PF07915	no		
+P40483	yes	696	Saccharomyces cerevisiae (strain ATCC 204508 / S288c)	559292	no	no	PF01419,PF12044	no		
+A0A0A2JQ23	yes	1258	Penicillium expansum	27334	no	no	PF01476,PF12708,PF30480	no		
+A0A0A2KPB9	yes	1410	Penicillium expansum	27334	no	no	PF01476,PF12708,PF30480	no		
+A0A4Q7K4T8	yes	377	Pochonia chlamydosporia (strain 123)	1052797	no	no	PF01476	no		
+A7EWX9	yes	153	Sclerotinia sclerotiorum (strain ATCC 18683 / 1980 / Ss-1)	665079	no	yes	PF14200	no		
+A8NSH3	yes	150	Coprinopsis cinerea (strain Okayama-7 / 130 / ATCC MYA-4618 / FGSC 9003)	240176	no	yes	PF00337	no		
+D4AL26	yes	365	Arthroderma benhamiae (strain ATCC MYA-4681 / CBS 112371)	663331	no	yes	PF07938	no		
+D4ALG0	yes	458	Arthroderma benhamiae (strain ATCC MYA-4681 / CBS 112371)	663331	no	no	PF01476	no		
+D4B4Q2	yes	519	Arthroderma benhamiae (strain ATCC MYA-4681 / CBS 112371)	663331	no	no	PF01476,PF30480	no		
+F2Z266	yes	143	Boletus edulis	36056	yes	yes	PF07367	yes	21303815	Lectin that recognizes O-linked galactose-beta-1,3-N-acetylgalactosamine, a disaccharide (Thomsen-Friedenreich antigen or T-disaccharide), present on cell surface glycoproteins. Can also bind chitin, N,N'-diacetylchitobiose, N-acetylgalactosamine and N-acetylglucosamine. Inhibits proliferation of co
+Q8NJT4	yes	314	Aspergillus fumigatus	746128	no	yes	PF07938	yes	23695231	Multispecific lectin that is able to recognize L-fucose in all possible linkages (PubMed:23695231). These could be found not only in decomposed plant matter in soil, which is the natural environment for A.fumigatus, but also in various epitopes on human tissues (By similarity). Mediates binding of A
+D4AVW3	yes	542	Arthroderma benhamiae (strain ATCC MYA-4681 / CBS 112371)	663331	no	no	PF01476,PF30480	no		
+D4AY86	yes	573	Arthroderma benhamiae (strain ATCC MYA-4681 / CBS 112371)	663331	no	no	PF01476,PF30480	no		
+Q7S6U4	yes	111	Neurospora crassa (strain ATCC 24698 / 74-OR23-1A / CBS 708.71 / DSM 1257 / FGSC 987)	367110	yes	yes	PF08881	yes	18400178	Mannose-binding lectin
+A8NSH0	yes	150	Coprinopsis cinerea (strain Okayama-7 / 130 / ATCC MYA-4618 / FGSC 9003)	240176	no	yes	PF00337	no		
+G1X5Y2	yes	379	Arthrobotrys oligospora (strain ATCC 24927 / CBS 115.81 / DSM 1491)	756982	no	no	PF07938	yes	35142828	Lectin that specifically binds to L-fucose (PubMed:35142828). Is associated with the morphogenesis of the fungus, and plays a role in the formation of the constricting rings involved in nematode-trapping (PubMed:35142828)
+A0A0A2IBU9	yes	703	Penicillium expansum	27334	no	no	PF01476,PF30480	no		
+A0A0A2KE57	yes	241	Penicillium expansum	27334	no	no	PF01476	no		
+A0A4Q7JG83	yes	577	Pochonia chlamydosporia (strain 123)	1052797	no	no	PF01476	no		
+A0A4Q7K9F4	yes	665	Pochonia chlamydosporia (strain 123)	1052797	no	no	PF01476,PF30480	no		
+D4AZ68	yes	408	Arthroderma benhamiae (strain ATCC MYA-4681 / CBS 112371)	663331	no	no	PF01476	no		
+J5JFB6	yes	167	Beauveria bassiana (strain ARSEF 2860)	655819	no	no	PF01476	no		
+P84526	yes	13	Xerocomus spadiceus	279525	no	yes		yes	15003350	Inulin-specific lectin. Has hemagglutinating activity towards rabbit erythrocytes. Has mitogenic activity towards murine splenocytes
+Q8TGE0	yes	310	Aspergillus oryzae	5062	no	yes	PF07938	yes	12092808	Lectin that specifically binds to L-fucose and weakly reacts with mannose and N-acetyl-neuraminic acid (PubMed:12092808). Has strongest preference for the alpha-1,6-fucosylated chain (core fucose) on glycoproteins among alpha-1,2-, alpha-1,3-, alpha-1,4-, and alpha-1,6-fucosylated chains (By similar
+A0A0A2J621	yes	384	Penicillium expansum	27334	no	no	PF01476,PF25139	no		
+A0A0A2K2W7	yes	300	Penicillium expansum	27334	no	no	PF01476	no		
+A8N3G7	yes	164	Coprinopsis cinerea (strain Okayama-7 / 130 / ATCC MYA-4618 / FGSC 9003)	240176	no	yes	PF00337	no		
+D4B4P8	yes	262	Arthroderma benhamiae (strain ATCC MYA-4681 / CBS 112371)	663331	no	no	PF01476	no		
+J5JHE8	yes	171	Beauveria bassiana (strain ARSEF 2860)	655819	no	no	PF01476	no		
+Q5MK11	yes	103	Tuber borchii	42251	yes	yes	PF08881	yes	18400178	Mannose-binding lectin
+Q9US12	yes	612	Schizosaccharomyces pombe (strain 972 / ATCC 24843)	284812	no	yes	PF12044	no		
+P83811	yes	101	Coprinus comatus	56187	no	no	PF22803	no		
+A0A084FYP2	no	369	Pseudallescheria apiosperma	563466	yes	no	PF07938	no		
+G1XA82	no	343	Arthrobotrys oligospora (strain ATCC 24927 / CBS 115.81 / DSM 1491)	756982	yes	no	PF07938	no		
+P32768	yes	1537	Saccharomyces cerevisiae (strain ATCC 204508 / S288c)	559292	yes	no	PF00624,PF07691	yes	11027318,18001350,9483793,9851992	Cell wall protein that participates directly in adhesive cell-cell interactions during yeast flocculation, a reversible, asexual and Ca(2+)-dependent process in which cells adhere to form aggregates (flocs) consisting of thousands of cells. The lectin-like protein sticks out of the cell wall of floc
+P38894	yes	1075	Saccharomyces cerevisiae (strain ATCC 204508 / S288c)	559292	yes	no	PF00624,PF07691,PF13928	no		
+Q6FUW5	no	1034	Candida glabrata (strain ATCC 2001 / BCRC 20586 / JCM 3761 / NBRC 0622 / NRRL Y-65 / CBS 138)	284593	yes	no	PF10528	no		
+Q6FX55	no	715	Candida glabrata (strain ATCC 2001 / BCRC 20586 / JCM 3761 / NBRC 0622 / NRRL Y-65 / CBS 138)	284593	yes	no	PF10528	no		
+B3IUA8	no	1300	Saccharomyces pastorianus	27292	yes	no	PF00624,PF07691,PF13928	no		
+C1G842	no	218	Paracoccidioides brasiliensis (strain Pb18)	502780	no	no	PF00704	no		
+A0A0S4TLR1	no	91	Ralstonia solanacearum	305	yes	yes	PF07938	no		
+A0A2D0TCI3	no	178	Agrocybe cylindracea	1593264	yes	yes	PF00337	no		
+A0A384E107	no	40	Pholiota squarrosa	75321	yes	no		no		
+B3GA02	no	142	Coprinopsis cinerea	5346	yes	yes	PF21595	no		
+F6KMV5	no	141	Macrolepiota procera	56183	yes	yes	PF14200	no		
+Q75WT9	no	286	Cerioporus squamosus	2829415	yes	yes	PF14200,PF18021	no		
+Q7Z8V1	no	315	Laetiporus sulphureus	5630	yes	yes	PF03318	no		
+R4GRU4	no	146	Boletus edulis	36056	yes	no		no		
+B0D650	no	568	Laccaria bicolor (strain S238N-H82 / ATCC MYA-4686)	486041	yes	no		no		
+B3IUB3	no	213	Saccharomyces pastorianus	27292	yes	no	PF07691	no		
+B4UMX2	no	1462	Candida glabrata (strain ATCC 2001 / BCRC 20586 / JCM 3761 / NBRC 0622 / NRRL Y-65 / CBS 138)	284593	yes	no	PF10528	no		
+H6CS64	no	407	Cyclocybe aegerita	1973307	yes	no	PF13517	no		
+I1RM03	no	108	Gibberella zeae (strain ATCC MYA-4620 / CBS 123657 / FGSC 9075 / NRRL 31084 / PH-1)	229533	yes	yes	PF08881	no		
+Q6VBJ0	no	1034	Candida glabrata	5478	yes	no	PF10528	no		
+R4GRU9	no	146	Boletus edulis	36056	yes	no		no		
+A0A0M3KL30	no	141	Agroathelia rolfsii	39291	yes	no	PF07367	no		
+A0A3B6UEU4	no	43	Pholiota squarrosa	75321	yes	no		no		
+G3JGU5	no	128	Cordyceps militaris (strain CM01)	983644	no	yes	PF00652	no		
+L8WGI4	no	137	Thanatephorus cucumeris (strain AG1-IA)	983506	yes	yes	PF14200	no		
+Q8WZC9	no	143	Xerocomellus chrysenteron	1354920	yes	no	PF07367	no		
+R4GRU5	no	146	Boletus edulis	36056	yes	no		no		
+A0A1A9TAD0	no	220	Komagataella pastoris DSMZ 70382	638632	yes	no	PF10528	no		
+A0A1B2JGH2	no	1569	Komagataella pastoris	4922	yes	no	PF10528	no		
+A0A1U7Q1Z0	no	401	Psathyrella	71729	yes	no	PF13517	no		
+B0CZL6	no	227	Laccaria bicolor (strain S238N-H82 / ATCC MYA-4686)	486041	yes	yes	PF19193	no		
+B3VS76	no	127	Coprinopsis cinerea	5346	yes	yes		no		
+B6ZK51	no	137	Pleurocybella porrigens	71910	no	yes	PF14200	no		
+G4N991	no	340	Pyricularia oryzae (strain 70-15 / ATCC MYA-4617 / FGSC 8958)	242507	yes	yes	PF01476,PF08881	no		
+I7H471	no	120	Marasmius oreades	181124	yes	yes		no		
+R4GRU6	no	146	Boletus edulis	36056	yes	no		no		
+A0A0M3KL31	no	142	Agroathelia rolfsii	39291	yes	no	PF07367	no		
+E7E2M2	no	373	Pleurotus ostreatus	5322	yes	no		no		
+Q309D1	no	395	Lacrymaria velutina	71681	yes	no	PF13517	no		
+Q8X123	no	293	Marasmius oreades	181124	yes	yes	PF14200,PF18021	no		
