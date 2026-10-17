@@ -101,7 +101,6 @@ def test_gap_status_basis_names_the_not_applicable_module(gap_run):
         assert r["status_basis"] == e["status_basis"], e
 
 
-@pytest.mark.xfail(strict=True, reason="Task 3.7: primary_label")
 def test_gap_primary_labels(gap_run):
     wide = {r["protein"]: r for r in _read(gap_run, "calls.wide.tsv.gz")}
     expected = _tsv(GAPS / "expected_wide.tsv")

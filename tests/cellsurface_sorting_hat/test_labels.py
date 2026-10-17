@@ -8,11 +8,8 @@ import csv
 import gzip
 import itertools
 
-import pytest
 from engine_helpers import R0, base_modules, config_with, ok, run_eval, table
 from test_cli import run_cli
-
-XFAIL_37 = pytest.mark.xfail(strict=True, reason="Task 3.7: labels module and primary_label column")
 
 CWAC = "cell_wall_adhesion_candidate"
 SAC = "surface_attachment_candidate"
@@ -32,20 +29,17 @@ def label_of(modules, cfg=None):
     return primary_labels(records, cfg)["P"]
 
 
-@XFAIL_37
 def test_the_label_vocabulary_and_order():
     from cellsurface_sorting_hat.labels import LABELS
 
     assert tuple(LABELS) == ORDER
 
 
-@XFAIL_37
 def test_no_signal_peptide_and_a_repeat_call_is_a_mechanism_without_class():
     mods = base_modules(step1="not_called", repeat02=table("repeat02", {"P": ok(call="called")}))
     assert label_of(mods) == (MWC, "tandem_repeat_protein")
 
 
-@XFAIL_37
 def test_a_secreted_protein_with_only_a_hydrophobin_hit_is_a_surface_attachment_candidate():
     mods = base_modules(
         step1="called", pfam_hydrophobin=table("pfam_hydrophobin", {"P": ok(hit="1")})
@@ -53,19 +47,16 @@ def test_a_secreted_protein_with_only_a_hydrophobin_hit_is_a_surface_attachment_
     assert label_of(mods) == (SAC, "hydrophobin_domain")
 
 
-@XFAIL_37
 def test_a_secreted_protein_with_only_an_hsba_hit_is_a_surface_attachment_candidate():
     mods = base_modules(step1="called", pfam_hsba=table("pfam_hsba", {"P": ok(hit="1")}))
     assert label_of(mods) == (SAC, "hsba_domain")
 
 
-@XFAIL_37
 def test_probe_p2_an_unknown_mechanism_input_gives_not_assessable():
     mods = base_modules(step1="called", pfam_hsba=table("pfam_hsba", {"P": {"state": "error"}}))
     assert label_of(mods) == (NAS, "hsba_domain")
 
 
-@XFAIL_37
 def test_a_secreted_protein_with_only_the_antigen_rank_is_a_mechanism_without_class():
     mods = base_modules(
         step1="called", antigen_lookup=table("antigen_lookup", {"P": ok(percentile="7")})
@@ -73,7 +64,6 @@ def test_a_secreted_protein_with_only_the_antigen_rank_is_a_mechanism_without_cl
     assert label_of(mods) == (MWC, "cocci_specificity_rank_top15")
 
 
-@XFAIL_37
 def test_a_secreted_protein_with_a_mechanism_that_no_composite_reads_is_a_mechanism_without_class(
     tmp_path,
 ):
@@ -86,7 +76,6 @@ def test_a_secreted_protein_with_a_mechanism_that_no_composite_reads_is_a_mechan
     assert label_of(mods, cfg) == (MWC, "sowgp_ortholog")
 
 
-@XFAIL_37
 def test_the_ordinary_labels():
     repeat = {"repeat02": table("repeat02", {"P": ok(call="called")})}
     assert label_of(base_modules(step1="called", **repeat))[0] == CWAC
@@ -97,7 +86,6 @@ def test_the_ordinary_labels():
     assert label_of(base_modules(**broken, **repeat))[0] == MWC  # a mechanism holds, SP unknown
 
 
-@XFAIL_37
 def test_cell_wall_adhesion_candidate_wins_over_surface_attachment_candidate():
     mods = base_modules(
         step1="called",
@@ -107,14 +95,12 @@ def test_cell_wall_adhesion_candidate_wins_over_surface_attachment_candidate():
     assert label_of(mods) == (CWAC, "")
 
 
-@XFAIL_37
 def test_a_run_without_the_default_gate_labels_every_protein_not_assessable():
     mods = base_modules()
     del mods[R0]
     assert label_of(mods)[0] == NAS
 
 
-@XFAIL_37
 def test_every_combination_of_inputs_gets_exactly_one_label():
     """FD-A5: the label is a total function of the call values, for every input state."""
     from cellsurface_sorting_hat.engine import load_config
@@ -179,7 +165,6 @@ def test_every_combination_of_inputs_gets_exactly_one_label():
 # ---- outputs ------------------------------------------------------------------------------------
 
 
-@XFAIL_37
 def test_calls_wide_ends_with_primary_label_and_primary_basis(tmp_path, write_module, nodes_dmp):
     code, out, _ = run_cli(tmp_path, write_module, nodes_dmp)
     assert code == 0
@@ -198,7 +183,6 @@ def test_calls_long_is_not_given_a_label_column(tmp_path, write_module, nodes_dm
         assert "primary_label" not in fh.readline()
 
 
-@XFAIL_37
 def test_the_report_counts_one_label_per_protein(tmp_path, write_module, nodes_dmp):
     _, out, _ = run_cli(tmp_path, write_module, nodes_dmp)
     text = (out / "report.md").read_text()

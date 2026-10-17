@@ -29,6 +29,7 @@ from cellsurface_sorting_hat.engine import (
     referenced_modules,
 )
 from cellsurface_sorting_hat.fasta import NA_INVALID, FastaError, read_fasta
+from cellsurface_sorting_hat.labels import primary_labels
 from cellsurface_sorting_hat.modules.base import values_digest
 from cellsurface_sorting_hat.outputs import (
     RunInfo,
@@ -470,9 +471,12 @@ def run(args):
         narrow_families=_narrow_families(loaded),
         condition_checks=condition_checks(loaded),
     )
-    report = render_report(info, records)  # render first: a failure leaves no partial output
+    labels = primary_labels(records, cfg)
+    report = render_report(
+        info, records, labels
+    )  # render first: a failure leaves no partial output
     write_long(out / "calls.long.tsv.gz", records)
-    write_wide(out / "calls.wide.tsv.gz", records, ids)
+    write_wide(out / "calls.wide.tsv.gz", records, ids, labels)
     write_evidence(out / "evidence.tsv.gz", collect_evidence(cfg, ids, tables))
     write_proteins(out / "proteins.tsv.gz", proteins, taxa)
     write_atomic_text(out / "report.md", report)

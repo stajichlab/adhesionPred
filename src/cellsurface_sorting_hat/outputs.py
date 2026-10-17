@@ -8,6 +8,7 @@ from collections import Counter
 from dataclasses import asdict, dataclass, field
 
 from cellsurface_sorting_hat.cache import write_atomic
+from cellsurface_sorting_hat.labels import label_counts
 from cellsurface_sorting_hat.logic import CALLED, NOT_APPLICABLE, NOT_ASSESSABLE, NOT_CALLED
 
 LONG_COLUMNS = [
@@ -134,7 +135,8 @@ def _has_basis(name):
     return name.startswith("other_") or name.split("[")[0] in BASIS_CALLS
 
 
-def write_wide(path, records, protein_ids):
+def write_wide(path, records, protein_ids, labels=None):
+    """``labels`` (``labels.primary_labels``) adds the columns primary_label and primary_basis at the end."""
     columns, table = [], {pid: {} for pid in protein_ids}
     for r in records:
         name = column_name(r.call, r.variant)
@@ -151,6 +153,10 @@ def write_wide(path, records, protein_ids):
         if _has_basis(name):
             header.append(name + "_basis")
     rows = [[pid] + [table[pid].get(h, "") for h in header[1:]] for pid in protein_ids]
+    if labels is not None:
+        header += ["primary_label", "primary_basis"]
+        for pid, row in zip(protein_ids, rows, strict=True):
+            row += list(labels.get(pid, ("", "")))
     write_atomic(path, _tsv(header, rows))
 
 
@@ -237,7 +243,7 @@ def _notes(info):
     return out
 
 
-def render_report(info, records):
+def render_report(info, records, labels=None):
     counts = Counter((r.call, r.variant, r.value) for r in records)
     keys = sorted({(r.call, r.variant) for r in records})
     lines = [
@@ -345,6 +351,18 @@ def render_report(info, records):
             counts[(call, variant, v)] for v in (CALLED, NOT_CALLED, NOT_ASSESSABLE, NOT_APPLICABLE)
         ]
         lines.append(f"| {call} | {variant or '-'} | {c[0]} | {c[1]} | {c[2]} | {c[3]} |")
+    if labels is not None:
+        lines += [
+            "",
+            "## Primary label",
+            "",
+            "One label per protein for the default gate, from the calls above. The first match wins. "
+            "The calls stay independent flags; the label is a summary for a reader.",
+            "",
+            "| primary label | proteins |",
+            "|---|---|",
+        ]
+        lines += [f"| {label} | {n} |" for label, n in label_counts(labels).items()]
     basis = Counter(r.other_basis for r in records if r.call.startswith("other_") and r.other_basis)
     if basis:
         lines += [
