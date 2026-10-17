@@ -17,13 +17,27 @@ from cellsurface_sorting_hat.status import (  # noqa: F401  (re-exported: older 
     SMOKE,
     UNVALIDATED,
     _check_measure,
+    check_entry,
     load_status_source,
     status_from_measure,
     weakest,
 )
 
 
-def build_measure(calibration_set, truth_source, y, call, clusters, notes="", n_boot=2000, seed=1):
+def build_measure(
+    calibration_set,
+    truth_source,
+    y,
+    call,
+    clusters,
+    notes="",
+    n_boot=2000,
+    seed=1,
+    negative_basis=None,
+):
+    """A ``measure`` object. ``negative_basis`` (``curated`` or ``assumed``) is the basis of all the
+    negatives of the set, recorded as the one stratum ``all``. Without it the measure has no curated
+    negatives and cannot be ``estimated``."""
     rates = cluster_bootstrap(y, call, clusters, n_boot=n_boot, seed=seed)
     y = list(y)
     measure = {
@@ -37,6 +51,8 @@ def build_measure(calibration_set, truth_source, y, call, clusters, notes="", n_
     for key in ("sensitivity", "specificity"):
         if rates[key] is not None:
             measure[key] = rates[key]
+    if negative_basis is not None:
+        measure["negative_basis"] = {"all": {"basis": negative_basis, "n": measure["n_neg"]}}
     if notes:
         measure["notes"] = notes
     return measure
@@ -76,16 +92,9 @@ def _check_entries(entries):
             raise ValueError(f"{where}: unknown status {e['status']!r}")
         taxa = _taxa(e["taxa"])
         measure = e.get("measure")
-        if measure is None:
-            if e["status"] == ESTIMATED:
-                raise ValueError(f"{where}: status estimated needs a measure")
-        else:
+        if measure is not None:
             _check_measure(measure, where)
-            allowed = status_from_measure(measure)
-            if weakest([e["status"], allowed]) != e["status"]:
-                raise ValueError(
-                    f"{where}: status {e['status']} is stronger than the measure allows ({allowed})"
-                )
+        check_entry(where, e["status"], measure, taxa)
         label = (measure or {}).get("calibration_set", where)
         for t in taxa:
             if t in seen:

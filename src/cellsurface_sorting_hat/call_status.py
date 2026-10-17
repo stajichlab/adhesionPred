@@ -11,7 +11,6 @@ stops the run (the caller turns ``CallStatusError`` into an input error).
 """
 
 import json
-import re
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -21,22 +20,20 @@ from cellsurface_sorting_hat.engine import (
     reads_of_call,
     variant_label,
 )
-from cellsurface_sorting_hat.status import (
+from cellsurface_sorting_hat.status import (  # noqa: F401  (LEAKAGE_VALUES, MIN_TAXON, leakage_of: re-exported)
     _STRENGTH,
     ENTRY_KEYS,
-    SMOKE,
+    LEAKAGE_VALUES,
+    MIN_TAXON,
     ModuleIdentity,
     StatusEntry,
     _check_measure,
     best_entry,
-    status_from_measure,
-    weakest,
+    check_entry,
+    leakage_of,
 )
 
 FILE_KEYS = {"call", "variant", "config_sha256", "call_hash", "reads", "entries"}
-LEAKAGE_VALUES = ("none", "partial", "tuned_on_truth", "in_reference", "unknown")
-_LEAKAGE = re.compile(r"(?:^|[\s;])leakage:\s*([a-z_]+)")
-MIN_TAXON = 2  # taxon 1 is the root: a status for it would apply to every protein
 
 
 class CallStatusError(ValueError):
@@ -56,11 +53,6 @@ class CallSource:
 
 def call_file_name(call, variant=""):
     return f"{call}.{variant}.json" if variant else f"{call}.json"
-
-
-def leakage_of(measure):
-    found = _LEAKAGE.findall((measure or {}).get("notes", ""))
-    return found[-1] if found else None
 
 
 def _entries(raw, where):
@@ -88,16 +80,9 @@ def _entries(raw, where):
             listed[t] = i
         measure = e["measure"]
         _check_measure(measure, at)
-        allowed = status_from_measure(measure)
-        if weakest([e["status"], allowed]) != e["status"]:
-            raise ValueError(
-                f"{at}: status {e['status']} is stronger than the measure allows ({allowed})"
-            )
-        leak = leakage_of(measure)
-        if leak not in LEAKAGE_VALUES:
+        check_entry(at, e["status"], measure, taxa)
+        if "leakage_exception" not in measure and leakage_of(measure) not in LEAKAGE_VALUES:
             raise ValueError(f"{at}: measure.notes needs 'leakage: <{'|'.join(LEAKAGE_VALUES)}>'")
-        if leak != "none" and weakest([e["status"], SMOKE]) != e["status"]:
-            raise ValueError(f"{at}: leakage {leak} allows at most smoke, not {e['status']}")
         out.append(StatusEntry(tuple(taxa), e["status"], str(e.get("source", "")), measure))
     return tuple(out)
 

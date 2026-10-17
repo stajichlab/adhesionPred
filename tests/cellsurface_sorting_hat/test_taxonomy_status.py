@@ -94,13 +94,13 @@ def test_load_status_source(tmp_path):
                 "version": "2",
                 "params_hash": "p",
                 "artefact_hash": "a",
-                "entries": [{"taxa": [40, 42], "status": "estimated", "source": "x"}],
+                "entries": [{"taxa": [40, 42], "status": "unvalidated", "source": "x"}],
             }
         )
     )
     rec = load_status_source(path)
     assert rec.identity == ModuleIdentity("m", "2", "p", "a")
-    assert rec.entries == (StatusEntry((40, 42), "estimated", "x", None),)
+    assert rec.entries == (StatusEntry((40, 42), "unvalidated", "x", None),)
 
 
 def test_load_status_source_rejects_unknown_status(tmp_path):
@@ -125,9 +125,12 @@ MEASURE = {
     "truth_source": "phasec/metrics.json",
     "n_pos": 232,
     "n_neg": 4244,
+    "n_clusters_pos": 232,
+    "n_clusters_neg": 4244,
+    "negative_basis": {"all": {"basis": "curated", "n": 4244}},
     "sensitivity": {"value": 0.603, "lo": 0.55, "hi": 0.65},
     "specificity": {"value": 0.963, "lo": 0.95, "hi": 0.97},
-    "notes": "R0",
+    "notes": "R0; leakage: none",
 }
 
 
@@ -160,8 +163,9 @@ def test_measure_with_sensitivity_and_specificity_is_loaded_and_returned(tmp_pat
     assert resolve_entry(rec, ident, 41, lineage)[0] is None  # taxon 41 is not covered
 
 
-def test_an_entry_without_a_measure_is_allowed(tmp_path):
-    assert load_status_source(_status_file(tmp_path, None)).entries[0].measure is None
+def test_an_entry_without_a_measure_is_allowed_when_it_is_unvalidated(tmp_path):
+    path = _status_file(tmp_path, None, {"status": "unvalidated"})
+    assert load_status_source(path).entries[0].measure is None
 
 
 @pytest.mark.parametrize(
@@ -197,7 +201,7 @@ def _source(tmp_path, **over):
         "version": "2",
         "params_hash": "p",
         "artefact_hash": "a",
-        "entries": [{"taxa": [40], "status": "estimated"}],
+        "entries": [{"taxa": [40], "status": "unvalidated"}],
     }
     data.update(over)
     path = tmp_path / "s.json"
@@ -208,7 +212,7 @@ def _source(tmp_path, **over):
 @pytest.mark.parametrize(
     "over",
     [
-        {"entries": [{"taxa": [True], "status": "estimated"}]},
+        {"entries": [{"taxa": [True], "status": "unvalidated"}]},
         {"entries": [{"taxa": [40], "status": "estimated", "measure": {"n_pos": True}}]},
         {"entries": [{"taxa": [40], "status": "estimated", "measure": {"n_neg": True}}]},
         {
@@ -235,8 +239,8 @@ def _source(tmp_path, **over):
         {"artefact_hash": ""},
         {
             "entries": [
-                {"taxa": [40, 42], "status": "estimated"},
-                {"taxa": [42], "status": "smoke"},
+                {"taxa": [40, 42], "status": "unvalidated"},
+                {"taxa": [42], "status": "unvalidated"},
             ]
         },
     ],

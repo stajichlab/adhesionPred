@@ -11,7 +11,6 @@ import pytest
 
 ROOT = Path(__file__).resolve().parents[2]
 CALL_STATUS_DIR = ROOT / "docs" / "reports" / "data" / "sorting_hat" / "call_status"
-XFAIL_31 = pytest.mark.xfail(strict=True, reason="Task 3.1: status loader re-validates")
 
 
 def rate(value, half):
@@ -70,21 +69,18 @@ def entry(status, m=None, taxa=(40,), **extra):
 # ---- status_from_measure -----------------------------------------------------------------------
 
 
-@XFAIL_31
 def test_all_curated_negatives_give_estimated():
     from cellsurface_sorting_hat.status import status_from_measure
 
     assert status_from_measure(measure()) == "estimated"
 
 
-@XFAIL_31
 def test_a_missing_negative_basis_gives_smoke():
     from cellsurface_sorting_hat.status import status_from_measure
 
     assert status_from_measure(measure(basis=None)) == "smoke"
 
 
-@XFAIL_31
 def test_assumed_negatives_do_not_count():
     from cellsurface_sorting_hat.status import status_from_measure
 
@@ -99,7 +95,6 @@ def _strata(n_int=13, n_sec=12, n_pmtm=40):
     }
 
 
-@XFAIL_31
 def test_a_pm_tm_stratum_does_not_move_the_status_and_has_its_own_row():
     from cellsurface_sorting_hat.status import negative_rows, status_from_measure
 
@@ -115,7 +110,6 @@ def test_a_pm_tm_stratum_does_not_move_the_status_and_has_its_own_row():
     assert rows["N-int"]["counted"] is True and rows["N-sec"]["counted"] is True
 
 
-@XFAIL_31
 def test_a_headline_n_neg_that_counts_pm_tm_is_refused():
     from cellsurface_sorting_hat.status import status_from_measure
 
@@ -124,7 +118,6 @@ def test_a_headline_n_neg_that_counts_pm_tm_is_refused():
         status_from_measure(bad)
 
 
-@XFAIL_31
 def test_a_basis_other_than_curated_or_assumed_is_refused():
     from cellsurface_sorting_hat.status import status_from_measure
 
@@ -133,7 +126,6 @@ def test_a_basis_other_than_curated_or_assumed_is_refused():
 
 
 @pytest.mark.parametrize("missing", ["n_clusters_pos", "n_clusters_neg"])
-@XFAIL_31
 def test_a_measure_without_cluster_counts_cannot_be_estimated(missing):
     from cellsurface_sorting_hat.status import status_from_measure
 
@@ -141,7 +133,6 @@ def test_a_measure_without_cluster_counts_cannot_be_estimated(missing):
     assert status_from_measure(measure(**kwargs)) == "smoke"
 
 
-@XFAIL_31
 def test_a_measure_with_too_few_clusters_is_smoke():
     from cellsurface_sorting_hat.status import status_from_measure
 
@@ -153,7 +144,6 @@ def test_a_measure_with_too_few_clusters_is_smoke():
 # ---- load_status_source ------------------------------------------------------------------------
 
 
-@XFAIL_31
 def test_taxon_1_with_estimated_is_refused_on_load(tmp_path):
     from cellsurface_sorting_hat.status import load_status_source
 
@@ -162,7 +152,6 @@ def test_taxon_1_with_estimated_is_refused_on_load(tmp_path):
         load_status_source(path)
 
 
-@XFAIL_31
 def test_the_minimum_taxon_is_two(tmp_path):
     from cellsurface_sorting_hat.status import MIN_TAXON, load_status_source
 
@@ -172,7 +161,6 @@ def test_the_minimum_taxon_is_two(tmp_path):
         load_status_source(write_status(tmp_path, [entry("smoke", measure(), taxa=(0,))], "b.json"))
 
 
-@XFAIL_31
 def test_a_status_stronger_than_its_measure_is_refused(tmp_path):
     from cellsurface_sorting_hat.status import load_status_source
 
@@ -181,7 +169,6 @@ def test_a_status_stronger_than_its_measure_is_refused(tmp_path):
         load_status_source(path)
 
 
-@XFAIL_31
 def test_a_status_lower_than_its_measure_loads(tmp_path):
     from cellsurface_sorting_hat.status import load_status_source
 
@@ -191,7 +178,6 @@ def test_a_status_lower_than_its_measure_loads(tmp_path):
     assert record.entries[0].status == "unvalidated"
 
 
-@XFAIL_31
 def test_an_estimated_entry_whose_negatives_are_not_curated_is_refused(tmp_path):
     from cellsurface_sorting_hat.status import load_status_source
 
@@ -200,7 +186,6 @@ def test_an_estimated_entry_whose_negatives_are_not_curated_is_refused(tmp_path)
         load_status_source(path)
 
 
-@XFAIL_31
 @pytest.mark.parametrize("leak", ["partial", "tuned_on_truth", "in_reference", "unknown"])
 def test_leakage_above_none_allows_at_most_smoke(tmp_path, leak):
     from cellsurface_sorting_hat.status import load_status_source
@@ -212,7 +197,6 @@ def test_leakage_above_none_allows_at_most_smoke(tmp_path, leak):
     assert load_status_source(good).entries[0].status == "smoke"
 
 
-@XFAIL_31
 def test_an_estimated_entry_without_a_leakage_value_is_refused(tmp_path):
     from cellsurface_sorting_hat.status import load_status_source
 
@@ -221,7 +205,6 @@ def test_an_estimated_entry_without_a_leakage_value_is_refused(tmp_path):
         load_status_source(path)
 
 
-@XFAIL_31
 def test_a_leakage_exception_lifts_the_leakage_cap(tmp_path):
     """The key is the owner's exception (D13). Without it the same entry is refused."""
     from cellsurface_sorting_hat.status import load_status_source
@@ -236,7 +219,6 @@ def test_a_leakage_exception_lifts_the_leakage_cap(tmp_path):
         load_status_source(path)
 
 
-@XFAIL_31
 def test_a_leakage_exception_needs_reason_signer_and_date(tmp_path):
     from cellsurface_sorting_hat.status import load_status_source
 
@@ -246,7 +228,6 @@ def test_a_leakage_exception_needs_reason_signer_and_date(tmp_path):
             load_status_source(write_status(tmp_path, [entry("smoke", m)]))
 
 
-@XFAIL_31
 def test_a_measure_less_entry_above_unvalidated_is_refused(tmp_path):
     from cellsurface_sorting_hat.status import load_status_source
 
@@ -262,7 +243,6 @@ def test_a_measure_less_entry_with_unvalidated_loads(tmp_path):
     assert record.entries[0].status == "unvalidated"
 
 
-@XFAIL_31
 def test_write_status_source_refuses_a_measure_less_smoke(tmp_path):
     from cellsurface_sorting_hat.calibration.measure import write_status_source
     from cellsurface_sorting_hat.modules.base import ModuleSpec, write_module

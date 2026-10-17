@@ -27,11 +27,16 @@ def counts_from(path, c_pos=MANY, c_neg=MANY):
         sets = json.loads(Path(path).read_text())["test_sets"]
     except ValueError:  # a test of an unreadable file: the real function reports it
         sets = {}
-    out = {s: {"pos": (0, 0), "neg": (0, 0)} for g in SETS.values() for s in g}
+    out = {s: {"pos": (0, 0), "neg": (0, 0), "neg_curated": None} for g in SETS.values() for s in g}
     for key, group in SETS.items():
         if key in sets:
-            n = sets[key]["truth"]["direct"]["n"]["all"]
-            out[group[0]] = {"pos": (n["pos"], c_pos), "neg": (n["neg"], c_neg)}
+            n = sets[key]["truth"]["direct"]["n"]
+            n_cur = sum(n.get(name, {}).get("neg", 0) for name in ("N-int", "N-sec"))
+            out[group[0]] = {
+                "pos": (n["all"]["pos"], c_pos),
+                "neg": (n["all"]["neg"], c_neg),
+                "neg_curated": (n_cur, c_neg) if n_cur else None,
+            }
     return out
 
 
@@ -46,14 +51,22 @@ def cell(r, f):
     }
 
 
-def make_set(label, pos, neg, c, strata=None):
+def make_set(label, pos, neg, c, strata=None, strata_n=None, curated=False):
+    """A Phase C test set. ``strata`` maps a stratum to its fpr cell and ``strata_n`` to its count.
+    With ``curated=True`` all negatives are in the one curated stratum N-int, so the headline
+    negatives are the pooled ones."""
+    if curated and not strata:
+        strata, strata_n = {"N-int": c["fpr"]}, {"N-int": neg}
     metrics = {"all": {"V-go": {"R0": c}}}
+    n = {"all": {"pos": pos, "neg": neg}}
     for name, f in (strata or {}).items():
         metrics[name] = {"V-go": {"R0": {"recall": {"value": None}, "fpr": f}}}
+        if strata_n and name in strata_n:
+            n[name] = {"neg": strata_n[name]}
     return {
         "label": label,
         "n_direct_positives": pos,
-        "truth": {"direct": {"n": {"all": {"pos": pos, "neg": neg}}, "metrics": metrics}},
+        "truth": {"direct": {"n": n, "metrics": metrics}},
     }
 
 
@@ -69,6 +82,7 @@ def _metrics(tmp_path, scer_label="estimate"):
                     "N-sec": {"value": 0.084, "lo": 0.06, "hi": 0.11},
                     "N-int": {"value": 0.002, "lo": 0.001, "hi": 0.004},
                 },
+                {"N-sec": 1000, "N-int": 1000},
             ),
             "S1:Calb_CGD": make_set(
                 "smoke test", 153, 2244, cell((0.477, 0.36, 0.59), (0.04, 0.03, 0.05))
@@ -92,12 +106,15 @@ def test_each_species_gets_its_own_entry_with_its_own_numbers(tmp_path):
     assert [e["taxa"] for e in entries] == [[4932], [5476], [746128]]
     assert by["S1:Scer_SGD"]["measure"]["sensitivity"] == {"value": 0.848, "lo": 0.77, "hi": 0.92}
     assert by["S1:Calb_CGD"]["measure"]["sensitivity"]["value"] == 0.477  # not a pooled value
+    # the headline specificity counts the curated strata only: 86 false positives of 2000
+    # (N-sec 84 of 1000, N-int 2 of 1000), not the pooled 0.97 of the file
     sp = by["S1:Scer_SGD"]["measure"]["specificity"]
-    assert (
-        sp["value"] == pytest.approx(0.97)
-        and sp["lo"] == pytest.approx(0.96)
-        and sp["hi"] == pytest.approx(0.98)
-    )
+    assert sp["value"] == pytest.approx(1 - 86 / 2000)
+    assert sp["lo"] < sp["value"] < sp["hi"]
+    assert by["S1:Scer_SGD"]["measure"]["negative_basis"] == {
+        "N-int": {"basis": "curated", "n": 1000},
+        "N-sec": {"basis": "curated", "n": 1000},
+    }
     assert (by["S1:Scer_SGD"]["measure"]["n_pos"], by["S1:Scer_SGD"]["measure"]["n_neg"]) == (
         79,
         2000,
@@ -148,7 +165,7 @@ def test_a_set_with_no_specificity_cell_is_at_most_smoke_even_if_labelled_estima
 def test_a_tight_estimate_with_both_rates_is_estimated(tmp_path):
     data = json.loads(_metrics(tmp_path).read_text())
     data["test_sets"]["S1:Calb_CGD"] = make_set(
-        "estimate", 400, 4000, cell((0.5, 0.48, 0.52), (0.05, 0.04, 0.06))
+        "estimate", 400, 4000, cell((0.5, 0.48, 0.52), (0.05, 0.04, 0.06)), curated=True
     )
     path = tmp_path / "m3.json"
     path.write_text(json.dumps(data))
@@ -205,7 +222,7 @@ def test_a_zero_width_interval_at_a_rate_of_one_is_widened_with_wilson(tmp_path)
 
 def _with_calb(tmp_path, name, label, pos, neg, c):
     data = json.loads(_metrics(tmp_path).read_text())
-    data["test_sets"]["S1:Calb_CGD"] = make_set(label, pos, neg, c)
+    data["test_sets"]["S1:Calb_CGD"] = make_set(label, pos, neg, c, curated=True)
     path = tmp_path / name
     path.write_text(json.dumps(data))
     return path
@@ -253,10 +270,7 @@ def test_the_notes_record_clusters_call_module_and_the_leakage_limit(tmp_path):
     assert (m["n_clusters_pos"], m["n_clusters_neg"]) == (300, 900)
     assert "cluster floor was not checked" not in m["notes"]
     assert LEAKAGE_NOTE in m["notes"]
-    assert m["notes"].endswith(
-        "leakage: overlap between the Phase C positives and the SignalP 6 training data "
-        "was not measured"
-    )
+    assert m["notes"].endswith(LEAKAGE_NOTE)
     assert "call=signal_peptide_protein; module=step1_rule@R0" in m["notes"]
     assert "signalp_mode=fast" in m["notes"]
 
@@ -329,9 +343,10 @@ def test_count_clusters_joins_the_two_files_and_applies_the_filters(tmp_path):
         + "f\tgo\texcluded\tno\tAnid_EMENI\n",  # not pos or neg
     )
     got = count_clusters(tmp_path / "cl.tsv.gz", tmp_path / "ev.tsv.gz")
-    assert got["Anid_EMENI"] == {"pos": (2, 1), "neg": (1, 1)}
-    assert got["Afum_ASPFU"] == {"pos": (0, 0), "neg": (1, 1)}
-    assert got["Scer_SGD"] == {"pos": (0, 0), "neg": (0, 0)}
+    # the eval table has no stratum column, so there are no curated counts
+    assert got["Anid_EMENI"] == {"pos": (2, 1), "neg": (1, 1), "neg_curated": None}
+    assert got["Afum_ASPFU"] == {"pos": (0, 0), "neg": (1, 1), "neg_curated": None}
+    assert got["Scer_SGD"] == {"pos": (0, 0), "neg": (0, 0), "neg_curated": None}
 
 
 def test_count_clusters_refuses_a_protein_with_no_cluster_and_a_missing_column(tmp_path):

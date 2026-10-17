@@ -95,6 +95,14 @@ def build_parser():
         choices=list(LEAKAGE_VALUES),
         help="did the truth proteins help to set the rule or its cutoffs? anything but 'none' caps the status at smoke",
     )
+    p.add_argument(
+        "--negative-basis",
+        choices=["curated", "assumed"],
+        default="assumed",
+        help="what the negatives are: 'curated' (each one is shown not to have the property, for "
+        "example by a non-IEA GO term) or 'assumed' (absence of an annotation). Only curated "
+        "negatives count for 'estimated'; the default 'assumed' gives at most 'smoke'",
+    )
     p.add_argument("--n-boot", type=int, default=2000)
     p.add_argument("--seed", type=int, default=1)
 
@@ -515,6 +523,7 @@ def run(args):
             notes,
             args.n_boot,
             args.seed,
+            negative_basis=args.negative_basis,
         )
         measure["notes"] = f"{measure['notes']} leakage: {args.leakage}".strip()
         cap = None if args.leakage == "none" else "smoke"

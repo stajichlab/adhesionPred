@@ -8,6 +8,7 @@ the sensitivity and specificity measured on it, so reports can show them.
 """
 
 import json
+import re
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -22,10 +23,17 @@ MEASURE_KEYS = {
     "n_clusters_pos",
     "n_clusters_neg",
     "strata",
+    "negative_basis",
+    "leakage_exception",
     "sensitivity",
     "specificity",
     "notes",
 }
+CURATED, ASSUMED = "curated", "assumed"
+NEGATIVE_BASES = (CURATED, ASSUMED)
+LEAKAGE_VALUES = ("none", "partial", "tuned_on_truth", "in_reference", "unknown")
+_LEAKAGE = re.compile(r"(?:^|[\s;])leakage:\s*([a-z_]+)")
+MIN_TAXON = 2  # taxon 1 is the root: a status for it would apply to every protein
 
 
 def weakest(statuses):
@@ -71,6 +79,63 @@ def _check_rate(rate, where):
         raise ValueError(f"{where}: needs value, lo, hi with 0 <= lo <= value <= hi <= 1")
 
 
+def leakage_of(measure):
+    """The last ``leakage: <value>`` word in ``measure.notes``, or None."""
+    found = _LEAKAGE.findall((measure or {}).get("notes", ""))
+    return found[-1] if found else None
+
+
+def _check_negative_basis(measure, where):
+    """``negative_basis`` is ``{stratum: {"basis": curated|assumed, "n": count}}``.
+
+    Only ``curated`` strata count for the status numbers. When a measure has a curated stratum,
+    the headline ``n_neg`` is the sum over the curated strata (an ``assumed`` stratum such as PM-TM
+    has its own row and is not in it). A measure with no curated stratum has headline ``n_neg``
+    equal to the sum over all strata; it can reach ``smoke`` only."""
+    basis = measure["negative_basis"]
+    if not isinstance(basis, dict) or not basis:
+        raise ValueError(f"{where}.negative_basis: must be an object of strata")
+    for name, item in basis.items():
+        at = f"{where}.negative_basis.{name}"
+        if not isinstance(item, dict) or set(item) != {"basis", "n"}:
+            raise ValueError(f"{at}: needs basis and n")
+        if item["basis"] not in NEGATIVE_BASES:
+            raise ValueError(f"{at}: basis must be curated or assumed (got {item['basis']!r})")
+        if not (isinstance(item["n"], int) and not isinstance(item["n"], bool) and item["n"] >= 0):
+            raise ValueError(f"{at}.n: must be a non-negative integer")
+    curated = sum(v["n"] for v in basis.values() if v["basis"] == CURATED)
+    total = sum(v["n"] for v in basis.values())
+    expected = curated if any(v["basis"] == CURATED for v in basis.values()) else total
+    if "n_neg" in measure and measure["n_neg"] != expected:
+        raise ValueError(
+            f"{where}.n_neg: is {measure['n_neg']} but negative_basis gives {expected} "
+            "(the headline counts the curated strata only)"
+        )
+
+
+def _check_leakage_exception(measure, where):
+    exc = measure["leakage_exception"]
+    keys = {"reason", "signer", "date"}
+    if (
+        not isinstance(exc, dict)
+        or set(exc) != keys
+        or not all(isinstance(exc[k], str) and exc[k].strip() for k in keys)
+    ):
+        raise ValueError(
+            f"{where}.leakage_exception: needs reason, signer and date (non-empty text)"
+        )
+
+
+def negative_rows(measure):
+    """One row per negative stratum: ``stratum``, ``basis``, ``n`` and whether it ``counted`` for
+    the status numbers. An assumed stratum (for example PM-TM) is listed apart and never counted."""
+    basis = (measure or {}).get("negative_basis") or {}
+    return [
+        {"stratum": k, "basis": v["basis"], "n": v["n"], "counted": v["basis"] == CURATED}
+        for k, v in basis.items()
+    ]
+
+
 def _check_measure(measure, where):
     if not isinstance(measure, dict):
         raise ValueError(f"{where}: measure must be an object")
@@ -92,6 +157,10 @@ def _check_measure(measure, where):
             and measure[key] >= 0
         ):
             raise ValueError(f"{where}.{key}: must be a non-negative integer")
+    if "negative_basis" in measure:
+        _check_negative_basis(measure, where)
+    if "leakage_exception" in measure:
+        _check_leakage_exception(measure, where)
 
 
 MIN_POSITIVES = 20
@@ -109,11 +178,16 @@ def status_from_measure(
     max_half_width=MAX_HALF_WIDTH,
     min_clusters=MIN_CLUSTERS,
 ):
-    """``estimated`` needs at least 20 positives and 20 negatives (and, when recorded, at least 20
-    independent clusters of each) and a 95% interval half-width of at most 0.10 for both
-    sensitivity and specificity. Phase C uses the same floor for recall. A measure with any
-    positive but without a specificity is at most ``smoke``: a rule that was never tested on
-    negatives is not an estimate. No sensitivity or no positive gives ``unvalidated``.
+    """``estimated`` needs at least 20 positives, at least 20 curated negatives and at least 20
+    independent clusters of each class, and a 95% interval half-width of at most 0.10 for both
+    sensitivity and specificity. Phase C uses the same floor for recall.
+
+    Only negatives in a ``curated`` stratum of ``negative_basis`` count. A measure without
+    ``negative_basis`` has no curated negatives, so it is at most ``smoke``. A cluster count that is
+    missing does not meet the floor (an older rule skipped the floor for a missing count).
+    A measure with any positive but without a specificity is at most ``smoke``: a rule that was
+    never tested on negatives is not an estimate. No sensitivity or no positive gives
+    ``unvalidated``.
 
     A measure with a non-finite or out-of-range rate or count is refused with ``ValueError``."""
     _check_measure(measure, "measure")
@@ -123,14 +197,41 @@ def status_from_measure(
     narrow = (sens["hi"] - sens["lo"]) / 2 <= max_half_width + _TOLERANCE
     if spec:
         narrow = narrow and (spec["hi"] - spec["lo"]) / 2 <= max_half_width + _TOLERANCE
-    enough = measure["n_pos"] >= min_positives and measure.get("n_neg", 0) >= min_negatives
-    # independent clusters, when the measure records them (older files may not)
+    curated = sum(r["n"] for r in negative_rows(measure) if r["counted"])
+    enough = measure["n_pos"] >= min_positives and curated >= min_negatives
     for key in ("n_clusters_pos", "n_clusters_neg"):
-        if key in measure and measure[key] < min_clusters:
+        if measure.get(key, 0) < min_clusters:
             enough = False
     if spec and enough and narrow:
         return ESTIMATED
     return SMOKE
+
+
+def check_entry(where, status, measure, taxa):
+    """``ValueError`` unless ``status`` is allowed for ``measure`` and ``taxa``.
+
+    A status is never higher than the status that ``status_from_measure`` derives. An entry without
+    a measure is ``unvalidated`` only. Taxon 1 and 0 are refused. Leakage other than ``none`` (or no
+    ``leakage:`` value) allows at most ``smoke``, unless the measure carries ``leakage_exception``
+    (the owner's recorded exception, for example for rule R0)."""
+    for t in taxa:
+        if t < MIN_TAXON:
+            raise ValueError(f"{where}: taxon {t} is below the minimum taxon {MIN_TAXON}")
+    if measure is None:
+        if status != UNVALIDATED:
+            raise ValueError(f"{where}: status {status} needs a measure (without one: unvalidated)")
+        return
+    allowed = status_from_measure(measure)
+    if weakest([status, allowed]) != status:
+        raise ValueError(
+            f"{where}: status {status} is stronger than the measure allows ({allowed})"
+        )
+    if "leakage_exception" not in measure:
+        leak = leakage_of(measure)
+        if leak not in LEAKAGE_VALUES:
+            leak = "unknown"
+        if leak != "none" and weakest([status, SMOKE]) != status:
+            raise ValueError(f"{where}: leakage {leak} allows at most smoke, not {status}")
 
 
 def load_status_source(path):
@@ -156,6 +257,7 @@ def load_status_source(path):
         if isinstance(e["taxa"], str | bytes) or any(isinstance(t, bool) for t in e["taxa"]):
             raise ValueError(f"{where}: taxa must be a list of integers")
         taxa = tuple(int(t) for t in e["taxa"])
+        check_entry(where, e["status"], measure, taxa)
         for t in taxa:
             if t in listed:
                 raise ValueError(f"{where}: taxon {t} is already in entries[{listed[t]}]")

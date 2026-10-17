@@ -43,6 +43,7 @@ from cellsurface_sorting_hat.status import (
     UNVALIDATED,
     ModuleIdentity,
     load_status_source,
+    negative_rows,
     resolve_entry,
 )
 from cellsurface_sorting_hat.taxonomy import Lineage, TaxonError
@@ -321,6 +322,14 @@ def _rate_text(rate):
     return f"{rate['value']:.3f} [{rate['lo']:.3f}, {rate['hi']:.3f}]"
 
 
+def _negatives_text(measure):
+    """The strata of the negatives with their basis; a stratum that does not count says so."""
+    return "; ".join(
+        f"{r['stratum']} {r['basis']} {r['n']}" + ("" if r["counted"] else " (not counted)")
+        for r in negative_rows(measure)
+    )
+
+
 def calibration_rows(resolver, modules, taxa):
     """One row per (module, taxon): status, calibration set, counts, sensitivity, specificity."""
     rows = []
@@ -339,6 +348,7 @@ def calibration_rows(resolver, modules, taxa):
                     "calibration_set": measure.get("calibration_set", ""),
                     "n_pos": measure.get("n_pos", ""),
                     "n_neg": measure.get("n_neg", ""),
+                    "negatives": _negatives_text(measure),
                     "sensitivity": _rate_text(measure.get("sensitivity")),
                     "specificity": _rate_text(measure.get("specificity")),
                 }

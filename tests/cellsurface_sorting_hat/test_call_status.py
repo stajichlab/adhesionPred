@@ -156,6 +156,7 @@ def test_leakage_other_than_none_caps_the_status_at_smoke(cfg, tmp_path):
     big = measure()
     big.update(n_pos=40, n_neg=40, n_clusters_pos=30, n_clusters_neg=30)
     big["sensitivity"] = {"value": 0.9, "lo": 0.85, "hi": 0.95}
+    big["negative_basis"] = {"all": {"basis": "curated", "n": 40}}
     big["notes"] = "call=tandem_repeat_protein; leakage: tuned_on_truth"
     e = {"taxa": [40], "status": "estimated", "source": "t", "measure": big}
     with pytest.raises(ValueError, match="leakage"):

@@ -15,8 +15,6 @@ from cellsurface_sorting_hat.calibration.phasec import SETS, count_clusters, ent
 
 KEY = "S3-Eurotiomycetes:Anid_EMENI"
 SOURCE = SETS[KEY][0]
-XFAIL_31 = pytest.mark.xfail(strict=True, reason="Task 3.1: per-stratum basis in phasec")
-XFAIL_35 = pytest.mark.xfail(strict=True, reason="Task 3.5: leakage_exception and note wording")
 
 
 def _rows():
@@ -71,14 +69,12 @@ def phasec_files(tmp_path):
     return path, counts
 
 
-@XFAIL_31
 def test_count_clusters_counts_the_curated_negatives_apart(phasec_files):
     _, counts = phasec_files
     assert counts[SOURCE]["neg"] == (50, 48)
     assert counts[SOURCE]["neg_curated"] == (40, 38)
 
 
-@XFAIL_31
 def test_the_headline_negatives_are_the_curated_strata_only(phasec_files):
     path, counts = phasec_files
     (entry,) = entries_from_phasec(path, {KEY: [162425]}, counts)
@@ -94,7 +90,6 @@ def test_the_headline_negatives_are_the_curated_strata_only(phasec_files):
     assert entry["status"] == "estimated"
 
 
-@XFAIL_31
 def test_without_stratum_counts_the_entry_has_no_basis_and_is_at_most_smoke(phasec_files, tmp_path):
     path, _ = phasec_files
     pooled = {SOURCE: {"pos": (120, 110), "neg": (50, 48)}}
@@ -103,7 +98,6 @@ def test_without_stratum_counts_the_entry_has_no_basis_and_is_at_most_smoke(phas
     assert entry["status"] == "smoke"
 
 
-@XFAIL_35
 def test_the_r0_entry_carries_the_leakage_exception_and_a_legal_leakage_value(phasec_files):
     from cellsurface_sorting_hat.call_status import LEAKAGE_VALUES, leakage_of
 
@@ -117,7 +111,6 @@ def test_the_r0_entry_carries_the_leakage_exception_and_a_legal_leakage_value(ph
     assert entry["status"] == "estimated"  # the exception lifts the cap
 
 
-@XFAIL_35
 def test_the_reworded_note_parses_as_unknown():
     from cellsurface_sorting_hat.calibration.phasec import LEAKAGE_NOTE
     from cellsurface_sorting_hat.call_status import leakage_of
