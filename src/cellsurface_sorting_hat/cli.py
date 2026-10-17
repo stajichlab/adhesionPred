@@ -117,6 +117,7 @@ class LoadedModules:
     notes: dict = field(default_factory=dict)
     state_counts: dict = field(default_factory=dict)
     unmatched: dict = field(default_factory=dict)
+    params: dict = field(default_factory=dict)  # module -> params of its run record
 
 
 def _read_json(path):
@@ -206,6 +207,7 @@ def load_modules(workdir, protein_ids, invalid_ids, required=None):
         if state not in RUN_STATES:
             raise InputError(f"{meta_path}: run_state {state!r} is not one of {sorted(RUN_STATES)}")
         loaded.states[name] = state
+        loaded.params[name] = meta.get("params") if isinstance(meta.get("params"), dict) else {}
         if not table_path.exists():
             loaded.notes[name] = "no result table"
             continue
@@ -249,8 +251,9 @@ def load_modules(workdir, protein_ids, invalid_ids, required=None):
 def _bad_value(columns, row):
     if "call" in columns and row.get("call") not in CALL_VALUES:
         return True
-    if "hit" in columns and row.get("hit") not in FLAG_VALUES:
-        return True
+    for flag in ("hit", "hit_narrow"):
+        if flag in columns and row.get(flag) not in FLAG_VALUES:
+            return True
     return False
 
 
@@ -356,6 +359,15 @@ def calibration_rows(resolver, modules, taxa):
     return rows
 
 
+def _narrow_families(loaded):
+    """Accessions of the families that feed the narrow call, from the run record of
+    ``pfam_adhesion``; None when that module was not used or its record does not say."""
+    if loaded.states.get("pfam_adhesion") not in ("ok", "partial"):
+        return None
+    families = loaded.params.get("pfam_adhesion", {}).get("narrow_families")
+    return list(families) if isinstance(families, list) else None
+
+
 def run(args):
     cfg = load_config(args.config)
     lineage = Lineage.from_nodes_dmp(args.taxdump)
@@ -421,6 +433,7 @@ def run(args):
         ],
         calibration=calibration_rows(resolver, set(tables) | {cfg.default_gate}, taxa.values()),
         call_status_sources=call_resolver.rows(),
+        narrow_families=_narrow_families(loaded),
     )
     report = render_report(info, records)  # render first: a failure leaves no partial output
     write_long(out / "calls.long.tsv.gz", records)

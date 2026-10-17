@@ -64,7 +64,11 @@ def build(tmp_path, write_module):
     )
     write_module(wd, "repeat02", call(["called", "not_called", "called", "not_called"]))
     write_module(wd, "repeat14", call(["not_called"] * 4))
-    write_module(wd, "pfam_adhesion", [{"id": i, "state": "ok", "hit": "0"} for i in VALID])
+    write_module(
+        wd,
+        "pfam_adhesion",
+        [{"id": i, "state": "ok", "hit": "0", "hit_narrow": "0"} for i in VALID],
+    )
     write_module(wd, "pfam_hydrophobin", [{"id": i, "state": "ok", "hit": "0"} for i in VALID])
     write_module(wd, "pfam_hsba", [{"id": i, "state": "ok", "hit": "0"} for i in VALID])
     write_module(wd, "pfam_allergen", [{"id": i, "state": "ok", "hit": "0"} for i in VALID])
@@ -730,7 +734,8 @@ def test_status_source_with_bad_json_names_the_file(tmp_path, write_module, node
 
 def test_a_bad_hit_value_is_bad_value(tmp_path, write_module, nodes_dmp):
     fasta, taxon_map, wd = build(tmp_path, write_module)
-    write_module(wd, "pfam_adhesion", [{"id": i, "state": "ok", "hit": "yes"} for i in VALID])
+    rows = [{"id": i, "state": "ok", "hit": "yes", "hit_narrow": "0"} for i in VALID]
+    write_module(wd, "pfam_adhesion", rows)
     code, out = _run(tmp_path, nodes_dmp, fasta, taxon_map, wd)
     assert code == 0
     assert "| pfam_adhesion | bad_value | 4 |" in (out / "report.md").read_text()
@@ -1097,7 +1102,7 @@ def test_a_legacy_module_file_and_a_call_file_for_the_same_call_are_both_reporte
 
 def test_evidence_has_family_rows_for_the_three_pfam_modules(tmp_path, write_module, nodes_dmp):
     fasta, taxon_map, wd = build(tmp_path, write_module)
-    base = [{"id": i, "state": "ok", "hit": "0", "families": ""} for i in VALID]
+    base = [{"id": i, "state": "ok", "hit": "0", "hit_narrow": "0", "families": ""} for i in VALID]
     write_module(
         wd, "pfam_adhesion", [dict(base[0], hit="1", families="PF05730,PF07691")] + base[1:]
     )

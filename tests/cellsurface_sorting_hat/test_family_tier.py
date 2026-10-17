@@ -13,7 +13,6 @@ import pytest
 ROOT = Path(__file__).resolve().parents[2]
 TABLE = ROOT / "data" / "sorting_hat" / "family_table.tsv"
 MEASURE = ROOT / "data" / "sorting_hat" / "family_measure.tsv"
-XFAIL_34 = pytest.mark.xfail(strict=True, reason="Task 3.4: tier column in family_table.tsv")
 
 
 def row(**over):
@@ -163,14 +162,12 @@ def test_the_committed_measures_derive_no_tier_above_smoke_and_hyr1_is_untested(
     assert by_name["PA14"] == "smoke"
 
 
-@XFAIL_34
 def test_the_committed_table_equals_the_derived_tiers():
     from cellsurface_sorting_hat.family_tier import check
 
     assert check(TABLE, MEASURE) == []
 
 
-@XFAIL_34
 def test_a_table_with_one_stronger_tier_fails(tmp_path):
     from cellsurface_sorting_hat.family_tier import check
 

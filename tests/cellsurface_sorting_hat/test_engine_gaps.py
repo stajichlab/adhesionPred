@@ -94,7 +94,6 @@ def _adhesion(hit, narrow):
     return table("pfam_adhesion", {"P": ok(hit=hit, hit_narrow=narrow)})
 
 
-@pytest.mark.xfail(strict=True, reason="Task 3.4: wall_family_narrow_domain")
 def test_a_hit_in_a_family_that_is_not_narrow_feeds_only_the_broad_call():
     got = run_eval(base_modules(step1="called", pfam_adhesion=_adhesion("1", "0")))
     assert got[("P", "wall_family_domain", "")].value == "called"
@@ -104,7 +103,6 @@ def test_a_hit_in_a_family_that_is_not_narrow_feeds_only_the_broad_call():
     assert got[("P", "other_surface_no_mechanism", "R0")].value == "not_called"
 
 
-@pytest.mark.xfail(strict=True, reason="Task 3.4: wall_family_narrow_domain")
 def test_a_hit_in_a_narrow_family_feeds_both_calls():
     got = run_eval(base_modules(step1="called", pfam_adhesion=_adhesion("1", "1")))
     assert got[("P", "wall_family_narrow_domain", "")].value == "called"
@@ -112,7 +110,6 @@ def test_a_hit_in_a_narrow_family_feeds_both_calls():
     assert got[("P", "surface_attachment_candidate", "R0")].value == "called"
 
 
-@pytest.mark.xfail(strict=True, reason="Task 3.4: wall_family_narrow_domain")
 def test_the_narrow_call_needs_a_signal_peptide():
     got = run_eval(base_modules(step1="not_called", pfam_adhesion=_adhesion("1", "1")))
     assert got[("P", "wall_family_narrow_domain", "")].value == "called"

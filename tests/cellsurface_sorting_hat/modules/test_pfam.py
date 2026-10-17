@@ -47,6 +47,8 @@ def fam(acc, module="pfam_adhesion", active="yes", second="", **extra):
         "active": active,
         "active_by": "owner" if active == "yes" else "",
         "active_date": "2026-10-05" if active == "yes" else "",
+        "specificity_tier": "untested",
+        "narrow_ok": "no",
     }
     base.update(extra)
     return base

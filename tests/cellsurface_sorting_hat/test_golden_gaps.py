@@ -85,7 +85,6 @@ def _long(out):
     return {(r["protein"], r["call"], r["variant"]): r for r in _read(out, "calls.long.tsv.gz")}
 
 
-@pytest.mark.xfail(strict=True, reason="Tasks 3.2 and 3.4: not_applicable, narrow call")
 def test_gap_call_values_and_other_basis(gap_run):
     got = _long(gap_run)
     expected = _tsv(GAPS / "expected_calls.tsv")

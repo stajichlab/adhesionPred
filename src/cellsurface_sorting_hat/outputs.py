@@ -26,10 +26,14 @@ def _known_limits(thresholds):
         "cell surface, and glycosylation is not assessed. Plasma membrane mucins can be missed.",
         "GPI-anchored and secreted enzymes, and non-adhesive structural wall proteins, get no finer "
         "label in version 1. There is no `cell_wall_protein` call.",
-        "`tandem_repeat_protein` and `wall_family_domain` are evidence. Repeat proteins include "
-        "intracellular ones (ubiquitin, calmodulin, ankyrin proteins). A domain of a family that is "
-        "linked to adhesion or wall function in at least one species (CFEM, ALS, Flo11) is "
-        "not shown to mediate adhesion here. The adhesion call needs a signal peptide. "
+        "`tandem_repeat_protein`, `wall_family_domain` and `wall_family_narrow_domain` are evidence. "
+        "Repeat proteins include intracellular ones (ubiquitin, calmodulin, ankyrin proteins). A domain "
+        "of a family that is linked to adhesion or wall function in at least one species (CFEM, ALS, "
+        "Flo11) is not shown to mediate adhesion here. The adhesion call needs a signal peptide. "
+        "`wall_family_domain` reads every family that the owner enabled (`active`; not a test result). "
+        "`wall_family_narrow_domain` reads only the families with a specificity tier of smoke or "
+        "better that the owner signed with narrow_ok=yes. `cell_wall_adhesion_candidate` reads the "
+        "narrow call; `surface_attachment_candidate` reads the broad one. "
         "`hydrophobin_domain` (hydrophobin Pfam models, category 2c) and `hsba_domain` (HsbA, PF12296, "
         "which may not be a hydrophobin) are separate evidence calls. They do not set `wall_family_domain`.",
         f"`cocci_specificity_rank_top15` is the top {percent}% of a fixed Coccidioides immitis ranking "
@@ -73,6 +77,8 @@ class RunInfo:
     call_status_sources: list = field(default_factory=list)  # rows from CallStatusResolver.rows()
     # one {name, version, params_hash, artefact_hash} per module that was loaded
     module_identities: list = field(default_factory=list)
+    # accessions of the pfam_adhesion families with narrow_ok=yes (None: not known)
+    narrow_families: list | None = None
 
 
 def _gz(text):
@@ -177,6 +183,12 @@ def _warnings(info):
         )
     if info.map_ids_not_in_fasta:
         out.append(f"{info.map_ids_not_in_fasta} ID(s) in --taxon-map are not in the FASTA.")
+    if info.narrow_families == []:
+        out.append(
+            "No family of pfam_adhesion has narrow_ok=yes, so wall_family_narrow_domain is "
+            "not_called for every protein. cell_wall_adhesion_candidate can then be called by a "
+            "tandem repeat only. Sign narrow_ok in data/sorting_hat/family_table.tsv."
+        )
     return out
 
 

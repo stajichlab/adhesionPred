@@ -9,8 +9,6 @@ from test_cli import build
 from cellsurface_sorting_hat.fasta import Protein
 from cellsurface_sorting_hat.modules import pfam
 
-XFAIL_34 = pytest.mark.xfail(strict=True, reason="Task 3.4: narrow flag and family table columns")
-
 COLS = [
     "pfam_acc",
     "name",
@@ -64,7 +62,6 @@ def write_table(path, rows, cols=COLS):
 # ---- the family table ---------------------------------------------------------------------------
 
 
-@XFAIL_34
 def test_a_valid_table_loads_with_tier_and_narrow_flag(tmp_path):
     path = write_table(tmp_path / "t.tsv", [fam_row("PF00001", narrow="yes"), fam_row("PF00002")])
     first, second = pfam.load_family_table(path)
@@ -72,7 +69,6 @@ def test_a_valid_table_loads_with_tier_and_narrow_flag(tmp_path):
     assert (second.tier, second.narrow_ok) == ("smoke", False)
 
 
-@XFAIL_34
 def test_a_table_without_specificity_tier_is_refused(tmp_path):
     old = [c for c in COLS if c not in ("specificity_tier",)]
     path = write_table(tmp_path / "t.tsv", [fam_row("PF00001")], old)
@@ -80,7 +76,6 @@ def test_a_table_without_specificity_tier_is_refused(tmp_path):
         pfam.load_family_table(path)
 
 
-@XFAIL_34
 @pytest.mark.parametrize(
     ("over", "message"),
     [
@@ -113,7 +108,6 @@ def hit(target, acc):
     return {"target": target, "acc": acc, "ievalue": 1e-20, "score": 50.0}
 
 
-@XFAIL_34
 def test_a_hit_in_a_family_that_is_not_narrow_sets_hit_but_not_hit_narrow():
     rows = pfam.pfam_rows(
         [prot("A"), prot("B")],
@@ -126,7 +120,6 @@ def test_a_hit_in_a_family_that_is_not_narrow_sets_hit_but_not_hit_narrow():
     assert (by["B"]["hit"], by["B"]["hit_narrow"]) == ("1", "1")
 
 
-@XFAIL_34
 def test_the_estimated_tier_is_also_narrow_when_signed():
     rows = pfam.pfam_rows(
         [prot("A")], [hit("A", "PF00001")], [family("PF00001", "estimated", True)], "pfam_adhesion"
@@ -134,7 +127,6 @@ def test_the_estimated_tier_is_also_narrow_when_signed():
     assert rows[0]["hit_narrow"] == "1"
 
 
-@XFAIL_34
 def test_hit_narrow_implies_hit_and_a_protein_without_a_hit_has_neither():
     families = [family("PF00001", "smoke", True), family("PF00002", "untested", False)]
     proteins = [prot(c) for c in "ABCD"]
@@ -146,7 +138,6 @@ def test_hit_narrow_implies_hit_and_a_protein_without_a_hit_has_neither():
     assert by["C"]["families"] == "PF00001,PF00002" and by["C"]["hit_narrow"] == "1"
 
 
-@XFAIL_34
 def test_only_pfam_adhesion_has_the_narrow_column():
     assert pfam.columns_for("pfam_adhesion") == ["hit", "hit_narrow", "families"]
     for module in ("pfam_allergen", "pfam_hydrophobin", "pfam_hsba"):
@@ -157,7 +148,6 @@ def test_only_pfam_adhesion_has_the_narrow_column():
         assert "hit_narrow" not in rows[0]
 
 
-@XFAIL_34
 def test_the_family_digest_changes_with_tier_and_narrow_ok():
     from cellsurface_sorting_hat.modules.cli import _family_digest
 
@@ -175,7 +165,6 @@ OPTIONS = "# Option settings:     hmmsearch --cut_ga --cpu 2 --noali fam.hmm in.
 DOM = "{t} - 289 {n} {a}.17 70 1e-20 60.1 8.9 1 1 1e-21 2e-20 59.0 8.9 1 70 20 90 20 91 0.9 -\n"
 
 
-@XFAIL_34
 def test_the_pfam_command_writes_hit_narrow_for_pfam_adhesion_only(tmp_path):
     from cellsurface_sorting_hat.modules.cli import main
 
@@ -209,7 +198,6 @@ def test_the_pfam_command_writes_hit_narrow_for_pfam_adhesion_only(tmp_path):
 # ---- the run ------------------------------------------------------------------------------------
 
 
-@XFAIL_34
 def test_an_old_pfam_adhesion_table_without_hit_narrow_stops_the_run(
     tmp_path, write_module, nodes_dmp, capsys
 ):
@@ -225,7 +213,6 @@ def test_an_old_pfam_adhesion_table_without_hit_narrow_stops_the_run(
     assert "missing column 'hit_narrow'" in capsys.readouterr().err
 
 
-@XFAIL_34
 def test_the_report_warns_when_no_family_has_narrow_ok(tmp_path, write_module, nodes_dmp):
     def report(narrow_families):
         run_dir = tmp_path / str(len(narrow_families))

@@ -232,12 +232,16 @@ Known limits, printed in the report header (the text is `_known_limits` in `src/
    cell surface, and glycosylation is not assessed. Plasma membrane mucins can be missed.
 3. GPI-anchored and secreted enzymes, and non-adhesive structural wall proteins, get no finer label
    in version 1. There is no `cell_wall_protein` call.
-4. `tandem_repeat_protein` and `wall_family_domain` are evidence. Repeat proteins include
-   intracellular ones (ubiquitin, calmodulin, ankyrin proteins). A domain of a family that is linked
-   to adhesion or wall function in at least one species (CFEM, ALS, Flo11) is not shown
-   to mediate adhesion here. The adhesion call needs a signal peptide. `hydrophobin_domain`
-   (hydrophobin Pfam models, category 2c) and `hsba_domain` (HsbA, PF12296, which may not be a
-   hydrophobin) are separate evidence calls. They do not set `wall_family_domain`.
+4. `tandem_repeat_protein`, `wall_family_domain` and `wall_family_narrow_domain` are evidence.
+   Repeat proteins include intracellular ones (ubiquitin, calmodulin, ankyrin proteins). A domain
+   of a family that is linked to adhesion or wall function in at least one species (CFEM, ALS,
+   Flo11) is not shown to mediate adhesion here. The adhesion call needs a signal peptide.
+   `wall_family_domain` reads every family that the owner enabled (`active`; not a test result).
+   `wall_family_narrow_domain` reads only the families with a specificity tier of smoke or better
+   that the owner signed with narrow_ok=yes. `cell_wall_adhesion_candidate` reads the narrow call;
+   `surface_attachment_candidate` reads the broad one. `hydrophobin_domain` (hydrophobin Pfam
+   models, category 2c) and `hsba_domain` (HsbA, PF12296, which may not be a hydrophobin) are
+   separate evidence calls. They do not set `wall_family_domain`.
 5. `cocci_specificity_rank_top15` is the top P% (the configured percentile) of a fixed Coccidioides
    immitis ranking (similarity to IEDB antigens, prevalence, absence of orthologs in confounder
    fungi). It is not epitope prediction. The cut was set after the four anchors were seen. The

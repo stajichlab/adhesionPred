@@ -223,11 +223,15 @@ def _write(workdir, spec, columns, rows, extra_note=""):
 
 
 def _family_digest(families, module):
-    """Hash of what decides a call (accession, condition, active) for one module, not of the free text."""
+    """Hash of what decides a call for one module, not of the free text: accession, condition,
+    active, tier and ``narrow_ok``. The tier and ``narrow_ok`` decide ``hit_narrow``; they must be
+    in the module identity, because the config hash does not cover the family table."""
     import hashlib
 
     rows = sorted(
-        (f.pfam_acc, f.module, f.second_condition, f.active) for f in families if f.module == module
+        (f.pfam_acc, f.module, f.second_condition, f.active, f.tier, f.narrow_ok)
+        for f in families
+        if f.module == module
     )
     return hashlib.sha256(repr(rows).encode()).hexdigest()
 
@@ -281,6 +285,13 @@ def run(args):
                 "families": active,
                 "conditions": conditions,
             }
+            if module in pfam.NARROW_MODULES:
+                # the report warns when this list is empty: the narrow call is then never called
+                params["narrow_families"] = sorted(
+                    f.pfam_acc
+                    for f in families
+                    if f.module == module and f.active and f.narrow_ok and f.tier != pfam.UNTESTED
+                )
             spec = ModuleSpec(
                 module,
                 "1",
@@ -298,7 +309,7 @@ def run(args):
                     write_module(
                         w,
                         spec,
-                        pfam.COLUMNS,
+                        pfam.columns_for(module),
                         rows,
                         run_state="unavailable",
                         note="no active family",
@@ -306,7 +317,7 @@ def run(args):
                 )
                 continue
             rows = pfam.pfam_rows(proteins, hits, families, module, sp_calls, tm_counts)
-            out.append(_write(w, spec, pfam.COLUMNS, rows))
+            out.append(_write(w, spec, pfam.columns_for(module), rows))
         return out
     if args.cmd in ("repeat02", "repeat14"):
         params = {

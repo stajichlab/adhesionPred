@@ -64,7 +64,7 @@ def test_signalp_command_writes_the_r0_module(tmp_path, fasta, capsys):
 
 def test_pfam_command_writes_both_modules_and_uses_the_recorded_pfam_digest(tmp_path, fasta):
     table = tmp_path / "f.tsv"
-    row = dict.fromkeys(FAMILY_COLUMNS, "")
+    row = {**dict.fromkeys(FAMILY_COLUMNS, ""), "specificity_tier": "untested", "narrow_ok": "no"}
     row.update(
         pfam_acc="PF05730",
         name="CFEM",
@@ -313,7 +313,7 @@ def test_the_signalp_module_identity_does_not_depend_on_the_proteome(tmp_path, f
 
 def test_pfam_command_applies_the_no_tm_condition_from_the_tm_table(tmp_path, fasta):
     table = tmp_path / "f.tsv"
-    row = dict.fromkeys(FAMILY_COLUMNS, "")
+    row = {**dict.fromkeys(FAMILY_COLUMNS, ""), "specificity_tier": "untested", "narrow_ok": "no"}
     row.update(
         pfam_acc="PF05730",
         name="CFEM",
@@ -373,7 +373,7 @@ def test_pfam_command_applies_the_no_tm_condition_from_the_tm_table(tmp_path, fa
 
 def _family_table(tmp_path, active):
     table = tmp_path / "f.tsv"
-    base = dict.fromkeys(FAMILY_COLUMNS, "")
+    base = {**dict.fromkeys(FAMILY_COLUMNS, ""), "specificity_tier": "untested", "narrow_ok": "no"}
     base.update(
         pfam_acc="PF05730", name="CFEM", module="pfam_adhesion", **{"class": "2b-i"}, active="no"
     )
@@ -709,7 +709,7 @@ def test_a_protein_shorter_than_the_detector_minimum_is_not_called_not_an_error(
 
 def _tm_and_pfam(tmp_path, fasta, condition="no_tm"):
     table = tmp_path / "f.tsv"
-    row = dict.fromkeys(FAMILY_COLUMNS, "")
+    row = {**dict.fromkeys(FAMILY_COLUMNS, ""), "specificity_tier": "untested", "narrow_ok": "no"}
     row.update(
         pfam_acc="PF05730",
         name="CFEM",
