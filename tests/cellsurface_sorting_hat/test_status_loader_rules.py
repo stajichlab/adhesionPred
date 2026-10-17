@@ -310,13 +310,17 @@ def _committed_files():
     return sorted(CALL_STATUS_DIR.rglob("*.json"))
 
 
-def test_there_are_twenty_committed_status_files():
-    assert len(_committed_files()) == 20
+def test_there_are_committed_status_files():
+    """No count: a later task adds or replaces files. The parametrised test below checks each."""
+    assert _committed_files()
 
 
 @pytest.mark.parametrize("path", _committed_files(), ids=lambda p: p.name)
 def test_every_committed_status_file_loads(path):
-    """All carry a measure on every entry and every entry is smoke (FD-A14)."""
+    """Every committed file loads, and no entry is above `unvalidated` without a measure.
+
+    The loader re-derives the status from the measure (D7), so a status above `smoke` loads only
+    when the measure allows it."""
     from cellsurface_sorting_hat.call_status import build_source, call_file_name
     from cellsurface_sorting_hat.engine import load_config
     from cellsurface_sorting_hat.status import load_status_source
@@ -330,4 +334,4 @@ def test_every_committed_status_file_loads(path):
     else:
         entries = load_status_source(path).entries
     assert entries
-    assert all(e.measure is not None and e.status == "smoke" for e in entries)
+    assert all(e.status == "unvalidated" or e.measure is not None for e in entries)

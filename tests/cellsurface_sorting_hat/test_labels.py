@@ -65,8 +65,11 @@ def test_a_secreted_protein_with_only_the_antigen_rank_is_a_mechanism_without_cl
 
 
 def test_a_secreted_protein_with_a_mechanism_that_no_composite_reads_is_a_mechanism_without_class(
-    tmp_path,
+    tmp_path, monkeypatch
 ):
+    from cellsurface_sorting_hat import labels
+
+    monkeypatch.setattr(labels, "MECHANISM_CALLS", (*labels.MECHANISM_CALLS, "sowgp_ortholog"))
     cfg = config_with(
         tmp_path,
         extra_calls=[{"name": "sowgp_ortholog", "expr": {"flag": "sowgp.hit"}}],
@@ -74,6 +77,30 @@ def test_a_secreted_protein_with_a_mechanism_that_no_composite_reads_is_a_mechan
     )
     mods = base_modules(step1="called", sowgp=table("sowgp", {"P": ok(hit="1")}))
     assert label_of(mods, cfg) == (MWC, "sowgp_ortholog")
+
+
+def test_every_declared_mechanism_call_is_in_both_other_lists():
+    """Label 5 reads MECHANISM_CALLS; the other_* calls must list the same mechanisms."""
+    from cellsurface_sorting_hat.engine import load_config
+    from cellsurface_sorting_hat.labels import MECHANISM_CALLS
+
+    others = [c for c in load_config().calls if c.get("kind") == "other"]
+    assert len(others) == 2
+    for call in others:
+        assert set(call["mechanism"]) == set(MECHANISM_CALLS), call["name"]
+
+
+def test_a_mechanism_in_an_other_list_but_not_declared_is_refused(tmp_path):
+    import pytest
+
+    cfg = config_with(
+        tmp_path,
+        extra_calls=[{"name": "sowgp_ortholog", "expr": {"flag": "sowgp.hit"}}],
+        mechanism_extra=["sowgp_ortholog"],
+    )
+    mods = base_modules(step1="called", sowgp=table("sowgp", {"P": ok(hit="1")}))
+    with pytest.raises(ValueError, match="labels.MECHANISM_CALLS"):
+        label_of(mods, cfg)
 
 
 def test_the_ordinary_labels():

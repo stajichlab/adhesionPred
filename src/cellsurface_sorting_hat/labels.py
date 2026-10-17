@@ -11,7 +11,7 @@ The calls stay independent flags. The label is a summary for a reader, derived f
    signal peptide says (no signal peptide, a mechanism no composite reads, or only the antigen rank).
 6. ``not_assessable``.
 
-Allergen calls and ``serodiagnostic_marker_candidate`` are not label sources. The antigen rank is a
+The mechanism calls are declared in ``MECHANISM_CALLS``. Allergen calls and ``serodiagnostic_marker_candidate`` are not label sources. The antigen rank is a
 mechanism of the ``other_*`` calls, so it counts for label 5. The function is total: every protein
 gets exactly one label. Labels 3 and 4 cannot hold together with labels 1, 2 or each other.
 """
@@ -28,13 +28,30 @@ NAS = "not_assessable"
 LABELS = (CWAC, SAC, OSN, ONS, MWC, NAS)
 
 
+# The mechanism calls of label 5. This is the one place to add a new mechanism call; it must also
+# be added to the `mechanism` list of both `other_*` calls in categories.yaml. `_mechanisms`
+# refuses a config whose `other_*` lists name a call that is not declared here, and
+# test_labels.py fails when a call declared here is missing from those lists.
+MECHANISM_CALLS = (
+    "tandem_repeat_protein",
+    "wall_family_domain",
+    "hydrophobin_domain",
+    "hsba_domain",
+    "cocci_specificity_rank_top15",
+)
+
+
 def _mechanisms(cfg):
-    """The mechanism calls of the ``other_*`` calls, in config order, without repeats."""
-    out = []
-    for call in cfg.calls:
-        if call.get("kind") == "other":
-            out += [m for m in call["mechanism"] if m not in out]
-    return out
+    """``MECHANISM_CALLS``. A call in an ``other_*`` mechanism list that is not declared there
+    would never reach label 5; that is an error, not a silent gap."""
+    listed = {m for c in cfg.calls if c.get("kind") == "other" for m in c["mechanism"]}
+    missing = sorted(listed - set(MECHANISM_CALLS))
+    if missing:
+        raise ValueError(
+            f"mechanism call(s) {missing} are in an other_* list of the config but not in "
+            "labels.MECHANISM_CALLS; add them there"
+        )
+    return list(MECHANISM_CALLS)
 
 
 def primary_labels(records, cfg):

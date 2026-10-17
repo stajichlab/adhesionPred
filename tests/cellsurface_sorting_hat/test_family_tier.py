@@ -219,14 +219,43 @@ def test_the_measurement_file_is_what_the_converter_makes_from_the_family_test(t
 # ---- code location (D15) ------------------------------------------------------------------------
 
 
+ANALYSIS_IMPORT = re.compile(
+    r"^\s*(from|import)\s+analysis\b"  # import analysis...
+    r"|sys\.path[^\n]*analysis"  # sys.path tricks
+    # importlib loads by path, also over several lines: spec_from_file_location(..., "analysis/...")
+    r"|spec_from_file_location\([^)]*analysis"
+    r"|importlib[^\n]*analysis",
+    re.MULTILINE,
+)
+
+
 def test_no_test_of_the_blocking_suite_imports_from_analysis():
-    pattern = re.compile(r"^\s*(from|import)\s+analysis\b|sys\.path[^\n]*analysis", re.MULTILINE)
     offenders = [
         str(p.relative_to(ROOT))
         for p in Path(__file__).parent.rglob("*.py")
-        if pattern.search(p.read_text(encoding="utf-8"))
+        if p != Path(__file__) and ANALYSIS_IMPORT.search(p.read_text(encoding="utf-8"))
     ]
     assert offenders == []
+
+
+@pytest.mark.parametrize(
+    "line",
+    [
+        "import analysis.family_tests",
+        "from analysis.x import y",
+        "sys.path.insert(0, str(ROOT / 'analysis'))",
+        "spec = importlib.util.spec_from_file_location('m', ROOT / 'analysis' / 'g.py')",
+        "spec_from_file_location('m', 'analysis/class_table/make.py')",
+        "spec_from_file_location(\n    'm',\n    ROOT / 'analysis' / 'g.py',\n)",
+    ],
+)
+def test_the_analysis_import_guard_catches_each_way_of_loading(line):
+    assert ANALYSIS_IMPORT.search(line)
+
+
+def test_the_analysis_import_guard_ignores_a_path_in_a_string_compare():
+    """A plain path string is not a load (test_repeats.py checks a command line)."""
+    assert not ANALYSIS_IMPORT.search('assert cmd[1].endswith("analysis/cocci_repeats/x.py")')
 
 
 def test_the_tier_code_is_in_src_not_in_analysis():
