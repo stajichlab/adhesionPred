@@ -950,7 +950,6 @@ def _golden_texts(out):
     return long_text, report
 
 
-@pytest.mark.xfail(strict=True, reason="Task 3.9: golden files are regenerated in their own commit")
 def test_run_output_is_pinned(tmp_path, write_module, nodes_dmp):
     """The whole output of the toy run, taken from the engine before call status files existed.
 
