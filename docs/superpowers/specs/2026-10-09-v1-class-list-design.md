@@ -29,6 +29,8 @@ means, and how the calls combine. It also lists the small code and documentation
 | C8 | The hydrophobin call is the strict Pfam call only. The relaxed level is not brought in. | row H8; `analysis/hydrophobin_truth/ship_decision.json` |
 | C9 | SOWgp-like proteins get both an ortholog call and a repeat-architecture call (M5). | `docs/HANDOFF-2026-10-08-hydrophobin.md`; M5 spec |
 
+**Update 2026-10-17.** Decision C5 gives the active set as decided on 2026-10-09 ("10 of 24"). The adhesion-class families (ALS, Flo11, GLEYA, Flocculin, Hyr1, PIR1-like_C rows) became active on 2026-10-09 after this decision. Count the active rows in `data/sorting_hat/family_table.tsv` instead of using that number. Every active `pfam_adhesion` row sets `wall_family_domain`. `active` is an owner decision; the `specificity_note` of each row says whether a specificity test was run.
+
 ## 3. The v1 class list
 
 "Gated" means `per_variant: true` (one value per step 1 variant). Statuses are per work directory and taxon: a status counts only where its file is installed and current.

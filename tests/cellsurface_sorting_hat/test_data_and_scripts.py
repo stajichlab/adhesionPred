@@ -320,9 +320,28 @@ def _stub(bindir, name, body):
     path.chmod(0o755)
 
 
+def _gnu_realpath_available():
+    """The job scripts use `realpath -m` (GNU coreutils). BSD/macOS realpath rejects it."""
+    exe = shutil.which("realpath")
+    if exe is None:
+        return False
+    return subprocess.run([exe, "-m", "/nonexistent/x"], capture_output=True).returncode == 0
+
+
+_REALPATH_SHIM = """#!/bin/sh
+# Test-only stand-in for GNU `realpath [-m]` where only BSD realpath exists (macOS).
+[ "$1" = "-m" ] && shift
+exec python3 -c 'import os, sys; print(os.path.realpath(sys.argv[1]))' "$1"
+"""
+
+
 def _env(tmp_path, **extra):
     bindir = tmp_path / "bin"
     bindir.mkdir(exist_ok=True)
+    if not _gnu_realpath_available():  # Linux CI has GNU realpath and runs the scripts' own call
+        shim = bindir / "realpath"
+        shim.write_text(_REALPATH_SHIM)
+        shim.chmod(0o755)
     scratch = tmp_path / "scratch"
     scratch.mkdir(exist_ok=True)
     env = {k: v for k, v in os.environ.items() if k not in ("FASTA", "WORKDIR")}

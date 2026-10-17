@@ -25,7 +25,7 @@ calls:
     kind: evidence
     gated: false
     category: cell wall and adhesion
-    meaning: "A hit to an active wall-family Pfam model that passes that family's condition (CFEM: no mature TM helix; PA14: R0 signal peptide, which makes this ungated call depend on R0)."
+    meaning: "A hit to an active wall-family Pfam model that passes that family's condition (the active adhesion-class rows of `data/sorting_hat/family_table.tsv` are read; conditions: CFEM no mature TM helix, PA14 R0 signal peptide, which makes this ungated call depend on R0; the other active rows have none)."
     reads: [pfam_adhesion]
     status: unvalidated
   - call: hydrophobin_domain

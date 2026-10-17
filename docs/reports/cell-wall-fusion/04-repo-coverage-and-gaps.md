@@ -19,7 +19,7 @@ Errata applied 2026-10-17 from reports 05 to 07; items still unverified are mark
 
 ### 1.1 Sorting-hat family table and calls (these produce calls on a proteome)
 
-The family table is `data/sorting_hat/family_table.tsv` (24 rows plus header). A row is read only if `active=yes` (`src/cellsurface_sorting_hat/modules/pfam.py:135`). `active` means the family passed a specificity test and an owner sign-off (`docs/reports/2026-10-07-pfam-family-proposals.md:7`; `docs/superpowers/specs/2026-10-04-orchestrator-design.md:259-260`). Four module names exist: `pfam_adhesion`, `pfam_allergen`, `pfam_hydrophobin`, `pfam_hsba` (`modules/pfam.py:22`).
+The family table is `data/sorting_hat/family_table.tsv` (24 rows plus header). A row is read only if `active=yes` (`src/cellsurface_sorting_hat/modules/pfam.py:135`). `active` means the family is enabled by the owner (Update 2026-10-17: it does not promise a passed specificity test; the row's `specificity_note` says whether one was run; the original claim was: passed a specificity test and an owner sign-off) (`docs/reports/2026-10-07-pfam-family-proposals.md:7`; `docs/superpowers/specs/2026-10-04-orchestrator-design.md:259-260`). Four module names exist: `pfam_adhesion`, `pfam_allergen`, `pfam_hydrophobin`, `pfam_hsba` (`modules/pfam.py:22`).
 
 Status column: state on `main` / state on `origin/lectin-reviews-and-full-run` (that branch turns on 8 more rows; read from `git show origin/lectin-reviews-and-full-run:data/sorting_hat/family_table.tsv`).
 
@@ -224,7 +224,7 @@ This is the route the lectin spec decided against. Files that would change, from
 | `tests/cellsurface_sorting_hat/test_data_and_scripts.py` | asserts row count, the signed-off set and the module set (`:30-60` on the branch) | edit all three |
 | `tests/cellsurface_sorting_hat/test_engine.py`, `test_cli.py`, `modules/test_module_cli.py`, `golden/*` | module lists in fixtures and the golden report (for `pfam_hsba`: `test_engine.py:52,309,369,383`; `test_cli.py:44`; `golden/report.expected.md:22,39,57,58`) | regenerate golden files and read every changed line |
 
-**Recommendation.** Use (c-i) for both sets. The enzyme families here are large with intracellular members (`orchestrator spec:261-262`), no hard-negative table exists (issue #14), and `active` already promises a passed specificity test. A script table gives the owner counts of remodeling and fusion families per proteome without a call.
+**Recommendation.** Use (c-i) for both sets. The enzyme families here are large with intracellular members (`orchestrator spec:261-262`), no hard-negative table exists (issue #14), and (as first written) `active` already promises a passed specificity test. Update 2026-10-17: that premise is wrong for some active rows (their `specificity_note` says "specificity test not run" or "not reviewed"); the recommendation rests on the other grounds. A script table gives the owner counts of remodeling and fusion families per proteome without a call.
 
 ## 5. Unknowns
 

@@ -178,7 +178,7 @@ def test_report_counts_the_surface_attachment_basis_by_sub_label():
     assert "| tandem repeat | 1 |" in text
     assert "| hydrophobin | 2 |" in text
     assert "| HsbA | 1 |" in text
-    assert "| wall family domain (PA14, CFEM) | 0 |" in text
+    assert "| wall family domain | 0 |" in text
     assert "| proteins called | 3 |" in text
     assert "adhesin repeat" not in text
 

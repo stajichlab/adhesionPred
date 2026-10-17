@@ -200,6 +200,8 @@ do not depend on step 1 are written once. The default gate is `step1_rule@R0` (d
 | `other_not_surface[v]` | `signal_peptide_protein[v]` is F, and every mechanism call that is not U is F | `signal_peptide_protein[v]`, mechanism calls | derived |
 | `other_surface_no_mechanism[v]` | `signal_peptide_protein[v]` is T, and every mechanism call that is not U is F | `signal_peptide_protein[v]`, mechanism calls | derived |
 
+**Update 2026-10-17.** The `wall_family_domain` row above is the 2026-10-08 state. Since 2026-10-09 every `active=yes` row of module `pfam_adhesion` in `data/sorting_hat/family_table.tsv` sets `wall_family_domain` (the ALS, Flo11, GLEYA, Flocculin, Hyr1 and PIR1-like_C rows among them) and so feeds `cell_wall_adhesion_candidate`. Read the active rows from the table, not from this row. Only CFEM and PA14 carry a condition.
+
 Mechanism calls are `tandem_repeat_protein`, `wall_family_domain`, `hydrophobin_domain`, `hsba_domain` and `cocci_specificity_rank_top15`
 (the gated forms are implied by them; do not add them to the formulas).
 
@@ -232,7 +234,7 @@ Known limits, printed in the report header (the text is `_known_limits` in `src/
    in version 1. There is no `cell_wall_protein` call.
 4. `tandem_repeat_protein` and `wall_family_domain` are evidence. Repeat proteins include
    intracellular ones (ubiquitin, calmodulin, ankyrin proteins). A domain of a family that is linked
-   to adhesion or wall function in at least one species (CFEM, Bys1, Als) is not shown
+   to adhesion or wall function in at least one species (CFEM, ALS, Flo11) is not shown
    to mediate adhesion here. The adhesion call needs a signal peptide. `hydrophobin_domain`
    (hydrophobin Pfam models, category 2c) and `hsba_domain` (HsbA, PF12296, which may not be a
    hydrophobin) are separate evidence calls. They do not set `wall_family_domain`.
@@ -250,6 +252,8 @@ Known limits, printed in the report header (the text is `_known_limits` in `src/
 8. The taxon you give is recorded as given. It is not checked against the sequences.
 9. Leakage: overlap between the Phase C positives and the SignalP 6 training data was not
    measured. The status of rule R0 does not account for it.
+
+**Update 2026-10-17.** Item 4 first named "CFEM, Bys1, Als" as examples. Bys1 is inactive in `data/sorting_hat/family_table.tsv`; the examples now read "CFEM, ALS, Flo11" (active rows), and the report text in `outputs.py` matches.
 
 ### 3.5 The family table
 
