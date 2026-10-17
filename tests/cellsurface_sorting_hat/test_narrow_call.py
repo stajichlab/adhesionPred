@@ -85,12 +85,27 @@ def test_a_table_without_specificity_tier_is_refused(tmp_path):
         ({"narrow_ok": "yes", "narrow_ok_by": ""}, "narrow_ok_by"),
         ({"narrow_ok": "yes", "narrow_ok_date": ""}, "narrow_ok_date"),
         ({"narrow_ok": "yes", "narrow_ok_evidence": ""}, "narrow_ok_evidence"),
+        (
+            {"narrow_ok": "yes", "narrow_ok_evidence": "draft yes, not signed (D12): E1 hits 1"},
+            "still a draft",
+        ),
+        ({"narrow_ok": "yes", "narrow_ok_evidence": "Not signed; E1 hits 9"}, "still a draft"),
     ],
 )
 def test_the_loader_refuses_these_rows(tmp_path, over, message):
     path = write_table(tmp_path / "t.tsv", [fam_row("PF00001", narrow="yes", **over)])
     with pytest.raises(pfam.FamilyTableError, match=message):
         pfam.load_family_table(path)
+
+
+def test_a_signed_row_with_real_evidence_passes_and_a_draft_row_with_no_passes(tmp_path):
+    draft = "draft no, not signed (D12): E1 hits 1 of 54"
+    rows = [
+        fam_row("PF00001", narrow="yes"),  # signer, date and real evidence
+        fam_row("PF00002", narrow="no", narrow_ok_evidence=draft),  # a draft stays valid for no
+    ]
+    loaded = pfam.load_family_table(write_table(tmp_path / "t.tsv", rows))
+    assert [f.narrow_ok for f in loaded] == [True, False]
 
 
 # ---- the Pfam rows ------------------------------------------------------------------------------

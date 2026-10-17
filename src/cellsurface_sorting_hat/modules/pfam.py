@@ -32,6 +32,9 @@ FAMILY_COLUMNS = [
     "narrow_ok_date",
     "narrow_ok_evidence",  # members, hits, leakage and near-neighbour negative hits behind a yes
 ]
+# Text that marks a ``narrow_ok_evidence`` as a pre-filled draft. A row with ``narrow_ok=yes`` must
+# not carry it: the owner replaces the draft with the real evidence when signing.
+DRAFT_EVIDENCE_MARKERS = ("draft", "not signed")
 MODULES = ("pfam_adhesion", "pfam_allergen", "pfam_hydrophobin", "pfam_hsba")
 SECOND_CONDITIONS = ("", "signal_peptide", "no_tm")
 COLUMNS = ["hit", "families"]
@@ -102,6 +105,12 @@ def load_family_table(path):
                 for column in ("narrow_ok_by", "narrow_ok_date", "narrow_ok_evidence"):
                     if not r[column].strip():
                         raise FamilyTableError(f"{where}: narrow_ok=yes needs {column}")
+                evidence = r["narrow_ok_evidence"].lower()
+                if any(marker in evidence for marker in DRAFT_EVIDENCE_MARKERS):
+                    raise FamilyTableError(
+                        f"{where}: narrow_ok=yes but narrow_ok_evidence is still a draft "
+                        f"(it contains one of {DRAFT_EVIDENCE_MARKERS}); replace it with the evidence"
+                    )
             if r.get("narrow_ok_draft", "") not in ("", "yes", "no"):
                 raise FamilyTableError(f"{where}: narrow_ok_draft must be yes, no or empty")
             rows.append(
