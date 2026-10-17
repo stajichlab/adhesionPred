@@ -223,8 +223,15 @@ def check_entry(where, status, measure, taxa):
         return
     allowed = status_from_measure(measure)
     if weakest([status, allowed]) != status:
+        hint = ""
+        if "leakage_exception" not in measure and "negative_basis" not in measure:
+            # an entry that an older `calibrate phasec` wrote, before the per-stratum rules
+            hint = (
+                f"; the entry in {where} carries no leakage_exception and no per-stratum "
+                "negative_basis, so the file is out of date: re-run `calibrate phasec`"
+            )
         raise ValueError(
-            f"{where}: status {status} is stronger than the measure allows ({allowed})"
+            f"{where}: status {status} is stronger than the measure allows ({allowed}){hint}"
         )
     if "leakage_exception" not in measure:
         leak = leakage_of(measure)

@@ -169,6 +169,21 @@ def test_a_status_stronger_than_its_measure_is_refused(tmp_path):
         load_status_source(path)
 
 
+def test_an_old_r0_file_gets_an_error_that_says_what_to_do(tmp_path):
+    """An `estimated` entry with no negative_basis and no leakage_exception is an old R0 file."""
+    from cellsurface_sorting_hat.status import load_status_source
+
+    old = measure(basis=None, notes="x; leakage: unknown")
+    path = write_status(tmp_path, [entry("estimated", old)], "old_r0.json")
+    with pytest.raises(ValueError) as err:
+        load_status_source(path)
+    text = str(err.value)
+    assert "old_r0.json" in text
+    assert "stronger than the measure allows (smoke)" in text
+    assert "no leakage_exception" in text and "negative_basis" in text
+    assert "re-run `calibrate phasec`" in text
+
+
 def test_a_status_lower_than_its_measure_loads(tmp_path):
     from cellsurface_sorting_hat.status import load_status_source
 
