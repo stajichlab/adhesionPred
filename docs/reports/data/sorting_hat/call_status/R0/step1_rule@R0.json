@@ -1,0 +1,362 @@
+{
+  "artefact_hash": "6a9c0183d0b7de5685ff56e60cacca9e16f3779f104f7223e372d3245a78c0c7",
+  "entries": [
+    {
+      "measure": {
+        "calibration_set": "S1:Scer_SGD",
+        "leakage_exception": {
+          "date": "2026-10-06",
+          "reason": "leakage unmeasured (SignalP training overlap), uncapped by owner decision",
+          "signer": "owner (docs/paper/03-status-and-validation-rules.md section 6, item 1)"
+        },
+        "n_clusters_neg": 3154,
+        "n_clusters_pos": 58,
+        "n_neg": 3783,
+        "n_pos": 79,
+        "negative_basis": {
+          "N-int": {
+            "basis": "curated",
+            "n": 2329
+          },
+          "N-sec": {
+            "basis": "curated",
+            "n": 1454
+          },
+          "PM-TM": {
+            "basis": "assumed",
+            "n": 2
+          }
+        },
+        "notes": "Phase C smoke test; rule R0, variant V-go; GO direct evidence; interval is the widest of the file's interval and the Wilson interval on the cluster count; call=signal_peptide_protein; module=step1_rule@R0; variant=R0; signalp_module=signalp/6-gpu; signalp_mode=fast; signalp_record_version=module:signalp/6-gpu,signalp6_version:SignalP 6.0 Signal peptide prediction tool 6.0h; leakage: unknown (overlap between the Phase C positives and the SignalP 6 training data was not measured)",
+        "sensitivity": {
+          "hi": 0.9425369458128078,
+          "lo": 0.7344457289237409,
+          "value": 0.8481012658227848
+        },
+        "specificity": {
+          "hi": 0.9716885258684411,
+          "lo": 0.9589781141468074,
+          "value": 0.9659000793021412
+        },
+        "strata": {
+          "N-int": {
+            "hi": 1.0,
+            "lo": 0.9970612621752603,
+            "value": 0.9987118935165307
+          },
+          "N-sec": {
+            "hi": 0.931013513975349,
+            "lo": 0.8941332926179699,
+            "value": 0.9133425034387895
+          },
+          "PM-TM": {
+            "hi": 1.0,
+            "lo": 0.0,
+            "value": 0.5
+          }
+        },
+        "truth_source": "metrics.json:test_sets/S1:Scer_SGD/truth/direct"
+      },
+      "source": "metrics.json:test_sets/S1:Scer_SGD/truth/direct",
+      "status": "smoke",
+      "taxa": [
+        4932
+      ]
+    },
+    {
+      "measure": {
+        "calibration_set": "S1:Calb_CGD",
+        "leakage_exception": {
+          "date": "2026-10-06",
+          "reason": "leakage unmeasured (SignalP training overlap), uncapped by owner decision",
+          "signer": "owner (docs/paper/03-status-and-validation-rules.md section 6, item 1)"
+        },
+        "n_clusters_neg": 399,
+        "n_clusters_pos": 113,
+        "n_neg": 438,
+        "n_pos": 153,
+        "negative_basis": {
+          "N-int": {
+            "basis": "curated",
+            "n": 175
+          },
+          "N-sec": {
+            "basis": "curated",
+            "n": 263
+          },
+          "PM-TM": {
+            "basis": "assumed",
+            "n": 21
+          }
+        },
+        "notes": "Phase C smoke test; rule R0, variant V-go; GO direct evidence; interval is the widest of the file's interval and the Wilson interval on the cluster count; call=signal_peptide_protein; module=step1_rule@R0; variant=R0; signalp_module=signalp/6-gpu; signalp_mode=fast; signalp_record_version=module:signalp/6-gpu,signalp6_version:SignalP 6.0 Signal peptide prediction tool 6.0h; leakage: unknown (overlap between the Phase C positives and the SignalP 6 training data was not measured)",
+        "sensitivity": {
+          "hi": 0.5911961162374328,
+          "lo": 0.35570096942580165,
+          "value": 0.477124183006536
+        },
+        "specificity": {
+          "hi": 0.9690481032776151,
+          "lo": 0.9264399803699402,
+          "value": 0.952054794520548
+        },
+        "strata": {
+          "N-int": {
+            "hi": 1.0,
+            "lo": 0.970442621039438,
+            "value": 0.9885714285714285
+          },
+          "N-sec": {
+            "hi": 0.964146983494593,
+            "lo": 0.8840455628350209,
+            "value": 0.9277566539923955
+          },
+          "PM-TM": {
+            "hi": 0.9333333333333333,
+            "lo": 0.5598888888888895,
+            "value": 0.7619047619047619
+          }
+        },
+        "truth_source": "metrics.json:test_sets/S1:Calb_CGD/truth/direct"
+      },
+      "source": "metrics.json:test_sets/S1:Calb_CGD/truth/direct",
+      "status": "smoke",
+      "taxa": [
+        5476
+      ]
+    },
+    {
+      "measure": {
+        "calibration_set": "S3-Eurotiomycetes:Afum_ASPFU",
+        "leakage_exception": {
+          "date": "2026-10-06",
+          "reason": "leakage unmeasured (SignalP training overlap), uncapped by owner decision",
+          "signer": "owner (docs/paper/03-status-and-validation-rules.md section 6, item 1)"
+        },
+        "n_clusters_neg": 38,
+        "n_clusters_pos": 17,
+        "n_neg": 45,
+        "n_pos": 19,
+        "negative_basis": {
+          "N-int": {
+            "basis": "curated",
+            "n": 18
+          },
+          "N-sec": {
+            "basis": "curated",
+            "n": 27
+          }
+        },
+        "notes": "Phase C smoke test; rule R0, variant V-go; GO direct evidence; interval is the widest of the file's interval and the Wilson interval on the cluster count; call=signal_peptide_protein; module=step1_rule@R0; variant=R0; signalp_module=signalp/6-gpu; signalp_mode=fast; signalp_record_version=module:signalp/6-gpu,signalp6_version:SignalP 6.0 Signal peptide prediction tool 6.0h; leakage: unknown (overlap between the Phase C positives and the SignalP 6 training data was not measured)",
+        "sensitivity": {
+          "hi": 1.0,
+          "lo": 0.7384598478057643,
+          "value": 0.9473684210526315
+        },
+        "specificity": {
+          "hi": 1.0,
+          "lo": 0.9081901304590217,
+          "value": 1.0
+        },
+        "strata": {
+          "N-int": {
+            "hi": 1.0,
+            "lo": 0.8241207740667156,
+            "value": 1.0
+          },
+          "N-sec": {
+            "hi": 1.0,
+            "lo": 0.8754449685379289,
+            "value": 1.0
+          }
+        },
+        "truth_source": "metrics.json:test_sets/S3-Eurotiomycetes:Afum_ASPFU/truth/direct"
+      },
+      "source": "metrics.json:test_sets/S3-Eurotiomycetes:Afum_ASPFU/truth/direct",
+      "status": "smoke",
+      "taxa": [
+        746128
+      ]
+    },
+    {
+      "measure": {
+        "calibration_set": "S3-Eurotiomycetes:Anid_EMENI",
+        "leakage_exception": {
+          "date": "2026-10-06",
+          "reason": "leakage unmeasured (SignalP training overlap), uncapped by owner decision",
+          "signer": "owner (docs/paper/03-status-and-validation-rules.md section 6, item 1)"
+        },
+        "n_clusters_neg": 150,
+        "n_clusters_pos": 100,
+        "n_neg": 163,
+        "n_pos": 109,
+        "negative_basis": {
+          "N-int": {
+            "basis": "curated",
+            "n": 97
+          },
+          "N-sec": {
+            "basis": "curated",
+            "n": 66
+          },
+          "PM-TM": {
+            "basis": "assumed",
+            "n": 1
+          }
+        },
+        "notes": "Phase C estimate; rule R0, variant V-go; GO direct evidence; interval is the widest of the file's interval and the Wilson interval on the cluster count; call=signal_peptide_protein; module=step1_rule@R0; variant=R0; signalp_module=signalp/6-gpu; signalp_mode=fast; signalp_record_version=module:signalp/6-gpu,signalp6_version:SignalP 6.0 Signal peptide prediction tool 6.0h; leakage: unknown (overlap between the Phase C positives and the SignalP 6 training data was not measured)",
+        "sensitivity": {
+          "hi": 0.7787610619469026,
+          "lo": 0.5917388234782268,
+          "value": 0.6880733944954128
+        },
+        "specificity": {
+          "hi": 0.998978109983184,
+          "lo": 0.9640880899855371,
+          "value": 0.9938650306748467
+        },
+        "strata": {
+          "N-int": {
+            "hi": 1.0,
+            "lo": 0.9619059568959835,
+            "value": 1.0
+          },
+          "N-sec": {
+            "hi": 1.0,
+            "lo": 0.9464285714285714,
+            "value": 0.9848484848484849
+          },
+          "PM-TM": {
+            "hi": 0.7934506882081973,
+            "lo": 0.0,
+            "value": 0.0
+          }
+        },
+        "truth_source": "metrics.json:test_sets/S3-Eurotiomycetes:Anid_EMENI/truth/direct"
+      },
+      "source": "metrics.json:test_sets/S3-Eurotiomycetes:Anid_EMENI/truth/direct",
+      "status": "estimated",
+      "taxa": [
+        162425
+      ]
+    },
+    {
+      "measure": {
+        "calibration_set": "S3-Basidiomycota:Cneo_H99_GOA",
+        "leakage_exception": {
+          "date": "2026-10-06",
+          "reason": "leakage unmeasured (SignalP training overlap), uncapped by owner decision",
+          "signer": "owner (docs/paper/03-status-and-validation-rules.md section 6, item 1)"
+        },
+        "n_clusters_neg": 31,
+        "n_clusters_pos": 6,
+        "n_neg": 32,
+        "n_pos": 7,
+        "negative_basis": {
+          "N-int": {
+            "basis": "curated",
+            "n": 17
+          },
+          "N-sec": {
+            "basis": "curated",
+            "n": 15
+          }
+        },
+        "notes": "Phase C smoke test; rule R0, variant V-go; GO direct evidence; interval is the widest of the file's interval and the Wilson interval on the cluster count; call=signal_peptide_protein; module=step1_rule@R0; variant=R0; signalp_module=signalp/6-gpu; signalp_mode=fast; signalp_record_version=module:signalp/6-gpu,signalp6_version:SignalP 6.0 Signal peptide prediction tool 6.0h; leakage: unknown (overlap between the Phase C positives and the SignalP 6 training data was not measured)",
+        "sensitivity": {
+          "hi": 1.0,
+          "lo": 0.45845061720232827,
+          "value": 0.8571428571428571
+        },
+        "specificity": {
+          "hi": 0.9830025825967854,
+          "lo": 0.7955239450211944,
+          "value": 0.9375
+        },
+        "strata": {
+          "N-int": {
+            "hi": 1.0,
+            "lo": 0.8156818626193445,
+            "value": 1.0
+          },
+          "N-sec": {
+            "hi": 1.0,
+            "lo": 0.6666666666666667,
+            "value": 0.8666666666666667
+          }
+        },
+        "truth_source": "metrics.json:test_sets/S3-Basidiomycota:Cneo_H99_GOA/truth/direct"
+      },
+      "source": "metrics.json:test_sets/S3-Basidiomycota:Cneo_H99_GOA/truth/direct",
+      "status": "smoke",
+      "taxa": [
+        5207
+      ]
+    },
+    {
+      "measure": {
+        "calibration_set": "S3-Basidiomycota:Umay_MYCMD",
+        "leakage_exception": {
+          "date": "2026-10-06",
+          "reason": "leakage unmeasured (SignalP training overlap), uncapped by owner decision",
+          "signer": "owner (docs/paper/03-status-and-validation-rules.md section 6, item 1)"
+        },
+        "n_clusters_neg": 23,
+        "n_clusters_pos": 9,
+        "n_neg": 27,
+        "n_pos": 9,
+        "negative_basis": {
+          "N-int": {
+            "basis": "curated",
+            "n": 6
+          },
+          "N-sec": {
+            "basis": "curated",
+            "n": 21
+          },
+          "PM-TM": {
+            "basis": "assumed",
+            "n": 1
+          }
+        },
+        "notes": "Phase C smoke test; rule R0, variant V-go; GO direct evidence; interval is the widest of the file's interval and the Wilson interval on the cluster count; call=signal_peptide_protein; module=step1_rule@R0; variant=R0; signalp_module=signalp/6-gpu; signalp_mode=fast; signalp_record_version=module:signalp/6-gpu,signalp6_version:SignalP 6.0 Signal peptide prediction tool 6.0h; leakage: unknown (overlap between the Phase C positives and the SignalP 6 training data was not measured)",
+        "sensitivity": {
+          "hi": 1.0,
+          "lo": 0.700854948272956,
+          "value": 1.0
+        },
+        "specificity": {
+          "hi": 0.9812947693734844,
+          "lo": 0.7486429243725641,
+          "value": 0.9259259259259259
+        },
+        "strata": {
+          "N-int": {
+            "hi": 1.0,
+            "lo": 0.6096657083436265,
+            "value": 1.0
+          },
+          "N-sec": {
+            "hi": 1.0,
+            "lo": 0.736842105263158,
+            "value": 0.9047619047619048
+          },
+          "PM-TM": {
+            "hi": 0.7934506882081973,
+            "lo": 0.0,
+            "value": 0.0
+          }
+        },
+        "truth_source": "metrics.json:test_sets/S3-Basidiomycota:Umay_MYCMD/truth/direct"
+      },
+      "source": "metrics.json:test_sets/S3-Basidiomycota:Umay_MYCMD/truth/direct",
+      "status": "smoke",
+      "taxa": [
+        5270
+      ]
+    }
+  ],
+  "module": "step1_rule@R0",
+  "params_hash": "131b801fe3b1ea470b8391d44a7655bc01968eb9518321b459e1e226bbe6aee4",
+  "version": "1"
+}
