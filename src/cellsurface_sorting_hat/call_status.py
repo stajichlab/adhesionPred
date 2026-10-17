@@ -82,7 +82,7 @@ def _entries(raw, where):
         measure = e["measure"]
         _check_measure(measure, at)
         check_entry(at, e["status"], measure, taxa)
-        if "leakage_exception" not in measure and leakage_of(measure) not in LEAKAGE_VALUES:
+        if leakage_of(measure) not in LEAKAGE_VALUES:
             raise ValueError(f"{at}: measure.notes needs 'leakage: <{'|'.join(LEAKAGE_VALUES)}>'")
         out.append(StatusEntry(tuple(taxa), e["status"], str(e.get("source", "")), measure))
     return tuple(out)

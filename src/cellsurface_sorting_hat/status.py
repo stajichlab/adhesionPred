@@ -212,8 +212,9 @@ def check_entry(where, status, measure, taxa):
 
     A status is never higher than the status that ``status_from_measure`` derives. An entry without
     a measure is ``unvalidated`` only. Taxon 1 and 0 are refused. Leakage other than ``none`` (or no
-    ``leakage:`` value) allows at most ``smoke``, unless the measure carries ``leakage_exception``
-    (the owner's recorded exception, for example for rule R0)."""
+    ``leakage:`` value) allows at most ``smoke``, unless the leakage is ``unknown`` (not measured)
+    and the measure carries ``leakage_exception`` (the owner's recorded exception, for rule R0).
+    The exception never lifts the cap of a measured leakage."""
     for t in taxa:
         if t < MIN_TAXON:
             raise ValueError(f"{where}: taxon {t} is below the minimum taxon {MIN_TAXON}")
@@ -233,12 +234,14 @@ def check_entry(where, status, measure, taxa):
         raise ValueError(
             f"{where}: status {status} is stronger than the measure allows ({allowed}){hint}"
         )
-    if "leakage_exception" not in measure:
-        leak = leakage_of(measure)
-        if leak not in LEAKAGE_VALUES:
-            leak = "unknown"
-        if leak != "none" and weakest([status, SMOKE]) != status:
-            raise ValueError(f"{where}: leakage {leak} allows at most smoke, not {status}")
+    leak = leakage_of(measure)
+    if leak not in LEAKAGE_VALUES:
+        leak = "unknown"
+    # The owner's exception covers the unmeasured overlap only (D13); a measured leakage
+    # (partial, tuned_on_truth, in_reference) keeps its cap even when the key is present.
+    excepted = leak == "unknown" and "leakage_exception" in measure
+    if leak != "none" and not excepted and weakest([status, SMOKE]) != status:
+        raise ValueError(f"{where}: leakage {leak} allows at most smoke, not {status}")
 
 
 def load_status_source(path):

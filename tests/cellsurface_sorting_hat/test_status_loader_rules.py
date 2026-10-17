@@ -234,6 +234,42 @@ def test_a_leakage_exception_lifts_the_leakage_cap(tmp_path):
         load_status_source(path)
 
 
+EXCEPTION = {"reason": "leakage unmeasured", "signer": "owner", "date": "2026-10-06"}
+
+
+@pytest.mark.parametrize(
+    ("leak", "lifted"),
+    [
+        ("none", True),  # no cap to lift
+        ("partial", False),
+        ("tuned_on_truth", False),
+        ("in_reference", False),
+        ("unknown", True),
+    ],
+)
+def test_a_leakage_exception_lifts_the_cap_of_unknown_leakage_only(tmp_path, leak, lifted):
+    from cellsurface_sorting_hat.status import load_status_source
+
+    m = measure(notes=f"x; leakage: {leak}", leakage_exception=EXCEPTION)
+    path = write_status(tmp_path, [entry("estimated", m)])
+    if lifted:
+        assert load_status_source(path).entries[0].status == "estimated"
+    else:
+        with pytest.raises(ValueError, match=f"leakage {leak} allows at most smoke"):
+            load_status_source(path)
+
+
+def test_a_call_file_with_a_leakage_exception_still_needs_a_leakage_token(tmp_path):
+    from cellsurface_sorting_hat.call_status import LEAKAGE_VALUES, _entries
+
+    m = measure(notes="no token here", leakage_exception=EXCEPTION)
+    raw = [{"taxa": [40], "status": "smoke", "measure": m}]
+    with pytest.raises(ValueError, match="leakage:"):
+        _entries(raw, "call.json")
+    m["notes"] = f"x; leakage: {LEAKAGE_VALUES[-1]}"
+    assert _entries(raw, "call.json")
+
+
 def test_a_leakage_exception_needs_reason_signer_and_date(tmp_path):
     from cellsurface_sorting_hat.status import load_status_source
 
