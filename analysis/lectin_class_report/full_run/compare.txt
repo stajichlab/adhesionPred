@@ -1,0 +1,7 @@
+PF07938 Fungal_lectin: new 997, committed 997, same set True, max score difference 0.0, proteomes with hit new 392 committed 392
+PF07367 FB_lectin: new 75, committed 75, same set True, max score difference 0.0, proteomes with hit new 68 committed 68
+PF21691 LDL: new 39, committed 39, same set True, max score difference 0.0, proteomes with hit new 36 committed 36
+PF00337 Gal-bind_lectin: new 41, committed 41, same set True, max score difference 0.0, proteomes with hit new 31 committed 31
+PF21595 CCL2-like: new 2, committed 2, same set True, max score difference 0.0, proteomes with hit new 2 committed 2
+proteomes compared: 653
+MATCH
