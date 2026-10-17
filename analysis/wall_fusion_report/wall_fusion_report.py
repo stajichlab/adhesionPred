@@ -5,9 +5,10 @@ Same pattern as analysis/lectin_class_report/lectin_report.py. For each input pr
 (plain, .gz or .zst) the script runs `hmmsearch --cut_ga` with the models listed in a model
 TSV (wall_fusion_models.tsv) against Pfam, and writes three files in --out-dir:
 
-  wall_fusion_hits.tsv    one row per protein and model (family-only label, scores)
+  wall_fusion_hits.tsv    one row per protein and model (model-only label, scores)
   wall_fusion_counts.tsv  per proteome and per model: proteins with a hit, best score
   wall_fusion_report.md   the report text
+  <table>.NOTICE          a sidecar file with the no-call notice, next to each table
 
 The script writes no status file and makes no call. The tables have no call or status
 column. A hit is a Pfam domain hit. It is NOT evidence of adhesion, of cell fusion or of a
@@ -16,11 +17,17 @@ detection (docs/reports/cell-wall-fusion/07-model-hit-check.md: the ESM classifi
 13 S288C wall enzymes above 0.5, and none of the 13 hits an active family-table row).
 
 The two tables start with lines that begin with "#". They hold the no-call notice. Skip them
-when you read the table (pandas: comment="#").
+when you read the table (pandas: comment="#"). A reader that does so loses the notice, so it is
+ALSO written to wall_fusion_hits.tsv.NOTICE and wall_fusion_counts.tsv.NOTICE.
+
+Inclusion rule for a model: it is verified in 05-pfam-id-verification.md (verification_level
+05_interpro) OR it was measured in 07-model-hit-check.md (07_hmmscan_only). The script checks
+the NAME of each model in the Pfam file against the name in the model TSV and stops on a
+mismatch.
 
 Usage:
   /usr/bin/python3.12 wall_fusion_report.py --out-dir OUT --models-tsv wall_fusion_models.tsv \
-      --pfam-hmm Pfam-A.hmm [--set wall_remodeling|cell_fusion|all] [--tmpdir DIR] [--cpu 2] \
+      --pfam-hmm Pfam-A.hmm [--set all|SET[,SET...]] [--tmpdir DIR] [--cpu 2] \
       [--fasta-list LIST] [FASTA ...]
 
 Temp files go to --tmpdir, or to $SCRATCH when --tmpdir is not given. The script stops if
@@ -42,13 +49,36 @@ from collections import OrderedDict
 
 DEFAULT_PFAM = "/srv/projects/db/pfam/2026-01-27-Pfam38.2/Pfam-A.hmm"
 
-SETS = ("wall_remodeling", "cell_fusion")
-MODEL_COLUMNS = ("id", "name", "family", "set", "supporting_report", "verification_status")
+# wall_remodeling: enzymes that remodel the wall. wall_synthesis: chitin and glucan synthases.
+# wall_structural_other: wall proteins that are not an enzyme family by themselves.
+# cell_fusion_candidate_models: Pfam models of proteins named in the fusion literature.
+SETS = (
+    "wall_remodeling",
+    "wall_synthesis",
+    "wall_structural_other",
+    "cell_fusion_candidate_models",
+)
+LEVELS = ("05_interpro", "07_hmmscan_only")
+MODEL_COLUMNS = (
+    "id",
+    "name",
+    "family",
+    "set",
+    "supporting_report",
+    "verification_level",
+    "verification_status",
+)
 
 NO_CALL_TEXT = (
     "This report makes no call. It writes no status file. It has no call or status column. "
     "A hit is a hit to a Pfam family model. It is NOT evidence of adhesion, of cell fusion or "
     "of a cell wall remodeling function."
+)
+
+NOTICE_FILE_TEXT = (
+    NO_CALL_TEXT + "\nThis notice is also in the first lines of the table and in the report.\n"
+    "Pandas with comment='#' drops those lines. This file is written next to each table so the "
+    "notice is not lost.\n"
 )
 
 FALSE_POSITIVE_NOTE = (
@@ -86,8 +116,12 @@ def table_header_lines():
 
 def load_models(path, which="all"):
     """Read the model TSV. Return a list of dicts (file order) for the chosen set."""
-    if which != "all" and which not in SETS:
-        raise ReportError("--set must be all or one of: " + ", ".join(SETS))
+    chosen = None
+    if which != "all":
+        chosen = [x.strip() for x in which.split(",") if x.strip()]
+        bad = [x for x in chosen if x not in SETS]
+        if bad or not chosen:
+            raise ReportError("--set must be all or a comma list of: " + ", ".join(SETS))
     rows = []
     with open(path) as fh:
         head = fh.readline().rstrip("\r\n").split("\t")
@@ -109,12 +143,17 @@ def load_models(path, which="all"):
                 raise ReportError("%s line %d: bad Pfam ID %r" % (path, num, row["id"]))
             if row["set"] not in SETS:
                 raise ReportError("%s line %d: unknown set %r" % (path, num, row["set"]))
+            if row["verification_level"] not in LEVELS:
+                raise ReportError(
+                    "%s line %d: verification_level must be one of %s, got %r"
+                    % (path, num, ", ".join(LEVELS), row["verification_level"])
+                )
             rows.append(row)
     ids = [r["id"] for r in rows]
     if len(set(ids)) != len(ids):
         raise ReportError(path + ": a Pfam ID occurs twice")
-    if which != "all":
-        rows = [r for r in rows if r["set"] == which]
+    if chosen is not None:
+        rows = [r for r in rows if r["set"] in chosen]
     if not rows:
         raise ReportError("no models for set " + which)
     return rows
@@ -154,10 +193,12 @@ def open_binary(path):
 # --------------------------------------------------------------------------- models
 
 
-def extract_models(pfam_hmm, accessions, out_path):
+def extract_models(pfam_hmm, accessions, out_path, expected_names=None):
     """Write the models with the given accessions to out_path.
 
     One pass over the Pfam file. Return {acc: {"name", "ga_seq", "ga_dom"}}.
+    expected_names ({acc: name}) is checked against the NAME line of each model. A missing
+    accession, a missing GA line or a different name stops the run.
     """
     wanted = set(accessions)
     found = OrderedDict()
@@ -188,6 +229,17 @@ def extract_models(pfam_hmm, accessions, out_path):
     for a, info in found.items():
         if "ga_seq" not in info:
             raise ReportError("model %s has no GA line; --cut_ga cannot be used" % a)
+    if expected_names:
+        bad = [
+            "%s: Pfam file says %s, model TSV says %s" % (a, info.get("name"), expected_names[a])
+            for a, info in found.items()
+            if info.get("name") != expected_names.get(a)
+        ]
+        if bad:
+            raise ReportError(
+                "model name differs between %s and the model TSV (renamed or renumbered "
+                "accession?): %s" % (pfam_hmm, "; ".join(bad))
+            )
     return found
 
 
@@ -253,17 +305,23 @@ def run_hmmsearch(hmmsearch, models_hmm, fasta, tbl_path, cpu, tmpdir):
         raise ReportError("hmmsearch failed on %s (exit %d): %s" % (fasta, rc, msg))
 
 
-def count_records(fasta):
-    """Return the number of FASTA records."""
+def scan_fasta(fasta):
+    """Return (number of records, set of IDs, number of repeated IDs inside the file).
+
+    An ID is the first word of the header.
+    """
     stream, close = open_binary(fasta)
     n = 0
+    ids = set()
     try:
         for line in stream:
             if line.startswith(b">"):
                 n += 1
+                words = line[1:].split()
+                ids.add(words[0].decode("utf-8", "replace") if words else "")
     finally:
         close()
-    return n
+    return n, ids, n - len(ids)
 
 
 def parse_tblout(path):
@@ -281,8 +339,8 @@ def parse_tblout(path):
 
 
 def model_label(model):
-    """Family-only label. It names the family and nothing else."""
-    return "%s_family_hit: %s" % (model["set"], model["family"])
+    """Model-only label, as in the lectin report. It names the model and nothing else."""
+    return "%s (%s) domain hit" % (model["family"], model["id"])
 
 
 def fmt_score(x):
@@ -349,6 +407,7 @@ def build_outputs(args, proteomes, models, info, hits, n_prot, versions, warning
         "seq_score",
         "domain_score",
         "domain_ge_ga",
+        "verification_level",
         "supporting_report",
     ]
     hit_lines = head + ["\t".join(hit_cols)]
@@ -370,6 +429,7 @@ def build_outputs(args, proteomes, models, info, hits, n_prot, versions, warning
                     "%.1f" % h["seq_score"],
                     "%.1f" % h["domain_score"],
                     "yes" if h["domain_score"] >= info[h["model_acc"]]["ga_dom"] else "no",
+                    m["verification_level"],
                     m["supporting_report"],
                 ]
             )
@@ -395,13 +455,21 @@ def build_outputs(args, proteomes, models, info, hits, n_prot, versions, warning
     )
     md.append("- Column `domain_ge_ga` shows whether the best domain also reaches the domain GA.")
     md.append(
-        "- Proteomes: %d. No signal peptide, TM or other condition is applied to the hits.\n"
+        "- Proteomes: %d. No signal peptide, TM or other condition is applied to the hits."
         % len(proteomes)
+    )
+    md.append(
+        "- `n_proteins` counts unique protein IDs (first word of the header). Records that "
+        "repeat an ID are merged: one row per protein and model, with the best sequence "
+        "score. Each repeat is reported as a warning below.\n"
     )
 
     md.append("## Models (all are family-only; none is a call)\n")
-    md.append("| set | model | name | family | hit proteins | proteomes with hit | best score |")
-    md.append("|---|---|---|---|---|---|---|")
+    md.append(
+        "| set | model | name | family | verification | hit proteins | proteomes with hit "
+        "| best score |"
+    )
+    md.append("|---|---|---|---|---|---|---|---|")
     for a in accs:
         n = sum(stats[(p, a)][0] for p in proteomes)
         k = sum(1 for p in proteomes if stats[(p, a)][0] > 0)
@@ -409,8 +477,17 @@ def build_outputs(args, proteomes, models, info, hits, n_prot, versions, warning
             (stats[(p, a)][1] for p in proteomes if stats[(p, a)][1] is not None), default=None
         )
         md.append(
-            "| %s | %s | %s | %s | %d | %d | %s |"
-            % (meta[a]["set"], a, info[a]["name"], meta[a]["family"], n, k, fmt_score(best))
+            "| %s | %s | %s | %s | %s | %d | %d | %s |"
+            % (
+                meta[a]["set"],
+                a,
+                info[a]["name"],
+                meta[a]["family"],
+                meta[a]["verification_level"],
+                n,
+                k,
+                fmt_score(best),
+            )
         )
     md.append(
         "\nSupporting report and verification status of every model are in `%s`.\n"
@@ -418,7 +495,11 @@ def build_outputs(args, proteomes, models, info, hits, n_prot, versions, warning
     )
 
     md.append("## Per proteome and per set\n")
-    md.append("Distinct proteins with a hit to at least one model of the set.\n")
+    md.append(
+        "Distinct proteins with a hit to at least one model of the set. The sets are not "
+        "added up: enzymes (wall_remodeling, wall_synthesis) and non-enzyme models "
+        "(wall_structural_other, cell_fusion_candidate_models) are never in one total.\n"
+    )
     md.append(
         "| proteome | proteins | "
         + " | ".join(s for s in SETS if any(meta[a]["set"] == s for a in accs))
@@ -439,18 +520,40 @@ def build_outputs(args, proteomes, models, info, hits, n_prot, versions, warning
     md.append("")
 
     md.append("## Notes\n")
-    if "cell_fusion" in present:
+    if "cell_fusion_candidate_models" in present:
         md.append("- " + FUSION_NOTE)
+    if "PF12454" in accs:
+        md.append(
+            "- Ecm33 (PF12454): S. cerevisiae Ecm33 itself has no hit to this model "
+            "(07 row 22). A hit is not an Ecm33 call."
+        )
+    if "wall_structural_other" in present:
+        md.append(
+            "- wall_structural_other holds models that are not an enzyme family by themselves "
+            "(Kre9/Knh1, Ecm33, Tos1, X8). SUN is kept here because its role is unclear: the "
+            "InterPro name says beta-glucosidase, the reports show no enzyme role."
+        )
     md.append(
         "- Large families (GH16, GH17, GH18, GH5) have intracellular and non-wall members. "
         "A hit says only that the protein carries the domain."
     )
     md.append(
-        "- Models left out on purpose: PF01522 (chitin deacetylase, CE4 link not verified), "
-        "PF00026 (generic aspartyl protease), the GPI-anchor biosynthesis models "
-        "(ER enzymes), WSC (a sensor), the chitin-binding models (in the lectin report), and "
-        "any ID that docs/reports/cell-wall-fusion/05-pfam-id-verification.md marks "
-        "UNVERIFIABLE."
+        "- Inclusion rule: a model is listed if it is verified in "
+        "docs/reports/cell-wall-fusion/05-pfam-id-verification.md (05_interpro) or measured in "
+        "07-model-hit-check.md (07_hmmscan_only, name from Pfam-A, scores are hmmscan "
+        "best-domain scores there). The script stops if a Pfam model NAME differs from "
+        "the name in the model TSV."
+    )
+    md.append(
+        "- Models left out on purpose: PF00026 (generic aspartyl protease), SH3_1 (PF00018, "
+        "the Fus1 hit, generic domain), the GPI-anchor biosynthesis models (ER enzymes), "
+        "WSC (a sensor), PF10333 (Pga1, an ER GPI enzyme), and the chitin-binding models "
+        "(PF00187, PF01607, LysM; in the lectin report)."
+    )
+    md.append(
+        "- Scores: 07 lists the hmmscan best-domain score; this report stores the sequence "
+        "score (`seq_score`) and the best-domain score (`domain_score`). For PRM1 the "
+        "values are 475.9 and 475.5. Same HMMER 3.4 and Pfam 38.2."
     )
     for w in warnings or []:
         md.append("- **Warning:** " + w)
@@ -471,7 +574,7 @@ def parse_args(argv):
     ap.add_argument(
         "--set",
         default="all",
-        help="gene set to scan: wall_remodeling, cell_fusion or all (default)",
+        help="gene set(s) to scan: all (default) or a comma list of " + ", ".join(SETS),
     )
     ap.add_argument("--pfam-hmm", default=DEFAULT_PFAM)
     ap.add_argument("--hmmsearch", default="hmmsearch", help="hmmsearch executable")
@@ -508,16 +611,33 @@ def main(argv=None):
     tmp = tempfile.mkdtemp(prefix="wall_fusion_report.", dir=base)
     try:
         models_hmm = os.path.join(tmp, "models.hmm")
-        info = extract_models(args.pfam_hmm, [m["id"] for m in models], models_hmm)
+        info = extract_models(
+            args.pfam_hmm,
+            [m["id"] for m in models],
+            models_hmm,
+            {m["id"]: m["name"] for m in models},
+        )
         versions = {"hmmer": hmmsearch_version(args.hmmsearch), "pfam": pfam_release(args.pfam_hmm)}
         hits, n_prot, warnings = [], {}, []
+        seen_ids, dup_ids = set(), {}
         for name, fasta in zip(names, args.fasta, strict=True):
-            n_prot[name] = count_records(fasta)
-            if n_prot[name] == 0:
+            n_records, ids, n_rep = scan_fasta(fasta)
+            n_prot[name] = len(ids)  # unique IDs; n_records - len(ids) == n_rep
+            for pid in ids & seen_ids:
+                dup_ids.setdefault(pid, []).append(name)
+            seen_ids |= ids
+            if n_records == 0:
                 msg = "%s: the FASTA file has no sequences. No search run." % name
                 warnings.append(msg)
                 print("WARNING: " + msg, file=sys.stderr)
                 continue
+            if n_rep:
+                msg = (
+                    "%s: %d records repeat an ID inside the file. Hits are counted once per "
+                    "ID (best score kept); n_proteins counts unique IDs." % (name, n_rep)
+                )
+                warnings.append(msg)
+                print("WARNING: " + msg, file=sys.stderr)
             tbl = os.path.join(tmp, name + ".tbl")
             run_hmmsearch(args.hmmsearch, models_hmm, fasta, tbl, args.cpu, tmp)
             best = {}
@@ -536,12 +656,22 @@ def main(argv=None):
                     }
             hits.extend(best.values())
             os.remove(tbl)
+        if dup_ids:
+            ex = ", ".join(sorted(dup_ids)[:5])
+            msg = (
+                "%d protein IDs occur in more than one input proteome (examples: %s). Hits are "
+                "kept per proteome and are not merged." % (len(dup_ids), ex)
+            )
+            warnings.append(msg)
+            print("WARNING: " + msg, file=sys.stderr)
         counts, hit_tsv, md = build_outputs(
             args, names, models, info, hits, n_prot, versions, warnings
         )
         write_atomic(os.path.join(args.out_dir, "wall_fusion_counts.tsv"), counts)
         write_atomic(os.path.join(args.out_dir, "wall_fusion_hits.tsv"), hit_tsv)
         write_atomic(os.path.join(args.out_dir, "wall_fusion_report.md"), md)
+        for table in ("wall_fusion_counts.tsv", "wall_fusion_hits.tsv"):
+            write_atomic(os.path.join(args.out_dir, table + ".NOTICE"), NOTICE_FILE_TEXT)
     finally:
         shutil.rmtree(tmp, ignore_errors=True)
     print("wrote report for %d proteomes to %s" % (len(names), args.out_dir))

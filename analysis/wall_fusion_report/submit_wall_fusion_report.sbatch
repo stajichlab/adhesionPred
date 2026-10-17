@@ -4,7 +4,7 @@
 #   sbatch --export=ALL,REPORT_SCRIPT=/abs/path/wall_fusion_report.py,MODELS_TSV=/abs/wall_fusion_models.tsv,OUT_DIR=/abs/out,FASTA_LIST=/abs/list.txt \
 #     submit_wall_fusion_report.sbatch
 # FASTA_LIST: one FASTA path per line (plain, .gz or .zst). Optional: GENE_SET (wall_remodeling,
-# cell_fusion or all; default all), PFAM_HMM.
+# set names, comma separated, or all; default all), PFAM_HMM.
 # No BASH_SOURCE is used. All paths come from the environment.
 #SBATCH -p short
 #SBATCH -c 4

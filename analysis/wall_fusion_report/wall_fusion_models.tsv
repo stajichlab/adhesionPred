@@ -1,19 +1,22 @@
-id	name	family	set	supporting_report	verification_status
-PF03198	Glyco_hydro_72	GH72	wall_remodeling	04 s3.1 (GEL/GAS/PHR); 07 rows 17 (Gas1 504.4)	05 MATCH (Glyco_hydro_72); 07 measured
-PF00722	Glyco_hydro_16	GH16	wall_remodeling	04 s3.1 (Crh, Utr2); 07 row 18	05 MATCH (name; Crh/Utr2 link not in InterPro record); 07 measured
-PF00332	Glyco_hydro_17	GH17	wall_remodeling	04 s3.1 (Bgl2); 07 row 20	05 MATCH (name; Bgl2 link not in InterPro record); 07 measured
-PF03663	Glyco_hydro_76	GH76	wall_remodeling	04 s3.1 (Dfg5, Dcw1); 07 row 19	05 MATCH (family name; Dfg5/Dcw1 link not in InterPro record); 07 measured
-PF00704	Glyco_hydro_18	GH18	wall_remodeling	04 s3.1 (Cts1, Cts2); 01 s.80	05 MATCH; 07 measured (Cts1 81.6)
-PF00150	Cellulase	GH5	wall_remodeling	04 s3.1 (Exg1)	05 MATCH (name; Exg1 link not in InterPro record); 07 measured (weak)
-PF01644	Chitin_synth_1	chitin_synthase_1	wall_remodeling	01 s.40 (CHS division 1); 04 s0, s3.1	05 MATCH (repo names; the brief swapped PF01644/PF03142); also matches animal hyaluronan synthase
-PF03142	Chitin_synth_2	chitin_synthase_2	wall_remodeling	01 s.40, s.80 (CHS catalytic); 04 s3.1	05 MATCH (name)
-PF08407	Chitin_synth_1N	chitin_synthase_1N	wall_remodeling	01 s.40; 04 s3.1	05 MATCH
-PF02364	Glucan_synthase	glucan_synthase	wall_remodeling	04 s3.1 (Fks, Gsc)	05 MATCH
-PF10342	Kre9_KNH	Kre9_Knh1	wall_remodeling	04 s3.1 (Kre9/Knh1); 07 row 21	05 MATCH; 07 measured (weak, 46.7). Also on uncharacterized Aspergillus proteins
-PF03856	SUN	SUN	wall_remodeling	04 s3.1 (Sun4, Sim1, Nca3); 07 row 21	05 MATCH (Uth1 not in record); 07 measured
-PF12454	Ecm33	Ecm33	wall_remodeling	04 s3.1 (Ecm33/Sps2)	05 MATCH (name). 07 row 22: S. cerevisiae Ecm33 has NO hit to this model
-PF10287	YJL171C_Tos1_C	Tos1_C	wall_remodeling	04 s3.1 (Tos1)	05 MATCH
-PF10290	YJL171C_Tos1_N	Tos1_N	wall_remodeling	04 s3.1 (Tos1)	05 MATCH
-PF07983	X8	X8	wall_remodeling	04 s3.1 (often with GH72); 07 row 17	05 MATCH; companion domain, not an enzyme family by itself
-PF27758	PRM1	Prm1	cell_fusion	07 s2 fusion table and row 26 (Prm1 475.5)	NOT in 05. Name PRM1 read from Pfam-A.hmm 38.2 in the 07 scan; not checked against InterPro
-PF12351	Fig1	Fig1	cell_fusion	07 s2 fusion table and row 26 (Fig1 192.3)	NOT in 05. Name Fig1 read from Pfam-A.hmm 38.2 in the 07 scan; not checked against InterPro
+id	name	family	set	supporting_report	verification_level	verification_status
+PF03198	Glyco_hydro_72	GH72	wall_remodeling	04 s3.1 (GEL/GAS/PHR); 07 row 17 (Gas1 504.4)	05_interpro	05 MATCH (Glyco_hydro_72; description: GPI-anchored glucanosyltransferases); 07 measured
+PF00722	Glyco_hydro_16	GH16	wall_remodeling	04 s3.1 (Crh, Utr2); 07 row 18	05_interpro	05 MATCH (name; Crh/Utr2 link not in InterPro record); 07 measured
+PF00332	Glyco_hydro_17	GH17	wall_remodeling	04 s3.1 (Bgl2); 07 row 20	05_interpro	05 MATCH (name; Bgl2 link not in InterPro record); 07 measured
+PF03663	Glyco_hydro_76	GH76	wall_remodeling	04 s3.1 (Dfg5, Dcw1); 07 row 19	05_interpro	05 MATCH (family name; Dfg5/Dcw1 link UNVERIFIABLE in 05 Table B, measured in 07); 07 measured
+PF00704	Glyco_hydro_18	GH18	wall_remodeling	04 s3.1 (Cts1, Cts2); 01 s.80	05_interpro	05 MATCH; 07 measured (Cts1 81.6)
+PF00150	Cellulase	GH5	wall_remodeling	04 s3.1 (Exg1)	05_interpro	05 MATCH (name; Exg1 link not in InterPro record); 07 measured (weak)
+PF01522	Polysacc_deac_1	chitin_deacetylase	wall_remodeling	04 s3.1 (chitin deacetylase CE4); no test protein in 07	05_interpro	05 MATCH on the Pfam ID and name (Table A). Only the CE4 mapping is UNVERIFIABLE (05 Table B). Not measured in 07. Large family, also in non-chitin deacetylases
+PF29664	BtgE-BtgC_glyc-hydro	BtgE-BtgC	wall_remodeling	07 row 23 (SCW4 283.2, SCW11 266.9); BGL2 224.2 in the 07 protein table	07_hmmscan_only	NOT in 05. Name from Pfam-A 38.2 (07 text writes BtgE-BtgC). Scores are hmmscan best-domain scores. Only model that catches SCW11
+PF01644	Chitin_synth_1	chitin_synthase_1	wall_synthesis	01 s.40 (CHS division 1); 04 s0, s3.1	05_interpro	05 MATCH (repo names; the brief swapped PF01644/PF03142); also matches animal hyaluronan synthase
+PF03142	Chitin_synth_2	chitin_synthase_2	wall_synthesis	01 s.40, s.80 (CHS catalytic); 04 s3.1	05_interpro	05 MATCH (name)
+PF08407	Chitin_synth_1N	chitin_synthase_1N	wall_synthesis	01 s.40; 04 s3.1	05_interpro	05 MATCH
+PF02364	Glucan_synthase	glucan_synthase	wall_synthesis	04 s3.1 (Fks, Gsc)	05_interpro	05 MATCH
+PF10342	Kre9_KNH	Kre9_Knh1	wall_structural_other	04 s3.1 (Kre9/Knh1); 07 row 21	05_interpro	05 MATCH (Ig-like domain, not an enzyme family); 07 measured (weak, 46.7). Also on uncharacterized Aspergillus proteins
+PF05390	Kre9_KNH1_C	Kre9_Knh1_C	wall_structural_other	07 protein table (KRE9 166.2)	07_hmmscan_only	NOT in 05. Name from Pfam-A 38.2. Score is the hmmscan best-domain score. Not an enzyme family
+PF03856	SUN	SUN	wall_structural_other	04 s3.1 (Sun4, Sim1, Nca3); 07 row 21	05_interpro	05 MATCH (Uth1 not in record). Nature unclear: the InterPro name reads Beta-glucosidase (SUN family), but the reports do not show an enzyme role, so it is kept out of the enzyme sets; 07 measured
+PF12454	Ecm33	Ecm33	wall_structural_other	04 s3.1 (Ecm33/Sps2); 07 row 22	05_interpro	05 MATCH (name). 07 row 22: S. cerevisiae Ecm33 itself has NO hit to this model (none at E 10), so a hit does not mean Ecm33; sensitivity for its namesake is 0 of 1
+PF10287	YJL171C_Tos1_C	Tos1_C	wall_structural_other	04 s3.1 (Tos1)	05_interpro	05 MATCH
+PF10290	YJL171C_Tos1_N	Tos1_N	wall_structural_other	04 s3.1 (Tos1)	05_interpro	05 MATCH
+PF07983	X8	X8	wall_structural_other	04 s3.1 (often with GH72); 07 row 17	05_interpro	05 MATCH; companion domain, not an enzyme family by itself (also in plant glucanases)
+PF27758	PRM1	Prm1	cell_fusion_candidate_models	07 s2 fusion table and row 26 (Prm1)	07_hmmscan_only	NOT in 05. Name PRM1 read from Pfam-A.hmm 38.2 in the 07 scan. 07 lists 475.5, the hmmscan best-domain score; hmmsearch gives sequence score 475.9 and domain score 475.5
+PF12351	Fig1	Fig1	cell_fusion_candidate_models	07 s2 fusion table and row 26 (Fig1)	07_hmmscan_only	NOT in 05. Name Fig1 read from Pfam-A.hmm 38.2 in the 07 scan (192.3, hmmscan best-domain score)

@@ -8,13 +8,16 @@ to the sequence score is written, unless the word DOM=VALUE is also in the heade
 
 # ruff: noqa: UP031
 import importlib.util
+import shutil
 import stat
+import subprocess
 import sys
 from pathlib import Path
 
 import pytest
 
 ROOT = Path(__file__).resolve().parents[2]
+FAKE_PFAM_FIXTURE = Path(__file__).resolve().parent / "data/fake_pfam_models.tsv"
 SCRIPT = ROOT / "analysis/wall_fusion_report/wall_fusion_report.py"
 MODELS_TSV = ROOT / "analysis/wall_fusion_report/wall_fusion_models.tsv"
 spec = importlib.util.spec_from_file_location("wall_fusion_report", SCRIPT)
@@ -22,36 +25,37 @@ wf = importlib.util.module_from_spec(spec)
 sys.modules["wall_fusion_report"] = wf
 spec.loader.exec_module(wf)
 
-# IDs that docs/reports/cell-wall-fusion/05-pfam-id-verification.md Table A marks MATCH
-# and that the reports tie to wall synthesis or remodeling. Committed copy: no network.
-VERIFIED_05_WALL = {
-    "PF03198": "Glyco_hydro_72",
-    "PF00722": "Glyco_hydro_16",
-    "PF00332": "Glyco_hydro_17",
-    "PF03663": "Glyco_hydro_76",
-    "PF00704": "Glyco_hydro_18",
-    "PF00150": "Cellulase",
-    "PF01644": "Chitin_synth_1",
-    "PF03142": "Chitin_synth_2",
-    "PF08407": "Chitin_synth_1N",
-    "PF02364": "Glucan_synthase",
-    "PF10342": "Kre9_KNH",
-    "PF03856": "SUN",
-    "PF12454": "Ecm33",
-    "PF10287": "YJL171C_Tos1_C",
-    "PF10290": "YJL171C_Tos1_N",
-    "PF07983": "X8",
-}
-# Fusion IDs are not in 05. Their Pfam names come from the 07 scan of Pfam-A.hmm 38.2.
-VERIFIED_07_FUSION = {"PF27758": "PRM1", "PF12351": "Fig1"}
-# IDs that must never enter: 05 UNVERIFIABLE or not tied to the sets, and SH3_1 (Fus1).
+VERIFIED_TSV = Path(__file__).resolve().parent / "data/verified_pfam_ids.tsv"
+DOC05 = ROOT / "docs/reports/cell-wall-fusion/05-pfam-id-verification.md"
+SCAN_HITS = ROOT / "analysis/cell_wall_check/full_pfam_ga_hits.tsv"
+
+
+def read_verified():
+    """Committed list extracted from reports 05 and 07: {id: row}."""
+    lines = [ln for ln in VERIFIED_TSV.read_text().splitlines() if not ln.startswith("#")]
+    head = lines[0].split("\t")
+    rows = [dict(zip(head, ln.split("\t"), strict=True)) for ln in lines[1:]]
+    assert len({r["id"] for r in rows}) == len(rows)
+    return {r["id"]: r for r in rows}
+
+
+VERIFIED = read_verified()
+# IDs 05 verified or 07 measured that stay out on purpose (scope, not verification).
 EXCLUDED = {
-    "PF01522",  # CE4 mapping UNVERIFIABLE
-    "PF10333",  # Pig-X claim UNVERIFIABLE
-    "PF00187",  # CBM18 link UNVERIFIABLE, lectin report
-    "PF01607",  # Avr4 link UNVERIFIABLE, lectin report
-    "PF00018",  # SH3_1: not a fusion family
+    "PF00026",  # generic aspartyl protease
+    "PF10333",  # Pga1, an ER GPI enzyme; Pig-X claim UNVERIFIABLE
+    "PF00187",  # CBM18, lectin report
+    "PF01607",  # CBM14, lectin report
+    "PF01476",  # LysM, lectin report
+    "PF00018",  # SH3_1: not a fusion family (07 row 26)
+    "PF01822",  # WSC: sensor
+    "PF06423",
+    "PF05024",
+    "PF04113",
+    "PF04114",
+    "PF06432",  # GPI anchor synthesis
 }
+ENZYME_SETS = {"wall_remodeling", "wall_synthesis"}
 
 STUB = """#!{python}
 import re, sys
@@ -84,14 +88,15 @@ with open(tbl, "w") as out:
 """
 
 
-def fake_pfam(path):
-    models = wf.load_models(str(MODELS_TSV))
+def fake_pfam(path, rename=None, drop_ga=None):
+    """Write the fake Pfam file from its own fixture, not from the model TSV."""
+    lines = [ln for ln in FAKE_PFAM_FIXTURE.read_text().splitlines() if not ln.startswith("#")]
     blocks = []
-    for m in models:
-        blocks.append(
-            "HMMER3/f\nNAME  %s\nACC   %s.1\nDESC  fake\nGA    25.0 20.0;\nHMM x\n//\n"
-            % (m["name"], m["id"])
-        )
+    for ln in lines[1:]:
+        acc, name = ln.split("\t")
+        name = (rename or {}).get(acc, name)
+        ga = "" if acc == drop_ga else "GA    25.0 20.0;\n"
+        blocks.append("HMMER3/f\nNAME  %s\nACC   %s.1\nDESC  fake\n%sHMM x\n//\n" % (name, acc, ga))
     blocks.append("HMMER3/f\nNAME  Other\nACC   PF99999.1\nGA    1.0 1.0;\n//\n")
     Path(path).write_text("".join(blocks))
 
@@ -141,31 +146,70 @@ def read_tsv(path):
 # ------------------------------------------------------------------ model table
 
 
-def test_model_tsv_only_verified_ids():
+def test_verified_list_matches_report_05_and_scan():
+    """The committed list is re-derived from the 05 table and the 07 scan table."""
+    parsed = {}
+    for line in DOC05.read_text().splitlines():
+        if line.startswith("| PF"):
+            c = [x.strip() for x in line.strip().strip("|").split("|")]
+            parsed[c[0]] = c[2].split(",")[0].strip()
+    from_05 = {k: v for k, v in VERIFIED.items() if v["verification_level"] == "05_interpro"}
+    assert {k: v["name"] for k, v in from_05.items()} == parsed
+    assert len(parsed) == 53
+    scan = {}
+    for line in SCAN_HITS.read_text().splitlines()[1:]:
+        f = line.split("\t")
+        scan[f[1]] = f[2]
+    only_07 = {k: v for k, v in VERIFIED.items() if v["verification_level"] == "07_hmmscan_only"}
+    assert set(only_07) == {"PF27758", "PF12351", "PF29664", "PF05390"}
+    for acc, row in only_07.items():
+        assert row["supporting_report"] == "07_model_hit_check"
+        assert scan[acc] == row["name"]
+        assert acc not in parsed
+    for row in from_05.values():
+        assert row["supporting_report"] == "05_pfam_id_verification"
+
+
+def test_model_tsv_follows_inclusion_rule():
+    """Every model is verified in 05 or measured in 07, with the level and name of the list."""
     models = wf.load_models(str(MODELS_TSV))
-    allowed = {**VERIFIED_05_WALL, **VERIFIED_07_FUSION}
     ids = {m["id"] for m in models}
-    assert ids == set(allowed)
-    for m in models:
-        assert m["name"] == allowed[m["id"]]
     assert not ids & EXCLUDED
+    assert ids <= set(VERIFIED)
     for m in models:
+        v = VERIFIED[m["id"]]
+        assert m["name"] == v["name"]
+        assert m["verification_level"] == v["verification_level"]
         assert m["supporting_report"].strip()
         assert m["verification_status"].strip()
+        if v["verification_level"] == "05_interpro":
+            assert m["verification_status"].startswith("05 MATCH")
+        else:
+            assert m["verification_status"].startswith("NOT in 05")
+    # symmetric rule: both 07-only wall models and both fusion models are in
+    assert {"PF29664", "PF05390", "PF27758", "PF12351"} <= ids
 
 
-def test_model_sets_and_status_text():
+def test_sets_split_enzymes_from_non_enzymes():
     models = wf.load_models(str(MODELS_TSV))
     by_set = {}
     for m in models:
         by_set.setdefault(m["set"], set()).add(m["id"])
-    assert by_set["cell_fusion"] == set(VERIFIED_07_FUSION)
-    assert by_set["wall_remodeling"] == set(VERIFIED_05_WALL)
-    for m in models:
-        if m["id"] in VERIFIED_05_WALL:
-            assert m["verification_status"].startswith("05 MATCH")
-        else:
-            assert m["verification_status"].startswith("NOT in 05")
+    assert set(by_set) == set(wf.SETS)
+    assert by_set["wall_remodeling"] == {
+        "PF03198", "PF00722", "PF00332", "PF03663", "PF00704", "PF00150", "PF01522", "PF29664",
+    }  # fmt: skip
+    assert by_set["wall_synthesis"] == {"PF01644", "PF03142", "PF08407", "PF02364"}
+    assert by_set["wall_structural_other"] == {
+        "PF10342", "PF05390", "PF03856", "PF12454", "PF10287", "PF10290", "PF07983",
+    }  # fmt: skip
+    assert by_set["cell_fusion_candidate_models"] == {"PF27758", "PF12351"}
+    notes = {m["id"]: m["verification_status"] for m in models}
+    assert "NO hit" in notes["PF12454"]
+    assert "unclear" in notes["PF03856"].lower()
+    assert "CE4 mapping is UNVERIFIABLE" in notes["PF01522"]
+    assert "UNVERIFIABLE" not in notes["PF01522"].replace("CE4 mapping is UNVERIFIABLE", "")
+    assert "475.9" in notes["PF27758"] and "475.5" in notes["PF27758"]
 
 
 def test_bad_model_tsv_stops(tmp_path):
@@ -174,24 +218,30 @@ def test_bad_model_tsv_stops(tmp_path):
     with pytest.raises(wf.ReportError):
         wf.load_models(str(p))
     hdr = "\t".join(wf.MODEL_COLUMNS) + "\n"
-    p.write_text(hdr + "PF1\tx\tx\twall_remodeling\ta\tb\n")
+    p.write_text(hdr + "PF1\tx\tx\twall_remodeling\ta\t05_interpro\tb\n")
     with pytest.raises(wf.ReportError):
         wf.load_models(str(p))
-    p.write_text(hdr + "PF03198\tx\tx\tadhesion\ta\tb\n")
+    p.write_text(hdr + "PF03198\tx\tx\tadhesion\ta\t05_interpro\tb\n")
     with pytest.raises(wf.ReportError):
         wf.load_models(str(p))
-    p.write_text(hdr + "PF03198\tx\tx\twall_remodeling\ta\tb\n" * 2)
+    p.write_text(hdr + "PF03198\tx\tx\twall_remodeling\ta\tguess\tb\n")
+    with pytest.raises(wf.ReportError):
+        wf.load_models(str(p))
+    p.write_text(hdr + "PF03198\tx\tx\twall_remodeling\ta\t05_interpro\tb\n" * 2)
     with pytest.raises(wf.ReportError):
         wf.load_models(str(p))
 
 
 def test_set_selection():
     wall = wf.load_models(str(MODELS_TSV), "wall_remodeling")
-    fus = wf.load_models(str(MODELS_TSV), "cell_fusion")
+    fus = wf.load_models(str(MODELS_TSV), "cell_fusion_candidate_models")
+    both = wf.load_models(str(MODELS_TSV), "wall_synthesis,wall_structural_other")
     assert {m["set"] for m in wall} == {"wall_remodeling"}
     assert {m["id"] for m in fus} == {"PF27758", "PF12351"}
-    with pytest.raises(wf.ReportError):
-        wf.load_models(str(MODELS_TSV), "adhesion")
+    assert {m["set"] for m in both} == {"wall_synthesis", "wall_structural_other"}
+    for bad in ("adhesion", "cell_fusion", "wall_remodeling,x"):
+        with pytest.raises(wf.ReportError):
+            wf.load_models(str(MODELS_TSV), bad)
 
 
 # ------------------------------------------------------------------ runs
@@ -217,14 +267,37 @@ def test_counts_hits_and_label(env):
     assert c[("specA", "PF03198")]["family"] == "GH72"
     assert c[("specB", "PF03198")]["best_score"] == "NA"
     assert c[("specB", "PF12351")]["n_hit_proteins"] == "1"
-    assert c[("specB", "PF12351")]["set"] == "cell_fusion"
+    assert c[("specB", "PF12351")]["set"] == "cell_fusion_candidate_models"
     hits = read_tsv(out / "wall_fusion_hits.tsv")
     assert len(hits) == 4
     labels = {(h["protein"], h["model_acc"]): h["label"] for h in hits}
-    assert labels[("p1", "PF03198")] == "wall_remodeling_family_hit: GH72"
-    assert labels[("q1", "PF12351")] == "cell_fusion_family_hit: Fig1"
+    assert labels[("p1", "PF03198")] == "GH72 (PF03198) domain hit"
+    assert labels[("q1", "PF12351")] == "Fig1 (PF12351) domain hit"
+    sets = {(h["protein"], h["model_acc"]): h["set"] for h in hits}
+    assert sets[("p1", "PF03198")] == "wall_remodeling"
+    assert sets[("q1", "PF12351")] == "cell_fusion_candidate_models"
     for h in hits:
         assert h["supporting_report"]
+        assert h["verification_level"] in ("05_interpro", "07_hmmscan_only")
+        assert "fusion" not in h["label"] and "wall" not in h["label"]
+
+
+def test_set_totals_do_not_mix_enzymes_and_non_enzymes(env):
+    tmp = env[0]
+    a = tmp / "specA.faa"
+    write_fasta(a, ["p1 PF07983=90.0", "p2 PF03198=250.0", "p3 PF01644=80.0", "p4 PF27758=90.0"])
+    out = run(env, [a])
+    md = (out / "wall_fusion_report.md").read_text()
+    table = md.split("## Per proteome and per set")[1].split("## Notes")[0]
+    head = [ln for ln in table.splitlines() if ln.startswith("| proteome")][0]
+    cols = [x.strip() for x in head.strip("|").split("|")]
+    row = [ln for ln in table.splitlines() if ln.startswith("| specA")][0]
+    vals = dict(zip(cols, [x.strip() for x in row.strip("|").split("|")], strict=True))
+    assert vals["wall_remodeling"] == "1"
+    assert vals["wall_synthesis"] == "1"
+    assert vals["wall_structural_other"] == "1"
+    assert vals["cell_fusion_candidate_models"] == "1"
+    assert "total" not in head.lower()
 
 
 def test_no_call_guarantee(env):
@@ -234,7 +307,9 @@ def test_no_call_guarantee(env):
     out = run(env, [a])
     assert sorted(p.name for p in out.iterdir()) == [
         "wall_fusion_counts.tsv",
+        "wall_fusion_counts.tsv.NOTICE",
         "wall_fusion_hits.tsv",
+        "wall_fusion_hits.tsv.NOTICE",
         "wall_fusion_report.md",
     ]
     for name in ("wall_fusion_counts.tsv", "wall_fusion_hits.tsv"):
@@ -252,25 +327,81 @@ def test_no_call_guarantee(env):
     assert "SH3_1" in md
 
 
+def test_notice_survives_comment_read(env):
+    """A pandas comment='#' read drops the header lines; the sidecar file keeps the notice."""
+    tmp = env[0]
+    a = tmp / "specA.faa"
+    write_fasta(a, ["p1 PF03198=250.0"])
+    out = run(env, [a])
+    for name in ("wall_fusion_counts.tsv", "wall_fusion_hits.tsv"):
+        rows = read_tsv(out / name)  # same filter as comment="#"
+        assert all("NOT evidence" not in v for r in rows for v in r.values())
+        notice = (out / (name + ".NOTICE")).read_text()
+        assert "makes no call" in notice and "NOT evidence of adhesion" in notice
+        assert "comment=" in notice
+
+
 def test_set_option_limits_models(env):
     tmp = env[0]
     a = tmp / "specA.faa"
     write_fasta(a, ["p1 PF03198=250.0 PF27758=90.0"])
-    out = run(env, [a], ["--set", "cell_fusion"])
+    out = run(env, [a], ["--set", "cell_fusion_candidate_models"])
     hits = read_tsv(out / "wall_fusion_hits.tsv")
     assert [h["model_acc"] for h in hits] == ["PF27758"]
     counts = read_tsv(out / "wall_fusion_counts.tsv")
-    assert {r["set"] for r in counts} == {"cell_fusion"}
+    assert {r["set"] for r in counts} == {"cell_fusion_candidate_models"}
 
 
-def test_best_score_kept_for_repeated_id(env):
+def test_duplicate_id_inside_one_proteome_warns(env, capsys):
     tmp = env[0]
     a = tmp / "specA.faa"
-    write_fasta(a, ["p1 PF03198=100.0", "p1 PF03198=300.0"])
+    write_fasta(a, ["dup PF03198=100.0", "dup PF03198=300.0", "u1"])
     out = run(env, [a])
+    err = capsys.readouterr().err
+    assert "specA: 1 records repeat an ID inside the file" in err
     hits = read_tsv(out / "wall_fusion_hits.tsv")
     assert len(hits) == 1
     assert hits[0]["seq_score"] == "300.0"
+    counts = {r["model_acc"]: r for r in read_tsv(out / "wall_fusion_counts.tsv")}
+    assert counts["PF03198"]["n_proteins"] == "2"  # unique IDs, not 3 records
+    assert counts["PF03198"]["n_hit_proteins"] == "1"
+    md = (out / "wall_fusion_report.md").read_text()
+    assert "repeat an ID inside the file" in md
+    assert "counts unique protein IDs" in md
+
+
+def test_duplicate_ids_across_proteomes_warn(env, capsys):
+    tmp = env[0]
+    a, b = tmp / "specA.faa", tmp / "specB.faa"
+    write_fasta(a, ["same PF03198=250.0", "u1"])
+    write_fasta(b, ["same PF03198=150.0", "u2"])
+    out = run(env, [a, b])
+    assert "WARNING: 1 protein IDs occur in more than one input proteome" in capsys.readouterr().err
+    assert "**Warning:**" in (out / "wall_fusion_report.md").read_text()
+    assert len(read_tsv(out / "wall_fusion_hits.tsv")) == 2
+
+
+def test_no_duplicate_warning_when_ids_differ(env, capsys):
+    tmp = env[0]
+    a, b = tmp / "specA.faa", tmp / "specB.faa"
+    write_fasta(a, ["a1"])
+    write_fasta(b, ["b1"])
+    run(env, [a, b])
+    assert "WARNING" not in capsys.readouterr().err
+
+
+@pytest.mark.skipif(shutil.which("zstd") is None, reason="zstd not installed")
+def test_zst_input(env):
+    tmp = env[0]
+    plain = tmp / "specZ.faa"
+    write_fasta(plain, ["z1 PF03198=99.0", "z1 PF03198=120.0", "z2"])
+    subprocess.run(["zstd", "-q", str(plain), "-o", str(tmp / "specZ.faa.zst")], check=True)
+    plain.unlink()
+    out = run(env, [tmp / "specZ.faa.zst"])
+    counts = {r["model_acc"]: r for r in read_tsv(out / "wall_fusion_counts.tsv")}
+    assert counts["PF03198"]["n_hit_proteins"] == "1"
+    assert counts["PF03198"]["n_proteins"] == "2"
+    assert counts["PF03198"]["best_score"] == "120.0"
 
 
 def test_domain_below_ga_is_flagged(env):
@@ -289,8 +420,40 @@ def test_missing_model_stops(env):
     empty.write_text("HMMER3/f\nNAME  Other\nACC   PF99999.1\nGA    1.0 1.0;\n//\n")
     a = tmp / "specA.faa"
     write_fasta(a, ["p1"])
-    with pytest.raises(wf.ReportError):
+    with pytest.raises(wf.ReportError, match="not found"):
         run((tmp, stub, str(empty)), [a])
+
+
+def test_model_name_mismatch_stops(env):
+    tmp, stub, pfam = env
+    fake_pfam(pfam, rename={"PF03198": "Glyco_hydro_72_renamed", "PF27758": "Other_name"})
+    a = tmp / "specA.faa"
+    write_fasta(a, ["p1 PF03198=250.0"])
+    with pytest.raises(wf.ReportError) as exc:
+        run(env, [a])
+    msg = str(exc.value)
+    assert "PF03198" in msg and "Glyco_hydro_72_renamed" in msg and "PF27758" in msg
+    assert not (tmp / "out" / "wall_fusion_hits.tsv").exists()
+
+
+def test_model_without_ga_line_stops_with_exit_code_2(env):
+    tmp, stub, pfam = env
+    fake_pfam(pfam, drop_ga="PF03198")
+    a = tmp / "specA.faa"
+    write_fasta(a, ["p1"])
+    with pytest.raises(wf.ReportError, match="no GA line"):
+        run(env, [a])
+    res = subprocess.run(
+        [
+            sys.executable, str(SCRIPT), "--out-dir", str(tmp / "o2"),
+            "--models-tsv", str(MODELS_TSV), "--pfam-hmm", pfam, "--hmmsearch", stub,
+            "--tmpdir", str(tmp / "scratch"), str(a),
+        ],
+        capture_output=True,
+        text=True,
+    )  # fmt: skip
+    assert res.returncode == 2
+    assert "no GA line" in res.stderr
 
 
 def test_needs_tmpdir_or_scratch(env, monkeypatch):

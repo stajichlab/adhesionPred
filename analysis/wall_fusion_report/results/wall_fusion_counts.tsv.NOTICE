@@ -1,0 +1,3 @@
+This report makes no call. It writes no status file. It has no call or status column. A hit is a hit to a Pfam family model. It is NOT evidence of adhesion, of cell fusion or of a cell wall remodeling function.
+This notice is also in the first lines of the table and in the report.
+Pandas with comment='#' drops those lines. This file is written next to each table so the notice is not lost.

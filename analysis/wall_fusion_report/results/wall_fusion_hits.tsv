@@ -1,17 +1,21 @@
 # wall_fusion_report: family-only context table. This report makes no call. It writes no status file. It has no call or status column. A hit is a hit to a Pfam family model. It is NOT evidence of adhesion, of cell fusion or of a cell wall remodeling function.
 # Cell wall enzymes are known false-positive sources for surface-glycoprotein detection. In the S288C check of docs/reports/cell-wall-fusion/07-model-hit-check.md the ESM classifier called 6 of 13 wall enzymes above 0.5 (CRH1, UTR2, SCW11, CTS1, SUN4, KRE9), and none of the 13 hit an active family-table row. Do not read a family hit here as an adhesin.
-proteome	protein	set	model_acc	model_name	family	label	seq_evalue	seq_score	domain_score	domain_ge_ga	supporting_report
-test_set	YLR300W|EXG1|P23776	wall_remodeling	PF00150	Cellulase	GH5	wall_remodeling_family_hit: GH5	2.8e-14	43.7	42.5	yes	04 s3.1 (Exg1)
-test_set	YGR282C|BGL2|P15703	wall_remodeling	PF00332	Glyco_hydro_17	GH17	wall_remodeling_family_hit: GH17	1.9e-108	353.2	353.0	yes	04 s3.1 (Bgl2); 07 row 20
-test_set	YGR279C|SCW4|P53334	wall_remodeling	PF00332	Glyco_hydro_17	GH17	wall_remodeling_family_hit: GH17	8.8e-15	45.6	44.8	yes	04 s3.1 (Bgl2); 07 row 20
-test_set	YLR286C|CTS1|P29029	wall_remodeling	PF00704	Glyco_hydro_18	GH18	wall_remodeling_family_hit: GH18	1e-25	81.6	78.3	yes	04 s3.1 (Cts1, Cts2); 01 s.80
-test_set	YGR189C|CRH1|P53301	wall_remodeling	PF00722	Glyco_hydro_16	GH16	wall_remodeling_family_hit: GH16	2.3e-53	170.8	170.8	yes	04 s3.1 (Crh, Utr2); 07 row 18
-test_set	YEL040W|UTR2|P32623	wall_remodeling	PF00722	Glyco_hydro_16	GH16	wall_remodeling_family_hit: GH16	7e-50	159.5	159.5	yes	04 s3.1 (Crh, Utr2); 07 row 18
-test_set	YMR307W|GAS1|P22146	wall_remodeling	PF03198	Glyco_hydro_72	GH72	wall_remodeling_family_hit: GH72	1.5e-154	504.4	504.0	yes	04 s3.1 (GEL/GAS/PHR); 07 rows 17 (Gas1 504.4)
-test_set	YKL046C|DCW1|P36091	wall_remodeling	PF03663	Glyco_hydro_76	GH76	wall_remodeling_family_hit: GH76	2.6e-167	547.4	547.2	yes	04 s3.1 (Dfg5, Dcw1); 07 row 19
-test_set	YMR238W|DFG5|Q05031	wall_remodeling	PF03663	Glyco_hydro_76	GH76	wall_remodeling_family_hit: GH76	2.9e-162	530.8	530.5	yes	04 s3.1 (Dfg5, Dcw1); 07 row 19
-test_set	YNL066W|SUN4|P53616	wall_remodeling	PF03856	SUN	SUN	wall_remodeling_family_hit: SUN	9.7e-102	330.1	329.4	yes	04 s3.1 (Sun4, Sim1, Nca3); 07 row 21
-test_set	YMR307W|GAS1|P22146	wall_remodeling	PF07983	X8	X8	wall_remodeling_family_hit: X8	2e-32	102.4	100.3	yes	04 s3.1 (often with GH72); 07 row 17
-test_set	YJL174W|KRE9|P39005	wall_remodeling	PF10342	Kre9_KNH	Kre9_Knh1	wall_remodeling_family_hit: Kre9_Knh1	5.3e-15	46.7	46.7	yes	04 s3.1 (Kre9/Knh1); 07 row 21
-test_set	YBR040W|FIG1|P38224	cell_fusion	PF12351	Fig1	Fig1	cell_fusion_family_hit: Fig1	9.5e-60	192.3	192.3	yes	07 s2 fusion table and row 26 (Fig1 192.3)
-test_set	YNL279W|PRM1|P53835	cell_fusion	PF27758	PRM1	Prm1	cell_fusion_family_hit: Prm1	2.1e-145	475.9	475.5	yes	07 s2 fusion table and row 26 (Prm1 475.5)
+proteome	protein	set	model_acc	model_name	family	label	seq_evalue	seq_score	domain_score	domain_ge_ga	verification_level	supporting_report
+test_set	YLR300W|EXG1|P23776	wall_remodeling	PF00150	Cellulase	GH5	GH5 (PF00150) domain hit	2.8e-14	43.7	42.5	yes	05_interpro	04 s3.1 (Exg1)
+test_set	YGR282C|BGL2|P15703	wall_remodeling	PF00332	Glyco_hydro_17	GH17	GH17 (PF00332) domain hit	1.9e-108	353.2	353.0	yes	05_interpro	04 s3.1 (Bgl2); 07 row 20
+test_set	YGR279C|SCW4|P53334	wall_remodeling	PF00332	Glyco_hydro_17	GH17	GH17 (PF00332) domain hit	8.8e-15	45.6	44.8	yes	05_interpro	04 s3.1 (Bgl2); 07 row 20
+test_set	YLR286C|CTS1|P29029	wall_remodeling	PF00704	Glyco_hydro_18	GH18	GH18 (PF00704) domain hit	1e-25	81.6	78.3	yes	05_interpro	04 s3.1 (Cts1, Cts2); 01 s.80
+test_set	YGR189C|CRH1|P53301	wall_remodeling	PF00722	Glyco_hydro_16	GH16	GH16 (PF00722) domain hit	2.3e-53	170.8	170.8	yes	05_interpro	04 s3.1 (Crh, Utr2); 07 row 18
+test_set	YEL040W|UTR2|P32623	wall_remodeling	PF00722	Glyco_hydro_16	GH16	GH16 (PF00722) domain hit	7e-50	159.5	159.5	yes	05_interpro	04 s3.1 (Crh, Utr2); 07 row 18
+test_set	YMR307W|GAS1|P22146	wall_remodeling	PF03198	Glyco_hydro_72	GH72	GH72 (PF03198) domain hit	1.5e-154	504.4	504.0	yes	05_interpro	04 s3.1 (GEL/GAS/PHR); 07 row 17 (Gas1 504.4)
+test_set	YKL046C|DCW1|P36091	wall_remodeling	PF03663	Glyco_hydro_76	GH76	GH76 (PF03663) domain hit	2.6e-167	547.4	547.2	yes	05_interpro	04 s3.1 (Dfg5, Dcw1); 07 row 19
+test_set	YMR238W|DFG5|Q05031	wall_remodeling	PF03663	Glyco_hydro_76	GH76	GH76 (PF03663) domain hit	2.9e-162	530.8	530.5	yes	05_interpro	04 s3.1 (Dfg5, Dcw1); 07 row 19
+test_set	YNL066W|SUN4|P53616	wall_structural_other	PF03856	SUN	SUN	SUN (PF03856) domain hit	9.7e-102	330.1	329.4	yes	05_interpro	04 s3.1 (Sun4, Sim1, Nca3); 07 row 21
+test_set	YJL174W|KRE9|P39005	wall_structural_other	PF05390	Kre9_KNH1_C	Kre9_Knh1_C	Kre9_Knh1_C (PF05390) domain hit	3.2e-52	166.2	166.2	yes	07_hmmscan_only	07 protein table (KRE9 166.2)
+test_set	YMR307W|GAS1|P22146	wall_structural_other	PF07983	X8	X8	X8 (PF07983) domain hit	2e-32	102.4	100.3	yes	05_interpro	04 s3.1 (often with GH72); 07 row 17
+test_set	YJL174W|KRE9|P39005	wall_structural_other	PF10342	Kre9_KNH	Kre9_Knh1	Kre9_Knh1 (PF10342) domain hit	5.3e-15	46.7	46.7	yes	05_interpro	04 s3.1 (Kre9/Knh1); 07 row 21
+test_set	YBR040W|FIG1|P38224	cell_fusion_candidate_models	PF12351	Fig1	Fig1	Fig1 (PF12351) domain hit	9.5e-60	192.3	192.3	yes	07_hmmscan_only	07 s2 fusion table and row 26 (Fig1)
+test_set	YNL279W|PRM1|P53835	cell_fusion_candidate_models	PF27758	PRM1	Prm1	Prm1 (PF27758) domain hit	2.1e-145	475.9	475.5	yes	07_hmmscan_only	07 s2 fusion table and row 26 (Prm1)
+test_set	YGR279C|SCW4|P53334	wall_remodeling	PF29664	BtgE-BtgC_glyc-hydro	BtgE-BtgC	BtgE-BtgC (PF29664) domain hit	1.8e-87	283.2	283.2	yes	07_hmmscan_only	07 row 23 (SCW4 283.2, SCW11 266.9); BGL2 224.2 in the 07 protein table
+test_set	YGL028C|SCW11|P53189	wall_remodeling	PF29664	BtgE-BtgC_glyc-hydro	BtgE-BtgC	BtgE-BtgC (PF29664) domain hit	1.7e-82	266.9	266.9	yes	07_hmmscan_only	07 row 23 (SCW4 283.2, SCW11 266.9); BGL2 224.2 in the 07 protein table
+test_set	YGR282C|BGL2|P15703	wall_remodeling	PF29664	BtgE-BtgC_glyc-hydro	BtgE-BtgC	BtgE-BtgC (PF29664) domain hit	1.6e-69	224.4	224.2	yes	07_hmmscan_only	07 row 23 (SCW4 283.2, SCW11 266.9); BGL2 224.2 in the 07 protein table
