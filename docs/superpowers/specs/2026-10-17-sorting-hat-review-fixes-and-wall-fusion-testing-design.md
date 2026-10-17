@@ -53,7 +53,7 @@ All are **Owner decision 2026-10-17**. "Revised" means changed after the Fable r
 | D15 | Revised. Tiered gating; guards live in `src/` and blocking suites. | 3.13 |
 | D16 | Revised. `negative_basis` per stratum; PM-TM is `assumed` and excluded. | 3.7 |
 | D17 | A measure-less entry can only be `unvalidated`. | 3.7 |
-| D18 | Revised. `not_applicable` acts as `not_called` in `and`/`or`/`not`; neutral only in the `other_*` list. | 3.5 |
+| D18 | Revised. `not_applicable` acts as `not_called` in `and`/`or`; `not(not_applicable)` is `not_applicable`; neutral only in the `other_*` list. | 3.5 |
 | D19 | New. Per-family sensitivity uses the family's own members; per-positive `leakage`. | 3.10 |
 | D20 | New. Each Kiss slice measures its own thing. | 3.8 |
 | D21 | New. HPCC re-runs are a numbered acceptance task of PR 3. | 3.14 |
@@ -121,7 +121,7 @@ Each block gives the decision, the alternatives, the reason, what changes and wh
 - **Changes.**
   - New committed measurement file (PROPOSAL `data/sorting_hat/family_measure.tsv`): one row per family with counts, clusters, intervals, `measure_basis`, list sources, date, HMMER and Pfam versions, per-positive `leakage` summary (D19).
   - New test `tests/cellsurface_sorting_hat/test_family_tier.py` (blocking suite).
-  - `status.py:128-130`: strict cluster rule (decision: it applies where the tier is derived; whether it also applies to all module and call measures is OPEN, Q7).
+  - `status.py:128-130`: strict cluster rule (Owner decision 2026-10-17, Q7: it applies in `status_from_measure` to ALL module and call measures; the 20 committed call files stay `smoke`, and a test proves they load).
 - **Acceptance tests.**
   - Fails before: a copy of the table with one stronger tier fails the test.
   - 25 positives, 25 negatives, 22 and 22 clusters, narrow intervals, `per_family_reviewed`: `estimated`. The same with `descriptive_shared_sets`: `smoke`. 5 and 5: `smoke`. No row: `untested`.
@@ -157,7 +157,7 @@ Each block gives the decision, the alternatives, the reason, what changes and wh
 ### 3.5 D5 and D18: unknown mechanism input and `not_applicable`
 
 - **Decision (Owner decision 2026-10-17, D5).** *Revised 2026-10-17 after the Fable review (FD-A2).* An unknown mechanism input makes the `other_*` calls `not_assessable` (today the engine skips it and lists it in `left_out`, `engine.py:243-253`). A new value `not_applicable` marks species-limited calls (D18). The `truth` handling changes in the same PR: `calibration/cli.py` rejects the value at `:132` (`CALL_VALUES`) and `:290-293`, so every `calibrate truth` run on a table with the value would exit 2 before `:480`; `outputs.py:280-285` counts only three values and would drop it silently. The earlier text said "a silent negative"; that was wrong.
-- **Decision (Owner decision 2026-10-17, D18).** *Revised 2026-10-17 after the Fable review (FD-A1, FD-A13).* `not_applicable` acts as `not_called` INSIDE `and`, `or` and `not`. No existing call changes. It is neutral ONLY in the `other_*` mechanism list (`engine.py:242-253`).
+- **Decision (Owner decision 2026-10-17, D18).** *Revised 2026-10-17 after the Fable review (FD-A1, FD-A13).* `not_applicable` acts as `not_called` INSIDE `and` and `or`, and `not(not_applicable)` is `not_applicable` (added 2026-10-17 on the owner's confirmation of the Fable suggestion). No existing call changes. It is neutral ONLY in the `other_*` mechanism list (`engine.py:242-253`).
   - *Originally:* "neutral in and/or; dropped from operands". Read literally, `serodiagnostic_marker_candidate = and(rank, signal_peptide_protein)` (`categories.yaml:79-82`) would become `called` for every secreted protein outside C. immitis RS (FD-A1).
   - Truth table (rows: value of the first input; `NA` = `not_applicable`; `C` = called, `N` = not_called, `U` = not_assessable). An NA input is first replaced by `N`, then the Kleene rule applies:
 
@@ -168,7 +168,7 @@ Each block gives the decision, the alternatives, the reason, what changes and wh
     | U | U | U | N | U | C | U | U |
     | NA | C | N | N | N | C | N | U |
 
-    `and` and `or` never return NA. A leaf `test` or `flag` on an NA row returns NA. `not(NA)` is `called`; no call in `categories.yaml` uses `not` today (the grammar allows it, `categories.yaml:9`), so this affects only future calls.
+    `and` and `or` never return NA. A leaf `test` or `flag` on an NA row returns NA. `not(NA)` is `not_applicable` (Owner decision 2026-10-17, on the Fable suggestion FD-A1: the neutral value must not turn into `called`). No call in `categories.yaml` uses `not` today (the grammar allows it, `categories.yaml:9`), so this affects only future calls.
   - In `_eval_other`, an NA mechanism is skipped; a called mechanism still gives `not_called`; an unknown mechanism gives `not_assessable`.
   - Status bookkeeping (FD-A13): an NA leaf contributes no status (like `not_assessable` in `engine.py:174-177`). The reason travels in the basis column: the basis lists `not_applicable: <module>`. So a `not_called` record caused by an NA leaf never has an empty basis; the engine currently gives such a record `unvalidated` with an empty basis (`engine.py:348-349`).
 - **Alternatives.** Keep today's rule and report the count of `other_*` with a non-empty basis; mark such records `partial`; drop NA from operands (rejected, FD-A1).
@@ -268,7 +268,7 @@ Each block gives the decision, the alternatives, the reason, what changes and wh
 - **Decision (Owner decision 2026-10-17).** Draft `narrow_ok`: `yes` for PA14, Flocculin, Flocculin_t3, Candida_ALS_N, Candida_ALS, Flo11, GLEYA; `no` for CFEM, PIR1-like_C, Hyr1. The owner signs each row in the PR. The PR records before and after counts of the classifier runs.
 - **Alternatives.** All `no` until signed row by row (my earlier default).
 - **Reason.** The owner reviewed the per-family counts. The criterion behind the order is not yet written down (FD-A15); the sign-off summary of D4 fixes that.
-- **Note.** The `yes` rows rest on a descriptive test (D11), so each is `smoke` at most. GLEYA hits one N2 negative; CFEM is `no` on 12 N1 hits (FD-A15). Flocculin (3 of 54) and Flo11 (6 of 54) rest on few observations. Rows not named by D12 (for example Bys1, ALS_M, the allergen and hydrophobin rows) get no `narrow_ok` value from this spec (OPEN, Q8).
+- **Note.** The `yes` rows rest on a descriptive test (D11), so each is `smoke` at most. GLEYA hits one N2 negative; CFEM is `no` on 12 N1 hits (FD-A15). Flocculin (3 of 54) and Flo11 (6 of 54) rest on few observations. Rows not named by D12 (for example Bys1, ALS_M, the allergen and hydrophobin rows) get `narrow_ok=no` (Owner decision 2026-10-17, Q8): the narrow call reads only `pfam_adhesion` rows, so the column has meaning only there. The owner still signs each value.
 
 ### 3.12 D13: leakage exception and note wording
 
@@ -334,7 +334,7 @@ Six layers. Accepted layers, and the decision that accepts each: L0 (D15), L1 an
 | `pfam_adhesion` gets `hit_narrow` (D4) | Old module tables stop with `missing column` (`cli.py:214-216`). | Rebuild the four Pfam modules (job scripts in `scripts/sorting_hat/`; D21 rules apply). Module identity changes (`_family_digest`). |
 | `categories.yaml` edit (D4) and `ENGINE_SEMANTICS` bump (D5) | `config_sha256` and every `call_hash` change; all 20 call-status files are stale (`call_status.py:179,194`; `engine.py:497-508`). A stale file never raises a status. | D21: refresh in PR 3 acceptance; interim sentence in CLASSES.md. |
 | New call value `not_applicable` (D5, D18) | Readers of `calls.long`/`calls.wide`; `calibration/cli.py:132,290-293`; `outputs.py:280-285`. | Document in `CLASSES.md`; handle in `truth`; grep other readers. |
-| Strict cluster rule (D3) | Any measure without cluster counts that today reaches `estimated`. | The 20 committed call files are `smoke`; a test proves they load. Scope of the rule: Q7. |
+| Strict cluster rule (D3) | Any measure without cluster counts that today reaches `estimated`. | The 20 committed call files are `smoke`; a test proves they load. Scope of the rule: all measures (Q7, settled). |
 | Status-file schema (D7, D13, D16) | Module status files without the new fields. | Default `assumed`. R0 files are rewritten by `calibrate phasec` (D21). Without the rewrite R0 in A. nidulans drops below `estimated` and `CLASSES.md:11` is wrong. |
 | Loader refusal (D7, D17) | A hand-edited or old file with a status above its measure, or a measure-less entry above `unvalidated`. | Loader raises with the file name. Fix the file; do not relax the loader. |
 | Report and wide-table columns (D1, D5, D6) | Scripts that read `calls.wide` by position; the golden files. | New columns are appended. `calls.long` gains the derived marker column (Q5). Regenerate golden files in their own commit. |
@@ -365,8 +365,8 @@ STILL OPEN or PROVISIONAL:
 | Q4 | Per-stratum floor check for R0 (D16): do N-int and N-sec alone meet 20 negatives, 20 clusters and half-width 0.10? | Compute it before the engine PR; if not, return to the owner. |
 | Q5 | Format of the `derived` marker. | A `derived_from` column naming the leaf calls. |
 | Q6 | Allergen and antigen `secondary_label`. | Later; out of `primary_label` now. |
-| Q7 | Does the strict cluster rule (D3) apply to `status_from_measure` for all measures, or only to the tier derivation? | All measures; the 20 committed call files stay `smoke`. |
-| Q8 | `narrow_ok` for rows D12 does not name (Bys1, ALS_M, allergen, hydrophobin, HsbA rows). | `no`, since the narrow call needs a family in `pfam_adhesion`; the owner signs. |
+| Q7 | SETTLED (owner, 2026-10-17): the strict cluster rule (D3) applies in `status_from_measure` to all measures. | The 20 committed call files stay `smoke`; a test proves they load. |
+| Q8 | SETTLED (owner, 2026-10-17): `narrow_ok=no` for rows D12 does not name (Bys1, ALS_M, allergen, hydrophobin, HsbA rows); the column has meaning only on `pfam_adhesion` rows. | The owner signs each value in the PR. |
 
 ## 9. Conflicts between the decisions and the code, and how each was resolved
 
@@ -374,7 +374,7 @@ STILL OPEN or PROVISIONAL:
 |---|---|---|
 | 1 | The R0 `estimated` entry has no `leakage:` value; the note is read as `overlap` (`calibration/phasec.py:41`; `call_status.py:37-38,61-63,96-98`). D7's cap would reject or demote it. | D13 (key and reworded note) and D16 (per-stratum basis); Q4 is the remaining gate. |
 | 2 | `calibration/cli.py:132,290-293` rejects a fourth value, and `outputs.py:280-285` drops it. The first draft located the fix at `:480` and called the effect a silent negative. | D5 (changed in the same PR). |
-| 3 | The "dropped from operands" rule would make `serodiagnostic_marker_candidate` `called` for every secreted protein outside RS (FD-A1). | D18 (acts as `not_called` in `and`/`or`/`not`). |
+| 3 | The "dropped from operands" rule would make `serodiagnostic_marker_candidate` `called` for every secreted protein outside RS (FD-A1). | D18 (acts as `not_called` in `and`/`or`; `not(NA)=NA`). |
 | 4 | D4 changes the counts in `2026-10-07-classifier-runs-and-scale.md`; those counts are already stale on main. | D4 note (re-run and dated note), D12 (before/after counts). |
 | 5 | Rows 8, 9, 12, 13 say "specificity test not run" but the 2026-10-09 test has counts. | D11 (update notes at conversion). |
 | 6 | The status loader would skip the cluster floor for absent keys (`status.py:128-130`), so the E1/N1 test could derive `estimated`. | D3 (missing counts do not meet the floor; `descriptive_shared_sets` capped). |
@@ -384,7 +384,7 @@ STILL OPEN or PROVISIONAL:
 | 10 | Tier and call status use the same words for different objects (FD-A12). | D3 sentence. |
 | 11 | The Kiss TSV counts (51/26, 122/44, 8/6) differ from "23 clusters, 45 genes" of report 06. | D8 (reconcile in the feasibility stage). |
 | 12 | `data/curated/adhesins/hard_negative_seeds.tsv` is a smaller seed file (32 lines) next to the shared set of 161 rows. | D8 names both; the owner confirms both are meant. |
-| 13 | D18 sets `not(NA)` to `called`, while the Fable review suggested `not(NA)=NA` (FD-A1). The owner's rule is "acts as `not_called`", so `not(NA)=called`. No call in `categories.yaml` uses `not`. | Written as the owner decided in 3.5; flagged here for a check before a call uses `not`. |
+| 13 | D18 as first worded gave `not(NA)=called`; the Fable review suggested `not(NA)=NA` (FD-A1). No call in `categories.yaml` uses `not`. | RESOLVED (owner, 2026-10-17): `not(NA)` is `not_applicable`; `and` and `or` treat NA as `not_called`. The truth table in 3.5 and its unit test follow this. |
 
 ## 10. Not in this spec
 

@@ -21,7 +21,7 @@ P7. **Names are PROVISIONAL** (spec Q2). Use the names of the spec; a rename is 
 The owner (or the plan's author, where stated) must finish these before Task 3.0 starts:
 - S1. **R0 per-stratum floor gate (D16, Q4).** Compute, from the Phase C `metrics.json`, eval table and cluster files on HPCC (read-only, small job; the owner approves the job), whether N-int plus N-sec alone meet the floors for R0: at least 20 negatives, at least 20 clusters, interval half-width at most 0.10 for specificity. Put the three numbers in this plan (a new line under this list) and in the PR description. If any floor fails, stop: D6 and D13 need the owner again.
 - S2. The owner confirms the names of the spec's Q2 or accepts them.
-- S3. The owner confirms Q7 (scope of the strict cluster rule) and Q8 (`narrow_ok` for rows D12 does not name).
+- S3. SETTLED by the owner on 2026-10-17: Q7 (the strict cluster rule applies to all measures) and Q8 (`narrow_ok=no` for rows D12 does not name; the column has meaning only on `pfam_adhesion` rows). No action.
 
 ## PR 1: this spec and plan
 
@@ -94,7 +94,7 @@ Mutations: loader ignores the cap; cap ignores a missing key; taxon floor off by
 Files: `src/cellsurface_sorting_hat/logic.py` (`:7-45`), `engine.py` (`:30`, `:174-215`, `:236-253`, `:348-349`, `:497-508`), `outputs.py` (`:276-289`), `calibration/cli.py` (`:132`, `:290-293`, `:473-488`), `categories.yaml` (comment `:11`), `docs/class_descriptions.yaml`, tests `test_logic.py`, `test_engine.py`, `calibration/test_calibration_cli.py`, `test_outputs.py`. Also grep `calibration/panel.py` and `analysis/` readers of `calls.long` for the three-value assumption (FD-A2); list each finding in the PR.
 
 Steps:
-1. `logic.py`: add `NOT_APPLICABLE`; implement the four-value table of spec 3.5 (NA acts as `not_called` inside `and`, `or` and `not`; `and` and `or` never return NA; `not(NA)` is `called`).
+1. `logic.py`: add `NOT_APPLICABLE`; implement the four-value table of spec 3.5 (NA acts as `not_called` inside `and` and `or`; `and` and `or` never return NA; `not(NA)` is `not_applicable`).
 2. `engine._row` returns the state; `_eval` maps a `not_applicable` row to `NOT_APPLICABLE` at a leaf.
 3. `_eval_other`: called mechanism gives `not_called`; else unknown gives `not_assessable` with `other_basis` listing it; an NA mechanism is skipped.
 4. An NA leaf adds no contributor. The basis lists `not_applicable: <module>`; a `not_called` record caused by an NA leaf never has an empty basis (change at `engine.py:348-349`).
@@ -107,7 +107,7 @@ Tests:
 2. Probe P3 (`antigen_lookup` `not_applicable`): the rank is `not_applicable`; `serodiagnostic_marker_candidate` is `not_called` with basis `not_applicable: antigen_lookup`; `other_surface_no_mechanism` is `called`.
 3. An SP protein outside RS is never `serodiagnostic_marker_candidate = called` (FD-A1).
 4. A called mechanism with another unknown one: `other_*` is `not_called`.
-5. The whole truth table of spec 3.5 as a unit test, all combinations, `not` included.
+5. The whole truth table of spec 3.5 as a unit test, all combinations, `not` included (`not(NA)=NA`).
 6. `calibrate truth` on a table with `not_applicable` exits 0 and reports the count (fails before: exit 2, FD-A2). The report's Calls table shows the fourth column.
 7. `call_hash` differs from the value stored in a fixture with the old semantics.
 
