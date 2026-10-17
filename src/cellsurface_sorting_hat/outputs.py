@@ -89,6 +89,8 @@ class RunInfo:
     module_identities: list = field(default_factory=list)
     # accessions of the pfam_adhesion families with narrow_ok=yes (None: not known)
     narrow_families: list | None = None
+    # one {module, condition, source, result} per condition table that a module was built against
+    condition_checks: list = field(default_factory=list)
 
 
 def _gz(text):
@@ -202,12 +204,36 @@ def _warnings(info):
         )
     if info.map_ids_not_in_fasta:
         out.append(f"{info.map_ids_not_in_fasta} ID(s) in --taxon-map are not in the FASTA.")
+    for c in info.condition_checks:
+        if c["result"] == "mismatch":
+            out.append(
+                f"Module {c['module']} was built against another {c['source']} table than the one "
+                f"in this run (condition {c['condition']}). Rebuild {c['module']} with this table "
+                "or use the table it was built with."
+            )
     if info.narrow_families == []:
         out.append(
             "No family of pfam_adhesion has narrow_ok=yes, so wall_family_narrow_domain is "
             "not_called for every protein. cell_wall_adhesion_candidate can then be called by a "
             "tandem repeat only. Sign narrow_ok in data/sorting_hat/family_table.tsv."
         )
+    return out
+
+
+def _notes(info):
+    out = []
+    for c in info.condition_checks:
+        if c["result"] == "no_digest":
+            out.append(
+                f"Module {c['module']} records no digest of the {c['source']} table it was built "
+                f"against (condition {c['condition']}; an older record). The tables cannot be compared."
+            )
+        elif c["result"] == "no_table":
+            out.append(
+                f"Module {c['module']} was built against {c['source']} (condition "
+                f"{c['condition']}); that module is not loaded in this run, so the tables "
+                "cannot be compared."
+            )
     return out
 
 
@@ -240,6 +266,9 @@ def render_report(info, records):
     warnings = _warnings(info)
     if warnings:
         lines += ["## Warnings", ""] + [f"- **WARNING: {w}**" for w in warnings] + [""]
+    notes = _notes(info)
+    if notes:
+        lines += ["## Notes", ""] + [f"- {n}" for n in notes] + [""]
     if info.invalid:
         shown = info.invalid[:MAX_LISTED_INVALID]
         lines += ["## Invalid proteins", ""] + [f"- {i}: {note}" for i, note in shown]

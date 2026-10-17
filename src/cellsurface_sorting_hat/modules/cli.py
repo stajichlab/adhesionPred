@@ -16,7 +16,12 @@ from cellsurface_sorting_hat.modules import (
     repeats,
     signalp,
 )
-from cellsurface_sorting_hat.modules.base import ModuleSpec, invalid_row, write_module
+from cellsurface_sorting_hat.modules.base import (
+    ModuleSpec,
+    invalid_row,
+    values_digest,
+    write_module,
+)
 
 APPLICABLE_RS = {
     246410
@@ -442,7 +447,9 @@ def _condition_table(workdir, module, column, ids, option):
 
     Refuse a missing table or run record, an unusable run state, a missing column and IDs that are
     not FASTA IDs. Returns ``({id: value}, ...)`` with the values of rows in state ``ok`` only, and
-    ``{"params_hash", "artefact_hash"}``.
+    ``{"module", "column", "params_hash", "artefact_hash", "values_sha256"}``. The digest of the
+    values lets the core command check that it reads the same table later (the two hashes of a
+    module can be equal for two different tables of one rule).
     """
     import csv
     import gzip
@@ -467,7 +474,8 @@ def _condition_table(workdir, module, column, ids, option):
         raise RunError(f"{option} {module}: cannot read {table}: {err!r}") from err
     _check_ids(str(table), {i for i, _, _ in rows}, ids)
     identity = {k: run.get(k, "") for k in ("params_hash", "artefact_hash")}
-    return values, {"module": module, **identity}
+    snapshot = {"column": column, "values_sha256": values_digest(values)}
+    return values, {"module": module, **identity, **snapshot}
 
 
 def _file_digest(path):

@@ -29,6 +29,7 @@ from cellsurface_sorting_hat.engine import (
     referenced_modules,
 )
 from cellsurface_sorting_hat.fasta import NA_INVALID, FastaError, read_fasta
+from cellsurface_sorting_hat.modules.base import values_digest
 from cellsurface_sorting_hat.outputs import (
     RunInfo,
     render_report,
@@ -360,6 +361,38 @@ def calibration_rows(resolver, modules, taxa):
     return rows
 
 
+def condition_checks(loaded):
+    """Compare the table of each condition module with the one a module was built against.
+
+    A Pfam module records, for each of its conditions (``sp_module``, ``tm_module``), the module
+    name, the column and a digest of the values it read. The result per condition is ``match``,
+    ``mismatch``, ``no_digest`` (an older record) or ``no_table`` (the condition module is not
+    loaded in this run)."""
+    out = []
+    for module in sorted(loaded.params):
+        conditions = loaded.params[module].get("conditions")
+        if not isinstance(conditions, dict):
+            continue
+        for key, cond in sorted(conditions.items()):
+            if not isinstance(cond, dict) or "module" not in cond:
+                continue
+            source, column = cond["module"], cond.get("column")
+            if not cond.get("values_sha256") or not column:
+                result = "no_digest"
+            elif source not in loaded.tables:
+                result = "no_table"
+            else:
+                rows = loaded.tables[source].rows
+                values = {
+                    pid: row.get(column, "")
+                    for pid, row in rows.items()
+                    if row.get("state") == "ok"
+                }
+                result = "match" if values_digest(values) == cond["values_sha256"] else "mismatch"
+            out.append({"module": module, "condition": key, "source": source, "result": result})
+    return out
+
+
 def _narrow_families(loaded):
     """Accessions of the families that feed the narrow call, from the run record of
     ``pfam_adhesion``; None when that module was not used or its record does not say."""
@@ -435,6 +468,7 @@ def run(args):
         calibration=calibration_rows(resolver, set(tables) | {cfg.default_gate}, taxa.values()),
         call_status_sources=call_resolver.rows(),
         narrow_families=_narrow_families(loaded),
+        condition_checks=condition_checks(loaded),
     )
     report = render_report(info, records)  # render first: a failure leaves no partial output
     write_long(out / "calls.long.tsv.gz", records)

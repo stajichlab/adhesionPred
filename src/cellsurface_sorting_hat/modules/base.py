@@ -25,6 +25,12 @@ def params_hash(params):
     return hashlib.sha256(json.dumps(params, sort_keys=True, default=str).encode()).hexdigest()
 
 
+def values_digest(values):
+    """Hash of ``{id: value}``: sorted ``[id, value]`` pairs. It changes when an id or a value changes."""
+    pairs = sorted([str(k), str(v)] for k, v in values.items())
+    return hashlib.sha256(json.dumps(pairs, separators=(",", ":")).encode()).hexdigest()
+
+
 def artefact_hash(paths):
     """Hash of the databases or models a module uses: sorted ``name:sha256`` lines."""
     lines = sorted(f"{Path(p).name}:{sha256_file(p)}" for p in paths)

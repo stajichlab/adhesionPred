@@ -2,13 +2,11 @@
 
 import json
 
-import pytest
 from test_cli import VALID, build
 from test_narrow_call import DOM, OPTIONS, fam_row, write_table
 
 from cellsurface_sorting_hat.cli import main
 
-XFAIL_36 = pytest.mark.xfail(strict=True, reason="Task 3.6: R0 snapshot digest")
 R0 = "step1_rule@R0"
 R0_CALLS = dict(zip(VALID, ["called", "not_called", "called", "called"], strict=True))
 
@@ -19,7 +17,6 @@ def digest(values):
     return values_digest(values)
 
 
-@XFAIL_36
 def test_the_digest_depends_on_ids_and_values_not_on_order():
     a = digest({"A": "called", "B": "not_called"})
     assert a == digest({"B": "not_called", "A": "called"})
@@ -27,7 +24,6 @@ def test_the_digest_depends_on_ids_and_values_not_on_order():
     assert a != digest({"A": "called", "C": "not_called"})  # same values, other ids
 
 
-@XFAIL_36
 def test_the_pfam_command_records_a_digest_of_the_condition_table(tmp_path):
     from cellsurface_sorting_hat.modules.cli import main as module_main
 
@@ -77,7 +73,6 @@ def _cond(values, **over):
     return cond
 
 
-@XFAIL_36
 def test_a_pfam_module_built_against_another_r0_table_gives_a_warning(
     tmp_path, write_module, nodes_dmp
 ):
@@ -92,14 +87,12 @@ def test_a_pfam_module_built_against_another_r0_table_gives_a_warning(
     ]
 
 
-@XFAIL_36
 def test_the_same_r0_table_gives_no_warning(tmp_path, write_module, nodes_dmp):
     _, run_json, report = _run(tmp_path, write_module, nodes_dmp, _cond(R0_CALLS))
     assert not [ln for ln in report.splitlines() if "WARNING" in ln and "pfam_adhesion" in ln]
     assert run_json["condition_checks"][0]["result"] == "match"
 
 
-@XFAIL_36
 def test_an_old_record_without_a_digest_gives_a_note_not_an_error(
     tmp_path, write_module, nodes_dmp
 ):
@@ -110,14 +103,12 @@ def test_an_old_record_without_a_digest_gives_a_note_not_an_error(
     assert not [ln for ln in report.splitlines() if "WARNING" in ln and "pfam_adhesion" in ln]
 
 
-@XFAIL_36
 def test_a_module_without_conditions_is_not_checked(tmp_path, write_module, nodes_dmp):
     _, run_json, report = _run(tmp_path, write_module, nodes_dmp, None)
     assert run_json["condition_checks"] == []
     assert "## Notes" not in report
 
 
-@XFAIL_36
 def test_run_json_always_has_the_field(tmp_path, write_module, nodes_dmp):
     _, run_json, _ = _run(tmp_path, write_module, nodes_dmp, _cond(R0_CALLS))
     assert "condition_checks" in run_json
