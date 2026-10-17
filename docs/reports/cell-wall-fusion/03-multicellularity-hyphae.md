@@ -1,3 +1,5 @@
+Errata applied 2026-10-17 from reports 05 to 07; items still unverified are marked.
+
 # 03. Multicellularity and hyphal-formation genes vs cell wall remodeling, fusion and adhesion
 
 Date: 2026-10-17. Literature research only; no code changed.
@@ -43,7 +45,7 @@ PMID 26541633 is not a multicellularity paper. It is a localization and phenotyp
   - Yeasts lose hypha genes less than expected from genome-wide loss. Adhesion and microtubule transport are among the six groups lost more than expected.
 - **Caveats.**
   - The authors say that traits co-distributed on the tree (osmotrophy, cell wall changes) can produce spurious correlation with hyphae.
-  - The adhesion set rests on 45 literature genes, mostly yeast and Candida. The authors note that adhesins in early-diverging fungi are poorly annotated.
+  - The adhesion set rests on 45 literature genes, mostly yeast and Candida [corrected 2026-10-17, see 06 section 6 row 17: by JGI suffix Candida albicans 11 and S. cerevisiae 8 = 19 of 45 (42 percent); the largest share, not a majority; the rest are N. crassa 6 and hydrophobins from U. maydis, S. commune, C. cinerea and others]. The authors note that adhesins in early-diverging fungi are poorly annotated.
   - Hyphae are scored as a binary trait.
   - Family-level "origin" depends on homology detection. Divergent homologs can look like de novo families.
   - The paper counts duplications at nodes, not expression or function.
@@ -146,7 +148,7 @@ Only the supplement carries gene-level detail, so I parsed it. The counts below 
 | cell cycle regulation | 11 |
 
 Two observations:
-- The paper text gives 9 groups and does not count "adhesion" as one of them. The file has 10 categories, including "adhesion" (45 rows). This is the set behind the "23 adhesion clusters" analysis. The 9-group totals in the text are probably the file minus "adhesion". This is an inference; I did not reconcile row counts.
+- The paper text gives 9 groups and does not count "adhesion" as one of them. The file has 10 categories, including "adhesion" (45 rows). This is the set behind the "23 adhesion clusters" analysis. The 9-group totals in the text are probably the file minus "adhesion". This is an inference; I did not reconcile row counts. [corrected 2026-10-17, see 06 section 3 and 6 row 6: this is wrong. The 651 genes and 362 families in the text include the adhesion rows; the nine non-adhesion categories alone sum to 606 genes and 339 clusters. The text lists nine groups and omits adhesion, while the file has ten categories. The 107 / 107 / 11 figures in the text match the file.]
 - Columns: functional category, gene name, JGI protein ID, protein function, A. fumigatus ortholog, cluster number, node of emergence, source citation.
 
 Cell wall category examples, cluster number and node of emergence from Data 3:
@@ -155,11 +157,11 @@ Cell wall category examples, cluster number and node of emergence from Data 3:
 |---|---|---|---|
 | 166 | PMT1/2/4 O-mannosyltransferases | LCA of Opisthokonta | O-mannosylation of surface proteins |
 | 171 | exg1 | Opisthokonta | exo-1,3-beta-glucanase |
-| 209 | chs1/2/3/8, chsA/B/C/G (classes I, II, III) | Opisthokonta + amoebozoa | chitin synthases |
+| 209 | chs1/2/3/8, chsA/B/C/G (classes I, II, III) | Opisthokonta + amoebozoa [corrected 2026-10-17, see 06 section 6 row 13: Data 3 node is "lca of Opisthokonta, E.histolytica, T.trahens"; T. trahens is not an amoebozoan] | chitin synthases |
 | 234 | chsE, csmB (class V, VI-myosin type) | LCA of Fungi | myosin-motor chitin synthase |
 | 293 | kre6 | BCZ-type node (Dikarya + Muco + Zoopago) | beta-1,6-glucan |
 | 374 | crh1, crh2 (utr2), csf4 | Dikarya + Muco + Zoopago + Chytrid + Blasto | chitin transglycosylase; csf4 described as "GPI anchored cell wall glycosidase" |
-| 435 | gas1, phr1, gel4, gel7 | same BCZ node | GPI-anchored beta-1,3-glucanosyltransferases, Gas/Phr/Gel; "CAZy family 17" for Gel4 as stated in the file |
+| 435 | gas1, phr1, gel4, gel7 | same BCZ node | GPI-anchored beta-1,3-glucanosyltransferases, Gas/Phr/Gel; "CAZy family 17" for Gel4 as stated in the file [unresolved conflict on the GEL family number, see 05 Summary item 4; evidence only, not a resolution: Kiss Data 3 cluster 435 holds gas1, phr1, gel4 and gel7, with gas1 and phr1 annotated 'Gas/Phr family' and gel4 annotated 'GPI protein, Gas/Phr family, CAZy family 17' (06 TSV rows 88-89 for phr1 and gel4); S. cerevisiae Gas1 hits Glyco_hydro_72 at 504.4 (07 row 17); CAZy pages do not name Gel4 (05 Table B), so the question stays open] (reports 01 and 04 put GEL proteins in GH72; 05 could not resolve this; no side is chosen here) |
 | 4166 | N. crassa bgt2 (NCU09175?), bgt1 (NCU06381?) | LCA of Opisthokonta | source citation is PMID 26541633; see below |
 | 843 | dfg5 | BCZ-type node | GPI-anchored alpha-1,6-mannanase |
 | 3228 | ecm33 | Opisthokonta | GPI-linked cell wall protein |
@@ -172,7 +174,7 @@ Cell wall category examples, cluster number and node of emergence from Data 3:
 
 Note on Data 3 row for cluster 4166: the two N. crassa genes are listed under JGI IDs 3834_Neucr2 (bgt2_eglc) and 5869_Neucr2 (bgt1). The file does not state the NCU numbers. I have not mapped JGI IDs to NCU06381 and NCU09175 myself, so that mapping is "unverified". The A. fumigatus ortholog column gives Afu1g11460 (named bgt1 there) for bgt2, and NA for bgt1.
 
-Adhesion category (45 rows, 24 distinct clusters in the file; full list in Data 3):
+Adhesion category (45 rows, 24 distinct clusters in the file [corrected 2026-10-17, see 06 section 6 row 5: 23 distinct cluster numbers, equal to the paper's "23 clusters"; 24 was an off-by-one]; full list in Data 3):
 
 | Cluster | Genes | Emergence node |
 |---|---|---|
@@ -289,10 +291,10 @@ Annotation of GPI anchoring below is from the Data 3 and Data 8 text fields (cur
 
 Context: the repo's own review concluded the classifier behaves as a cell-surface glycoprotein detector with about 12% adhesin precision (AGENTS.md; memory note). This section is inference throughout [I], since I did not run the model on any of these genes.
 
-- **Likely to score as adhesion-like.** GPI-anchored, Ser/Thr-rich or glycosylated wall proteins: Gas/Gel/Phr family members, Dfg5, Ecm33, Sun and Pir, CFEM proteins (cfmA), Cfl1, Flo/Als/Hwp-type adhesins, hydrophobins (small, cysteine-rich, secreted; composition may differ from adhesins), and BGT-1/BGT-2 (predicted GPI-anchored). The Kiss et al. "adhesion" category itself contains cell wall proteins that are not adhesins in a strict sense.
+- **Likely to score as adhesion-like.** GPI-anchored, Ser/Thr-rich or glycosylated wall proteins: Gas/Gel/Phr family members, Dfg5, Ecm33, Sun and Pir, CFEM proteins (cfmA), Cfl1, Flo/Als/Hwp-type adhesins, hydrophobins (small, cysteine-rich, secreted; composition may differ from adhesins), and BGT-1/BGT-2 (predicted GPI-anchored) [corrected 2026-10-17, see 07 sections 2 and 4: the shipped ESM model does not call S288C GAS1 (p 0.030), DFG5 (0.020) or ECM33 (0.033); it calls CRH1, UTR2, SUN4, SCW11, KRE9 and CTS1]. The Kiss et al. "adhesion" category itself contains cell wall proteins that are not adhesins in a strict sense.
 - **Unlikely.** Intracellular polarity, actin, septation, vesicle and transcription families, and multi-pass membrane enzymes (chitin and glucan synthases) without a glycosylated ectodomain.
-- **Consequence for the sorting hat.** [I] Cell wall remodelers such as Gas/Gel and BGT would count as false positives for "cell_wall_adhesion_candidate" unless a Pfam or functional rule separates enzymes from adhesins. The enzymes are the part that tracks hyphal origin. The adhesin families do not.
-- Pfam for these classes: I did not look them up. For example, Gel/Gas is glycoside hydrolase family 72 and BGT-1/2 may fall in GH17, but I did not verify either, and no Pfam ID is given in the sources: "unverified".
+- **Consequence for the sorting hat.** [I] Cell wall remodelers such as Gas/Gel and BGT would count as false positives for "cell_wall_adhesion_candidate" unless a Pfam or functional rule separates enzymes from adhesins. The enzymes are the part that tracks hyphal origin. The adhesin families do not. [corrected 2026-10-17, see 07 section 4 and rows 11-12 (derived labels; the hat was not run): none of the 13 S288C wall enzymes hits an active family-table row, so the hat would label them other_surface_no_mechanism, not cell_wall_adhesion_candidate. The false-positive risk measured in 07 is for the ESM classifier (6 of 13 called)].
+- Pfam for these classes: I did not look them up. For example, Gel/Gas is glycoside hydrolase family 72 and BGT-1/2 may fall in GH17, but I did not verify either, and no Pfam ID is given in the sources: "unverified" [corrected 2026-10-17, see 05 Table A (PF03198 = Glyco_hydro_72, description GPI-anchored beta(1-3)glucanosyltransferases) and 07 row 17 (Gas1 hits PF03198 at 504.4): the GH72 ID is verified. GH17 for BGT-1/2 stays unverified (05 Table B). [unresolved conflict on the GEL family number, see 05 Summary item 4; evidence only, not a resolution: Kiss Data 3 cluster 435 holds gas1, phr1, gel4 and gel7, with gas1 and phr1 annotated 'Gas/Phr family' and gel4 annotated 'GPI protein, Gas/Phr family, CAZy family 17' (06 TSV rows 88-89 for phr1 and gel4); S. cerevisiae Gas1 hits Glyco_hydro_72 at 504.4 (07 row 17); CAZy pages do not name Gel4 (05 Table B), so the question stays open].
 
 ---
 
@@ -317,3 +319,20 @@ Not found in PubMed with my queries, so not cited: a review of N. crassa cell fu
 2. Map Data 3 JGI IDs (3834_Neucr2, 5869_Neucr2) to NCU numbers.
 3. Open Data 2 and Data 4 to get species-level copy numbers for the cell wall families, if the sorting hat wants clade patterns.
 4. If wanted, run the shipped classifier on the cell wall and adhesion categories of Data 3 (A. fumigatus and N. crassa orthologs) to test section 3.5 empirically. Not done here.
+
+## Errata log
+
+Applied 2026-10-17 from reports 05, 06, 07. Line numbers are those of the file before this errata (the added header line shifts later lines by 2).
+
+1. Line 46. Old: `mostly yeast and Candida.`. New: same text with an added marker. Source: 06 s6 #17.
+2. Line 149. Old: `The 9-group totals in the text are probably the file minus "adhesion". This is an inference; I did not reconci`. New: same text with an added marker. Source: 06 s3, s6 #6.
+3. Line 158. Old: `| Opisthokonta + amoebozoa |`. New: same text with an added marker. Source: 06 s6 #13.
+4. Line 162. Old: `"CAZy family 17" for Gel4 as stated in the file |`. New: same text with an added marker. Source: 05 Summary item 4, Table B GH17 row.
+5. Line 175. Old: `45 rows, 24 distinct clusters in the file`. New: same text with an added marker. Source: 06 s6 #5.
+
+Second pass 2026-10-17 (after an independent review). Line numbers are those of the file before this second pass.
+
+6. Line 162 (shown at 164 in the first-pass numbering). The Gel4 note now carries the same text as in 01 and 04, with the repo-data evidence; the question is not declared resolved.
+7. Lines 294, 296, 297. Added markers to claims that 07 contradicts or 05 settles (ESM p for GAS1, DFG5, ECM33; hat label for wall enzymes; GH72 ID verified). Line 297 also carries the Gel4 note. Source: 05 Table A; 07 s2, s4, rows 11-12, 17.
+
+Items still unverified (not changed): Gel4 family (conflict marked above); cluster 4166 JGI IDs and source citation (06 row 15); cluster 3359 (06 row 20); 519 publications (06 row 1).

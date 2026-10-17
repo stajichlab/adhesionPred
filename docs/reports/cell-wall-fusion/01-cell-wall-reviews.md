@@ -1,3 +1,5 @@
+Errata applied 2026-10-17 from reports 05 to 07; items still unverified are marked.
+
 # Cell wall biosynthesis and remodeling: gene sets from three reviews
 
 Date: 2026-10-17. Literature research only. No code was changed.
@@ -57,7 +59,7 @@ Note on S. pombe: the text states that S. pombe lacks wall chitin and that Bgs1p
 ### 3a. Evidence stated in the papers (32743136 only)
 
 - CWPs are covalently attached to beta-1,3-glucan through GPI remnants or to the galactan/mannan core (s.2.1). That is the attachment route for GPI-anchored wall proteins, and adhesins that use it sit in the outer amorphous layer.
-- GEL/GH-72 enzymes create anchoring sites for mannoproteins and may be needed for glycoprotein incorporation (s.4.2). This is a paper statement about N. crassa GEL, with no biochemical evidence in N. crassa ("no evidence of the biochemical activity").
+- GEL/GH-72 [unresolved conflict on the GEL family number, see 05 Summary item 4; evidence only, not a resolution: Kiss Data 3 cluster 435 holds gas1, phr1, gel4 and gel7, with gas1 and phr1 annotated 'Gas/Phr family' and gel4 annotated 'GPI protein, Gas/Phr family, CAZy family 17' (06 TSV rows 88-89 for phr1 and gel4); S. cerevisiae Gas1 hits Glyco_hydro_72 at 504.4 (07 row 17); CAZy pages do not name Gel4 (05 Table B), so the question stays open] enzymes create anchoring sites for mannoproteins and may be needed for glycoprotein incorporation (s.4.2). This is a paper statement about N. crassa GEL, with no biochemical evidence in N. crassa ("no evidence of the biochemical activity").
 - alpha-1,3-glucan "agglutinates" chitin and beta-1,3-glucan in other fungi to protect their exposure (s.2.1).
 - Chitinase, glucanase and Crh roles in hyphal remodeling are called inconclusive or unproven (s.4.1, 4.2).
 - Calcofluor White and Congo Red resistance changes in bgt mutants show altered wall architecture (s.4.1).
@@ -66,18 +68,18 @@ Note on S. pombe: the text states that S. pombe lacks wall chitin and that Bgs1p
 ### 3b. My inference (not stated in the papers)
 
 Plausibly adhesion-relevant (could change what is displayed or how it is retained):
-1. GPI-anchored CWP cross-linkers (GEL/GH-72, CRH/GH-16, Dfg5/Dcw1-like GH76): they set how many GPI-CWPs, which can include adhesins, are retained in the wall. Dfg5/Dcw1 are not in the text I read; the GH76 link is from my own background knowledge and is unverified.
+1. GPI-anchored CWP cross-linkers (GEL/GH-72 [unresolved conflict on the GEL family number, see 05 Summary item 4; evidence only, not a resolution: Kiss Data 3 cluster 435 holds gas1, phr1, gel4 and gel7, with gas1 and phr1 annotated 'Gas/Phr family' and gel4 annotated 'GPI protein, Gas/Phr family, CAZy family 17' (06 TSV rows 88-89 for phr1 and gel4); S. cerevisiae Gas1 hits Glyco_hydro_72 at 504.4 (07 row 17); CAZy pages do not name Gel4 (05 Table B), so the question stays open], CRH/GH-16, Dfg5/Dcw1-like GH76): they set how many GPI-CWPs, which can include adhesins, are retained in the wall. Dfg5/Dcw1 are not in the text I read; the GH76 link is from my own background knowledge and is unverified.
 2. Kre9-domain GPI proteins (ACW-2,-3,-7) and beta-1,6-glucan machinery: beta-1,6-glucan is a common attachment point for GPI-CWPs in yeast (background knowledge, unverified here).
 3. alpha-1,3-glucan and chitin/glucan exposure (chitin synthases, chitinases, glucanases): they change surface masking and thickness. Section 5 of this report lists papers on beta-glucan masking in Candida.
 4. CWI signalling (RHO-1, PKC-1, MAK-1; Cek1 in Candida per follow-up papers) regulates wall remodeling and, in Candida, unmasking.
 
 Background housekeeping (likely to be false positives for a cell-surface glycoprotein detector, mostly because of signal peptide, GPI anchor, S/T-rich or N-glycosylated sequence rather than adhesive function):
-1. GPI-anchored glucanosyltransferases and glucanases (BGT, GEL, GH-17, GH-72, GH-16). Many carry signal peptide plus GPI, which a surface-glycoprotein classifier will score high. They are enzymes with catalytic domains (stated GH families) and no adhesion claim in the paper.
+1. GPI-anchored glucanosyltransferases and glucanases (BGT, GEL, GH-17, GH-72 [unresolved conflict on the GEL family number, see 05 Summary item 4; evidence only, not a resolution: Kiss Data 3 cluster 435 holds gas1, phr1, gel4 and gel7, with gas1 and phr1 annotated 'Gas/Phr family' and gel4 annotated 'GPI protein, Gas/Phr family, CAZy family 17' (06 TSV rows 88-89 for phr1 and gel4); S. cerevisiae Gas1 hits Glyco_hydro_72 at 504.4 (07 row 17); CAZy pages do not name Gel4 (05 Table B), so the question stays open], GH-16). Many carry signal peptide plus GPI, which a surface-glycoprotein classifier will score high [corrected 2026-10-17, see 07 sections 2 and 4: of the 6 S288C wall enzymes with a UniProt GPI site (GAS1, CRH1, UTR2, ECM33, DFG5, DCW1) 2 are called by the shipped ESM model (CRH1, UTR2); of the 7 without one, 4 are called (SCW11, CTS1, SUN4, KRE9); n is small, and GAS1, ECM33 and DFG5 are not called (p 0.030, 0.033, 0.020)]. They are enzymes with catalytic domains (stated GH families) and no adhesion claim in the paper.
 2. GH-18 chitinases with signal peptide and GPI (CHIT-1).
 3. CFEM-domain and Kre9-domain GPI proteins (ACW family). CFEM has a pathogenesis link per the paper, but no adhesion claim is made.
 4. Intracellular machinery (FKS, CHS, Rho, Rab, exocyst, motors): multi-pass membrane or cytosolic, unlikely to score as surface glycoproteins, but CHS and FKS are polytopic membrane proteins that a hydrophobicity-based model may confuse with surface proteins.
 
-Practical suggestions (inference): (a) treat PF03142 (CHS catalytic domain, stated in 32743136), GH-16, GH-17, GH-18, GH-72 as a "wall enzyme" exclusion or demotion set for adhesin calls, and verify each family ID against Pfam/CAZy/dbCAN before coding it; (b) keep GPI-CWP crosslinkers visible as a separate "cell wall remodeling" class so they are not called adhesins; (c) verify the claims about Dfg5/Dcw1 (GH76), KRE genes and Candida masking against the follow-up papers below before coding.
+Practical suggestions (inference): (a) treat PF03142 (CHS catalytic domain, stated in 32743136), GH-16, GH-17, GH-18, GH-72 [unresolved conflict on the GEL family number, see 05 Summary item 4; evidence only, not a resolution: Kiss Data 3 cluster 435 holds gas1, phr1, gel4 and gel7, with gas1 and phr1 annotated 'Gas/Phr family' and gel4 annotated 'GPI protein, Gas/Phr family, CAZy family 17' (06 TSV rows 88-89 for phr1 and gel4); S. cerevisiae Gas1 hits Glyco_hydro_72 at 504.4 (07 row 17); CAZy pages do not name Gel4 (05 Table B), so the question stays open] as a "wall enzyme" exclusion or demotion set for adhesin calls, and verify each family ID against Pfam/CAZy/dbCAN before coding it; (b) keep GPI-CWP crosslinkers visible as a separate "cell wall remodeling" class so they are not called adhesins; (c) verify the claims about Dfg5/Dcw1 (GH76), KRE genes and Candida masking against the follow-up papers below before coding.
 
 ## 4. Gaps
 
@@ -100,3 +102,16 @@ Practical suggestions (inference): (a) treat PF03142 (CHS catalytic domain, stat
 Species names in some of these titles were dropped by the PubMed tool output; I filled them in brackets from the abstracts (Candida auris for 42813837 from keywords; Candida albicans for 41891702 and 40531863 from MeSH terms). I did not read these papers beyond abstracts.
 
 Not found by my searches: classic S. cerevisiae reviews on GPI-CWP cross-linking (Dfg5/Dcw1/Crh) and beta-1,6-glucan. Recommend a targeted PubMed search by author (for example Klis, Kapteyn, Lesage, Gow) and verifying the PMIDs before use. No PMIDs are given here for them because I did not verify any.
+
+## Errata log
+
+Applied 2026-10-17 from reports 05, 06, 07. Line numbers are those of the file before this errata (the added header line shifts later lines by 2).
+
+1. Line 69. Old: `(GEL/GH-72, CRH/GH-16, Dfg5/Dcw1-like GH76)`. New: same text with an added marker. Source: 05 Summary item 4 / Table B GH17 row.
+
+Second pass 2026-10-17 (after an independent review). Line numbers are those of the file before this second pass.
+
+2a. Lines 62, 71, 77, 82. The Gel4/GEL family-number conflict note, which stood only at line 71, now stands at every place that gives the GEL family number (62, 71, 77, 82), with the repo-data evidence (Data 3 cluster 435; Gas1 hit in 07). The question is not declared resolved. The line 71 text replaced the earlier bracket, which cited the pre-errata line "03:162" (now 03:164).
+2b. Line 77. Added a marker: the "surface-glycoprotein classifier will score high" mechanism does not fit 07 (2 of 6 GPI-site wall enzymes called, 4 of 7 without a GPI site called). Source: 07 s2, s4.
+
+Reviewed and left unchanged: 01:40 and 01:80 (PF01644, PF03142, PF08407 names are correct per 05; the "domain" wording is the paper's); 01:69 Dfg5/Dcw1 GH76 link remains unverified in 05 (07 measured a Pfam hit for S. cerevisiae Dfg5/Dcw1 in PF03663 but the report's point is about the literature text).
