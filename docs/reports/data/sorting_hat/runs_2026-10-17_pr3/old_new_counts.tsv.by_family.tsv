@@ -1,0 +1,19 @@
+#compare_old_new_rule.py: counts rows of finished runs; it makes no call and measures nothing.
+#old = signal_peptide_protein AND (tandem_repeat_protein OR wall_family_domain); new = the narrow cell_wall_adhesion_candidate as written. Same run, no re-run.
+#not_assessable and not_applicable are counted apart from not_called.
+proteome	variant	family	n_proteins
+Afum_A1163	R0	PF05730	4
+Afum_A1163	R0	PF22799	1
+Afum_Af293_Fungi5k	R0	PF05730	2
+Afum_Af293_UniProt	R0	PF05730	4
+Afum_Af293_UniProt	R0	PF22799	1
+Afum_W72310	R0	PF05730	5
+Afum_W72310	R0	PF22799	1
+Bder_ER3	R0	PF05730	4
+Calb_SC5314	R0	PF05730	6
+Calb_SC5314	R0	PF15789	6
+Calb_SC5314	R0	PF22799	9
+Cimm_RS	R0	PF05730	7
+Scer_S288C_nodubious	R0	PF05730	1
+Scer_S288C	R0	PF05730	1
+Scer_S288C	R0	PF22799	2

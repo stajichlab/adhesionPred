@@ -1,0 +1,13 @@
+#compare_old_new_rule.py: counts rows of finished runs; it makes no call and measures nothing.
+#old = signal_peptide_protein AND (tandem_repeat_protein OR wall_family_domain); new = the narrow cell_wall_adhesion_candidate as written. Same run, no re-run.
+#not_assessable and not_applicable are counted apart from not_called.
+proteome	variant	n_proteins	new_called	new_not_called	new_not_assessable	new_not_applicable	old_called	old_not_called	old_not_assessable	old_not_applicable	surface_called	surface_not_called	surface_not_assessable	surface_not_applicable	old_only	new_only	rule_mismatch
+Afum_A1163	R0	9942	6	9936	0	0	11	9931	0	0	23	9919	0	0	5	0	0
+Afum_Af293_Fungi5k	R0	9161	8	9153	0	0	10	9151	0	0	16	9145	0	0	2	0	0
+Afum_Af293_UniProt	R0	9647	8	9639	0	0	13	9634	0	0	26	9621	0	0	5	0	0
+Afum_W72310	R0	10556	9	10547	0	0	15	10541	0	0	29	10527	0	0	6	0	0
+Bder_ER3	R0	8107	8	8099	0	0	12	8095	0	0	16	8091	0	0	4	0	0
+Calb_SC5314	R0	6212	29	6183	0	0	50	6162	0	0	50	6162	0	0	21	0	0
+Cimm_RS	R0	9910	7	9903	0	0	14	9896	0	0	16	9894	0	0	7	0	0
+Scer_S288C_nodubious	R0	6039	15	6016	8	0	16	6015	8	0	16	6015	8	0	1	0	0
+Scer_S288C	R0	6722	17	6697	8	0	20	6694	8	0	20	6694	8	0	3	0	0
