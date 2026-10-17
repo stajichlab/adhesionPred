@@ -161,7 +161,7 @@ Cell wall category examples, cluster number and node of emergence from Data 3:
 | 234 | chsE, csmB (class V, VI-myosin type) | LCA of Fungi | myosin-motor chitin synthase |
 | 293 | kre6 | BCZ-type node (Dikarya + Muco + Zoopago) | beta-1,6-glucan |
 | 374 | crh1, crh2 (utr2), csf4 | Dikarya + Muco + Zoopago + Chytrid + Blasto | chitin transglycosylase; csf4 described as "GPI anchored cell wall glycosidase" |
-| 435 | gas1, phr1, gel4, gel7 | same BCZ node | GPI-anchored beta-1,3-glucanosyltransferases, Gas/Phr/Gel; "CAZy family 17" for Gel4 as stated in the file [unresolved conflict, see 05] (reports 01 and 04 put GEL proteins in GH72; 05 could not resolve this; no side is chosen here) |
+| 435 | gas1, phr1, gel4, gel7 | same BCZ node | GPI-anchored beta-1,3-glucanosyltransferases, Gas/Phr/Gel; "CAZy family 17" for Gel4 as stated in the file [unresolved conflict on the GEL family number, see 05 Summary item 4; evidence only, not a resolution: Kiss Data 3 cluster 435 holds gas1, phr1, gel4 and gel7, with gas1 and phr1 annotated 'Gas/Phr family' and gel4 annotated 'GPI protein, Gas/Phr family, CAZy family 17' (06 TSV rows 88-89 for phr1 and gel4); S. cerevisiae Gas1 hits Glyco_hydro_72 at 504.4 (07 row 17); CAZy pages do not name Gel4 (05 Table B), so the question stays open] (reports 01 and 04 put GEL proteins in GH72; 05 could not resolve this; no side is chosen here) |
 | 4166 | N. crassa bgt2 (NCU09175?), bgt1 (NCU06381?) | LCA of Opisthokonta | source citation is PMID 26541633; see below |
 | 843 | dfg5 | BCZ-type node | GPI-anchored alpha-1,6-mannanase |
 | 3228 | ecm33 | Opisthokonta | GPI-linked cell wall protein |
@@ -291,10 +291,10 @@ Annotation of GPI anchoring below is from the Data 3 and Data 8 text fields (cur
 
 Context: the repo's own review concluded the classifier behaves as a cell-surface glycoprotein detector with about 12% adhesin precision (AGENTS.md; memory note). This section is inference throughout [I], since I did not run the model on any of these genes.
 
-- **Likely to score as adhesion-like.** GPI-anchored, Ser/Thr-rich or glycosylated wall proteins: Gas/Gel/Phr family members, Dfg5, Ecm33, Sun and Pir, CFEM proteins (cfmA), Cfl1, Flo/Als/Hwp-type adhesins, hydrophobins (small, cysteine-rich, secreted; composition may differ from adhesins), and BGT-1/BGT-2 (predicted GPI-anchored). The Kiss et al. "adhesion" category itself contains cell wall proteins that are not adhesins in a strict sense.
+- **Likely to score as adhesion-like.** GPI-anchored, Ser/Thr-rich or glycosylated wall proteins: Gas/Gel/Phr family members, Dfg5, Ecm33, Sun and Pir, CFEM proteins (cfmA), Cfl1, Flo/Als/Hwp-type adhesins, hydrophobins (small, cysteine-rich, secreted; composition may differ from adhesins), and BGT-1/BGT-2 (predicted GPI-anchored) [corrected 2026-10-17, see 07 sections 2 and 4: the shipped ESM model does not call S288C GAS1 (p 0.030), DFG5 (0.020) or ECM33 (0.033); it calls CRH1, UTR2, SUN4, SCW11, KRE9 and CTS1]. The Kiss et al. "adhesion" category itself contains cell wall proteins that are not adhesins in a strict sense.
 - **Unlikely.** Intracellular polarity, actin, septation, vesicle and transcription families, and multi-pass membrane enzymes (chitin and glucan synthases) without a glycosylated ectodomain.
-- **Consequence for the sorting hat.** [I] Cell wall remodelers such as Gas/Gel and BGT would count as false positives for "cell_wall_adhesion_candidate" unless a Pfam or functional rule separates enzymes from adhesins. The enzymes are the part that tracks hyphal origin. The adhesin families do not.
-- Pfam for these classes: I did not look them up. For example, Gel/Gas is glycoside hydrolase family 72 and BGT-1/2 may fall in GH17, but I did not verify either, and no Pfam ID is given in the sources: "unverified".
+- **Consequence for the sorting hat.** [I] Cell wall remodelers such as Gas/Gel and BGT would count as false positives for "cell_wall_adhesion_candidate" unless a Pfam or functional rule separates enzymes from adhesins. The enzymes are the part that tracks hyphal origin. The adhesin families do not. [corrected 2026-10-17, see 07 section 4 and rows 11-12 (derived labels; the hat was not run): none of the 13 S288C wall enzymes hits an active family-table row, so the hat would label them other_surface_no_mechanism, not cell_wall_adhesion_candidate. The false-positive risk measured in 07 is for the ESM classifier (6 of 13 called)].
+- Pfam for these classes: I did not look them up. For example, Gel/Gas is glycoside hydrolase family 72 and BGT-1/2 may fall in GH17, but I did not verify either, and no Pfam ID is given in the sources: "unverified" [corrected 2026-10-17, see 05 Table A (PF03198 = Glyco_hydro_72, description GPI-anchored beta(1-3)glucanosyltransferases) and 07 row 17 (Gas1 hits PF03198 at 504.4): the GH72 ID is verified. GH17 for BGT-1/2 stays unverified (05 Table B). [unresolved conflict on the GEL family number, see 05 Summary item 4; evidence only, not a resolution: Kiss Data 3 cluster 435 holds gas1, phr1, gel4 and gel7, with gas1 and phr1 annotated 'Gas/Phr family' and gel4 annotated 'GPI protein, Gas/Phr family, CAZy family 17' (06 TSV rows 88-89 for phr1 and gel4); S. cerevisiae Gas1 hits Glyco_hydro_72 at 504.4 (07 row 17); CAZy pages do not name Gel4 (05 Table B), so the question stays open].
 
 ---
 
@@ -329,5 +329,10 @@ Applied 2026-10-17 from reports 05, 06, 07. Line numbers are those of the file b
 3. Line 158. Old: `| Opisthokonta + amoebozoa |`. New: same text with an added marker. Source: 06 s6 #13.
 4. Line 162. Old: `"CAZy family 17" for Gel4 as stated in the file |`. New: same text with an added marker. Source: 05 Summary item 4, Table B GH17 row.
 5. Line 175. Old: `45 rows, 24 distinct clusters in the file`. New: same text with an added marker. Source: 06 s6 #5.
+
+Second pass 2026-10-17 (after an independent review). Line numbers are those of the file before this second pass.
+
+6. Line 162 (shown at 164 in the first-pass numbering). The Gel4 note now carries the same text as in 01 and 04, with the repo-data evidence; the question is not declared resolved.
+7. Lines 294, 296, 297. Added markers to claims that 07 contradicts or 05 settles (ESM p for GAS1, DFG5, ECM33; hat label for wall enzymes; GH72 ID verified). Line 297 also carries the Gel4 note. Source: 05 Table A; 07 s2, s4, rows 11-12, 17.
 
 Items still unverified (not changed): Gel4 family (conflict marked above); cluster 4166 JGI IDs and source citation (06 row 15); cluster 3359 (06 row 20); 519 publications (06 row 1).
