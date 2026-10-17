@@ -1,0 +1,24 @@
+gene	uniprot	entry	systematic_id	protein_name	length	group
+AGA1	P32323	AGA1_YEAST	YNR044W	A-agglutinin anchorage subunit (A-agglutinin cell wall attachment subunit)	725	agglutinin_adhesin
+AGA2	P32781	AGA2_YEAST	YGL032C	A-agglutinin-binding subunit	87	agglutinin_adhesin
+SAG1	P20840	SAG1_YEAST	YJR004C	Alpha-agglutinin (AG-alpha-1)	650	agglutinin_adhesin
+FIG2	P25653	FIG2_YEAST	YCR089W	Factor-induced gene 2 protein (Cell wall adhesin FIG2)	1609	agglutinin_adhesin
+FLO1	P32768	FLO1_YEAST	YAR050W	Flocculation protein FLO1 (Flocculin-1)	1537	agglutinin_adhesin
+FLO11	P08640	FLO11_YEAST	YIR019C	Flocculation protein FLO11 (Flo11p) (Flocculin-11) (Mucin-like protein 1)	1367	agglutinin_adhesin
+GAS1	P22146	GAS1_YEAST	YMR307W	1,3-beta-glucanosyltransferase GAS1 (EC 2.4.1.-) (Glycolipid-anchored surface protein 1) (Glycoprotein GP115)	559	wall_enzyme_or_wall
+CRH1	P53301	CRH1_YEAST	YGR189C	Congo red hypersensitive protein 1 [Includes: Chitinase CRH1 (EC 3.2.1.14); Chitin transglycosylase CRH1 (EC 2.4.-.-)]	507	wall_enzyme_or_wall
+UTR2	P32623	CRH2_YEAST	YEL040W	Congo red hypersensitive protein 2 (Unidentified transcript protein 2) [Includes: Chitinase UTR2 (EC 3.2.1.14); Chitin transglycosylase UTR2 (EC 2.4.-.-)]	467	wall_enzyme_or_wall
+SCW4	P53334	SCW4_YEAST	YGR279C	Probable family 17 glucosidase SCW4 (EC 3.2.1.-) (Soluble cell wall protein 4)	386	wall_enzyme_or_wall
+SCW11	P53189	SCW11_YEAST	YGL028C	Probable family 17 glucosidase SCW11 (EC 3.2.1.-) (Soluble cell wall protein 11)	542	wall_enzyme_or_wall
+EXG1	P23776	EXG1_YEAST	YLR300W	Glucan 1,3-beta-glucosidase I/II (EC 3.2.1.58) (Exo-1,3-beta-glucanase I/II) (Soluble cell wall protein 6)	448	wall_enzyme_or_wall
+CTS1	P29029	CHIT_YEAST	YLR286C	Endochitinase (EC 3.2.1.14) (Soluble cell wall protein 2)	562	wall_enzyme_or_wall
+SUN4	P53616	SUN4_YEAST	YNL066W	Probable secreted beta-glucosidase SUN4 (EC 3.2.1.-) (Septation protein SUN4) (Soluble cell wall protein 3)	420	wall_enzyme_or_wall
+ECM33	P38248	ECM33_YEAST	YBR078W	Cell wall protein ECM33 (Extracellular mutant protein 33)	429	wall_enzyme_or_wall
+DFG5	Q05031	DFG5_YEAST	YMR238W	Mannan endo-1,6-alpha-mannosidase DFG5 (EC 3.2.1.101) (Endo-alpha-1->6-D-mannanase DFG5)	458	wall_enzyme_or_wall
+DCW1	P36091	DCW1_YEAST	YKL046C	Mannan endo-1,6-alpha-mannosidase DCW1 (EC 3.2.1.101) (Defective cell wall 1) (Endo-alpha-1->6-D-mannanase DCW1)	449	wall_enzyme_or_wall
+KRE9	P39005	KRE9_YEAST	YJL174W	Cell wall synthesis protein KRE9 (Killer toxin resistant protein 9)	276	wall_enzyme_or_wall
+BGL2	P15703	BGL2_YEAST	YGR282C	Glucan 1,3-beta-glucosidase (EC 3.2.1.58) (Exo-1,3-beta-glucanase) (GP29) (Soluble cell wall protein 9)	313	wall_enzyme_or_wall
+FUS1	P11710	FUS1_YEAST	YCL027W	Nuclear fusion protein FUS1	512	fusion
+FUS2	Q05670	FUS2_YEAST	YMR232W	Nuclear fusion protein FUS2	677	fusion
+PRM1	P53835	PRM1_YEAST	YNL279W	Plasma membrane fusion protein PRM1 (Pheromone-regulated membrane protein 1)	661	fusion
+FIG1	P38224	FIG1_YEAST	YBR040W	Factor-induced gene 1 protein	298	fusion
