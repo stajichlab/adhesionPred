@@ -302,6 +302,115 @@ def test_no_duplicate_warning_when_ids_differ(env, capsys):
     assert "WARNING" not in capsys.readouterr().err
 
 
+@pytest.mark.parametrize(
+    "text",
+    [
+        # SignalP 4.1 short format: a number in column 2
+        "# name\tCmax\tpos\tSmax\tpos\tSmean\tD\t?\tDmaxCut\tNetworks-used\np1\t0.110\t19\t0.2\t5\t0.1\t0.15\tN\t0.45\tSignalP-noTM\n",
+        # yes/no table
+        "p1\tyes\np2\tno\n",
+        # SignalP 4 or 5 style words that are not in the accepted set
+        "p1\tSP(Sec/SPI)\t0.9\n",
+        "p1\tNO_SP\t0.9\n",
+        # lower case word
+        "p1\tsp\n",
+        # space separated two columns
+        "p1 SP\n",
+        # tab line without a prediction word
+        "p1\t\n",
+    ],
+)
+def test_signalp_bad_formats_stop(tmp_path, text):
+    f = tmp_path / "sp.txt"
+    f.write_text(text)
+    with pytest.raises(lr.ReportError) as exc:
+        lr.read_signalp(str(f))
+    assert "line" in str(exc.value)
+
+
+def test_signalp_crlf_and_all_words(tmp_path):
+    f = tmp_path / "sp.txt"
+    f.write_bytes(
+        b"# SignalP-6.0\r\n"
+        b"a\r\nb\r\n"
+        b"c hdr\tSP\t0.9\t0.1\tCS pos: 21-22. Pr: 0.98\r\n"
+        b"d\tOTHER\t1.0\r\n"
+        b"e\tLIPO\r\nf\tTAT\r\ng\tTATLIPO\r\nh\tPILIN\r\n"
+    )
+    assert lr.read_signalp(str(f)) == {
+        "a": True, "b": True, "c": True, "d": False,
+        "e": True, "f": True, "g": True, "h": True,
+    }  # fmt: skip
+    assert lr.lookup_sp(lr.read_signalp(str(f)), "b") is True
+
+
+def test_bad_signalp_file_stops_the_run(env):
+    tmp = env[0]
+    a = tmp / "specA.faa"
+    write_fasta(a, ["p1 PF07938=250.0"])
+    sp = tmp / "sp.txt"
+    sp.write_text("p1\tyes\n")
+    with pytest.raises(lr.ReportError):
+        run(env, [a], ["--signalp", str(sp)])
+
+
+def test_endemic_note_text(env):
+    tmp = env[0]
+    a = tmp / "specA.faa"
+    write_fasta(a, ["p1"])
+    md = (run(env, [a]) / "lectin_report.md").read_text()
+    assert "found no fungal lectin literature" not in md
+    assert "no fungal lectin gene with host-binding data" in md
+    assert "PMID 41805922" in md
+    assert "CFP28" in md and "PMID 25023485" in md
+    assert "Paracoccin (Paracoccidioides) is a known gap" in md
+
+
+def test_duplicate_id_inside_one_proteome(env, capsys):
+    tmp = env[0]
+    a = tmp / "specA.faa"
+    write_fasta(a, ["dup PF07938=100.0", "dup PF07938=250.0", "u1"])
+    out = run(env, [a])
+    err = capsys.readouterr().err
+    assert "specA: 1 records repeat an ID inside the file" in err
+    counts = {r["model_acc"]: r for r in read_tsv(out / "lectin_report_counts.tsv")}
+    assert counts["PF07938"]["n_hit_proteins"] == "1"
+    assert counts["PF07938"]["best_score"] == "250.0"
+    hits = read_tsv(out / "lectin_report_hits.tsv")
+    assert len(hits) == 1
+    assert "repeat an ID inside the file" in (out / "lectin_report.md").read_text()
+
+
+def test_empty_fasta_does_not_abort(env, capsys):
+    tmp = env[0]
+    a = tmp / "specA.faa"
+    e = tmp / "specEmpty.faa"
+    write_fasta(a, ["p1 PF07938=250.0"])
+    e.write_text("")
+    out = run(env, [e, a])
+    assert "specEmpty: the FASTA file has no sequences" in capsys.readouterr().err
+    counts = {
+        (r["proteome"], r["model_acc"]): r for r in read_tsv(out / "lectin_report_counts.tsv")
+    }
+    assert counts[("specEmpty", "PF07938")]["n_proteins"] == "0"
+    assert counts[("specEmpty", "PF07938")]["n_hit_proteins"] == "0"
+    assert counts[("specA", "PF07938")]["n_hit_proteins"] == "1"
+    assert "no sequences" in (out / "lectin_report.md").read_text()
+
+
+def test_name_list_bare_accession_and_crlf(env):
+    tmp = env[0]
+    a = tmp / "specA.faa"
+    write_fasta(a, ["sp|P11111|NAME1 PF07938=250.0", "p2 PF07938=150.0"])
+    names = tmp / "names.txt"
+    names.write_bytes(b"P11111\tbare accession\r\nsp|P11111|NAME1\tfull ID\r\np2\tplain\r\n")
+    out = run(env, [a], ["--name-list", str(names)])
+    md = (out / "lectin_report.md").read_text()
+    assert "| P11111 | bare accession | specA | 250.0 |" in md
+    assert "| sp|P11111|NAME1 | full ID | specA | 250.0 |" in md
+    assert "| p2 | plain | specA | 150.0 |" in md
+
+
 def test_proteome_name():
     assert lr.proteome_name("/a/b/Sp_one.proteins.fa") == "Sp_one"
     assert lr.proteome_name("UP000000560.fasta.gz") == "UP000000560"

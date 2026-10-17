@@ -101,9 +101,15 @@ PARACOCCIN_NOTE = (
 )
 
 ENDEMIC_NOTE = (
-    "Coccidioides, Histoplasma and Blastomyces: the literature searches of spec F17 "
-    "found no fungal lectin literature. The hits in this report are domain hits only."
+    "Coccidioides, Histoplasma and Blastomyces: the searches of spec F17 and L3b found no "
+    "fungal lectin gene with host-binding data. Histoplasma yeasts have a beta-galactose "
+    "hemagglutinating activity with no gene (Ramos-Martinez 2026, PMID 41805922). "
+    "Coccidioides CFP28 has a CBM9/DOMON-like domain by sequence, and binding is not shown "
+    "(PMID 25023485). Paracoccin (Paracoccidioides) is a known gap: its only Pfam hit is a "
+    "GH18 domain. The hits in this report are domain hits only."
 )
+
+SP_WORDS = ("SP", "OTHER", "LIPO", "TAT", "TATLIPO", "PILIN")
 
 F27_NOTE = (
     "Spec F27 names six full-length PF07938 proteins (score 288 to 331) in six Onygenales "
@@ -163,34 +169,40 @@ def open_binary(path):
 def read_signalp(path):
     """Read signal peptide data. Return {protein id: True or False}.
 
-    Accepted lines (tab or space separated). Lines that start with # are skipped.
-      ID                 the protein has a signal peptide
-      ID  PREDICTION     SignalP 6 style; OTHER or NO_SP means no signal peptide, any
-                         other word (SP, LIPO, TAT, TATLIPO, PILIN) means a signal peptide
+    Only two formats are accepted. Any other line is an error (the script stops).
+    Lines that start with # and blank lines are skipped. CR and LF line ends are removed.
+      1. One column: the ID of a protein that has a signal peptide.
+      2. SignalP 6 `ID<TAB>Prediction[<TAB>more columns]`. The ID column can hold the whole
+         FASTA header; its first word is the ID. Prediction must be one of
+         SP, OTHER, LIPO, TAT, TATLIPO, PILIN. OTHER means no signal peptide; the others
+         mean a signal peptide.
     An ID is the first word of the FASTA header. For a UniProt style header
     (sp|ACC|NAME) the ACC also matches.
     """
     out = {}
     with open(path) as fh:
-        for line in fh:
-            line = line.rstrip("\n")
+        for num, raw in enumerate(fh, 1):
+            line = raw.rstrip("\r\n")
             if not line.strip() or line.startswith("#"):
                 continue
             if "\t" in line:
-                # SignalP 6 file: the ID column can hold the whole FASTA header
                 cols = line.split("\t")
-                parts = [cols[0].split()[0] if cols[0].split() else "", *cols[1:]]
+                words = cols[0].split()
+                pred = cols[1].strip()
+                if not words or pred not in SP_WORDS:
+                    raise ReportError(
+                        "%s line %d: not a SignalP 6 line. Expected ID<TAB>Prediction with "
+                        "Prediction in %s. Got: %r" % (path, num, ", ".join(SP_WORDS), line[:80])
+                    )
+                out[words[0]] = pred != "OTHER"
             else:
-                parts = line.split()
-            pid = parts[0]
-            if len(parts) == 1:
-                has = True
-            else:
-                pred = parts[1].strip().upper()
-                if pred == "ID" or pid == "ID":
-                    continue
-                has = pred not in ("OTHER", "NO_SP")
-            out[pid] = has
+                words = line.split()
+                if len(words) != 1:
+                    raise ReportError(
+                        "%s line %d: not a one-column ID line and not a tab-separated "
+                        "SignalP 6 line. Got: %r" % (path, num, line[:80])
+                    )
+                out[words[0]] = True
     return out
 
 
@@ -309,7 +321,10 @@ def run_hmmsearch(hmmsearch, models_hmm, fasta, tbl_path, cpu, tmpdir):
 
 
 def scan_fasta(fasta):
-    """Return (number of records, set of IDs). An ID is the first word of the header."""
+    """Return (number of records, set of IDs, number of repeated IDs inside the file).
+
+    An ID is the first word of the header.
+    """
     stream, close = open_binary(fasta)
     n = 0
     ids = set()
@@ -321,7 +336,7 @@ def scan_fasta(fasta):
                 ids.add(words[0].decode("utf-8", "replace") if words else "")
     finally:
         close()
-    return n, ids
+    return n, ids, n - len(ids)
 
 
 def read_name_list(path):
@@ -333,7 +348,7 @@ def read_name_list(path):
     out = {}
     with open(path) as fh:
         for line in fh:
-            line = line.rstrip("\n")
+            line = line.rstrip("\r\n")
             if not line.strip() or line.startswith("#"):
                 continue
             parts = line.split(None, 1)
@@ -386,6 +401,8 @@ def named_section(hits, sp, named, heading):
     for h in hits:
         if h["model_acc"] == "PF07938":
             by_prot.setdefault(h["protein"], []).append(h)
+            if "|" in h["protein"] and len(h["protein"].split("|")) >= 2:
+                by_prot.setdefault(h["protein"].split("|")[1], []).append(h)
     for pid, note in named.items():
         rows = by_prot.get(pid)
         sp_val = lookup_sp(sp, pid) if sp is not None else None
@@ -405,7 +422,9 @@ def named_section(hits, sp, named, heading):
     return md
 
 
-def build_outputs(args, proteomes, info, hits, n_prot, sp, versions, named=None, dup_ids=None):
+def build_outputs(
+    args, proteomes, info, hits, n_prot, sp, versions, named=None, dup_ids=None, warnings=None
+):
     """Make the three output texts. hits is a list of dict rows."""
     accs = [m[0] for m in MODELS]
     meta = {m[0]: m for m in MODELS}
@@ -622,6 +641,8 @@ def build_outputs(args, proteomes, info, hits, n_prot, sp, versions, named=None,
     )
     md.append("- " + PARACOCCIN_NOTE)
     md.append("- " + ENDEMIC_NOTE)
+    for w in warnings or []:
+        md.append("- **Warning:** " + w)
     md.append(
         "- The list of models comes from a name search for lectin-like words (spec F4). "
         "A carbohydrate-binding protein whose model has no such word can be missed."
@@ -707,17 +728,35 @@ def main(argv=None):
         hits, n_prot = [], {}
         check_dups = not args.no_dup_check
         seen_ids, dup_ids = set(), {}
+        warnings = []
         for name, fasta in zip(names, args.fasta, strict=False):
-            tbl = os.path.join(tmp, name + ".tbl")
-            run_hmmsearch(args.hmmsearch, models_hmm, fasta, tbl, args.cpu, tmp)
-            n_prot[name], ids = scan_fasta(fasta)
+            n_prot[name], ids, n_rep = scan_fasta(fasta)
             if check_dups:
                 for pid in ids & seen_ids:
                     dup_ids.setdefault(pid, []).append(name)
                 seen_ids |= ids
+            if n_prot[name] == 0:
+                msg = (
+                    "%s: the FASTA file has no sequences. 0 proteins recorded; no search run."
+                    % name
+                )
+                warnings.append(msg)
+                print("WARNING: " + msg, file=sys.stderr)
+                continue
+            if n_rep:
+                msg = (
+                    "%s: %d records repeat an ID inside the file. Hits are counted once per "
+                    "ID (best score kept)." % (name, n_rep)
+                )
+                warnings.append(msg)
+                print("WARNING: " + msg, file=sys.stderr)
+            tbl = os.path.join(tmp, name + ".tbl")
+            run_hmmsearch(args.hmmsearch, models_hmm, fasta, tbl, args.cpu, tmp)
+            best = {}
             for prot, acc, _name, ev, score, dscore in parse_tblout(tbl):
-                hits.append(
-                    {
+                key = (prot, acc)
+                if key not in best or score > best[key]["seq_score"]:
+                    best[key] = {
                         "proteome": name,
                         "protein": prot,
                         "model_acc": acc,
@@ -725,7 +764,7 @@ def main(argv=None):
                         "seq_score": score,
                         "domain_score": dscore,
                     }
-                )
+            hits.extend(best.values())
             os.remove(tbl)
         if dup_ids:
             ex = ", ".join(sorted(dup_ids)[:5])
@@ -736,7 +775,7 @@ def main(argv=None):
                 file=sys.stderr,
             )
         counts, hit_tsv, md = build_outputs(
-            args, names, info, hits, n_prot, sp, versions, named, dup_ids
+            args, names, info, hits, n_prot, sp, versions, named, dup_ids, warnings
         )
         write_atomic(os.path.join(args.out_dir, "lectin_report_counts.tsv"), counts)
         write_atomic(os.path.join(args.out_dir, "lectin_report_hits.tsv"), hit_tsv)
