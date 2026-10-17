@@ -121,6 +121,7 @@ class LoadedModules:
     state_counts: dict = field(default_factory=dict)
     unmatched: dict = field(default_factory=dict)
     params: dict = field(default_factory=dict)  # module -> params of its run record
+    snapshots: dict = field(default_factory=dict)  # module -> condition_snapshots of its record
 
 
 def _read_json(path):
@@ -211,6 +212,8 @@ def load_modules(workdir, protein_ids, invalid_ids, required=None):
             raise InputError(f"{meta_path}: run_state {state!r} is not one of {sorted(RUN_STATES)}")
         loaded.states[name] = state
         loaded.params[name] = meta.get("params") if isinstance(meta.get("params"), dict) else {}
+        snaps = meta.get("condition_snapshots")
+        loaded.snapshots[name] = snaps if isinstance(snaps, dict) else {}
         if not table_path.exists():
             loaded.notes[name] = "no result table"
             continue
@@ -366,7 +369,7 @@ def condition_checks(loaded):
     """Compare the table of each condition module with the one a module was built against.
 
     A Pfam module records, for each of its conditions (``sp_module``, ``tm_module``), the module
-    name, the column and a digest of the values it read. The result per condition is ``match``,
+    name in ``params`` and the column and a digest of the values it read in ``condition_snapshots``. The result per condition is ``match``,
     ``mismatch``, ``no_digest`` (an older record) or ``no_table`` (the condition module is not
     loaded in this run)."""
     out = []
@@ -377,6 +380,8 @@ def condition_checks(loaded):
         for key, cond in sorted(conditions.items()):
             if not isinstance(cond, dict) or "module" not in cond:
                 continue
+            snap = loaded.snapshots.get(module, {}).get(key)
+            cond = {**cond, **(snap if isinstance(snap, dict) else {})}
             source, column = cond["module"], cond.get("column")
             if not cond.get("values_sha256") or not column:
                 result = "no_digest"

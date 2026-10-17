@@ -796,14 +796,15 @@ def test_pfam_records_the_condition_module_identity(tmp_path, fasta):
     tm = json.loads((wd / "modules" / "tm.json").read_text())
     rec = json.loads((wd / "modules" / "pfam_adhesion.json").read_text())
     cond = rec["params"]["conditions"]["tm_module"]
-    digest = cond.pop("values_sha256")  # a digest of the values read from the tm table (Task 3.6)
-    assert len(digest) == 64
     assert cond == {
         "module": "tm",
-        "column": "n_tm_mature",
         "params_hash": tm["params_hash"],
         "artefact_hash": tm["artefact_hash"],
     }
+    snap = rec["condition_snapshots"][
+        "tm_module"
+    ]  # outside params: the params hash stays as before
+    assert snap["column"] == "n_tm_mature" and len(snap["values_sha256"]) == 64
 
 
 def _allergen_args(tmp_path, fasta, blast_text, extra=ALLERGEN_SETTINGS):

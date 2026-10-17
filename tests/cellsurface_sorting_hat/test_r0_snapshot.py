@@ -50,14 +50,23 @@ def test_the_pfam_command_records_a_digest_of_the_condition_table(tmp_path):
     assert module_main(argv) == 0
     record = json.loads((wd / "modules" / "pfam_adhesion.json").read_text())
     cond = record["params"]["conditions"]["sp_module"]
-    assert cond["module"] == R0 and cond["column"] == "call"
-    assert cond["values_sha256"] == digest({"A": "called", "B": "not_called"})
+    assert cond["module"] == R0 and "values_sha256" not in cond and "column" not in cond
+    snap = record["condition_snapshots"]["sp_module"]
+    assert snap["column"] == "call"
+    assert snap["values_sha256"] == digest({"A": "called", "B": "not_called"})
 
 
 def _run(tmp_path, write_module, nodes_dmp, cond):
     fasta, taxon_map, wd = build(tmp_path, write_module)
     rows = [{"id": i, "state": "ok", "hit": "0", "hit_narrow": "0"} for i in VALID]
-    meta = {"params": {"conditions": {"sp_module": cond}}} if cond is not None else {}
+    meta = {}
+    if cond is not None:
+        ident = {k: v for k, v in cond.items() if k not in ("column", "values_sha256")}
+        snap = {k: v for k, v in cond.items() if k in ("column", "values_sha256")}
+        meta = {
+            "params": {"conditions": {"sp_module": ident}},
+            "condition_snapshots": {"sp_module": snap},
+        }
     write_module(wd, "pfam_adhesion", rows, meta=meta)
     out = tmp_path / "out"
     argv = ["--fasta", str(fasta), "--taxon-map", str(taxon_map), "--taxdump", str(nodes_dmp)]

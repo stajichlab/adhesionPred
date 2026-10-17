@@ -228,13 +228,17 @@ def _write(workdir, spec, columns, rows, extra_note=""):
 
 
 def _family_digest(families, module):
-    """Hash of what decides a call for one module, not of the free text: accession, condition,
-    active, tier and ``narrow_ok``. The tier and ``narrow_ok`` decide ``hit_narrow``; they must be
-    in the module identity, because the config hash does not cover the family table."""
+    """Hash of what decides a call for one module, not of the free text: accession, condition and
+    active. For the narrow modules (``pfam_adhesion``) also the tier and ``narrow_ok``, which decide
+    ``hit_narrow``; they must be in the module identity, because the config hash does not cover the
+    family table. The other modules keep the shorter tuple, so a committed status file of theirs
+    stays valid."""
     import hashlib
 
+    narrow = module in pfam.NARROW_MODULES
     rows = sorted(
-        (f.pfam_acc, f.module, f.second_condition, f.active, f.tier, f.narrow_ok)
+        (f.pfam_acc, f.module, f.second_condition, f.active)
+        + ((f.tier, f.narrow_ok) if narrow else ())
         for f in families
         if f.module == module
     )
@@ -269,15 +273,15 @@ def run(args):
         ):
             if cond in needed and not given:
                 raise RunError(f"an active family has second_condition={cond}: give {option}")
-        conditions = {}
+        conditions, snapshots = {}, {}
         sp_calls = tm_counts = None
         if args.sp_module:
-            raw, conditions["sp_module"] = _condition_table(
+            raw, conditions["sp_module"], snapshots["sp_module"] = _condition_table(
                 w, args.sp_module, "call", ids, "--sp-module"
             )
             sp_calls = {k: v for k, v in raw.items() if v in ("called", "not_called")}
         if args.tm_module:
-            raw, conditions["tm_module"] = _condition_table(
+            raw, conditions["tm_module"], snapshots["tm_module"] = _condition_table(
                 w, args.tm_module, "n_tm_mature", ids, "--tm-module"
             )
             tm_counts = {k: int(v) for k, v in raw.items() if v.isdigit()}
@@ -304,6 +308,7 @@ def run(args):
                 (),
                 {"hmmer": args.hmmer_version},
                 artefact_digest=args.pfam_sha256 + ":" + _family_digest(families, module),
+                snapshots=snapshots,
             )
             if not active:  # no family has passed its specificity test: no domain test was made
                 rows = [
@@ -365,7 +370,9 @@ def run(args):
         except ValueError as err:
             raise InputError(str(err)) from err
         _check_ids(args.domtbl, {h["target"] for h in hits}, ids)
-        sp_calls, condition = _condition_table(w, args.sp_module, "call", ids, "--sp-module")
+        sp_calls, condition, snapshot = _condition_table(
+            w, args.sp_module, "call", ids, "--sp-module"
+        )
         sp_calls = {k: v for k, v in sp_calls.items() if v in ("called", "not_called")}
         spec = ModuleSpec(
             "hydrophobin_relaxed",
@@ -373,6 +380,7 @@ def run(args):
             hydrophobin_relaxed.module_params(info, args.search_option, condition),
             (args.hmm,),
             {"hmmer": args.hmmer_version},
+            snapshots={"sp_module": snapshot},
         )
         return _write(
             w,
@@ -382,8 +390,16 @@ def run(args):
         )
     if args.cmd == "cys8":
         spacing = cys8.load_sets(args.spacing)
-        sp_calls, condition = _condition_table(w, args.sp_module, "call", ids, "--sp-module")
-        spec = ModuleSpec("cys8_pattern", "1", cys8.module_params(spacing, condition), ())
+        sp_calls, condition, snapshot = _condition_table(
+            w, args.sp_module, "call", ids, "--sp-module"
+        )
+        spec = ModuleSpec(
+            "cys8_pattern",
+            "1",
+            cys8.module_params(spacing, condition),
+            (),
+            snapshots={"sp_module": snapshot},
+        )
         return _write(w, spec, cys8.COLUMNS, cys8.cys8_rows(proteins, spacing, sp_calls))
     if args.cmd == "tm":
         table, _ = lookups.read_table(args.table, "protein_id", unique=True)
@@ -446,10 +462,12 @@ def _condition_table(workdir, module, column, ids, option):
     """Read one column of a module table that a Pfam second condition needs.
 
     Refuse a missing table or run record, an unusable run state, a missing column and IDs that are
-    not FASTA IDs. Returns ``({id: value}, ...)`` with the values of rows in state ``ok`` only, and
-    ``{"module", "column", "params_hash", "artefact_hash", "values_sha256"}``. The digest of the
-    values lets the core command check that it reads the same table later (the two hashes of a
-    module can be equal for two different tables of one rule).
+    not FASTA IDs. Returns ``(values, identity, snapshot)``: the values of rows in state ``ok``
+    only, ``{"module", "params_hash", "artefact_hash"}`` (goes in ``params``) and
+    ``{"column", "values_sha256"}``. The digest lets the core command check that it reads the same
+    table later (the two hashes of a module can be equal for two different tables of one rule).
+    The snapshot goes in the run record outside ``params``, so it does not change the params hash
+    or the identity that a committed status file holds.
     """
     import csv
     import gzip
@@ -475,7 +493,7 @@ def _condition_table(workdir, module, column, ids, option):
     _check_ids(str(table), {i for i, _, _ in rows}, ids)
     identity = {k: run.get(k, "") for k in ("params_hash", "artefact_hash")}
     snapshot = {"column": column, "values_sha256": values_digest(values)}
-    return values, {"module": module, **identity, **snapshot}
+    return values, {"module": module, **identity}, snapshot
 
 
 def _file_digest(path):

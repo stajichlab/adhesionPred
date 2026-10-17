@@ -161,6 +161,19 @@ def test_the_family_digest_changes_with_tier_and_narrow_ok():
     assert digest(base) == digest(dataclasses.replace(base))
 
 
+def test_the_family_digest_of_the_other_modules_ignores_tier_and_narrow_ok():
+    from cellsurface_sorting_hat.modules.cli import _family_digest
+
+    for module in ("pfam_allergen", "pfam_hydrophobin", "pfam_hsba"):
+        base = family("PF00001", "smoke", True, module)
+
+        def digest(f, module=module):
+            return _family_digest([f], module)
+
+        assert digest(base) == digest(dataclasses.replace(base, narrow_ok=False))
+        assert digest(base) == digest(dataclasses.replace(base, tier="estimated"))
+
+
 OPTIONS = "# Option settings:     hmmsearch --cut_ga --cpu 2 --noali fam.hmm in.fasta\n"
 DOM = "{t} - 289 {n} {a}.17 70 1e-20 60.1 8.9 1 1 1e-21 2e-20 59.0 8.9 1 70 20 90 20 91 0.9 -\n"
 
