@@ -257,9 +257,12 @@ def load_modules(workdir, protein_ids, invalid_ids, required=None):
 def _bad_value(columns, row):
     if "call" in columns and row.get("call") not in CALL_VALUES:
         return True
-    for flag in ("hit", "hit_narrow"):
-        if flag in columns and row.get(flag) not in FLAG_VALUES:
-            return True
+    if "hit" in columns and row.get("hit") not in FLAG_VALUES:
+        return True
+    # an empty hit_narrow is unknown (a narrow family with an unknown condition); the engine reads
+    # it as not assessable
+    if "hit_narrow" in columns and row.get("hit_narrow") not in FLAG_VALUES | {""}:
+        return True
     return False
 
 

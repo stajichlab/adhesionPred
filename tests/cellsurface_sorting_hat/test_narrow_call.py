@@ -153,6 +153,49 @@ def test_hit_narrow_implies_hit_and_a_protein_without_a_hit_has_neither():
     assert by["C"]["families"] == "PF00001,PF00002" and by["C"]["hit_narrow"] == "1"
 
 
+def _conditioned(acc, tier, narrow, condition):
+    return pfam.Family(acc, acc, "x", "pfam_adhesion", condition, True, tier=tier, narrow_ok=narrow)
+
+
+def test_an_unknown_condition_of_a_narrow_family_makes_hit_narrow_unknown():
+    """CFEM (not narrow) hits; PA14 (narrow, needs a signal peptide) hits but R0 has no value."""
+    families = [family("PF00001", "smoke", False), _conditioned("PF00002", "smoke", True, "no_tm")]
+    proteins = [prot(c) for c in "ABC"]
+    hits = [hit("A", "PF00001"), hit("A", "PF00002"), hit("B", "PF00001"), hit("B", "PF00002")]
+    # A: the no_tm value is missing; B: it is known and shows a TM helix (decided negative)
+    rows = pfam.pfam_rows(proteins, hits, families, "pfam_adhesion", tm_counts={"B": 3})
+    by = {r["id"]: r for r in rows}
+    assert (by["A"]["state"], by["A"]["hit"], by["A"]["hit_narrow"]) == ("ok", "1", "")
+    assert (by["B"]["state"], by["B"]["hit"], by["B"]["hit_narrow"]) == ("ok", "1", "0")
+    assert (by["C"]["hit"], by["C"]["hit_narrow"]) == ("0", "0")
+
+
+def test_the_narrow_flag_stays_0_with_ok_when_all_narrow_families_are_decided_negative():
+    families = [family("PF00001", "smoke", False), _conditioned("PF00002", "smoke", True, "no_tm")]
+    hits = [hit("A", "PF00001"), hit("A", "PF00002")]
+    rows = pfam.pfam_rows([prot("A")], hits, families, "pfam_adhesion", tm_counts={"A": 2})
+    assert (rows[0]["state"], rows[0]["hit"], rows[0]["hit_narrow"]) == ("ok", "1", "0")
+
+
+def test_an_unknown_condition_of_a_family_that_is_not_narrow_leaves_hit_narrow_0():
+    families = [_conditioned("PF00001", "smoke", False, "no_tm"), family("PF00002", "smoke", True)]
+    hits = [hit("A", "PF00001"), hit("A", "PF00002")]
+    rows = pfam.pfam_rows([prot("A")], hits, families, "pfam_adhesion")
+    assert rows[0]["hit_narrow"] == "1"
+    hits = [hit("A", "PF00001")]
+    rows = pfam.pfam_rows([prot("A")], hits, families, "pfam_adhesion")
+    assert rows[0]["state"] == "error"  # no usable value and no other family: unknown, as before
+
+
+def test_an_empty_hit_narrow_is_a_valid_unknown_to_the_core_loader_and_not_assessable():
+    from cellsurface_sorting_hat.cli import _bad_value
+
+    cols = ["hit", "hit_narrow"]
+    assert not _bad_value(cols, {"hit": "1", "hit_narrow": ""})
+    assert _bad_value(cols, {"hit": "", "hit_narrow": "0"})
+    assert _bad_value(cols, {"hit": "1", "hit_narrow": "x"})
+
+
 def test_only_pfam_adhesion_has_the_narrow_column():
     assert pfam.columns_for("pfam_adhesion") == ["hit", "hit_narrow", "families"]
     for module in ("pfam_allergen", "pfam_hydrophobin", "pfam_hsba"):

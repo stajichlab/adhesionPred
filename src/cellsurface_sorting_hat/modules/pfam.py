@@ -182,20 +182,25 @@ def pfam_rows(proteins, hits, families, module, sp_calls=None, tm_counts=None):
 
     ``pfam_adhesion`` rows also have ``hit_narrow``: a hit in a family with tier ``smoke`` or better
     and ``narrow_ok`` (owner sign-off). It implies ``hit``: every narrow family is an active family.
+    It is empty (unknown) when it is not 1 and a narrow family has a hit whose condition value is
+    unknown; it is 0 only when every narrow family is decided negative.
     """
     wanted = {f.pfam_acc: f for f in families if f.module == module and f.active}
     if not wanted:
         raise NoActiveFamilyError(f"{module}: no family of this module is active")
-    found, narrow, unknown = {}, set(), set()
+    found, narrow, unknown, narrow_unknown = {}, set(), set(), set()
     for h in hits:
         fam = wanted.get(h["acc"])
         if fam is None:
             continue
+        is_narrow = fam.narrow_ok and fam.tier != UNTESTED
         cond = fam.second_condition
         if cond == "signal_peptide":
             value = (sp_calls or {}).get(h["target"])
             if value is None:
                 unknown.add(h["target"])
+                if is_narrow:
+                    narrow_unknown.add(h["target"])
                 continue
             if value != "called":
                 continue
@@ -203,11 +208,13 @@ def pfam_rows(proteins, hits, families, module, sp_calls=None, tm_counts=None):
             value = (tm_counts or {}).get(h["target"])
             if value is None:
                 unknown.add(h["target"])
+                if is_narrow:
+                    narrow_unknown.add(h["target"])
                 continue
             if value != 0:
                 continue
         found.setdefault(h["target"], set()).add(fam.pfam_acc)
-        if fam.narrow_ok and fam.tier != UNTESTED:
+        if is_narrow:
             narrow.add(h["target"])
     with_narrow = module in NARROW_MODULES
     rows = []
@@ -221,7 +228,14 @@ def pfam_rows(proteins, hits, families, module, sp_calls=None, tm_counts=None):
             continue
         row = {"id": p.id, "state": "ok", "hit": "1" if accs else "0", "families": ",".join(accs)}
         if with_narrow:
-            row["hit_narrow"] = "1" if p.id in narrow else "0"
+            # A narrow family whose condition is unknown may have been a hit: the narrow result is
+            # then unknown (empty), as for the broad flag, not 0.
+            if p.id in narrow:
+                row["hit_narrow"] = "1"
+            elif p.id in narrow_unknown:
+                row["hit_narrow"] = ""
+            else:
+                row["hit_narrow"] = "0"
         rows.append(row)
     return rows
 
