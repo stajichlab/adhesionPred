@@ -189,27 +189,11 @@ def test_the_key_is_optional(tmp_path):
         ({"antigen_lookup": RS}, "non-empty list"),
         ([RS], "mapping"),
         ("antigen_lookup", "mapping"),
-        pytest.param(
-            {"antigen_lookup": [0]}, "at least 2", marks=pytest.mark.xfail(strict=True, reason="93")
-        ),
-        pytest.param(
-            {"antigen_lookup": [-5]},
-            "at least 2",
-            marks=pytest.mark.xfail(strict=True, reason="93"),
-        ),
-        pytest.param(
-            {"antigen_lookup": [1]}, "at least 2", marks=pytest.mark.xfail(strict=True, reason="93")
-        ),
-        pytest.param(
-            {"antigen_lookup": [RS, RS]},
-            "duplicate",
-            marks=pytest.mark.xfail(strict=True, reason="93"),
-        ),
-        pytest.param(
-            {"step1_rule@R0": [RS]},
-            "step 1",
-            marks=pytest.mark.xfail(strict=True, reason="93"),
-        ),
+        ({"antigen_lookup": [0]}, "at least 2"),
+        ({"antigen_lookup": [-5]}, "at least 2"),
+        ({"antigen_lookup": [1]}, "at least 2"),
+        ({"antigen_lookup": [RS, RS]}, "duplicate"),
+        ({"step1_rule@R0": [RS]}, "step 1"),
     ],
 )
 def test_a_bad_species_limited_block_is_a_config_error(tmp_path, value, message):

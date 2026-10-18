@@ -23,7 +23,7 @@ from cellsurface_sorting_hat.logic import (
     k_not,
     k_or,
 )
-from cellsurface_sorting_hat.status import UNVALIDATED, weakest
+from cellsurface_sorting_hat.status import MIN_TAXON, UNVALIDATED, weakest
 
 OK_STATE = "ok"
 # Bump by hand when the evaluation rules change (Kleene tables, NA handling). It is part of call_hash,
@@ -143,12 +143,20 @@ def _validate_species_limited(cfg):
         raise ConfigError("species_limited must be a mapping of module name to taxon IDs")
     read = set(referenced_modules(cfg))
     for module, taxa in block.items():
+        if module in cfg.step1_variants:
+            raise ConfigError(f"species_limited: {module!r} is a step 1 variant, not allowed")
         if module not in read:
             raise ConfigError(f"species_limited: {module!r} is not a module that a call reads")
         if not isinstance(taxa, list) or not taxa:
             raise ConfigError(f"species_limited.{module} must be a non-empty list of taxon IDs")
         if any(isinstance(t, bool) or not isinstance(t, int) for t in taxa):
             raise ConfigError(f"species_limited.{module}: every taxon ID must be an integer")
+        if any(t < MIN_TAXON for t in taxa):
+            raise ConfigError(
+                f"species_limited.{module}: every taxon ID must be at least {MIN_TAXON}"
+            )
+        if len(set(taxa)) != len(taxa):
+            raise ConfigError(f"species_limited.{module}: duplicate taxon ID")
 
 
 def _check_module_name(module, per_variant, where):
