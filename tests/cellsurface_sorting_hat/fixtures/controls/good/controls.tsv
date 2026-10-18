@@ -1,0 +1,5 @@
+accession	gene	species	taxon_id	label	stratum	evidence_level	source	quote	tuned	leakage	curator	date	notes
+P1	geneA	Aspergillus fumigatus	746128	positive	s1	E1	PMID:1	Binds host cells.	no	none	test	2026-10-01	
+P2	geneB	Aspergillus fumigatus	746128	positive	s1	E1	PMID:2	Adhesin of fungus.	no	partial	test	2026-10-01	x
+N1	geneC	Aspergillus fumigatus	746128	negative	s2	N1	PMID:3	Wall enzyme without adhesion.	yes	tuned_on_truth	test	2026-10-02	
+N2	geneD	Aspergillus fumigatus	746128	negative	s2	N1	UniProtKB:N2	Laccase.	no	unknown	test	2026-10-02	
