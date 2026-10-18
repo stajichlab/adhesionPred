@@ -1,0 +1,8 @@
+protein	primary_label	primary_basis
+X1	other_surface_no_mechanism	
+X2	other_not_surface	
+X3	not_assessable	hydrophobin_domain,hsba_domain
+X4	mechanism_without_class	tandem_repeat_protein
+X5	not_assessable	hydrophobin_domain,hsba_domain
+V1	cell_wall_adhesion_candidate	
+V2	mechanism_without_class	wall_family_domain

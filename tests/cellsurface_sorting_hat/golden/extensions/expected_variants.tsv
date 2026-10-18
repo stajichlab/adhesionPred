@@ -1,0 +1,37 @@
+protein	call	variant	value	other_basis
+V1	tandem_repeat_protein		not_called	
+V1	wall_family_domain		called	
+V1	wall_family_narrow_domain		called	
+V1	hydrophobin_domain		not_called	
+V1	hsba_domain		not_called	
+V1	cocci_specificity_rank_top15		not_applicable	
+V1	signal_peptide_protein	R0	called	
+V1	cell_wall_adhesion_candidate	R0	called	
+V1	surface_attachment_candidate	R0	called	wall_family_domain
+V1	serodiagnostic_marker_candidate	R0	not_called	
+V1	other_not_surface	R0	not_called	
+V1	other_surface_no_mechanism	R0	not_called	
+V1	signal_peptide_protein	R1	not_called	
+V1	cell_wall_adhesion_candidate	R1	not_called	
+V1	surface_attachment_candidate	R1	not_called	
+V1	serodiagnostic_marker_candidate	R1	not_called	
+V1	other_not_surface	R1	not_called	
+V1	other_surface_no_mechanism	R1	not_called	
+V2	tandem_repeat_protein		not_called	
+V2	wall_family_domain		called	
+V2	wall_family_narrow_domain		called	
+V2	hydrophobin_domain		not_called	
+V2	hsba_domain		not_called	
+V2	cocci_specificity_rank_top15		not_applicable	
+V2	signal_peptide_protein	R0	not_called	
+V2	cell_wall_adhesion_candidate	R0	not_called	
+V2	surface_attachment_candidate	R0	not_called	
+V2	serodiagnostic_marker_candidate	R0	not_called	
+V2	other_not_surface	R0	not_called	
+V2	other_surface_no_mechanism	R0	not_called	
+V2	signal_peptide_protein	R1	called	
+V2	cell_wall_adhesion_candidate	R1	called	
+V2	surface_attachment_candidate	R1	called	wall_family_domain
+V2	serodiagnostic_marker_candidate	R1	not_called	
+V2	other_not_surface	R1	not_called	
+V2	other_surface_no_mechanism	R1	not_called	

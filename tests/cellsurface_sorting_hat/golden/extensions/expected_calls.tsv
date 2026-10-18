@@ -1,0 +1,56 @@
+protein	call	variant	value	other_basis
+X1	tandem_repeat_protein		not_called	
+X1	wall_family_domain		not_called	
+X1	wall_family_narrow_domain		not_called	
+X1	hydrophobin_domain		not_called	
+X1	hsba_domain		not_called	
+X1	cell_wall_adhesion_candidate	R0	not_called	
+X1	surface_attachment_candidate	R0	not_called	
+X1	cocci_specificity_rank_top15		not_applicable	
+X1	serodiagnostic_marker_candidate	R0	not_called	
+X1	other_not_surface	R0	not_called	
+X1	other_surface_no_mechanism	R0	called	
+X2	tandem_repeat_protein		not_called	
+X2	wall_family_domain		not_called	
+X2	wall_family_narrow_domain		not_called	
+X2	hydrophobin_domain		not_called	
+X2	hsba_domain		not_called	
+X2	cell_wall_adhesion_candidate	R0	not_called	
+X2	surface_attachment_candidate	R0	not_called	
+X2	cocci_specificity_rank_top15		not_applicable	
+X2	serodiagnostic_marker_candidate	R0	not_called	
+X2	other_not_surface	R0	called	
+X2	other_surface_no_mechanism	R0	not_called	
+X3	tandem_repeat_protein		not_called	
+X3	wall_family_domain		not_called	
+X3	wall_family_narrow_domain		not_called	
+X3	hydrophobin_domain		not_assessable	
+X3	hsba_domain		not_assessable	
+X3	cell_wall_adhesion_candidate	R0	not_called	
+X3	surface_attachment_candidate	R0	not_assessable	
+X3	cocci_specificity_rank_top15		not_applicable	
+X3	serodiagnostic_marker_candidate	R0	not_called	
+X3	other_not_surface	R0	not_called	
+X3	other_surface_no_mechanism	R0	not_assessable	hydrophobin_domain,hsba_domain
+X4	tandem_repeat_protein		called	
+X4	wall_family_domain		not_called	
+X4	wall_family_narrow_domain		not_called	
+X4	hydrophobin_domain		not_assessable	
+X4	hsba_domain		not_assessable	
+X4	cell_wall_adhesion_candidate	R0	not_called	
+X4	surface_attachment_candidate	R0	not_called	
+X4	cocci_specificity_rank_top15		not_applicable	
+X4	serodiagnostic_marker_candidate	R0	not_called	
+X4	other_not_surface	R0	not_called	
+X4	other_surface_no_mechanism	R0	not_called	
+X5	tandem_repeat_protein		not_called	
+X5	wall_family_domain		not_called	
+X5	wall_family_narrow_domain		not_called	
+X5	hydrophobin_domain		not_assessable	
+X5	hsba_domain		not_assessable	
+X5	cell_wall_adhesion_candidate	R0	not_called	
+X5	surface_attachment_candidate	R0	not_called	
+X5	cocci_specificity_rank_top15		not_applicable	
+X5	serodiagnostic_marker_candidate	R0	not_called	
+X5	other_not_surface	R0	not_assessable	hydrophobin_domain,hsba_domain
+X5	other_surface_no_mechanism	R0	not_called	
