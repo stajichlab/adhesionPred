@@ -9,8 +9,6 @@ import csv
 import re
 from pathlib import Path
 
-import pytest
-
 from cellsurface_sorting_hat.engine import load_config
 from cellsurface_sorting_hat.family_tier import check, derive_tiers
 
@@ -43,14 +41,12 @@ def test_there_are_narrow_and_active_families_to_check():
     assert any(f["active"] == "yes" and f["narrow_ok"] == "no" for f in fams)
 
 
-@pytest.mark.xfail(strict=True, reason="Task 4.3 finding: CLASSES.md does not name the families")
 def test_every_narrow_family_is_named_for_the_narrow_call():
     row = _row_of(NARROW)
     missing = [f["name"] for f in _families() if f["narrow_ok"] == "yes" and not _named(row, f)]
     assert missing == [], f"narrow_ok=yes families not named in the {NARROW} row: {missing}"
 
 
-@pytest.mark.xfail(strict=True, reason="Task 4.3 finding: CLASSES.md does not name the families")
 def test_every_active_family_is_named_for_the_broad_call():
     row = _row_of(BROAD)
     missing = [f["name"] for f in _families() if f["active"] == "yes" and not _named(row, f)]

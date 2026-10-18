@@ -29,14 +29,14 @@ calls:
     kind: evidence
     gated: false
     category: cell wall and adhesion
-    meaning: "A hit to an active wall-family Pfam model that passes that family's condition (the active adhesion-class rows of `data/sorting_hat/family_table.tsv` are read; `active` means enabled by the owner, not tested; conditions: CFEM no mature TM helix, PA14 R0 signal peptide, which makes this ungated call depend on R0; the other active rows have none). Feeds `surface_attachment_candidate` and the `other_*` calls."
+    meaning: "A hit to an active wall-family Pfam model that passes that family's condition (the active `pfam_adhesion` rows of `data/sorting_hat/family_table.tsv` are read: {active_families}; `active` means enabled by the owner, not tested; conditions: CFEM no mature TM helix, PA14 R0 signal peptide, which makes this ungated call depend on R0; the other active rows have none). Feeds `surface_attachment_candidate` and the `other_*` calls."
     reads: [pfam_adhesion]
     status: unvalidated
   - call: wall_family_narrow_domain
     kind: evidence
     gated: false
     category: cell wall and adhesion
-    meaning: "A hit to a wall-family Pfam model whose row has a specificity tier of smoke or better and narrow_ok=yes (owner sign-off with evidence in `data/sorting_hat/family_table.tsv`). It implies `wall_family_domain`. Feeds `cell_wall_adhesion_candidate`. Until the owner signs a family, no family feeds it."
+    meaning: "A hit to a wall-family Pfam model whose row has a specificity tier of smoke or better and narrow_ok=yes (owner sign-off with evidence in `data/sorting_hat/family_table.tsv`). Families read now: {narrow_families}. It implies `wall_family_domain`. Feeds `cell_wall_adhesion_candidate`."
     reads: [pfam_adhesion]
     status: unvalidated
   - call: hydrophobin_domain

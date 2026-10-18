@@ -5,6 +5,7 @@ Usage: make_classes_md.py [--write]   (prints the file; --write overwrites docs/
 """
 
 import argparse
+import csv
 import sys
 from pathlib import Path
 
@@ -14,9 +15,27 @@ ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "src"))
 
 
-def render(desc, cfg):
+def family_lists(table=None):
+    """Placeholders of the descriptions: the `pfam_adhesion` families read by the broad and narrow call.
+
+    Read from the family table, so that the text cannot say less than the table (Task 4.3)."""
+    table = table or ROOT / "data/sorting_hat/family_table.tsv"
+    with open(table, encoding="utf-8", newline="") as fh:
+        rows = [r for r in csv.DictReader(fh, delimiter="\t") if r["module"] == "pfam_adhesion"]
+
+    def fmt(keep):
+        return ", ".join(f"`{r['name']}` ({r['pfam_acc']})" for r in rows if keep(r)) or "none"
+
+    return {
+        "{active_families}": fmt(lambda r: r["active"] == "yes"),
+        "{narrow_families}": fmt(lambda r: r["narrow_ok"] == "yes"),
+    }
+
+
+def render(desc, cfg, families=None):
     order = [c["name"] for c in cfg.calls]
     by = {d["call"]: d for d in desc["calls"]}
+    families = family_lists() if families is None else families
     lines = [
         "# Calls of `cellsurface_sorting_hat` (v1)",
         "",
@@ -34,7 +53,9 @@ def render(desc, cfg):
         "|---|---|---|---|---|---|---|",
     ]
     for name in order:
-        d = by[name]
+        d = dict(by[name])
+        for key, text in families.items():
+            d["meaning"] = d["meaning"].replace(key, text)
         lines.append(
             f"| `{name}` | {d['kind']} | {'yes' if d['gated'] else 'no'} | {d['category']} | {d['meaning']} | {', '.join(d['reads'])} | {d['status']} |"
         )
