@@ -1,5 +1,5 @@
 #!/bin/bash -l
-# Task 3.10, job 4 (DRAFT, not submitted): `calibrate truth --call-status` for tandem_repeat_protein, as in M2d and M5b2
+# Task 3.10, job 4 (run on HPCC on 2026-10-17; results: docs/reports/2026-10-18-task-3-10-refresh-results.md): `calibrate truth --call-status` for tandem_repeat_protein, as in M2d and M5b2
 # (owner definition of 2026-10-08, truth_v3). An ARRAY job: task 0 = Scer_S288C (taxon 4932), task 1 = Calb_SC5314 (taxon 5476).
 # Same inputs and parameters as the committed files docs/reports/data/sorting_hat/call_status/<proteome>/
 # tandem_repeat_protein.owner_definition.json: the truth file truth_v3.<proteome>.tsv, the calibration set name
@@ -8,8 +8,9 @@
 # same --notes text, which is read from the committed file.
 # Needs: the run $NEW/<proteome>/out_pre (job 3), the module records of repeat02 and repeat14 in the new work directory.
 # The command runs on a scratch work directory; the result is copied to $NEW/<proteome>/status/calls/ (temporary name, rename).
-# The job compares the result with the numbers of the old file (S288C 0.435 and 0.987; C. albicans 0.462 and 0.976) and exits 3
-# after the copy if they differ (stop and report, see the plan of 2026-10-08).
+# The job compares the result with the numbers of the old file (S288C 0.435 and 0.987; C. albicans 0.462 and 0.976). If they differ
+# it exits 3 and writes the result only as tandem_repeat_protein.json.rejected (+ .json.sha256.rejected) (stop and report, see the plan of 2026-10-08;
+# the .rejected naming is a revision after the run, issue #95: the run of 2026-10-17 wrote the final name also on a mismatch, no mismatch occurred).
 # Submit: sbatch --array=0-1 --export=ALL,PROJ_ROOT=/path/to/clone -o $NEW/logs/%x.%A_%a.log -e $NEW/logs/%x.%A_%a.log 04_truth_repeat_call.sbatch
 #SBATCH -p short
 #SBATCH -c 1
@@ -50,6 +51,15 @@ rc=0
   --notes "$NOTES" --leakage tuned_on_truth --negative-basis assumed
 "$PY" "$R/refresh_checks.py" measure "$TMP/work/status/calls/tandem_repeat_protein.json" "$want_sens" "$want_spec" || rc=$?
 mkdir -p "$W/status/calls"
+if [ "$rc" -ne 0 ]; then
+  # revision after the run (issue #95): a result that failed the value check does not get the final name
+  for ext in json.sha256 json; do
+    t="$W/status/calls/.tandem_repeat_protein.$ext.rejected.tmp.$$"
+    cp "$TMP/work/status/calls/tandem_repeat_protein.$ext" "$t" && mv "$t" "$W/status/calls/tandem_repeat_protein.$ext.rejected"
+  done
+  echo "REJECTED: the values differ from the old file (compare exit code $rc). Wrote $W/status/calls/tandem_repeat_protein.json.rejected and .json.sha256.rejected; tandem_repeat_protein.json was NOT written." >&2
+  exit "$rc"
+fi
 for ext in json.sha256 json; do
   t="$W/status/calls/.tandem_repeat_protein.$ext.tmp.$$"
   cp "$TMP/work/status/calls/tandem_repeat_protein.$ext" "$t" && mv "$t" "$W/status/calls/tandem_repeat_protein.$ext"

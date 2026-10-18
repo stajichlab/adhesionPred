@@ -1,5 +1,5 @@
 #!/bin/bash -l
-# Task 3.10, job 3 (DRAFT, not submitted): the classifier run (`cellsurface_sorting_hat`) on one proteome, with the
+# Task 3.10, job 3 (run on HPCC on 2026-10-17; results: docs/reports/2026-10-18-task-3-10-refresh-results.md): the classifier run (`cellsurface_sorting_hat`) on one proteome, with the
 # new config and the rebuilt Pfam modules. An ARRAY job: task i runs the i-th proteome with run=yes in inputs.tsv
 # (0 Afum_A1163, 1 Afum_Af293_Fungi5k, 2 Afum_Af293_UniProt, 3 Afum_W72310, 4 Bder_ER3, 5 Calb_SC5314,
 # 6 Cimm_RS, 7 Scer_S288C, 8 Scer_S288C_nodubious): the nine runs of docs/reports/2026-10-07-classifier-runs-and-scale.md.

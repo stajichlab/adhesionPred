@@ -1,5 +1,5 @@
 #!/bin/bash -l
-# Task 3.10, job 2b (DRAFT, not submitted): write the `antigen_lookup` module for the 8 run proteomes that have none
+# Task 3.10, job 2b (run on HPCC on 2026-10-17; results: docs/reports/2026-10-18-task-3-10-refresh-results.md): write the `antigen_lookup` module for the 8 run proteomes that have none
 # (every run proteome except Cimm_RS). Outside Coccidioides the module writes state `not_applicable` for every
 # protein (modules/lookups.py antigen_rows), so the engine no longer sees the call cocci_specificity_rank_top15 as
 # not_assessable (module absent) and D5 stops turning the other_* calls and primary_label into not_assessable.

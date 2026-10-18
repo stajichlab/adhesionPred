@@ -1,5 +1,5 @@
 #!/bin/bash -l
-# Task 3.10, job 2 (DRAFT, not submitted): rebuild the four Pfam modules (pfam_adhesion, pfam_hydrophobin,
+# Task 3.10, job 2 (run on HPCC on 2026-10-17; results: docs/reports/2026-10-18-task-3-10-refresh-results.md): rebuild the four Pfam modules (pfam_adhesion, pfam_hydrophobin,
 # pfam_hsba, pfam_allergen) for the 14 proteomes of inputs.tsv, so that their identity (artefact hash with
 # the family digest, params hash with narrow_families) matches the new family table.
 # It does NOT run hmmsearch. It converts the domain tables that already exist (raw/pfam/domtbl.txt, made on
@@ -9,6 +9,9 @@
 #   - every accession in each domain table is a family of the table, and the table ends with '# [ok]' and shows --cut_ga;
 #   - for the 8 proteomes with a committed pfam_hydrophobin status file, the rebuilt pfam_hydrophobin identity
 #     (module, version, params_hash, artefact_hash) equals the one in that file, so the file stays valid.
+#   - revision after the run (issue #95): the model list in raw/pfam/provenance.json (written by pfam_hmmsearch.sbatch) must contain
+#     every row of the family table (accession and name). Provenance without a list (the 14 directories of 2026-10-08) fails
+#     unless ALLOW_UNRECORDED_MODELS=1 is exported; then a WARNING line is logged for each proteome and the job goes on.
 #   If one check fails nothing is copied to $NEW. The old work directories are never touched.
 # Output: $NEW/<proteome>/modules/pfam_{adhesion,allergen,hydrophobin,hsba}.{json,tsv.gz} (+ .sha256). Needs job 0.
 # Submit: sbatch --export=ALL,PROJ_ROOT=/path/to/clone -o $NEW/logs/%x.%j.log -e $NEW/logs/%x.%j.log 02_pfam_modules.sbatch
@@ -43,6 +46,18 @@ for p in $(tail -n +2 "$INPUTS" | cut -f1); do
   [ -s "$TMP/seen_acc.txt" ] || fail "$D has no hit"
   stray=$(comm -13 "$TMP/table_acc.txt" "$TMP/seen_acc.txt" | tr '\n' ' ')
   [ -z "$stray" ] || fail "$D has hits of accessions that are not in the family table: $stray"
+  # every model of the family table must have been searched (a model never searched looks like a clean zero)
+  rc=0
+  "$PY" "$R/refresh_checks.py" models-searched "$W/raw/pfam/provenance.json" "$FAMILY_TABLE" || rc=$?
+  case "$rc" in
+    0) ;;
+    4) if [ "${ALLOW_UNRECORDED_MODELS:-}" = 1 ]; then
+         echo "WARNING: $p: $W/raw/pfam/provenance.json has no list of the searched models; ALLOW_UNRECORDED_MODELS=1, so it is NOT known that every model of the family table was searched"
+       else
+         fail "$p: $W/raw/pfam/provenance.json has no list of the searched models. Export ALLOW_UNRECORDED_MODELS=1 (owner decision) to go on, or search again with pfam_hmmsearch.sbatch"
+       fi ;;
+    *) fail "$p: a model of the family table is not in the model list of $W/raw/pfam/provenance.json" ;;
+  esac
   check_fasta "$p"
   mkdir -p "$TMP/$p/modules"
   cp "$W"/modules/* "$TMP/$p/modules/"

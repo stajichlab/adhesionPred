@@ -1,5 +1,5 @@
 #!/bin/bash -l
-# Task 3.10, job 0 (DRAFT, not submitted): make the new work directories, one per proteome of inputs.tsv.
+# Task 3.10, job 0 (run on HPCC on 2026-10-17; results: docs/reports/2026-10-18-task-3-10-refresh-results.md): make the new work directories, one per proteome of inputs.tsv.
 # Copies (does not move) from the old work directories under _workdir/sorting_hat:
 #   modules/ except the four Pfam modules (they are rebuilt by job 2), raw/pfam/{domtbl.txt,provenance.json},
 #   and status/pfam_hydrophobin.json for the 8 proteomes that have a committed status file.

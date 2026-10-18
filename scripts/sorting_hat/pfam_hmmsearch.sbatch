@@ -1,6 +1,6 @@
 #!/bin/bash -l
 # Search the Pfam models of the family table with hmmsearch --cut_ga (as analysis/cys_candidates/01_known_family_hmm.sh).
-# Output: $WORKDIR/raw/pfam/domtbl.txt and provenance.json (path, resolved path, sha256 of Pfam-A.hmm).
+# Output: $WORKDIR/raw/pfam/domtbl.txt and provenance.json (path, resolved path, sha256 of Pfam-A.hmm, the searched models with accessions, sha256 of the family table).
 # The domain table ends with "# [ok]" and its option line shows --cut_ga; the module command refuses a table without both.
 # Submit: sbatch --export=ALL,FASTA=...,WORKDIR=...,FAMILY_TABLE=...,PFAM_RELEASE=38.2 pfam_hmmsearch.sbatch
 # PFAM_RELEASE is stated by the person who submits; it is checked against the file name of the resolved path.
@@ -34,5 +34,17 @@ case "$FASTA" in *.gz) zcat "$FASTA" > "$TMP/in.fasta" ;; *) cp "$FASTA" "$TMP/i
 hmmsearch --cut_ga --cpu "${SLURM_CPUS_ON_NODE:-2}" --noali -o /dev/null --domtblout "$TMP/domtbl.txt" "$TMP/families.hmm" "$TMP/in.fasta"
 tail -n 3 "$TMP/domtbl.txt" | grep -qx '# \[ok\]' || { echo "FATAL: domain table has no '# [ok]' trailer" >&2; exit 1; }
 cp "$TMP/domtbl.txt" "$OUT/.tmp.domtbl.txt" && mv "$OUT/.tmp.domtbl.txt" "$OUT/domtbl.txt"
-printf '{"pfam_hmm": "%s", "resolved": "%s", "release": "%s", "sha256": "%s", "hmmer": "%s"}\n' \
-  "$PFAM_HMM" "$RESOLVED" "$PFAM_RELEASE" "$(sha256sum "$RESOLVED" | cut -d' ' -f1)" "$(hmmsearch -h | sed -n 2p)" > "$OUT/provenance.json"
+# models = the models that were searched (accession and name, from the fetched database file, equal to the family table rows);
+# family_table_sha256 = sha256 of the family table that made keys.txt. The old files had neither (see refresh_3_10/02_pfam_modules.sbatch).
+PFAM_HMM="$PFAM_HMM" RESOLVED="$RESOLVED" PFAM_RELEASE="$PFAM_RELEASE" \
+  HMM_SHA="$(sha256sum "$RESOLVED" | cut -d' ' -f1)" HMMER_LINE="$(hmmsearch -h | sed -n 2p)" \
+  TABLE_SHA="$(sha256sum "$FAMILY_TABLE" | cut -d' ' -f1)" FETCHED="$TMP/fetched.txt" \
+  /usr/bin/python3.12 -c '
+import json, os
+e = os.environ
+models = [dict(zip(("acc", "name"), ln.rstrip("\n").split("\t"))) for ln in open(e["FETCHED"]) if ln.strip()]
+rec = {"pfam_hmm": e["PFAM_HMM"], "resolved": e["RESOLVED"], "release": e["PFAM_RELEASE"], "sha256": e["HMM_SHA"],
+       "hmmer": e["HMMER_LINE"], "family_table_sha256": e["TABLE_SHA"], "models": models}
+print(json.dumps(rec))
+' > "$TMP/provenance.json"
+cp "$TMP/provenance.json" "$OUT/.tmp.provenance.json" && mv "$OUT/.tmp.provenance.json" "$OUT/provenance.json"

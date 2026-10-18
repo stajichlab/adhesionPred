@@ -1,13 +1,17 @@
 """Small read-only checks for the Task 3.10 job scripts (standard library only).
 
-Subcommands (each exits 0 when the check holds, 1 when it fails, 3 for a measured difference):
+Subcommands (each exits 0 when the check holds, 1 when it fails, 3 for a measured difference, 4 for a missing record):
   identity-equal MODULE_JSON STATUS_JSON   module identity of a rebuilt module equals the one in a status file
   json-equal A B                           two JSON files hold the same data
   notes STATUS_JSON                        print the --notes text of the first entry (before the counts)
   measure STATUS_JSON SENS SPEC            print and compare sensitivity and specificity (3 decimals)
+  models-searched PROVENANCE_JSON FAMILY_TABLE
+                                           every row of the family table is in the model list of the Pfam provenance
+                                           (exit 1: a table row is not in the record; exit 4: the provenance has no list)
   r0-check STATUS_JSON                     every entry carries leakage_exception and negative_basis
 """
 
+import csv
 import json
 import sys
 
@@ -72,6 +76,29 @@ def r0_check(status_json):
     return 1 if bad or not entries else 0
 
 
+def models_searched(provenance_json, family_table):
+    """Compare the model list recorded by pfam_hmmsearch.sbatch with the rows of the family table.
+
+    A record is a list of {"acc": ..., "name": ...}. Models in the record that are not in the table are allowed.
+    """
+    rec = load(provenance_json)
+    if not isinstance(rec.get("models"), list):
+        print(f"NO RECORDED MODEL LIST in {provenance_json}: keys are {sorted(rec)}")
+        return 4
+    recorded = {(m["acc"], m["name"]) for m in rec["models"]}
+    with open(family_table, encoding="utf-8") as fh:
+        rows = list(csv.DictReader(fh, delimiter="\t"))
+    wanted = {(r["pfam_acc"], r["name"]) for r in rows}
+    missing = sorted(wanted - recorded)
+    for acc, name in missing:
+        print(
+            f"NOT SEARCHED {acc} {name}: a row of {family_table} is not in the model list of {provenance_json}"
+        )
+    if not missing:
+        print(f"all {len(wanted)} models of the family table were searched: {provenance_json}")
+    return 1 if missing else 0
+
+
 def main(argv):
     cmd, args = (argv[0] if argv else ""), argv[1:]
     table = {
@@ -79,6 +106,7 @@ def main(argv):
         "json-equal": (json_equal, 2),
         "notes": (notes, 1),
         "measure": (measure, 3),
+        "models-searched": (models_searched, 2),
         "r0-check": (r0_check, 1),
     }
     if cmd not in table or len(args) != table[cmd][1]:

@@ -1,5 +1,5 @@
 #!/bin/bash -l
-# Task 3.10, job 1 (DRAFT, not submitted): `calibrate phasec` for step1_rule@R0 in the four work directories
+# Task 3.10, job 1 (run on HPCC on 2026-10-17; results: docs/reports/2026-10-18-task-3-10-refresh-results.md): `calibrate phasec` for step1_rule@R0 in the four work directories
 # that had an R0 status file (r0=yes in inputs.tsv). The new file carries leakage_exception, the reworded
 # note, negative_basis per stratum (N-int and N-sec curated, PM-TM assumed) and the per-stratum rates.
 # `calibrate phasec` has no --negative-basis option: the curated basis is set inside the command (D16).

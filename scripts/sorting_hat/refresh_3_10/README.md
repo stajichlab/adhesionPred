@@ -4,6 +4,17 @@
 
 **Status (updated 2026-10-18).** These scripts were run on HPCC on 2026-10-17, each with the owner's go-ahead, and all jobs COMPLETED with exit code 0: jobs 0, 1, 2, 2b, 3a, 4 and 3b. Job IDs known from the task record: 30043811 (job 3a, `out_pre`, 8 proteomes), 30044277 (job 4, repeat call status), 30044416 (job 3b, `out_final`); the earlier jobs were 30042875, 30043011, 30043012, 30043515 and 30043066. Task 3.10 steps 3 to 5 are done in the branch `task-3-10-results`: the new status files and run records are committed, and the results are in `docs/reports/2026-10-18-task-3-10-refresh-results.md`. The text below is the draft as written before the runs; it is kept unchanged.
 
+## Revisions after the 2026-10-17 run (issue #95)
+
+The scripts changed after the run, from the review of #92. The behaviour of the jobs that ran is unchanged, except these four points. The sections below are still the draft as written before the runs.
+
+1. **Pfam model record and check (finding 1).** `scripts/sorting_hat/pfam_hmmsearch.sbatch` now writes `models` (the searched models, each with `acc` and `name`) and `family_table_sha256` into `raw/pfam/provenance.json`, in addition to the old keys (`pfam_hmm`, `resolved`, `release`, `sha256`, `hmmer`). The readers of the file (job 0 and `analysis/sorting_hat_run/run_converters.sh`) use only the old keys and still work. `02_pfam_modules.sbatch` runs `refresh_checks.py models-searched` for each proteome and FAILS if a row of `data/sorting_hat/family_table.tsv` (accession and name) is not in the record. It also FAILS if the provenance has no model list, which is the case for all 14 existing work directories, unless the owner exports **`ALLOW_UNRECORDED_MODELS=1`** (for example `sbatch --export=ALL,PROJ_ROOT=...,ALLOW_UNRECORDED_MODELS=1 ...`). With the override the job logs one `WARNING` line per proteome and goes on; a table row that is missing from a recorded list still fails. Why: a model that was never searched gives no hits, and that looks like a clean zero.
+2. **Job 4 on a mismatch (finding 2).** `04_truth_repeat_call.sbatch`: if `refresh_checks.py measure` fails, the result is written as `status/calls/tandem_repeat_protein.json.rejected` and `.json.sha256.rejected`, not under the final name. The job says so and exits with the same code. On success it behaves as before. Why: a re-run after a fix was blocked by the unexpected file.
+3. **Headers (finding 3).** `lib.sh`, `00`, `01`, `02`, `02b`, `03` and `04` (`.sbatch`): the header said DRAFT and "not submitted". It now says that the jobs ran on 2026-10-17 and points to the results report. Comments only.
+4. **Pinned fallback (finding 4).** `lib.sh`, `make_venv`: without `WHEEL_DIR` it now installs `pyyaml==6.0.3 numpy==2.5.4`, the same pins as with `WHEEL_DIR`.
+
+Tests: `tests/cellsurface_sorting_hat/test_refresh_checks.py`.
+
 **Update 2026-10-17.** The owner answered the six questions of the first draft. The answers are recorded below as `Owner decision 2026-10-17` paragraphs and in section 6. The scripts were not run after this update either.
 
 ## 1. What is tied to what
