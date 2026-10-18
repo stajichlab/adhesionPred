@@ -1,0 +1,182 @@
+gene_or_family_id	cluster_number	category	slice	protein_id_jgi	organism_code	clade_coarse	clade_fine	map_status	map_reason	match_kind	match_term	accession	length	uniprot_organism_id	id_consistent
+coh1	220	adhesion	adhesion	468099_Copci	Copci	Basidiomycota	Agaricomycetes	candidate_gene_name		gene_name	coh1	P78601	113	5346	
+coh2	220	adhesion	adhesion	468111_Copci	Copci	Basidiomycota	Agaricomycetes	candidate_gene_name		gene_name	coh2	P78602	110	5346	
+sc1	220	adhesion	adhesion	2610513_Schco3	Schco3	Basidiomycota	Agaricomycetes	lost	jgi_id_has_no_public_sequence_route; gene_name_no_hit	gene_name					
+sc3	220	adhesion	adhesion	2629632_Schco3	Schco3	Basidiomycota	Agaricomycetes	lost	jgi_id_has_no_public_sequence_route; gene_name_no_hit	gene_name					
+sc6	220	adhesion	adhesion	13059_Schco3	Schco3	Basidiomycota	Agaricomycetes	lost	jgi_id_has_no_public_sequence_route; gene_name_no_hit	gene_name					
+hum2	220	adhesion	adhesion	12141_Ustma22	Ustma22	Basidiomycota	Ustilaginomycetes	candidate_gene_name		gene_name	hum2	A0A0D1BZL3	118	5270	
+Afu6g14250	338	adhesion	adhesion					mapped_family_rep		afu_locus_of_family	AFUA_6G14250	Q4WLA3	647	330879	
+glfB/Afu3g12700	417	adhesion	adhesion					mapped_family_rep		afu_locus_of_family	AFUA_3G12700	Q4WYE0	398	330879	
+glfB_Afu3g12700	417	adhesion	adhesion	4407_Aspfu1	Aspfu1	Pezizomycotina	Eurotiomycetes	mapped_locus_tag		row_locus_tag	AFUA_3G12700	Q4WYE0	398	330879	
+ncl1	1012	adhesion	adhesion	4224_Neucr2	Neucr2	Pezizomycotina	Sordariomycetes	lost	jgi_id_has_no_public_sequence_route; gene_name_no_hit	gene_name					
+ncl2	2024	adhesion	adhesion	8934_Neucr2	Neucr2	Pezizomycotina	Sordariomycetes	lost	jgi_id_has_no_public_sequence_route; gene_name_no_hit	gene_name					
+Afu7g05340	3660	adhesion	adhesion					mapped_family_rep		afu_locus_of_family	AFUA_7G05340	Q4WGK4	1203	330879	
+C2_08770C Putative adhesin-lik	4240	adhesion	adhesion					lost	no_jgi_id_and_no_afu_locus						
+NA	4291	adhesion	adhesion					lost	no_jgi_id_and_no_afu_locus						
+hyr1	4291	adhesion	adhesion	56210_Canalb1	Canalb1	Saccharomycotina	Saccharomycotina	candidate_gene_name		gene_name	hyr1	Q5AL03	919	237561	
+iff4	4291	adhesion	adhesion	54417_Canalb1	Canalb1	Saccharomycotina	Saccharomycotina	candidate_gene_name		gene_name	iff4	Q5AAL9	1526	237561	
+aga1	5266	adhesion	adhesion	5432_Sacce1	Sacce1	Saccharomycotina	Saccharomycotina	candidate_gene_name		gene_name	aga1	P32323	725	559292	
+hum3	5817	adhesion	adhesion	11962_Ustma22	Ustma22	Basidiomycota	Ustilaginomycetes	lost	jgi_id_has_no_public_sequence_route; gene_name_no_hit	gene_name					
+cfl1	6453	adhesion	adhesion	702_CryneH991	CryneH991	Basidiomycota	Tremellomycetes	lost	jgi_id_has_no_public_sequence_route; gene_name_no_hit	gene_name					
+bhp2	7118	adhesion	adhesion	6405_Botci1	Botci1	Pezizomycotina	Leotiomycetes	candidate_gene_name		gene_name	bhp2	A0A384JW35	98	332648	
+bhp3	7118	adhesion	adhesion	8060_Botci1	Botci1	Pezizomycotina	Leotiomycetes	candidate_gene_name		gene_name	bhp3	A0A384JJM8	98	332648	
+cryp	7118	adhesion	adhesion	104198_Crypa2	Crypa2	Pezizomycotina	Sordariomycetes	lost	jgi_id_has_no_public_sequence_route; gene_name_no_hit	gene_name					
+hyd5	7118	adhesion	adhesion	2102_Fusgr1	Fusgr1	Pezizomycotina	Sordariomycetes	candidate_gene_name		gene_name	hyd5	I1RDW3	98	229533	
+NCU08192	7118	adhesion	adhesion	4978_Neucr2	Neucr2	Pezizomycotina	Sordariomycetes	mapped_locus_tag		row_locus_tag	NCU08192	Q7S3P5	97	367110	
+hfb1	7118	adhesion	adhesion	73173_Trire2	Trire2	Pezizomycotina	Sordariomycetes	candidate_gene_name		gene_name	hfb1	P52754	97	51453	
+hfb2	7118	adhesion	adhesion	119989_Trire2	Trire2	Pezizomycotina	Sordariomycetes	candidate_gene_name		gene_name	hfb2	P79073	86	51453	
+pga62_flo1	7187	adhesion	adhesion	56864_Canalb1	Canalb1	Saccharomycotina	Saccharomycotina	lost	jgi_id_has_no_public_sequence_route; gene_name_ambiguous	gene_name	pga62				
+fig2	7187	adhesion	adhesion	735_Sacce1	Sacce1	Saccharomycotina	Saccharomycotina	candidate_gene_name		gene_name	fig2	P25653	1609	559292	
+flo1	7276	adhesion	adhesion	107_Sacce1	Sacce1	Saccharomycotina	Saccharomycotina	candidate_gene_name		gene_name	flo1	P32768	1537	559292	
+flo10	7276	adhesion	adhesion	3944_Sacce1	Sacce1	Saccharomycotina	Saccharomycotina	candidate_gene_name		gene_name	flo10	P36170	1169	559292	
+flo5	7276	adhesion	adhesion	3186_Sacce1	Sacce1	Saccharomycotina	Saccharomycotina	candidate_gene_name		gene_name	flo5	P38894	1075	559292	
+flo9	7276	adhesion	adhesion	12_Sacce1	Sacce1	Saccharomycotina	Saccharomycotina	candidate_gene_name		gene_name	flo9	P39712	1322	559292	
+Afu1g01540	7971	adhesion	adhesion					mapped_family_rep		afu_locus_of_family	AFUA_1G01540	Q4WKR6	439	330879	
+ncl4	7971	adhesion	adhesion	3723_Neucr2	Neucr2	Pezizomycotina	Sordariomycetes	lost	jgi_id_has_no_public_sequence_route; gene_name_no_hit	gene_name					
+rep1	8398	adhesion	adhesion	11217_Ustma22	Ustma22	Basidiomycota	Ustilaginomycetes	candidate_gene_name		gene_name	rep1	Q99109	652	5270	
+als3_als1	8498	adhesion	adhesion	54990_Canalb1	Canalb1	Saccharomycotina	Saccharomycotina	lost	jgi_id_has_no_public_sequence_route; gene_name_ambiguous	gene_name	als1				
+rbt5	8594	adhesion	adhesion	56662_Canalb1	Canalb1	Saccharomycotina	Saccharomycotina	candidate_gene_name		gene_name	rbt5	Q59UT4	241	237561	
+wap1_csa1	8594	adhesion	adhesion	55331_Canalb1	Canalb1	Saccharomycotina	Saccharomycotina	candidate_gene_name		gene_name	csa1	G1UB63	1018	237561	
+bsc1	14985	adhesion	adhesion	979_Sacce1	Sacce1	Saccharomycotina	Saccharomycotina	candidate_gene_name		gene_name	bsc1	Q12140	328	559292	
+flo11	14985	adhesion	adhesion	1804_Sacce1	Sacce1	Saccharomycotina	Saccharomycotina	candidate_gene_name		gene_name	flo11	P08640	1367	559292	
+rodA_Afu5g09580	16148	adhesion	adhesion	6748_Aspfu1	Aspfu1	Pezizomycotina	Eurotiomycetes	mapped_locus_tag		row_locus_tag	AFUA_5G09580	P41746	159	330879	
+rodB_Afu1g17250	16148	adhesion	adhesion	1591_Aspfu1	Aspfu1	Pezizomycotina	Eurotiomycetes	mapped_locus_tag		row_locus_tag	AFUA_1G17250	E9QT94	140	330879	
+bad1	16148	adhesion	adhesion	602_Hisca1	Hisca1	Pezizomycotina	Eurotiomycetes	lost	jgi_id_has_no_public_sequence_route; gene_name_no_hit	gene_name					
+eap1	16358	adhesion	adhesion	58922_Canalb1	Canalb1	Saccharomycotina	Saccharomycotina	candidate_gene_name		gene_name	eap1	G1UBC2	653	237561	
+hwp1	16358	adhesion	adhesion	56971_Canalb1	Canalb1	Saccharomycotina	Saccharomycotina	candidate_gene_name		gene_name	hwp1	P46593	634	237561	
+rbt1	16358	adhesion	adhesion	56966_Canalb1	Canalb1	Saccharomycotina	Saccharomycotina	candidate_gene_name		gene_name	rbt1	Q59TP1	721	237561	
+dfi1	44817	adhesion	adhesion	55358_Canalb1	Canalb1	Saccharomycotina	Saccharomycotina	candidate_gene_name		gene_name	dfi1	Q5AFI4	337	237561	
+ncl3	48004	adhesion	adhesion	8199_Neucr2	Neucr2	Pezizomycotina	Sordariomycetes	lost	jgi_id_has_no_public_sequence_route; gene_name_no_hit	gene_name					
+eas	50327	adhesion	adhesion	3562_Neucr2	Neucr2	Pezizomycotina	Sordariomycetes	candidate_gene_name		gene_name	eas	Q04571	108	367110	
+hyd1_like	126186	adhesion	adhesion	8058_Hisca1	Hisca1	Pezizomycotina	Eurotiomycetes	lost	jgi_id_has_no_public_sequence_route; gene_name_no_hit	gene_name					
+ece1	140788	adhesion	adhesion	56961_Canalb1	Canalb1	Saccharomycotina	Saccharomycotina	candidate_gene_name		gene_name	ece1	Q07730	271	237561	
+preA_Afu5g07880	668	pheromone receptor (mating, fusion-adjacent)	fusion	6581_Aspfu1	Aspfu1	Pezizomycotina	Eurotiomycetes	mapped_locus_tag		row_locus_tag	AFUA_5G07880	Q4WUB6	460	330879	
+ste3	668	pheromone receptor (mating, fusion-adjacent)	fusion	3647_Sacce1	Sacce1	Saccharomycotina	Saccharomycotina	candidate_gene_name		gene_name	ste3	P06783	470	559292	
+pra1	668	pheromone receptor (mating, fusion-adjacent)	fusion	9597_Ustma22	Ustma22	Basidiomycota	Ustilaginomycetes	candidate_gene_name		gene_name	pra1	P31302	357	5270	
+Afu7g02350	1764	cell fusion (syncytium formation)	fusion					mapped_family_rep		afu_locus_of_family	AFUA_7G02350	Q4WAS7	1362	330879	
+Afu4g08570	2511	cell fusion	fusion					mapped_family_rep		afu_locus_of_family	AFUA_4G08570	Q4WPA2	896	330879	
+Afu4g11210	3355	cell fusion	fusion					mapped_family_rep		afu_locus_of_family	AFUA_4G11210	Q4WQ14	740	330879	
+ste2	9439	pheromone receptor (mating, fusion-adjacent)	fusion	2202_Sacce1	Sacce1	Saccharomycotina	Saccharomycotina	candidate_gene_name		gene_name	ste2	D6VTK4	431	559292	
+so_soft	13739	cell fusion	fusion	2491_Neucr2	Neucr2	Pezizomycotina	Sordariomycetes	candidate_gene_name		gene_name	so	Q7SDK1	1304	367110	
+chiB1/Afu8g01410	109	cell wall	wall					mapped_family_rep		afu_locus_of_family	AFUA_8G01410	E9QRF2	433	330879	
+pmt4/Afu8g04500	166	cell wall	wall					mapped_family_rep		afu_locus_of_family	AFUA_8G04500	Q4WCG5	780	330879	
+ACR290W	166	cell wall	wall	1345_Ashgo11	Ashgo11	Saccharomycotina	Saccharomycotina	lost	jgi_id_has_no_public_sequence_route; locus_tag_no_hit_in_genome_strain	row_locus_tag	ACR290W				
+AGOS_AAL050W	166	cell wall	wall	138_Ashgo11	Ashgo11	Saccharomycotina	Saccharomycotina	mapped_locus_tag		row_locus_tag	AGOS_AAL050W	Q75EX8	653	284811	
+AGOS_ABL085W	166	cell wall	wall	510_Ashgo11	Ashgo11	Saccharomycotina	Saccharomycotina	mapped_locus_tag		row_locus_tag	AGOS_ABL085W	Q75DV8	757	284811	
+AGOS_ADR279C	166	cell wall	wall	2035_Ashgo11	Ashgo11	Saccharomycotina	Saccharomycotina	mapped_locus_tag		row_locus_tag	AGOS_ADR279C	Q759J8	817	284811	
+pmt2_Afu1g07690	166	cell wall	wall	734_Aspfu1	Aspfu1	Pezizomycotina	Eurotiomycetes	mapped_locus_tag		row_locus_tag	AFUA_1G07690	Q4WJ05	759	330879	
+pmt4_Afu8g04500	166	cell wall	wall	9500_Aspfu1	Aspfu1	Pezizomycotina	Eurotiomycetes	mapped_locus_tag		row_locus_tag	AFUA_8G04500	Q4WCG5	780	330879	
+BATDEDRAFT_20500	166	cell wall	wall	20500_Batde5	Batde5	Chytridiomycota	Chytridiomycota	mapped_locus_tag		row_locus_tag	BATDEDRAFT_20500	F4P8T0	691	684364	yes
+BATDEDRAFT_35524	166	cell wall	wall	35524_Batde5	Batde5	Chytridiomycota	Chytridiomycota	mapped_locus_tag		row_locus_tag	BATDEDRAFT_35524	F4P6Q5	776	684364	yes
+pmt1	166	cell wall	wall	55580_Canalb1	Canalb1	Saccharomycotina	Saccharomycotina	candidate_gene_name		gene_name	pmt1	O74189	877	237561	
+pmt2	166	cell wall	wall	57946_Canalb1	Canalb1	Saccharomycotina	Saccharomycotina	candidate_gene_name		gene_name	pmt2	Q5ADM9	769	237561	
+pmt4	166	cell wall	wall	58607_Canalb1	Canalb1	Saccharomycotina	Saccharomycotina	candidate_gene_name		gene_name	pmt4	Q59X23	755	237561	
+CND01240	166	cell wall	wall	872_CryneH991	CryneH991	Basidiomycota	Tremellomycetes	lost	jgi_id_has_no_public_sequence_route; locus_tag_no_hit_in_genome_strain	row_locus_tag	CND01240				
+CNJ01930	166	cell wall	wall	4291_CryneH991	CryneH991	Basidiomycota	Tremellomycetes	lost	jgi_id_has_no_public_sequence_route; locus_tag_no_hit_in_genome_strain	row_locus_tag	CNJ01930				
+pmt1	166	cell wall	wall	3986_Hisca1	Hisca1	Pezizomycotina	Eurotiomycetes	lost	jgi_id_has_no_public_sequence_route; gene_name_no_hit	gene_name					
+NCU01648	166	cell wall	wall	3358_Neucr2	Neucr2	Pezizomycotina	Sordariomycetes	mapped_locus_tag		row_locus_tag	NCU01648	Q1K4Z4	750	367110	
+NCU09332	166	cell wall	wall	1049_Neucr2	Neucr2	Pezizomycotina	Sordariomycetes	mapped_locus_tag		row_locus_tag	NCU09332	Q7SD53	774	367110	
+UM05433	166	cell wall	wall	12965_Ustma22	Ustma22	Basidiomycota	Ustilaginomycetes	lost	jgi_id_has_no_public_sequence_route; locus_tag_no_hit_in_genome_strain	row_locus_tag	UM05433				
+exg1/Afu1g03600	171	cell wall	wall					mapped_family_rep		afu_locus_of_family	AFUA_1G03600	Q4WK60	416	330879	
+exg1/Afu1g03600	171	cell wall	wall					mapped_family_rep		afu_locus_of_family	AFUA_1G03600	Q4WK60	416	330879	
+exg1	171	cell wall	wall	4344_Sacce1	Sacce1	Saccharomycotina	Saccharomycotina	candidate_gene_name		gene_name	exg1	P23776	448	559292	
+eng2/Afu2g14360	179	cell wall	wall					mapped_family_rep		afu_locus_of_family	AFUA_2G14360	Q4X084	652	330879	
+chsA/Afu2g01870	209	cell wall	wall					mapped_family_rep		afu_locus_of_family	AFUA_2G01870	Q4WIH1	933	330879	
+chsB/Afu4g04180	209	cell wall	wall					mapped_family_rep		afu_locus_of_family	AFUA_4G04180	Q4W9P7	1084	330879	
+chsA_Afu2g01870	209	cell wall	wall	1817_Aspfu1	Aspfu1	Pezizomycotina	Eurotiomycetes	mapped_locus_tag		row_locus_tag	AFUA_2G01870	Q4WIH1	933	330879	
+chsB_Afu4g04180	209	cell wall	wall	4977_Aspfu1	Aspfu1	Pezizomycotina	Eurotiomycetes	mapped_locus_tag		row_locus_tag	AFUA_4G04180	Q4W9P7	1084	330879	
+chsC_Afu5g00760	209	cell wall	wall	5979_Aspfu1	Aspfu1	Pezizomycotina	Eurotiomycetes	mapped_locus_tag		row_locus_tag	AFUA_5G00760	Q92197	893	330879	
+chsG_Afu3g14420	209	cell wall	wall	4573_Aspfu1	Aspfu1	Pezizomycotina	Eurotiomycetes	mapped_locus_tag		row_locus_tag	AFUA_3G14420	P54267	911	330879	
+chs2	209	cell wall	wall	55158_Canalb1	Canalb1	Saccharomycotina	Saccharomycotina	candidate_gene_name		gene_name	chs2	A0A1D8PTV3	1009	237561	
+chs8	209	cell wall	wall	57372_Canalb1	Canalb1	Saccharomycotina	Saccharomycotina	candidate_gene_name		gene_name	chs8	A0A1D8PJ29	1105	237561	
+chs1	209	cell wall	wall	7181_Neucr2	Neucr2	Pezizomycotina	Sordariomycetes	lost	jgi_id_has_no_public_sequence_route; gene_name_no_hit	gene_name					
+chs2	209	cell wall	wall	6692_Neucr2	Neucr2	Pezizomycotina	Sordariomycetes	lost	jgi_id_has_no_public_sequence_route; gene_name_no_hit	gene_name					
+chs3	209	cell wall	wall	8241_Neucr2	Neucr2	Pezizomycotina	Sordariomycetes	lost	jgi_id_has_no_public_sequence_route; gene_name_no_hit	gene_name					
+orlA/Afu3g05650	222	cell wall	wall					mapped_family_rep		afu_locus_of_family	AFUA_3G05650	Q4WWF5	949	330879	
+orlA_Afu3g05650	222	cell wall	wall	3719_Aspfu1	Aspfu1	Pezizomycotina	Eurotiomycetes	mapped_locus_tag		row_locus_tag	AFUA_3G05650	Q4WWF5	949	330879	
+tps2	222	cell wall	wall	59358_Canalb1	Canalb1	Saccharomycotina	Saccharomycotina	candidate_gene_name		gene_name	tps2	Q5AI14	888	237561	
+chsE/Afu2g13440	234	cell wall	wall					mapped_family_rep		afu_locus_of_family	AFUA_2G13440	Q4X0H6	1848	330879	
+chsE/Afu2g13440	234	cell wall	wall					mapped_family_rep		afu_locus_of_family	AFUA_2G13440	Q4X0H6	1848	330879	
+chsE_Afu2g13440	234	cell wall	wall	2822_Aspfu1	Aspfu1	Pezizomycotina	Eurotiomycetes	mapped_locus_tag		row_locus_tag	AFUA_2G13440	Q4X0H6	1848	330879	
+csmB_Afu2g13430	234	cell wall	wall	2821_Aspfu1	Aspfu1	Pezizomycotina	Eurotiomycetes	mapped_locus_tag		row_locus_tag	AFUA_2G13430	Q4X0H7	1756	330879	
+chs5	234	cell wall	wall	6174_Neucr2	Neucr2	Pezizomycotina	Sordariomycetes	lost	jgi_id_has_no_public_sequence_route; gene_name_no_hit	gene_name					
+kre6/Afu2g11870	293	cell wall	wall					mapped_family_rep		afu_locus_of_family	AFUA_2G11870	Q4X0Y4	660	330879	
+kre6	293	cell wall	wall	57843_Canalb1	Canalb1	Saccharomycotina	Saccharomycotina	candidate_gene_name		gene_name	kre6	A0A1D8PKB6	740	237561	
+chs3/Afu8g05620	361	cell wall	wall					mapped_family_rep		afu_locus_of_family	AFUA_8G05620	Q4WC59	721	330879	
+chs4_skt5	361	cell wall	wall	177_Sacce1	Sacce1	Saccharomycotina	Saccharomycotina	candidate_gene_name		gene_name	skt5	P34226	696	559292	
+chsF/Afu8g05630	368	cell wall	wall					mapped_family_rep		afu_locus_of_family	AFUA_8G05630	Q4WC58	1182	330879	
+chsF/Afu8g05630	368	cell wall	wall					mapped_family_rep		afu_locus_of_family	AFUA_8G05630	Q4WC58	1182	330879	
+chsF_Afu8g05630	368	cell wall	wall	9606_Aspfu1	Aspfu1	Pezizomycotina	Eurotiomycetes	mapped_locus_tag		row_locus_tag	AFUA_8G05630	Q4WC58	1182	330879	
+chs4	368	cell wall	wall	1058_Neucr2	Neucr2	Pezizomycotina	Sordariomycetes	lost	jgi_id_has_no_public_sequence_route; gene_name_no_hit	gene_name					
+chs3	368	cell wall	wall	266_Sacce1	Sacce1	Saccharomycotina	Saccharomycotina	candidate_gene_name		gene_name	chs3	P29465	1165	559292	
+crh3/Afu3g09250	374	cell wall	wall					mapped_family_rep		afu_locus_of_family	AFUA_3G09250	Q4WXE6	363	330879	
+crh3/Afu3g09250	374	cell wall	wall					mapped_family_rep		afu_locus_of_family	AFUA_3G09250	Q4WXE6	363	330879	
+csf4	374	cell wall	wall	57465_Canalb1	Canalb1	Saccharomycotina	Saccharomycotina	candidate_gene_name		gene_name	csf4	Q5AJC0	470	237561	
+crh1	374	cell wall	wall	2769_Sacce1	Sacce1	Saccharomycotina	Saccharomycotina	candidate_gene_name		gene_name	crh1	P53301	507	559292	
+crh2_utr2	374	cell wall	wall	1877_Sacce1	Sacce1	Saccharomycotina	Saccharomycotina	candidate_gene_name		gene_name	utr2	P32623	467	559292	
+gel2/Afu6g11390	435	cell wall	wall					mapped_family_rep		afu_locus_of_family	AFUA_6G11390	P0C954	475	330879	
+gel7/Afu6g12410	435	cell wall	wall					mapped_family_rep		afu_locus_of_family	AFUA_6G12410	Q4WLT3	541	330879	
+gel7_Afu6g12410	435	cell wall	wall	8302_Aspfu1	Aspfu1	Pezizomycotina	Eurotiomycetes	mapped_locus_tag		row_locus_tag	AFUA_6G12410	Q4WLT3	541	330879	
+phr1	435	cell wall	wall	57058_Canalb1	Canalb1	Saccharomycotina	Saccharomycotina	candidate_gene_name		gene_name	phr1	P43076	548	237561	
+gel4	435	cell wall	wall	6440_Neucr2	Neucr2	Pezizomycotina	Sordariomycetes	lost	jgi_id_has_no_public_sequence_route; gene_name_no_hit	gene_name					
+gas1	435	cell wall	wall	5008_Sacce1	Sacce1	Saccharomycotina	Saccharomycotina	candidate_gene_name		gene_name	gas1	P22146	559	559292	
+kexB_Afu4g12970	476	cell wall	wall	5726_Aspfu1	Aspfu1	Pezizomycotina	Eurotiomycetes	mapped_locus_tag		row_locus_tag	AFUA_4G12970	Q4WQI8	844	330879	
+kex2	476	cell wall	wall	59876_Canalb1	Canalb1	Saccharomycotina	Saccharomycotina	candidate_gene_name		gene_name	kex2	A0A1D8PEG3	936	237561	
+kex2	476	cell wall	wall	5136_Sacce1	Sacce1	Saccharomycotina	Saccharomycotina	candidate_gene_name		gene_name	kex2	P13134	814	559292	
+fks1/Afu6g12400	635	cell wall	wall					mapped_family_rep		afu_locus_of_family	AFUA_6G12400	Q4WLT4	1904	330879	
+fks1/Afu6g12400	635	cell wall	wall					mapped_family_rep		afu_locus_of_family	AFUA_6G12400	Q4WLT4	1904	330879	
+fks1_Afu6g12400	635	cell wall	wall	8301_Aspfu1	Aspfu1	Pezizomycotina	Eurotiomycetes	mapped_locus_tag		row_locus_tag	AFUA_6G12400	Q4WLT4	1904	330879	
+gsc1	635	cell wall	wall	59265_Canalb1	Canalb1	Saccharomycotina	Saccharomycotina	candidate_gene_name		gene_name	gsc1	A0A1D8PCT0	1897	237561	
+fks1	635	cell wall	wall	9773_Neucr2	Neucr2	Pezizomycotina	Sordariomycetes	lost	jgi_id_has_no_public_sequence_route; gene_name_no_hit	gene_name					
+fks1	635	cell wall	wall	4388_Sacce1	Sacce1	Saccharomycotina	Saccharomycotina	candidate_gene_name		gene_name	fks1	P38631	1876	559292	
+bgs1	635	cell wall	wall	3290_Schpo1	Schpo1	Taphrinomycotina	Taphrinomycotina	candidate_gene_name		gene_name	bgs1	Q10287	1729	284812	
+bgs4	635	cell wall	wall	5055_Schpo1	Schpo1	Taphrinomycotina	Taphrinomycotina	candidate_gene_name		gene_name	bgs4	O74475	1955	284812	
+chi4/Afu5g03530	636	cell wall	wall					mapped_family_rep		afu_locus_of_family	AFUA_5G03530	Q4WEM4	369	330879	
+chiA1/Afu5g03760	636	cell wall	wall					mapped_family_rep		afu_locus_of_family	AFUA_5G03760	Q4WEP7	888	330879	
+chiA1_Afu5g03760	636	cell wall	wall	6276_Aspfu1	Aspfu1	Pezizomycotina	Eurotiomycetes	mapped_locus_tag		row_locus_tag	AFUA_5G03760	Q4WEP7	888	330879	
+cht2	636	cell wall	wall	56517_Canalb1	Canalb1	Saccharomycotina	Saccharomycotina	candidate_gene_name		gene_name	cht2	P40953	583	237561	
+cts1	636	cell wall	wall	4327_Sacce1	Sacce1	Saccharomycotina	Saccharomycotina	candidate_gene_name		gene_name	cts1	P29029	562	559292	
+gfa1_Afu6g06340	762	cell wall	wall	7709_Aspfu1	Aspfu1	Pezizomycotina	Eurotiomycetes	mapped_locus_tag		row_locus_tag	AFUA_6G06340	E9R5E2	694	330879	
+gfa1	762	cell wall	wall	57516_Canalb1	Canalb1	Saccharomycotina	Saccharomycotina	candidate_gene_name		gene_name	gfa1	P53704	713	237561	
+chs7	773	cell wall	wall	3925_Neucr2	Neucr2	Pezizomycotina	Sordariomycetes	candidate_gene_name		gene_name	chs7	Q7SB92	358	367110	
+chs7	773	cell wall	wall	3109_Sacce1	Sacce1	Saccharomycotina	Saccharomycotina	candidate_gene_name		gene_name	chs7	P38843	316	559292	
+Afu4g00620	843	cell wall	wall					mapped_family_rep		afu_locus_of_family	AFUA_4G00620	Q4W985	453	330879	
+dfg5	843	cell wall	wall	58094_Canalb1	Canalb1	Saccharomycotina	Saccharomycotina	candidate_gene_name		gene_name	dfg5	Q5ACZ2	451	237561	
+dfg5	843	cell wall	wall	7340_Neucr2	Neucr2	Pezizomycotina	Sordariomycetes	candidate_gene_name		gene_name	dfg5	Q1K7A8	489	367110	
+Afu5g12550	1348	cell wall (GPI anchor assembly)	wall					mapped_family_rep		afu_locus_of_family	AFUA_5G12550	Q4WVL6	303	330879	
+cwh41_Afu6g04210	1557	cell wall	wall	7587_Aspfu1	Aspfu1	Pezizomycotina	Eurotiomycetes	mapped_locus_tag		row_locus_tag	AFUA_6G04210	Q4WDB9	822	330879	
+kre5	1597	cell wall	wall	57579_Canalb1	Canalb1	Saccharomycotina	Saccharomycotina	candidate_gene_name		gene_name	kre5	A0A1D8PJN6	1447	237561	
+cot-5	1678	cell wall	wall	2755_Neucr2	Neucr2	Pezizomycotina	Sordariomycetes	lost	jgi_id_has_no_public_sequence_route; gene_name_no_hit	gene_name					
+bgt3/Afu5g08780	2065	cell wall	wall					mapped_family_rep		afu_locus_of_family	AFUA_5G08780	Q4WUK5	688	330879	
+chs5	2972	cell wall	wall	58429_Canalb1	Canalb1	Saccharomycotina	Saccharomycotina	candidate_gene_name		gene_name	chs5	O74161	562	237561	
+chs5	2972	cell wall	wall	4376_Sacce1	Sacce1	Saccharomycotina	Saccharomycotina	candidate_gene_name		gene_name	chs5	Q12114	671	559292	
+ecm33	3228	cell wall	wall	56366_Canalb1	Canalb1	Saccharomycotina	Saccharomycotina	candidate_gene_name		gene_name	ecm33	Q5AGC4	413	237561	
+Afu8g02320	3398	cell wall	wall					mapped_family_rep		afu_locus_of_family	AFUA_8G02320	A4DA44	602	330879	
+cps1	3398	cell wall	wall	1684_Neucr2	Neucr2	Pezizomycotina	Sordariomycetes	lost	jgi_id_has_no_public_sequence_route; gene_name_no_hit	gene_name					
+scw4_Afu6g12380	3461	cell wall	wall	8299_Aspfu1	Aspfu1	Pezizomycotina	Eurotiomycetes	mapped_locus_tag		row_locus_tag	AFUA_6G12380	Q4WLT6	369	330879	
+ags1_Afu3g00910	3602	cell wall	wall	3359_Aspfu1	Aspfu1	Pezizomycotina	Eurotiomycetes	mapped_locus_tag		row_locus_tag	AFUA_3G00910	Q4WFV3	2420	330879	
+ags2_Afu2g11270	3602	cell wall	wall	2616_Aspfu1	Aspfu1	Pezizomycotina	Eurotiomycetes	mapped_locus_tag		row_locus_tag	AFUA_2G11270	Q4X143	2426	330879	
+ags1	3602	cell wall	wall	8483_Hisca1	Hisca1	Pezizomycotina	Eurotiomycetes	lost	jgi_id_has_no_public_sequence_route; gene_name_no_hit	gene_name					
+neg1	3807	cell wall	wall	6123_Neucr2	Neucr2	Pezizomycotina	Sordariomycetes	lost	jgi_id_has_no_public_sequence_route; gene_name_no_hit	gene_name					
+bgt1	4166	cell wall	wall	5869_Neucr2	Neucr2	Pezizomycotina	Sordariomycetes	lost	jgi_id_has_no_public_sequence_route; gene_name_no_hit	gene_name					
+bgt2_eglc	4166	cell wall	wall	3834_Neucr2	Neucr2	Pezizomycotina	Sordariomycetes	lost	jgi_id_has_no_public_sequence_route; gene_name_no_hit	gene_name					
+dfg10	4272	cell wall	wall	1726_Sacce1	Sacce1	Saccharomycotina	Saccharomycotina	candidate_gene_name		gene_name	dfg10	P40526	253	559292	
+sun1/Afu7g05450	4470	cell wall	wall					mapped_family_rep		afu_locus_of_family	AFUA_7G05450	Q4WGL5	414	330879	
+sun1_Afu7g05450	4470	cell wall	wall	8948_Aspfu1	Aspfu1	Pezizomycotina	Eurotiomycetes	mapped_locus_tag		row_locus_tag	AFUA_7G05450	Q4WGL5	414	330879	
+sun41	4470	cell wall	wall	55790_Canalb1	Canalb1	Saccharomycotina	Saccharomycotina	candidate_gene_name		gene_name	sun41	Q59NP5	418	237561	
+pir1	4935	cell wall	wall	58864_Canalb1	Canalb1	Saccharomycotina	Saccharomycotina	candidate_gene_name		gene_name	pir1	Q59SF7	385	237561	
+smi1	6034	cell wall	wall	59770_Canalb1	Canalb1	Saccharomycotina	Saccharomycotina	candidate_gene_name		gene_name	smi1	A0A1D8PE53	620	237561	
+cot-2	6034	cell wall	wall	8184_Neucr2	Neucr2	Pezizomycotina	Sordariomycetes	candidate_gene_name		gene_name	cot-2	P38678	532	367110	
+gs-1	6034	cell wall	wall	8184_Neucr2	Neucr2	Pezizomycotina	Sordariomycetes	candidate_gene_name		gene_name	gs-1	P38678	532	367110	
+kre9	6796	cell wall	wall	57690_Canalb1	Canalb1	Saccharomycotina	Saccharomycotina	candidate_gene_name		gene_name	kre9	Q5ANN9	271	237561	
+chr4	8845	cell wall	wall	4159_Schpo1	Schpo1	Taphrinomycotina	Taphrinomycotina	candidate_gene_name		gene_name	chr4	O94614	633	284812	
+chsD/Afu1g12600	9065	cell wall	wall					mapped_family_rep		afu_locus_of_family	AFUA_1G12600	P78746	745	330879	
+chsD_Afu1g12600	9065	cell wall	wall	1125_Aspfu1	Aspfu1	Pezizomycotina	Eurotiomycetes	mapped_locus_tag		row_locus_tag	AFUA_1G12600	P78746	745	330879	
+chs6	9065	cell wall	wall	6661_Neucr2	Neucr2	Pezizomycotina	Sordariomycetes	lost	jgi_id_has_no_public_sequence_route; gene_name_no_hit	gene_name					
+kre1	10706	cell wall	wall	54705_Canalb1	Canalb1	Saccharomycotina	Saccharomycotina	candidate_gene_name		gene_name	kre1	P0CY22	130	237561	
+pga13	12110	cell wall	wall	55119_Canalb1	Canalb1	Saccharomycotina	Saccharomycotina	candidate_gene_name		gene_name	pga13	Q5A343	456	237561	
+cfmA_Afu6g14090	12180	cell wall	wall	8462_Aspfu1	Aspfu1	Pezizomycotina	Eurotiomycetes	mapped_locus_tag		row_locus_tag	AFUA_6G14090	Q4WLB9	305	330879	
+big1	14891	cell wall	wall	3064_Sacce1	Sacce1	Saccharomycotina	Saccharomycotina	candidate_gene_name		gene_name	big1	P38813	335	559292	
+chs6	20021	cell wall	wall	3335_Sacce1	Sacce1	Saccharomycotina	Saccharomycotina	candidate_gene_name		gene_name	chs6	P40955	746	559292	
+irs4	23348	cell wall	wall	57646_Canalb1	Canalb1	Saccharomycotina	Saccharomycotina	candidate_gene_name		gene_name	irs4	Q59SR6	638	237561	
+opy2	41483	cell wall	wall	59811_Canalb1	Canalb1	Saccharomycotina	Saccharomycotina	candidate_gene_name		gene_name	opy2	Q5A753	527	237561	

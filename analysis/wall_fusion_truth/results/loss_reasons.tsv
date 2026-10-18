@@ -1,0 +1,6 @@
+slice	reason	rows
+adhesion	jgi_id_has_no_public_sequence_route; gene_name_ambiguous	2
+adhesion	jgi_id_has_no_public_sequence_route; gene_name_no_hit	12
+adhesion	no_jgi_id_and_no_afu_locus	2
+wall	jgi_id_has_no_public_sequence_route; gene_name_no_hit	15
+wall	jgi_id_has_no_public_sequence_route; locus_tag_no_hit_in_genome_strain	4

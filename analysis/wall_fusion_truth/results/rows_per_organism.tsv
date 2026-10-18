@@ -1,0 +1,31 @@
+organism_code	clade_coarse	slice	rows	mapped_locus_tag	mapped_family_rep	candidate_gene_name	lost
+(no JGI ID)		adhesion	6	0	4	0	2
+(no JGI ID)		wall	28	0	28	0	0
+(no JGI ID)		fusion	3	0	3	0	0
+Ashgo11	Saccharomycotina	wall	4	3	0	0	1
+Aspfu1	Pezizomycotina	adhesion	3	3	0	0	0
+Aspfu1	Pezizomycotina	wall	22	22	0	0	0
+Aspfu1	Pezizomycotina	fusion	1	1	0	0	0
+Batde5	Chytridiomycota	wall	2	2	0	0	0
+Botci1	Pezizomycotina	adhesion	2	0	0	2	0
+Canalb1	Saccharomycotina	adhesion	11	0	0	9	2
+Canalb1	Saccharomycotina	wall	25	0	0	25	0
+Copci	Basidiomycota	adhesion	2	0	0	2	0
+CryneH991	Basidiomycota	adhesion	1	0	0	0	1
+CryneH991	Basidiomycota	wall	2	0	0	0	2
+Crypa2	Pezizomycotina	adhesion	1	0	0	0	1
+Fusgr1	Pezizomycotina	adhesion	1	0	0	1	0
+Hisca1	Pezizomycotina	adhesion	2	0	0	0	2
+Hisca1	Pezizomycotina	wall	2	0	0	0	2
+Neucr2	Pezizomycotina	adhesion	6	1	0	1	4
+Neucr2	Pezizomycotina	wall	19	2	0	4	13
+Neucr2	Pezizomycotina	fusion	1	0	0	1	0
+Sacce1	Saccharomycotina	adhesion	8	0	0	8	0
+Sacce1	Saccharomycotina	wall	14	0	0	14	0
+Sacce1	Saccharomycotina	fusion	2	0	0	2	0
+Schco3	Basidiomycota	adhesion	3	0	0	0	3
+Schpo1	Taphrinomycotina	wall	3	0	0	3	0
+Trire2	Pezizomycotina	adhesion	2	0	0	2	0
+Ustma22	Basidiomycota	adhesion	3	0	0	2	1
+Ustma22	Basidiomycota	wall	1	0	0	0	1
+Ustma22	Basidiomycota	fusion	1	0	0	1	0
