@@ -165,7 +165,6 @@ def test_the_packaged_config_limits_the_antigen_module_to_rs():
     assert load_config().species_limited == {"antigen_lookup": [RS]}
 
 
-@XFAIL
 def test_the_key_is_optional(tmp_path):
     assert _config(tmp_path).species_limited == {}
     assert _config(tmp_path, {"antigen_lookup": [1, 2]}).species_limited == {
@@ -186,7 +185,6 @@ def test_the_key_is_optional(tmp_path):
         ("antigen_lookup", "mapping"),
     ],
 )
-@XFAIL
 def test_a_bad_species_limited_block_is_a_config_error(tmp_path, value, message):
     with pytest.raises(ConfigError, match=message):
         _config(tmp_path, value)

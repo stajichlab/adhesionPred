@@ -57,6 +57,8 @@ class Config:
     calls: list
     evidence: list
     sha256: str
+    # module name -> list of taxon IDs where the module applies (see categories.yaml)
+    species_limited: dict = field(default_factory=dict)
 
     def call_by_name(self, name):
         for c in self.calls:
@@ -95,6 +97,7 @@ def load_config(path=None):
         calls=list(data["calls"]),
         evidence=list(data.get("evidence", [])),
         sha256=hashlib.sha256(raw).hexdigest(),
+        species_limited=data.get("species_limited", {}),
     )
     _validate(cfg)
     return cfg
@@ -130,6 +133,21 @@ def _validate(cfg):
                 if seen[b]:
                     raise ConfigError(f"{name}: basis_calls entry {b!r} must be an ungated call")
         seen[name] = per_variant
+    _validate_species_limited(cfg)
+
+
+def _validate_species_limited(cfg):
+    block = cfg.species_limited
+    if not isinstance(block, dict):
+        raise ConfigError("species_limited must be a mapping of module name to taxon IDs")
+    read = set(referenced_modules(cfg))
+    for module, taxa in block.items():
+        if module not in read:
+            raise ConfigError(f"species_limited: {module!r} is not a module that a call reads")
+        if not isinstance(taxa, list) or not taxa:
+            raise ConfigError(f"species_limited.{module} must be a non-empty list of taxon IDs")
+        if any(isinstance(t, bool) or not isinstance(t, int) for t in taxa):
+            raise ConfigError(f"species_limited.{module}: every taxon ID must be an integer")
 
 
 def _check_module_name(module, per_variant, where):
