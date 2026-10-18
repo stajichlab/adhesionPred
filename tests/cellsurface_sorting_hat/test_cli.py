@@ -363,7 +363,10 @@ def test_no_module_at_all_still_writes_a_report_with_a_warning(tmp_path, nodes_d
     report = (out / "report.md").read_text()
     assert "WARNING: The default gate step1_rule@R0 is not available" in report
     got = read_long(out)
-    assert {r["value"] for r in got.values()} == {"not_assessable"}
+    # the antigen module is limited to C. immitis RS (species_limited): taxon 40 is outside it
+    rank = "cocci_specificity_rank_top15"
+    assert {r["value"] for k, r in got.items() if k[1] != rank} == {"not_assessable"}
+    assert [r["value"] for k, r in got.items() if k[1] == rank] == ["not_applicable"]
     assert not any(k[2] for k in got)  # no per-variant records without a step 1 variant
 
 

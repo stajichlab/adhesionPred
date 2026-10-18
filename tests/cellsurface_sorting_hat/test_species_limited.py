@@ -23,7 +23,6 @@ from cellsurface_sorting_hat.engine import ConfigError, load_config
 
 RS = 246410
 OUTSIDE = 40
-XFAIL = pytest.mark.xfail(strict=True, reason="issue #93: species_limited is not implemented yet")
 NA = "not_applicable"
 NOT_ASSESSABLE = "not_assessable"
 RANK = ("P", "cocci_specificity_rank_top15", "")
@@ -121,7 +120,6 @@ def _nodes(tmp_path):
     return path
 
 
-@XFAIL
 def test_mixed_taxa_get_a_decision_per_protein(tmp_path, write_module):
     fasta, taxon_map, wd = build(tmp_path, write_module)
     for suffix in (".tsv.gz", ".json"):
@@ -166,7 +164,6 @@ def _config(tmp_path, species_limited="absent"):
     return load_config(path)
 
 
-@XFAIL
 def test_the_packaged_config_limits_the_antigen_module_to_rs():
     assert load_config().species_limited == {"antigen_lookup": [RS]}
 

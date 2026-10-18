@@ -3,7 +3,7 @@
 - proteins: 5 (1 invalid, excluded from all modules; 1 had a trailing `*`, removed)
 - taxa (taxon ID: proteins): 40: 3, 41: 2
 - taxonomy file sha256: 492f746e8af7ed537fe0bcf4920a583e583410d1ebf5b12cd6c1284e44d474df
-- categories.yaml sha256: 68a35bad9dedcb8c34e0368153817edeb1ef489da0e12ed9d9243d4e52cc3721
+- categories.yaml sha256: f50e16844ab62bd590f10cdbe70ddb5217c67ff8dd702e7afbf17ba1b538da37
 - default gate: step1_rule@R0
 - thresholds: allergen_coverage_min = 80, allergen_hit_identity_min = 35, allergen_hit_length_min = 80, allergen_identity_min = 70, antigen_percentile_max = 15
 

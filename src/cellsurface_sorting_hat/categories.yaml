@@ -11,10 +11,19 @@
 # A field that is empty, or a module whose state is not `ok`, gives not_assessable.
 # A module row with state `not_applicable` gives not_applicable (a leaf call); it acts as not_called in
 # and/or and is skipped in the mechanism list of an `other` call.
+#
+# species_limited (optional): MODULE: [NCBI taxon IDs]. A module in this block applies only to the
+# listed taxa (exact match, not lineage). When a run has NO table for such a module, a leaf that
+# reads it is `not_applicable` for a protein whose taxon is not in the list, and `not_assessable` for
+# a protein whose taxon is in the list. When the table exists, its rows decide. Each name must be a
+# module that a call reads. Each value is a non-empty list of integers.
 
 version: 1
 default_gate: "step1_rule@R0"
 step1_variants: ["step1_rule@R0", "step1_rule@R1", "step1_rule@R2", "step1_ml@card"]
+
+species_limited:
+  antigen_lookup: [246410]  # Coccidioides immitis RS
 
 thresholds:
   antigen_percentile_max: 15
