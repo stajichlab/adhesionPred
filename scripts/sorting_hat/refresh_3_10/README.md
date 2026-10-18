@@ -203,12 +203,29 @@ All through `ssh hpcc` (SLURM tools need `bash -lc`). No job was submitted and n
 
 Issue #93 added the `species_limited` block to `categories.yaml` and raised `ENGINE_SEMANTICS` to 3. The config hash and every call hash changed. The two `tandem_repeat_protein.owner_definition.config-of-2026-10-17-pr3.json` files (S288C and C. albicans) are stale. The call is `unvalidated` until they are made again. The eight `pfam_hydrophobin` files and the R0 file are module statuses and stay valid. The refresh scripts are not changed.
 
-Run again, in this order:
+Run again in the order 3a, 4, 3b. The scripts refuse to overwrite, so move the old results aside first. Every step is reversible (`mv` back). Each submission needs the owner's go-ahead. Do not edit the `.sbatch` or `lib.sh` files.
 
-1. Job 3a.
-2. Job 4.
-3. Job 3b.
+`NEW` is the new work directory root (see `lib.sh`), `PROJ_ROOT` is the HPCC clone. The nine run proteomes are the ones with `run=yes` in `inputs.tsv`; the two with a repeat call status are `Scer_S288C` and `Calb_SC5314`.
 
-Before the first job, export the new pins: `CODE_COMMIT` (the commit that holds the change of issue #93) and `CATEGORIES_SHA256` (the sha256 of `src/cellsurface_sorting_hat/categories.yaml` at that commit). `FAMILY_SHA256` does not change; keep the value of the first run. The work directories need no `antigen_lookup` record for the proteomes outside C. immitis RS any more: an absent table is `not_applicable` there.
+1. **Move the old outputs aside.** Job 3 refuses an existing `out_pre` or `out_final` (`03_core_runs.sbatch`, "exists; nothing is overwritten"). Job 4 refuses an existing `status/calls/tandem_repeat_protein.json` (`04_truth_repeat_call.sbatch`), and job 3b needs the new one. In each of the nine work directories:
+   ```
+   mv $NEW/$p/out_pre   $NEW/$p/out_pre_before_93
+   mv $NEW/$p/out_final $NEW/$p/out_final_before_93
+   ```
+   and in `Scer_S288C` and `Calb_SC5314`:
+   ```
+   mv $NEW/$p/status/calls/tandem_repeat_protein.json        $NEW/$p/status/calls/tandem_repeat_protein.json.before_93
+   mv $NEW/$p/status/calls/tandem_repeat_protein.json.sha256 $NEW/$p/status/calls/tandem_repeat_protein.json.sha256.before_93
+   ```
+   Keep the `.before_93` suffix: the status loader reads every `*.json` in `status/calls/`, and a moved file with that suffix is not read.
+2. **Update the clone to the merge commit of PR #96.** `check_pin` (`lib.sh`) needs `CODE_COMMIT` in the clone, `src`, `data/sorting_hat` and the detector and truth files unchanged from `CODE_COMMIT` to `HEAD`, and a clean tree. In `$PROJ_ROOT`: `git fetch origin`, `git checkout main`, `git pull --ff-only`. Then `git status --short` must print nothing.
+3. **Export the pins.**
+   ```
+   export CODE_COMMIT=$(git -C $PROJ_ROOT rev-parse HEAD)   # the merge commit of PR #96
+   export CATEGORIES_SHA256=f50e16844ab62bd590f10cdbe70ddb5217c67ff8dd702e7afbf17ba1b538da37
+   ```
+   `CATEGORIES_SHA256` is the sha256 of `src/cellsurface_sorting_hat/categories.yaml`. The value above is the one of the branch `species-limited-modules` before the merge (it is also in `tests/cellsurface_sorting_hat/golden/report.expected.md`). Merging does not change the file, but check the value after the merge: `sha256sum $PROJ_ROOT/src/cellsurface_sorting_hat/categories.yaml` must print the same hash. If it does not, stop; use the printed value only after the owner has seen the diff. `FAMILY_SHA256` does not change; keep the value of the first run.
+4. **Run, each with its own go-ahead:** job 3a (`OUTNAME=out_pre`, `--array=0-8`), then job 4 (`--array=0-1`), then job 3b (`OUTNAME=out_final`, `--array=0-8`), as in the run order.
+5. **Check the result.** All nine work directories already have an `antigen_lookup` table (job 2b). With a table present the new rule does nothing, so the counts of the new `out_final` must equal the counts of `out_final_before_93`. Only the hashes (`config_sha256`, call hashes) change. A difference in a count is a finding: report it, do not explain it away. The `*_before_93` items stay until the owner removes them.
 
 Nothing is submitted without the owner's go-ahead.
