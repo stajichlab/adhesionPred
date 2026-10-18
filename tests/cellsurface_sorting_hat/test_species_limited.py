@@ -8,11 +8,13 @@ behaviour removes the mark.
 
 import copy
 import gzip
+import tempfile
 from pathlib import Path
 
 import pytest
 import yaml
-from engine_helpers import base_modules, ok, run_eval, table
+from engine_helpers import base_modules, ok, table
+from engine_helpers import run_eval as _run_eval
 from test_cli import build
 
 import cellsurface_sorting_hat.engine as engine_module
@@ -27,13 +29,20 @@ NOT_ASSESSABLE = "not_assessable"
 RANK = ("P", "cocci_specificity_rank_top15", "")
 
 
+def run_eval(modules, **kw):
+    """``run_eval`` with a config that limits antigen_lookup to RS, whatever the packaged file says."""
+    if "cfg" not in kw:
+        with tempfile.TemporaryDirectory() as folder:
+            kw["cfg"] = _config(Path(folder), {"antigen_lookup": [RS]})
+    return _run_eval(modules, **kw)
+
+
 def no_antigen(step1="called", **over):
     mods = base_modules(step1=step1, **over)
     del mods["antigen_lookup"]
     return mods
 
 
-@XFAIL
 def test_absent_module_outside_the_taxa_is_not_applicable():
     got = run_eval(no_antigen(), taxon=OUTSIDE)
     assert got[RANK].value == NA
@@ -43,7 +52,6 @@ def test_absent_module_outside_the_taxa_is_not_applicable():
     assert got[("P", "other_not_surface", "R0")].value == "not_called"
 
 
-@XFAIL
 def test_absent_module_outside_the_taxa_gives_a_label_for_a_not_surface_protein():
     got = run_eval(no_antigen(step1="not_called"), taxon=OUTSIDE)
     assert got[("P", "other_not_surface", "R0")].value == "called"
@@ -79,7 +87,7 @@ def test_a_present_table_decides_by_its_rows(taxon):
 
 @pytest.mark.parametrize(
     "step1",
-    [pytest.param("called", marks=XFAIL), "not_called"],
+    ["called", "not_called"],
 )
 def test_no_serodiagnostic_call_for_a_secreted_protein_outside_the_taxa(step1):
     """FD-A1: the absent module must not turn into a mass call."""
@@ -87,7 +95,6 @@ def test_no_serodiagnostic_call_for_a_secreted_protein_outside_the_taxa(step1):
     assert got[("P", "serodiagnostic_marker_candidate", "R0")].value == "not_called"
 
 
-@XFAIL
 def test_a_not_called_record_with_a_not_applicable_leaf_has_a_basis():
     got = run_eval(no_antigen(), taxon=OUTSIDE)
     sero = got[("P", "serodiagnostic_marker_candidate", "R0")]
@@ -96,7 +103,6 @@ def test_a_not_called_record_with_a_not_applicable_leaf_has_a_basis():
     assert sero.status == "unvalidated"
 
 
-@XFAIL
 def test_matching_is_exact_not_by_lineage():
     # 41 is a toy taxon below the Onygenales; only the exact taxon of the list counts
     assert run_eval(no_antigen(), taxon=41)[RANK].value == NA

@@ -29,7 +29,8 @@ OK_STATE = "ok"
 # Bump by hand when the evaluation rules change (Kleene tables, NA handling). It is part of call_hash,
 # so a call status file measured under other rules is stale.
 # 2: not_applicable value (acts as not_called in and/or); an unknown mechanism makes other_* unknown.
-ENGINE_SEMANTICS = "2"
+# 3: an absent table of a species_limited module gives not_applicable outside its taxa (issue #93).
+ENGINE_SEMANTICS = "3"
 _OPS = {">=": operator.ge, "<=": operator.le, ">": operator.gt, "<": operator.lt, "==": operator.eq}
 _NODE_KEYS = {"call", "flag", "test", "ref", "and", "or", "not"}
 
@@ -220,6 +221,18 @@ def _not_applicable(modules, module, protein_id):
     return row is not None and row.get("state") == NOT_APPLICABLE
 
 
+def _leaf_not_applicable(ctx, module):
+    """True when a leaf that reads ``module`` is not applicable for the protein of ``ctx``.
+
+    Either the module table says so (state ``not_applicable``), or the module is species limited,
+    has no table in this run, and the taxon of the protein is not in its list (exact match)."""
+    modules, protein = ctx["modules"], ctx["protein"]
+    if _not_applicable(modules, module, protein):
+        return True
+    limited = ctx["species_limited"].get(module)
+    return limited is not None and modules.get(module) is None and ctx["taxon"] not in limited
+
+
 def _na_leaf(module):
     return _Result(NOT_APPLICABLE, frozenset(), frozenset([module]))
 
@@ -228,21 +241,21 @@ def _eval(node, ctx):
     kind, arg = next(iter(node.items()))
     if kind == "call":
         module = arg.replace("{step1}", ctx["step1"] or "")
-        if _not_applicable(ctx["modules"], module, ctx["protein"]):
+        if _leaf_not_applicable(ctx, module):
             return _na_leaf(module)
         row = _row(ctx["modules"], module, ctx["protein"])
         value = row.get("call") if row else None
         return _leaf(value if value in (CALLED, NOT_CALLED) else NOT_ASSESSABLE, module, ctx)
     if kind == "flag":
         module, fld = arg.split(".", 1)
-        if _not_applicable(ctx["modules"], module, ctx["protein"]):
+        if _leaf_not_applicable(ctx, module):
             return _na_leaf(module)
         row = _row(ctx["modules"], module, ctx["protein"])
         raw = row.get(fld, "") if row else ""
         value = {"1": CALLED, "0": NOT_CALLED}.get(str(raw).strip(), NOT_ASSESSABLE)
         return _leaf(value, module, ctx)
     if kind == "test":
-        if _not_applicable(ctx["modules"], arg["module"], ctx["protein"]):
+        if _leaf_not_applicable(ctx, arg["module"]):
             return _na_leaf(arg["module"])
         row = _row(ctx["modules"], arg["module"], ctx["protein"])
         limit = arg["value"]
@@ -364,6 +377,8 @@ def evaluate(
             for step1, label in labels:
                 ctx = {
                     "protein": pid,
+                    "taxon": taxon,
+                    "species_limited": cfg.species_limited,
                     "modules": modules,
                     "thresholds": cfg.thresholds,
                     "cfg": cfg,
