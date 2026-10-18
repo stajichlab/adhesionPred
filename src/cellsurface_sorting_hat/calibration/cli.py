@@ -7,6 +7,7 @@ import json
 import sys
 from pathlib import Path
 
+from cellsurface_sorting_hat import controls
 from cellsurface_sorting_hat.calibration import phasec
 from cellsurface_sorting_hat.calibration.call_files import write_call_status
 from cellsurface_sorting_hat.calibration.measure import (
@@ -128,6 +129,14 @@ def build_parser():
     p.add_argument(
         "--tm-table",
         help="TMHMM table (protein_id, pred_hel) to show helices beside each non-member hit",
+    )
+
+    p = sub.add_parser(
+        "controls", help="check control-set directories against COMMON-RULES (exit 2 on a defect)"
+    )
+    p.add_argument("sets", nargs="+", help="directory with controls.tsv, sequences.faa, ...")
+    p.add_argument(
+        "--names-dmp", help="NCBI names.dmp; without it the species names are not checked"
     )
 
     p = sub.add_parser("panel", help="report-only check of calls against a panel")
@@ -574,6 +583,10 @@ def run(args):
         print(f"sequences\t{rep['n_sequences']}\tspecies\t{rep['n_species']}")
         for r in rep["recall"]:
             print(f"{r['rule']}\t{r['recovered']}/{r['n']}")
+        return None
+    if args.cmd == "controls":
+        if controls.run(args.sets, names_dmp=args.names_dmp):
+            raise ValueError("a control set has defects")
         return None
     rows, summary = panel_check(args.calls_long, args.panel)
     for r in rows:

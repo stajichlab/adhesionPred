@@ -13,8 +13,6 @@ import pytest
 FIXTURES = Path(__file__).parent / "fixtures" / "controls"
 REPO = Path(__file__).resolve().parents[2]
 
-pytestmark = pytest.mark.xfail(strict=True, reason="Task 4.1: controls.py is not written yet")
-
 
 def _validate(path, **kw):
     from cellsurface_sorting_hat.controls import validate_controls
@@ -237,7 +235,12 @@ def test_calibrate_cli_has_the_controls_subcommand(good, capsys):
 
 # Committed sets. Known state, pinned so that a new defect or a fixed one is noticed. The data are
 # not edited here: the owner decides whether to fix them.
-KNOWN_FAILURES = {}
+# analysis/lectin_validation/controls: two negative chitinases (Q12713, Q4U4T0, n1_shared) are in the
+# 30% cluster of the positive C1G842 and the table has no mixed_cluster_with_positive column.
+# The owner decides whether to fix the data or to add the flag. Sets without controls.tsv
+# (data/controls/repeat-mechanism, repeat-adhesins-other-species) use another layout and are not
+# checked here. data/controls/hard-negatives-shared passes. This list must only get shorter.
+KNOWN_FAILURES = {"analysis/lectin_validation/controls": 2}
 
 
 def _committed_sets():
