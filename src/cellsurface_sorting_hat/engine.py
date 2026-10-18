@@ -23,13 +23,14 @@ from cellsurface_sorting_hat.logic import (
     k_not,
     k_or,
 )
-from cellsurface_sorting_hat.status import UNVALIDATED, weakest
+from cellsurface_sorting_hat.status import MIN_TAXON, UNVALIDATED, weakest
 
 OK_STATE = "ok"
 # Bump by hand when the evaluation rules change (Kleene tables, NA handling). It is part of call_hash,
 # so a call status file measured under other rules is stale.
 # 2: not_applicable value (acts as not_called in and/or); an unknown mechanism makes other_* unknown.
-ENGINE_SEMANTICS = "2"
+# 3: an absent table of a species_limited module gives not_applicable outside its taxa (issue #93).
+ENGINE_SEMANTICS = "3"
 _OPS = {">=": operator.ge, "<=": operator.le, ">": operator.gt, "<": operator.lt, "==": operator.eq}
 _NODE_KEYS = {"call", "flag", "test", "ref", "and", "or", "not"}
 
@@ -57,6 +58,8 @@ class Config:
     calls: list
     evidence: list
     sha256: str
+    # module name -> list of taxon IDs where the module applies (see categories.yaml)
+    species_limited: dict = field(default_factory=dict)
 
     def call_by_name(self, name):
         for c in self.calls:
@@ -95,6 +98,7 @@ def load_config(path=None):
         calls=list(data["calls"]),
         evidence=list(data.get("evidence", [])),
         sha256=hashlib.sha256(raw).hexdigest(),
+        species_limited=data.get("species_limited", {}),
     )
     _validate(cfg)
     return cfg
@@ -130,6 +134,29 @@ def _validate(cfg):
                 if seen[b]:
                     raise ConfigError(f"{name}: basis_calls entry {b!r} must be an ungated call")
         seen[name] = per_variant
+    _validate_species_limited(cfg)
+
+
+def _validate_species_limited(cfg):
+    block = cfg.species_limited
+    if not isinstance(block, dict):
+        raise ConfigError("species_limited must be a mapping of module name to taxon IDs")
+    read = set(referenced_modules(cfg))
+    for module, taxa in block.items():
+        if module in cfg.step1_variants:
+            raise ConfigError(f"species_limited: {module!r} is a step 1 variant, not allowed")
+        if module not in read:
+            raise ConfigError(f"species_limited: {module!r} is not a module that a call reads")
+        if not isinstance(taxa, list) or not taxa:
+            raise ConfigError(f"species_limited.{module} must be a non-empty list of taxon IDs")
+        if any(isinstance(t, bool) or not isinstance(t, int) for t in taxa):
+            raise ConfigError(f"species_limited.{module}: every taxon ID must be an integer")
+        if any(t < MIN_TAXON for t in taxa):
+            raise ConfigError(
+                f"species_limited.{module}: every taxon ID must be at least {MIN_TAXON}"
+            )
+        if len(set(taxa)) != len(taxa):
+            raise ConfigError(f"species_limited.{module}: duplicate taxon ID")
 
 
 def _check_module_name(module, per_variant, where):
@@ -202,6 +229,23 @@ def _not_applicable(modules, module, protein_id):
     return row is not None and row.get("state") == NOT_APPLICABLE
 
 
+def _leaf_not_applicable(ctx, module):
+    """True when a leaf that reads ``module`` is not applicable for the protein of ``ctx``.
+
+    Either the module table says so (state ``not_applicable``), or the module is species limited,
+    has no table in this run, the protein is valid, and its taxon is not in the list (exact match)."""
+    modules, protein = ctx["modules"], ctx["protein"]
+    if _not_applicable(modules, module, protein):
+        return True
+    limited = ctx["species_limited"].get(module)
+    return (
+        limited is not None
+        and modules.get(module) is None
+        and protein not in ctx["invalid_ids"]
+        and ctx["taxon"] not in limited
+    )
+
+
 def _na_leaf(module):
     return _Result(NOT_APPLICABLE, frozenset(), frozenset([module]))
 
@@ -210,21 +254,21 @@ def _eval(node, ctx):
     kind, arg = next(iter(node.items()))
     if kind == "call":
         module = arg.replace("{step1}", ctx["step1"] or "")
-        if _not_applicable(ctx["modules"], module, ctx["protein"]):
+        if _leaf_not_applicable(ctx, module):
             return _na_leaf(module)
         row = _row(ctx["modules"], module, ctx["protein"])
         value = row.get("call") if row else None
         return _leaf(value if value in (CALLED, NOT_CALLED) else NOT_ASSESSABLE, module, ctx)
     if kind == "flag":
         module, fld = arg.split(".", 1)
-        if _not_applicable(ctx["modules"], module, ctx["protein"]):
+        if _leaf_not_applicable(ctx, module):
             return _na_leaf(module)
         row = _row(ctx["modules"], module, ctx["protein"])
         raw = row.get(fld, "") if row else ""
         value = {"1": CALLED, "0": NOT_CALLED}.get(str(raw).strip(), NOT_ASSESSABLE)
         return _leaf(value, module, ctx)
     if kind == "test":
-        if _not_applicable(ctx["modules"], arg["module"], ctx["protein"]):
+        if _leaf_not_applicable(ctx, arg["module"]):
             return _na_leaf(arg["module"])
         row = _row(ctx["modules"], arg["module"], ctx["protein"])
         limit = arg["value"]
@@ -291,7 +335,15 @@ def available_variants(cfg, modules):
 
 
 def evaluate(
-    cfg, protein_ids, taxa, modules, status_of, measured_call_of=None, call_status_of=None
+    cfg,
+    protein_ids,
+    taxa,
+    modules,
+    status_of,
+    measured_call_of=None,
+    call_status_of=None,
+    *,
+    invalid_ids=frozenset(),
 ):
     """Evaluate every call for every protein; return a list of ``CallRecord``.
 
@@ -312,6 +364,10 @@ def evaluate(
     in; a leaf with a call status contributes one status and one basis item. The record status is the
     weakest over all items. Without the hook, or when it returns None for every leaf, the result is
     exactly the one without the hook.
+
+    ``invalid_ids`` (optional, keyword only) holds the IDs of the invalid proteins. The species
+    limited rule does not apply to them: when the module runs it writes ``na_invalid`` for them
+    before it looks at the taxon, so they stay not_assessable also when its table is absent.
     """
     variants = available_variants(cfg, modules)
     status_cache, records = {}, []
@@ -346,6 +402,9 @@ def evaluate(
             for step1, label in labels:
                 ctx = {
                     "protein": pid,
+                    "taxon": taxon,
+                    "species_limited": cfg.species_limited,
+                    "invalid_ids": invalid_ids,
                     "modules": modules,
                     "thresholds": cfg.thresholds,
                     "cfg": cfg,

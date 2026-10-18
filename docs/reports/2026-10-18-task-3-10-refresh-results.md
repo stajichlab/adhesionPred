@@ -41,6 +41,8 @@ Note: the plan does not contain a table of the S1 numbers. I compared the file w
 
 The `antigen` module was absent in 13 of 14 work directories (only `Cimm_RS` had it). With decision D5, an absent input makes the `other_*` calls and `primary_label` `not_assessable`. For S288C this affected 6,688 of 6,722 proteins. The fix for this refresh was to run the antigen module for the eight other proteomes. It writes `not_applicable` outside *Coccidioides*, so the call `cocci_specificity_rank_top15` is not an obstacle any more. The structural fix (the engine should not depend on a module that does not apply) is issue #93 and is not done here.
 
+Update 2026-10-18: fixed in PR #96 (issue #93). An absent species-limited module table now gives `not_applicable` outside its taxa. The two `pr3` call status files are stale since then; the steps to run again are in `scripts/sorting_hat/refresh_3_10/README.md`, section "Re-run after issue #93".
+
 ## 5. The repeat call
 
 The two new status files are `tandem_repeat_protein.owner_definition.config-of-2026-10-17-pr3.json` in `docs/reports/data/sorting_hat/call_status/Scer_S288C/` and `.../Calb_SC5314/`.

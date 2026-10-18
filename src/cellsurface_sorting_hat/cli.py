@@ -411,6 +411,30 @@ def _narrow_families(loaded):
     return list(families) if isinstance(families, list) else None
 
 
+def _absent_modules(cfg, tables, states):
+    return [
+        m
+        for m in referenced_modules(cfg)
+        if m not in tables and m not in cfg.step1_variants and m not in states
+    ]
+
+
+def _taxa_mismatch(cfg, params):
+    """Modules whose run record lists other applicable taxa than ``species_limited``."""
+    rows = []
+    for module, config_taxa in sorted(cfg.species_limited.items()):
+        recorded = params.get(module, {}).get("applicable_taxa")
+        if isinstance(recorded, list) and set(recorded) != set(config_taxa):
+            rows.append(
+                {
+                    "module": module,
+                    "module_taxa": sorted(recorded),
+                    "config_taxa": sorted(config_taxa),
+                }
+            )
+    return rows
+
+
 def run(args):
     cfg = load_config(args.config)
     lineage = Lineage.from_nodes_dmp(args.taxdump)
@@ -438,10 +462,20 @@ def run(args):
         )
     except CallStatusError as err:
         raise InputError(str(err)) from err
-    records = evaluate(cfg, ids, taxa, tables, resolver, resolver.measured_call, call_resolver)
+    records = evaluate(
+        cfg,
+        ids,
+        taxa,
+        tables,
+        resolver,
+        resolver.measured_call,
+        call_resolver,
+        invalid_ids=frozenset(invalid),
+    )
     out = Path(args.out)
     out.mkdir(parents=True, exist_ok=True)
     counts = Counter(taxa.values())
+    absent = _absent_modules(cfg, tables, loaded.states)
     info = RunInfo(
         version=__version__,
         taxa=dict(counts),
@@ -456,11 +490,11 @@ def run(args):
         module_states=loaded.states,
         module_notes=loaded.notes,
         state_counts=loaded.state_counts,
-        absent_modules=[
-            m
-            for m in referenced_modules(cfg)
-            if m not in tables and m not in cfg.step1_variants and m not in loaded.states
-        ],
+        absent_modules=absent,
+        absent_species_limited={
+            m: cfg.species_limited[m] for m in absent if m in cfg.species_limited
+        },
+        applicable_taxa_mismatch=_taxa_mismatch(cfg, loaded.params),
         unavailable_variants=[v for v in cfg.step1_variants if v not in tables],
         inconsistent=check_identical_sequences(proteins, tables),
         unmatched_module_ids=loaded.unmatched,

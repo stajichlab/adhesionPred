@@ -92,6 +92,10 @@ class RunInfo:
     narrow_families: list | None = None
     # one {module, condition, source, result} per condition table that a module was built against
     condition_checks: list = field(default_factory=list)
+    # species limited modules (categories.yaml) that have no record; a subset of absent_modules
+    absent_species_limited: dict = field(default_factory=dict)  # module -> taxa of the list
+    # one {module, module_taxa, config_taxa} where the run record and categories.yaml disagree
+    applicable_taxa_mismatch: list = field(default_factory=list)
 
 
 def _gz(text):
@@ -200,9 +204,19 @@ def _warnings(info):
             f"Module {module} gives different rows to {n} group(s) of identical sequences. "
             "Check the module."
         )
-    if info.absent_modules:
+    needed = [m for m in info.absent_modules if m not in info.absent_species_limited]
+    if needed:
+        out.append("Modules the rules need and that were not found: " + ", ".join(needed))
+    for module, taxa in sorted(info.absent_species_limited.items()):
         out.append(
-            "Modules the rules need and that were not found: " + ", ".join(info.absent_modules)
+            f"Module {module} was not found. It is limited to taxa {taxa}: its calls are "
+            "not_applicable for the other taxa, and still not_assessable for a listed taxon."
+        )
+    for m in info.applicable_taxa_mismatch:
+        out.append(
+            f"Module {m['module']} was run for the applicable taxa {m['module_taxa']}, but "
+            f"species_limited in categories.yaml lists {m['config_taxa']}. Make the two lists "
+            "equal: without the table the engine uses the list of categories.yaml."
         )
     for module, n in sorted(info.unmatched_module_ids.items()):
         out.append(
