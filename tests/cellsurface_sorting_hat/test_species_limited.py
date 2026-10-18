@@ -260,16 +260,15 @@ def _mismatch_run(tmp_path, write_module, module_taxa):
     return out
 
 
-@pytest.mark.xfail(strict=True, reason="issue #93 review: two lists")
 def test_a_module_list_that_differs_from_the_yaml_list_is_a_warning(tmp_path, write_module):
     out = _mismatch_run(tmp_path, write_module, [RS, 5501])
     report = (out / "report.md").read_text()
     assert "antigen_lookup" in report
-    assert "[246410, 5501]" in report
+    assert "[5501, 246410]" in report
     assert "[246410]" in report
     info = json.loads((out / "run.json").read_text())
     assert info["applicable_taxa_mismatch"] == [
-        {"module": "antigen_lookup", "module_taxa": [RS, 5501], "config_taxa": [RS]}
+        {"module": "antigen_lookup", "module_taxa": [5501, RS], "config_taxa": [RS]}
     ]
 
 
@@ -327,3 +326,17 @@ def test_a_child_taxon_of_the_listed_taxon_is_not_in_the_list(tmp_path, write_mo
         a, r = _values_of(absent, pid), _values_of(run, pid)
         assert a == r, pid
         assert a[("cocci_specificity_rank_top15", "")] == NA
+
+
+# ---- the report says what an absent species-limited module means --------------------------------
+
+
+def test_the_report_names_an_absent_species_limited_module_apart(tmp_path, write_module):
+    out = _cli(tmp_path, write_module, _nodes(tmp_path), run_antigen=False)
+    report = (out / "report.md").read_text()
+    assert "Modules the rules need and that were not found: antigen_lookup" not in report
+    assert "Module antigen_lookup was not found. It is limited to taxa [246410]" in report
+    assert "not_applicable for the other taxa" in report
+    info = json.loads((out / "run.json").read_text())
+    assert info["absent_modules"] == ["antigen_lookup"]
+    assert info["absent_species_limited"] == {"antigen_lookup": [RS]}
