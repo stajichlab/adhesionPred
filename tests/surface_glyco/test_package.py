@@ -24,6 +24,10 @@ def test_old_package_is_gone_from_this_checkout():
         old = importlib.import_module("adhesion_predict")
     except ModuleNotFoundError:
         return
+    # A bytecode-only directory on the path imports as a namespace package: no __file__ and no code.
+    if getattr(old, "__file__", None) is None:
+        sys.modules.pop("adhesion_predict", None)
+        return
     # An editable install from another checkout may exist in this environment; ours must not.
     assert not Path(old.__file__).resolve().is_relative_to(ROOT)
     sys.modules.pop("adhesion_predict", None)
