@@ -1,5 +1,5 @@
 # Shared settings and checks for the Task 3.10 job scripts. It is sourced by them, never run alone.
-# DRAFT (2026-10-17): nothing here has been run on HPCC. Read README.md first.
+# Task 3.10 (run on HPCC on 2026-10-17; results: docs/reports/2026-10-18-task-3-10-refresh-results.md). Read README.md first.
 # Needs PROJ_ROOT: a clone of branch sorting-hat-engine-changes on HPCC. Paths are absolute.
 : "${PROJ_ROOT:?export PROJ_ROOT (an HPCC clone of branch sorting-hat-engine-changes)}"
 DATA_ROOT="${DATA_ROOT:-/bigdata/stajichlab/jstajich/projects/adhesionPred}"
@@ -45,7 +45,7 @@ make_venv() {
   if [ -n "${WHEEL_DIR:-}" ]; then
     "$1/venv/bin/pip" install --quiet --no-index --find-links "$WHEEL_DIR" pyyaml==6.0.3 numpy==2.5.4
   else
-    "$1/venv/bin/pip" install --quiet pyyaml numpy
+    "$1/venv/bin/pip" install --quiet pyyaml==6.0.3 numpy==2.5.4
   fi
   PY="$1/venv/bin/python"
   export PYTHONPATH="$PROJ_ROOT/src"
