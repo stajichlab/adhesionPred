@@ -221,7 +221,6 @@ def _cli(tmp_path, write_module, nodes, run_antigen):
     return out
 
 
-@pytest.mark.xfail(strict=True, reason="issue #93 review: invalid proteins")
 def test_an_invalid_protein_gives_the_same_leaf_results_absent_and_run(tmp_path, write_module):
     nodes = _nodes(tmp_path)
     absent = _cli(tmp_path / "a", write_module, nodes, run_antigen=False)
@@ -232,7 +231,6 @@ def test_an_invalid_protein_gives_the_same_leaf_results_absent_and_run(tmp_path,
     assert _values_of(absent, "ENZ1")[("cocci_specificity_rank_top15", "")] == NA
 
 
-@pytest.mark.xfail(strict=True, reason="issue #93 review: invalid proteins")
 def test_evaluate_skips_the_rule_for_the_invalid_ids():
     mods = no_antigen()
     cfg = load_config()

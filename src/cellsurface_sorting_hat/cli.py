@@ -438,7 +438,16 @@ def run(args):
         )
     except CallStatusError as err:
         raise InputError(str(err)) from err
-    records = evaluate(cfg, ids, taxa, tables, resolver, resolver.measured_call, call_resolver)
+    records = evaluate(
+        cfg,
+        ids,
+        taxa,
+        tables,
+        resolver,
+        resolver.measured_call,
+        call_resolver,
+        invalid_ids=frozenset(invalid),
+    )
     out = Path(args.out)
     out.mkdir(parents=True, exist_ok=True)
     counts = Counter(taxa.values())

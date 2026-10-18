@@ -233,12 +233,17 @@ def _leaf_not_applicable(ctx, module):
     """True when a leaf that reads ``module`` is not applicable for the protein of ``ctx``.
 
     Either the module table says so (state ``not_applicable``), or the module is species limited,
-    has no table in this run, and the taxon of the protein is not in its list (exact match)."""
+    has no table in this run, the protein is valid, and its taxon is not in the list (exact match)."""
     modules, protein = ctx["modules"], ctx["protein"]
     if _not_applicable(modules, module, protein):
         return True
     limited = ctx["species_limited"].get(module)
-    return limited is not None and modules.get(module) is None and ctx["taxon"] not in limited
+    return (
+        limited is not None
+        and modules.get(module) is None
+        and protein not in ctx["invalid_ids"]
+        and ctx["taxon"] not in limited
+    )
 
 
 def _na_leaf(module):
@@ -330,7 +335,15 @@ def available_variants(cfg, modules):
 
 
 def evaluate(
-    cfg, protein_ids, taxa, modules, status_of, measured_call_of=None, call_status_of=None
+    cfg,
+    protein_ids,
+    taxa,
+    modules,
+    status_of,
+    measured_call_of=None,
+    call_status_of=None,
+    *,
+    invalid_ids=frozenset(),
 ):
     """Evaluate every call for every protein; return a list of ``CallRecord``.
 
@@ -351,6 +364,10 @@ def evaluate(
     in; a leaf with a call status contributes one status and one basis item. The record status is the
     weakest over all items. Without the hook, or when it returns None for every leaf, the result is
     exactly the one without the hook.
+
+    ``invalid_ids`` (optional, keyword only) holds the IDs of the invalid proteins. The species
+    limited rule does not apply to them: when the module runs it writes ``na_invalid`` for them
+    before it looks at the taxon, so they stay not_assessable also when its table is absent.
     """
     variants = available_variants(cfg, modules)
     status_cache, records = {}, []
@@ -387,6 +404,7 @@ def evaluate(
                     "protein": pid,
                     "taxon": taxon,
                     "species_limited": cfg.species_limited,
+                    "invalid_ids": invalid_ids,
                     "modules": modules,
                     "thresholds": cfg.thresholds,
                     "cfg": cfg,
