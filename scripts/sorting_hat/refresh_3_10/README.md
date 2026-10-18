@@ -198,3 +198,17 @@ All through `ssh hpcc` (SLURM tools need `bash -lc`). No job was submitted and n
 | `bash -lc 'sinfo -s; squeue -u $USER; scontrol show partition short; sacctmgr -n -P show assoc user=$USER ...; module avail hmmer'` | `short` 2 h limit, QoS short; account `stajichlab` has `short`; `hmmer/3.4` (default) exists; queue holds other jobs of the owner, one pending with `AssocGrpMemLimit` (so request little memory) |
 | `df -h /bigdata/stajichlab` | 18 TB free (95% used) |
 | job 2b: `ls -la`, `cat` (head) of `$NEW/Cimm_RS/modules/antigen_lookup.json`; `ls -la`, `sha256sum`, `head -3`, `wc -l` of `_workdir/cocci_spherule/ref/protein_map.tsv`; `sha256sum` of the ranking in the old clone and in `adhesionPred-3_10`; `ls -la` of the nine `$OLD/<p>.faa`; `ls` of `$OLD/Cimm_RS` and its `logs`, `jobs.txt`, `rerun_Cimm_RS.log` | record holds `artefact_hash 040ba813...`, `applicable_taxa [246410]`, `genes_with_several_ranking_rows 131`, written 14:00 (the `$OLD` record of 2026-10-07 01:24 has the same size, 398 B; not compared byte by byte); protein map and ranking sha256 in Job 2b reproduce the hash; no log of the `antigen` command exists; Scer_S288C in `$NEW` has no `antigen_lookup` |
+
+## Re-run after issue #93
+
+Issue #93 added the `species_limited` block to `categories.yaml` and raised `ENGINE_SEMANTICS` to 3. The config hash and every call hash changed. The two `tandem_repeat_protein.owner_definition.config-of-2026-10-17-pr3.json` files (S288C and C. albicans) are stale. The call is `unvalidated` until they are made again. The eight `pfam_hydrophobin` files and the R0 file are module statuses and stay valid. The refresh scripts are not changed.
+
+Run again, in this order:
+
+1. Job 3a.
+2. Job 4.
+3. Job 3b.
+
+Before the first job, export the new pins: `CODE_COMMIT` (the commit that holds the change of issue #93) and `CATEGORIES_SHA256` (the sha256 of `src/cellsurface_sorting_hat/categories.yaml` at that commit). `FAMILY_SHA256` does not change; keep the value of the first run. The work directories need no `antigen_lookup` record for the proteomes outside C. immitis RS any more: an absent table is `not_applicable` there.
+
+Nothing is submitted without the owner's go-ahead.
