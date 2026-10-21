@@ -127,7 +127,12 @@ JGI_COLS = [
     "jgi_check_how",
     "jgi_vs_uniprot",
     "jgi_accept",
+    "jgi_locus_tag",
+    "jgi_locus_result",
+    "jgi_locus_accession",
 ]
+# A header name that is a locus tag: upper-case scheme prefix, then digits; no dots, no '#'.
+LOCUS_LIKE = re.compile(r"^[A-Z]{2,8}_[A-Z0-9]*\d[A-Za-z0-9]*$")
 NAME_STOP = {"like"}
 MIN_LEN, MAX_LEN, MAX_X_RUN = 20, 15000, 5
 AA = set("ACDEFGHIKLMNPQRSTVWYXUBZO")
@@ -576,6 +581,98 @@ def apply_jgi(
     return dict(stats)
 
 
+def header_locus_tag(name: str) -> str:
+    """The locus tag of a JGI header name, or '' when the name is a gene-model name.
+
+    HCAG_00594T0 -> HCAG_00594, BCIN_02g00390.1 -> BCIN_02g00390, mRNA_UMAG_05433 -> UMAG_05433.
+    fgenesh1_kg.2_#_1532_#_Locus43v1rpkm3058.88 and Crypa1.estExt_fgenesh1_kg.C_90297 give ''.
+    """
+    tok = name.split()[0] if name.split() else ""
+    tok = re.sub(r"^mRNA_", "", tok)
+    tok = re.sub(r"\.\d+$", "", tok)
+    if not LOCUS_LIKE.match(tok):
+        return ""
+    stripped = re.sub(r"T\d+$", "", tok)
+    return stripped if LOCUS_LIKE.match(stripped) else tok
+
+
+def apply_locus_lookup(rows: list[dict], proteins: dict, scope_of, lookup) -> dict:
+    """UniProt lookup by the locus tag of the JGI header, for rows the file step left unmapped.
+
+    Only rows with a found JGI protein and a header locus tag are looked up. An exact single
+    hit (reviewed first) whose sequence equals the JGI protein confirms the row (status
+    mapped_jgi_file, jgi_accept locus_confirmed). A hit with another sequence is reported
+    (`sequence_differs`) and the row stays unmapped. No hit or an ambiguous hit leaves it so.
+    The hit proves that the file protein is that UniProt entry. It does not prove that the Kiss
+    row means it, so `locus_confirmed` is weaker than `row_verified`. When the row has a
+    gene-name candidate that is a different entry (`confirmed_name_conflict`), the row's name
+    contradicts the protein at this ID and the row is not mapped.
+    """
+    stats: dict[str, int] = defaultdict(int)
+    for r in rows:
+        if (
+            not r["organism_code"]
+            or r["jgi_status"] != "found"
+            or r["jgi_accept"]
+            or r["map_status"] == "mapped_locus_tag"
+        ):
+            continue
+        name, seq = proteins[r["jgi_portal"]][jgi_protein_id(r["protein_id_jgi"])]
+        tag = header_locus_tag(name)
+        if not tag:
+            r["jgi_locus_result"] = "no_locus_tag_in_header"
+            stats["no_locus_tag_in_header"] += 1
+            continue
+        r["jgi_locus_tag"] = tag
+        entry, why = pick_entry(lookup("gene_exact", tag, scope_of(r["organism_code"])))
+        if entry is None:
+            r["jgi_locus_result"] = why
+        elif entry["sequence"].upper() != seq:
+            r["jgi_locus_result"], r["jgi_locus_accession"] = "sequence_differs", entry["accession"]
+            r["map_reason"] = (
+                f"{r['map_reason']}; jgi_header_locus_tag_hit_sequence_differs"
+                if r["map_reason"]
+                else "jgi_header_locus_tag_hit_sequence_differs"
+            )
+            if r["map_status"] == "candidate_gene_name":
+                r["map_status"] = "lost"
+        elif (
+            r["map_status_uniprot"] == "candidate_gene_name"
+            and r["accession"] != entry["accession"]
+        ):
+            # the protein at this ID is another gene than the one the row's name points to
+            r["jgi_locus_result"], r["jgi_locus_accession"] = (
+                "confirmed_name_conflict",
+                entry["accession"],
+            )
+            r["map_reason"] = "jgi_header_locus_tag_entry_differs_from_name_candidate"
+            r["map_status"] = "lost"
+        else:
+            r["jgi_locus_result"], r["jgi_locus_accession"] = "confirmed", entry["accession"]
+            r["jgi_accept"] = "locus_confirmed"
+            r["map_status"], r["map_reason"] = "mapped_jgi_file", ""
+            r["accession"], r["length"] = entry["accession"], str(len(seq))
+            r["uniprot_organism_id"] = str(entry["organism_id"])
+            r["match_kind"], r["match_term"] = "jgi_header_locus_tag", tag
+        stats[r["jgi_locus_result"]] += 1
+    return dict(stats)
+
+
+def locus_scope(code: str, org: dict, cache) -> str:
+    """UniProt taxon for the header-locus-tag lookup of one organism.
+
+    The genome strain of Kiss Data 1 (STRAIN_TERMS) when NCBI Taxonomy resolves that exact term
+    to one taxon, even when the taxon is now named differently (Histoplasma capsulatum NAm1
+    resolves to 2059318, Histoplasma mississippiense). Otherwise the scope of the first stage.
+    """
+    term = STRAIN_TERMS.get(code)
+    if term:
+        ids = ncbi_taxid(cache, term)
+        if len(ids) == 1:
+            return ids[0]
+    return org[code]["scope_taxid"]
+
+
 def guard_no_sequences(paths: list[Path], sequences: list[str]) -> None:
     """Fail when any written table carries a JGI sequence (they stay out of the repository)."""
     seqs = [s for s in sequences if len(s) >= MIN_LEN]
@@ -928,6 +1025,11 @@ def main(argv: list[str] | None = None) -> int:
                 wanted[jgi_portal(r["organism_code"])].add(jgi_protein_id(r["protein_id_jgi"]))
         proteins = load_jgi_proteins(args.jgi_dir, table, wanted)
         jgi_stats = apply_jgi(rows, proteins, set(table))
+        scopes = {c: locus_scope(c, org, cache) for c in sorted(org)}
+        lookup_stats = apply_locus_lookup(rows, proteins, scopes.__getitem__, lookup)
+        print("locus-tag lookup:", dict(sorted(lookup_stats.items())))
+        print("locus-tag scopes:", {c: v for c, v in scopes.items() if v != org[c]["scope_taxid"]})
+        cache.save()
         jgi_seqs = [seq for per in proteins.values() for _, seq in per.values()]
         write_tsv(
             out / "jgi_files.tsv",
@@ -1265,6 +1367,7 @@ def main(argv: list[str] | None = None) -> int:
                         n(lambda r: r["jgi_check"] == "unverifiable"),
                         st["portal_validated"],
                         n(lambda r: r["jgi_accept"] == "row_verified"),
+                        n(lambda r: r["jgi_accept"] == "locus_confirmed"),
                         n(lambda r: r["jgi_accept"] == "portal_validated"),
                         n(lambda r: r["jgi_vs_uniprot"] == "identical"),
                         n(lambda r: r["jgi_vs_uniprot"] == "different"),
@@ -1283,6 +1386,7 @@ def main(argv: list[str] | None = None) -> int:
                 "check_unverifiable",
                 "portal_validated",
                 "accepted_row_verified",
+                "accepted_locus_confirmed",
                 "accepted_portal_validated",
                 "sequence_identical_to_uniprot",
                 "sequence_differs_from_uniprot",

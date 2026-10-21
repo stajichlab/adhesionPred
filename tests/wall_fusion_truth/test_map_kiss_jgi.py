@@ -231,3 +231,137 @@ def test_guard_refuses_a_table_that_carries_a_jgi_sequence(tmp_path):
 def test_written_row_table_never_has_a_sequence_column():
     assert "sequence" not in mk.JGI_COLS
     assert all("seq" not in c or c == "jgi_seq_sha256" for c in mk.JGI_COLS)
+
+
+# ----------------------------------------------------------------------------- locus-tag lookup
+
+
+def uentry(acc, seq, genes="", reviewed=False, organism_id=1):
+    return {
+        "accession": acc,
+        "reviewed": reviewed,
+        "genes": genes,
+        "organism_id": organism_id,
+        "sequence": seq,
+    }
+
+
+def found_row(gene, jgi, name, status="lost", **kw):
+    """A row after the file step: found, unmapped, with its JGI protein."""
+    r = row(gene, jgi, status, **kw)
+    mk.apply_jgi(
+        [r],
+        {mk.jgi_portal(r["organism_code"]): {mk.jgi_protein_id(jgi): (name, S1)}},
+        {mk.jgi_portal(r["organism_code"])},
+    )
+    return r
+
+
+def test_header_locus_tag_strips_transcript_suffixes_and_refuses_model_names():
+    assert mk.header_locus_tag("HCAG_00594T0") == "HCAG_00594"
+    assert (
+        mk.header_locus_tag("BCIN_02g00390.1 proteinId=6405 transcriptId=6405") == "BCIN_02g00390"
+    )
+    assert mk.header_locus_tag("CAALFM_C500730WAT0") == "CAALFM_C500730WA"
+    assert mk.header_locus_tag("mRNA_UMAG_05433") == "UMAG_05433"
+    assert mk.header_locus_tag("CNAG_00795T0") == "CNAG_00795"
+    assert mk.header_locus_tag("fgenesh1_kg.2_#_1532_#_Locus43v1rpkm3058.88") == ""
+    assert mk.header_locus_tag("Crypa1.estExt_fgenesh1_kg.C_90297") == ""
+    assert mk.header_locus_tag("bgs1") == ""
+
+
+def test_locus_lookup_confirms_only_an_identical_single_hit():
+    calls = []
+
+    def look(kind, term, taxon):
+        calls.append((kind, term, taxon))
+        return {
+            "HCAG_00594": [uentry("A1", S1)],
+            "HCAG_00595": [uentry("A2", S2)],
+            "HCAG_00596": [uentry("A3", S1), uentry("A4", S1)],
+        }.get(term, [])
+
+    ok = found_row("bad1", "1_Hisca1", "HCAG_00594T0")
+    diff = found_row("x2", "2_Hisca1", "HCAG_00595T0")
+    amb = found_row("x3", "3_Hisca1", "HCAG_00596T0")
+    none = found_row("x4", "4_Hisca1", "HCAG_00597T0")
+    model = found_row("x5", "5_Schco3", "fgenesh1_kg.2_#_1")
+    proteins = {
+        "Hisca1": {
+            "1": ("HCAG_00594T0", S1),
+            "2": ("HCAG_00595T0", S1),
+            "3": ("HCAG_00596T0", S1),
+            "4": ("HCAG_00597T0", S1),
+        },
+        "Schco3": {"5": ("fgenesh1_kg.2_#_1", S1)},
+    }
+    stats = mk.apply_locus_lookup(
+        [ok, diff, amb, none, model], proteins, lambda code: "2059318", look
+    )
+    assert ok["jgi_locus_result"] == "confirmed" and ok["map_status"] == "mapped_jgi_file"
+    assert ok["jgi_accept"] == "locus_confirmed" and ok["accession"] == "A1"
+    assert diff["jgi_locus_result"] == "sequence_differs" and diff["map_status"] == "lost"
+    assert "sequence_differs" in diff["map_reason"] and "accession" not in diff
+    assert amb["jgi_locus_result"] == "ambiguous" and amb["map_status"] == "lost"
+    assert none["jgi_locus_result"] == "no_hit" and none["map_status"] == "lost"
+    assert model["jgi_locus_result"] == "no_locus_tag_in_header"
+    assert ("gene_exact", "HCAG_00594", "2059318") in calls and len(
+        calls
+    ) == 4  # no query for a model name
+    assert stats == {
+        "confirmed": 1,
+        "sequence_differs": 1,
+        "ambiguous": 1,
+        "no_hit": 1,
+        "no_locus_tag_in_header": 1,
+    }
+
+
+def test_locus_lookup_does_not_map_when_the_row_name_points_to_another_entry():
+    cand = found_row("bhp2", "6405_Botci1", "BCIN_02g00390.1", status="candidate_gene_name")
+    cand["accession"], cand["sequence"] = "NAMECAND", S2  # the UniProt entry of the gene name
+    cand["map_status_uniprot"] = "candidate_gene_name"
+    proteins = {"Bcine1": {"6405": ("BCIN_02g00390.1", S1)}}
+
+    def look(kind, term, taxon):
+        return [uentry("LOCUSHIT", S1)]
+
+    stats = mk.apply_locus_lookup([cand], proteins, lambda code: "40559", look)
+    assert cand["jgi_locus_result"] == "confirmed_name_conflict" and stats == {
+        "confirmed_name_conflict": 1
+    }
+    assert cand["map_status"] == "lost" and cand["jgi_accept"] == ""
+    assert cand["map_reason"] == "jgi_header_locus_tag_entry_differs_from_name_candidate"
+
+
+def test_locus_lookup_skips_rows_that_are_already_mapped_or_absent():
+    done = found_row("bgs1", "1_Schpo1", "bgs1")  # mapped by the file step
+    absent = row("y", "6_Canalb1")
+    mk.apply_jgi([absent], {"Canalb1": {}}, {"Canalb1"})
+
+    def boom(kind, term, taxon):
+        raise AssertionError("no lookup expected")
+
+    assert (
+        mk.apply_locus_lookup([done, absent], {"Schpo1": {"1": ("bgs1", S1)}}, lambda c: "1", boom)
+        == {}
+    )
+    assert absent["jgi_locus_result"] == "" and absent["map_status"] == "lost"
+
+
+def test_locus_scope_uses_the_strain_taxon_when_ncbi_resolves_it_to_one_taxon():
+    class FakeCache:
+        def __init__(self, ids):
+            self.ids = ids
+
+        def get(self, url):
+            return '{"esearchresult": {"idlist": %s}}' % self.ids
+
+    org = {"Hisca1": {"scope_taxid": "5037"}, "Fusgr1": {"scope_taxid": "5518"}}
+    assert mk.locus_scope("Hisca1", org, FakeCache('["2059318"]')) == "2059318"
+    assert (
+        mk.locus_scope("Hisca1", org, FakeCache('["1", "2"]')) == "5037"
+    )  # two taxa: keep the scope
+    assert (
+        mk.locus_scope("Fusgr1", org, FakeCache('["9"]')) == "5518"
+    )  # no strain term in the table

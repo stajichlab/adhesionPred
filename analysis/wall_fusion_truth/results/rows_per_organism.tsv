@@ -11,12 +11,12 @@ Botci1	Pezizomycotina	adhesion	2	0	0	0	2	0
 Canalb1	Saccharomycotina	adhesion	11	0	0	0	1	10
 Canalb1	Saccharomycotina	wall	25	0	0	0	0	25
 Copci	Basidiomycota	adhesion	2	0	0	1	1	0
-CryneH991	Basidiomycota	adhesion	1	0	0	0	1	0
-CryneH991	Basidiomycota	wall	2	0	0	0	2	0
+CryneH991	Basidiomycota	adhesion	1	0	0	0	0	1
+CryneH991	Basidiomycota	wall	2	0	0	0	1	1
 Crypa2	Pezizomycotina	adhesion	1	0	0	0	1	0
 Fusgr1	Pezizomycotina	adhesion	1	0	0	0	0	1
-Hisca1	Pezizomycotina	adhesion	2	0	0	0	2	0
-Hisca1	Pezizomycotina	wall	2	0	0	0	2	0
+Hisca1	Pezizomycotina	adhesion	2	0	0	0	0	2
+Hisca1	Pezizomycotina	wall	2	0	0	0	1	1
 Neucr2	Pezizomycotina	adhesion	6	1	0	0	0	5
 Neucr2	Pezizomycotina	wall	19	2	0	0	0	17
 Neucr2	Pezizomycotina	fusion	1	0	0	0	0	1

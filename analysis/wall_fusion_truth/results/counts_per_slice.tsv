@@ -1,5 +1,5 @@
 slice	rows	clusters_kiss	with_jgi_id	without_jgi_id	mapped_locus_tag	distinct_accessions_locus_tag	mapped_family_rep	candidate_gene_name	lost	mapped_jgi_file
-adhesion	51	26	45	6	4	4	4	1	13	29
-wall	122	44	94	28	29	29	28	0	4	61
+adhesion	51	26	45	6	4	4	4	1	10	32
+wall	122	44	94	28	29	29	28	0	2	63
 fusion	8	6	5	3	1	1	3	0	0	4
-all	181	76	144	37	34	34	35	1	17	94
+all	181	76	144	37	34	34	35	1	12	99
