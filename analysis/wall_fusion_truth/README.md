@@ -50,6 +50,14 @@ The owner downloaded the MycoCosm gene-catalog protein files (`to_import/kiss201
 - Future truth sets should be keyed by NCBI or UniProt accessions, not JGI IDs. This JGI set is an archived one-off.
 - A run without `--jgi-dir` writes the UniProt-only columns and does not touch the JGI tables. Run with it to reproduce the committed results.
 
+## Owner decisions of 2026-10-22 (report section 10)
+
+- `row_mapping.tsv` column `control_role`: `family_rep` (35 A. fumigatus family representatives: training seeds and baseline recall report only, never test controls, no clade, never counted toward a floor), `kiss_row`, `unmapped_family_row`. `family_rep_clusters.tsv` lists the clusters that carry a representative and how many strictly mapped Kiss rows they have.
+- `clusters_per_clade.tsv` and `floors_per_slice.tsv` column `role`: the fine clade level is `primary`, the coarse level `second_harder_test`.
+- `clusters_per_clade.tsv` strata: `clusters` (all), `clusters_also_in_other_clade` (shared), `clusters_clade_only`, and a status for each (`estimated` only with at least 5 clusters of the stratum, else `descriptive`, `none` for 0; the fusion slice is always `descriptive`). The floor itself counts all clusters.
+- `name_conflict_review.tsv` (with `--jgi-dir`): the rows that the name-conflict rule leaves unmapped (hyr1, bhp2, bhp3), with both UniProt accessions and lengths.
+- All 99 file-mapped rows are accepted. `jgi_accept` (`row_verified`, `locus_confirmed`, `portal_validated`) stays in the table so that they can be filtered later; `strict_plus_jgi_file_row_verified` is the filtered scenario.
+
 ## Tests
 
 `tests/wall_fusion_truth/test_map_kiss.py` uses a 3-row fixture and a stub lookup. It needs no network. `test_map_kiss_jgi.py` tests the JGI-file step with small fixture FASTA files (agreement, mismatch, absent ID, portal rename, portal validation, sha256 check, no sequence in a written table). No JGI data is used.

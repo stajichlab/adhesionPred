@@ -1,119 +1,119 @@
-scenario	slice	clade_level	clade	rows	clusters	clusters_also_in_other_clade
-upper_bound_all_jgi_id_rows	adhesion	coarse	Basidiomycota	9	4	0
-upper_bound_all_jgi_id_rows	adhesion	coarse	Pezizomycotina	17	9	0
-upper_bound_all_jgi_id_rows	adhesion	coarse	Saccharomycotina	19	10	0
-upper_bound_all_jgi_id_rows	adhesion	fine	Agaricomycetes	5	1	1
-upper_bound_all_jgi_id_rows	adhesion	fine	Eurotiomycetes	5	3	0
-upper_bound_all_jgi_id_rows	adhesion	fine	Leotiomycetes	2	1	1
-upper_bound_all_jgi_id_rows	adhesion	fine	Saccharomycotina	19	10	0
-upper_bound_all_jgi_id_rows	adhesion	fine	Sordariomycetes	10	6	1
-upper_bound_all_jgi_id_rows	adhesion	fine	Tremellomycetes	1	1	0
-upper_bound_all_jgi_id_rows	adhesion	fine	Ustilaginomycetes	3	3	1
-upper_bound_all_jgi_id_rows	fusion	coarse	Basidiomycota	1	1	1
-upper_bound_all_jgi_id_rows	fusion	coarse	Pezizomycotina	2	2	1
-upper_bound_all_jgi_id_rows	fusion	coarse	Saccharomycotina	2	2	1
-upper_bound_all_jgi_id_rows	fusion	fine	Eurotiomycetes	1	1	1
-upper_bound_all_jgi_id_rows	fusion	fine	Saccharomycotina	2	2	1
-upper_bound_all_jgi_id_rows	fusion	fine	Sordariomycetes	1	1	0
-upper_bound_all_jgi_id_rows	fusion	fine	Ustilaginomycetes	1	1	1
-upper_bound_all_jgi_id_rows	wall	coarse	Basidiomycota	3	1	1
-upper_bound_all_jgi_id_rows	wall	coarse	Chytridiomycota	2	1	1
-upper_bound_all_jgi_id_rows	wall	coarse	Pezizomycotina	43	23	13
-upper_bound_all_jgi_id_rows	wall	coarse	Saccharomycotina	43	29	13
-upper_bound_all_jgi_id_rows	wall	coarse	Taphrinomycotina	3	2	1
-upper_bound_all_jgi_id_rows	wall	fine	Chytridiomycota	2	1	1
-upper_bound_all_jgi_id_rows	wall	fine	Eurotiomycetes	24	16	12
-upper_bound_all_jgi_id_rows	wall	fine	Saccharomycotina	43	29	13
-upper_bound_all_jgi_id_rows	wall	fine	Sordariomycetes	19	14	10
-upper_bound_all_jgi_id_rows	wall	fine	Taphrinomycotina	3	2	1
-upper_bound_all_jgi_id_rows	wall	fine	Tremellomycetes	2	1	1
-upper_bound_all_jgi_id_rows	wall	fine	Ustilaginomycetes	1	1	1
-strict_locus_tag_mapped	adhesion	coarse	Pezizomycotina	4	3	0
-strict_locus_tag_mapped	adhesion	fine	Eurotiomycetes	3	2	0
-strict_locus_tag_mapped	adhesion	fine	Sordariomycetes	1	1	0
-strict_locus_tag_mapped	fusion	coarse	Pezizomycotina	1	1	0
-strict_locus_tag_mapped	fusion	fine	Eurotiomycetes	1	1	0
-strict_locus_tag_mapped	wall	coarse	Chytridiomycota	2	1	1
-strict_locus_tag_mapped	wall	coarse	Pezizomycotina	24	16	1
-strict_locus_tag_mapped	wall	coarse	Saccharomycotina	3	1	1
-strict_locus_tag_mapped	wall	fine	Chytridiomycota	2	1	1
-strict_locus_tag_mapped	wall	fine	Eurotiomycetes	22	16	1
-strict_locus_tag_mapped	wall	fine	Saccharomycotina	3	1	1
-strict_locus_tag_mapped	wall	fine	Sordariomycetes	2	1	1
-locus_tag_plus_gene_name_candidates	adhesion	coarse	Basidiomycota	4	2	0
-locus_tag_plus_gene_name_candidates	adhesion	coarse	Pezizomycotina	10	4	0
-locus_tag_plus_gene_name_candidates	adhesion	coarse	Saccharomycotina	17	9	0
-locus_tag_plus_gene_name_candidates	adhesion	fine	Agaricomycetes	2	1	1
-locus_tag_plus_gene_name_candidates	adhesion	fine	Eurotiomycetes	3	2	0
-locus_tag_plus_gene_name_candidates	adhesion	fine	Leotiomycetes	2	1	1
-locus_tag_plus_gene_name_candidates	adhesion	fine	Saccharomycotina	17	9	0
-locus_tag_plus_gene_name_candidates	adhesion	fine	Sordariomycetes	5	2	1
-locus_tag_plus_gene_name_candidates	adhesion	fine	Ustilaginomycetes	2	2	1
-locus_tag_plus_gene_name_candidates	fusion	coarse	Basidiomycota	1	1	1
-locus_tag_plus_gene_name_candidates	fusion	coarse	Pezizomycotina	2	2	1
-locus_tag_plus_gene_name_candidates	fusion	coarse	Saccharomycotina	2	2	1
-locus_tag_plus_gene_name_candidates	fusion	fine	Eurotiomycetes	1	1	1
-locus_tag_plus_gene_name_candidates	fusion	fine	Saccharomycotina	2	2	1
-locus_tag_plus_gene_name_candidates	fusion	fine	Sordariomycetes	1	1	0
-locus_tag_plus_gene_name_candidates	fusion	fine	Ustilaginomycetes	1	1	1
-locus_tag_plus_gene_name_candidates	wall	coarse	Chytridiomycota	2	1	1
-locus_tag_plus_gene_name_candidates	wall	coarse	Pezizomycotina	28	19	13
-locus_tag_plus_gene_name_candidates	wall	coarse	Saccharomycotina	42	29	13
-locus_tag_plus_gene_name_candidates	wall	coarse	Taphrinomycotina	3	2	1
-locus_tag_plus_gene_name_candidates	wall	fine	Chytridiomycota	2	1	1
-locus_tag_plus_gene_name_candidates	wall	fine	Eurotiomycetes	22	16	10
-locus_tag_plus_gene_name_candidates	wall	fine	Saccharomycotina	42	29	13
-locus_tag_plus_gene_name_candidates	wall	fine	Sordariomycetes	6	4	4
-locus_tag_plus_gene_name_candidates	wall	fine	Taphrinomycotina	3	2	1
-strict_plus_jgi_file	adhesion	coarse	Basidiomycota	4	4	0
-strict_plus_jgi_file	adhesion	coarse	Pezizomycotina	14	9	0
-strict_plus_jgi_file	adhesion	coarse	Saccharomycotina	18	10	0
-strict_plus_jgi_file	adhesion	fine	Eurotiomycetes	5	3	0
-strict_plus_jgi_file	adhesion	fine	Saccharomycotina	18	10	0
-strict_plus_jgi_file	adhesion	fine	Sordariomycetes	9	6	0
-strict_plus_jgi_file	adhesion	fine	Tremellomycetes	1	1	0
-strict_plus_jgi_file	adhesion	fine	Ustilaginomycetes	3	3	0
-strict_plus_jgi_file	fusion	coarse	Basidiomycota	1	1	1
-strict_plus_jgi_file	fusion	coarse	Pezizomycotina	2	2	1
-strict_plus_jgi_file	fusion	coarse	Saccharomycotina	2	2	1
-strict_plus_jgi_file	fusion	fine	Eurotiomycetes	1	1	1
-strict_plus_jgi_file	fusion	fine	Saccharomycotina	2	2	1
-strict_plus_jgi_file	fusion	fine	Sordariomycetes	1	1	0
-strict_plus_jgi_file	fusion	fine	Ustilaginomycetes	1	1	1
-strict_plus_jgi_file	wall	coarse	Basidiomycota	2	1	1
-strict_plus_jgi_file	wall	coarse	Chytridiomycota	2	1	1
-strict_plus_jgi_file	wall	coarse	Pezizomycotina	42	23	13
-strict_plus_jgi_file	wall	coarse	Saccharomycotina	43	29	13
-strict_plus_jgi_file	wall	coarse	Taphrinomycotina	3	2	1
-strict_plus_jgi_file	wall	fine	Chytridiomycota	2	1	1
-strict_plus_jgi_file	wall	fine	Eurotiomycetes	23	16	12
-strict_plus_jgi_file	wall	fine	Saccharomycotina	43	29	13
-strict_plus_jgi_file	wall	fine	Sordariomycetes	19	14	10
-strict_plus_jgi_file	wall	fine	Taphrinomycotina	3	2	1
-strict_plus_jgi_file	wall	fine	Tremellomycetes	1	1	1
-strict_plus_jgi_file	wall	fine	Ustilaginomycetes	1	1	1
-strict_plus_jgi_file_row_verified	adhesion	coarse	Basidiomycota	2	2	0
-strict_plus_jgi_file_row_verified	adhesion	coarse	Pezizomycotina	8	4	0
-strict_plus_jgi_file_row_verified	adhesion	coarse	Saccharomycotina	16	9	0
-strict_plus_jgi_file_row_verified	adhesion	fine	Eurotiomycetes	3	2	0
-strict_plus_jgi_file_row_verified	adhesion	fine	Saccharomycotina	16	9	0
-strict_plus_jgi_file_row_verified	adhesion	fine	Sordariomycetes	5	2	0
-strict_plus_jgi_file_row_verified	adhesion	fine	Ustilaginomycetes	2	2	0
-strict_plus_jgi_file_row_verified	fusion	coarse	Basidiomycota	1	1	1
-strict_plus_jgi_file_row_verified	fusion	coarse	Pezizomycotina	2	2	1
-strict_plus_jgi_file_row_verified	fusion	coarse	Saccharomycotina	2	2	1
-strict_plus_jgi_file_row_verified	fusion	fine	Eurotiomycetes	1	1	1
-strict_plus_jgi_file_row_verified	fusion	fine	Saccharomycotina	2	2	1
-strict_plus_jgi_file_row_verified	fusion	fine	Sordariomycetes	1	1	0
-strict_plus_jgi_file_row_verified	fusion	fine	Ustilaginomycetes	1	1	1
-strict_plus_jgi_file_row_verified	wall	coarse	Basidiomycota	1	1	1
-strict_plus_jgi_file_row_verified	wall	coarse	Chytridiomycota	2	1	1
-strict_plus_jgi_file_row_verified	wall	coarse	Pezizomycotina	28	19	13
-strict_plus_jgi_file_row_verified	wall	coarse	Saccharomycotina	43	29	13
-strict_plus_jgi_file_row_verified	wall	coarse	Taphrinomycotina	3	2	1
-strict_plus_jgi_file_row_verified	wall	fine	Chytridiomycota	2	1	1
-strict_plus_jgi_file_row_verified	wall	fine	Eurotiomycetes	22	16	10
-strict_plus_jgi_file_row_verified	wall	fine	Saccharomycotina	43	29	13
-strict_plus_jgi_file_row_verified	wall	fine	Sordariomycetes	6	4	4
-strict_plus_jgi_file_row_verified	wall	fine	Taphrinomycotina	3	2	1
-strict_plus_jgi_file_row_verified	wall	fine	Ustilaginomycetes	1	1	1
+scenario	slice	clade_level	role	clade	rows	clusters	clusters_also_in_other_clade	clusters_clade_only	status_all_clusters	status_shared	status_clade_only
+upper_bound_all_jgi_id_rows	adhesion	coarse	second_harder_test	Basidiomycota	9	4	0	4	descriptive	none	descriptive
+upper_bound_all_jgi_id_rows	adhesion	coarse	second_harder_test	Pezizomycotina	17	9	0	9	estimated	none	estimated
+upper_bound_all_jgi_id_rows	adhesion	coarse	second_harder_test	Saccharomycotina	19	10	0	10	estimated	none	estimated
+upper_bound_all_jgi_id_rows	adhesion	fine	primary	Agaricomycetes	5	1	1	0	descriptive	descriptive	none
+upper_bound_all_jgi_id_rows	adhesion	fine	primary	Eurotiomycetes	5	3	0	3	descriptive	none	descriptive
+upper_bound_all_jgi_id_rows	adhesion	fine	primary	Leotiomycetes	2	1	1	0	descriptive	descriptive	none
+upper_bound_all_jgi_id_rows	adhesion	fine	primary	Saccharomycotina	19	10	0	10	estimated	none	estimated
+upper_bound_all_jgi_id_rows	adhesion	fine	primary	Sordariomycetes	10	6	1	5	estimated	descriptive	estimated
+upper_bound_all_jgi_id_rows	adhesion	fine	primary	Tremellomycetes	1	1	0	1	descriptive	none	descriptive
+upper_bound_all_jgi_id_rows	adhesion	fine	primary	Ustilaginomycetes	3	3	1	2	descriptive	descriptive	descriptive
+upper_bound_all_jgi_id_rows	fusion	coarse	second_harder_test	Basidiomycota	1	1	1	0	descriptive	descriptive	none
+upper_bound_all_jgi_id_rows	fusion	coarse	second_harder_test	Pezizomycotina	2	2	1	1	descriptive	descriptive	descriptive
+upper_bound_all_jgi_id_rows	fusion	coarse	second_harder_test	Saccharomycotina	2	2	1	1	descriptive	descriptive	descriptive
+upper_bound_all_jgi_id_rows	fusion	fine	primary	Eurotiomycetes	1	1	1	0	descriptive	descriptive	none
+upper_bound_all_jgi_id_rows	fusion	fine	primary	Saccharomycotina	2	2	1	1	descriptive	descriptive	descriptive
+upper_bound_all_jgi_id_rows	fusion	fine	primary	Sordariomycetes	1	1	0	1	descriptive	none	descriptive
+upper_bound_all_jgi_id_rows	fusion	fine	primary	Ustilaginomycetes	1	1	1	0	descriptive	descriptive	none
+upper_bound_all_jgi_id_rows	wall	coarse	second_harder_test	Basidiomycota	3	1	1	0	descriptive	descriptive	none
+upper_bound_all_jgi_id_rows	wall	coarse	second_harder_test	Chytridiomycota	2	1	1	0	descriptive	descriptive	none
+upper_bound_all_jgi_id_rows	wall	coarse	second_harder_test	Pezizomycotina	43	23	13	10	estimated	estimated	estimated
+upper_bound_all_jgi_id_rows	wall	coarse	second_harder_test	Saccharomycotina	43	29	13	16	estimated	estimated	estimated
+upper_bound_all_jgi_id_rows	wall	coarse	second_harder_test	Taphrinomycotina	3	2	1	1	descriptive	descriptive	descriptive
+upper_bound_all_jgi_id_rows	wall	fine	primary	Chytridiomycota	2	1	1	0	descriptive	descriptive	none
+upper_bound_all_jgi_id_rows	wall	fine	primary	Eurotiomycetes	24	16	12	4	estimated	estimated	descriptive
+upper_bound_all_jgi_id_rows	wall	fine	primary	Saccharomycotina	43	29	13	16	estimated	estimated	estimated
+upper_bound_all_jgi_id_rows	wall	fine	primary	Sordariomycetes	19	14	10	4	estimated	estimated	descriptive
+upper_bound_all_jgi_id_rows	wall	fine	primary	Taphrinomycotina	3	2	1	1	descriptive	descriptive	descriptive
+upper_bound_all_jgi_id_rows	wall	fine	primary	Tremellomycetes	2	1	1	0	descriptive	descriptive	none
+upper_bound_all_jgi_id_rows	wall	fine	primary	Ustilaginomycetes	1	1	1	0	descriptive	descriptive	none
+strict_locus_tag_mapped	adhesion	coarse	second_harder_test	Pezizomycotina	4	3	0	3	descriptive	none	descriptive
+strict_locus_tag_mapped	adhesion	fine	primary	Eurotiomycetes	3	2	0	2	descriptive	none	descriptive
+strict_locus_tag_mapped	adhesion	fine	primary	Sordariomycetes	1	1	0	1	descriptive	none	descriptive
+strict_locus_tag_mapped	fusion	coarse	second_harder_test	Pezizomycotina	1	1	0	1	descriptive	none	descriptive
+strict_locus_tag_mapped	fusion	fine	primary	Eurotiomycetes	1	1	0	1	descriptive	none	descriptive
+strict_locus_tag_mapped	wall	coarse	second_harder_test	Chytridiomycota	2	1	1	0	descriptive	descriptive	none
+strict_locus_tag_mapped	wall	coarse	second_harder_test	Pezizomycotina	24	16	1	15	estimated	descriptive	estimated
+strict_locus_tag_mapped	wall	coarse	second_harder_test	Saccharomycotina	3	1	1	0	descriptive	descriptive	none
+strict_locus_tag_mapped	wall	fine	primary	Chytridiomycota	2	1	1	0	descriptive	descriptive	none
+strict_locus_tag_mapped	wall	fine	primary	Eurotiomycetes	22	16	1	15	estimated	descriptive	estimated
+strict_locus_tag_mapped	wall	fine	primary	Saccharomycotina	3	1	1	0	descriptive	descriptive	none
+strict_locus_tag_mapped	wall	fine	primary	Sordariomycetes	2	1	1	0	descriptive	descriptive	none
+locus_tag_plus_gene_name_candidates	adhesion	coarse	second_harder_test	Basidiomycota	4	2	0	2	descriptive	none	descriptive
+locus_tag_plus_gene_name_candidates	adhesion	coarse	second_harder_test	Pezizomycotina	10	4	0	4	descriptive	none	descriptive
+locus_tag_plus_gene_name_candidates	adhesion	coarse	second_harder_test	Saccharomycotina	17	9	0	9	estimated	none	estimated
+locus_tag_plus_gene_name_candidates	adhesion	fine	primary	Agaricomycetes	2	1	1	0	descriptive	descriptive	none
+locus_tag_plus_gene_name_candidates	adhesion	fine	primary	Eurotiomycetes	3	2	0	2	descriptive	none	descriptive
+locus_tag_plus_gene_name_candidates	adhesion	fine	primary	Leotiomycetes	2	1	1	0	descriptive	descriptive	none
+locus_tag_plus_gene_name_candidates	adhesion	fine	primary	Saccharomycotina	17	9	0	9	estimated	none	estimated
+locus_tag_plus_gene_name_candidates	adhesion	fine	primary	Sordariomycetes	5	2	1	1	descriptive	descriptive	descriptive
+locus_tag_plus_gene_name_candidates	adhesion	fine	primary	Ustilaginomycetes	2	2	1	1	descriptive	descriptive	descriptive
+locus_tag_plus_gene_name_candidates	fusion	coarse	second_harder_test	Basidiomycota	1	1	1	0	descriptive	descriptive	none
+locus_tag_plus_gene_name_candidates	fusion	coarse	second_harder_test	Pezizomycotina	2	2	1	1	descriptive	descriptive	descriptive
+locus_tag_plus_gene_name_candidates	fusion	coarse	second_harder_test	Saccharomycotina	2	2	1	1	descriptive	descriptive	descriptive
+locus_tag_plus_gene_name_candidates	fusion	fine	primary	Eurotiomycetes	1	1	1	0	descriptive	descriptive	none
+locus_tag_plus_gene_name_candidates	fusion	fine	primary	Saccharomycotina	2	2	1	1	descriptive	descriptive	descriptive
+locus_tag_plus_gene_name_candidates	fusion	fine	primary	Sordariomycetes	1	1	0	1	descriptive	none	descriptive
+locus_tag_plus_gene_name_candidates	fusion	fine	primary	Ustilaginomycetes	1	1	1	0	descriptive	descriptive	none
+locus_tag_plus_gene_name_candidates	wall	coarse	second_harder_test	Chytridiomycota	2	1	1	0	descriptive	descriptive	none
+locus_tag_plus_gene_name_candidates	wall	coarse	second_harder_test	Pezizomycotina	28	19	13	6	estimated	estimated	estimated
+locus_tag_plus_gene_name_candidates	wall	coarse	second_harder_test	Saccharomycotina	42	29	13	16	estimated	estimated	estimated
+locus_tag_plus_gene_name_candidates	wall	coarse	second_harder_test	Taphrinomycotina	3	2	1	1	descriptive	descriptive	descriptive
+locus_tag_plus_gene_name_candidates	wall	fine	primary	Chytridiomycota	2	1	1	0	descriptive	descriptive	none
+locus_tag_plus_gene_name_candidates	wall	fine	primary	Eurotiomycetes	22	16	10	6	estimated	estimated	estimated
+locus_tag_plus_gene_name_candidates	wall	fine	primary	Saccharomycotina	42	29	13	16	estimated	estimated	estimated
+locus_tag_plus_gene_name_candidates	wall	fine	primary	Sordariomycetes	6	4	4	0	descriptive	descriptive	none
+locus_tag_plus_gene_name_candidates	wall	fine	primary	Taphrinomycotina	3	2	1	1	descriptive	descriptive	descriptive
+strict_plus_jgi_file	adhesion	coarse	second_harder_test	Basidiomycota	4	4	0	4	descriptive	none	descriptive
+strict_plus_jgi_file	adhesion	coarse	second_harder_test	Pezizomycotina	14	9	0	9	estimated	none	estimated
+strict_plus_jgi_file	adhesion	coarse	second_harder_test	Saccharomycotina	18	10	0	10	estimated	none	estimated
+strict_plus_jgi_file	adhesion	fine	primary	Eurotiomycetes	5	3	0	3	descriptive	none	descriptive
+strict_plus_jgi_file	adhesion	fine	primary	Saccharomycotina	18	10	0	10	estimated	none	estimated
+strict_plus_jgi_file	adhesion	fine	primary	Sordariomycetes	9	6	0	6	estimated	none	estimated
+strict_plus_jgi_file	adhesion	fine	primary	Tremellomycetes	1	1	0	1	descriptive	none	descriptive
+strict_plus_jgi_file	adhesion	fine	primary	Ustilaginomycetes	3	3	0	3	descriptive	none	descriptive
+strict_plus_jgi_file	fusion	coarse	second_harder_test	Basidiomycota	1	1	1	0	descriptive	descriptive	none
+strict_plus_jgi_file	fusion	coarse	second_harder_test	Pezizomycotina	2	2	1	1	descriptive	descriptive	descriptive
+strict_plus_jgi_file	fusion	coarse	second_harder_test	Saccharomycotina	2	2	1	1	descriptive	descriptive	descriptive
+strict_plus_jgi_file	fusion	fine	primary	Eurotiomycetes	1	1	1	0	descriptive	descriptive	none
+strict_plus_jgi_file	fusion	fine	primary	Saccharomycotina	2	2	1	1	descriptive	descriptive	descriptive
+strict_plus_jgi_file	fusion	fine	primary	Sordariomycetes	1	1	0	1	descriptive	none	descriptive
+strict_plus_jgi_file	fusion	fine	primary	Ustilaginomycetes	1	1	1	0	descriptive	descriptive	none
+strict_plus_jgi_file	wall	coarse	second_harder_test	Basidiomycota	2	1	1	0	descriptive	descriptive	none
+strict_plus_jgi_file	wall	coarse	second_harder_test	Chytridiomycota	2	1	1	0	descriptive	descriptive	none
+strict_plus_jgi_file	wall	coarse	second_harder_test	Pezizomycotina	42	23	13	10	estimated	estimated	estimated
+strict_plus_jgi_file	wall	coarse	second_harder_test	Saccharomycotina	43	29	13	16	estimated	estimated	estimated
+strict_plus_jgi_file	wall	coarse	second_harder_test	Taphrinomycotina	3	2	1	1	descriptive	descriptive	descriptive
+strict_plus_jgi_file	wall	fine	primary	Chytridiomycota	2	1	1	0	descriptive	descriptive	none
+strict_plus_jgi_file	wall	fine	primary	Eurotiomycetes	23	16	12	4	estimated	estimated	descriptive
+strict_plus_jgi_file	wall	fine	primary	Saccharomycotina	43	29	13	16	estimated	estimated	estimated
+strict_plus_jgi_file	wall	fine	primary	Sordariomycetes	19	14	10	4	estimated	estimated	descriptive
+strict_plus_jgi_file	wall	fine	primary	Taphrinomycotina	3	2	1	1	descriptive	descriptive	descriptive
+strict_plus_jgi_file	wall	fine	primary	Tremellomycetes	1	1	1	0	descriptive	descriptive	none
+strict_plus_jgi_file	wall	fine	primary	Ustilaginomycetes	1	1	1	0	descriptive	descriptive	none
+strict_plus_jgi_file_row_verified	adhesion	coarse	second_harder_test	Basidiomycota	2	2	0	2	descriptive	none	descriptive
+strict_plus_jgi_file_row_verified	adhesion	coarse	second_harder_test	Pezizomycotina	8	4	0	4	descriptive	none	descriptive
+strict_plus_jgi_file_row_verified	adhesion	coarse	second_harder_test	Saccharomycotina	16	9	0	9	estimated	none	estimated
+strict_plus_jgi_file_row_verified	adhesion	fine	primary	Eurotiomycetes	3	2	0	2	descriptive	none	descriptive
+strict_plus_jgi_file_row_verified	adhesion	fine	primary	Saccharomycotina	16	9	0	9	estimated	none	estimated
+strict_plus_jgi_file_row_verified	adhesion	fine	primary	Sordariomycetes	5	2	0	2	descriptive	none	descriptive
+strict_plus_jgi_file_row_verified	adhesion	fine	primary	Ustilaginomycetes	2	2	0	2	descriptive	none	descriptive
+strict_plus_jgi_file_row_verified	fusion	coarse	second_harder_test	Basidiomycota	1	1	1	0	descriptive	descriptive	none
+strict_plus_jgi_file_row_verified	fusion	coarse	second_harder_test	Pezizomycotina	2	2	1	1	descriptive	descriptive	descriptive
+strict_plus_jgi_file_row_verified	fusion	coarse	second_harder_test	Saccharomycotina	2	2	1	1	descriptive	descriptive	descriptive
+strict_plus_jgi_file_row_verified	fusion	fine	primary	Eurotiomycetes	1	1	1	0	descriptive	descriptive	none
+strict_plus_jgi_file_row_verified	fusion	fine	primary	Saccharomycotina	2	2	1	1	descriptive	descriptive	descriptive
+strict_plus_jgi_file_row_verified	fusion	fine	primary	Sordariomycetes	1	1	0	1	descriptive	none	descriptive
+strict_plus_jgi_file_row_verified	fusion	fine	primary	Ustilaginomycetes	1	1	1	0	descriptive	descriptive	none
+strict_plus_jgi_file_row_verified	wall	coarse	second_harder_test	Basidiomycota	1	1	1	0	descriptive	descriptive	none
+strict_plus_jgi_file_row_verified	wall	coarse	second_harder_test	Chytridiomycota	2	1	1	0	descriptive	descriptive	none
+strict_plus_jgi_file_row_verified	wall	coarse	second_harder_test	Pezizomycotina	28	19	13	6	estimated	estimated	estimated
+strict_plus_jgi_file_row_verified	wall	coarse	second_harder_test	Saccharomycotina	43	29	13	16	estimated	estimated	estimated
+strict_plus_jgi_file_row_verified	wall	coarse	second_harder_test	Taphrinomycotina	3	2	1	1	descriptive	descriptive	descriptive
+strict_plus_jgi_file_row_verified	wall	fine	primary	Chytridiomycota	2	1	1	0	descriptive	descriptive	none
+strict_plus_jgi_file_row_verified	wall	fine	primary	Eurotiomycetes	22	16	10	6	estimated	estimated	estimated
+strict_plus_jgi_file_row_verified	wall	fine	primary	Saccharomycotina	43	29	13	16	estimated	estimated	estimated
+strict_plus_jgi_file_row_verified	wall	fine	primary	Sordariomycetes	6	4	4	0	descriptive	descriptive	none
+strict_plus_jgi_file_row_verified	wall	fine	primary	Taphrinomycotina	3	2	1	1	descriptive	descriptive	descriptive
+strict_plus_jgi_file_row_verified	wall	fine	primary	Ustilaginomycetes	1	1	1	0	descriptive	descriptive	none

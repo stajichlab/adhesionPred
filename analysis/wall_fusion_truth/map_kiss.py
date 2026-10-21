@@ -62,6 +62,13 @@ MODELS_DEFAULT = ROOT / "analysis/wall_fusion_report/wall_fusion_models.tsv"
 OUT_DEFAULT = HERE / "results"
 
 FLOORS = (3, 5, 8)
+# Owner decisions of 2026-10-22: the fine clade level is the primary hold-out and the coarse
+# level a second, harder test; a stratum of clusters is `estimated` only with at least
+# ESTIMATED_FLOOR clusters of its own (fewer: `descriptive`); the fusion slice is always
+# descriptive; a family representative (no clade) is never a test control.
+PRIMARY_LEVEL = "fine"
+ESTIMATED_FLOOR = 5
+DESCRIPTIVE_SLICES = ("fusion",)
 NCBI = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/"
 UNIPROT = "https://rest.uniprot.org/uniprotkb/search"
 UNIPROT_FIELDS = "accession,reviewed,id,gene_names,organism_name,organism_id,length,sequence"
@@ -130,6 +137,7 @@ JGI_COLS = [
     "jgi_locus_tag",
     "jgi_locus_result",
     "jgi_locus_accession",
+    "jgi_locus_genes",
 ]
 # A header name that is a locus tag: upper-case scheme prefix, then digits; no dots, no '#'.
 LOCUS_LIKE = re.compile(r"^[A-Z]{2,8}_[A-Z0-9]*\d[A-Za-z0-9]*$")
@@ -330,6 +338,95 @@ def clade_tables(rows: list[dict], include) -> dict:
                 "clusters": len(d["clusters"]),
                 "shared": shared,
             }
+    return out
+
+
+def stratum_status(n_clusters: int, sl: str) -> str:
+    """`estimated` only with ESTIMATED_FLOOR clusters of the stratum itself; fusion never; `none` for 0."""
+    if n_clusters == 0:
+        return "none"
+    if sl in DESCRIPTIVE_SLICES or n_clusters < ESTIMATED_FLOOR:
+        return "descriptive"
+    return "estimated"
+
+
+def level_role(level: str) -> str:
+    return "primary" if level == PRIMARY_LEVEL else "second_harder_test"
+
+
+def control_role(row: dict) -> str:
+    """family_rep: a family representative (training seed and baseline report only, never a
+    test control, no clade, never counted toward a floor); kiss_row: a row of a Kiss protein
+    (whether it is mapped is in map_status); unmapped_family_row: a family row without locus."""
+    if row["map_status"] == "mapped_family_rep":
+        return "family_rep"
+    if row["organism_code"]:
+        return "kiss_row"
+    return "unmapped_family_row"
+
+
+def family_rep_clusters(rows: list[dict]) -> list[list]:
+    """[slice, cluster, rep rows, strictly mapped Kiss rows] for clusters with a family rep."""
+    strict = ("mapped_locus_tag", "mapped_jgi_file")
+    out = []
+    keys = sorted(
+        {(r["slice"], r["cluster_number"]) for r in rows if r["control_role"] == "family_rep"},
+        key=lambda k: (k[0], int(k[1])),
+    )
+    for sl, cl in keys:
+        same = [r for r in rows if r["slice"] == sl and r["cluster_number"] == cl]
+        out.append(
+            [
+                sl,
+                cl,
+                sum(1 for r in same if r["control_role"] == "family_rep"),
+                sum(
+                    1 for r in same if r["control_role"] == "kiss_row" and r["map_status"] in strict
+                ),
+            ]
+        )
+    return out
+
+
+NAME_CONFLICT_COLS = [
+    "gene_or_family_id",
+    "protein_id_jgi",
+    "slice",
+    "jgi_header_name",
+    "file_protein_accession",
+    "file_protein_gene_names",
+    "file_protein_length",
+    "named_candidate_accession",
+    "named_candidate_length",
+    "why",
+]
+
+
+def name_conflict_table(rows: list[dict]) -> list[list]:
+    """Review list: rows whose JGI protein is a UniProt entry other than the row's gene name."""
+    out = []
+    for r in sorted(rows, key=lambda r: (r["slice"], r["organism_code"], r["gene_or_family_id"])):
+        if r["jgi_locus_result"] != "confirmed_name_conflict":
+            continue
+        why = (
+            f"the protein at this ID is {r['jgi_locus_accession']} ({r['jgi_locus_tag']}), "
+            f"not the UniProt entry {r['accession']} of the name {r['match_term']}; "
+            "the JGI sequence equals the locus-tag entry"
+        )
+        out.append(
+            [
+                r["gene_or_family_id"],
+                r["protein_id_jgi"],
+                r["slice"],
+                r["jgi_name"],
+                r["jgi_locus_accession"],
+                r["jgi_locus_genes"],
+                r["jgi_length"],
+                r["accession"],
+                r["length"],
+                why,
+            ]
+        )
     return out
 
 
@@ -625,6 +722,8 @@ def apply_locus_lookup(rows: list[dict], proteins: dict, scope_of, lookup) -> di
             continue
         r["jgi_locus_tag"] = tag
         entry, why = pick_entry(lookup("gene_exact", tag, scope_of(r["organism_code"])))
+        if entry is not None:
+            r["jgi_locus_genes"] = entry.get("genes", "")
         if entry is None:
             r["jgi_locus_result"] = why
         elif entry["sequence"].upper() != seq:
@@ -1085,6 +1184,8 @@ def main(argv: list[str] | None = None) -> int:
             for o in orgs
         ],
     )
+    for r in rows:
+        r["control_role"] = control_role(r)
     row_cols = [
         "gene_or_family_id",
         "cluster_number",
@@ -1102,6 +1203,7 @@ def main(argv: list[str] | None = None) -> int:
         "length",
         "uniprot_organism_id",
         "id_consistent",
+        "control_role",
         *(JGI_COLS if jgi_on else []),
     ]
     ordered = sorted(
@@ -1220,7 +1322,23 @@ def main(argv: list[str] | None = None) -> int:
     for sname, inc in scenarios.items():
         tabs = clade_tables(rows, inc)
         for (sl, level, clade), v in sorted(tabs.items()):
-            clade_rows.append([sname, sl, level, clade, v["rows"], v["clusters"], v["shared"]])
+            only = v["clusters"] - v["shared"]
+            clade_rows.append(
+                [
+                    sname,
+                    sl,
+                    level,
+                    level_role(level),
+                    clade,
+                    v["rows"],
+                    v["clusters"],
+                    v["shared"],
+                    only,
+                    stratum_status(v["clusters"], sl),
+                    stratum_status(v["shared"], sl),
+                    stratum_status(only, sl),
+                ]
+            )
         for sl in SLICES:
             for level in ("coarse", "fine"):
                 n_clades = len({c for (s, lv, c) in tabs if s == sl and lv == level})
@@ -1235,6 +1353,7 @@ def main(argv: list[str] | None = None) -> int:
                             n_clades,
                             len(el),
                             "; ".join(f"{c} ({k} clusters, {n} rows)" for c, k, n in el),
+                            level_role(level),
                         ]
                     )
     write_tsv(
@@ -1243,10 +1362,15 @@ def main(argv: list[str] | None = None) -> int:
             "scenario",
             "slice",
             "clade_level",
+            "role",
             "clade",
             "rows",
             "clusters",
             "clusters_also_in_other_clade",
+            "clusters_clade_only",
+            "status_all_clusters",
+            "status_shared",
+            "status_clade_only",
         ],
         clade_rows,
     )
@@ -1260,6 +1384,7 @@ def main(argv: list[str] | None = None) -> int:
             "clades_present",
             "clades_eligible",
             "eligible_clades",
+            "role",
         ],
         floor_rows,
     )
@@ -1277,6 +1402,14 @@ def main(argv: list[str] | None = None) -> int:
             for s, c in sorted({(r["slice"], r["cluster_number"]) for r in noid} & id_clusters)
         ],
     )
+
+    write_tsv(
+        out / "family_rep_clusters.tsv",
+        ["slice", "cluster_number", "family_rep_rows", "strictly_mapped_kiss_rows"],
+        family_rep_clusters(rows),
+    )
+    if jgi_on:
+        write_tsv(out / "name_conflict_review.tsv", NAME_CONFLICT_COLS, name_conflict_table(rows))
 
     # reconciliation with report 06 / paper
     recon = []

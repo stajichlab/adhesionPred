@@ -365,3 +365,76 @@ def test_locus_scope_uses_the_strain_taxon_when_ncbi_resolves_it_to_one_taxon():
     assert (
         mk.locus_scope("Fusgr1", org, FakeCache('["9"]')) == "5518"
     )  # no strain term in the table
+
+
+# ----------------------------------------------------------------------------- owner decisions
+
+
+def test_stratum_is_estimated_only_with_five_clusters_of_its_own_and_never_for_fusion():
+    assert mk.stratum_status(5, "wall") == "estimated"
+    assert mk.stratum_status(4, "wall") == "descriptive"
+    assert mk.stratum_status(3, "adhesion") == "descriptive"
+    assert mk.stratum_status(29, "fusion") == "descriptive"
+    assert mk.stratum_status(0, "wall") == "none"
+
+
+def test_fine_level_is_primary_and_coarse_the_second_harder_test():
+    assert mk.level_role("fine") == "primary"
+    assert mk.level_role("coarse") == "second_harder_test"
+
+
+def test_family_representatives_are_flagged_and_never_counted_toward_a_floor():
+    rep = {"map_status": "mapped_family_rep", "organism_code": ""}
+    kiss = {"map_status": "mapped_jgi_file", "organism_code": "Canalb1"}
+    lost_family = {"map_status": "lost", "organism_code": ""}
+    assert mk.control_role(rep) == "family_rep"
+    assert mk.control_role(kiss) == "kiss_row"
+    assert mk.control_role(lost_family) == "unmapped_family_row"
+
+    def r(sl, cl, status, code, clade):
+        d = {"slice": sl, "cluster_number": cl, "map_status": status, "organism_code": code}
+        d.update(clade_coarse=clade, clade_fine=clade)
+        d["control_role"] = mk.control_role(d)
+        return d
+
+    rows = [
+        r("wall", "1", "mapped_family_rep", "", ""),
+        r("wall", "1", "mapped_jgi_file", "Sacce1", "Saccharomycotina"),
+        r("wall", "2", "mapped_family_rep", "", ""),
+        r("fusion", "3", "mapped_family_rep", "", ""),
+    ]
+    # a family rep carries no clade, so it never enters a clade table or a floor
+    tabs = mk.clade_tables(
+        rows, lambda x: x["map_status"] in ("mapped_jgi_file", "mapped_locus_tag")
+    )
+    assert {k[2] for k in tabs} == {"Saccharomycotina"}
+    assert mk.family_rep_clusters(rows) == [
+        ["fusion", "3", 1, 0],
+        ["wall", "1", 1, 1],
+        ["wall", "2", 1, 0],
+    ]
+
+
+def test_name_conflict_review_lists_only_conflicting_rows_with_both_accessions():
+    base = {
+        "slice": "adhesion",
+        "organism_code": "Canalb1",
+        "gene_or_family_id": "hyr1",
+        "protein_id_jgi": "56210_Canalb1",
+        "jgi_name": "CAALFM_C500730WAT0",
+        "jgi_locus_result": "confirmed_name_conflict",
+        "jgi_locus_accession": "Q59XA7",
+        "jgi_locus_tag": "CAALFM_C500730WA",
+        "jgi_locus_genes": "HYR3 IFF2",
+        "jgi_length": "1249",
+        "accession": "Q5AL03",
+        "length": "919",
+        "match_term": "hyr1",
+    }
+    ok = dict(base, gene_or_family_id="x", jgi_locus_result="confirmed")
+    table = mk.name_conflict_table([ok, base])
+    assert len(table) == 1 and len(table[0]) == len(mk.NAME_CONFLICT_COLS)
+    d = dict(zip(mk.NAME_CONFLICT_COLS, table[0], strict=True))
+    assert d["file_protein_accession"] == "Q59XA7" and d["named_candidate_accession"] == "Q5AL03"
+    assert d["file_protein_length"] == "1249" and d["named_candidate_length"] == "919"
+    assert "Q59XA7" in d["why"] and "Q5AL03" in d["why"]

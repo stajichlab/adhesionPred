@@ -1,91 +1,91 @@
-scenario	slice	clade_level	floor	clades_present	clades_eligible	eligible_clades
-upper_bound_all_jgi_id_rows	adhesion	coarse	3	3	3	Basidiomycota (4 clusters, 9 rows); Pezizomycotina (9 clusters, 17 rows); Saccharomycotina (10 clusters, 19 rows)
-upper_bound_all_jgi_id_rows	adhesion	coarse	5	3	2	Pezizomycotina (9 clusters, 17 rows); Saccharomycotina (10 clusters, 19 rows)
-upper_bound_all_jgi_id_rows	adhesion	coarse	8	3	2	Pezizomycotina (9 clusters, 17 rows); Saccharomycotina (10 clusters, 19 rows)
-upper_bound_all_jgi_id_rows	adhesion	fine	3	7	4	Eurotiomycetes (3 clusters, 5 rows); Saccharomycotina (10 clusters, 19 rows); Sordariomycetes (6 clusters, 10 rows); Ustilaginomycetes (3 clusters, 3 rows)
-upper_bound_all_jgi_id_rows	adhesion	fine	5	7	2	Saccharomycotina (10 clusters, 19 rows); Sordariomycetes (6 clusters, 10 rows)
-upper_bound_all_jgi_id_rows	adhesion	fine	8	7	1	Saccharomycotina (10 clusters, 19 rows)
-upper_bound_all_jgi_id_rows	wall	coarse	3	5	2	Pezizomycotina (23 clusters, 43 rows); Saccharomycotina (29 clusters, 43 rows)
-upper_bound_all_jgi_id_rows	wall	coarse	5	5	2	Pezizomycotina (23 clusters, 43 rows); Saccharomycotina (29 clusters, 43 rows)
-upper_bound_all_jgi_id_rows	wall	coarse	8	5	2	Pezizomycotina (23 clusters, 43 rows); Saccharomycotina (29 clusters, 43 rows)
-upper_bound_all_jgi_id_rows	wall	fine	3	7	3	Eurotiomycetes (16 clusters, 24 rows); Saccharomycotina (29 clusters, 43 rows); Sordariomycetes (14 clusters, 19 rows)
-upper_bound_all_jgi_id_rows	wall	fine	5	7	3	Eurotiomycetes (16 clusters, 24 rows); Saccharomycotina (29 clusters, 43 rows); Sordariomycetes (14 clusters, 19 rows)
-upper_bound_all_jgi_id_rows	wall	fine	8	7	3	Eurotiomycetes (16 clusters, 24 rows); Saccharomycotina (29 clusters, 43 rows); Sordariomycetes (14 clusters, 19 rows)
-upper_bound_all_jgi_id_rows	fusion	coarse	3	3	0	
-upper_bound_all_jgi_id_rows	fusion	coarse	5	3	0	
-upper_bound_all_jgi_id_rows	fusion	coarse	8	3	0	
-upper_bound_all_jgi_id_rows	fusion	fine	3	4	0	
-upper_bound_all_jgi_id_rows	fusion	fine	5	4	0	
-upper_bound_all_jgi_id_rows	fusion	fine	8	4	0	
-strict_locus_tag_mapped	adhesion	coarse	3	1	1	Pezizomycotina (3 clusters, 4 rows)
-strict_locus_tag_mapped	adhesion	coarse	5	1	0	
-strict_locus_tag_mapped	adhesion	coarse	8	1	0	
-strict_locus_tag_mapped	adhesion	fine	3	2	0	
-strict_locus_tag_mapped	adhesion	fine	5	2	0	
-strict_locus_tag_mapped	adhesion	fine	8	2	0	
-strict_locus_tag_mapped	wall	coarse	3	3	1	Pezizomycotina (16 clusters, 24 rows)
-strict_locus_tag_mapped	wall	coarse	5	3	1	Pezizomycotina (16 clusters, 24 rows)
-strict_locus_tag_mapped	wall	coarse	8	3	1	Pezizomycotina (16 clusters, 24 rows)
-strict_locus_tag_mapped	wall	fine	3	4	1	Eurotiomycetes (16 clusters, 22 rows)
-strict_locus_tag_mapped	wall	fine	5	4	1	Eurotiomycetes (16 clusters, 22 rows)
-strict_locus_tag_mapped	wall	fine	8	4	1	Eurotiomycetes (16 clusters, 22 rows)
-strict_locus_tag_mapped	fusion	coarse	3	1	0	
-strict_locus_tag_mapped	fusion	coarse	5	1	0	
-strict_locus_tag_mapped	fusion	coarse	8	1	0	
-strict_locus_tag_mapped	fusion	fine	3	1	0	
-strict_locus_tag_mapped	fusion	fine	5	1	0	
-strict_locus_tag_mapped	fusion	fine	8	1	0	
-locus_tag_plus_gene_name_candidates	adhesion	coarse	3	3	2	Pezizomycotina (4 clusters, 10 rows); Saccharomycotina (9 clusters, 17 rows)
-locus_tag_plus_gene_name_candidates	adhesion	coarse	5	3	1	Saccharomycotina (9 clusters, 17 rows)
-locus_tag_plus_gene_name_candidates	adhesion	coarse	8	3	1	Saccharomycotina (9 clusters, 17 rows)
-locus_tag_plus_gene_name_candidates	adhesion	fine	3	6	1	Saccharomycotina (9 clusters, 17 rows)
-locus_tag_plus_gene_name_candidates	adhesion	fine	5	6	1	Saccharomycotina (9 clusters, 17 rows)
-locus_tag_plus_gene_name_candidates	adhesion	fine	8	6	1	Saccharomycotina (9 clusters, 17 rows)
-locus_tag_plus_gene_name_candidates	wall	coarse	3	4	2	Pezizomycotina (19 clusters, 28 rows); Saccharomycotina (29 clusters, 42 rows)
-locus_tag_plus_gene_name_candidates	wall	coarse	5	4	2	Pezizomycotina (19 clusters, 28 rows); Saccharomycotina (29 clusters, 42 rows)
-locus_tag_plus_gene_name_candidates	wall	coarse	8	4	2	Pezizomycotina (19 clusters, 28 rows); Saccharomycotina (29 clusters, 42 rows)
-locus_tag_plus_gene_name_candidates	wall	fine	3	5	3	Eurotiomycetes (16 clusters, 22 rows); Saccharomycotina (29 clusters, 42 rows); Sordariomycetes (4 clusters, 6 rows)
-locus_tag_plus_gene_name_candidates	wall	fine	5	5	2	Eurotiomycetes (16 clusters, 22 rows); Saccharomycotina (29 clusters, 42 rows)
-locus_tag_plus_gene_name_candidates	wall	fine	8	5	2	Eurotiomycetes (16 clusters, 22 rows); Saccharomycotina (29 clusters, 42 rows)
-locus_tag_plus_gene_name_candidates	fusion	coarse	3	3	0	
-locus_tag_plus_gene_name_candidates	fusion	coarse	5	3	0	
-locus_tag_plus_gene_name_candidates	fusion	coarse	8	3	0	
-locus_tag_plus_gene_name_candidates	fusion	fine	3	4	0	
-locus_tag_plus_gene_name_candidates	fusion	fine	5	4	0	
-locus_tag_plus_gene_name_candidates	fusion	fine	8	4	0	
-strict_plus_jgi_file	adhesion	coarse	3	3	3	Basidiomycota (4 clusters, 4 rows); Pezizomycotina (9 clusters, 14 rows); Saccharomycotina (10 clusters, 18 rows)
-strict_plus_jgi_file	adhesion	coarse	5	3	2	Pezizomycotina (9 clusters, 14 rows); Saccharomycotina (10 clusters, 18 rows)
-strict_plus_jgi_file	adhesion	coarse	8	3	2	Pezizomycotina (9 clusters, 14 rows); Saccharomycotina (10 clusters, 18 rows)
-strict_plus_jgi_file	adhesion	fine	3	5	4	Eurotiomycetes (3 clusters, 5 rows); Saccharomycotina (10 clusters, 18 rows); Sordariomycetes (6 clusters, 9 rows); Ustilaginomycetes (3 clusters, 3 rows)
-strict_plus_jgi_file	adhesion	fine	5	5	2	Saccharomycotina (10 clusters, 18 rows); Sordariomycetes (6 clusters, 9 rows)
-strict_plus_jgi_file	adhesion	fine	8	5	1	Saccharomycotina (10 clusters, 18 rows)
-strict_plus_jgi_file	wall	coarse	3	5	2	Pezizomycotina (23 clusters, 42 rows); Saccharomycotina (29 clusters, 43 rows)
-strict_plus_jgi_file	wall	coarse	5	5	2	Pezizomycotina (23 clusters, 42 rows); Saccharomycotina (29 clusters, 43 rows)
-strict_plus_jgi_file	wall	coarse	8	5	2	Pezizomycotina (23 clusters, 42 rows); Saccharomycotina (29 clusters, 43 rows)
-strict_plus_jgi_file	wall	fine	3	7	3	Eurotiomycetes (16 clusters, 23 rows); Saccharomycotina (29 clusters, 43 rows); Sordariomycetes (14 clusters, 19 rows)
-strict_plus_jgi_file	wall	fine	5	7	3	Eurotiomycetes (16 clusters, 23 rows); Saccharomycotina (29 clusters, 43 rows); Sordariomycetes (14 clusters, 19 rows)
-strict_plus_jgi_file	wall	fine	8	7	3	Eurotiomycetes (16 clusters, 23 rows); Saccharomycotina (29 clusters, 43 rows); Sordariomycetes (14 clusters, 19 rows)
-strict_plus_jgi_file	fusion	coarse	3	3	0	
-strict_plus_jgi_file	fusion	coarse	5	3	0	
-strict_plus_jgi_file	fusion	coarse	8	3	0	
-strict_plus_jgi_file	fusion	fine	3	4	0	
-strict_plus_jgi_file	fusion	fine	5	4	0	
-strict_plus_jgi_file	fusion	fine	8	4	0	
-strict_plus_jgi_file_row_verified	adhesion	coarse	3	3	2	Pezizomycotina (4 clusters, 8 rows); Saccharomycotina (9 clusters, 16 rows)
-strict_plus_jgi_file_row_verified	adhesion	coarse	5	3	1	Saccharomycotina (9 clusters, 16 rows)
-strict_plus_jgi_file_row_verified	adhesion	coarse	8	3	1	Saccharomycotina (9 clusters, 16 rows)
-strict_plus_jgi_file_row_verified	adhesion	fine	3	4	1	Saccharomycotina (9 clusters, 16 rows)
-strict_plus_jgi_file_row_verified	adhesion	fine	5	4	1	Saccharomycotina (9 clusters, 16 rows)
-strict_plus_jgi_file_row_verified	adhesion	fine	8	4	1	Saccharomycotina (9 clusters, 16 rows)
-strict_plus_jgi_file_row_verified	wall	coarse	3	5	2	Pezizomycotina (19 clusters, 28 rows); Saccharomycotina (29 clusters, 43 rows)
-strict_plus_jgi_file_row_verified	wall	coarse	5	5	2	Pezizomycotina (19 clusters, 28 rows); Saccharomycotina (29 clusters, 43 rows)
-strict_plus_jgi_file_row_verified	wall	coarse	8	5	2	Pezizomycotina (19 clusters, 28 rows); Saccharomycotina (29 clusters, 43 rows)
-strict_plus_jgi_file_row_verified	wall	fine	3	6	3	Eurotiomycetes (16 clusters, 22 rows); Saccharomycotina (29 clusters, 43 rows); Sordariomycetes (4 clusters, 6 rows)
-strict_plus_jgi_file_row_verified	wall	fine	5	6	2	Eurotiomycetes (16 clusters, 22 rows); Saccharomycotina (29 clusters, 43 rows)
-strict_plus_jgi_file_row_verified	wall	fine	8	6	2	Eurotiomycetes (16 clusters, 22 rows); Saccharomycotina (29 clusters, 43 rows)
-strict_plus_jgi_file_row_verified	fusion	coarse	3	3	0	
-strict_plus_jgi_file_row_verified	fusion	coarse	5	3	0	
-strict_plus_jgi_file_row_verified	fusion	coarse	8	3	0	
-strict_plus_jgi_file_row_verified	fusion	fine	3	4	0	
-strict_plus_jgi_file_row_verified	fusion	fine	5	4	0	
-strict_plus_jgi_file_row_verified	fusion	fine	8	4	0	
+scenario	slice	clade_level	floor	clades_present	clades_eligible	eligible_clades	role
+upper_bound_all_jgi_id_rows	adhesion	coarse	3	3	3	Basidiomycota (4 clusters, 9 rows); Pezizomycotina (9 clusters, 17 rows); Saccharomycotina (10 clusters, 19 rows)	second_harder_test
+upper_bound_all_jgi_id_rows	adhesion	coarse	5	3	2	Pezizomycotina (9 clusters, 17 rows); Saccharomycotina (10 clusters, 19 rows)	second_harder_test
+upper_bound_all_jgi_id_rows	adhesion	coarse	8	3	2	Pezizomycotina (9 clusters, 17 rows); Saccharomycotina (10 clusters, 19 rows)	second_harder_test
+upper_bound_all_jgi_id_rows	adhesion	fine	3	7	4	Eurotiomycetes (3 clusters, 5 rows); Saccharomycotina (10 clusters, 19 rows); Sordariomycetes (6 clusters, 10 rows); Ustilaginomycetes (3 clusters, 3 rows)	primary
+upper_bound_all_jgi_id_rows	adhesion	fine	5	7	2	Saccharomycotina (10 clusters, 19 rows); Sordariomycetes (6 clusters, 10 rows)	primary
+upper_bound_all_jgi_id_rows	adhesion	fine	8	7	1	Saccharomycotina (10 clusters, 19 rows)	primary
+upper_bound_all_jgi_id_rows	wall	coarse	3	5	2	Pezizomycotina (23 clusters, 43 rows); Saccharomycotina (29 clusters, 43 rows)	second_harder_test
+upper_bound_all_jgi_id_rows	wall	coarse	5	5	2	Pezizomycotina (23 clusters, 43 rows); Saccharomycotina (29 clusters, 43 rows)	second_harder_test
+upper_bound_all_jgi_id_rows	wall	coarse	8	5	2	Pezizomycotina (23 clusters, 43 rows); Saccharomycotina (29 clusters, 43 rows)	second_harder_test
+upper_bound_all_jgi_id_rows	wall	fine	3	7	3	Eurotiomycetes (16 clusters, 24 rows); Saccharomycotina (29 clusters, 43 rows); Sordariomycetes (14 clusters, 19 rows)	primary
+upper_bound_all_jgi_id_rows	wall	fine	5	7	3	Eurotiomycetes (16 clusters, 24 rows); Saccharomycotina (29 clusters, 43 rows); Sordariomycetes (14 clusters, 19 rows)	primary
+upper_bound_all_jgi_id_rows	wall	fine	8	7	3	Eurotiomycetes (16 clusters, 24 rows); Saccharomycotina (29 clusters, 43 rows); Sordariomycetes (14 clusters, 19 rows)	primary
+upper_bound_all_jgi_id_rows	fusion	coarse	3	3	0		second_harder_test
+upper_bound_all_jgi_id_rows	fusion	coarse	5	3	0		second_harder_test
+upper_bound_all_jgi_id_rows	fusion	coarse	8	3	0		second_harder_test
+upper_bound_all_jgi_id_rows	fusion	fine	3	4	0		primary
+upper_bound_all_jgi_id_rows	fusion	fine	5	4	0		primary
+upper_bound_all_jgi_id_rows	fusion	fine	8	4	0		primary
+strict_locus_tag_mapped	adhesion	coarse	3	1	1	Pezizomycotina (3 clusters, 4 rows)	second_harder_test
+strict_locus_tag_mapped	adhesion	coarse	5	1	0		second_harder_test
+strict_locus_tag_mapped	adhesion	coarse	8	1	0		second_harder_test
+strict_locus_tag_mapped	adhesion	fine	3	2	0		primary
+strict_locus_tag_mapped	adhesion	fine	5	2	0		primary
+strict_locus_tag_mapped	adhesion	fine	8	2	0		primary
+strict_locus_tag_mapped	wall	coarse	3	3	1	Pezizomycotina (16 clusters, 24 rows)	second_harder_test
+strict_locus_tag_mapped	wall	coarse	5	3	1	Pezizomycotina (16 clusters, 24 rows)	second_harder_test
+strict_locus_tag_mapped	wall	coarse	8	3	1	Pezizomycotina (16 clusters, 24 rows)	second_harder_test
+strict_locus_tag_mapped	wall	fine	3	4	1	Eurotiomycetes (16 clusters, 22 rows)	primary
+strict_locus_tag_mapped	wall	fine	5	4	1	Eurotiomycetes (16 clusters, 22 rows)	primary
+strict_locus_tag_mapped	wall	fine	8	4	1	Eurotiomycetes (16 clusters, 22 rows)	primary
+strict_locus_tag_mapped	fusion	coarse	3	1	0		second_harder_test
+strict_locus_tag_mapped	fusion	coarse	5	1	0		second_harder_test
+strict_locus_tag_mapped	fusion	coarse	8	1	0		second_harder_test
+strict_locus_tag_mapped	fusion	fine	3	1	0		primary
+strict_locus_tag_mapped	fusion	fine	5	1	0		primary
+strict_locus_tag_mapped	fusion	fine	8	1	0		primary
+locus_tag_plus_gene_name_candidates	adhesion	coarse	3	3	2	Pezizomycotina (4 clusters, 10 rows); Saccharomycotina (9 clusters, 17 rows)	second_harder_test
+locus_tag_plus_gene_name_candidates	adhesion	coarse	5	3	1	Saccharomycotina (9 clusters, 17 rows)	second_harder_test
+locus_tag_plus_gene_name_candidates	adhesion	coarse	8	3	1	Saccharomycotina (9 clusters, 17 rows)	second_harder_test
+locus_tag_plus_gene_name_candidates	adhesion	fine	3	6	1	Saccharomycotina (9 clusters, 17 rows)	primary
+locus_tag_plus_gene_name_candidates	adhesion	fine	5	6	1	Saccharomycotina (9 clusters, 17 rows)	primary
+locus_tag_plus_gene_name_candidates	adhesion	fine	8	6	1	Saccharomycotina (9 clusters, 17 rows)	primary
+locus_tag_plus_gene_name_candidates	wall	coarse	3	4	2	Pezizomycotina (19 clusters, 28 rows); Saccharomycotina (29 clusters, 42 rows)	second_harder_test
+locus_tag_plus_gene_name_candidates	wall	coarse	5	4	2	Pezizomycotina (19 clusters, 28 rows); Saccharomycotina (29 clusters, 42 rows)	second_harder_test
+locus_tag_plus_gene_name_candidates	wall	coarse	8	4	2	Pezizomycotina (19 clusters, 28 rows); Saccharomycotina (29 clusters, 42 rows)	second_harder_test
+locus_tag_plus_gene_name_candidates	wall	fine	3	5	3	Eurotiomycetes (16 clusters, 22 rows); Saccharomycotina (29 clusters, 42 rows); Sordariomycetes (4 clusters, 6 rows)	primary
+locus_tag_plus_gene_name_candidates	wall	fine	5	5	2	Eurotiomycetes (16 clusters, 22 rows); Saccharomycotina (29 clusters, 42 rows)	primary
+locus_tag_plus_gene_name_candidates	wall	fine	8	5	2	Eurotiomycetes (16 clusters, 22 rows); Saccharomycotina (29 clusters, 42 rows)	primary
+locus_tag_plus_gene_name_candidates	fusion	coarse	3	3	0		second_harder_test
+locus_tag_plus_gene_name_candidates	fusion	coarse	5	3	0		second_harder_test
+locus_tag_plus_gene_name_candidates	fusion	coarse	8	3	0		second_harder_test
+locus_tag_plus_gene_name_candidates	fusion	fine	3	4	0		primary
+locus_tag_plus_gene_name_candidates	fusion	fine	5	4	0		primary
+locus_tag_plus_gene_name_candidates	fusion	fine	8	4	0		primary
+strict_plus_jgi_file	adhesion	coarse	3	3	3	Basidiomycota (4 clusters, 4 rows); Pezizomycotina (9 clusters, 14 rows); Saccharomycotina (10 clusters, 18 rows)	second_harder_test
+strict_plus_jgi_file	adhesion	coarse	5	3	2	Pezizomycotina (9 clusters, 14 rows); Saccharomycotina (10 clusters, 18 rows)	second_harder_test
+strict_plus_jgi_file	adhesion	coarse	8	3	2	Pezizomycotina (9 clusters, 14 rows); Saccharomycotina (10 clusters, 18 rows)	second_harder_test
+strict_plus_jgi_file	adhesion	fine	3	5	4	Eurotiomycetes (3 clusters, 5 rows); Saccharomycotina (10 clusters, 18 rows); Sordariomycetes (6 clusters, 9 rows); Ustilaginomycetes (3 clusters, 3 rows)	primary
+strict_plus_jgi_file	adhesion	fine	5	5	2	Saccharomycotina (10 clusters, 18 rows); Sordariomycetes (6 clusters, 9 rows)	primary
+strict_plus_jgi_file	adhesion	fine	8	5	1	Saccharomycotina (10 clusters, 18 rows)	primary
+strict_plus_jgi_file	wall	coarse	3	5	2	Pezizomycotina (23 clusters, 42 rows); Saccharomycotina (29 clusters, 43 rows)	second_harder_test
+strict_plus_jgi_file	wall	coarse	5	5	2	Pezizomycotina (23 clusters, 42 rows); Saccharomycotina (29 clusters, 43 rows)	second_harder_test
+strict_plus_jgi_file	wall	coarse	8	5	2	Pezizomycotina (23 clusters, 42 rows); Saccharomycotina (29 clusters, 43 rows)	second_harder_test
+strict_plus_jgi_file	wall	fine	3	7	3	Eurotiomycetes (16 clusters, 23 rows); Saccharomycotina (29 clusters, 43 rows); Sordariomycetes (14 clusters, 19 rows)	primary
+strict_plus_jgi_file	wall	fine	5	7	3	Eurotiomycetes (16 clusters, 23 rows); Saccharomycotina (29 clusters, 43 rows); Sordariomycetes (14 clusters, 19 rows)	primary
+strict_plus_jgi_file	wall	fine	8	7	3	Eurotiomycetes (16 clusters, 23 rows); Saccharomycotina (29 clusters, 43 rows); Sordariomycetes (14 clusters, 19 rows)	primary
+strict_plus_jgi_file	fusion	coarse	3	3	0		second_harder_test
+strict_plus_jgi_file	fusion	coarse	5	3	0		second_harder_test
+strict_plus_jgi_file	fusion	coarse	8	3	0		second_harder_test
+strict_plus_jgi_file	fusion	fine	3	4	0		primary
+strict_plus_jgi_file	fusion	fine	5	4	0		primary
+strict_plus_jgi_file	fusion	fine	8	4	0		primary
+strict_plus_jgi_file_row_verified	adhesion	coarse	3	3	2	Pezizomycotina (4 clusters, 8 rows); Saccharomycotina (9 clusters, 16 rows)	second_harder_test
+strict_plus_jgi_file_row_verified	adhesion	coarse	5	3	1	Saccharomycotina (9 clusters, 16 rows)	second_harder_test
+strict_plus_jgi_file_row_verified	adhesion	coarse	8	3	1	Saccharomycotina (9 clusters, 16 rows)	second_harder_test
+strict_plus_jgi_file_row_verified	adhesion	fine	3	4	1	Saccharomycotina (9 clusters, 16 rows)	primary
+strict_plus_jgi_file_row_verified	adhesion	fine	5	4	1	Saccharomycotina (9 clusters, 16 rows)	primary
+strict_plus_jgi_file_row_verified	adhesion	fine	8	4	1	Saccharomycotina (9 clusters, 16 rows)	primary
+strict_plus_jgi_file_row_verified	wall	coarse	3	5	2	Pezizomycotina (19 clusters, 28 rows); Saccharomycotina (29 clusters, 43 rows)	second_harder_test
+strict_plus_jgi_file_row_verified	wall	coarse	5	5	2	Pezizomycotina (19 clusters, 28 rows); Saccharomycotina (29 clusters, 43 rows)	second_harder_test
+strict_plus_jgi_file_row_verified	wall	coarse	8	5	2	Pezizomycotina (19 clusters, 28 rows); Saccharomycotina (29 clusters, 43 rows)	second_harder_test
+strict_plus_jgi_file_row_verified	wall	fine	3	6	3	Eurotiomycetes (16 clusters, 22 rows); Saccharomycotina (29 clusters, 43 rows); Sordariomycetes (4 clusters, 6 rows)	primary
+strict_plus_jgi_file_row_verified	wall	fine	5	6	2	Eurotiomycetes (16 clusters, 22 rows); Saccharomycotina (29 clusters, 43 rows)	primary
+strict_plus_jgi_file_row_verified	wall	fine	8	6	2	Eurotiomycetes (16 clusters, 22 rows); Saccharomycotina (29 clusters, 43 rows)	primary
+strict_plus_jgi_file_row_verified	fusion	coarse	3	3	0		second_harder_test
+strict_plus_jgi_file_row_verified	fusion	coarse	5	3	0		second_harder_test
+strict_plus_jgi_file_row_verified	fusion	coarse	8	3	0		second_harder_test
+strict_plus_jgi_file_row_verified	fusion	fine	3	4	0		primary
+strict_plus_jgi_file_row_verified	fusion	fine	5	4	0		primary
+strict_plus_jgi_file_row_verified	fusion	fine	8	4	0		primary

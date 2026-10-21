@@ -12,6 +12,7 @@ No model was run. No row was added to a truth file. All numbers come from files 
 - **No public route turns a JGI protein ID into a sequence.** The JGI pages are behind a challenge page (HTTP 403). UniProt has no JGI cross-reference. The HPCC proteomes use their own IDs. Section 3 gives the evidence. **The owner's downloaded JGI protein files close this gap (section 4b).**
 - I mapped a row only when an identifier in the row itself (a locus tag) matches one UniProt entry in the genome strain. **34 of 144 rows (23.6 percent) map this way.** 26 of the 34 are A. fumigatus. 77 more rows have a unique gene-name hit in UniProt. I keep these as candidates and do not count them as mapped. 33 rows are lost.
 - With the UniProt-only strict mapping (34 rows), leave-clade-out was not possible for any slice at any floor. **With the JGI files, 133 of 144 JGI-ID rows are strictly mapped (92.4 percent): 34 by locus tag and 99 by exact ID in the file (74 verified by a name or sequence check of the row, 5 by a UniProt lookup of the header locus tag, 20 through a validated portal). Leave-clade-out becomes possible for adhesion (Saccharomycotina and Sordariomycetes at floor 5, coarse level Saccharomycotina and Pezizomycotina) and for wall (Eurotiomycetes, Saccharomycotina, Sordariomycetes), and stays impossible for fusion (at most 2 clusters per clade).** Section 6 has the tables and the caveat on clusters that also occur in other clades.
+- **Owner decisions of 2026-10-22 are final** (section 10): accept all 99 file-mapped rows, keep the name-conflict rule, fine clade level primary, floor 5 for `estimated` with two cluster strata (shared and clade-only), fusion descriptive only, family representatives never test controls.
 - The Kiss `cluster_number` is a proxy for the independent unit. It is not a 30 percent identity cluster. The MMseqs2 clustering of D8 is Task 5.3 (HPCC) and is not done here.
 - The counts of the spec agree with the data: the paper's 23 families and 45 genes equal Data 3 (adhesion 23 clusters, 45 rows). The 51 rows and 26 clusters of the 181-row table include 6 family-level rows from Data 4 and Data 8 (section 5).
 
@@ -491,15 +492,43 @@ Distinct reviewed entries per model set (an entry that matches two models counts
 
 ## 9. Files
 
-All in `analysis/wall_fusion_truth/` (README there). Tests: `tests/wall_fusion_truth/test_map_kiss.py` (3-row fixture, no network) and `test_map_kiss_jgi.py` (fixture FASTA files, no JGI data). The script runs offline from `results/query_cache.json`; the JGI step needs `--jgi-dir` (the committed results were made with it; a run without it writes the UniProt-only columns). New tables: `results/jgi_files.tsv`, `results/jgi_portal_summary.tsv`. Hash of `results/row_mapping.tsv` (with the JGI columns and the locus-tag lookup): 2e0ff225f04ef0aa34358320cd699bd60dfa99583df48e65fbf331629631c9b7. The cache `results/query_cache.json` holds the 25 added answers (14 UniProt: 10 locus-tag queries and the 4 Hisca1 queries with the species taxon; 11 NCBI Taxonomy queries for the strain terms), so an offline rerun gives the same bytes. The UniProt-only run gave bc35a684d65495e1e132e6444dba5c705543b88607765137ff51228250ffbc14. Hash of `results/mapped_sequences.faa` (unchanged): 9a261a58b54307c01b1d3db2ba6924b0e30bf95403cee9752d10597082fee19a.
+All in `analysis/wall_fusion_truth/` (README there). Tests: `tests/wall_fusion_truth/test_map_kiss.py` (3-row fixture, no network) and `test_map_kiss_jgi.py` (fixture FASTA files, no JGI data). The script runs offline from `results/query_cache.json`; the JGI step needs `--jgi-dir` (the committed results were made with it; a run without it writes the UniProt-only columns). New tables: `results/jgi_files.tsv`, `results/jgi_portal_summary.tsv`, `results/name_conflict_review.tsv`, `results/family_rep_clusters.tsv`. Hash of `results/row_mapping.tsv` (with the JGI columns and the locus-tag lookup): b4459f3a3d877dea9a817c916df5dc5209e0654fb82af5aee3c2227c3ad38b0d. The cache `results/query_cache.json` holds the 25 added answers (14 UniProt: 10 locus-tag queries and the 4 Hisca1 queries with the species taxon; 11 NCBI Taxonomy queries for the strain terms), so an offline rerun gives the same bytes. The UniProt-only run gave bc35a684d65495e1e132e6444dba5c705543b88607765137ff51228250ffbc14. Hash of `results/mapped_sequences.faa` (unchanged): 9a261a58b54307c01b1d3db2ba6924b0e30bf95403cee9752d10597082fee19a.
 
-## 10. Decisions for the owner
+## 10. Owner decisions (final, 2026-10-22)
 
-These are open. I did not decide any of them.
+These replace the open questions of the earlier version. The script and tables follow them.
 
-1. **The floor.** The floor of 5 is your provisional choice. With the JGI files (strict plus JGI file), floor 5 admits 2 adhesion clades (fine level: Saccharomycotina, Sordariomycetes), 3 wall clades (Eurotiomycetes, Saccharomycotina, Sordariomycetes) and 0 fusion clades. With only row-verified rows it admits 1, 2 and 0. Do you keep 5? Lowering it to 3 does not help fusion (at most 2 clusters per clade).
-2. **A thin slice.** Fusion has 8 rows and 6 clusters (all 5 rows with ID are mapped). Do you keep fusion as a descriptive slice only, with no hold-out? I recommend yes.
-3. **The weaker rows and the unmapped rows.** 25 rows are mapped without a check of the row itself: 20 portal-validated (Neucr2 17, Canalb1 2, Ustma2_2 1) and 5 locus-confirmed (Hisca1 3, Cryne_H99_1 2). Do you accept them, or restrict the control set to the 108 row-verified rows? For the 11 unmapped rows (coh1, coh2, sc1, sc3, sc6, cryp, hyr1, bhp2, bhp3, CNJ01930, ags1): drop them and list them in `rejected.tsv` and `unverified_notes.md` of Task 5.2? There is no further route here except the original Botci1 v1.0 file for bhp2 and bhp3.
-4. **The 35 A. fumigatus family representatives.** May they enter the control set? They stand for a family, not for the Kiss protein.
-5. **Clade level.** Do you want the coarse clade (subphylum) or the fine clade (class for Pezizomycotina and Basidiomycota) for D9 step 3? The fine level gives more clades and smaller n.
-6. **Rule for clusters shared with other clades** (wall: 10 to 13 of 14 to 29 clusters per eligible clade). Count a cluster as a held-out unit only when it occurs in that clade alone, or keep the plain count and report the shared number?
+| # | Decision | How the tables follow it |
+|---|---|---|
+| 0 | Accept all 99 file-mapped rows (74 `row_verified`, 5 `locus_confirmed`, 20 `portal_validated`). Filter later. | `row_mapping.tsv` keeps `jgi_accept`; the scenario `strict_plus_jgi_file` uses all 133 strict rows, `strict_plus_jgi_file_row_verified` uses 108. |
+| 1 | Keep the name-conflict rule: hyr1, bhp2 and bhp3 stay unmapped. | `results/name_conflict_review.tsv`: row, JGI ID, header name, file protein accession, gene names and length, named UniProt candidate accession and length, why. 3 rows. |
+| 2 | The fine clade level is the primary hold-out. The coarse level is a second, harder test wherever eligible. | Column `role` (`primary` or `second_harder_test`) in `floors_per_slice.tsv` and `clusters_per_clade.tsv`. |
+| 3 | The floor counts all clusters present. Every result is reported in two strata: shared (the cluster has members in another clade) and clade-only. A stratum is `estimated` only with at least 5 clusters of its own, else `descriptive`. | `clusters_per_clade.tsv`: `clusters_also_in_other_clade` (shared), `clusters_clade_only`, `status_all_clusters`, `status_shared`, `status_clade_only` (`none` when the stratum has 0 clusters). |
+| 4 | Floor 5 for `estimated`. Clades with 3 or 4 clusters are shown as `descriptive`. | Same columns; `ESTIMATED_FLOOR = 5` in the script. |
+| 5 | Fusion is a descriptive-only slice: the Pfam baseline is reported on its 5 rows, with no `estimated` claim and no custom model yet. | `stratum_status` returns `descriptive` for every fusion stratum. |
+| 6 | The 35 A. fumigatus family representatives are flagged `family_rep`. They may be training seeds and appear in the baseline recall report. They are never test controls and never counted toward a floor. | Column `control_role` in `row_mapping.tsv` (`family_rep` 35, `kiss_row` 144, `unmapped_family_row` 2). They carry no clade, so no clade table counts them. `results/family_rep_clusters.tsv` lists the clusters that carry one. |
+
+**Family representatives and clusters.** 27 clusters carry a family representative (adhesion 4, fusion 3, wall 20). 9 of them have no strictly mapped Kiss row, so the representative is the only mapped member (adhesion 2: clusters 338 and 3660; fusion 3; wall 4). The other 18 also have a Kiss row with a clade.
+
+**Result under these decisions** (scenario `strict_plus_jgi_file`, floor 5 on all clusters; `results/clusters_per_clade.tsv`, `results/floors_per_slice.tsv`). Clusters: all, shared, clade-only; status of each stratum.
+
+Primary (fine level):
+
+| Slice | Clade | Rows | Clusters | Shared | Clade-only | Shared status | Clade-only status |
+|---|---|---|---|---|---|---|---|
+| adhesion | Saccharomycotina | 18 | 10 | 0 | 10 | none | estimated |
+| adhesion | Sordariomycetes | 9 | 6 | 0 | 6 | none | estimated |
+| wall | Saccharomycotina | 43 | 29 | 13 | 16 | estimated | estimated |
+| wall | Eurotiomycetes | 23 | 16 | 12 | 4 | estimated | descriptive |
+| wall | Sordariomycetes | 19 | 14 | 10 | 4 | estimated | descriptive |
+
+Second, harder test (coarse level):
+
+| Slice | Clade | Rows | Clusters | Shared | Clade-only | Shared status | Clade-only status |
+|---|---|---|---|---|---|---|---|
+| adhesion | Saccharomycotina | 18 | 10 | 0 | 10 | none | estimated |
+| adhesion | Pezizomycotina | 14 | 9 | 0 | 9 | none | estimated |
+| wall | Saccharomycotina | 43 | 29 | 13 | 16 | estimated | estimated |
+| wall | Pezizomycotina | 42 | 23 | 13 | 10 | estimated | estimated |
+
+Descriptive only: adhesion fine Eurotiomycetes (3 clusters, 5 rows) and Ustilaginomycetes (3 clusters, 3 rows), adhesion coarse Basidiomycota (4 clusters, 4 rows), every other clade with fewer than 5 clusters, and the whole fusion slice (5 mapped rows with a clade; at most 2 clusters per clade). Wall Eurotiomycetes and Sordariomycetes are eligible at floor 5 by all clusters, but their clade-only stratum has 4 clusters, so it is `descriptive`.
