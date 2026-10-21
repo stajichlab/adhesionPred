@@ -13,9 +13,15 @@ Steps (all deterministic; every network answer is cached in results/query_cache.
     carries (a locus tag such as Afu3g12700, NCU09332, BATDEDRAFT_20500) inside the genome
     strain of the paper. A unique gene-name hit is kept apart as a CANDIDATE and is never
     counted as mapped.
- 3. Count rows, mapping loss, clades and clusters per slice, and the clades that a floor of
+ 3. Optional (--jgi-dir): look each JGI protein ID up in the gene-catalog protein FASTA file
+    of its MycoCosm portal (files that the owner downloaded; they are NOT in the repository).
+    A row is mapped by file (status mapped_jgi_file) only when the header name of the protein
+    agrees with the row, with the UniProt candidate, or (for rows that carry no name evidence)
+    when the portal as a whole is validated by its other rows. Only the sequence length and
+    sha256 are written, never the sequence.
+ 4. Count rows, mapping loss, clades and clusters per slice, and the clades that a floor of
     3, 5 or 8 independent clusters admits for hold-out.
- 4. Count UniProt reviewed entries of the wall and fusion Pfam families in Basidiomycota
+ 5. Count UniProt reviewed entries of the wall and fusion Pfam families in Basidiomycota
     and other clades (the second source).
 
 Independent unit: the Kiss `cluster_number` is a PROXY. It is a family from orthology and
@@ -27,6 +33,7 @@ them is executed. The optional xlsx step needs openpyxl and is run only by hand.
 Usage:
     python3 map_kiss.py                 # offline, from the committed cache
     python3 map_kiss.py --online        # fill the cache from public NCBI and UniProt APIs
+    python3 map_kiss.py --jgi-dir to_import/kiss2019_jgi   # add the JGI-file step
     python3 map_kiss.py --species-xlsx MOESM5.xlsx   # rebuild results/kiss_species_72.tsv
 """
 
@@ -34,6 +41,8 @@ from __future__ import annotations
 
 import argparse
 import csv
+import difflib
+import gzip
 import hashlib
 import json
 import re
@@ -94,6 +103,31 @@ LOCUS_PATTERNS = (
     re.compile(r"^(UM\d{5})$"),
     re.compile(r"^(ACR\d{3}[WC])$"),
 )
+# Kiss organism code -> portal directory and header name of the downloaded MycoCosm file.
+JGI_PORTAL = {
+    "Ustma22": "Ustma2_2",
+    "CryneH991": "Cryne_H99_1",
+    "Ashgo11": "Ashgo1_1",
+    "Botci1": "Bcine1",
+    "Copci": "Copci_AmutBmut1",
+}
+# A portal validates its rows without name evidence when at least PORTAL_MIN_AGREE rows agree
+# and at most PORTAL_MAX_DIFFER_RATE of the rows with evidence disagree.
+PORTAL_MIN_AGREE, PORTAL_MAX_DIFFER_RATE = 3, 0.10
+SIMILAR_RATIO = 0.90  # difflib ratio from which two different sequences count as 'similar'
+SIMILAR_MAX_LEN = 4000
+JGI_COLS = [
+    "map_status_uniprot",
+    "jgi_portal",
+    "jgi_status",
+    "jgi_name",
+    "jgi_length",
+    "jgi_seq_sha256",
+    "jgi_check",
+    "jgi_check_how",
+    "jgi_vs_uniprot",
+    "jgi_accept",
+]
 NAME_STOP = {"like"}
 MIN_LEN, MAX_LEN, MAX_X_RUN = 20, 15000, 5
 AA = set("ACDEFGHIKLMNPQRSTVWYXUBZO")
@@ -181,6 +215,7 @@ def map_row(row: dict, scope_taxon: str, lookup) -> dict:
         "uniprot_organism_id": "",
         "id_consistent": "",
         "sequence": "",
+        "genes": "",
     }
     if not jgi:
         afus = re.findall(r"Afu\d+g\d+", row.get("ortholog_Afu", ""))
@@ -229,6 +264,7 @@ def _accept(res: dict, entry: dict, status: str) -> dict:
         accession=entry["accession"],
         length=str(len(entry["sequence"])),
         uniprot_organism_id=str(entry["organism_id"]),
+        genes=entry.get("genes", ""),
     )
     if not ok:
         res["status"], res["reason"] = "lost", f"implausible_sequence: {why}"
@@ -259,6 +295,7 @@ def count_rows(rows: list[dict]) -> dict:
         "without_jgi_id": n - with_id,
         "mapped_locus_tag": c["mapped_locus_tag"],
         "mapped_family_rep": c["mapped_family_rep"],
+        "mapped_jgi_file": c["mapped_jgi_file"],
         "candidate_gene_name": c["candidate_gene_name"],
         "distinct_accessions_locus_tag": len(
             {r["accession"] for r in rows if r["map_status"] == "mapped_locus_tag"}
@@ -298,6 +335,255 @@ def eligible(tables: dict, sl: str, level: str, floor: int) -> list[tuple[str, i
         for (s, lv, clade), v in tables.items()
         if s == sl and lv == level and v["clusters"] >= floor
     )
+
+
+# ----------------------------------------------------------------------------- JGI-file step
+
+
+def jgi_portal(code: str) -> str:
+    """Kiss organism code -> portal name of the downloaded file (identical for most codes)."""
+    return JGI_PORTAL.get(code, code)
+
+
+def jgi_protein_id(jgi_id: str) -> str:
+    """'4407_Aspfu1' -> '4407'."""
+    m = re.match(r"^(\d+)_.+$", jgi_id.strip())
+    return m.group(1) if m else ""
+
+
+def read_jgi_table(path: Path) -> dict[str, dict]:
+    """The file table of the downloaded set: {portal: row} for the files marked 'use'."""
+    used: dict[str, dict] = {}
+    for r in read_tsv(path):
+        if not r["role"].startswith("use"):
+            continue
+        if r["portal"] in used:
+            raise ValueError(f"two files marked 'use' for portal {r['portal']}")
+        used[r["portal"]] = r
+    return used
+
+
+def file_sha256(path: Path) -> str:
+    h = hashlib.sha256()
+    with path.open("rb") as fh:
+        for chunk in iter(lambda: fh.read(1 << 20), b""):
+            h.update(chunk)
+    return h.hexdigest()
+
+
+def read_jgi_fasta(path: Path, portal: str, wanted: set[str]) -> dict[str, tuple[str, str]]:
+    """{proteinId: (header name, sequence)} for the wanted IDs of one gzip FASTA.
+
+    The header is `>jgi|<portal>|<proteinId>|<name...>`. A header that does not follow it, or
+    names another portal, is skipped. The file is data: it is only read, never executed.
+    """
+    out: dict[str, tuple[str, str]] = {}
+    pid, name, chunks = None, "", []
+
+    def flush():
+        if pid is not None:
+            seq = "".join(chunks).upper().rstrip("*")
+            out[pid] = (name, seq)
+
+    with gzip.open(path, "rt", encoding="utf-8", errors="replace") as fh:
+        for line in fh:
+            line = line.rstrip("\n")
+            if line.startswith(">"):
+                flush()
+                pid, chunks = None, []
+                parts = line[1:].split("|", 3)
+                if len(parts) == 4 and parts[0] == "jgi" and parts[1] == portal:
+                    if parts[2] in wanted:
+                        pid, name = parts[2], parts[3].strip()
+            elif pid is not None:
+                chunks.append(line.strip())
+    flush()
+    return out
+
+
+def load_jgi_proteins(
+    jgi_dir: Path, table: dict[str, dict], wanted: dict[str, set[str]]
+) -> dict[str, dict[str, tuple[str, str]]]:
+    """Verify the sha256 of each used file against the table, then read the wanted IDs."""
+    out: dict[str, dict[str, tuple[str, str]]] = {}
+    for portal in sorted(wanted):
+        if portal not in table:
+            continue
+        found = sorted((jgi_dir / portal).rglob(table[portal]["file"]))
+        if len(found) != 1:
+            raise FileNotFoundError(f"{portal}: {len(found)} copies of {table[portal]['file']}")
+        got = file_sha256(found[0])
+        if got != table[portal]["sha256"]:
+            raise ValueError(f"{portal}: sha256 {got} differs from the file table")
+        out[portal] = read_jgi_fasta(found[0], portal, wanted[portal])
+    return out
+
+
+def header_variants(name: str) -> set[str]:
+    """Upper-case forms of the first header token that a UniProt gene name could carry.
+
+    CAALFM_CR00610WAT0 -> CAALFM_CR00610WA, NCU06242T0 -> NCU06242, BCIN_02g00390.1 ->
+    BCIN_02G00390, mRNA_UMAG_11562 -> UMAG_11562.
+    """
+    tok = name.split()[0].upper() if name.split() else ""
+    out = {tok} if tok else set()
+    for v in list(out):
+        for rx in (r"^MRNA_", r"\.\d+$", r"T\d+$"):
+            w = re.sub(rx, "", v)
+            if w:
+                out.add(w)
+    return out
+
+
+def uniprot_gene_tokens(genes: str) -> set[str]:
+    return {t.upper() for t in re.split(r"[\s;,]+", genes.strip()) if t}
+
+
+def jgi_cross_check(row: dict, jgi_name: str, jgi_seq: str) -> tuple[str, str, str]:
+    """(check, how, vs_uniprot) of one found JGI protein against what the row carries.
+
+    check: agree | differs | unverifiable. Evidence in order: a locus tag of the row (only a
+    tag of the same naming scheme as the header can agree or differ), a gene name of the row
+    equal to the header name, the UniProt candidate (its gene names carry the header locus, or
+    its sequence is identical; a similar but not identical sequence is unverifiable, because
+    the candidate may come from another strain). `vs_uniprot` is identical | similar |
+    different | no_uniprot_sequence, whatever the check.
+    """
+    uni_seq = row.get("sequence", "")
+    if not uni_seq:
+        vs = "no_uniprot_sequence"
+    elif jgi_seq == uni_seq:
+        vs = "identical"
+    else:
+        short = max(len(jgi_seq), len(uni_seq)) <= SIMILAR_MAX_LEN
+        ratio = (
+            difflib.SequenceMatcher(None, jgi_seq, uni_seq, autojunk=False).ratio()
+            if short
+            else 0.0
+        )
+        vs = "similar" if ratio >= SIMILAR_RATIO else "different"
+    variants = header_variants(jgi_name)
+    first = jgi_name.split()[0].lower() if jgi_name.split() else ""
+    tags = locus_tags(row["gene_or_family_id"])
+    same_scheme = False
+    for t in tags:
+        tu = t.upper()
+        if tu in variants or any(v.endswith("_" + tu) for v in variants):
+            return "agree", "row_locus_tag", vs
+        # UM05433 and UMAG_05433 share the number; CND01240 and CNAG_00996 are not comparable
+        letters = re.match(r"[A-Z]+", tu)
+        for v in variants:
+            vl = re.match(r"[A-Z]+", v.replace("_", ""))
+            if letters and vl and vl.group(0).startswith(letters.group(0)):
+                if re.sub(r"\D", "", tu) == re.sub(r"\D", "", v):
+                    return "agree", "row_locus_tag_same_number", vs
+                same_scheme = True
+    if tags and same_scheme:
+        return "differs", "row_locus_tag_not_in_header", vs
+    if tags:
+        return "unverifiable", "row_locus_tag_other_naming_scheme", vs
+    if first and first in {t.lower() for t in gene_name_tokens(row["gene_or_family_id"])}:
+        return "agree", "row_gene_name_equals_header_name", vs
+    if uni_seq and row.get("map_status") in ("candidate_gene_name", "mapped_locus_tag"):
+        if variants & uniprot_gene_tokens(row.get("genes", "")):
+            return "agree", "uniprot_gene_names_carry_header_locus", vs
+        if vs == "identical":
+            return "agree", "uniprot_sequence_identical", vs
+        if vs == "similar":
+            return "unverifiable", "similar_not_identical_to_uniprot_candidate", vs
+        return "differs", "differs_from_uniprot_candidate", vs
+    return "unverifiable", "no_name_or_uniprot_evidence", vs
+
+
+def apply_jgi(
+    rows: list[dict], proteins: dict[str, dict[str, tuple[str, str]]], provided: set[str]
+) -> dict:
+    """Add the JGI columns and decide mapped_jgi_file. Returns {portal: evidence counts}.
+
+    Rows mapped by locus tag keep their status (the file only cross-checks them). A candidate
+    row keeps its status unless the file accepts it (mapped_jgi_file) or contradicts it
+    (lost). Every other row without evidence stays lost with the file reason appended.
+    """
+    for r in rows:
+        for c in JGI_COLS:
+            r[c] = ""
+        r["map_status_uniprot"] = r["map_status"]
+    stats: dict[str, dict[str, int]] = defaultdict(
+        lambda: {"rows": 0, "found": 0, "absent": 0, "agree": 0, "differs": 0, "unverifiable": 0}
+    )
+    todo = [r for r in rows if r["organism_code"]]
+    for r in todo:
+        portal = jgi_portal(r["organism_code"])
+        r["jgi_portal"] = portal
+        if portal not in provided:
+            r["jgi_status"] = "portal_not_provided"
+            continue
+        st = stats[portal]
+        st["rows"] += 1
+        hit = proteins.get(portal, {}).get(jgi_protein_id(r["protein_id_jgi"]))
+        if hit is None:
+            r["jgi_status"] = "absent"
+            st["absent"] += 1
+            continue
+        name, seq = hit
+        r["jgi_status"] = "found"
+        st["found"] += 1
+        r["jgi_name"] = name
+        r["jgi_length"] = str(len(seq))
+        r["jgi_seq_sha256"] = hashlib.sha256(seq.encode()).hexdigest()
+        r["jgi_check"], r["jgi_check_how"], r["jgi_vs_uniprot"] = jgi_cross_check(r, name, seq)
+        st[r["jgi_check"]] += 1
+    validated = {
+        p
+        for p, st in stats.items()
+        if st["agree"] >= PORTAL_MIN_AGREE
+        and st["differs"] <= PORTAL_MAX_DIFFER_RATE * (st["agree"] + st["differs"])
+    }
+    for r in todo:
+        if r["jgi_status"] == "portal_not_provided":
+            note = "jgi_portal_not_provided"
+        elif r["jgi_status"] == "absent":
+            note = "jgi_id_absent_from_file"
+        else:
+            ok, why = plausible_protein(
+                proteins[r["jgi_portal"]][jgi_protein_id(r["protein_id_jgi"])][1]
+            )
+            if not ok:
+                note = f"jgi_sequence_implausible: {why}"
+            elif r["jgi_check"] == "agree":
+                r["jgi_accept"] = "row_verified"
+            elif r["jgi_check"] == "unverifiable" and r["jgi_portal"] in validated:
+                r["jgi_accept"] = "portal_validated"
+            else:
+                note = (
+                    "jgi_file_" + r["jgi_check_how"]
+                    if r["jgi_check"] == "differs"
+                    else "jgi_file_unverifiable_portal_not_validated"
+                )
+        if r["jgi_accept"] and r["map_status"] != "mapped_locus_tag":
+            r["map_status"], r["map_reason"] = "mapped_jgi_file", ""
+            continue
+        if r["jgi_accept"]:
+            continue
+        if r["map_status"] == "candidate_gene_name" and r["jgi_check"] != "differs":
+            continue  # still only a candidate; the file did not decide
+        if r["map_status"] == "mapped_locus_tag":
+            continue
+        r["map_status"] = "lost"
+        r["map_reason"] = f"{r['map_reason']}; {note}" if r["map_reason"] else note
+    for p in stats:
+        stats[p]["portal_validated"] = int(p in validated)
+    return dict(stats)
+
+
+def guard_no_sequences(paths: list[Path], sequences: list[str]) -> None:
+    """Fail when any written table carries a JGI sequence (they stay out of the repository)."""
+    seqs = [s for s in sequences if len(s) >= MIN_LEN]
+    for p in paths:
+        text = p.read_text()
+        for s in seqs:
+            if s in text:
+                raise RuntimeError(f"a JGI sequence of length {len(s)} was written to {p}")
 
 
 # ----------------------------------------------------------------------------- network + cache
@@ -582,6 +868,8 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--out-dir", type=Path, default=OUT_DEFAULT)
     ap.add_argument("--online", action="store_true", help="query public NCBI and UniProt APIs")
     ap.add_argument("--data3-xlsx", type=Path, help="Kiss MOESM7 xlsx: re-derive the Data 3 counts")
+    ap.add_argument("--jgi-dir", type=Path, help="folder of the downloaded MycoCosm protein files")
+    ap.add_argument("--jgi-table", type=Path, help="file table (default: <jgi-dir>/FILE_TABLE.tsv)")
     ap.add_argument("--species-xlsx", type=Path, help="Kiss MOESM5 xlsx: rebuild the species table")
     args = ap.parse_args(argv)
 
@@ -626,7 +914,26 @@ def main(argv: list[str] | None = None) -> int:
         r["sequence"] = m["sequence"]
         r["clade_coarse"] = org[code]["clade_coarse"] if code else ""
         r["clade_fine"] = org[code]["clade_fine"] if code else ""
+        r["genes"] = m["genes"]
     cache.save()
+    jgi_on = args.jgi_dir is not None
+    jgi_stats: dict = {}
+    jgi_seqs: list[str] = []
+    if jgi_on:
+        table_path = args.jgi_table or args.jgi_dir / "FILE_TABLE.tsv"
+        table = read_jgi_table(table_path)
+        wanted: dict[str, set[str]] = defaultdict(set)
+        for r in rows:
+            if r["organism_code"]:
+                wanted[jgi_portal(r["organism_code"])].add(jgi_protein_id(r["protein_id_jgi"]))
+        proteins = load_jgi_proteins(args.jgi_dir, table, wanted)
+        jgi_stats = apply_jgi(rows, proteins, set(table))
+        jgi_seqs = [seq for per in proteins.values() for _, seq in per.values()]
+        write_tsv(
+            out / "jgi_files.tsv",
+            list(read_tsv(table_path)[0].keys()),
+            [list(r.values()) for r in read_tsv(table_path)],
+        )
     if args.data3_xlsx:
         data3_check(args.data3_xlsx, rows, out)
 
@@ -693,6 +1000,7 @@ def main(argv: list[str] | None = None) -> int:
         "length",
         "uniprot_organism_id",
         "id_consistent",
+        *(JGI_COLS if jgi_on else []),
     ]
     ordered = sorted(
         rows,
@@ -723,6 +1031,7 @@ def main(argv: list[str] | None = None) -> int:
                 c["mapped_family_rep"],
                 c["candidate_gene_name"],
                 c["lost"],
+                *([c["mapped_jgi_file"]] if jgi_on else []),
             ]
         )
     write_tsv(
@@ -738,6 +1047,7 @@ def main(argv: list[str] | None = None) -> int:
             "mapped_family_rep",
             "candidate_gene_name",
             "lost",
+            *(["mapped_jgi_file"] if jgi_on else []),
         ],
         stat_rows,
     )
@@ -769,6 +1079,7 @@ def main(argv: list[str] | None = None) -> int:
                         d[(sl, "mapped_family_rep")],
                         d[(sl, "candidate_gene_name")],
                         d[(sl, "lost")],
+                        *([d[(sl, "mapped_jgi_file")]] if jgi_on else []),
                     ]
                 )
     write_tsv(
@@ -782,16 +1093,27 @@ def main(argv: list[str] | None = None) -> int:
             "mapped_family_rep",
             "candidate_gene_name",
             "lost",
+            *(["mapped_jgi_file"] if jgi_on else []),
         ],
         po_rows,
     )
 
+    # the first three scenarios are the UniProt-only ones of the first feasibility run
+    pre = "map_status_uniprot" if jgi_on else "map_status"
     scenarios = {
         "upper_bound_all_jgi_id_rows": lambda r: bool(r["organism_code"]),
-        "strict_locus_tag_mapped": lambda r: r["map_status"] == "mapped_locus_tag",
-        "locus_tag_plus_gene_name_candidates": lambda r: r["map_status"]
+        "strict_locus_tag_mapped": lambda r: r[pre] == "mapped_locus_tag",
+        "locus_tag_plus_gene_name_candidates": lambda r: r[pre]
         in ("mapped_locus_tag", "candidate_gene_name"),
     }
+    if jgi_on:
+        scenarios["strict_plus_jgi_file"] = lambda r: r["map_status"] in (
+            "mapped_locus_tag",
+            "mapped_jgi_file",
+        )
+        scenarios["strict_plus_jgi_file_row_verified"] = lambda r: r["map_status"] == (
+            "mapped_locus_tag"
+        ) or (r["map_status"] == "mapped_jgi_file" and r["jgi_accept"] == "row_verified")
     clade_rows, floor_rows = [], []
     for sname, inc in scenarios.items():
         tabs = clade_tables(rows, inc)
@@ -919,6 +1241,56 @@ def main(argv: list[str] | None = None) -> int:
         ],
         ss,
     )
+    if jgi_on:
+        summ = []
+        for portal in sorted(jgi_stats):
+            st = jgi_stats[portal]
+            for sl in SLICES:
+                sub = [r for r in rows if r["jgi_portal"] == portal and r["slice"] == sl]
+                if not sub:
+                    continue
+
+                def n(pred, sub=sub):
+                    return sum(1 for r in sub if pred(r))
+
+                summ.append(
+                    [
+                        portal,
+                        sl,
+                        len(sub),
+                        n(lambda r: r["jgi_status"] == "found"),
+                        n(lambda r: r["jgi_status"] == "absent"),
+                        n(lambda r: r["jgi_check"] == "agree"),
+                        n(lambda r: r["jgi_check"] == "differs"),
+                        n(lambda r: r["jgi_check"] == "unverifiable"),
+                        st["portal_validated"],
+                        n(lambda r: r["jgi_accept"] == "row_verified"),
+                        n(lambda r: r["jgi_accept"] == "portal_validated"),
+                        n(lambda r: r["jgi_vs_uniprot"] == "identical"),
+                        n(lambda r: r["jgi_vs_uniprot"] == "different"),
+                    ]
+                )
+        write_tsv(
+            out / "jgi_portal_summary.tsv",
+            [
+                "portal",
+                "slice",
+                "rows",
+                "found",
+                "absent",
+                "check_agree",
+                "check_differs",
+                "check_unverifiable",
+                "portal_validated",
+                "accepted_row_verified",
+                "accepted_portal_validated",
+                "sequence_identical_to_uniprot",
+                "sequence_differs_from_uniprot",
+            ],
+            summ,
+        )
+        # the cache and mapped_sequences.faa hold public UniProt sequences, so they are not scanned
+        guard_no_sequences(sorted(out.glob("*.tsv")), jgi_seqs)
     sha = hashlib.sha256((out / "row_mapping.tsv").read_bytes()).hexdigest()
     print(f"rows {len(rows)}; row_mapping.tsv sha256 {sha}")
 

@@ -4,12 +4,14 @@ Date: 2026-10-18. Branch: `kiss2019-feasibility`. Plan: `docs/superpowers/plans/
 
 No model was run. No row was added to a truth file. All numbers come from files in `analysis/wall_fusion_truth/results/` (made by `analysis/wall_fusion_truth/map_kiss.py`) or from the queries named below.
 
+**Update 2026-10-22.** The owner downloaded the MycoCosm gene-catalog protein files of 14 of the 16 genomes (they are archived outside git). The rows with a JGI ID were then mapped by exact ID against these files (section 4b). Sections 1, 3 and 4 to 6 keep the numbers of the first, UniProt-only stage as measured; section 4b and the added scenarios in section 6 give the result with the files; sections 8 to 10 are revised.
+
 ## 1. Answer in short
 
 - The table has 181 rows. 144 rows have a JGI protein ID (143 distinct IDs). 37 rows have none. The 37 are all family-level rows from Data 4 and Data 8. All 651 rows of Data 3 have a JGI ID.
-- **No public route turns a JGI protein ID into a sequence.** The JGI pages are behind a challenge page (HTTP 403). UniProt has no JGI cross-reference. The HPCC proteomes use their own IDs. Section 3 gives the evidence.
+- **No public route turns a JGI protein ID into a sequence.** The JGI pages are behind a challenge page (HTTP 403). UniProt has no JGI cross-reference. The HPCC proteomes use their own IDs. Section 3 gives the evidence. **The owner's downloaded JGI protein files close this gap (section 4b).**
 - I mapped a row only when an identifier in the row itself (a locus tag) matches one UniProt entry in the genome strain. **34 of 144 rows (23.6 percent) map this way.** 26 of the 34 are A. fumigatus. 77 more rows have a unique gene-name hit in UniProt. I keep these as candidates and do not count them as mapped. 33 rows are lost.
-- With the strict mapping, **leave-clade-out is not possible for any slice** at any floor. With the upper bound (all 144 JGI-ID rows, as if the owner obtains the JGI files), it is possible for wall and for adhesion, and not for fusion. Section 6 has the tables.
+- With the UniProt-only strict mapping (34 rows), leave-clade-out was not possible for any slice at any floor. **With the JGI files, 128 of 144 JGI-ID rows are strictly mapped (88.9 percent): 34 by locus tag and 94 by exact ID in the file (74 of the 94 verified by a name or sequence check of the row, 20 through a validated portal). Leave-clade-out becomes possible for adhesion (Saccharomycotina and Sordariomycetes at floor 5, coarse level Saccharomycotina and Pezizomycotina) and for wall (Eurotiomycetes, Saccharomycotina, Sordariomycetes), and stays impossible for fusion (at most 2 clusters per clade).** Section 6 has the tables and the caveat on clusters that also occur in other clades.
 - The Kiss `cluster_number` is a proxy for the independent unit. It is not a 30 percent identity cluster. The MMseqs2 clustering of D8 is Task 5.3 (HPCC) and is not done here.
 - The counts of the spec agree with the data: the paper's 23 families and 45 genes equal Data 3 (adhesion 23 clusters, 45 rows). The 51 rows and 26 clusters of the 181-row table include 6 family-level rows from Data 4 and Data 8 (section 5).
 
@@ -66,7 +68,7 @@ HPCC commands (read-only, nothing written there). Directory: `/bigdata/stajichla
 
 Headers of the other HPCC proteomes (Neurospora crassa OR74A, Candida albicans SC5314, Ustilago maydis 521) have the same renamed form `<prefix>_NNNNNN-T1`. A JGI ID cannot be matched to them.
 
-Consequence: every row with a JGI ID is counted as having **no ID-verified sequence**. I did not match an ID to a sequence by guess.
+Consequence at that stage: every row with a JGI ID is counted as having **no ID-verified sequence**. I did not match an ID to a sequence by guess. (The owner later supplied the files; section 4b.)
 
 ## 4. What I did instead
 
@@ -135,6 +137,67 @@ The 33 lost rows with a JGI ID: 27 have a gene name with no hit (mostly N. crass
 
 By clade (144 rows with a JGI ID): Saccharomycotina 64 (Canalb1 36, Sacce1 24, Ashgo11 4), Pezizomycotina 62, Basidiomycota 13 (Ustma22 5, Schco3 3, CryneH991 3, Copci 2), Taphrinomycotina 3, Chytridiomycota 2. None of the 13 Basidiomycota rows maps by locus tag. 5 are candidates and 8 are lost.
 
+## 4b. JGI-file step (2026-10-22)
+
+**Files.** The owner downloaded the gene-catalog protein FASTA file of 14 portals from MycoCosm (not Aspfu1 and not Batde5). `results/jgi_files.tsv` lists all 23 downloaded files with sha256, md5, protein count and the check IDs (no sequence, no local path). The md5 of every file equals the md5 in the JGI download manifests (`Download_2426889_File_Manifest.csv`, `Download_2426926_File_Manifest.csv`). The script checks the sha256 of each used file against this table before it reads the file, and it refuses to run on a mismatch. The files stay in `to_import/kiss2019_jgi/` (outside git). Portal names that differ from the Kiss codes: Ustma22 is Ustma2_2, CryneH991 is Cryne_H99_1, Ashgo11 is Ashgo1_1, Botci1 is Bcine1, Copci is Copci_AmutBmut1. Canalb1 has two versions; only `20161025` contains the Kiss IDs (`20160604` has another ID space). The 28 rows of Aspfu1 (26) and Batde5 (2) have no file; all 28 are mapped by locus tag already.
+
+**Rule.** A row is looked up by its exact protein ID in `jgi|<portal>|<id>|<name>`. The found protein is checked against the row, in this order (column `jgi_check_how`):
+
+1. a locus tag of the row, if the header uses the same naming scheme (`NCU08192` against `NCU08192T0`; `UM05433` against `UMAG_05433` by number); another scheme (`CND01240` against `CNAG_00996`) is not comparable;
+2. a gene name of the row equal to the header name (Schpo1: `bgs1`);
+3. the UniProt candidate of the row: its gene names carry the header locus, or its sequence is identical. A similar sequence that is not identical (difflib ratio 0.90 or more) is not evidence. A different sequence counts as a mismatch.
+
+`agree` maps the row (status `mapped_jgi_file`, `jgi_accept = row_verified`). A mismatch does not map it. A row with no evidence (`unverifiable`) maps only when its whole portal is validated: at least 3 rows of the portal agree and at most 10 percent of the rows with evidence disagree (`jgi_accept = portal_validated`). Rows mapped by locus tag keep their status. The sequence must also pass the plausibility check of section 4. The tables hold the sequence length and the sha256 of the sequence, never the sequence (the script scans every written table for the found sequences and stops if one is there; the committed UniProt cache and `mapped_sequences.faa` hold public UniProt sequences and are not scanned).
+
+**Result for the 110 rows that the UniProt stage did not map by locus tag** (`results/jgi_portal_summary.tsv`, `results/row_mapping.tsv`):
+
+| Portal | Rows with ID | Found in file | Check: agree | differ | no evidence | Not mapped by locus tag | Mapped, row verified | Mapped, portal validated | Not mapped |
+|---|---|---|---|---|---|---|---|---|---|
+| Canalb1 | 36 | 36 | 33 | 1 | 2 | 36 | 33 | 2 | 1 |
+| Sacce1 | 24 | 24 | 24 | 0 | 0 | 24 | 24 | 0 | 0 |
+| Neucr2 | 26 | 26 | 9 | 0 | 17 | 23 | 6 | 17 | 0 |
+| Ustma2_2 | 5 | 5 | 4 | 0 | 1 | 5 | 4 | 1 | 0 |
+| Hisca1 | 4 | 4 | 0 | 0 | 4 | 4 | 0 | 0 | 4 |
+| Schco3 | 3 | 3 | 0 | 0 | 3 | 3 | 0 | 0 | 3 |
+| Cryne_H99_1 | 3 | 3 | 0 | 0 | 3 | 3 | 0 | 0 | 3 |
+| Schpo1 | 3 | 3 | 3 | 0 | 0 | 3 | 3 | 0 | 0 |
+| Copci_AmutBmut1 | 2 | 2 | 0 | 1 | 1 | 2 | 0 | 0 | 2 |
+| Bcine1 | 2 | 2 | 0 | 2 | 0 | 2 | 0 | 0 | 2 |
+| Trire2 | 2 | 2 | 2 | 0 | 0 | 2 | 2 | 0 | 0 |
+| Crypa2 | 1 | 1 | 0 | 0 | 1 | 1 | 0 | 0 | 1 |
+| Fusgr1 | 1 | 1 | 1 | 0 | 0 | 1 | 1 | 0 | 0 |
+| Ashgo1_1 | 4 | 4 | 4 | 0 | 0 | 1 | 1 | 0 | 0 |
+| Aspfu1, Batde5 | 28 | 0 | n/a | n/a | n/a | 0 | 0 | 0 | 0 |
+| all | 144 | 116 | 80 | 4 | 32 | 110 | 74 | 20 | 16 |
+
+All 116 IDs were found in the files. Of the 110 rows, **94 are mapped by file and 16 are not mapped**. The 94 rows hold 93 distinct sequences (cot-2 and gs-1 are two Kiss rows of one protein, 8184_Neucr2). By slice (final status):
+
+| Slice | Rows | Kiss clusters | With JGI ID | Without JGI ID | Mapped by locus tag | Mapped by file | Family rep (no ID) | Name candidate | Lost |
+|---|---|---|---|---|---|---|---|---|---|
+| adhesion | 51 | 26 | 45 | 6 | 4 | 29 | 4 | 1 | 13 |
+| wall | 122 | 44 | 94 | 28 | 29 | 61 | 28 | 0 | 4 |
+| fusion | 8 | 6 | 5 | 3 | 1 | 4 | 3 | 0 | 0 |
+| all | 181 | 76 | 144 | 37 | 34 | 94 | 35 | 1 | 17 |
+
+Rows with a JGI ID that are strictly mapped (locus tag or file): adhesion 33 of 45, wall 90 of 94, fusion 5 of 5; together 128 of 144. The 17 lost rows are the 2 rows without ID and A. fumigatus locus (section 4) and 15 rows with an ID; the 1 candidate is coh2.
+
+**The gene-name candidates of section 4 are validated by the files.** Of the 77 candidates, 71 have a sequence identical to the JGI protein, 1 (ste2, Sacce1) is similar and agrees by locus, 1 (coh2) is similar and has no other evidence, and 4 differ (coh1, hyr1, bhp2, bhp3). So 72 of 77 (93.5 percent) are confirmed and 71 of 77 (92.2 percent) are identical. This is a measured error rate for the cheapest route (a gene name searched in UniProt inside the species or strain taxon).
+
+**The 16 rows that are not mapped:**
+
+| Rows | Portal | Why |
+|---|---|---|
+| coh1 | Copci_AmutBmut1 | the JGI protein (120 aa) differs from the UniProt candidate (113 aa, ratio 0.58); the candidate may come from another strain (UniProt has Okayama 7 for this species) or another gene model |
+| coh2 | Copci_AmutBmut1 | similar to the candidate (110 aa, ratio at least 0.90) but not identical; no other evidence; stays a candidate |
+| hyr1 | Canalb1 | JGI protein 1249 aa, candidate 919 aa; the same portal agrees for 33 other rows, so this is a model or name difference, not a version problem |
+| bhp2, bhp3 | Bcine1 | JGI proteins 691 and 151 aa; candidates 98 aa. Bcine1 is the 2025 annotation of B05.10; Kiss used Botci1 v1.0. 0 of 2 rows agree, so this file does not share the Kiss ID space |
+| bad1, hyd1_like, pmt1, ags1 | Hisca1 | no name evidence (names do not occur in the header; no UniProt candidate); the portal has no agreeing row, so it is not validated |
+| sc1, sc3, sc6 | Schco3 | same |
+| cfl1, CND01240, CNJ01930 | Cryne_H99_1 | same (CND and CNJ are JEC21 tags; the header uses CNAG tags) |
+| cryp | Crypa2 | same |
+
+These 16 are the rows for which a name or accession route could still decide (the headers carry locus tags such as `HCAG_00594T0`, `CNAG_00795T0`; a UniProt query by these locus tags would give the name evidence). I did not run it.
+
 ## 5. Reconciliation with report 06 and the paper (step 4)
 
 Source of the full numbers: Data 3 (`S7.xlsx`, present, sheet `gene list`), re-derived by `map_kiss.py --data3-xlsx` (`results/data3_full_counts.tsv`). All 144 Data 3 rows of the 181-row table were found in the xlsx by (gene, JGI ID, cluster).
@@ -158,6 +221,10 @@ Independent unit: the Kiss `cluster_number` (a proxy). A clade is eligible for h
 - **upper bound**: all 144 rows with a JGI ID, as if the owner gets the JGI protein files.
 - **strict**: rows mapped by locus tag (34 rows). This is the only scenario that stands on identifiers now.
 - **strict plus candidates**: 34 plus the 77 gene-name candidates (not accepted; shown to size the gain).
+- **strict plus JGI file** (added 2026-10-22): the 34 locus-tag rows plus the 94 rows mapped by file (128 rows). This is the scenario that stands on identifiers now.
+- **strict plus JGI file, row verified**: as before, but without the 20 rows that map only through a validated portal (108 rows).
+
+The first three scenarios are the UniProt-only stage of the first run and keep their numbers. The tables below give, for the two added scenarios, the numbers of eligible clades.
 
 Clades: "coarse" and "fine" as in section 2. Cells give the number of eligible clades. The names are in `results/floors_per_slice.tsv`.
 
@@ -194,7 +261,54 @@ Strict plus candidates:
 | fusion | coarse | 3 | 0 | 0 | 0 |
 | fusion | fine | 4 | 0 | 0 | 0 |
 
-Clusters and rows per clade (fine level, plus the coarse clades Basidiomycota and Pezizomycotina where they exist):
+Strict plus JGI file (128 rows):
+
+| Slice | Level | Clades present | Floor 3 | Floor 5 | Floor 8 |
+|---|---|---|---|---|---|
+| adhesion | coarse | 3 | 3 | 2 | 2 |
+| adhesion | fine | 4 | 3 | 2 | 1 |
+| wall | coarse | 5 | 2 | 2 | 2 |
+| wall | fine | 6 | 3 | 3 | 3 |
+| fusion | coarse | 3 | 0 | 0 | 0 |
+| fusion | fine | 4 | 0 | 0 | 0 |
+
+Strict plus JGI file, row verified (108 rows):
+
+| Slice | Level | Clades present | Floor 3 | Floor 5 | Floor 8 |
+|---|---|---|---|---|---|
+| adhesion | coarse | 3 | 2 | 1 | 1 |
+| adhesion | fine | 4 | 1 | 1 | 1 |
+| wall | coarse | 5 | 2 | 2 | 2 |
+| wall | fine | 6 | 3 | 2 | 2 |
+| fusion | coarse | 3 | 0 | 0 | 0 |
+| fusion | fine | 4 | 0 | 0 | 0 |
+
+Eligible clades, strict plus JGI file (clusters, rows; floors 5 and 8 unless noted):
+
+- adhesion, coarse: Pezizomycotina (8 clusters, 12 rows) and Saccharomycotina (10, 18) at floors 3, 5 and 8; Basidiomycota (3, 3) at floor 3 only.
+- adhesion, fine: Saccharomycotina (10, 18) at all floors; Sordariomycetes (6, 9) at floors 3 and 5; Ustilaginomycetes (3, 3) at floor 3 only; Eurotiomycetes has 2 clusters.
+- wall, coarse: Pezizomycotina (23, 41) and Saccharomycotina (29, 43) at all floors.
+- wall, fine: Eurotiomycetes (16, 22), Saccharomycotina (29, 43) and Sordariomycetes (14, 19) at all floors.
+- fusion: no clade, at any floor or level (at most 2 clusters, 1 to 2 rows per clade).
+- Row verified only: adhesion coarse floor 5 and 8 keep only Saccharomycotina (9 clusters, 16 rows); adhesion fine keeps only Saccharomycotina; wall fine Sordariomycetes drops to 4 clusters (6 rows), so floors 5 and 8 keep Eurotiomycetes and Saccharomycotina.
+
+**Clusters that also occur in another clade.** The Kiss cluster is a family. When a held-out clade has a cluster that also has members in a training clade, the held-out proteins have homologs in training, and the hold-out is weaker. In the strict plus JGI file scenario (`results/clusters_per_clade.tsv`, column "also in other clade"):
+
+| Slice | Level | Clade | Clusters | Also in another clade | Only in this clade |
+|---|---|---|---|---|---|
+| adhesion | coarse | Pezizomycotina | 8 | 0 | 8 |
+| adhesion | coarse | Saccharomycotina | 10 | 0 | 10 |
+| adhesion | fine | Saccharomycotina | 10 | 0 | 10 |
+| adhesion | fine | Sordariomycetes | 6 | 0 | 6 |
+| wall | coarse | Pezizomycotina | 23 | 13 | 10 |
+| wall | coarse | Saccharomycotina | 29 | 13 | 16 |
+| wall | fine | Eurotiomycetes | 16 | 12 | 4 |
+| wall | fine | Saccharomycotina | 29 | 13 | 16 |
+| wall | fine | Sordariomycetes | 14 | 10 | 4 |
+
+For adhesion no cluster crosses a clade, so the hold-out is clean. For wall, 13 of the 29 Saccharomycotina clusters and 12 of the 16 Eurotiomycetes clusters also have members in another clade. If the unit is the cluster that occurs only in the held-out clade, then at floor 5 wall keeps Saccharomycotina (16) and, at the coarse level, Pezizomycotina (10), and drops Eurotiomycetes and Sordariomycetes (4 each). I give this as a size, not as a decision on the rule.
+
+Clusters and rows per clade of the three UniProt-stage scenarios (fine level, plus the coarse clades Basidiomycota and Pezizomycotina where they exist; the per-clade rows of the two added scenarios are in `results/clusters_per_clade.tsv`):
 
 Upper bound:
 
@@ -274,10 +388,13 @@ What the tables say.
 
 ### What this means for D9 step 3 (leave-clade-out)
 
-- **Fusion: leave-clade-out is not possible.** Use descriptive recall only. Say so with the n (8 rows, 6 clusters; strict 1 row).
-- **Adhesion: not possible with the strict mapping. Possible at floor 5 only after the JGI files are obtained (2 clades) or the name candidates are accepted (1 clade, so no second clade to train on).** Fall back to leave-cluster-out and descriptive recall until then.
-- **Wall: possible only in the upper bound** (3 clades at floor 8). With the strict mapping it is not possible, because only one clade passes any floor.
-- In all slices a leave-clade-out result would rest on the clades Saccharomycotina, Eurotiomycetes and Sordariomycetes. A conclusion about Basidiomycota or Chytridiomycota cannot come from Kiss rows.
+With the JGI files (strict plus JGI file, which is the scenario that stands on identifiers):
+
+- **Fusion: leave-clade-out is not possible.** Use descriptive recall only. Say so with the n (8 rows, 6 clusters; 5 of the 5 rows with ID are mapped, but at most 2 clusters per clade).
+- **Adhesion: possible at floor 5** for Saccharomycotina and Sordariomycetes (fine level), or Saccharomycotina and Pezizomycotina (coarse level). No adhesion cluster crosses clades, so the hold-out is clean. The training side after holding out Saccharomycotina is Sordariomycetes, Eurotiomycetes, Ustilaginomycetes and Basidiomycota rows (15 rows); after holding out Sordariomycetes it is small too. Only Saccharomycotina passes floor 8.
+- **Wall: possible** for Eurotiomycetes, Saccharomycotina and Sordariomycetes at all floors (fine level), but 10 to 13 of their clusters also have members in another clade, so the clean part is 16 clusters for Saccharomycotina and 4 for each of the other two. The result should be reported with this number.
+- In every slice a leave-clade-out result rests on Saccharomycotina, Sordariomycetes, Eurotiomycetes. A conclusion about Basidiomycota (3 clusters in adhesion, 1 in wall), Chytridiomycota or Taphrinomycotina cannot come from Kiss rows (section 7 gives the second source).
+- The UniProt-only stage said the opposite for strict mapping (not possible for any slice). That statement is superseded.
 - Report every number with its n. Do not pool slices.
 
 ## 7. Second source (step 6)
@@ -315,7 +432,9 @@ Distinct reviewed entries per model set (an entry that matches two models counts
 
 ## 8. What I could not do
 
-- I could not map JGI protein IDs to sequences (section 3). The 144 JGI-ID rows are not ID-verified.
+- With the JGI files, 128 of 144 JGI-ID rows are strictly mapped; 16 are not (section 4b). 28 of the 128 (Aspfu1 and Batde5) map by locus tag only and have no JGI file. Of the 94 rows mapped by file, 20 rely on a validated portal and not on a check of the row itself.
+- Whether the downloaded annotation is the one Kiss used cannot be proven from the files. Evidence per portal is the share of agreeing rows (Canalb1 33 of 34 rows with evidence, Sacce1 24 of 24, Schpo1 3 of 3, Trire2 2 of 2, Ustma2_2 4 of 4, Neucr2 9 of 9). For Bcine1 0 of 2 agree, so it is not used. For Hisca1, Schco3, Cryne_H99_1 and Crypa2 there is no evidence either way.
+- Future truth sets and controls should be keyed by NCBI or UniProt accessions, not by JGI IDs (owner's rule of 2026-10-21). The JGI files are an archived one-off, outside git (`to_import/kiss2019_jgi/`, with `FILE_TABLE.tsv`); only their hashes are in `results/jgi_files.tsv`.
 - I did not run the 30 percent identity clustering (Task 5.3). Kiss families are not identity clusters. A Kiss cluster can hold paralogs, and two Kiss clusters can be related. Cluster counts here are an upper bound of independent units.
 - I did not count literature rows.
 - In this task I read only Data 3 (S7) and Data 1 (MOESM5, downloaded to a scratch folder) of the supplement. I did not read the figure legends.
@@ -323,15 +442,15 @@ Distinct reviewed entries per model set (an entry that matches two models counts
 
 ## 9. Files
 
-All in `analysis/wall_fusion_truth/` (README there). Tests: `tests/wall_fusion_truth/test_map_kiss.py` (3-row fixture, no network). The script runs offline from `results/query_cache.json`. Hash of `results/row_mapping.tsv`: bc35a684d65495e1e132e6444dba5c705543b88607765137ff51228250ffbc14. Hash of `results/mapped_sequences.faa`: 9a261a58b54307c01b1d3db2ba6924b0e30bf95403cee9752d10597082fee19a.
+All in `analysis/wall_fusion_truth/` (README there). Tests: `tests/wall_fusion_truth/test_map_kiss.py` (3-row fixture, no network) and `test_map_kiss_jgi.py` (fixture FASTA files, no JGI data). The script runs offline from `results/query_cache.json`; the JGI step needs `--jgi-dir` (the committed results were made with it; a run without it writes the UniProt-only columns). New tables: `results/jgi_files.tsv`, `results/jgi_portal_summary.tsv`. Hash of `results/row_mapping.tsv` (with the JGI columns): adfdf11b1d529a91fe9efee9c6fff691da183e7a4de44b04d9d498cba58779e5. The UniProt-only run gave bc35a684d65495e1e132e6444dba5c705543b88607765137ff51228250ffbc14. Hash of `results/mapped_sequences.faa` (unchanged): 9a261a58b54307c01b1d3db2ba6924b0e30bf95403cee9752d10597082fee19a.
 
 ## 10. Decisions for the owner
 
-1. **The floor.** The floor of 5 is your provisional choice. Under the strict mapping, floor 5 admits 0 adhesion clades, 1 wall clade (Eurotiomycetes) and 0 fusion clades. Under the upper bound it admits 2, 3 and 0. Do you keep 5? Lowering it to 3 does not help fusion (max 2 clusters per clade).
-2. **A thin slice.** Fusion has 8 rows and 6 clusters (1 strict row). Do you keep fusion as a descriptive slice only, with no hold-out? I recommend yes. Do you continue with adhesion and wall, or wait for the JGI files? Wall is the only slice that can support leave-clade-out, and only in the upper bound.
-3. **Unmapped rows.** There are three options for the 110 rows that are not mapped by locus tag (77 candidates, 33 lost with a JGI ID) and for the 35 family rows:
-   a. Get the JGI protein files for the 16 genomes by a JGI login (needs you), then map by exact ID. This gives the upper bound and is the only clean route.
-   b. Accept the 77 gene-name candidates after a manual check of each. This raises the mapped rows to 111 of 144. It still leaves the 33 rows lost.
-   c. Drop the rows and report the loss in `counts.md` (Task 5.2: lost rows go in `rejected.tsv` and `unverified_notes.md`).
-   Also decide whether the 35 A. fumigatus family representatives may enter the control set. They stand for a family, not for the Kiss protein.
-4. **Clade level.** Do you want the coarse clade (subphylum) or the fine clade (class for Pezizomycotina and Basidiomycota) for D9 step 3? The fine level gives more clades and smaller n.
+These are open. I did not decide any of them.
+
+1. **The floor.** The floor of 5 is your provisional choice. With the JGI files (strict plus JGI file), floor 5 admits 2 adhesion clades (fine level: Saccharomycotina, Sordariomycetes), 3 wall clades (Eurotiomycetes, Saccharomycotina, Sordariomycetes) and 0 fusion clades. With only row-verified rows it admits 1, 2 and 0. Do you keep 5? Lowering it to 3 does not help fusion (at most 2 clusters per clade).
+2. **A thin slice.** Fusion has 8 rows and 6 clusters (all 5 rows with ID are mapped). Do you keep fusion as a descriptive slice only, with no hold-out? I recommend yes.
+3. **The 20 portal-validated rows and the 16 unmapped rows.** 20 rows (Neucr2 17, Canalb1 2, Ustma2_2 1) map because their portal agrees on other rows, not because the row itself was checked. Do you accept them, or restrict the control set to the 108 row-verified rows? For the 16 unmapped rows (Hisca1, Schco3, Cryne_H99_1, Crypa2 without evidence; coh1, coh2, hyr1, bhp2, bhp3 with a mismatch or only similar sequence): drop them (and list them in `rejected.tsv` and `unverified_notes.md` of Task 5.2), or run a UniProt query by the header locus tags to get name evidence for the first group? The second option needs a network run of `map_kiss.py --online`.
+4. **The 35 A. fumigatus family representatives.** May they enter the control set? They stand for a family, not for the Kiss protein.
+5. **Clade level.** Do you want the coarse clade (subphylum) or the fine clade (class for Pezizomycotina and Basidiomycota) for D9 step 3? The fine level gives more clades and smaller n.
+6. **Rule for clusters shared with other clades** (wall: 10 to 13 of 14 to 29 clusters per eligible clade). Count a cluster as a held-out unit only when it occurs in that clade alone, or keep the plain count and report the shared number?
