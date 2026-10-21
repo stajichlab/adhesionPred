@@ -1,0 +1,13 @@
+functional_category	rows	clusters	with_jgi_id
+actin cytoskeleton	55	35	55
+adhesion	45	23	45
+cell cycle regulation	11	5	11
+cell wall biogenesis	94	40	94
+microtubular transport	32	19	32
+polarity establishment	107	63	107
+septation	58	33	58
+signaling	89	46	89
+transcriptional regulation	53	41	53
+vesicle transport	107	57	107
+TOTAL	651	362	651
+TSV Data 3 rows found in the xlsx (gene, JGI id, cluster)	144	144	

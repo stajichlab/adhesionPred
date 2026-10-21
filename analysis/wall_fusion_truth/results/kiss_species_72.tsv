@@ -1,0 +1,73 @@
+species_id	species_name	complexity	genome_version	assembly_id	source
+Allma1	Allomyces macrogynus	HMC	Allomyces macrogynus ATCC 38327	GCA_000151295.1	https://genome.jgi.doe.gov/Allma1/Allma1.home.html
+Ashgo11	Eremothecium gossypii	YE	Eremothecium gossypii ATCC 10895	GCA_000091025.4	https://genome.jgi.doe.gov/Ashgo1_1/Ashgo1_1.home.html
+Aspfu1	Aspergillus fumigatus	HMC	Aspergillus fumigatus Af293 from AspGD	GCA_000002655.1	https://genome.jgi.doe.gov/Aspfu1/Aspfu1.home.html
+Aurde31	Auricularia delicata	HMC	Auricularia subglabra v2.0	GCA_000265015.1	https://genome.jgi.doe.gov/Aurde3_1/Aurde3_1.home.html
+Batde5	Batrachochytrium dendrobatidis	UC	Batrachochytrium dendrobatidis JAM81 v1.0	GCA_000203795.1	https://genome.jgi.doe.gov/Batde5/Batde5.home.html
+Botbo1	Botryobasidium botryosum	HMC	Botryobasidium botryosum v1.0	GCA_000697705.1	https://genome.jgi.doe.gov/Botbo1/Botbo1.home.html
+Botci1	Botrytis cinerea	HMC	Botrytis cinerea v1.0	GCA_000143535.4	https://genome.jgi.doe.gov/Botci1/Botci1.home.html
+Caeel	Caenorhabditis elegans	NFM	Caenorhabditis elegans WBcel235	GCA_000002985.3	https://www.ensembl.org/Caenorhabditis_elegans/Info/Index
+Canalb1	Candida albicans	YE	Candida albicans SC5314	GCA_000182965.3	https://genome.jgi.doe.gov/Canalb1/Canalb1.home.html
+Cangl	Candida glabrata	YE	Candida glabrata	GCA_000002545.2	https://www.ncbi.nlm.nih.gov/genome/192?genome_assembly_id=28426
+Capow	Capsaspora owczarzaki	NFM/NF	Capsaspora owczarzaki ATCC 30864	GCA_000151315.2	https://www.ncbi.nlm.nih.gov/genome/767?genome_assembly_id=219033
+Catan2	Catenaria anguillulae	UC/HMC	Catenaria anguillulae PL171 v2.0	GCA_002102555.1	https://genome.jgi.doe.gov/Catan2/Catan2.home.html
+Cioin	Ciona intestinalis	NFM	Ciona intestinalis KH	GCA_000224145.1	https://www.ensembl.org/Ciona_intestinalis/Info/Index
+CocheC53	Cochliobolus heterostrophus	HMC	Cochliobolus heterostrophus C5 v2.0	DDBJ/EMBL/GenBank AIDY00000000	https://genome.jgi.doe.gov/CocheC5_3/CocheC5_3.home.html
+Coere1	Coemansia reversa	HMC	Coemansia reversa NRRL 1564 v1.0	GCA_002705745.1	https://genome.jgi.doe.gov/Coere1/Coere1.home.html
+Conco1	Conidiobolus coronatus	HMC	Conidiobolus coronatus NRRL28638 v1.0	GCA_001566745.1	https://genome.jgi.doe.gov/Conco1/Conco1.home.html
+Conpu1	Coniophora puteana	HMC	Coniophora puteana v1.0	GCA_000271625.1	https://genome.jgi.doe.gov/Conpu1/Conpu1.home.html
+Copci	Coprinopsis cinerea	HMC	Coprinopsis cinerea AmutBmut pab1-1 v1.0	NA	https://genome.jgi.doe.gov/Copci_AmutBmut1/Copci_AmutBmut1.home.html
+Croqu1	Cronartium quercuum	HMC	Cronartium quercuum f. sp. fusiforme G11 v1.0	NA	https://genome.jgi.doe.gov/Croqu1/Croqu1.home.html
+CryneH991	Cryptococcus neoformans	YE	Cryptococcus neoformans var. grubii H99	GCA_000149245.3	https://genome.jgi.doe.gov/Cryne_H99_1/Cryne_H99_1.home.html
+Crypa2	Cryphonectria parasitica	HMC	Cryphonectria parasitica EP155 v2.0	NA	https://genome.jgi.doe.gov/Crypa2/Crypa2.home.html
+Debha1	Debaryomyces hanseni	YE	Debaryomyces hansenii	GCA_000006445.2	https://genome.jgi.doe.gov/Debha1/Debha1.home.html
+Dekbr2	Dekkera bruxellensis	YE	Dekkera bruxellensis CBS 2499 v2.0	NA	https://genome.jgi.doe.gov/Dekbr2/Dekbr2.home.html
+Dicdi	Dictyostelium discoideum	NFM	Dictyostelium discoideum AX4	GCA_000004695.1	https://www.ncbi.nlm.nih.gov/genome/56?genome_assembly_id=22720
+Dmel	Drosophila melanogaster	NFM	Drosophila melanogaster BDGP6	GCA_000001215.4	https://www.ensembl.org/Drosophila_melanogaster/Info/Index
+Enthi	Entamoeba histolytica	NF	Entamoeba histolytica HM-1:IMSS	GCA_000208925.2	https://www.ncbi.nlm.nih.gov/genome/27?genome_assembly_id=22614
+Falba	Fonticula alba	NF/NFM	Fonticula alba ATCC 38817	GCA_000388065.2	http://doi.org/10.1016/j.tig.2007.01.005
+Fomme1	Fomitiporia mediterranea	HMC	Fomitiporia mediterranea v1.0	GCA_000271605.1	https://genome.jgi.doe.gov/Fomme1/Fomme1.home.html
+Fusgr1	Fusarium graminearum	HMC	Fusarium graminearum v1.0	GCA_000240135.3	https://genome.jgi.doe.gov/Fusgr1/Fusgr1.home.html
+Galma1	Galerina marginata	HMC	Galerina marginata v1.0	GCA_000697645.1	https://genome.jgi.doe.gov/Galma1/Galma1.home.html
+Ganpr1	Gonapodya prolifera	HMC	Gonapodya prolifera v1.0	GCA_001574975.1	https://genome.jgi.doe.gov/Ganpr1/Ganpr1.home.html
+Gloin1	Glomus intraradices	HMC	Rhizophagus irregularis DAOM 181602 v1.0	GCA_000439145.3	https://genome.jgi.doe.gov/Gloin1/Gloin1.home.html
+Hisca1	Histoplasma capsulatum	HMC	Histoplasma capsulatum NAm1	GCA_000149585.1	https://genome.jgi.doe.gov/Hisca1/Hisca1.home.html
+Hydma	Hydra magnipapillata	NFM	Hydra vulgaris	GCA_000004095.1	https://www.ncbi.nlm.nih.gov/genome/12836?genome_assembly_id=28720
+Klula1	Kluyveromyces lactis	YE	Kluyveromyces lactis	GCA_000002515.1	https://genome.jgi.doe.gov/Klula1/Klula1.home.html
+Lacbi2	Laccaria bicolor	HMC	Laccaria bicolor v2.0	NA	https://genome.jgi.doe.gov/Lacbi2/Lacbi2.home.html
+Lenti61	Lentinus tigrinus	HMC	Lentinus tigrinus ALCF2SS1-6 v1.0	GCA_003813205.1	https://genome.jgi.doe.gov/Lenti6_1/Lenti6_1.home.html
+Malgl1	Malassezia globosa	YE	Malassezia globosa	GCA_000181695.1	https://genome.jgi.doe.gov/Malgl1/Malgl1.home.html
+Mellp23	Melampsora laricis-populina	HMC	Melampsora larici-populina v2.0	GCA_000204055.1	https://genome.jgi.doe.gov/Mellp2_3/Mellp2_3.home.html
+Mnele	Mnemiopsis leidyi	NFM	Mnemiopsis leidyi	GCA_000226015.1	https://research.nhgri.nih.gov/mnemiopsis/
+Monbr	Monosiga brevicollis	NF	Monosiga brevicollis MX1	GCA_000002865.1	https://www.ncbi.nlm.nih.gov/genome/713?genome_assembly_id=30632
+Morel2	Mortierella elongata	HMC	Mortierella elongata AG-77 v2.0	GCA_001651415.1	https://genome.jgi.doe.gov/Morel2/Morel2.home.html
+Mucci2	Mucor circinelloides	HMC	Mucor circinelloides CBS277.49 v2.0	GCA_001638945.1	https://genome.jgi.doe.gov/Mucci2/Mucci2.home.html
+Neucr2	Neurospora crassa	HMC	Neurospora crassa OR74A v2.0	GCA_000182925.2	https://genome.jgi.doe.gov/Neucr2/Neucr2.home.html
+Orpsp11	Orpinomyces sp	UC	Orpinomyces sp.	GCA_000412615.1	https://genome.jgi.doe.gov/Orpsp1_1/Orpsp1_1.home.html
+Pench1	Penicillium chrysogenum	HMC	Penicillium chrysogenum v1.0	NA	https://genome.jgi.doe.gov/Pench1/Pench1.home.html
+Phybl2	Phycomyces blakesleeanus	HMC	Phycomyces blakesleeanus NRRL1555 v2.0	GCA_001638985.2	https://genome.jgi.doe.gov/Phybl2/Phybl2.home.html
+Picst3	Pichia stipitis	YE	Pichia stipitis v2.0	GCA_000209165.1	https://genome.jgi.doe.gov/Picst3/Picst3.home.html
+Plicr1	Plicaturopsis crispa	HMC	Plicaturopsis crispa v1.0	GCA_000827205.1	https://genome.jgi.doe.gov/Plicr1/Plicr1.home.html
+Polpo	Polysphondylium pallidum	NF	Polysphondylium pallidum PN500	GCA_000004825.1	https://www.ncbi.nlm.nih.gov/genome/67038?genome_assembly_id=363031
+Pucgr2	Puccinia graminis	HMC	Puccinia graminis f. sp. tritici v2.0	GCA_000149925.1	https://genome.jgi.doe.gov/Pucgr2/Pucgr2.home.html
+Punst1	Punctularia strigosozonata	HMC	Punctularia strigosozonata v1.0	GCA_000264995.1	https://genome.jgi.doe.gov/Punst1/Punst1.home.html
+Rhior3	Rhizopus oryzae	HMC	Rhizopus delemar 99-880	GCA_000149305.1	https://genome.jgi.doe.gov/Rhior3/Rhior3.home.html
+Rhoto1	Rhodosporidium toruloides	YE	Rhodosporidium toruloides NP11	GCA_000320785.2	https://genome.jgi.doe.gov/Rhoto1/Rhoto1.home.html
+Rozal11	Rozella allomycis	UC	Rozella allomycis CSF55	GCA_003614725.1	https://genome.jgi.doe.gov/Rozal1_1/Rozal1_1.home.html
+Sacce1	Saccharomyces cerevisiae	YE	Saccharomyces cerevisiae S288C	NA	https://genome.jgi.doe.gov/Sacce1/Sacce1.home.html
+Salro	Salpingloea rosetta	NF	Salpingoeca rosetta	GCA_000188695.1	https://www.ncbi.nlm.nih.gov/genome/24391?genome_assembly_id=48283
+Schco3	Schizophyllum commune	HMC	Schizophyllum commune H4-8 v3.0	GCA_000143185.1	https://genome.jgi.doe.gov/Schco3/Schco3.home.html
+Schpo1	Schizosaccharomyces pombe	YE	Schizosaccharomyces pombe	GCA_000002945.2	https://genome.jgi.doe.gov/Schpo1/Schpo1.home.html
+Sorma	Sordaria macrospora	HMC	Sordaria macrospora	GCA_000182805.2	https://www.ncbi.nlm.nih.gov/genome/2242?genome_assembly_id=371859
+Sphar	Sphaeroforma arctica	NF	Sphaeroforma arctica JP610	GCA_001186125.1	http://doi.org/10.1016/j.tig.2007.01.005
+Spipu1	Spizellomyces punctatus	UC	Spizellomyces punctatus DAOM BR117	GCA_000182565.2	https://genome.jgi.doe.gov/Spipu1/Spipu1.home.html
+Sporo1	Sporobolomyces roseus	YE	Sporobolomyces roseus v1.0	NA	https://genome.jgi.doe.gov/Sporo1/Sporo1.home.html
+Stehi1	Stereum hirsutum	HMC	Stereum hirsutum FP-91666 SS1 v1.0	GCA_000264905.1	https://genome.jgi.doe.gov/Stehi1/Stehi1.home.html
+Tapde11	Taphrina deformans	HMC	Taphrina deformans	GCA_000312925.2	https://genome.jgi.doe.gov/Tapde1_1/Tapde1_1.home.html
+Thetr	Thecamonas trahens	NF	Thecamonas trahens ATCC 50062	GCA_000142905.1	https://www.ncbi.nlm.nih.gov/genome/3054?genome_assembly_id=34263
+Treme1	Tremella mesenterica	HMC	Tremella mesenterica Fries v1.0	GCA_000271645.1	https://genome.jgi.doe.gov/Treme1/Treme1.home.html
+Trire2	Trichoderma reesei	HMC	Trichoderma reesei v2.0	GCA_000167675.2	https://genome.jgi.doe.gov/Trire2/Trire2.home.html
+Umbra1	Umbelopsis ramanniana	HMC	Umbelopsis ramanniana AG # v1.0	NA	https://genome.jgi.doe.gov/Umbra1/Umbra1.home.html
+Ustma22	Ustilago maydis	YE	Ustilago maydis 521 v2.0	GCA_000328475.2	https://genome.jgi.doe.gov/Ustma2_2/Ustma2_2.home.html
+Walse1	Wallemia sebi/Wallemia mellicola	HMC	Wallemia mellicola v1.0	GCA_000263375.1	https://genome.jgi.doe.gov/Walse1/Walse1.home.html
+Zygro1	Zygosaccharomyces rouxii	YE	Zygosaccharomyces rouxii CBS732	GCA_000026365.1	https://genome.jgi.doe.gov/Zygro1/Zygro1.home.html

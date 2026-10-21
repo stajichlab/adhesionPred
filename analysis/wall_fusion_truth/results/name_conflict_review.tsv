@@ -1,0 +1,4 @@
+gene_or_family_id	protein_id_jgi	slice	jgi_header_name	file_protein_accession	file_protein_gene_names	file_protein_length	named_candidate_accession	named_candidate_length	why
+bhp2	6405_Botci1	adhesion	BCIN_02g00390.1 proteinId=6405 transcriptId=6405	A0A384J844	BCIN_02g00390	691	A0A384JW35	98	the protein at this ID is A0A384J844 (BCIN_02g00390), not the UniProt entry A0A384JW35 of the name bhp2; the JGI sequence equals the locus-tag entry
+bhp3	8060_Botci1	adhesion	BCIN_03g05320.1 proteinId=8060 transcriptId=8060	A0A384JCJ6	BCIN_03g05320	151	A0A384JJM8	98	the protein at this ID is A0A384JCJ6 (BCIN_03g05320), not the UniProt entry A0A384JJM8 of the name bhp3; the JGI sequence equals the locus-tag entry
+hyr1	56210_Canalb1	adhesion	CAALFM_C500730WAT0	Q59XA7	HYR3 IFF2 CAALFM_C500730WA CaO19.575 CaO19.8206	1249	Q5AL03	919	the protein at this ID is Q59XA7 (CAALFM_C500730WA), not the UniProt entry Q5AL03 of the name hyr1; the JGI sequence equals the locus-tag entry
