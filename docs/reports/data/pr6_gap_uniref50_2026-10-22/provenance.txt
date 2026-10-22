@@ -1,0 +1,16 @@
+job: pr6_gap_search (PR 6 steps 6.1 and 6.2, the four clusters with no Pfam hit)
+commit: e11808b2bf297cc0aa1dfb345dfb3bf568a2c937 (pinned: e11808b2bf297cc0aa1dfb345dfb3bf568a2c937)
+hmmer: # HMMER 3.4 (Aug 2023); http://hmmer.org/
+python: Python 3.12.13
+pfam_hmm: /srv/projects/db/pfam/current/Pfam-A.hmm
+pfam_resolved: /bigdata/operations/pkgadmin/srv/projects/db/pfam/2026-01-27-Pfam38.2/Pfam-A.hmm
+pfam_release: 38.2
+pfam_sha256: 4b0da6399b97d2b23329de82190b2e5705bde1dea4cb2d028a52712d5966739e
+pfam_sha256_same_as_earlier_jobs: yes (earlier: 4b0da6399b97d2b23329de82190b2e5705bde1dea4cb2d028a52712d5966739e)
+input kiss_sequences.faa sha256 66af609eeea24212f7813918fd5957489ded4e4e45792deadd955a0a93bacdf6
+uniprot_fasta: /srv/projects/db/Uniprot/2025_03/uniref50.fasta
+uniprot_fasta_bytes: 28781193344
+uniprot_fasta_sequences: 70198728
+uniprot_fasta_sha256: bc52bdd6c97ba2cc365b7e42ae7abb34865e0a1a82a2f95a74590aae040c81ff
+taxdump: /bigdata/stajichlab/jstajich/projects/adhesionPred/_workdir/sorting_hat/taxdump
+settings: phmmer -E 1e-5; jackhmmer -N 3 --incE 1e-5 --incdomE 1e-5; Ecm33: hmmsearch --max -E 10

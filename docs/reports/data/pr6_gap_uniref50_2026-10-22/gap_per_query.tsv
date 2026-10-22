@@ -1,0 +1,5 @@
+slice	cluster_id	genes	query	held_out_clade	mode	phmmer_outside_seq	phmmer_outside_clades	phmmer_outside_species	phmmer_rule_met	phmmer_strict_5_in_2_clades	phmmer_inside_clade_seq	phmmer_non_fungal_seq	jackhmmer_outside_seq	jackhmmer_outside_clades	jackhmmer_outside_species	jackhmmer_rule_met	jackhmmer_strict_5_in_2_clades	jackhmmer_inside_clade_seq	jackhmmer_non_fungal_seq	status	reason
+adhesion	KS0017	hyd1_like	A0ACE4KFX7	Eurotiomycetes	leave-cluster-out (partial)	5	2	4	yes	no	8	6	43	4	25	yes	yes	16	0	buildable	
+adhesion	KS0080	aga1	P32323	Saccharomycotina	leave-cluster-out (partial)	4	4	4	no	no	1	134	64	19	52	yes	yes	9	2688	buildable_iterated_only	met only after iteration; jackhmmer may have drifted (check before use)
+adhesion	KS0107	ece1	Q07730	Saccharomycotina	leave-cluster-out (partial)	0	0	0	no	no	2	6	126	24	103	yes	yes	15	6896	buildable_iterated_only	met only after iteration; jackhmmer may have drifted (check before use)
+wall	KS0086	ecm33	Q5AGC4	Saccharomycotina	leave-clade-out	379	19	244	yes	yes	106	195	953	30	427	yes	yes	120	35290	buildable	
