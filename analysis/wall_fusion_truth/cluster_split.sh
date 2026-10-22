@@ -1,8 +1,14 @@
 #!/bin/bash -l
 # Task 5.3 (DRAFT, NOT SUBMITTED; nothing of this plan has run on HPCC): cluster the Kiss control sequences
-# (and the hard negatives, only if the owner staged them) with MMseqs2 at 30% identity and 50% coverage, search
-# them against the Pfam seed sequences of the wall, fusion and adhesion-family models, and label every cluster
-# `seed-like` or `seed-independent` (analysis/wall_fusion_truth/seed_split.py). Spec D8, D20; plan Task 5.3.
+# and the 161 shared hard negatives (the owner's choice, 2026-10-22: that set only) with MMseqs2 at 30% identity
+# and 50% coverage, search them against the Pfam seed sequences of the 39 models (21 wall and fusion models,
+# 18 active family rows), and label every cluster `seed-like` or `seed-independent` twice: `seed_class_slice`
+# (wall and fusion rows against the 21 models, adhesion rows against the 18) and `seed_class_all39`
+# (analysis/wall_fusion_truth/seed_split.py). A protein that is both a control and a shared negative (8) is in
+# the FASTA twice (`<accession>` and `<accession>#neg`): their cluster is flagged `mixed_pos_neg` in
+# clusters_split.tsv. The family representatives are NOT clustered. Spec D8, D20; plan Task 5.3.
+# Outputs in $OUT: members_split.tsv, clusters_split.tsv, clusters.tsv, summary.tsv, clu_cluster.tsv,
+# seed_hits.m8, mmseqs_version.txt, provenance.txt.
 #
 # Needs the owner's go-ahead for EACH step before it is submitted (D21): the clone, the staging of the inputs,
 # and this job. It reads inputs only from $IN and writes only $OUT (an existing $OUT stops the job).
@@ -10,7 +16,7 @@
 #
 # Inputs in $IN (made on the owner's machine by build_kiss_fasta.py and fetch_seeds_models.py; each has a
 # `.sha256` file next to it that this job checks):
-#   kiss_sequences.faa   the sequences to cluster (header = accession)
+#   kiss_sequences.faa   the sequences to cluster (header = accession; `<accession>#neg` for a shared negative that is also a control)
 #   members.tsv          accession, class, slice, ...  (one line per sequence)
 #   seeds.faa.gz         Pfam seed sequences, header `<PFxxxxx>|<name>`
 # Modules (from the repository, not from HPCC: could not be confirmed for today's HPCC): `MMseqs2/17-b804f`
@@ -37,15 +43,17 @@ trap 'rm -rf "$TMP" "$OUT".tmp.$$' EXIT
 THREADS="${SLURM_CPUS_PER_TASK:-4}"
 SET=data/controls/wall-fusion-kiss2019
 WF=analysis/wall_fusion_truth
+MODELS=analysis/wall_fusion_report/wall_fusion_models.tsv
+FAMILY=data/sorting_hat/family_table.tsv
 
 fail() { echo "FATAL: $*" >&2; exit 1; }
 
 # The code and the control set must be the reviewed ones.
 check_pin() {
   git -C "$PROJ_ROOT" cat-file -e "${CODE_COMMIT}^{commit}" || fail "commit $CODE_COMMIT is not in $PROJ_ROOT"
-  git -C "$PROJ_ROOT" diff --quiet "$CODE_COMMIT" HEAD -- "$WF" "$SET" \
-    || fail "$WF or $SET changed since $CODE_COMMIT; the run would not be the reviewed one"
-  [ -z "$(git -C "$PROJ_ROOT" status --porcelain -- "$WF" "$SET")" ] || fail "uncommitted changes in $WF or $SET"
+  git -C "$PROJ_ROOT" diff --quiet "$CODE_COMMIT" HEAD -- "$WF" "$SET" "$MODELS" "$FAMILY" \
+    || fail "$WF, $SET or a model list changed since $CODE_COMMIT; the run would not be the reviewed one"
+  [ -z "$(git -C "$PROJ_ROOT" status --porcelain -- "$WF" "$SET" "$MODELS" "$FAMILY")" ] || fail "uncommitted changes in $WF, $SET or a model list"
   echo "pin ok: HEAD $(git -C "$PROJ_ROOT" rev-parse HEAD); code pinned to $CODE_COMMIT"
 }
 
@@ -83,7 +91,8 @@ mmseqs easy-search "$IN/kiss_sequences.faa" "$TMP/seeds.faa" "$TMP/seed_hits.m8"
   --format-output "query,target,pident,alnlen,qcov,tcov,evalue,bits"
 # 3. The labels and the tables (standard library only).
 /usr/bin/python3.12 -I "$PROJ_ROOT/$WF/seed_split.py" --members "$IN/members.tsv" --clusters "$TMP/clu_cluster.tsv" \
-  --seed-hits "$TMP/seed_hits.m8" --controls "$PROJ_ROOT/$SET" --out "$TMP/split"
+  --seed-hits "$TMP/seed_hits.m8" --controls "$PROJ_ROOT/$SET" \
+  --wall-models "$PROJ_ROOT/$MODELS" --family-table "$PROJ_ROOT/$FAMILY" --out "$TMP/split"
 
 {
   echo "job: kiss_cluster_split (plan Task 5.3)"

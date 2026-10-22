@@ -391,15 +391,18 @@ def test_clusters_tsv_and_split_members_replace_the_proxy(inputs, tmp_path):
         "accession\tcluster_id\n" + "".join(f"{a}\tKS000{i}\n" for i, a in enumerate(accs))
     )
     members.write_text(
-        "accession\tseed_class\tleakage_suggested\n"
-        + "".join(f"{a}\tseed-like\tin_reference\n" for a in accs[:3])
-        + "".join(f"{a}\tseed-independent\tnone\n" for a in accs[3:])
+        "accession\tseed_class_slice\tseed_class_all39\tleakage_suggested\n"
+        + "".join(f"{a}\tseed-like\tseed-like\tin_reference\n" for a in accs[:3])
+        + "".join(f"{a}\tseed-independent\tseed-like\tnone\n" for a in accs[3:])
     )
     out = tmp_path / "set"
     run(inputs, out, "--clusters-tsv", str(clusters), "--split-members", str(members))
     c = {r["accession"]: r for r in tsv(out / "controls.tsv")}
     assert c["P00001"]["cluster_id"] == "KS0000" and c["P00001"]["leakage"] == "in_reference"
-    assert c["P00004"]["seed_class"] == "seed-independent" and c["P00004"]["leakage"] == "none"
+    assert (
+        c["P00004"]["seed_class_slice"] == "seed-independent" and c["P00004"]["leakage"] == "none"
+    )
+    assert c["P00004"]["seed_class_all39"] == "seed-like"
     assert "MMseqs2" in (out / "counts.md").read_text()
     clusters.write_text("accession\tcluster_id\nP00001\tKS0000\n")
     with pytest.raises(ValueError, match="not in the cluster file"):

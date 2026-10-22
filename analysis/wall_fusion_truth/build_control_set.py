@@ -97,7 +97,8 @@ EXTRA_COLUMNS = [
     "sequence_source",
     "sequence_matches_jgi",
     "sequence_in_repo",
-    "seed_class",
+    "seed_class_slice",
+    "seed_class_all39",
 ]
 COLUMNS = BASE_COLUMNS + EXTRA_COLUMNS
 FAMILY_COLUMNS = [
@@ -322,7 +323,8 @@ def build(rows: list[dict], orgs: dict[str, dict], seqs: dict[str, dict], kiss: 
             "sequence_source": source_of,
             "sequence_matches_jgi": matches,
             "sequence_in_repo": "yes" if public else "no",
-            "seed_class": "",
+            "seed_class_slice": "",
+            "seed_class_all39": "",
         }
         (controls if public else local).append(rec)
 
@@ -411,7 +413,8 @@ def apply_split(controls: list[dict], local: list[dict], members: list[dict]) ->
         m = by.get(c["accession"])
         if m is None:
             raise ValueError(f"{c['accession']} is not in the seed split table")
-        c["seed_class"] = m["seed_class"]
+        c["seed_class_slice"] = m["seed_class_slice"]
+        c["seed_class_all39"] = m["seed_class_all39"]
         c["leakage"] = m["leakage_suggested"]
 
 
@@ -480,8 +483,9 @@ def counts_md(controls, local, reps, rejected, proxy: bool) -> str:
         "| Sequences negative | 0 |",
         "| Clusters negative | 0 |",
         "",
-        "This set has no negatives on purpose: hard negatives come from the shared set "
-        "(`data/controls/hard-negatives-shared`) and are chosen by the owner in Task 5.3.",
+        "This set has no negatives on purpose. The hard negatives are the shared set of 161 rows "
+        "(`data/controls/hard-negatives-shared`; owner decision 2026-10-22, that set only). "
+        "**Anything that reads this set must read both `controls.tsv` and `controls_local_sequence.tsv`.**",
         "",
         "## Rows by slice",
         "",
@@ -538,7 +542,8 @@ UNVERIFIED = """# Notes that are not checked
   is an orthology and MCL family, not a 30% identity cluster. COMMON-RULES rule 4 asks for
   MMseqs2. Task 5.3 makes them. Until then every count of clusters is a proxy.
 - **Leakage.** `leakage` is `unknown` for every row: nobody has compared these proteins with the
-  Pfam seed sequences yet. Task 5.3 (`seed_split.py`) sets `none` or `in_reference` and `seed_class`.
+  Pfam seed sequences yet. Task 5.3 (`seed_split.py`) sets `none` or `in_reference`,
+  `seed_class_slice` and `seed_class_all39`.
 - **portal_validated rows.** These rows have no name evidence of their own. They are accepted by
   the owner (2026-10-22) because their portal agrees on other rows. The flag stays; filter on it
   if a result looks sensitive.
@@ -579,10 +584,10 @@ that report) bind this set.
 | File | Content |
 |---|---|
 | `controls.tsv` | {n['rows']} positive controls with a public UniProt sequence. Checked by the L1 validator. |
-| `controls_local_sequence.tsv` | {n['local_rows']} positive controls whose sequence is not public. Same columns. The validator does not read it. |
+| `controls_local_sequence.tsv` | {n['local_rows']} positive controls whose sequence is not public. Same columns. The validator does not read it. **These two files are one set: anything that reads the set must read both.** |
 | `sequences.faa` | UniProt sequences of `controls.tsv`. Header = accession. |
 | `clusters.tsv` | `accession<TAB>cluster_id`. {"Kiss cluster per slice: a proxy until Task 5.3." if proxy else "MMseqs2 clusters (Task 5.3)."} |
-| `family_reps.tsv`, `family_rep_sequences.faa` | {n['reps']} family representatives (Afu orthologs). Training seeds and baseline report only. |
+| `family_reps.tsv`, `family_rep_sequences.faa` | {n['reps']} family representatives (Afu orthologs). Training seeds and baseline report only; not clustered; each keeps its Kiss `cluster_number`; a flagged group in the report. |
 | `rejected.tsv` | {n['rejected']} Kiss rows that are not controls, with the reason. |
 | `counts.md`, `unverified_notes.md` | counts and unchecked claims. |
 
@@ -603,7 +608,9 @@ The required columns of `docs/agent-tasks/COMMON-RULES.md`, then: `control_role`
 level; `clade_only`: it has not), `jgi_accept` (`row_verified`, `locus_confirmed`,
 `portal_validated`, or empty for a row mapped by a locus tag of its own), `map_status`,
 `protein_id_jgi`, `jgi_seq_sha256`, `sequence_sha256`, `sequence_source`, `sequence_matches_jgi`,
-`sequence_in_repo` and `seed_class` (empty until Task 5.3).
+`sequence_in_repo`, `seed_class_slice` and `seed_class_all39` (empty until Task 5.3; `seed-like` when the
+Kiss cluster has any member at 30% identity or more to a Pfam seed: of the row's own slice models, or of
+all 39 models).
 
 `label` is `positive` for the call named in `stratum` (adhesion, wall or fusion). Read the rules
 before you use a row:
@@ -621,6 +628,12 @@ before you use a row:
 - hyr1, bhp2 and bhp3 are not controls (`name_conflict`, listed in `rejected.tsv`).
 - The 35 family representatives are not in `controls.tsv`. They may be training seeds and appear
   in the baseline recall report; they are never test controls and never count toward a floor.
+  They are not clustered (the `--include-family-reps` option of `build_kiss_fasta.py` exists and is not used).
+- The hard negatives for this set are the shared set of 161 rows, and only that set (owner decision
+  2026-10-22; `data/curated/adhesins/hard_negative_seeds.tsv` is excluded and may be added later).
+  Eight proteins are both a control here and a shared negative; they keep both roles (the negative
+  copy is `<accession>#neg` in the clustering input) and their clusters are flagged `mixed_pos_neg`.
+- This set is two files. Anything that reads it must read `controls.tsv` and `controls_local_sequence.tsv`.
 - Two Kiss rows that point to the same protein are one row here (`notes` says which).
 - `leakage` is `unknown` until `seed_split.py` has compared each row with the Pfam seeds.
 
@@ -634,7 +647,7 @@ The script is offline and deterministic (two runs give the same bytes). It reads
 `analysis/wall_fusion_truth/results/{{row_mapping,organism_resolution}}.tsv`,
 `results/query_cache.json` (the UniProt sequences) and the Kiss table. It never reads the JGI
 files. After Task 5.3 run it again with `--clusters-tsv` and `--split-members` (written by
-`seed_split.py`) to replace the proxy clusters and fill `leakage` and `seed_class`.
+`seed_split.py`) to replace the proxy clusters and fill `leakage`, `seed_class_slice` and `seed_class_all39`.
 
 Check: `python3 -m cellsurface_sorting_hat.controls data/controls/wall-fusion-kiss2019`
 (with `PYTHONPATH=src`).

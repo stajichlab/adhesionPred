@@ -25,9 +25,15 @@ def test_script_parses_and_follows_the_job_conventions():
     assert "check_pin" in code and "sidecar_ok" in code
 
 
-def test_script_names_no_negative_source():
+def test_script_follows_the_owner_decisions_on_negatives_and_seed_classes():
     text = SH.read_text()
-    assert "hard_negative_seeds" not in text and "hard-negatives-shared" not in text
+    assert "hard_negative_seeds" not in text  # excluded by the owner (2026-10-22)
+    assert "161 shared hard negatives" in text and "#neg" in text and "mixed_pos_neg" in text
+    assert "seed_class_slice" in text and "seed_class_all39" in text
+    assert "family representatives are NOT clustered" in text
+    code = "\n".join(ln for ln in text.splitlines() if not ln.lstrip().startswith("#"))
+    assert "--wall-models" in code and "--family-table" in code
+    assert "family_rep" not in code  # the job never adds the representatives
 
 
 def load_fetch():

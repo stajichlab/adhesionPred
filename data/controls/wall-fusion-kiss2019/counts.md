@@ -16,7 +16,7 @@
 | Sequences negative | 0 |
 | Clusters negative | 0 |
 
-This set has no negatives on purpose: hard negatives come from the shared set (`data/controls/hard-negatives-shared`) and are chosen by the owner in Task 5.3.
+This set has no negatives on purpose. The hard negatives are the shared set of 161 rows (`data/controls/hard-negatives-shared`; owner decision 2026-10-22, that set only). **Anything that reads this set must read both `controls.tsv` and `controls_local_sequence.tsv`.**
 
 ## Rows by slice
 

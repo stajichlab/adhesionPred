@@ -12,18 +12,23 @@ The JGI files are untrusted data: they are only read (gzip, text), never execute
 
 Written to --out-dir:
   kiss_sequences.faa   one FASTA: the control sequences (header = accession; `jgi:<portal>:<id>`
-                       for a local-key row), plus the negatives and the family representatives only
-                       when asked for (a protein in two classes is an error unless --on-overlap keep-both)
-  members.tsv          accession, class, slice, source, cluster_id (Kiss proxy), jgi_accept
+                       for a local-key row), plus the shared hard negatives (the default; the negative copy of a
+                       protein that is also a control is `<accession>#neg`); the family
+                       representatives only with --include-family-reps (not used)
+  members.tsv          accession, class, slice, source, cluster_id (Kiss proxy), jgi_accept, overlap_with
   *.sha256             the sha256 of each file, to be checked after the copy to HPCC
 
-Negative sources are never defaulted: the owner has not yet confirmed which two are meant (spec
-section 9 item 12). Give each one with --negative-set DIR (a control-set directory whose
-controls.tsv has label=negative rows and whose sequences.faa holds their sequences).
+Negatives: the owner chose the shared set of 161 rows (data/controls/hard-negatives-shared) and
+ONLY that set (2026-10-22); it is the default. `data/curated/adhesins/hard_negative_seeds.tsv` is
+excluded by that decision (it may be added later). --no-negatives clusters the controls alone.
+A protein that is both a Kiss control and a shared negative (8 of them) keeps both roles: the
+negative copy is written as `<accession>#neg` (--on-overlap keep-both, the default); the two copies
+fall in one cluster, which seed_split.py flags as a mixed cluster. The family representatives are
+NOT clustered (the default); --include-family-reps is kept as an option and is not used.
 
 Usage:
   python3 -I analysis/wall_fusion_truth/build_kiss_fasta.py --jgi-dir to_import/kiss2019_jgi \\
-      --out-dir ~/kiss_5_3_inputs [--negative-set data/controls/hard-negatives-shared] [--include-family-reps]
+      --out-dir ~/kiss_5_3_inputs
 """
 
 from __future__ import annotations
@@ -39,6 +44,7 @@ HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[1]
 CONTROL_DIR = ROOT / "data/controls/wall-fusion-kiss2019"
 JGI_TABLE = HERE / "results/jgi_files.tsv"
+SHARED_NEGATIVES = ROOT / "data/controls/hard-negatives-shared"
 
 
 def load_map_kiss():
@@ -230,13 +236,20 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--out-dir", type=Path, required=True)
     ap.add_argument("--control-dir", type=Path, default=CONTROL_DIR)
     ap.add_argument("--jgi-table", type=Path, default=JGI_TABLE)
-    ap.add_argument("--negative-set", type=Path, action="append", default=[])
-    ap.add_argument("--include-family-reps", action="store_true")
-    ap.add_argument("--on-overlap", choices=("error", "keep-both"), default="error")
+    ap.add_argument(
+        "--negative-set",
+        type=Path,
+        action="append",
+        help="a control-set directory with label=negative rows (default: the shared set of 161 rows)",
+    )
+    ap.add_argument("--no-negatives", action="store_true", help="cluster the controls alone")
+    ap.add_argument("--include-family-reps", action="store_true", help="option; not used")
+    ap.add_argument("--on-overlap", choices=("error", "keep-both"), default="keep-both")
     a = ap.parse_args(argv)
     out = refuse_repo_path(a.out_dir)  # before anything is read
+    negatives = [] if a.no_negatives else (a.negative_set or [SHARED_NEGATIVES])
     seqs, members = gather(
-        a.control_dir, a.jgi_dir, a.jgi_table, a.negative_set, a.include_family_reps, a.on_overlap
+        a.control_dir, a.jgi_dir, a.jgi_table, negatives, a.include_family_reps, a.on_overlap
     )
     write_outputs(out, seqs, members)
     by = {}

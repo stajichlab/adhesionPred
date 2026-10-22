@@ -177,3 +177,60 @@ def test_outputs_are_written_outside_the_repo_with_checksums(tmp_path):
     ).hexdigest()
     assert LOC in fa.read_text()  # the JGI sequence goes to the local file, never into the repo
     assert (out / "members.tsv").read_text().splitlines()[0].startswith("accession\tclass")
+
+
+def run_main(tmp_path, cdir, jdir, table, *extra):
+    out = tmp_path / "out"
+    rc = bkf.main(
+        [
+            "--jgi-dir",
+            str(jdir),
+            "--out-dir",
+            str(out),
+            "--control-dir",
+            str(cdir),
+            "--jgi-table",
+            str(table),
+            *extra,
+        ]
+    )
+    assert rc == 0
+    rows = [ln.split("\t") for ln in (out / "members.tsv").read_text().splitlines()]
+    return {r[0]: dict(zip(rows[0], r, strict=True)) for r in rows[1:]}
+
+
+def test_the_shared_set_is_the_default_negative_input(tmp_path, monkeypatch):
+    cdir, ndir, jdir, table = make(tmp_path)
+    monkeypatch.setattr(bkf, "SHARED_NEGATIVES", ndir)
+    m = run_main(tmp_path, cdir, jdir, table)
+    assert m["N00001"]["class"] == "negative"
+    assert "P00009" not in m  # the family representatives are not clustered by default
+
+
+def test_the_real_default_is_the_shared_set_of_161_rows_and_nothing_else():
+    src = Path(bkf.__file__).read_text()
+    assert 'SHARED_NEGATIVES = ROOT / "data/controls/hard-negatives-shared"' in src
+    assert "hard_negative_seeds.tsv" in src  # named only to say it is excluded
+    assert "excluded by that decision" in src
+
+
+def test_no_negatives_clusters_the_controls_alone(tmp_path, monkeypatch):
+    cdir, ndir, jdir, table = make(tmp_path)
+    monkeypatch.setattr(bkf, "SHARED_NEGATIVES", ndir)
+    m = run_main(tmp_path, cdir, jdir, table, "--no-negatives")
+    assert "N00001" not in m and set(m) == {"P00001", "jgi:Neucr2:44"}
+
+
+def test_keep_both_is_the_default_on_the_command_line(tmp_path, monkeypatch):
+    cdir, ndir, jdir, table = make(tmp_path, neg_accession="P00001")
+    monkeypatch.setattr(bkf, "SHARED_NEGATIVES", ndir)
+    m = run_main(tmp_path, cdir, jdir, table)
+    assert m["P00001"]["class"] == "positive" and m["P00001#neg"]["class"] == "negative"
+    assert m["P00001#neg"]["overlap_with"] == "P00001"
+
+
+def test_family_representatives_stay_an_option(tmp_path, monkeypatch):
+    cdir, ndir, jdir, table = make(tmp_path)
+    monkeypatch.setattr(bkf, "SHARED_NEGATIVES", ndir)
+    m = run_main(tmp_path, cdir, jdir, table, "--include-family-reps")
+    assert m["P00009"]["class"] == "family_rep"
