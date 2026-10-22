@@ -41,7 +41,7 @@ This is a descriptive re-reading of the committed `drift_hits.tsv`, **not a re-c
 | aga1 | 11 | 8 | 0 | 0 | `not_supported` (changes) |
 | ece1 | 0 | 0 | 0 | 0 | `not_supported` (unchanged) |
 
-**The choice of the coverage definition is an owner decision.** Recommendation to the owner: use the query coverage. A custom model has to represent the Kiss protein, so a hit that matches only a fifth of it is not the same family member; hyd1_like and ece1 do not change, and aga1 does. Nothing is changed in the script or in the freeze here.
+**The choice of the coverage definition is an owner decision (made, section 4b).** Recommendation to the owner: use the query coverage. A custom model has to represent the Kiss protein, so a hit that matches only a fifth of it is not the same family member; hyd1_like and ece1 do not change, and aga1 does. Nothing is changed in the script or in the freeze here.
 
 ## 4. What this means for the PR 6 targets
 
@@ -49,8 +49,17 @@ This is a descriptive re-reading of the committed `drift_hits.tsv`, **not a re-c
 |---|---|
 | ecm33 (KS0086) | buildable on the one-pass `phmmer` set (round 2); drafts and freeze proposal in `analysis/wall_fusion_truth/README_pr6_ecm33.md` |
 | hyd1_like (KS0017) | buildable on its 32 supported hits under either coverage definition; adhesion slice, so leave-cluster-out reported `partial` (decision 4) |
-| aga1 (KS0080) | undecided: buildable under the committed coverage rule, not under the query coverage; pending the owner's choice |
+| aga1 (KS0080) | left out of the PR 6 HMM work (owner decision d, below): `not_supported` under the query coverage; needs a different modeling approach |
 | ece1 (KS0107) | not buildable: drift confirmed (0 supported hits of 126) |
+
+## 4b. Owner decision (2026-10-22)
+
+The owner chose **option d** for the coverage definition: **the rule is query coverage >= 0.5** (a supported hit must align across at least half of the Kiss protein); the sensitivity table above stays in the record as a descriptive column showing what the looser "larger of query and hit coverage" rule would have given. Consequences:
+
+- **aga1 (KS0080)** is **left out of the PR 6 HMM work** (`not_supported`: 0 supported hits). The owner's reading: aga1 **needs a more involved modeling approach**, not a homology model. Its evidence is short local matches (15 to 31 percent of the protein) in a protein that is 64 percent S/T/N/Q/G/P, which points to sequence-feature or composition-aware modeling (and possibly a domain-level model of one segment, option c of the choice, which would need the alignment coordinates this run did not save). That is outside this PR; it stays a known gap.
+- **ece1 (KS0107)** is **left out**: `not_buildable` (drift confirmed, 0 supported of 126).
+- **hyd1_like (KS0017)** stays a PR 6 target (32 supported hits, 3 named clades, query coverage 0.531 to 0.99); adhesion slice, so leave-cluster-out reported `partial` (decision 4).
+- The PR 6 target set is therefore **ecm33 and hyd1_like**. The committed script (`pr6_drift_check.py`) still classifies with the larger-coverage rule; the owner decision is applied here by reading the committed table (a change to the script's rule is a separate change).
 
 ## 5. What the check does not show
 
