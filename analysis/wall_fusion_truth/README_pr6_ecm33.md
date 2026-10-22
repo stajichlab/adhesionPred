@@ -83,12 +83,39 @@ not apply to UniRef50 members; the only Kiss member is Q5AGC4 itself.)
 ## The freeze: what is decided and what is still a proposal
 
 **Decided by the owner (2026-10-22), written in the freeze file:**
-1. **P38248** (*S. cerevisiae* Ecm33, a shared hard negative of stratum `gpi_wall_enzyme` that is a true family member) is left out of the hard-negative rate (`negatives_ignored: ["P38248"]`) and reported on its own line (`p38248_line.tsv`: its custom score, the cutoff and whether it is hit, per unit and mode). The shared negative set is not changed for anyone else.
+1. **P38248** (*S. cerevisiae* Ecm33, a shared hard negative of stratum `gpi_wall_enzyme` that is a true family member) is left out of the hard-negative rate (`negatives_ignored: ["P38248"]`) and reported on its own line (`ignored_negatives_line.tsv` (one line per accession of `negatives_ignored` and mode): its custom score, the cutoff and whether it is hit, per unit and mode). The shared negative set is not changed for anyone else.
 2. **Independence**: HEADLINE `cluster30` (spec 4.4), SECOND DESCRIPTIVE column `none` (`independence_mode`, `independence_second_column`). The manifest check that the held-out unit is absent from the alignment runs for both modes. Read the count of excluded neighbours per unit before judging any result: for a conserved family the 30 percent clusters can span several clades, and a unit whose headline training set falls under the minimum is `not_buildable` there while its descriptive column may still be built.
 3. **`min_u` = 3**: u is the number of held-out members that every comparator misses; a unit is testable when u >= 3 and the custom model must recover at least ceil(u/2) of them (spec 4.6; the hydrophobin run had u = 0).
 
 **Still PROPOSALS (unchanged, labelled in the file under `proposals_unchanged`):** cutoff floor 0.0; at most 5 unlabelled extra calls per 10,000 proteins (5 x 32,491 / 10,000 = 16.2455, about 16 in all); hard-negative rate 0.05; at least 5 members for a unit; the training rule (5 sequences in 2 clades);
 the alignment check (at least 100 columns with a residue in at least half of the sequences, median coverage of those columns at least 0.6; a stop condition, the hydrophobin cysteine check does not apply).
+
+## Pre-freeze check of the hard negatives (do this BEFORE the freeze commit)
+
+**Why.** `negatives_ignored` of the freeze keeps true Ecm33 family members out of the hard-negative rate (a correct model should hit them). The freeze lists only
+`P38248` (*S. cerevisiae* Ecm33). The shared negatives also hold `Q4WNS8` (*A. fumigatus* ecm33, stratum `gpi_wall_enzyme`), and a member under another name cannot be
+excluded by reading names. If one stays in the rate, the cutoff is pushed above the score of a true Ecm33. The owner chose (2026-10-22) to list ALL members before
+freezing, with the freeze's own definition of a family member (`labelled_rule`): `phmmer` of Q5AGC4 finds it at E <= 1e-5.
+
+**What the job does** (`pr6_ecm33_negatives_precheck.sbatch`, DRAFT, tiny: partition short, 2 cores, 2 GB, 30 min). It checks the pin and the staged FASTA hash, takes Q5AGC4
+from `kiss_sequences.faa`, runs `phmmer` against the 161 shared negatives at E 1e-5 (the definition) and, separately and descriptively, at E 1e-3, and writes the tables of
+`pr6_ecm33_negatives_precheck.py`. It does not read or change the freeze.
+
+```
+# 1. (owner go-ahead) update the HPCC clone to the merge commit of the PR that holds this script
+# 2. (owner go-ahead) submit; no new staging: kiss_sequences.faa is already in $W/in
+B=/bigdata/stajichlab/jstajich/projects; W=$B/adhesionPred/_workdir/kiss_cluster_split
+sbatch --export=ALL,PROJ_ROOT=$B/adhesionPred-kiss53,CODE_COMMIT=<sha>,IN=$W/in,OUT=$W/ecm33_negcheck \
+  -o $W/logs/%x.%j.log -e $W/logs/%x.%j.log $B/adhesionPred-kiss53/analysis/wall_fusion_truth/pr6_ecm33_negatives_precheck.sbatch
+```
+
+**Output** in `$OUT`: `negatives_family_table.tsv` (accession, gene, species, stratum, E-value, score, length, whether the freeze lists it), `weak_E1e-3.tsv` (descriptive only,
+never in the list), `proposed_negatives_ignored.json` (the exact one-line edit), `summary.txt` (counts, per stratum, NEW accessions), `provenance.txt` and the two `.tbl` files.
+A `LOUD:` line appears if P38248 or Q4WNS8 is not found (both are expected), if a hit is not in `controls.tsv`, or if an accession the freeze lists is not found.
+
+**What the owner does with it.** Read `summary.txt`. If the list is what you expect, put the proposed line in the freeze file before signing it (replace the one line
+`"negatives_ignored": [...]`). The report then writes one line per listed accession (`ignored_negatives_line.tsv`), and the build leaves all of them out of the rate. The list
+is a proposal made from the data: a protein with a weak hit (the descriptive table) is NOT added, and you decide any borderline case.
 
 ## Checks and expected outputs
 
@@ -97,7 +124,7 @@ the alignment check (at least 100 columns with a residue in at least half of the
 - `build`, per (unit, mode): `manifest.json` (held-out ids, training ids with clade and 30 percent cluster, the excluded neighbours), `train.aln.fa`, `model.hmm`, `cutoff.json`
   and `relaxed_cutoff.json` (each with the freeze sha256 and `positives_used: false`), the held-out hit tables, `provenance.txt`. A unit that is not buildable keeps only its manifest.
 - `report`: `recall_by_unit.tsv` (per unit and mode, role headline or descriptive: custom, Pfam GA, relaxed Pfam and iteration recall; u; whether the custom model recovers ceil(u/2) of u), `side_by_side.tsv`, `extra_calls.tsv`
-  (extra calls against the freeze limit), `hard_negative_calls.tsv` (rates against the frozen rate, P38248 not in them), `p38248_line.tsv`, `summary.txt`.
+  (extra calls against the freeze limit), `hard_negative_calls.tsv` (rates against the frozen rate, P38248 not in them), `ignored_negatives_line.tsv` (one line per accession of `negatives_ignored` and mode), `summary.txt`.
 
 ## Open items I could not confirm (nothing was run)
 
