@@ -534,7 +534,7 @@ def counts_md(controls, local, reps, rejected, proxy: bool) -> str:
     return "\n".join(lines)
 
 
-UNVERIFIED = """# Notes that are not checked
+UNVERIFIED_HEAD_PROXY = """# Notes that are not checked
 
 *Written by `build_control_set.py` (DRAFT, Task 5.2).*
 
@@ -544,7 +544,26 @@ UNVERIFIED = """# Notes that are not checked
 - **Leakage.** `leakage` is `unknown` for every row: nobody has compared these proteins with the
   Pfam seed sequences yet. Task 5.3 (`seed_split.py`) sets `none` or `in_reference`,
   `seed_class_slice` and `seed_class_all39`.
-- **portal_validated rows.** These rows have no name evidence of their own. They are accepted by
+"""
+
+UNVERIFIED_HEAD_SPLIT = """# Notes that are not checked
+
+*Written by `build_control_set.py` (Task 5.2, updated with the Task 5.3 cluster split).*
+
+- **Clusters.** `clusters.tsv` holds MMseqs2 clusters (30% identity, 50% coverage; job 30229366,
+  record in `docs/reports/data/kiss_cluster_split_2026-10-22/`). The clusters were made over the
+  132 controls and the 161 shared negatives together; a cluster that holds both is
+  `mixed_pos_neg` in `clusters_split.tsv`. The independent unit is this cluster, not the Kiss
+  `cluster_number` (kept in `kiss_cluster_number`).
+- **Leakage.** `leakage` is `none` or `in_reference` from the identity to the nearest Pfam seed
+  sequence (`seed_split.py`: any member at 30% identity or more makes a cluster `seed-like`).
+  The seed sequences are the ones InterPro served on 2026-10-22; the Pfam release they come from
+  was not compared with 38.2 row by row. Five models have very few seed sequences
+  (`seeds_summary.tsv`: Hydrophobin_D 3, Glyco_hydro_17 6, Chitin_synth_2 7, Hyd1F 8), so a
+  `seed-independent` label for them rests on little.
+"""
+
+UNVERIFIED_TAIL = """- **portal_validated rows.** These rows have no name evidence of their own. They are accepted by
   the owner (2026-10-22) because their portal agrees on other rows. The flag stays; filter on it
   if a result looks sensitive.
 - **locus_confirmed rows.** The UniProt entry found by the JGI header locus tag has that tag as its
@@ -566,8 +585,22 @@ UNVERIFIED = """# Notes that are not checked
 """
 
 
+def unverified_md(proxy: bool) -> str:
+    return (UNVERIFIED_HEAD_PROXY if proxy else UNVERIFIED_HEAD_SPLIT) + UNVERIFIED_TAIL
+
+
+BUILD_CMD = "python3 -I analysis/wall_fusion_truth/build_control_set.py"
+BUILD_CMD_SPLIT = (
+    BUILD_CMD
+    + " --date 2026-10-22 \\\n"
+    + "    --clusters-tsv docs/reports/data/kiss_cluster_split_2026-10-22/clusters.tsv \\\n"
+    + "    --split-members docs/reports/data/kiss_cluster_split_2026-10-22/members_split.tsv"
+)
+
+
 def readme_md(controls, local, reps, rejected, proxy: bool) -> str:
     n = count_lines(controls, local, reps, rejected)
+    build_cmd = BUILD_CMD if proxy else BUILD_CMD_SPLIT
     return f"""# Control set: wall, fusion and adhesion genes of Kiss et al. 2019
 
 *Written by `analysis/wall_fusion_truth/build_control_set.py` (DRAFT, plan Task 5.2). Do not edit
@@ -640,14 +673,13 @@ before you use a row:
 ## How it was built
 
 ```
-python3 -I analysis/wall_fusion_truth/build_control_set.py
+{build_cmd}
 ```
 
 The script is offline and deterministic (two runs give the same bytes). It reads
 `analysis/wall_fusion_truth/results/{{row_mapping,organism_resolution}}.tsv`,
 `results/query_cache.json` (the UniProt sequences) and the Kiss table. It never reads the JGI
-files. After Task 5.3 run it again with `--clusters-tsv` and `--split-members` (written by
-`seed_split.py`) to replace the proxy clusters and fill `leakage`, `seed_class_slice` and `seed_class_all39`.
+files. {"Without `--clusters-tsv` and `--split-members` the clusters are the Kiss proxy and `leakage` is `unknown`. After Task 5.3 run it again with both (written by `seed_split.py`)." if proxy else "This copy was built with `--clusters-tsv` and `--split-members` from the Task 5.3 job (record `docs/reports/data/kiss_cluster_split_2026-10-22/`); without them the clusters are the Kiss proxy and `leakage` is `unknown`."}
 
 Check: `python3 -m cellsurface_sorting_hat.controls data/controls/wall-fusion-kiss2019`
 (with `PYTHONPATH=src`).
@@ -698,7 +730,7 @@ def main(argv: list[str] | None = None) -> int:
     (out / "family_rep_sequences.faa").write_text(fasta_text(fam_seqs))
     write_tsv(out / "rejected.tsv", REJECTED_COLUMNS, rejected)
     (out / "counts.md").write_text(counts_md(controls, local, reps, rejected, proxy))
-    (out / "unverified_notes.md").write_text(UNVERIFIED)
+    (out / "unverified_notes.md").write_text(unverified_md(proxy))
     (out / "README.md").write_text(readme_md(controls, local, reps, rejected, proxy))
     guard_tables_have_no_sequences(
         [

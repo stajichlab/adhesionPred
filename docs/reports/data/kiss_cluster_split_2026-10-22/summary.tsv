@@ -1,0 +1,8 @@
+class	slice	clusters	slice_seed_like	slice_seed_independent	all39_seed_like	all39_seed_independent
+negative		90	9	5	32	58
+positive	adhesion	28	16	12	16	12
+positive	fusion	4	0	4	0	4
+positive	wall	44	14	30	17	27
+family_rep (not clustered)	adhesion	4				
+family_rep (not clustered)	fusion	3				
+family_rep (not clustered)	wall	20				

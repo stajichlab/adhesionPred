@@ -433,10 +433,50 @@ def test_committed_set_passes_the_l1_validator():
     assert rep.ok, [str(d) for d in rep.defects]
 
 
+SPLIT_RECORD = ROOT / "docs/reports/data/kiss_cluster_split_2026-10-22"
+
+
 def test_committed_set_is_what_the_script_makes(tmp_path):
-    assert bcs.main(["--out", str(tmp_path)]) == 0
+    args = [
+        "--out",
+        str(tmp_path),
+        "--date",
+        "2026-10-22",
+        "--clusters-tsv",
+        str(SPLIT_RECORD / "clusters.tsv"),
+        "--split-members",
+        str(SPLIT_RECORD / "members_split.tsv"),
+    ]
+    assert bcs.main(args) == 0
     for f in sorted(COMMITTED.iterdir()):
         assert f.read_bytes() == (tmp_path / f.name).read_bytes(), f.name
+
+
+def test_committed_clusters_are_the_mmseqs2_clusters_of_the_job_record():
+    job = {r["accession"]: r["cluster_id"] for r in tsv(SPLIT_RECORD / "members_split.tsv")}
+    rows = tsv(COMMITTED / "controls.tsv") + tsv(COMMITTED / "controls_local_sequence.tsv")
+    assert {r["accession"]: r["cluster_id"] for r in rows} == {
+        a: job[a] for a in (r["accession"] for r in rows)
+    }
+    assert all(r["cluster_id"].startswith("KS") for r in rows)  # not the Kiss proxy
+    assert all(r["seed_class_slice"] and r["seed_class_all39"] for r in rows)
+    assert all(r["leakage"] in ("none", "in_reference") for r in rows)
+    # the positive clusters per slice equal the job's summary line, recomputed from the members
+    summ = {
+        r["slice"]: int(r["clusters"])
+        for r in tsv(SPLIT_RECORD / "summary.tsv")
+        if r["class"] == "positive"
+    }
+    per_slice: dict[str, set] = {}
+    for r in rows:
+        per_slice.setdefault(r["stratum"], set()).add(r["cluster_id"])
+    assert {k: len(v) for k, v in per_slice.items()} == summ
+
+
+def test_job_record_holds_no_sequence():
+    for f in SPLIT_RECORD.glob("*.tsv"):
+        for line in f.read_text().splitlines():
+            assert not any(len(w) >= 40 and w.isalpha() and w.isupper() for w in line.split("\t"))
 
 
 def test_committed_counts_are_recomputed_from_the_mapping():

@@ -1,13 +1,18 @@
 # Notes that are not checked
 
-*Written by `build_control_set.py` (DRAFT, Task 5.2).*
+*Written by `build_control_set.py` (Task 5.2, updated with the Task 5.3 cluster split).*
 
-- **Clusters.** `clusters.tsv` uses the Kiss `cluster_number` per slice (`KISS-<slice>-<n>`). It
-  is an orthology and MCL family, not a 30% identity cluster. COMMON-RULES rule 4 asks for
-  MMseqs2. Task 5.3 makes them. Until then every count of clusters is a proxy.
-- **Leakage.** `leakage` is `unknown` for every row: nobody has compared these proteins with the
-  Pfam seed sequences yet. Task 5.3 (`seed_split.py`) sets `none` or `in_reference`,
-  `seed_class_slice` and `seed_class_all39`.
+- **Clusters.** `clusters.tsv` holds MMseqs2 clusters (30% identity, 50% coverage; job 30229366,
+  record in `docs/reports/data/kiss_cluster_split_2026-10-22/`). The clusters were made over the
+  132 controls and the 161 shared negatives together; a cluster that holds both is
+  `mixed_pos_neg` in `clusters_split.tsv`. The independent unit is this cluster, not the Kiss
+  `cluster_number` (kept in `kiss_cluster_number`).
+- **Leakage.** `leakage` is `none` or `in_reference` from the identity to the nearest Pfam seed
+  sequence (`seed_split.py`: any member at 30% identity or more makes a cluster `seed-like`).
+  The seed sequences are the ones InterPro served on 2026-10-22; the Pfam release they come from
+  was not compared with 38.2 row by row. Five models have very few seed sequences
+  (`seeds_summary.tsv`: Hydrophobin_D 3, Glyco_hydro_17 6, Chitin_synth_2 7, Hyd1F 8), so a
+  `seed-independent` label for them rests on little.
 - **portal_validated rows.** These rows have no name evidence of their own. They are accepted by
   the owner (2026-10-22) because their portal agrees on other rows. The flag stays; filter on it
   if a result looks sensitive.

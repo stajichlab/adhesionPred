@@ -1,0 +1,8 @@
+job: kiss_cluster_split (plan Task 5.3)
+commit: df6367d7e00c6664d6a10058dce7e99a014403ea (pinned: df6367d7e00c6664d6a10058dce7e99a014403ea)
+mmseqs: b804fbe384e6f6c9fe96322ec0e92d48bccd0a42
+python: Python 3.12.13
+input kiss_sequences.faa sha256 66af609eeea24212f7813918fd5957489ded4e4e45792deadd955a0a93bacdf6
+input members.tsv sha256 74371cc4008c37539f704dc0bc44bd21924e22f6e2edcdab23292963bf1a5225
+input seeds.faa.gz sha256 e0254d76bcb7ddc6e95479904b56bc3a857945c610a14f4c2651761daf456888
+settings: easy-cluster --min-seq-id 0.3 -c 0.5; easy-search --min-seq-id 0.3 --cov-mode 1 -c 0.5 -s 7.5 -e 1e-3

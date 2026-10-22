@@ -1,0 +1,294 @@
+accession	cluster_id	class	slice	overlap_with	in_mixed_cluster	seed_class_slice	seed_class_all39	best_identity_slice	nearest_model_slice	best_identity_all39	nearest_model_all39	member_hit_slice	member_hit_all39	leakage_suggested
+A0A023I7E1	KS0001	negative			no	not_applicable	seed-independent					no	no	none
+Q9UT45	KS0001	negative			no	not_applicable	seed-independent					no	no	none
+A0A0D1BZL3	KS0002	positive	adhesion		no	seed-like	seed-like	74.6	PF01185	74.6	PF01185	yes	yes	in_reference
+A0A0D1DYI3	KS0003	negative			no	not_applicable	seed-independent					no	no	none
+A0A0D1E2P6	KS0004	negative			no	not_applicable	seed-independent					no	no	none
+A0A0D2XVZ5	KS0004	negative			no	not_applicable	seed-independent					no	no	none
+J9VKM5	KS0004	negative			no	not_applicable	seed-independent					no	no	none
+A0A1D8PCT0	KS0005	positive	wall		no	seed-like	seed-like	80.9	PF02364	80.9	PF02364	yes	yes	in_reference
+O74475	KS0005	positive	wall		no	seed-like	seed-like	100.0	PF02364	100.0	PF02364	yes	yes	in_reference
+P38631	KS0005	positive	wall		no	seed-like	seed-like	100.0	PF02364	100.0	PF02364	yes	yes	in_reference
+Q10287	KS0005	positive	wall		no	seed-like	seed-like	81.7	PF02364	81.7	PF02364	yes	yes	in_reference
+Q4WLT4	KS0005	positive	wall		no	seed-like	seed-like	100.0	PF02364	100.0	PF02364	yes	yes	in_reference
+jgi:Neucr2:9773	KS0005	positive	wall		no	seed-like	seed-like	84.0	PF02364	84.0	PF02364	yes	yes	in_reference
+A0A1D8PE53	KS0006	positive	wall		no	seed-independent	seed-independent					no	no	none
+P38678	KS0006	positive	wall		no	seed-independent	seed-independent					no	no	none
+A0A1D8PEG3	KS0007	positive	wall		no	seed-independent	seed-independent					no	no	none
+P13134	KS0007	positive	wall		no	seed-independent	seed-independent					no	no	none
+Q4WQI8	KS0007	positive	wall		no	seed-independent	seed-independent					no	no	none
+A0A1D8PJ29	KS0008	positive	wall		no	seed-like	seed-like	76.3	PF08407	76.3	PF08407	yes	yes	in_reference
+A0A1D8PTV3	KS0008	positive	wall		no	seed-like	seed-like	100.0	PF08407	100.0	PF08407	yes	yes	in_reference
+P54267	KS0008	positive	wall		no	seed-like	seed-like	94.6	PF08407	94.6	PF08407	yes	yes	in_reference
+Q4W9P7	KS0008	positive	wall		no	seed-like	seed-like	95.6	PF08407	95.6	PF08407	yes	yes	in_reference
+Q4WIH1	KS0008	positive	wall		no	seed-like	seed-like	92.4	PF01644	92.4	PF01644	yes	yes	in_reference
+Q92197	KS0008	positive	wall		no	seed-like	seed-like	87.3	PF01644	87.3	PF01644	yes	yes	in_reference
+jgi:Neucr2:6692	KS0008	positive	wall		no	seed-like	seed-like	93.6	PF01644	93.6	PF01644	yes	yes	in_reference
+jgi:Neucr2:7181	KS0008	positive	wall		no	seed-like	seed-like	86.3	PF08407	86.3	PF08407	yes	yes	in_reference
+jgi:Neucr2:8241	KS0008	positive	wall		no	seed-like	seed-like	85.5	PF08407	85.5	PF08407	yes	yes	in_reference
+A0A1D8PJN6	KS0009	positive	wall		no	seed-independent	seed-independent					no	no	none
+A0A1D8PKB6	KS0010	positive	wall		no	seed-independent	seed-independent					no	no	none
+A0A384J6C4	KS0011	negative			yes	seed-like	seed-like			52.1	PF00722	no	yes	in_reference
+A0A384JN58	KS0011	negative			yes	seed-like	seed-like			53.0	PF00722	no	yes	in_reference
+A0A384K4T0	KS0011	negative			yes	seed-like	seed-like			53.2	PF00722	no	yes	in_reference
+P53301	KS0011	positive	wall		yes	seed-like	seed-like	100.0	PF00722	100.0	PF00722	yes	yes	in_reference
+P53301#neg	KS0011	negative		P53301	yes	seed-like	seed-like			100.0	PF00722	no	yes	in_reference
+Q4WD22	KS0011	negative			yes	seed-like	seed-like			58.0	PF00722	no	yes	in_reference
+Q4WMW2	KS0011	negative			yes	seed-like	seed-like			55.9	PF00722	no	yes	in_reference
+Q4WXE6	KS0011	negative			yes	seed-like	seed-like			66.4	PF00722	no	yes	in_reference
+Q8J0P4	KS0011	negative			yes	seed-like	seed-like			60.0	PF00722	no	yes	in_reference
+A0A384K116	KS0012	negative			yes	seed-like	seed-like			75.0	PF00722	no	yes	in_reference
+P32623	KS0012	positive	wall		yes	seed-like	seed-like	100.0	PF00722	100.0	PF00722	yes	yes	in_reference
+P32623#neg	KS0012	negative		P32623	yes	seed-like	seed-like			100.0	PF00722	no	yes	in_reference
+Q4WI46	KS0012	negative			yes	seed-like	seed-like			77.9	PF00722	no	yes	in_reference
+Q5AJC0	KS0012	positive	wall		yes	seed-like	seed-like	100.0	PF00722	100.0	PF00722	yes	yes	in_reference
+A0A385MIS5	KS0013	negative			no	not_applicable	seed-independent					no	no	none
+A0A9P6LVP5	KS0014	negative			no	not_applicable	seed-independent					no	no	none
+P0DYC5	KS0014	negative			no	not_applicable	seed-independent					no	no	none
+P0DYC6	KS0014	negative			no	not_applicable	seed-independent					no	no	none
+A0ACE4JU10	KS0015	positive	adhesion		no	seed-like	seed-like	97.8	PF01185	97.8	PF01185	yes	yes	in_reference
+E9QT94	KS0015	positive	adhesion		no	seed-like	seed-like	100.0	PF01185	100.0	PF01185	yes	yes	in_reference
+P41746	KS0015	positive	adhesion		no	seed-like	seed-like	100.0	PF01185	100.0	PF01185	yes	yes	in_reference
+A0ACE4K441	KS0016	positive	wall		no	seed-independent	seed-independent					no	no	none
+F4P6Q5	KS0016	positive	wall		no	seed-independent	seed-independent					no	no	none
+O74189	KS0016	positive	wall		no	seed-independent	seed-independent					no	no	none
+Q4WCG5	KS0016	positive	wall		no	seed-independent	seed-independent					no	no	none
+Q59X23	KS0016	positive	wall		no	seed-independent	seed-independent					no	no	none
+Q759J8	KS0016	positive	wall		no	seed-independent	seed-independent					no	no	none
+Q75DV8	KS0016	positive	wall		no	seed-independent	seed-independent					no	no	none
+Q7SD53	KS0016	positive	wall		no	seed-independent	seed-independent					no	no	none
+jgi:Ustma2_2:12965	KS0016	positive	wall		no	seed-independent	seed-independent					no	no	none
+A0ACE4KFX7	KS0017	positive	adhesion		no	seed-independent	seed-independent					no	no	none
+A0ACF1AQZ4	KS0018	negative			no	not_applicable	seed-independent					no	no	none
+A6N6J0	KS0019	negative			no	not_applicable	seed-like			73.4	PF00704	no	yes	in_reference
+G2XF09	KS0019	negative			no	not_applicable	seed-like			49.5	PF00704	no	yes	in_reference
+G5EAZ3	KS0019	negative			no	not_applicable	seed-like			54.9	PF00704	no	yes	in_reference
+O14456	KS0019	negative			no	not_applicable	seed-like			89.5	PF00704	no	yes	in_reference
+P0CB51	KS0019	negative			no	not_applicable	seed-like			57.1	PF00704	no	yes	in_reference
+P48827	KS0019	negative			no	not_applicable	seed-like			73.2	PF00704	no	yes	in_reference
+Q1E3R8	KS0019	negative			no	not_applicable	seed-like			57.1	PF00704	no	yes	in_reference
+A6XGK3	KS0020	negative			no	not_applicable	seed-independent					no	no	none
+A6XHF7	KS0021	negative			no	not_applicable	seed-independent					no	no	none
+A8NCG7	KS0022	negative			no	not_applicable	seed-independent					no	no	none
+Q00023	KS0022	negative			no	not_applicable	seed-independent					no	no	none
+Q4WBU0	KS0022	negative			no	not_applicable	seed-independent					no	no	none
+A8P0V4	KS0023	negative			no	not_applicable	seed-independent					no	no	none
+A8PZM4	KS0024	negative			no	not_applicable	seed-independent					no	no	none
+B0BK71	KS0025	negative			no	not_applicable	seed-independent					no	no	none
+B2ABX7	KS0026	negative			no	not_applicable	seed-independent					no	no	none
+G4MM92	KS0026	negative			no	not_applicable	seed-independent					no	no	none
+P07987	KS0026	negative			no	not_applicable	seed-independent					no	no	none
+Q5B2E8	KS0026	negative			no	not_applicable	seed-independent					no	no	none
+Q9C1S9	KS0026	negative			no	not_applicable	seed-independent					no	no	none
+B6GX22	KS0027	negative			no	not_applicable	seed-independent					no	no	none
+O13716	KS0027	negative			no	not_applicable	seed-independent					no	no	none
+B6QUR1	KS0028	negative			no	not_applicable	seed-like			100.0	PF12296	no	yes	in_reference
+C5P3X6	KS0029	negative			no	not_applicable	seed-independent					no	no	none
+D6VTK4	KS0030	positive	fusion		no	seed-independent	seed-independent					no	no	none
+E9DFH0	KS0031	negative			no	not_applicable	seed-independent					no	no	none
+E9F648	KS0032	negative			no	not_applicable	seed-independent					no	no	none
+E9RBR0	KS0032	negative			no	not_applicable	seed-independent					no	no	none
+F2SL83	KS0032	negative			no	not_applicable	seed-independent					no	no	none
+P17489	KS0032	negative			no	not_applicable	seed-independent					no	no	none
+E9R598	KS0033	negative			no	not_applicable	seed-independent					no	no	none
+I1RMG9	KS0033	negative			no	not_applicable	seed-independent					no	no	none
+O59896	KS0033	negative			no	not_applicable	seed-independent					no	no	none
+P38993	KS0033	negative			no	not_applicable	seed-independent					no	no	none
+Q02497	KS0033	negative			no	not_applicable	seed-independent					no	no	none
+Q09920	KS0033	negative			no	not_applicable	seed-independent					no	no	none
+Q4PIF8	KS0033	negative			no	not_applicable	seed-independent					no	no	none
+Q4WZB4	KS0033	negative			no	not_applicable	seed-independent					no	no	none
+Q55P57	KS0033	negative			no	not_applicable	seed-independent					no	no	none
+Q70KY3	KS0033	negative			no	not_applicable	seed-independent					no	no	none
+S8FIE4	KS0033	negative			no	not_applicable	seed-independent					no	no	none
+E9R5E2	KS0034	positive	wall		no	seed-independent	seed-independent					no	no	none
+P53704	KS0034	positive	wall		no	seed-independent	seed-independent					no	no	none
+F4P8T0	KS0035	positive	wall		no	seed-independent	seed-independent					no	no	none
+J9VNY5	KS0035	positive	wall		no	seed-independent	seed-independent					no	no	none
+Q1K4Z4	KS0035	positive	wall		no	seed-independent	seed-independent					no	no	none
+Q4WJ05	KS0035	positive	wall		no	seed-independent	seed-independent					no	no	none
+Q5ADM9	KS0035	positive	wall		no	seed-independent	seed-independent					no	no	none
+jgi:Ashgo1_1:1345	KS0035	positive	wall		no	seed-independent	seed-independent					no	no	none
+G1UB63	KS0036	positive	adhesion		no	seed-like	seed-like	78.4	PF05730	78.4	PF05730	yes	yes	in_reference
+G1UBC2	KS0037	positive	adhesion		no	seed-like	seed-like	100.0	PF13928	100.0	PF13928	yes	yes	in_reference
+G2QFD0	KS0038	negative			no	not_applicable	seed-independent					no	no	none
+G2WQW0	KS0039	negative			no	not_applicable	seed-independent					no	no	none
+P07981	KS0039	negative			no	not_applicable	seed-independent					no	no	none
+P62694	KS0039	negative			no	not_applicable	seed-independent					no	no	none
+Q8NK02	KS0039	negative			no	not_applicable	seed-independent					no	no	none
+G2WSY1	KS0040	negative			no	not_applicable	seed-like			69.8	PF10528	no	yes	in_reference
+G2WTI6	KS0041	negative			no	not_applicable	seed-like			51.7	PF22799	no	yes	in_reference
+G2WYA4	KS0042	negative			no	not_applicable	seed-like			38.1	PF05730	no	yes	in_reference
+K1XVG1	KS0042	negative			no	not_applicable	seed-like			63.0	PF05730	no	yes	in_reference
+G2WYV9	KS0043	negative			no	not_applicable	seed-like			46.0	PF05730	no	yes	in_reference
+I1RAQ3	KS0043	negative			no	not_applicable	seed-like			44.4	PF05730	no	yes	in_reference
+Q4WNE1	KS0043	negative			no	not_applicable	seed-like			100.0	PF05730	no	yes	in_reference
+G2X5B6	KS0044	negative			no	not_applicable	seed-like			50.0	PF05730	no	yes	in_reference
+G2X658	KS0045	negative			no	not_applicable	seed-independent					no	no	none
+G2X659	KS0046	negative			no	not_applicable	seed-independent					no	no	none
+G2X962	KS0047	negative			no	not_applicable	seed-like			49.2	PF05730	no	yes	in_reference
+G2X9U7	KS0048	negative			no	not_applicable	seed-like			41.5	PF01522	no	yes	in_reference
+Q5AQQ0	KS0048	negative			no	not_applicable	seed-like			49.5	PF01522	no	yes	in_reference
+Q6DWK3	KS0048	negative			no	not_applicable	seed-like			45.7	PF01522	no	yes	in_reference
+G2XB57	KS0049	negative			no	not_applicable	seed-like			54.4	PF05730	no	yes	in_reference
+I1REI8	KS0049	negative			no	not_applicable	seed-like			53.2	PF05730	no	yes	in_reference
+G4NDG4	KS0050	negative			no	not_applicable	seed-independent					no	no	none
+G5EB30	KS0051	negative			yes	seed-like	seed-like			38.6	PF00704	no	yes	in_reference
+Q4WEP7	KS0051	positive	wall		yes	seed-like	seed-like	39.4	PF00704	39.4	PF00704	yes	yes	in_reference
+Q873Y0	KS0051	negative			yes	seed-like	seed-like			39.1	PF00704	no	yes	in_reference
+I1RDW3	KS0052	positive	adhesion		no	seed-like	seed-like	100.0	PF06766	100.0	PF06766	yes	yes	in_reference
+Q7S3P5	KS0052	positive	adhesion		no	seed-like	seed-like	78.1	PF06766	78.1	PF06766	yes	yes	in_reference
+I1RET0	KS0053	negative			no	not_applicable	seed-like			33.3	PF05730	no	yes	in_reference
+J9VDC2	KS0054	negative			no	not_applicable	seed-independent					no	no	none
+J9VH79	KS0055	negative			no	not_applicable	seed-independent					no	no	none
+J9VHS9	KS0056	positive	adhesion		no	seed-independent	seed-independent					no	no	none
+J9VLH0	KS0057	negative			no	not_applicable	seed-independent					no	no	none
+J9VS02	KS0058	negative			no	not_applicable	seed-independent					no	no	none
+Q4WNV0	KS0058	negative			no	not_applicable	seed-independent					no	no	none
+K1WG73	KS0059	negative			no	not_applicable	seed-like			62.6	PF05730	no	yes	in_reference
+K1XT82	KS0060	negative			no	not_applicable	seed-like			41.3	PF05730	no	yes	in_reference
+K1XW16	KS0061	negative			no	not_applicable	seed-like			59.6	PF05730	no	yes	in_reference
+O42720	KS0062	negative			no	not_applicable	seed-independent					no	no	none
+O74161	KS0063	positive	wall		no	seed-independent	seed-independent					no	no	none
+Q12114	KS0063	positive	wall		no	seed-independent	seed-independent					no	no	none
+O74199	KS0064	negative			no	not_applicable	seed-like			32.5	PF00704	no	yes	in_reference
+O94614	KS0065	positive	wall		no	seed-independent	seed-independent					no	no	none
+O94753	KS0066	negative			no	not_applicable	seed-independent					no	no	none
+P06783	KS0067	positive	fusion		no	seed-independent	seed-independent					no	no	none
+Q4WUB6	KS0067	positive	fusion		no	seed-independent	seed-independent					no	no	none
+P07982	KS0068	negative			no	not_applicable	seed-like			100.0	PF00150	no	yes	in_reference
+Q66NB7	KS0068	negative			no	not_applicable	seed-like			50.3	PF00150	no	yes	in_reference
+Q7SDR1	KS0068	negative			no	not_applicable	seed-like			67.5	PF00150	no	yes	in_reference
+Q9HEZ1	KS0068	negative			no	not_applicable	seed-like					no	no	none
+P08640	KS0069	positive	adhesion		no	seed-like	seed-like	100.0	PF10182	100.0	PF10182	yes	yes	in_reference
+P0C7S9	KS0070	negative			yes	seed-like	seed-like			100.0	PF03198	no	yes	in_reference
+P0C954	KS0070	negative			yes	seed-like	seed-like			53.4	PF03198	no	yes	in_reference
+P22146	KS0070	positive	wall		yes	seed-like	seed-like	100.0	PF03198	100.0	PF03198	yes	yes	in_reference
+P22146#neg	KS0070	negative		P22146	yes	seed-like	seed-like			100.0	PF03198	no	yes	in_reference
+P43076	KS0070	positive	wall		yes	seed-like	seed-like	100.0	PF07983	100.0	PF07983	yes	yes	in_reference
+Q4WLT3	KS0070	positive	wall		yes	seed-like	seed-like	92.4	PF07983	92.4	PF07983	yes	yes	in_reference
+Q9Y7Y7	KS0070	negative			yes	seed-like	seed-like			100.0	PF03198	no	yes	in_reference
+jgi:Neucr2:6440	KS0070	positive	wall		yes	seed-like	seed-like	65.9	PF03198	65.9	PF03198	yes	yes	in_reference
+P0CS93	KS0071	negative			no	not_applicable	seed-independent					no	no	none
+P0CY22	KS0072	positive	wall		no	seed-independent	seed-independent					no	no	none
+P10863	KS0073	negative			no	not_applicable	seed-independent					no	no	none
+P40552	KS0073	negative			no	not_applicable	seed-independent					no	no	none
+Q12218	KS0073	negative			no	not_applicable	seed-independent					no	no	none
+P23776	KS0074	positive	wall		yes	seed-independent	seed-independent					no	no	none
+P23776#neg	KS0074	negative		P23776	yes	seed-independent	seed-independent					no	no	none
+Q9URU6	KS0074	negative			yes	seed-independent	seed-independent					no	no	none
+P25653	KS0075	positive	adhesion		no	seed-like	seed-like	74.0	PF13928	74.0	PF13928	yes	yes	in_reference
+P28319	KS0076	negative			no	not_applicable	seed-independent					no	no	none
+P29029	KS0077	positive	wall		yes	seed-like	seed-like	62.5	PF00704	62.5	PF00704	yes	yes	in_reference
+P29029#neg	KS0077	negative		P29029	yes	seed-like	seed-like			62.5	PF00704	no	yes	in_reference
+P40953	KS0077	positive	wall		yes	seed-like	seed-like	100.0	PF00704	100.0	PF00704	yes	yes	in_reference
+Q12713	KS0077	negative			yes	seed-like	seed-like			42.4	PF00704	no	yes	in_reference
+P29465	KS0078	positive	wall		no	seed-like	seed-like	100.0	PF03142	100.0	PF03142	yes	yes	in_reference
+Q4WC58	KS0078	positive	wall		no	seed-like	seed-like	83.8	PF03142	83.8	PF03142	yes	yes	in_reference
+jgi:Neucr2:1058	KS0078	positive	wall		no	seed-like	seed-like	90.3	PF03142	90.3	PF03142	yes	yes	in_reference
+P31302	KS0079	positive	fusion		no	seed-independent	seed-independent					no	no	none
+P32323	KS0080	positive	adhesion		no	seed-independent	seed-independent					no	no	none
+P32329	KS0081	negative			no	not_applicable	seed-independent					no	no	none
+P32478	KS0082	negative			yes	seed-independent	seed-like			82.6	PF22799	no	yes	in_reference
+P47001	KS0082	negative			yes	seed-independent	seed-like			80.0	PF22799	no	yes	in_reference
+Q03178	KS0082	negative			yes	seed-independent	seed-like			80.0	PF22799	no	yes	in_reference
+Q59SF7	KS0082	positive	wall		yes	seed-independent	seed-like			70.4	PF22799	no	yes	none
+P32768	KS0083	positive	adhesion		no	seed-like	seed-like	100.0	PF07691	100.0	PF07691	yes	yes	in_reference
+P36170	KS0083	positive	adhesion		no	seed-like	seed-like	100.0	PF07691	100.0	PF07691	yes	yes	in_reference
+P38894	KS0083	positive	adhesion		no	seed-like	seed-like	97.4	PF00624	97.4	PF00624	yes	yes	in_reference
+P39712	KS0083	positive	adhesion		no	seed-like	seed-like	100.0	PF00624	100.0	PF00624	yes	yes	in_reference
+P34226	KS0084	positive	wall		no	seed-independent	seed-independent					no	no	none
+P36027	KS0085	negative			no	not_applicable	seed-independent					no	no	none
+P38248	KS0086	negative			yes	seed-independent	seed-like					no	no	none
+Q4WNS8	KS0086	negative			yes	seed-independent	seed-like			100.0	PF12454	no	yes	in_reference
+Q5AGC4	KS0086	positive	wall		yes	seed-independent	seed-like					no	no	none
+P38813	KS0087	positive	wall		no	seed-independent	seed-independent					no	no	none
+P38843	KS0088	positive	wall		no	seed-independent	seed-independent					no	no	none
+Q7SB92	KS0088	positive	wall		no	seed-independent	seed-independent					no	no	none
+P39005	KS0089	negative			yes	seed-like	seed-like			75.2	PF05390	no	yes	in_reference
+Q5ANN9	KS0089	positive	wall		yes	seed-like	seed-like	100.0	PF05390	100.0	PF05390	yes	yes	in_reference
+P40526	KS0090	positive	wall		no	seed-independent	seed-independent					no	no	none
+P40955	KS0091	positive	wall		no	seed-independent	seed-independent					no	no	none
+P41748	KS0092	negative			no	not_applicable	seed-independent					no	no	none
+P41809	KS0093	negative			no	not_applicable	seed-independent					no	no	none
+P42835	KS0094	negative			no	not_applicable	seed-independent					no	no	none
+P43497	KS0095	negative			no	not_applicable	seed-independent					no	no	none
+P46593	KS0096	positive	adhesion		no	seed-like	seed-like	100.0	PF13928	100.0	PF13928	yes	yes	in_reference
+Q59TP1	KS0096	positive	adhesion		no	seed-like	seed-like	100.0	PF13928	100.0	PF13928	yes	yes	in_reference
+P47178	KS0097	negative			no	not_applicable	seed-independent					no	no	none
+P47179	KS0098	negative			no	not_applicable	seed-independent					no	no	none
+P52754	KS0099	positive	adhesion		no	seed-like	seed-like	100.0	PF06766	100.0	PF06766	yes	yes	in_reference
+P79073	KS0099	positive	adhesion		no	seed-like	seed-like	100.0	PF06766	100.0	PF06766	yes	yes	in_reference
+P53616	KS0100	negative			yes	seed-like	seed-like			80.5	PF03856	no	yes	in_reference
+Q4WGL5	KS0100	positive	wall		yes	seed-like	seed-like	100.0	PF03856	100.0	PF03856	yes	yes	in_reference
+Q59NP5	KS0100	positive	wall		yes	seed-like	seed-like	84.7	PF03856	84.7	PF03856	yes	yes	in_reference
+P53832	KS0101	negative			no	not_applicable	seed-independent					no	no	none
+P54867	KS0102	negative			no	not_applicable	seed-independent					no	no	none
+P78746	KS0103	positive	wall		no	seed-independent	seed-independent					no	no	none
+jgi:Neucr2:6661	KS0103	positive	wall		no	seed-independent	seed-independent					no	no	none
+Q01589	KS0104	negative			yes	seed-like	seed-like					no	no	none
+Q5AF41	KS0104	positive	adhesion		yes	seed-like	seed-like	100.0	PF13928	100.0	PF13928	yes	yes	in_reference
+Q04433	KS0105	negative			no	not_applicable	seed-independent					no	no	none
+Q04571	KS0106	positive	adhesion		no	seed-like	seed-like	100.0	PF22354	100.0	PF22354	yes	yes	in_reference
+Q07730	KS0107	positive	adhesion		no	seed-independent	seed-independent					no	no	none
+Q12140	KS0108	positive	adhesion		no	seed-like	seed-like	77.3	PF10182	77.3	PF10182	yes	yes	in_reference
+Q1K7A8	KS0109	positive	wall		no	seed-like	seed-like	100.0	PF03663	100.0	PF03663	yes	yes	in_reference
+Q5ACZ2	KS0109	positive	wall		no	seed-like	seed-like	100.0	PF03663	100.0	PF03663	yes	yes	in_reference
+Q4U4T0	KS0110	negative			no	not_applicable	seed-like			35.6	PF00704	no	yes	in_reference
+Q4WA69	KS0111	negative			no	not_applicable	seed-like			34.0	PF07691	no	yes	in_reference
+Q4WL79	KS0111	negative			no	not_applicable	seed-like			38.7	PF07691	no	yes	in_reference
+Q4WLY1	KS0111	negative			no	not_applicable	seed-like			42.7	PF07691	no	yes	in_reference
+Q4WU49	KS0111	negative			no	not_applicable	seed-like			47.2	PF07691	no	yes	in_reference
+Q4WBR2	KS0112	negative			yes	seed-independent	seed-independent					no	no	none
+Q8J0I9	KS0112	negative			yes	seed-independent	seed-independent					no	no	none
+jgi:Neucr2:6123	KS0112	positive	wall		yes	seed-independent	seed-independent					no	no	none
+Q4WBS1	KS0113	negative			no	not_applicable	seed-like			40.5	PF00150	no	yes	in_reference
+Q99036	KS0113	negative			no	not_applicable	seed-like			41.0	PF00150	no	yes	in_reference
+Q4WDB9	KS0114	positive	wall		no	seed-independent	seed-independent					no	no	none
+Q4WFV3	KS0115	positive	wall		no	seed-independent	seed-independent					no	no	none
+Q4X143	KS0115	positive	wall		no	seed-independent	seed-independent					no	no	none
+Q4WLB9	KS0116	positive	wall		yes	seed-independent	seed-like			73.8	PF05730	no	yes	none
+Q4WLB9#neg	KS0116	negative		Q4WLB9	yes	seed-independent	seed-like			73.8	PF05730	no	yes	in_reference
+Q4WLT6	KS0117	positive	wall		no	seed-like	seed-like	62.0	PF29664	62.0	PF29664	yes	yes	in_reference
+Q4WMA6	KS0118	negative			no	not_applicable	seed-like			100.0	PF05730	no	yes	in_reference
+Q4WWF5	KS0119	positive	wall		no	seed-independent	seed-independent					no	no	none
+Q5AI14	KS0119	positive	wall		no	seed-independent	seed-independent					no	no	none
+Q4WYE0	KS0120	positive	adhesion		no	seed-independent	seed-independent					no	no	none
+Q4X0H6	KS0121	positive	wall		no	seed-like	seed-like	83.1	PF03142	83.1	PF03142	yes	yes	in_reference
+Q4X0H7	KS0121	positive	wall		no	seed-like	seed-like	68.5	PF03142	68.5	PF03142	yes	yes	in_reference
+jgi:Neucr2:6174	KS0121	positive	wall		no	seed-like	seed-like	85.8	PF03142	85.8	PF03142	yes	yes	in_reference
+Q59L12	KS0122	positive	adhesion		no	seed-like	seed-like	96.8	PF05792	96.8	PF05792	yes	yes	in_reference
+Q59SR6	KS0123	positive	wall		no	seed-independent	seed-independent					no	no	none
+Q59UT4	KS0124	positive	adhesion		no	seed-like	seed-like	92.3	PF05730	92.3	PF05730	yes	yes	in_reference
+Q5A343	KS0125	positive	wall		no	seed-independent	seed-independent					no	no	none
+Q5A753	KS0126	positive	wall		no	seed-independent	seed-independent					no	no	none
+Q5AAL9	KS0127	positive	adhesion		no	seed-independent	seed-independent					no	no	none
+Q5AFI4	KS0128	positive	adhesion		no	seed-independent	seed-independent					no	no	none
+Q5AUT0	KS0129	negative			yes	seed-like	seed-like			37.2	PF29664	no	yes	in_reference
+jgi:Neucr2:3834	KS0129	positive	wall		yes	seed-like	seed-like	32.4	PF00332	32.4	PF00332	yes	yes	in_reference
+jgi:Neucr2:5869	KS0129	positive	wall		yes	seed-like	seed-like	37.9	PF29664	37.9	PF29664	yes	yes	in_reference
+Q5B508	KS0130	negative			no	not_applicable	seed-independent					no	no	none
+Q9P4W4	KS0130	negative			no	not_applicable	seed-independent					no	no	none
+Q5B6Q3	KS0131	negative			no	not_applicable	seed-independent					no	no	none
+Q5BAP5	KS0132	negative			no	not_applicable	seed-independent					no	no	none
+Q5J6J1	KS0133	negative			no	not_applicable	seed-independent					no	no	none
+Q5J6J2	KS0133	negative			no	not_applicable	seed-independent					no	no	none
+Q5J6J3	KS0134	negative			no	not_applicable	seed-independent					no	no	none
+Q5QHG5	KS0135	negative			no	not_applicable	seed-independent					no	no	none
+Q5QHG6	KS0136	negative			no	not_applicable	seed-independent					no	no	none
+Q75EX8	KS0137	positive	wall		no	seed-independent	seed-independent					no	no	none
+Q7SDK1	KS0138	positive	fusion		no	seed-independent	seed-independent					no	no	none
+Q8J0D5	KS0139	negative			no	not_applicable	seed-independent					no	no	none
+Q8NJP6	KS0140	negative			no	not_applicable	seed-independent					no	no	none
+Q8NJQ5	KS0141	negative			no	not_applicable	seed-independent					no	no	none
+Q99034	KS0142	negative			no	not_applicable	seed-independent					no	no	none
+Q99109	KS0143	positive	adhesion		no	seed-independent	seed-independent					no	no	none
+Q9UW98	KS0144	negative			no	not_applicable	seed-independent					no	no	none
+XP_045276491.1	KS0145	negative			no	not_applicable	seed-independent					no	no	none
+jgi:Neucr2:1684	KS0146	positive	wall		no	seed-independent	seed-independent					no	no	none
+jgi:Neucr2:2755	KS0147	positive	wall		no	seed-independent	seed-independent					no	no	none
+jgi:Neucr2:3723	KS0148	positive	adhesion		no	seed-independent	seed-independent					no	no	none
+jgi:Neucr2:4224	KS0149	positive	adhesion		no	seed-independent	seed-independent					no	no	none
+jgi:Neucr2:8199	KS0150	positive	adhesion		no	seed-independent	seed-independent					no	no	none
+jgi:Neucr2:8934	KS0151	positive	adhesion		no	seed-independent	seed-independent					no	no	none
+jgi:Ustma2_2:11962	KS0152	positive	adhesion		no	seed-like	seed-like	80.7	PF01185	80.7	PF01185	yes	yes	in_reference
