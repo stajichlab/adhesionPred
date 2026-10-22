@@ -1,0 +1,11 @@
+job: pr6_drift_check (PR 6, drift check of the iterated-only queries)
+commit: e333a66565fdd21c0fc95743958b08d013a5efed (pinned: e333a66565fdd21c0fc95743958b08d013a5efed)
+hmmer: # HMMER 3.4 (Aug 2023); http://hmmer.org/
+seqkit: seqkit v2.4.0
+python: Python 3.12.13
+uniprot_fasta: /srv/projects/db/Uniprot/2025_03/uniref50.fasta
+uniprot_fasta_bytes: 28781193344 (equals the round 2 file; sha256 of round 2: bc52bdd6c97ba2cc365b7e42ae7abb34865e0a1a82a2f95a74590aae040c81ff, not recomputed)
+input kiss_sequences.faa sha256 66af609eeea24212f7813918fd5957489ded4e4e45792deadd955a0a93bacdf6
+queries: P32323 Q07730 A0ACE4KFX7
+hit_sequences_extracted: 233
+settings: phmmer -E 10 --domE 10 (pairwise, real and shuffled); shuffle seed 1; thresholds in the docstring of pr6_drift_check.py

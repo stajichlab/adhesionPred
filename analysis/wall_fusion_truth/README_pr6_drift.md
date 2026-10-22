@@ -79,3 +79,7 @@ confirms the drift suspicion. Neither outcome changes any call, status, tier or 
   with a low real score can slip below the ratio by chance. More shuffles are a possible upgrade.
 - The 0.5 coverage, the 1e-5 E-value and the 0.5 null ratio are proposals; the owner may change them before the run (they
   are constants at the top of `pr6_drift_check.py` and a test pins them).
+
+## Result of the run (job 30282220, 2026-10-22)
+
+The run record is in `docs/reports/data/pr6_drift_check_2026-10-22/` and the note in `docs/reports/2026-10-22-pr6-drift-check.md` (a results record PR in the pattern of #112 and #114). hyd1_like: 32 of 43 hits supported in 3 named clades (`supported_rule_met`); aga1: 11 of 64 supported in 8 named clades (`supported_rule_met`) but all 11 pass only through the "larger of query and hit coverage" rule, with query coverage 0.148 to 0.31; ece1: 0 of 126 supported (`not_supported`, drift confirmed). Read with query coverage >= 0.5, aga1 and ece1 are `not_supported` and hyd1_like is unchanged. The choice of the coverage definition is an owner decision; the script and its freeze are not changed by the record.

@@ -1,0 +1,4 @@
+query	n_jackhmmer_outside	n_supported	n_bias_driven	n_unsupported	supported_named_clades	supported_unassigned	verdict	reason
+A0ACE4KFX7	43	32	0	11	3	3	supported_rule_met	
+P32323	64	11	0	53	8	0	supported_rule_met	
+Q07730	126	0	0	126	0	0	not_supported	only 0 supported outside sequences (minimum 5)
