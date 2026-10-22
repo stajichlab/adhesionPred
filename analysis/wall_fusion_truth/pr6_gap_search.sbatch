@@ -19,6 +19,11 @@
 #    documented in the repository, so none is guessed). The spec names the reviewed fungal proteins as the first choice; the
 #    set, its download date and its sha256 are recorded in provenance.txt.
 #
+# Target set: Swiss-Prot (UniProt headers, `OX=`) or UniRef50 (headers with `TaxID=` and `RepID=`; every hit is a cluster
+# representative); pr6_gap_summary.py reads both. The partition, the time and the cores are defaults on the #SBATCH lines
+# below: a longer run (UniRef50 is 28.8 GB) overrides them on the sbatch command line (`-p`, `--time`, `-c`, `--mem`);
+# nothing in the script fixes them (THREADS follows SLURM_CPUS_PER_TASK). E-values depend on the size of the target set.
+#
 # Needs the owner's go-ahead for EACH step before it is submitted (D21): the clone update, the UniProt staging, and this job.
 # Heavy work is a SLURM job, never on the login node. $SCRATCH is the temporary directory; there is no /tmp and no BASH_SOURCE.
 #
@@ -96,7 +101,9 @@ one_seq "$PROJ_ROOT/$NEG/sequences.faa" P38248 > "$TMP/p38248.faa"
 cat "$TMP/q/Q5AGC4.faa" "$TMP/p38248.faa" > "$TMP/ecm33.faa"
 awk '/^>/ { if (n) print n_id "\t" n; n_id = substr($1, 2); n = 0; next } { n += length($0) } END { print n_id "\t" n }' \
   "$TMP/ecm33.faa" > "$TMP/ecm33_lengths.tsv"
-echo "inputs ok: 4 queries, UniProt set $(grep -c '^>' "$UNIPROT_FASTA") sequences"
+# One pass over the target set for the count (UniRef50 is 28.8 GB: do not read it twice for the count).
+N_TARGET_SEQ="$(grep -c '^>' "$UNIPROT_FASTA")"
+echo "inputs ok: 4 queries, target set $N_TARGET_SEQ sequences"
 
 module load hmmer/3.4
 RESOLVED="$(readlink -f "$PFAM_HMM")"
@@ -127,11 +134,18 @@ while read -r acc; do
 done < "$TMP/queries.txt"
 
 # 3. The tables (standard library only). The summary script refuses a non-empty output directory.
-/usr/bin/python3.12 -I "$PROJ_ROOT/$WF/pr6_gap_summary.py" \
+#    If it fails after hours of searching, the raw tables are kept next to $OUT (the trap deletes $TMP) before the job stops.
+if ! /usr/bin/python3.12 -I "$PROJ_ROOT/$WF/pr6_gap_summary.py" \
   --targets "$TARGETS" --phmmer-dir "$TMP/phmmer" --jackhmmer-dir "$TMP/jackhmmer" \
   --nodes "$TAXDUMP/nodes.dmp" --names "$TAXDUMP/names.dmp" \
   --ecm33-domtbl "$TMP/ecm33.domtbl" --ecm33-model "$TMP/Ecm33.hmm" --ecm33-lengths "$TMP/ecm33_lengths.tsv" \
-  --out "$TMP/tables"
+  --out "$TMP/tables"; then
+  SALVAGE="$OUT.raw_after_summary_failure"
+  if [ ! -e "$SALVAGE" ]; then
+    mkdir -p "$SALVAGE" && cp -r "$TMP/phmmer" "$TMP/jackhmmer" "$TMP/ecm33.domtbl" "$SALVAGE/" && echo "raw tables kept in $SALVAGE"
+  fi
+  fail "pr6_gap_summary.py failed"
+fi
 
 {
   echo "job: pr6_gap_search (PR 6 steps 6.1 and 6.2, the four clusters with no Pfam hit)"
@@ -146,7 +160,7 @@ done < "$TMP/queries.txt"
   echo "input kiss_sequences.faa sha256 $(sha256sum < "$IN/kiss_sequences.faa" | cut -d' ' -f1)"
   echo "uniprot_fasta: $UNIPROT_FASTA"
   echo "uniprot_fasta_bytes: $(stat -c %s "$UNIPROT_FASTA")"
-  echo "uniprot_fasta_sequences: $(grep -c '^>' "$UNIPROT_FASTA")"
+  echo "uniprot_fasta_sequences: $N_TARGET_SEQ"
   echo "uniprot_fasta_sha256: $(sha256sum < "$UNIPROT_FASTA" | cut -d' ' -f1)"
   echo "taxdump: $TAXDUMP"
   echo "settings: phmmer -E $INC_E; jackhmmer -N $JACK_ITER --incE $INC_E --incdomE $INC_E; Ecm33: hmmsearch --max -E 10"

@@ -37,10 +37,19 @@ The whole-Pfam scan (step 6.0, record in `docs/reports/data/pr6_pfam_scan_2026-1
 
 1. **Ecm33 check.** `hmmfetch` of the model `Ecm33` (looked up by name; the job stops if its `ACC` is not `PF12454`), `hmmsearch --max -E 10` against Q5AGC4 and P38248. `ecm33_check.tsv` has, per sequence: its length, the ratio to the 406 aa of P38248, the model's GA thresholds (read from the model file), the full-sequence and best-domain scores, the share of the model covered, and a verdict `pass_GA`, `below_GA` or `no_hit_at_E10`. Report 07 row 22 found no hit of P38248 even at E 10; the check shows whether Q5AGC4 behaves the same or sits just below GA.
 2. **Searches.** `phmmer` (one pass) and `jackhmmer -N 3`, both with `--incE 1e-5 --incdomE 1e-5` and reporting at `-E 1e-5 --domE 1e-5`, fixed in the script before any result is read. `jackhmmer`'s `--tblout` holds the last iteration.
-3. **Classification of every hit** by the taxon in `OX=`: `self`, `no_taxid`, `non_fungal`, `inside_clade` (the held-out fine clade; used only for the descriptive leave-species-out question, decision 10) and `outside_clade`.
+3. **Classification of every hit** by the taxon in `OX=` (UniProt headers) or `TaxID=` (UniRef headers): `self`, `no_taxid`, `non_fungal`, `inside_clade` (the held-out fine clade; used only for the descriptive leave-species-out question, decision 10) and `outside_clade`.
 4. **The rule** on the `outside_clade` fungal hits (distinct accessions): at least 5 sequences in total, over at least 2 clades. Status: `buildable` (the one-pass set meets it), `buildable_iterated_only` (only the iterated set does; iteration can drift, a flag for the owner) or `not_buildable` (with the reason).
 
 Outputs: `gap_per_query.tsv` (counts per method, status, reason, mode `leave-clade-out` for wall and `leave-cluster-out (partial)` for adhesion), `gap_clades.tsv`, `gap_homologs.tsv` (one line per hit: accessions, E-value, score, taxon, clade; no sequences), `ecm33_check.tsv`, `summary.txt`, `provenance.tsv`, plus `provenance.txt`, `ecm33.domtbl` and `raw/{phmmer,jackhmmer}/<query>.tbl`.
+
+## Round 2 on UniRef50 (the owner's decision: Swiss-Prot first, then UniRef50)
+
+`/srv/projects/db/Uniprot/2025_03/uniref50.fasta` (28.8 GB). Its headers are `>UniRef50_<id> <cluster name> n=<members> Tax=<species> TaxID=<taxid> RepID=<representative>`, not UniProt `OX=` headers. `pr6_gap_summary.py` therefore reads `OX=` or `TaxID=` (if a hit has both and they disagree it gets no taxon, is not counted, is listed in `taxid_conflicts.tsv` and the summary prints a loud banner). The self hit of a query is the cluster `UniRef50_<query>` or `RepID=<query>`.
+
+- **Each hit is the representative of a 50 percent identity cluster (one sequence per cluster).** Counts of outside sequences are therefore conservative against the same search of all UniProt. The header's `n=` member counts exist but are NOT used for the rule.
+- A query that is only a member of a cluster whose representative is another protein is not "self": that representative is a homolog at 50 percent identity or more and is classified by its own taxon.
+- E-values depend on the size of the target set, so the same cut (`--incE 1e-5`, unchanged) is stricter against UniRef50 than against Swiss-Prot; counts of round 1 and round 2 are not strictly comparable.
+- The job counts the sequences of the target set once and hashes it once (minutes on 28.8 GB). Partition, time, cores and memory are defaults on the `#SBATCH` lines; override them on the `sbatch` command line for the longer run (`-p batch --time=... -c ... --mem=...`); nothing in the script fixes them. If the summary fails after the searches, the raw tables are kept in `$OUT.raw_after_summary_failure` (the job's scratch directory is deleted on exit).
 
 ## Why phmmer and jackhmmer
 
