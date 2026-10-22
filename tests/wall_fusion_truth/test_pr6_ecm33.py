@@ -293,21 +293,93 @@ def test_freeze_guard_refuses_missing_unfrozen_and_incomplete_files(tmp_path):
     assert bld.load_freeze(good)["extra_calls_per_10000"] == 5
 
 
-def test_the_proposed_freeze_matches_the_inputs_and_is_a_proposal():
+def test_the_proposed_freeze_matches_the_inputs_and_keeps_the_decided_items():
     fz = json.loads(FREEZE_PROPOSED.read_text())
-    assert fz["frozen"] is False and fz["owner_signature"] is None
-    assert fz["extra_calls_per_10000"] == 5 and fz["hard_negative_rate"] == 0.05
+    assert (
+        fz["frozen"] is False and fz["owner_signature"] is None
+    )  # the OWNER freezes it, not this work
+    assert (
+        fz["extra_calls_per_10000"] == 5
+        and fz["hard_negative_rate"] == 0.05
+        and fz["cutoff_floor"] == 0.0
+    )
     rows = list(
         csv.DictReader(open(ROOT / "scripts/sorting_hat/refresh_3_10/inputs.tsv"), delimiter="\t")
     )
     sizes = {r["prot"]: int(r["n_proteins"]) for r in rows if r["prot"] in fz["kept_proteomes"]}
     assert sizes == fz["kept_proteome_sizes"] and sum(sizes.values()) == 32491
-    assert (
-        "P38248" in fz["negatives_ignored"]
-        and "OWNER DECISION NEEDED" in fz["negatives_ignored_note"]
-    )
+    # decided 2026-10-22: P38248 left out of the rate, both independence modes, min_u 3
+    assert fz["negatives_ignored"] == ["P38248"]
+    assert fz["independence_mode"] == "cluster30" and fz["independence_second_column"] == "none"
+    assert fz["min_u"] == 3
+    assert set(fz["decided_by_owner_2026-10-22"]) == {
+        "negatives_ignored",
+        "independence_mode",
+        "independence_second_column",
+        "min_u",
+    }
+    assert "OWNER DECISION NEEDED" not in FREEZE_PROPOSED.read_text()
+    # the unchanged proposals stay proposals and keep their values
+    assert set(fz["proposals_unchanged"]) == {
+        "cutoff_floor",
+        "extra_calls_per_10000",
+        "hard_negative_rate",
+        "min_unit_members",
+        "alignment_check",
+        "training_rule",
+    }
+    assert fz["alignment_check"] == {
+        "occupancy": 0.5,
+        "min_columns": 100,
+        "min_median_coverage": 0.6,
+        "note": fz["alignment_check"]["note"],
+    }
+    assert fz["min_unit_members"] == 5
     for k in bld.FREEZE_KEYS:
         assert k in fz
+
+
+def test_freeze_requires_two_different_independence_modes(tmp_path):
+    bad = frozen_fixture()
+    bad["independence_second_column"] = "cluster30"
+    f = tmp_path / "f.json"
+    f.write_text(json.dumps(bad))
+    with pytest.raises(SystemExit):
+        bld.load_freeze(f)
+    bad["independence_second_column"] = "weird"
+    f.write_text(json.dumps(bad))
+    with pytest.raises(SystemExit):
+        bld.load_freeze(f)
+
+
+def test_both_modes_keep_the_held_out_unit_out_of_the_alignment():
+    """The held-out-absent-from-alignment manifest check holds for BOTH modes (cluster30 headline, none second column)."""
+    clusters = {i["hit_id"]: i["hit_id"] for i in clustered_members()}
+    clusters["y1"] = "x1"
+    for mode in ("cluster30", "none"):
+        man = bld.make_manifest(clustered_members(), "X", clusters, mode)
+        ok = [t["id"] for t in man["training"]]
+        assert bld.check_alignment_ids(man, ok) == []
+        assert any("held-out id x1" in p for p in bld.check_alignment_ids(man, ok + ["x1"]))
+        assert not ({"x1", "x2"} & set(ok))
+    c30 = bld.make_manifest(clustered_members(), "X", clusters, "cluster30")
+    none = bld.make_manifest(clustered_members(), "X", clusters, "none")
+    assert c30["n_training"] == none["n_training"] - 1 and c30["excluded_30pct_neighbours"] == [
+        "y1"
+    ]
+    assert any(
+        "neighbour y1" in p
+        for p in bld.check_alignment_ids(c30, [t["id"] for t in c30["training"]] + ["y1"])
+    )
+    assert (
+        bld.check_alignment_ids(none, [t["id"] for t in none["training"]]) == []
+    )  # y1 is legitimate training data in mode none
+
+
+def test_array_size_is_two_tasks_per_unit_plus_the_all_model():
+    members, _ = mem.select_members(mem.read_hits(REC / "gap_homologs.tsv.gz"))
+    n_units = sum(1 for u in mem.unit_table(members) if u["status"] == "unit")
+    assert n_units == 11 and 2 * n_units + 1 == 23  # tasks 0..22
 
 
 def test_p38248_is_a_shared_negative_and_a_true_ecm33():
@@ -344,10 +416,28 @@ def test_unit_row_arithmetic():
     )  # the hydrophobin lesson: u = 0
 
 
-def write_unit(d, fz_sha, held, custom_scores, cutoff=50.0, status="buildable"):
+def write_unit(
+    d,
+    fz_sha,
+    held,
+    custom_scores,
+    cutoff=50.0,
+    status="buildable",
+    n_excl=0,
+    n_train=300,
+    p38248=None,
+):
     d.mkdir(parents=True)
     (d / "manifest.json").write_text(
-        json.dumps({"status": status, "held_out_ids": held, "n_held_out": len(held)})
+        json.dumps(
+            {
+                "status": status,
+                "held_out_ids": held,
+                "n_held_out": len(held),
+                "n_excluded_neighbours": n_excl,
+                "n_training": n_train,
+            }
+        )
     )
     base = {
         "freeze_sha256": fz_sha,
@@ -366,6 +456,10 @@ def write_unit(d, fz_sha, held, custom_scores, cutoff=50.0, status="buildable"):
     (d / "hits_pfam_ga.tsv").write_text("id\n")
     (d / "hits_pfam_relaxed.tsv").write_text("id\tscore\n")
     (d / "hits_iter.tsv").write_text("id\tevalue\n")
+    (d / "neg_hits.tsv").write_text(
+        "accession\tscore\n" + (f"P38248\t{p38248}\n" if p38248 is not None else "")
+    )
+    (d / "neg_hits_relaxed.tsv").write_text("accession\tscore\n")
 
 
 def units_file(tmp_path, units):
@@ -377,13 +471,19 @@ def units_file(tmp_path, units):
     return p
 
 
-def test_report_refuses_without_a_frozen_freeze_or_with_a_different_one(tmp_path):
-    held = ["h0", "h1", "h2", "h3"]
+def freeze_file(tmp_path):
     fz = tmp_path / "fz.json"
     fz.write_text(json.dumps(frozen_fixture()))
+    return fz
+
+
+def test_report_refuses_without_a_frozen_freeze_or_with_a_different_one(tmp_path):
+    held = ["h0", "h1", "h2", "h3"]
+    fz = freeze_file(tmp_path)
     fz_sha = rep.sha256_file(fz)
     res = tmp_path / "res"
-    write_unit(res / "U", fz_sha, held, {"h0": 60.0, "h1": 70.0})
+    for mode in ("cluster30", "none"):
+        write_unit(res / "U" / mode, fz_sha, held, {"h0": 60.0, "h1": 70.0})
     args = [
         "--results",
         str(res),
@@ -399,20 +499,34 @@ def test_report_refuses_without_a_frozen_freeze_or_with_a_different_one(tmp_path
     with pytest.raises(SystemExit):
         rep.main([*args, "--freeze", str(unfrozen)])
     assert rep.main([*args, "--freeze", str(fz)]) == 0
-    # a cutoff made with another freeze file: refused
-    other = tmp_path / "other.json"
+    other = tmp_path / "other.json"  # a cutoff made with another freeze file is refused
     other.write_text(json.dumps({**frozen_fixture(), "min_u": 7}))
     assert rep.main([*args, "--freeze", str(other)]) == 1
 
 
-def test_report_end_to_end_is_descriptive_and_writes_no_call_or_tier(tmp_path):
+def test_report_end_to_end_both_modes_side_by_side_descriptive(tmp_path):
     held = ["h0", "h1", "h2", "h3"]
-    fz = tmp_path / "fz.json"
-    fz.write_text(json.dumps(frozen_fixture()))
+    fz = freeze_file(tmp_path)
+    sha = rep.sha256_file(fz)
     res = tmp_path / "res"
     write_unit(
-        res / "U", rep.sha256_file(fz), held, {"h0": 60.0, "h1": 70.0, "h2": 20.0}
-    )  # h2 is under the cutoff of 50
+        res / "U" / "cluster30",
+        sha,
+        held,
+        {"h0": 60.0, "h1": 70.0, "h2": 20.0},
+        n_excl=40,
+        n_train=260,
+        p38248=350.0,
+    )
+    write_unit(
+        res / "U" / "none",
+        sha,
+        held,
+        {"h0": 60.0, "h1": 70.0, "h2": 90.0, "h3": 99.0},
+        n_excl=0,
+        n_train=300,
+        p38248=20.0,
+    )
     out = tmp_path / "out"
     assert (
         rep.main(
@@ -429,35 +543,61 @@ def test_report_end_to_end_is_descriptive_and_writes_no_call_or_tier(tmp_path):
         )
         == 0
     )
-    row = next(csv.DictReader(open(out / "recall_by_unit.tsv"), delimiter="\t"))
-    assert row["custom_hit"] == "2" and row["n_held_out"] == "4" and row["status"] == "descriptive"
-    assert row["u_missed_by_every_comparator"] == "4"
+    rows = list(csv.DictReader(open(out / "recall_by_unit.tsv"), delimiter="\t"))
+    assert [(r["independence_mode"], r["role"]) for r in rows] == [
+        ("cluster30", "headline"),
+        ("none", "descriptive"),
+    ]
+    assert [r["custom_hit"] for r in rows] == ["2", "4"] and all(
+        r["status"] == "descriptive" for r in rows
+    )
+    wide = next(csv.DictReader(open(out / "side_by_side.tsv"), delimiter="\t"))
+    assert (
+        wide["n_excluded_neighbours_headline"] == "40"
+        and wide["n_training_headline"] == "260"
+        and wide["n_training_second"] == "300"
+    )
+    assert (
+        wide["custom_hit_headline"] == "2"
+        and wide["custom_hit_second"] == "4"
+        and wide["second_is_same_training_set"] == "no"
+    )
     assert sorted(p.name for p in out.iterdir()) == [
         "extra_calls.tsv",
         "hard_negative_calls.tsv",
+        "p38248_line.tsv",
         "recall_by_unit.tsv",
+        "side_by_side.tsv",
         "summary.txt",
     ]
     assert not any(c in (out / "recall_by_unit.tsv").read_text() for c in ("estimated", "smoke"))
-    assert (
-        next(csv.DictReader(open(out / "extra_calls.tsv"), delimiter="\t"))["within_limit"] == "yes"
+    # P38248 on its own line: hit above the cutoff of 50 in the headline, below it in the second column
+    pl = list(csv.DictReader(open(out / "p38248_line.tsv"), delimiter="\t"))
+    assert [(r["independence_mode"], r["custom_hit"]) for r in pl] == [
+        ("cluster30", "yes"),
+        ("none", "no"),
+    ]
+    # and it is not in any hard-negative rate row
+    assert all(
+        r["group"] != "P38248"
+        for r in csv.DictReader(open(out / "hard_negative_calls.tsv"), delimiter="\t")
     )
 
 
-def test_report_not_buildable_unit_is_listed_not_scored(tmp_path):
-    fz = tmp_path / "fz.json"
-    fz.write_text(json.dumps(frozen_fixture()))
-    d = tmp_path / "res" / "U"
-    d.mkdir(parents=True)
-    (d / "manifest.json").write_text(
-        json.dumps({"status": "not_buildable", "held_out_ids": ["h"], "n_held_out": 1})
-    )
+def test_report_second_mode_not_rebuilt_repeats_the_headline(tmp_path):
+    held = ["h0", "h1", "h2", "h3"]
+    fz = freeze_file(tmp_path)
+    sha = rep.sha256_file(fz)
+    res = tmp_path / "res"
+    write_unit(res / "U" / "cluster30", sha, held, {"h0": 60.0}, n_excl=0, n_train=300)
+    (res / "U" / "none").mkdir(parents=True)
+    (res / "U" / "none" / "SAME_AS_HEADLINE").write_text("same training set\n")
     out = tmp_path / "out"
     assert (
         rep.main(
             [
                 "--results",
-                str(tmp_path / "res"),
+                str(res),
                 "--units",
                 str(units_file(tmp_path, ["U"])),
                 "--freeze",
@@ -468,10 +608,53 @@ def test_report_not_buildable_unit_is_listed_not_scored(tmp_path):
         )
         == 0
     )
+    wide = next(csv.DictReader(open(out / "side_by_side.tsv"), delimiter="\t"))
     assert (
-        next(csv.DictReader(open(out / "recall_by_unit.tsv"), delimiter="\t"))["rule_ok"]
-        == "not_buildable"
+        wide["second_is_same_training_set"] == "yes"
+        and wide["custom_hit_headline"] == wide["custom_hit_second"] == "1"
     )
+
+
+def test_report_not_buildable_headline_is_listed_not_scored(tmp_path):
+    held = ["h0", "h1", "h2", "h3"]
+    fz = freeze_file(tmp_path)
+    sha = rep.sha256_file(fz)
+    res = tmp_path / "res"
+    d = res / "U" / "cluster30"
+    d.mkdir(parents=True)
+    (d / "manifest.json").write_text(
+        json.dumps(
+            {
+                "status": "not_buildable",
+                "held_out_ids": ["h"],
+                "n_held_out": 1,
+                "n_training": 0,
+                "n_excluded_neighbours": 9,
+            }
+        )
+    )
+    write_unit(
+        res / "U" / "none", sha, held, {"h0": 60.0, "h1": 70.0}, n_excl=0, n_train=300
+    )  # the lighter rule still builds
+    out = tmp_path / "out"
+    assert (
+        rep.main(
+            [
+                "--results",
+                str(res),
+                "--units",
+                str(units_file(tmp_path, ["U"])),
+                "--freeze",
+                str(fz),
+                "--out",
+                str(out),
+            ]
+        )
+        == 0
+    )
+    rows = list(csv.DictReader(open(out / "recall_by_unit.tsv"), delimiter="\t"))
+    assert rows[0]["rule_ok"] == "not_buildable" and rows[0]["role"] == "headline"
+    assert rows[1]["custom_hit"] == "2" and rows[1]["role"] == "descriptive"
 
 
 def test_scripts_import_no_call_status_or_tier_code_and_do_not_write_the_committed_tables():
@@ -517,6 +700,10 @@ def test_build_job_orders_cutoff_before_the_held_out_searches():
     assert s.index("check-alignment") < s.index("hmmbuild")
     assert s.index("mmseqs easy-cluster") < s.index("$BUILD manifest")
     assert "--min-seq-id 0.3 -c 0.5" in s
+    # both independence modes: a (unit, mode) task list, the headline manifest first, the second column skipped when identical
+    assert "tasks.list" in s and "HEAD_MODE" in s and "SECOND_MODE" in s and "SAME_AS_HEADLINE" in s
+    assert 'UDIR="$OUT/$UNIT/$MODE"' in s and "printf 'all\\tnone\\n'" in s
+    assert s.count("$BUILD manifest") == 2 and "--mode" in s
     assert "/tmp" not in code_lines(s).replace("$TMP", "")
     assert "family_measure" not in s and "family_table" not in s.replace("data/sorting_hat", "")
 

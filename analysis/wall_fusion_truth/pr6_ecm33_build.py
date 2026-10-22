@@ -11,9 +11,10 @@ Subcommands
   cutoff           the bit-score cutoff, from the FALSE-HIT side only (the four kept proteomes and the shared hard negatives);
                    refuses unless the freeze file is frozen
 
-Independence (spec 4.4). A training member is excluded when it falls in the same MMseqs2 cluster (30 percent identity, 50 percent
+Independence (spec 4.4; owner decision 2026-10-22). HEADLINE `cluster30`; the second, DESCRIPTIVE column is `none`. Both run for every
+held-out unit and are reported side by side. A training member is excluded when it falls in the same MMseqs2 cluster (30 percent identity, 50 percent
 coverage: the Task 5.3 rule, the `_cluster.tsv` of `mmseqs easy-cluster` over the members) as any held-out member of the unit.
-`--mode none` skips that exclusion (kept only to report how much it removes: for a conserved family the 30 percent clusters can
+`--mode none` removes only the held-out members: the second, descriptive column (for a conserved family the 30 percent clusters can
 span several clades, so the exclusion can empty the training set, and the manifest then says `not_buildable`).
 
 Cutoff (decision 8, the rule of analysis/hydrophobin_truth/relaxed.py `lowest_cutoff`): the lowest bit score at or above the floor at
@@ -214,6 +215,7 @@ FREEZE_KEYS = (
     "min_u",
     "min_unit_members",
     "independence_mode",
+    "independence_second_column",
     "negatives_ignored",
     "kept_proteomes",
     "alignment_check",
@@ -233,6 +235,11 @@ def load_freeze(path: Path) -> dict:
     if fz["frozen"] is not True:
         raise SystemExit(
             f'FATAL: freeze file {path} is not frozen ("frozen": true is set by the owner\'s freeze commit)'
+        )
+    modes = (fz["independence_mode"], fz["independence_second_column"])
+    if any(m not in ("cluster30", "none") for m in modes) or modes[0] == modes[1]:
+        raise SystemExit(
+            f"FATAL: freeze file {path}: independence modes {modes} must be two different values of cluster30 and none"
         )
     return fz
 

@@ -1,7 +1,7 @@
 #!/bin/bash -l
 # PR 6 steps 6.1 and 6.2 for ecm33 (DRAFT, NOT SUBMITTED; nothing of PR 6 beyond the gap search has run on HPCC): per held-out unit, build a
 # custom Ecm33 HMM from the OTHER clades, set its cutoff from the false-hit side only, then score the held-out members and the three
-# comparators. A SLURM array: task i is the i-th held-out unit of units.tsv (status `unit`); the LAST task is the `all` model (no held-out unit).
+# comparators. A SLURM array: task i is the i-th (unit, mode) pair: for every held-out unit (status `unit` of units.tsv) the HEADLINE independence mode (cluster30) and the second, DESCRIPTIVE one (none), then the `all` model (no held-out unit, built once). 2 x units + 1 tasks (23 for the 11 units of the 2026-10-22 members).
 # It writes no call, no status and no tier and does not touch data/sorting_hat. A custom model is report-only (decision 6).
 # Spec: docs/superpowers/specs/2026-10-22-pr6-custom-hmms-design.md (sections 4.3 to 4.8).
 #
@@ -26,7 +26,7 @@
 # (it is slow: the request below is a guess).
 #
 # Submit (after the go-ahead; CODE_COMMIT is the merge commit of the PR that holds this script and the freeze):
-#   N=$(awk -F'\t' 'NR>1 && $7=="unit"' $EXTRACT/members/units.tsv | wc -l)      # units; the array is 0..N (N+1 tasks: units + all)
+#   N=$(( 2 * $(awk -F'\t' 'NR>1 && $7=="unit"' $EXTRACT/members/units.tsv | wc -l) ))   # 2 modes per unit, then `all`: the array is 0..N (N+1 tasks)
 #   sbatch --array=0-$N%4 --export=ALL,PROJ_ROOT=/path/to/clone,CODE_COMMIT=<sha>,EXTRACT=/path/to/extract_out,OUT=/path/to/new_outdir,PFAM_RELEASE=38.2 \
 #     -o /path/to/logs/%x.%A_%a.log -e /path/to/logs/%x.%A_%a.log analysis/wall_fusion_truth/pr6_ecm33_build.sbatch
 #   (the directory of the log must exist; $OUT is created by the first task and each unit writes only to $OUT/<unit>, never overwriting.)
@@ -74,17 +74,21 @@ grep -q '"frozen": true' "$FREEZE" || fail "$FREEZE is not frozen"
   || fail "$EXTRACT/ecm33_members.faa differs from its .sha256"
 MEM="$EXTRACT/members/members.tsv"; UNITS="$EXTRACT/members/units.tsv"
 
-# The tasks: the held-out units (status `unit`), then `all`.
+# The tasks: for each held-out unit the headline mode then the second mode (both read from the freeze), then `all` (built once, mode none:
+# with no held-out unit the two modes are the same).
+HEAD_MODE="$($PY -I -c "import json,sys; print(json.load(open(sys.argv[1]))['independence_mode'])" "$FREEZE")"
+SECOND_MODE="$($PY -I -c "import json,sys; print(json.load(open(sys.argv[1]))['independence_second_column'])" "$FREEZE")"
 mkdir -p "$TMP"
-awk -F'\t' 'NR>1 && $7=="unit" {print $1}' "$UNITS" > "$TMP/units.list"
-echo all >> "$TMP/units.list"
-UNIT="$(sed -n "$((SLURM_ARRAY_TASK_ID + 1))p" "$TMP/units.list")"
-[ -n "$UNIT" ] || { echo "task $SLURM_ARRAY_TASK_ID has no unit (the array is larger than the unit list); nothing to do"; exit 0; }
-UDIR="$OUT/$UNIT"
+awk -F'\t' -v a="$HEAD_MODE" -v b="$SECOND_MODE" 'NR>1 && $7=="unit" {print $1 "\t" a; print $1 "\t" b}' "$UNITS" > "$TMP/tasks.list"
+printf 'all\tnone\n' >> "$TMP/tasks.list"
+LINE="$(sed -n "$((SLURM_ARRAY_TASK_ID + 1))p" "$TMP/tasks.list")"
+[ -n "$LINE" ] || { echo "task $SLURM_ARRAY_TASK_ID has no (unit, mode) pair (the array is larger than the task list); nothing to do"; exit 0; }
+UNIT="$(printf '%s' "$LINE" | cut -f1)"; MODE="$(printf '%s' "$LINE" | cut -f2)"
+UDIR="$OUT/$UNIT/$MODE"
 [ ! -e "$UDIR" ] || fail "$UDIR exists; nothing is overwritten"
 mkdir -p "$TMP/w" "$OUT"
 W="$TMP/w"
-echo "task $SLURM_ARRAY_TASK_ID: unit $UNIT"
+echo "task $SLURM_ARRAY_TASK_ID: unit $UNIT, independence mode $MODE (headline $HEAD_MODE, second column $SECOND_MODE)"
 
 # Proteomes: the frozen kept set and the counts of inputs.tsv.
 for p in $PROTEOMES; do
@@ -101,13 +105,25 @@ case "$RESOLVED" in *"Pfam${PFAM_RELEASE}/"*) ;; *) fail "$RESOLVED is not in a 
 
 # 1. Independence clusters over the members (30 percent identity, 50 percent coverage: the Task 5.3 rule), then the manifest.
 mmseqs easy-cluster "$EXTRACT/ecm33_members.faa" "$W/clu" "$W/clu_tmp" --min-seq-id 0.3 -c 0.5 --threads "$THREADS" -v 1
+# The HEADLINE manifest of the unit is always made (its count of excluded neighbours tells whether the second build would differ).
+if [ "$UNIT" != "all" ]; then
+  $BUILD manifest --members "$MEM" --unit "$UNIT" --clusters "$W/clu_cluster.tsv" --mode "$HEAD_MODE" --out "$W/head" || [ "$?" -eq 3 ] || fail "headline manifest failed"
+fi
 set +e
-$BUILD manifest --members "$MEM" --unit "$UNIT" --clusters "$W/clu_cluster.tsv" --freeze "$FREEZE" --out "$W/unit"
+$BUILD manifest --members "$MEM" --unit "$UNIT" --clusters "$W/clu_cluster.tsv" --mode "$MODE" --out "$W/unit"
 RC=$?
 set -e
 if [ "$RC" -eq 3 ]; then
-  mkdir -p "$UDIR"; cp "$W/unit/manifest.json" "$UDIR/"; echo "$UNIT: not_buildable (see manifest.json); no model is built"; exit 0
+  mkdir -p "$UDIR"; cp "$W/unit/manifest.json" "$UDIR/"; echo "$UNIT ($MODE): not_buildable (see manifest.json); no model is built"; exit 0
 elif [ "$RC" -ne 0 ]; then fail "manifest failed (exit $RC)"; fi
+# The second column is not rebuilt when the headline rule removed no neighbour: the two training sets are then the same.
+if [ "$UNIT" != "all" ] && [ "$MODE" != "$HEAD_MODE" ]; then
+  N_EXCL="$($PY -I -c "import json,sys; print(json.load(open(sys.argv[1]))['n_excluded_neighbours'])" "$W/head/manifest.json")"
+  if [ "$N_EXCL" = "0" ]; then
+    mkdir -p "$UDIR"; cp "$W/unit/manifest.json" "$UDIR/"; echo "the headline rule removed no neighbour of $UNIT: same training set; not rebuilt" > "$UDIR/SAME_AS_HEADLINE"
+    echo "$UNIT ($MODE): same training set as the headline ($HEAD_MODE); not rebuilt"; exit 0
+  fi
+fi
 
 # 2. Alignment: L-INS-i (the precedent's options), then the manifest check (the held-out unit and its 30 percent neighbours are absent)
 #    and the pre-registered occupancy check of the freeze file. A failure stops the unit; no other aligner is tried.
@@ -168,9 +184,9 @@ if [ "$UNIT" != "all" ]; then
 fi
 
 # 6. Provenance, then one atomic move into $OUT/<unit>.
-cp "$W/neg_hits_custom.tsv" "$W/neg_hits.tsv"; cp "$W/proteome_hits_custom.tsv" "$W/proteome_hits.tsv"
+cp "$W/neg_hits_custom.tsv" "$W/neg_hits.tsv"; cp "$W/proteome_hits_custom.tsv" "$W/proteome_hits.tsv"; cp "$W/neg_hits_relaxed.tsv" "$W/neg_hits_relaxed_out.tsv"
 {
-  echo "job: pr6_ecm33_build (unit $UNIT)"
+  echo "job: pr6_ecm33_build (unit $UNIT, independence mode $MODE; headline $HEAD_MODE)"
   echo "commit: $(git -C "$PROJ_ROOT" rev-parse HEAD) (pinned: $CODE_COMMIT)"
   echo "freeze sha256: $(sha256sum < "$FREEZE" | cut -d' ' -f1)"
   echo "hmmer: $(hmmsearch -h | sed -n 2p)"
@@ -180,9 +196,10 @@ cp "$W/neg_hits_custom.tsv" "$W/neg_hits.tsv"; cp "$W/proteome_hits_custom.tsv" 
   echo "ecm33_members.faa sha256: $(sha256sum < "$EXTRACT/ecm33_members.faa" | cut -d' ' -f1)"
   echo "model.hmm sha256: $(sha256sum < "$W/model.hmm" | cut -d' ' -f1)"
 } > "$W/provenance.txt"
-mkdir -p "$UDIR.tmp.$$"
+mkdir -p "$(dirname "$UDIR")" "$UDIR.tmp.$$"
 cp "$W/unit/manifest.json" "$W/unit/train_ids.txt" "$W/unit/heldout_ids.txt" "$W/train.aln.fa" "$W/model.hmm" "$W/hmmbuild.log" \
    "$W/cutoff.json" "$W/relaxed_cutoff.json" "$W/neg_hits.tsv" "$W/proteome_hits.tsv" "$W/provenance.txt" "$UDIR.tmp.$$/"
+cp "$W/neg_hits_relaxed_out.tsv" "$UDIR.tmp.$$/neg_hits_relaxed.tsv"
 if [ "$UNIT" != "all" ]; then cp "$W"/hits_custom.tsv "$W"/hits_pfam_ga.tsv "$W"/hits_pfam_relaxed.tsv "$W"/hits_iter.tsv "$UDIR.tmp.$$/"; fi
 mv "$UDIR.tmp.$$" "$UDIR"
 echo "wrote $UDIR"
