@@ -1,0 +1,12 @@
+job: pr6_pfam_scan (PR 6 step 6.0)
+commit: ebb29a9a4ceaee9caf0453f74ed411b2508cce82 (pinned: ebb29a9a4ceaee9caf0453f74ed411b2508cce82)
+hmmer: # HMMER 3.4 (Aug 2023); http://hmmer.org/
+python: Python 3.12.13
+pfam_hmm: /srv/projects/db/pfam/current/Pfam-A.hmm
+pfam_resolved: /bigdata/operations/pkgadmin/srv/projects/db/pfam/2026-01-27-Pfam38.2/Pfam-A.hmm
+pfam_release: 38.2
+pfam_sha256: 4b0da6399b97d2b23329de82190b2e5705bde1dea4cb2d028a52712d5966739e
+pfam_sha256_same_as_earlier_jobs: yes (earlier: 4b0da6399b97d2b23329de82190b2e5705bde1dea4cb2d028a52712d5966739e)
+input kiss_sequences.faa sha256 66af609eeea24212f7813918fd5957489ded4e4e45792deadd955a0a93bacdf6
+queries: 66 sequences of the missed clusters (sha256 of the extract bd634aa2b46910f141a0a9141b711b9e88a731a54a5155aeb013ea1c16284f95)
+settings: hmmscan --cut_ga (hits); hmmscan -E 1e-3 --domE 1e-3 without --cut_ga (weak hits, descriptive)
