@@ -1,0 +1,4 @@
+slice	n_rep_rows	n_rep_sequences	k_hit_own_models	group	counts_toward_floor	may_be_test_control	note
+adhesion	4	4	0	family_rep	no	no	descriptive: a representative is the Afu ortholog, not the Kiss protein
+wall	28	23	16	family_rep	no	no	descriptive: a representative is the Afu ortholog, not the Kiss protein
+fusion	3	3	1	family_rep	no	no	descriptive: a representative is the Afu ortholog, not the Kiss protein
