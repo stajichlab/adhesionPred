@@ -1,0 +1,3 @@
+sequence	length	length_ratio_vs_P38248	model	ga_seq	ga_dom	score_seq	evalue_seq	best_dom_score	best_dom_ievalue	hmm_cover_of_model	verdict
+P38248	429	1.000	PF12454	23.2	23.2	0.6	0.069	3.4	0.0096	0.756	below_GA
+Q5AGC4	413	0.963	PF12454	23.2	23.2	5.5	0.0022	4.0	0.006	0.610	below_GA

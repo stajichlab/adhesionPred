@@ -1,0 +1,6 @@
+query	method	clade_fine	n_outside_seq
+A0ACE4KFX7	jackhmmer	Sordariomycetes	1
+Q5AGC4	phmmer	Eurotiomycetes	2
+Q5AGC4	phmmer	Taphrinomycotina	2
+Q5AGC4	jackhmmer	Eurotiomycetes	2
+Q5AGC4	jackhmmer	Taphrinomycotina	2

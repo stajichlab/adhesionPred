@@ -1,0 +1,10 @@
+PR 6 gap search: outside homologs of the clusters with no Pfam hit (DRAFT summary)
+targets: 4 queries; not_buildable 4
+rule (decision 7, provisional): >= 5 outside fungal sequences in total over >= 2 clades
+descriptive only: no model is built, no call, no status, no tier; not_buildable is a known gap
+ecm33 check P38248 (429 aa): below_GA; score 0.6 vs GA 23.2 (domain 3.4 vs 23.2)
+ecm33 check Q5AGC4 (413 aa): below_GA; score 5.5 vs GA 23.2 (domain 4.0 vs 23.2)
+A0ACE4KFX7 (hyd1_like, adhesion, held-out Eurotiomycetes): not_buildable (only 1 outside sequences (minimum 5))
+P32323 (aga1, adhesion, held-out Saccharomycotina): not_buildable (no outside fungal homolog)
+Q07730 (ece1, adhesion, held-out Saccharomycotina): not_buildable (no outside fungal homolog)
+Q5AGC4 (ecm33, wall, held-out Saccharomycotina): not_buildable (only 4 outside sequences (minimum 5))

@@ -66,3 +66,7 @@ The spec allows either. `phmmer` is one pass and cannot drift into another famil
 ## What this does not do
 
 No model is built (that is step 6.3, only for a `buildable` target, with its own scripts and its own go-ahead). No call, status, tier, `narrow_ok` or panel row changes. The comparators of decision 9 are step 6.4.
+
+## Result of round 1 (job 30260197, Swiss-Prot 2025_03)
+
+Run on 2026-10-22 with the owner's go-ahead: code `6f8aa83`, `UNIPROT_FASTA=/srv/projects/db/Uniprot/2025_03/uniprot_sprot.fasta` (reviewed entries only, 573,661 sequences; the open item 1 above is settled for this round), the default taxdump `/bigdata/stajichlab/jstajich/projects/adhesionPred/_workdir/sorting_hat/taxdump` (it existed; open item 2 settled), `short`, 8 cores, 16 GB: COMPLETED in 2 min 16 s, so the 2-hour request was not needed (open item 3 settled for these inputs). The parsers read the real HMMER 3.4 output (open item 5 settled). Result: all four targets `not_buildable` (hyd1_like 1 outside sequence, aga1 0, ece1 0, ecm33 4 outside sequences in 2 clades, one short of the minimum of 5). The Ecm33 check: `PF12454` is below its GA for both Q5AGC4 (score 5.5) and P38248 (0.6) against a GA of 23.2. The record is `docs/reports/data/pr6_gap_swissprot_2026-10-22/`, the note `docs/reports/2026-10-22-pr6-gap-search-swissprot.md`. A second round on UniRef50 2025_03 is the owner's decision; its query set is not chosen yet.
