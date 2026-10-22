@@ -1,0 +1,5 @@
+PR 6 drift check (DRAFT summary; descriptive only: no model, no call, no status, no tier)
+freeze: E <= 1e-05, cover >= 0.5, null ratio < 0.5, rule 5 sequences in 2 named clades (all PROPOSALS for the owner)
+A0ACE4KFX7: 43 jackhmmer outside hits; supported 32, bias_driven 0, unsupported 11; supported named clades 3; supported_rule_met
+P32323: 64 jackhmmer outside hits; supported 11, bias_driven 0, unsupported 53; supported named clades 8; supported_rule_met
+Q07730: 126 jackhmmer outside hits; supported 0, bias_driven 0, unsupported 126; supported named clades 0; not_supported (only 0 supported outside sequences (minimum 5))

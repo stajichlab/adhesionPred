@@ -1,0 +1,234 @@
+query	hit	clade_fine	in_phmmer	class	best_domain_ievalue	query_cover	hit_cover	real_score	null_score	null_ratio	hit_len	hit_stnqgp	hit_low_complexity	query_stnqgp	query_low_complexity
+A0ACE4KFX7	UniRef50_A0A1B8B552	Sordariomycetes	no	supported_homolog	4.3e-09	0.827	0.815	28.1	0.0	0.000	124	0.621	0.444	0.500	0.163
+A0ACE4KFX7	UniRef50_A0A1J9P1Q5	(no clade)	yes	supported_homolog	2.2e-53	0.990	0.990	170.1	0.0	0.000	101	0.495	0.168	0.500	0.163
+A0ACE4KFX7	UniRef50_A0A1T3CTW9	Sordariomycetes	no	supported_homolog	2.4e-06	0.724	0.825	21.8	0.0	0.000	97	0.577	0.515	0.500	0.163
+A0ACE4KFX7	UniRef50_A0A2J6TR40	(no clade)	yes	supported_homolog	3.7e-14	0.980	1.000	44.7	0.0	0.000	110	0.564	0.200	0.500	0.163
+A0ACE4KFX7	UniRef50_A0A2J6TR41	Leotiomycetes	no	supported_homolog	8.1e-07	0.704	0.612	20.8	0.0	0.000	134	0.545	0.403	0.500	0.163
+A0ACE4KFX7	UniRef50_A0A2K0UGM8	Sordariomycetes	no	supported_homolog	2e-06	0.622	0.667	19.6	0.0	0.000	132	0.402	0.098	0.500	0.163
+A0ACE4KFX7	UniRef50_A0A428PAB1	Sordariomycetes	no	supported_homolog	3.2e-06	0.541	0.967	19.1	0.0	0.000	61	0.475	0.000	0.500	0.163
+A0ACE4KFX7	UniRef50_A0A428S032	Sordariomycetes	no	unsupported	2.3			4.7			82	0.451	0.366	0.500	0.163
+A0ACE4KFX7	UniRef50_A0A4U0XW33	Dothideomycetes	no	unsupported							345	0.490	0.464	0.500	0.163
+A0ACE4KFX7	UniRef50_A0A6A6TUN3	Dothideomycetes	no	supported_homolog	3e-09	0.571	0.417	28.6	0.0	0.000	175	0.514	0.400	0.500	0.163
+A0ACE4KFX7	UniRef50_A0A6A6UDH5	Dothideomycetes	no	supported_homolog	7.7e-10	0.561	0.315	31.4	0.0	0.000	165	0.473	0.097	0.500	0.163
+A0ACE4KFX7	UniRef50_A0A6V8R0V1	Sordariomycetes	no	supported_homolog	4.8e-09	0.551	0.345	27.9	0.0	0.000	145	0.421	0.200	0.500	0.163
+A0ACE4KFX7	UniRef50_A0A8H4LLQ3	Sordariomycetes	yes	supported_homolog	4.8e-13	0.776	0.513	41.4	0.0	0.000	152	0.395	0.401	0.500	0.163
+A0ACE4KFX7	UniRef50_A0A8H4UMY2	Sordariomycetes	yes	supported_homolog	4.1e-12	0.673	0.625	38.4	0.0	0.000	120	0.500	0.350	0.500	0.163
+A0ACE4KFX7	UniRef50_A0A8H5DJV6	Sordariomycetes	no	supported_homolog	3.8e-09	0.724	0.655	30.0	0.0	0.000	110	0.445	0.164	0.500	0.163
+A0ACE4KFX7	UniRef50_A0A8H5MW46	Sordariomycetes	no	unsupported	0.0011			5.8			175	0.560	0.451	0.500	0.163
+A0ACE4KFX7	UniRef50_A0A8H5NPL6	Sordariomycetes	no	unsupported	5.4e-05			15.2			86	0.593	0.465	0.500	0.163
+A0ACE4KFX7	UniRef50_A0A8K0SAX6	Sordariomycetes	no	unsupported	0.11			6.4			125	0.552	0.392	0.500	0.163
+A0ACE4KFX7	UniRef50_A0A8K0SLQ6	Sordariomycetes	no	supported_homolog	3.9e-10	0.531	0.289	32.3	0.0	0.000	166	0.367	0.000	0.500	0.163
+A0ACE4KFX7	UniRef50_A0A8K0WFS8	Sordariomycetes	no	supported_homolog	1.7e-09	0.837	0.784	29.6	0.0	0.000	116	0.543	0.224	0.500	0.163
+A0ACE4KFX7	UniRef50_A0A9P4ULB3	(no clade)	no	supported_homolog	3.4e-11	0.857	0.783	35.2	0.0	0.000	106	0.425	0.358	0.500	0.163
+A0ACE4KFX7	UniRef50_A0A9P4W361	Dothideomycetes	no	supported_homolog	7.9e-08	0.592	0.409	24.1	0.0	0.000	132	0.386	0.295	0.500	0.163
+A0ACE4KFX7	UniRef50_A0A9P5HL03	Sordariomycetes	no	supported_homolog	1.3e-08	0.857	0.858	30.0	0.0	0.000	113	0.496	0.496	0.500	0.163
+A0ACE4KFX7	UniRef50_A0A9P6VPZ7	Leotiomycetes	no	supported_homolog	1.1e-07	0.561	0.398	23.6	0.0	0.000	128	0.422	0.117	0.500	0.163
+A0ACE4KFX7	UniRef50_A0A9P9DF08	Sordariomycetes	no	supported_homolog	2.9e-06	0.816	0.812	25.7	0.0	0.000	117	0.513	0.530	0.500	0.163
+A0ACE4KFX7	UniRef50_A0AAJ0CIC2	Sordariomycetes	no	unsupported	4.2e-05			16.6			116	0.534	0.405	0.500	0.163
+A0ACE4KFX7	UniRef50_A0AAV9P5Q6	Dothideomycetes	no	unsupported	0.0018			12.4			108	0.463	0.259	0.500	0.163
+A0ACE4KFX7	UniRef50_A0AAV9Q049	Dothideomycetes	no	supported_homolog	3.3e-09	0.582	0.926	28.6	0.0	0.000	68	0.471	0.265	0.500	0.163
+A0ACE4KFX7	UniRef50_C7Z356	Sordariomycetes	yes	supported_homolog	3e-13	0.929	0.945	41.7	0.0	0.000	109	0.532	0.239	0.500	0.163
+A0ACE4KFX7	UniRef50_C7Z357	Sordariomycetes	no	supported_homolog	1.6e-09	0.592	0.409	29.5	0.0	0.000	132	0.470	0.000	0.500	0.163
+A0ACE4KFX7	UniRef50_C7ZQZ4	Sordariomycetes	no	supported_homolog	8.9e-12	0.847	0.836	37.1	0.0	0.000	110	0.518	0.291	0.500	0.163
+A0ACE4KFX7	UniRef50_G4MYZ6	Sordariomycetes	no	unsupported	1.1			9.1			141	0.440	0.099	0.500	0.163
+A0ACE4KFX7	UniRef50_G4MYZ7	Sordariomycetes	no	supported_homolog	1.8e-09	0.724	0.356	30.3	0.0	0.000	188	0.463	0.133	0.500	0.163
+A0ACE4KFX7	UniRef50_G9NA51	Sordariomycetes	no	unsupported	0.0019			12.7			128	0.531	0.656	0.500	0.163
+A0ACE4KFX7	UniRef50_K3UAP1	Sordariomycetes	no	supported_homolog	1.3e-09	0.837	0.497	29.7	0.0	0.000	157	0.439	0.146	0.500	0.163
+A0ACE4KFX7	UniRef50_K3V5D8	Sordariomycetes	no	supported_homolog	1.6e-08	0.673	0.581	26.8	0.0	0.000	117	0.590	0.453	0.500	0.163
+A0ACE4KFX7	UniRef50_L8FR57	Leotiomycetes	no	supported_homolog	9.6e-08	0.837	0.851	24.0	0.0	0.000	101	0.515	0.139	0.500	0.163
+A0ACE4KFX7	UniRef50_N1RKE8	Sordariomycetes	no	unsupported	1.2e-05			18.1			111	0.486	0.306	0.500	0.163
+A0ACE4KFX7	UniRef50_R7YX61	Dothideomycetes	no	supported_homolog	3.8e-08	0.745	0.249	25.1	0.0	0.000	535	0.609	0.693	0.500	0.163
+A0ACE4KFX7	UniRef50_R7Z2Y3	Dothideomycetes	no	unsupported							416	0.567	0.721	0.500	0.163
+A0ACE4KFX7	UniRef50_R7Z4U3	Dothideomycetes	no	supported_homolog	1.9e-09	0.898	0.933	30.7	0.0	0.000	105	0.410	0.133	0.500	0.163
+A0ACE4KFX7	UniRef50_UPI001E8E78D5	Dothideomycetes	no	supported_homolog	3e-08	0.592	0.274	26.3	0.0	0.000	197	0.396	0.000	0.500	0.163
+A0ACE4KFX7	UniRef50_W7MSG5	Sordariomycetes	no	supported_homolog	3.1e-06	0.755	0.709	19.5	0.0	0.000	117	0.581	0.547	0.500	0.163
+P32323	UniRef50_A0A0B2WP55	Sordariomycetes	no	unsupported							547	0.327	0.934	0.644	0.670
+P32323	UniRef50_A0A0C4F4K1	Pucciniomycetes	no	supported_homolog	7.8e-06	0.172	0.687	16.9	0.0	0.000	182	0.407	0.000	0.644	0.670
+P32323	UniRef50_A0A0C4FA94	Pucciniomycetes	no	unsupported							124	0.403	0.000	0.644	0.670
+P32323	UniRef50_A0A0F7ZQT4	Sordariomycetes	no	unsupported							233	0.326	0.000	0.644	0.670
+P32323	UniRef50_A0A0F8A5Q2	Sordariomycetes	no	unsupported	0.0035			-2.0			751	0.605	0.305	0.644	0.670
+P32323	UniRef50_A0A0L6WKN3	Agaricomycetes	no	unsupported	0.047			1.4			293	0.655	0.829	0.644	0.670
+P32323	UniRef50_A0A0L6X0B3	Agaricomycetes	no	unsupported							371	0.550	0.722	0.644	0.670
+P32323	UniRef50_A0A0N0RSL6	Malasseziomycetes	yes	supported_homolog	7.6e-11	0.203	0.816	37.6	0.0	0.000	293	0.741	0.754	0.644	0.670
+P32323	UniRef50_A0A0N6W8D5	Microsporidia	no	supported_homolog	3e-07	0.308	0.736	21.7	0.0	0.000	303	0.581	0.525	0.644	0.670
+P32323	UniRef50_A0A167UZ65	Agaricomycetes	no	unsupported							592	0.367	0.309	0.644	0.670
+P32323	UniRef50_A0A1R1XLW6	Kickxellomycota	no	unsupported							537	0.257	0.914	0.644	0.670
+P32323	UniRef50_A0A1R1XPV5	Kickxellomycota	no	unsupported	1.4e-11	0.179	0.215	35.6	0.0	0.000	791	0.441	0.111	0.644	0.670
+P32323	UniRef50_A0A1R1XVV2	Kickxellomycota	no	unsupported	2.5e-08	0.258	0.409	25.0	0.0	0.000	452	0.513	0.142	0.644	0.670
+P32323	UniRef50_A0A1R1YL36	Kickxellomycota	yes	supported_homolog	4.5e-13	0.310	0.671	82.8	0.0	0.000	843	0.586	0.082	0.644	0.670
+P32323	UniRef50_A0A1W2TWS0	Sordariomycetes	no	unsupported	1.4			-0.3			225	0.600	0.773	0.644	0.670
+P32323	UniRef50_A0A1Y1VVW5	Kickxellomycota	no	supported_homolog	6.6e-06	0.218	0.588	17.0	0.0	0.000	599	0.548	0.948	0.644	0.670
+P32323	UniRef50_A0A1Y2ARK5	Chytridiomycota	no	unsupported							352	0.509	0.727	0.644	0.670
+P32323	UniRef50_A0A1Y2C353	Neocallimastigomycota	no	unsupported							842	0.228	0.758	0.644	0.670
+P32323	UniRef50_A0A1Y2C3I2	Neocallimastigomycota	no	unsupported							794	0.236	0.645	0.644	0.670
+P32323	UniRef50_A0A1Y2F213	Neocallimastigomycota	no	unsupported							1535	0.373	0.300	0.644	0.670
+P32323	UniRef50_A0A2H3H9Z7	Sordariomycetes	no	unsupported							769	0.553	0.308	0.644	0.670
+P32323	UniRef50_A0A2I2F7N4	Eurotiomycetes	no	unsupported	1.4e-07	0.177	0.389	22.5	0.0	0.000	329	0.532	0.219	0.644	0.670
+P32323	UniRef50_A0A2L2TCL4	Sordariomycetes	no	unsupported							470	0.298	0.749	0.644	0.670
+P32323	UniRef50_A0A371CMS6	Agaricomycetes	no	supported_homolog	2.1e-06	0.148	0.897	18.8	0.0	0.000	116	0.440	0.000	0.644	0.670
+P32323	UniRef50_A0A384JLV6	Leotiomycetes	no	unsupported	0.0013			10.7			1195	0.469	0.083	0.644	0.670
+P32323	UniRef50_A0A3N4KBM5	Pezizomycetes	no	supported_homolog	2.3e-07	0.261	0.708	26.6	0.0	0.000	672	0.446	0.457	0.644	0.670
+P32323	UniRef50_A0A3N4KUM1	Pezizomycetes	no	unsupported	0.00012			7.3			526	0.409	0.481	0.644	0.670
+P32323	UniRef50_A0A433QQK5	Mucoromycota	no	unsupported	6.5e-09	0.284	0.399	26.9	0.0	0.000	795	0.467	0.196	0.644	0.670
+P32323	UniRef50_A0A443HZD8	Eurotiomycetes	no	unsupported							1040	0.343	0.130	0.644	0.670
+P32323	UniRef50_A0A4P9XRY6	Zoopagomycota	no	unsupported	6.3e-05			13.8			167	0.647	0.731	0.644	0.670
+P32323	UniRef50_A0A4Q9LDI0	Microsporidia	no	unsupported	0.00081			2.3			322	0.571	0.447	0.644	0.670
+P32323	UniRef50_A0A4S8MRK7	Agaricomycetes	no	unsupported							800	0.371	0.290	0.644	0.670
+P32323	UniRef50_A0A4T0VDA0	Sordariomycetes	no	supported_homolog	6e-10	0.164	0.888	30.6	0.0	0.000	134	0.619	0.000	0.644	0.670
+P32323	UniRef50_A0A550BTJ5	Agaricomycetes	no	unsupported	8.1e-11	0.190	0.481	33.5	0.0	0.000	293	0.495	0.457	0.644	0.670
+P32323	UniRef50_A0A5C3F8F0	Ustilaginomycetes	no	unsupported							800	0.606	0.564	0.644	0.670
+P32323	UniRef50_A0A5M8PJY8	Lecanoromycetes	no	unsupported	3.3e-07	0.199	0.478	22.0	0.0	0.000	301	0.409	0.093	0.644	0.670
+P32323	UniRef50_A0A8H3GT23	Agaricomycetes	no	unsupported							309	0.366	0.000	0.644	0.670
+P32323	UniRef50_A0A8H5CT89	Agaricomycetes	no	unsupported	1.4e-08	0.259	0.332	25.8	0.0	0.000	572	0.526	0.337	0.644	0.670
+P32323	UniRef50_A0A8H7ZV30	Olpidiomycota	no	unsupported	0.00018			14.5			639	0.438	0.277	0.644	0.670
+P32323	UniRef50_A0A915YVT3	Glomeromycota	no	unsupported							345	0.223	0.191	0.644	0.670
+P32323	UniRef50_A0A9N8WGL4	Glomeromycota	no	supported_homolog	2.3e-09	0.217	0.738	28.7	0.0	0.000	206	0.612	0.578	0.644	0.670
+P32323	UniRef50_A0A9N9CND6	Glomeromycota	yes	supported_homolog	4.3e-12	0.203	0.549	47.6	0.0	0.000	608	0.373	0.817	0.644	0.670
+P32323	UniRef50_A0A9N9DVV4	Glomeromycota	no	unsupported							236	0.229	0.767	0.644	0.670
+P32323	UniRef50_A0A9P6ACP4	Agaricomycetes	no	unsupported	0.00016			13.4			184	0.560	0.136	0.644	0.670
+P32323	UniRef50_A0A9P6AU68	Agaricomycetes	no	supported_homolog	4.3e-08	0.268	0.946	24.3	0.0	0.000	204	0.402	0.000	0.644	0.670
+P32323	UniRef50_A0A9P6DIE4	Agaricomycetes	no	unsupported	4.4e-05			20.9			359	0.334	0.000	0.644	0.670
+P32323	UniRef50_A0A9P6M0J8	Mortierellomycota	no	unsupported	0.37			1.5			193	0.756	0.788	0.644	0.670
+P32323	UniRef50_A0A9P7MVL4	Sordariomycetes	no	unsupported							1187	0.606	0.154	0.644	0.670
+P32323	UniRef50_A0A9P7T1M3	Sordariomycetes	no	unsupported							936	0.611	0.447	0.644	0.670
+P32323	UniRef50_A0A9Q3BEK8	Pucciniomycetes	no	unsupported							772	0.556	0.212	0.644	0.670
+P32323	UniRef50_A0A9W4U9E4	Dothideomycetes	no	unsupported							530	0.317	0.257	0.644	0.670
+P32323	UniRef50_A0A9W8GR73	Kickxellomycota	no	unsupported							354	0.743	0.766	0.644	0.670
+P32323	UniRef50_A0A9W8KDL0	Kickxellomycota	no	unsupported							340	0.618	0.932	0.644	0.670
+P32323	UniRef50_A0A9W8L0X9	Kickxellomycota	no	unsupported							534	0.640	0.964	0.644	0.670
+P32323	UniRef50_A0A9W9RAC2	Eurotiomycetes	no	unsupported							918	0.609	0.441	0.644	0.670
+P32323	UniRef50_A0AAD5P7V1	Mucoromycota	no	unsupported							1307	0.291	0.161	0.644	0.670
+P32323	UniRef50_A0AAJ0CWV5	Sordariomycetes	no	unsupported	2.8e-07	0.219	0.353	21.5	0.0	0.000	1159	0.525	0.183	0.644	0.670
+P32323	UniRef50_A0AAW0RA89	Sordariomycetes	no	unsupported	0.0007			10.8			327	0.385	0.232	0.644	0.670
+P32323	UniRef50_T5AAI8	Sordariomycetes	no	unsupported							530	0.289	0.000	0.644	0.670
+P32323	UniRef50_T5AP52	Sordariomycetes	yes	unsupported	5.2e-14	0.206	0.370	43.7	0.0	0.000	403	0.531	0.395	0.644	0.670
+P32323	UniRef50_UPI002301AEC0	Mucoromycota	no	unsupported	0.004			4.0			479	0.424	0.731	0.644	0.670
+P32323	UniRef50_UPI00312DCA7B	Sordariomycetes	no	unsupported							564	0.436	0.050	0.644	0.670
+P32323	UniRef50_UPI00336448DE	Dothideomycetes	no	unsupported							480	0.346	0.148	0.644	0.670
+P32323	UniRef50_W9ZCZ7	Sordariomycetes	no	unsupported							551	0.537	0.229	0.644	0.670
+Q07730	UniRef50_A0A015LKC8	Glomeromycota	no	unsupported							368	0.351	0.000	0.310	0.107
+Q07730	UniRef50_A0A015M2D7	Glomeromycota	no	unsupported							647	0.408	0.536	0.310	0.107
+Q07730	UniRef50_A0A067SQK7	Agaricomycetes	no	unsupported	0.0068			10.3			146	0.308	0.000	0.310	0.107
+Q07730	UniRef50_A0A074VQ75	Dothideomycetes	no	unsupported							375	0.437	0.432	0.310	0.107
+Q07730	UniRef50_A0A074XZN9	Dothideomycetes	no	unsupported							1043	0.513	0.581	0.310	0.107
+Q07730	UniRef50_A0A074YBW6	Dothideomycetes	no	unsupported							1427	0.507	0.474	0.310	0.107
+Q07730	UniRef50_A0A074YKJ4	Dothideomycetes	no	unsupported							344	0.442	0.608	0.310	0.107
+Q07730	UniRef50_A0A094EIW8	Leotiomycetes	no	unsupported							1365	0.359	0.262	0.310	0.107
+Q07730	UniRef50_A0A0C2W488	Agaricomycetes	no	unsupported							489	0.352	0.112	0.310	0.107
+Q07730	UniRef50_A0A0C2WD77	Agaricomycetes	no	unsupported							243	0.333	0.255	0.310	0.107
+Q07730	UniRef50_A0A0C2WUG4	Agaricomycetes	no	unsupported							1095	0.270	0.034	0.310	0.107
+Q07730	UniRef50_A0A0C2WY68	Agaricomycetes	no	unsupported							492	0.272	0.173	0.310	0.107
+Q07730	UniRef50_A0A0C2X8W1	Agaricomycetes	no	unsupported							163	0.374	0.000	0.310	0.107
+Q07730	UniRef50_A0A0C3AMN7	Agaricomycetes	no	unsupported							1904	0.244	0.033	0.310	0.107
+Q07730	UniRef50_A0A0C3AYU8	Agaricomycetes	no	unsupported							462	0.275	0.028	0.310	0.107
+Q07730	UniRef50_A0A0D0ADV4	Agaricomycetes	no	unsupported							372	0.427	0.000	0.310	0.107
+Q07730	UniRef50_A0A0E9NBT7	Taphrinomycotina	no	unsupported							1291	0.466	0.349	0.310	0.107
+Q07730	UniRef50_A0A0L0H4S7	Chytridiomycota	no	unsupported							589	0.278	0.093	0.310	0.107
+Q07730	UniRef50_A0A137P7Z1	Entomophthoromycota	no	unsupported							584	0.296	0.248	0.310	0.107
+Q07730	UniRef50_A0A1D9QHN1	(no clade)	no	unsupported							1430	0.380	0.164	0.310	0.107
+Q07730	UniRef50_A0A1F7ZYN3	Eurotiomycetes	no	unsupported							1181	0.362	0.163	0.310	0.107
+Q07730	UniRef50_A0A1J9RDN1	Dothideomycetes	no	unsupported							2613	0.525	0.543	0.310	0.107
+Q07730	UniRef50_A0A1Y1V2Y1	Neocallimastigomycota	no	unsupported							133	0.391	0.000	0.310	0.107
+Q07730	UniRef50_A0A1Y1V5Q6	Neocallimastigomycota	no	unsupported							990	0.185	0.254	0.310	0.107
+Q07730	UniRef50_A0A1Y1V965	Neocallimastigomycota	no	unsupported							305	0.567	0.154	0.310	0.107
+Q07730	UniRef50_A0A1Y1WQP0	Neocallimastigomycota	no	unsupported							2716	0.318	0.573	0.310	0.107
+Q07730	UniRef50_A0A1Y1XWP8	Basidiobolomycota	no	unsupported							911	0.246	0.615	0.310	0.107
+Q07730	UniRef50_A0A1Y3N4D1	Neocallimastigomycota	no	unsupported							706	0.357	0.106	0.310	0.107
+Q07730	UniRef50_A0A1Y6L8K8	Dothideomycetes	no	unsupported							5783	0.579	0.225	0.310	0.107
+Q07730	UniRef50_A0A2H1FQ53	Dothideomycetes	no	unsupported							4026	0.580	0.167	0.310	0.107
+Q07730	UniRef50_A0A2I1HAL6	Glomeromycota	no	unsupported							132	0.341	0.000	0.310	0.107
+Q07730	UniRef50_A0A2K1QVJ3	Dothideomycetes	no	unsupported							2094	0.519	0.301	0.310	0.107
+Q07730	UniRef50_A0A2P4PEL4	Glomeromycota	no	unsupported							263	0.346	0.000	0.310	0.107
+Q07730	UniRef50_A0A2P8AFV0	Dothideomycetes	no	unsupported							1688	0.531	0.348	0.310	0.107
+Q07730	UniRef50_A0A316V0P6	Exobasidiomycetes	no	unsupported							686	0.534	0.501	0.310	0.107
+Q07730	UniRef50_A0A316VG11	Exobasidiomycetes	no	unsupported							1193	0.508	0.316	0.310	0.107
+Q07730	UniRef50_A0A384JVR7	Leotiomycetes	no	unsupported							1128	0.344	0.053	0.310	0.107
+Q07730	UniRef50_A0A395NVT4	Sordariomycetes	no	unsupported							1890	0.350	0.051	0.310	0.107
+Q07730	UniRef50_A0A397HME7	Glomeromycota	no	unsupported							515	0.386	0.000	0.310	0.107
+Q07730	UniRef50_A0A397TJP8	Glomeromycota	no	unsupported							238	0.345	0.000	0.310	0.107
+Q07730	UniRef50_A0A3M7N2P8	Eurotiomycetes	no	unsupported							316	0.430	0.797	0.310	0.107
+Q07730	UniRef50_A0A3N4IKI3	Pezizomycetes	no	unsupported							631	0.304	0.111	0.310	0.107
+Q07730	UniRef50_A0A3N4KTF1	Pezizomycetes	no	unsupported							864	0.522	0.432	0.310	0.107
+Q07730	UniRef50_A0A420I831	Leotiomycetes	no	unsupported							439	0.428	0.112	0.310	0.107
+Q07730	UniRef50_A0A432ZY79	Mucoromycota	no	unsupported							445	0.299	0.027	0.310	0.107
+Q07730	UniRef50_A0A4P9Z272	Zoopagomycota	no	unsupported							661	0.283	0.000	0.310	0.107
+Q07730	UniRef50_A0A4T0EEJ5	Dothideomycetes	no	unsupported							309	0.456	0.463	0.310	0.107
+Q07730	UniRef50_A0A4Y9Y9J6	Agaricomycetes	no	unsupported							1031	0.346	0.044	0.310	0.107
+Q07730	UniRef50_A0A4Z1ESA9	Leotiomycetes	no	unsupported							1265	0.336	0.032	0.310	0.107
+Q07730	UniRef50_A0A4Z1IRS9	Leotiomycetes	no	unsupported							985	0.333	0.068	0.310	0.107
+Q07730	UniRef50_A0A4Z1J3U5	Leotiomycetes	no	unsupported							241	0.485	0.564	0.310	0.107
+Q07730	UniRef50_A0A5C3F630	Ustilaginomycetes	no	unsupported							696	0.382	0.484	0.310	0.107
+Q07730	UniRef50_A0A5N6XIU9	Eurotiomycetes	no	unsupported							1238	0.373	0.162	0.310	0.107
+Q07730	UniRef50_A0A6P8AQC1	Sordariomycetes	no	unsupported							5534	0.562	0.206	0.310	0.107
+Q07730	UniRef50_A0A8E2ASY8	Agaricomycetes	no	unsupported							238	0.408	0.000	0.310	0.107
+Q07730	UniRef50_A0A8E5HRJ9	Sordariomycetes	no	unsupported							1010	0.360	0.155	0.310	0.107
+Q07730	UniRef50_A0A8H6YHG7	Agaricomycetes	no	unsupported							3191	0.441	0.256	0.310	0.107
+Q07730	UniRef50_A0A8H7C112	Agaricomycetes	no	unsupported							2159	0.324	0.211	0.310	0.107
+Q07730	UniRef50_A0A8H7PQA1	Mucoromycota	no	unsupported							717	0.258	0.092	0.310	0.107
+Q07730	UniRef50_A0A8H7SNU4	Mucoromycota	no	unsupported							1164	0.385	0.297	0.310	0.107
+Q07730	UniRef50_A0A8H7XGS2	Leotiomycetes	no	unsupported							632	0.509	0.443	0.310	0.107
+Q07730	UniRef50_A0A8J5NXK0	Sordariomycetes	no	unsupported	0.074			8.1			190	0.053	0.879	0.310	0.107
+Q07730	UniRef50_A0A8K0UUD6	Agaricomycetes	no	unsupported							461	0.334	0.074	0.310	0.107
+Q07730	UniRef50_A0A8K0W027	Dothideomycetes	no	unsupported							945	0.422	0.145	0.310	0.107
+Q07730	UniRef50_A0A9N8W4W8	Glomeromycota	no	unsupported							462	0.366	0.000	0.310	0.107
+Q07730	UniRef50_A0A9N8W7D1	Glomeromycota	no	unsupported							790	0.509	0.039	0.310	0.107
+Q07730	UniRef50_A0A9N8Z4E2	Glomeromycota	no	unsupported							513	0.320	0.000	0.310	0.107
+Q07730	UniRef50_A0A9N9BSF4	Glomeromycota	no	unsupported							656	0.470	0.140	0.310	0.107
+Q07730	UniRef50_A0A9N9NDA6	Glomeromycota	no	unsupported							761	0.480	0.469	0.310	0.107
+Q07730	UniRef50_A0A9N9ZMX8	Sordariomycetes	no	unsupported							2332	0.499	0.397	0.310	0.107
+Q07730	UniRef50_A0A9P4MSW3	Dothideomycetes	no	unsupported							133	0.496	0.211	0.310	0.107
+Q07730	UniRef50_A0A9P4QII4	Dothideomycetes	no	unsupported							325	0.511	0.206	0.310	0.107
+Q07730	UniRef50_A0A9P4TBB1	Dothideomycetes	no	unsupported							2229	0.468	0.246	0.310	0.107
+Q07730	UniRef50_A0A9P5SWY2	Mortierellomycota	no	unsupported							397	0.249	0.239	0.310	0.107
+Q07730	UniRef50_A0A9P6QE58	Mortierellomycota	no	unsupported							451	0.268	0.082	0.310	0.107
+Q07730	UniRef50_A0A9P6QMW9	Mortierellomycota	no	unsupported							1024	0.305	0.063	0.310	0.107
+Q07730	UniRef50_A0A9P6UTA0	Mortierellomycota	no	unsupported							590	0.356	0.068	0.310	0.107
+Q07730	UniRef50_A0A9P8F1H4	Dothideomycetes	no	unsupported							380	0.408	0.287	0.310	0.107
+Q07730	UniRef50_A0A9P8J5S7	Dothideomycetes	no	unsupported							1234	0.485	0.590	0.310	0.107
+Q07730	UniRef50_A0A9P8KKT4	Dothideomycetes	no	unsupported							1308	0.501	0.152	0.310	0.107
+Q07730	UniRef50_A0A9P9A158	Sordariomycetes	no	unsupported							207	0.527	0.541	0.310	0.107
+Q07730	UniRef50_A0A9Q0BBF5	Sordariomycetes	no	unsupported	0.012			4.5			274	0.310	0.730	0.310	0.107
+Q07730	UniRef50_A0A9Q8PAV4	Dothideomycetes	no	unsupported							620	0.508	0.189	0.310	0.107
+Q07730	UniRef50_A0A9Q9ARC3	Dothideomycetes	no	unsupported							793	0.385	0.144	0.310	0.107
+Q07730	UniRef50_A0A9W4XLC4	Dothideomycetes	no	unsupported							1090	0.424	0.101	0.310	0.107
+Q07730	UniRef50_A0A9W8LGD9	Kickxellomycota	no	unsupported							565	0.386	0.175	0.310	0.107
+Q07730	UniRef50_A0A9W9K062	Eurotiomycetes	no	unsupported							1092	0.360	0.160	0.310	0.107
+Q07730	UniRef50_A0AA39GBH9	Sordariomycetes	no	unsupported							3162	0.512	0.189	0.310	0.107
+Q07730	UniRef50_A0AA39R132	Lecanoromycetes	no	unsupported							1310	0.547	0.233	0.310	0.107
+Q07730	UniRef50_A0AA43QLV7	Lecanoromycetes	no	unsupported							1433	0.545	0.138	0.310	0.107
+Q07730	UniRef50_A0AA45APX0	Sordariomycetes	no	unsupported							3611	0.528	0.268	0.310	0.107
+Q07730	UniRef50_A0AAD2GXK4	Agaricomycetes	no	unsupported							811	0.388	0.393	0.310	0.107
+Q07730	UniRef50_A0AAD2H2E3	Agaricomycetes	no	unsupported							3433	0.448	0.656	0.310	0.107
+Q07730	UniRef50_A0AAD2HBR4	Agaricomycetes	no	unsupported							1079	0.450	0.716	0.310	0.107
+Q07730	UniRef50_A0AAD5S840	Chytridiomycota	no	unsupported							1026	0.354	0.218	0.310	0.107
+Q07730	UniRef50_A0AAD6SJ17	Agaricomycetes	no	unsupported							1269	0.504	0.347	0.310	0.107
+Q07730	UniRef50_A0AAD7ARP2	Agaricomycetes	no	unsupported							633	0.457	0.390	0.310	0.107
+Q07730	UniRef50_A0AAD7GFW7	Agaricomycetes	no	unsupported							890	0.343	0.000	0.310	0.107
+Q07730	UniRef50_A0AAE0N208	Sordariomycetes	no	unsupported							332	0.184	0.000	0.310	0.107
+Q07730	UniRef50_A0AAI8VXZ7	Sordariomycetes	no	unsupported							245	0.502	0.171	0.310	0.107
+Q07730	UniRef50_A0AAJ0HGY4	Sordariomycetes	no	unsupported							1621	0.293	0.096	0.310	0.107
+Q07730	UniRef50_A0AAJ5YUQ8	Malasseziomycetes	no	unsupported							1129	0.397	0.084	0.310	0.107
+Q07730	UniRef50_A0AAN8A3A9	Dothideomycetes	no	unsupported							306	0.490	0.497	0.310	0.107
+Q07730	UniRef50_A0AAN8RDY0	Orbiliomycetes	no	unsupported							582	0.473	0.440	0.310	0.107
+Q07730	UniRef50_A0AAV9P4U9	Dothideomycetes	no	unsupported							403	0.357	0.216	0.310	0.107
+Q07730	UniRef50_B0D2Y2	Agaricomycetes	no	unsupported							187	0.353	0.064	0.310	0.107
+Q07730	UniRef50_B0D2Y3	Agaricomycetes	no	unsupported							399	0.361	0.060	0.310	0.107
+Q07730	UniRef50_B6HWC4	Eurotiomycetes	no	unsupported							325	0.566	0.040	0.310	0.107
+Q07730	UniRef50_G2X2X7	Sordariomycetes	no	unsupported							2132	0.534	0.319	0.310	0.107
+Q07730	UniRef50_G4N9C2	Sordariomycetes	no	unsupported							3927	0.546	0.261	0.310	0.107
+Q07730	UniRef50_K2R5G1	Dothideomycetes	no	unsupported							843	0.482	0.307	0.310	0.107
+Q07730	UniRef50_K2RDT3	Dothideomycetes	no	unsupported							483	0.495	0.273	0.310	0.107
+Q07730	UniRef50_Q0CZ40	Eurotiomycetes	no	unsupported							1150	0.339	0.151	0.310	0.107
+Q07730	UniRef50_U4KW29	Pezizomycetes	no	unsupported							1257	0.492	0.346	0.310	0.107
+Q07730	UniRef50_UPI0011542B87	Sordariomycetes	no	unsupported							6495	0.565	0.291	0.310	0.107
+Q07730	UniRef50_UPI00190800A2	Agaricomycetes	no	unsupported							388	0.206	0.000	0.310	0.107
+Q07730	UniRef50_UPI001C802124	Sordariomycetes	no	unsupported							253	0.206	0.763	0.310	0.107
+Q07730	UniRef50_UPI001E8ED094	Pezizomycetes	no	unsupported							1337	0.512	0.561	0.310	0.107
+Q07730	UniRef50_UPI0020073A19	Sordariomycetes	no	unsupported							482	0.440	0.054	0.310	0.107
+Q07730	UniRef50_UPI0022FEF3F8	Chytridiomycota	no	unsupported							666	0.308	0.113	0.310	0.107
+Q07730	UniRef50_UPI0022FF2072	Chytridiomycota	no	unsupported							703	0.235	0.216	0.310	0.107
+Q07730	UniRef50_UPI002300BE51	Mucoromycota	no	unsupported							406	0.392	0.365	0.310	0.107
+Q07730	UniRef50_UPI0023054D40	Pucciniomycetes	no	unsupported							270	0.415	0.630	0.310	0.107
+Q07730	UniRef50_UPI003743CBD4	Calcarisporiellomycota	no	unsupported							718	0.338	0.063	0.310	0.107
+Q07730	UniRef50_W3XJ99	Sordariomycetes	no	unsupported							292	0.486	0.452	0.310	0.107
+Q07730	UniRef50_W7I847	Orbiliomycetes	no	unsupported							743	0.323	0.086	0.310	0.107
