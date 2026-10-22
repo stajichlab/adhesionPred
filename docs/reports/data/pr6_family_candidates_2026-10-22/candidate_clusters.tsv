@@ -1,0 +1,27 @@
+slice	cluster_id	group	genes	clades_fine	strata_fine	jgi_accept	n_members	candidate_families	rule
+wall	KS0007	W6_processing_and_other	kex2,kexB_Afu4g12970	Eurotiomycetes,Saccharomycotina	shared	,row_verified	3	PF00082	evalue
+wall	KS0009	W3_beta16_glucan_kre_family	kre5	Saccharomycotina	clade_only	row_verified	1	PF18404	evalue
+wall	KS0010	W3_beta16_glucan_kre_family	kre6	Saccharomycotina	clade_only	row_verified	1	PF03935	coverage+evalue
+wall	KS0016	W1_glycosylation_and_glycan_supply	AGOS_ABL085W,AGOS_ADR279C,BATDEDRAFT_35524,NCU09332,UM05433,pmt1,pmt4,pmt4_Afu8g04500	Chytridiomycota,Eurotiomycetes,Saccharomycotina,Sordariomycetes,Ustilaginomycetes	shared	,locus_confirmed,row_verified	9	PF02366;PF16192	evalue
+fusion	KS0030	F1_pheromone_receptors	ste2	Saccharomycotina	clade_only	row_verified	1	PF02116	coverage+evalue
+wall	KS0034	W1_glycosylation_and_glycan_supply	gfa1,gfa1_Afu6g06340	Eurotiomycetes,Saccharomycotina	shared	,row_verified	2	PF01380	evalue
+wall	KS0035	W1_glycosylation_and_glycan_supply	ACR290W,BATDEDRAFT_20500,CND01240,NCU01648,pmt2,pmt2_Afu1g07690	Chytridiomycota,Eurotiomycetes,Saccharomycotina,Sordariomycetes,Tremellomycetes	shared	,locus_confirmed,row_verified	6	PF02366;PF16192	evalue
+wall	KS0063	W2_chitin_synthase_regulation	chs5	Saccharomycotina	clade_only	row_verified	2	PF16893	evalue
+fusion	KS0067	F1_pheromone_receptors	preA_Afu5g07880,ste3	Eurotiomycetes,Saccharomycotina	shared	,row_verified	2	PF02076	coverage+evalue
+wall	KS0072	W3_beta16_glucan_kre_family	kre1	Saccharomycotina	clade_only	row_verified	1	PF17056	coverage
+fusion	KS0079	F1_pheromone_receptors	pra1	Ustilaginomycetes	shared	row_verified	1	PF02076	coverage+evalue
+wall	KS0088	W2_chitin_synthase_regulation	chs7	Saccharomycotina,Sordariomycetes	shared	row_verified	2	PF12271	coverage+evalue
+wall	KS0091	W2_chitin_synthase_regulation	chs6	Saccharomycotina	clade_only	row_verified	1	PF09295	evalue
+wall	KS0112	W3_beta16_glucan_kre_family	neg1	Sordariomycetes	clade_only	portal_validated	1	PF02055	coverage+evalue
+wall	KS0114	W1_glycosylation_and_glycan_supply	cwh41_Afu6g04210	Eurotiomycetes	clade_only		1	PF03200;PF16923	coverage+evalue;evalue
+wall	KS0115	W4_alpha13_glucan_and_other_synthases	ags1_Afu3g00910,ags2_Afu2g11270	Eurotiomycetes	clade_only		2	PF26108;PF26111;PF26114;PF26122;PF26127	evalue
+wall	KS0119	W6_processing_and_other	orlA_Afu3g05650,tps2	Eurotiomycetes,Saccharomycotina	shared	,row_verified	2	PF00982;PF02358	evalue
+adhesion	KS0120	A4_adhesion_singletons	glfB_Afu3g12700	Eurotiomycetes	clade_only		1	PF03151	coverage
+adhesion	KS0127	A2_yeast_surface_adhesin_like	iff4	Saccharomycotina	clade_only	row_verified	1	PF11765	evalue
+fusion	KS0138	F2_so_fusion	so_soft	Sordariomycetes	clade_only	row_verified	1	PF19050	evalue
+adhesion	KS0143	A1_hydrophobin_like	rep1	Ustilaginomycetes	clade_only	row_verified	1	PF29797	coverage+evalue
+wall	KS0146	W4_alpha13_glucan_and_other_synthases	cps1	Sordariomycetes	clade_only	portal_validated	1	PF13641	coverage
+wall	KS0147	W1_glycosylation_and_glycan_supply	cot-5	Sordariomycetes	clade_only	portal_validated	1	PF00534	evalue
+adhesion	KS0149	A3_neurospora_lectins	ncl1	Sordariomycetes	clade_only	portal_validated	1	PF03388	coverage+evalue
+adhesion	KS0150	A3_neurospora_lectins	ncl3	Sordariomycetes	clade_only	portal_validated	1	PF01828	coverage
+adhesion	KS0151	A3_neurospora_lectins	ncl2	Sordariomycetes	clade_only	portal_validated	1	PF01828	coverage+evalue
