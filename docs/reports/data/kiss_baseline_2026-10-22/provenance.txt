@@ -1,0 +1,13 @@
+job: kiss_baseline (plan Task 5.4)
+commit: 9472e32e319a213211a69051f87208c8ff2a3f5f (pinned: 9472e32e319a213211a69051f87208c8ff2a3f5f)
+hmmer: # HMMER 3.4 (Aug 2023); http://hmmer.org/
+python: Python 3.12.13
+pfam_hmm: /srv/projects/db/pfam/current/Pfam-A.hmm
+pfam_resolved: /bigdata/operations/pkgadmin/srv/projects/db/pfam/2026-01-27-Pfam38.2/Pfam-A.hmm
+pfam_release: 38.2
+pfam_sha256: 4b0da6399b97d2b23329de82190b2e5705bde1dea4cb2d028a52712d5966739e
+pfam_sha256_same_as_earlier_jobs: yes (earlier: 4b0da6399b97d2b23329de82190b2e5705bde1dea4cb2d028a52712d5966739e)
+models: 39 (with GA 39, without GA 0)
+input kiss_sequences.faa sha256 66af609eeea24212f7813918fd5957489ded4e4e45792deadd955a0a93bacdf6
+input family_rep_sequences.faa sha256 1fa26c78a81f7bb0bf6bbd94891cadccb0d05d953e5f77e71b0722a6b5f79a8f
+settings: hmmsearch --cut_ga (models with a GA line); -E 1e-5 --domE 1e-5 only for a model without GA

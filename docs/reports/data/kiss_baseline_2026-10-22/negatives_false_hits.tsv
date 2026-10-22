@@ -1,0 +1,79 @@
+model	model_set	cluster_composition	n_negatives	n_hit	n_hit_clusters	hit_accessions
+PF00150	wall_fusion	negative_only	128	6	3	P07982,Q4WBS1,Q5B6Q3,Q66NB7,Q7SDR1,Q99036
+PF00150	wall_fusion	mixed	33	4	2	P0C7S9,P23776#neg,Q9URU6,Q9Y7Y7
+PF00332	wall_fusion	negative_only	128	0	0	
+PF00332	wall_fusion	mixed	33	1	1	Q5AUT0
+PF00624	family	negative_only	128	0	0	
+PF00624	family	mixed	33	0	0	
+PF00704	wall_fusion	negative_only	128	11	5	A0A385MIS5,A6N6J0,G2XF09,G5EAZ3,O14456,O74199,P0CB51,P48827,Q1E3R8,Q4U4T0,Q8NJQ5
+PF00704	wall_fusion	mixed	33	4	2	G5EB30,P29029#neg,Q12713,Q873Y0
+PF00722	wall_fusion	negative_only	128	0	0	
+PF00722	wall_fusion	mixed	33	11	2	A0A384J6C4,A0A384JN58,A0A384K116,A0A384K4T0,P32623#neg,P53301#neg,Q4WD22,Q4WI46,Q4WMW2,Q4WXE6,Q8J0P4
+PF01185	family	negative_only	128	0	0	
+PF01185	family	mixed	33	0	0	
+PF01522	wall_fusion	negative_only	128	3	1	G2X9U7,Q5AQQ0,Q6DWK3
+PF01522	wall_fusion	mixed	33	0	0	
+PF01644	wall_fusion	negative_only	128	0	0	
+PF01644	wall_fusion	mixed	33	0	0	
+PF02364	wall_fusion	negative_only	128	0	0	
+PF02364	wall_fusion	mixed	33	0	0	
+PF03142	wall_fusion	negative_only	128	0	0	
+PF03142	wall_fusion	mixed	33	0	0	
+PF03198	wall_fusion	negative_only	128	0	0	
+PF03198	wall_fusion	mixed	33	4	1	P0C7S9,P0C954,P22146#neg,Q9Y7Y7
+PF03663	wall_fusion	negative_only	128	0	0	
+PF03663	wall_fusion	mixed	33	0	0	
+PF03856	wall_fusion	negative_only	128	0	0	
+PF03856	wall_fusion	mixed	33	1	1	P53616
+PF05390	wall_fusion	negative_only	128	0	0	
+PF05390	wall_fusion	mixed	33	1	1	P39005
+PF05730	family	negative_only	128	16	12	G2WYA4,G2WYV9,G2X5B6,G2X658,G2X659,G2X962,G2XB57,I1RAQ3,I1REI8,I1RET0,K1WG73,K1XT82,K1XVG1,K1XW16,Q4WMA6,Q4WNE1
+PF05730	family	mixed	33	1	1	Q4WLB9#neg
+PF05792	family	negative_only	128	0	0	
+PF05792	family	mixed	33	0	0	
+PF06766	family	negative_only	128	0	0	
+PF06766	family	mixed	33	0	0	
+PF07691	family	negative_only	128	4	1	Q4WA69,Q4WL79,Q4WLY1,Q4WU49
+PF07691	family	mixed	33	0	0	
+PF07983	wall_fusion	negative_only	128	0	0	
+PF07983	wall_fusion	mixed	33	1	1	P22146#neg
+PF08407	wall_fusion	negative_only	128	0	0	
+PF08407	wall_fusion	mixed	33	0	0	
+PF10182	family	negative_only	128	0	0	
+PF10182	family	mixed	33	0	0	
+PF10287	wall_fusion	negative_only	128	0	0	
+PF10287	wall_fusion	mixed	33	0	0	
+PF10290	wall_fusion	negative_only	128	0	0	
+PF10290	wall_fusion	mixed	33	0	0	
+PF10342	wall_fusion	negative_only	128	0	0	
+PF10342	wall_fusion	mixed	33	1	1	P39005
+PF10528	family	negative_only	128	1	1	G2WSY1
+PF10528	family	mixed	33	0	0	
+PF11766	family	negative_only	128	0	0	
+PF11766	family	mixed	33	0	0	
+PF12296	family	negative_only	128	1	1	B6QUR1
+PF12296	family	mixed	33	0	0	
+PF12351	wall_fusion	negative_only	128	0	0	
+PF12351	wall_fusion	mixed	33	0	0	
+PF12454	wall_fusion	negative_only	128	0	0	
+PF12454	wall_fusion	mixed	33	1	1	Q4WNS8
+PF13928	family	negative_only	128	0	0	
+PF13928	family	mixed	33	0	0	
+PF15789	family	negative_only	128	0	0	
+PF15789	family	mixed	33	0	0	
+PF22354	family	negative_only	128	0	0	
+PF22354	family	mixed	33	0	0	
+PF22799	family	negative_only	128	1	1	G2WTI6
+PF22799	family	mixed	33	3	1	P32478,P47001,Q03178
+PF27758	wall_fusion	negative_only	128	0	0	
+PF27758	wall_fusion	mixed	33	0	0	
+PF28987	family	negative_only	128	0	0	
+PF28987	family	mixed	33	0	0	
+PF29465	family	negative_only	128	0	0	
+PF29465	family	mixed	33	0	0	
+PF29664	wall_fusion	negative_only	128	0	0	
+PF29664	wall_fusion	mixed	33	1	1	Q5AUT0
+PF29785	family	negative_only	128	0	0	
+PF29785	family	mixed	33	0	0	
+PF29802	family	negative_only	128	0	0	
+PF29802	family	mixed	33	0	0	

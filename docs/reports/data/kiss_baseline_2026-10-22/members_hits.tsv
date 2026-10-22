@@ -1,0 +1,133 @@
+accession	gene	species	slice	cluster_id	clade_fine	seed_class_slice	seed_class_all39	hit_own_slice_models	hit_other_slice_models	hit_fusion_models	models_hit
+A0A0D1BZL3	hum2	Mycosarcoma maydis	adhesion	KS0002	Ustilaginomycetes	seed-like	seed-like	yes	no	no	PF01185
+A0A1D8PCT0	gsc1	Candida albicans	wall	KS0005	Saccharomycotina	seed-like	seed-like	yes	no	no	PF02364
+O74475	bgs4	Schizosaccharomyces pombe	wall	KS0005	Taphrinomycotina	seed-like	seed-like	yes	no	no	PF02364
+P38631	fks1	Saccharomyces cerevisiae	wall	KS0005	Saccharomycotina	seed-like	seed-like	yes	no	no	PF02364
+Q10287	bgs1	Schizosaccharomyces pombe	wall	KS0005	Taphrinomycotina	seed-like	seed-like	yes	no	no	PF02364
+Q4WLT4	fks1_Afu6g12400	Aspergillus fumigatus	wall	KS0005	Eurotiomycetes	seed-like	seed-like	yes	no	no	PF02364
+jgi:Neucr2:9773	fks1	Neurospora crassa	wall	KS0005	Sordariomycetes	seed-like	seed-like	yes	no	no	PF02364
+A0A1D8PE53	smi1	Candida albicans	wall	KS0006	Saccharomycotina	seed-independent	seed-independent	no	no	no	
+P38678	cot-2/gs-1	Neurospora crassa	wall	KS0006	Sordariomycetes	seed-independent	seed-independent	no	no	no	
+A0A1D8PEG3	kex2	Candida albicans	wall	KS0007	Saccharomycotina	seed-independent	seed-independent	no	no	no	
+P13134	kex2	Saccharomyces cerevisiae	wall	KS0007	Saccharomycotina	seed-independent	seed-independent	no	no	no	
+Q4WQI8	kexB_Afu4g12970	Aspergillus fumigatus	wall	KS0007	Eurotiomycetes	seed-independent	seed-independent	no	no	no	
+A0A1D8PJ29	chs8	Candida albicans	wall	KS0008	Saccharomycotina	seed-like	seed-like	yes	no	no	PF01644,PF03142,PF08407
+A0A1D8PTV3	chs2	Candida albicans	wall	KS0008	Saccharomycotina	seed-like	seed-like	yes	no	no	PF01644,PF03142,PF08407
+P54267	chsG_Afu3g14420	Aspergillus fumigatus	wall	KS0008	Eurotiomycetes	seed-like	seed-like	yes	no	no	PF01644,PF03142,PF08407
+Q4W9P7	chsB_Afu4g04180	Aspergillus fumigatus	wall	KS0008	Eurotiomycetes	seed-like	seed-like	yes	no	no	PF01644,PF03142,PF08407
+Q4WIH1	chsA_Afu2g01870	Aspergillus fumigatus	wall	KS0008	Eurotiomycetes	seed-like	seed-like	yes	no	no	PF01644,PF03142,PF08407
+Q92197	chsC_Afu5g00760	Aspergillus fumigatus	wall	KS0008	Eurotiomycetes	seed-like	seed-like	yes	no	no	PF01644,PF03142,PF08407
+jgi:Neucr2:6692	chs2	Neurospora crassa	wall	KS0008	Sordariomycetes	seed-like	seed-like	yes	no	no	PF01644,PF03142,PF08407
+jgi:Neucr2:7181	chs1	Neurospora crassa	wall	KS0008	Sordariomycetes	seed-like	seed-like	yes	no	no	PF01644,PF03142,PF08407
+jgi:Neucr2:8241	chs3	Neurospora crassa	wall	KS0008	Sordariomycetes	seed-like	seed-like	yes	no	no	PF01644,PF03142,PF08407
+A0A1D8PJN6	kre5	Candida albicans	wall	KS0009	Saccharomycotina	seed-independent	seed-independent	no	no	no	
+A0A1D8PKB6	kre6	Candida albicans	wall	KS0010	Saccharomycotina	seed-independent	seed-independent	no	no	no	
+P53301	crh1	Saccharomyces cerevisiae	wall	KS0011	Saccharomycotina	seed-like	seed-like	yes	no	no	PF00722
+P32623	crh2_utr2	Saccharomyces cerevisiae	wall	KS0012	Saccharomycotina	seed-like	seed-like	yes	no	no	PF00722
+Q5AJC0	csf4	Candida albicans	wall	KS0012	Saccharomycotina	seed-like	seed-like	yes	no	no	PF00722
+A0ACE4JU10	bad1	Histoplasma capsulatum	adhesion	KS0015	Eurotiomycetes	seed-like	seed-like	yes	no	no	PF01185
+E9QT94	rodB_Afu1g17250	Aspergillus fumigatus	adhesion	KS0015	Eurotiomycetes	seed-like	seed-like	yes	no	no	PF01185
+P41746	rodA_Afu5g09580	Aspergillus fumigatus	adhesion	KS0015	Eurotiomycetes	seed-like	seed-like	yes	no	no	PF01185
+A0ACE4K441	pmt1	Histoplasma capsulatum	wall	KS0016	Eurotiomycetes	seed-independent	seed-independent	no	no	no	
+F4P6Q5	BATDEDRAFT_35524	Batrachochytrium dendrobatidis	wall	KS0016	Chytridiomycota	seed-independent	seed-independent	no	no	no	
+O74189	pmt1	Candida albicans	wall	KS0016	Saccharomycotina	seed-independent	seed-independent	no	no	no	
+Q4WCG5	pmt4_Afu8g04500	Aspergillus fumigatus	wall	KS0016	Eurotiomycetes	seed-independent	seed-independent	no	no	no	
+Q59X23	pmt4	Candida albicans	wall	KS0016	Saccharomycotina	seed-independent	seed-independent	no	no	no	
+Q759J8	AGOS_ADR279C	Eremothecium gossypii	wall	KS0016	Saccharomycotina	seed-independent	seed-independent	no	no	no	
+Q75DV8	AGOS_ABL085W	Eremothecium gossypii	wall	KS0016	Saccharomycotina	seed-independent	seed-independent	no	no	no	
+Q7SD53	NCU09332	Neurospora crassa	wall	KS0016	Sordariomycetes	seed-independent	seed-independent	no	no	no	
+jgi:Ustma2_2:12965	UM05433	Mycosarcoma maydis	wall	KS0016	Ustilaginomycetes	seed-independent	seed-independent	no	no	no	
+A0ACE4KFX7	hyd1_like	Histoplasma capsulatum	adhesion	KS0017	Eurotiomycetes	seed-independent	seed-independent	no	no	no	
+D6VTK4	ste2	Saccharomyces cerevisiae	fusion	KS0030	Saccharomycotina	seed-independent	seed-independent	no	no	no	
+E9R5E2	gfa1_Afu6g06340	Aspergillus fumigatus	wall	KS0034	Eurotiomycetes	seed-independent	seed-independent	no	no	no	
+P53704	gfa1	Candida albicans	wall	KS0034	Saccharomycotina	seed-independent	seed-independent	no	no	no	
+F4P8T0	BATDEDRAFT_20500	Batrachochytrium dendrobatidis	wall	KS0035	Chytridiomycota	seed-independent	seed-independent	no	no	no	
+J9VNY5	CND01240	Cryptococcus neoformans	wall	KS0035	Tremellomycetes	seed-independent	seed-independent	no	no	no	
+Q1K4Z4	NCU01648	Neurospora crassa	wall	KS0035	Sordariomycetes	seed-independent	seed-independent	no	no	no	
+Q4WJ05	pmt2_Afu1g07690	Aspergillus fumigatus	wall	KS0035	Eurotiomycetes	seed-independent	seed-independent	no	no	no	
+Q5ADM9	pmt2	Candida albicans	wall	KS0035	Saccharomycotina	seed-independent	seed-independent	no	no	no	
+jgi:Ashgo1_1:1345	ACR290W	Eremothecium gossypii	wall	KS0035	Saccharomycotina	seed-independent	seed-independent	no	no	no	
+G1UB63	wap1_csa1	Candida albicans	adhesion	KS0036	Saccharomycotina	seed-like	seed-like	yes	no	no	PF05730
+G1UBC2	eap1	Candida albicans	adhesion	KS0037	Saccharomycotina	seed-like	seed-like	yes	no	no	PF13928
+Q4WEP7	chiA1_Afu5g03760	Aspergillus fumigatus	wall	KS0051	Eurotiomycetes	seed-like	seed-like	yes	no	no	PF00704
+I1RDW3	hyd5	Fusarium graminearum	adhesion	KS0052	Sordariomycetes	seed-like	seed-like	yes	no	no	PF06766
+Q7S3P5	NCU08192	Neurospora crassa	adhesion	KS0052	Sordariomycetes	seed-like	seed-like	yes	no	no	PF06766
+J9VHS9	cfl1	Cryptococcus neoformans	adhesion	KS0056	Tremellomycetes	seed-independent	seed-independent	no	no	no	
+O74161	chs5	Candida albicans	wall	KS0063	Saccharomycotina	seed-independent	seed-independent	no	no	no	
+Q12114	chs5	Saccharomyces cerevisiae	wall	KS0063	Saccharomycotina	seed-independent	seed-independent	no	no	no	
+O94614	chr4	Schizosaccharomyces pombe	wall	KS0065	Taphrinomycotina	seed-independent	seed-independent	no	no	no	
+P06783	ste3	Saccharomyces cerevisiae	fusion	KS0067	Saccharomycotina	seed-independent	seed-independent	no	no	no	
+Q4WUB6	preA_Afu5g07880	Aspergillus fumigatus	fusion	KS0067	Eurotiomycetes	seed-independent	seed-independent	no	no	no	
+P08640	flo11	Saccharomyces cerevisiae	adhesion	KS0069	Saccharomycotina	seed-like	seed-like	yes	no	no	PF10182
+P22146	gas1	Saccharomyces cerevisiae	wall	KS0070	Saccharomycotina	seed-like	seed-like	yes	no	no	PF03198,PF07983
+P43076	phr1	Candida albicans	wall	KS0070	Saccharomycotina	seed-like	seed-like	yes	no	no	PF03198,PF07983
+Q4WLT3	gel7_Afu6g12410	Aspergillus fumigatus	wall	KS0070	Eurotiomycetes	seed-like	seed-like	yes	no	no	PF03198,PF07983
+jgi:Neucr2:6440	gel4	Neurospora crassa	wall	KS0070	Sordariomycetes	seed-like	seed-like	yes	no	no	PF03198
+P0CY22	kre1	Candida albicans	wall	KS0072	Saccharomycotina	seed-independent	seed-independent	no	no	no	
+P23776	exg1	Saccharomyces cerevisiae	wall	KS0074	Saccharomycotina	seed-independent	seed-independent	yes	no	no	PF00150
+P25653	fig2	Saccharomyces cerevisiae	adhesion	KS0075	Saccharomycotina	seed-like	seed-like	yes	no	no	PF13928
+P29029	cts1	Saccharomyces cerevisiae	wall	KS0077	Saccharomycotina	seed-like	seed-like	yes	no	no	PF00704
+P40953	cht2	Candida albicans	wall	KS0077	Saccharomycotina	seed-like	seed-like	yes	yes	no	PF00704,PF13928
+P29465	chs3	Saccharomyces cerevisiae	wall	KS0078	Saccharomycotina	seed-like	seed-like	yes	no	no	PF01644,PF03142
+Q4WC58	chsF_Afu8g05630	Aspergillus fumigatus	wall	KS0078	Eurotiomycetes	seed-like	seed-like	yes	no	no	PF01644,PF03142
+jgi:Neucr2:1058	chs4	Neurospora crassa	wall	KS0078	Sordariomycetes	seed-like	seed-like	yes	no	no	PF01644,PF03142
+P31302	pra1	Mycosarcoma maydis	fusion	KS0079	Ustilaginomycetes	seed-independent	seed-independent	no	no	no	
+P32323	aga1	Saccharomyces cerevisiae	adhesion	KS0080	Saccharomycotina	seed-independent	seed-independent	no	no	no	
+Q59SF7	pir1	Candida albicans	wall	KS0082	Saccharomycotina	seed-independent	seed-like	no	yes	no	PF22799
+P32768	flo1	Saccharomyces cerevisiae	adhesion	KS0083	Saccharomycotina	seed-like	seed-like	yes	no	no	PF00624,PF07691,PF10528
+P36170	flo10	Saccharomyces cerevisiae	adhesion	KS0083	Saccharomycotina	seed-like	seed-like	yes	no	no	PF07691,PF10528,PF13928
+P38894	flo5	Saccharomyces cerevisiae	adhesion	KS0083	Saccharomycotina	seed-like	seed-like	yes	no	no	PF00624,PF07691,PF10528,PF13928
+P39712	flo9	Saccharomyces cerevisiae	adhesion	KS0083	Saccharomycotina	seed-like	seed-like	yes	no	no	PF00624,PF07691,PF10528,PF13928
+P34226	chs4_skt5	Saccharomyces cerevisiae	wall	KS0084	Saccharomycotina	seed-independent	seed-independent	no	no	no	
+Q5AGC4	ecm33	Candida albicans	wall	KS0086	Saccharomycotina	seed-independent	seed-like	no	no	no	
+P38813	big1	Saccharomyces cerevisiae	wall	KS0087	Saccharomycotina	seed-independent	seed-independent	no	no	no	
+P38843	chs7	Saccharomyces cerevisiae	wall	KS0088	Saccharomycotina	seed-independent	seed-independent	no	no	no	
+Q7SB92	chs7	Neurospora crassa	wall	KS0088	Sordariomycetes	seed-independent	seed-independent	no	no	no	
+Q5ANN9	kre9	Candida albicans	wall	KS0089	Saccharomycotina	seed-like	seed-like	yes	no	no	PF05390,PF10342
+P40526	dfg10	Saccharomyces cerevisiae	wall	KS0090	Saccharomycotina	seed-independent	seed-independent	no	no	no	
+P40955	chs6	Saccharomyces cerevisiae	wall	KS0091	Saccharomycotina	seed-independent	seed-independent	no	no	no	
+P46593	hwp1	Candida albicans	adhesion	KS0096	Saccharomycotina	seed-like	seed-like	yes	no	no	PF13928
+Q59TP1	rbt1	Candida albicans	adhesion	KS0096	Saccharomycotina	seed-like	seed-like	yes	no	no	PF10182,PF13928
+P52754	hfb1	Trichoderma reesei	adhesion	KS0099	Sordariomycetes	seed-like	seed-like	yes	no	no	PF06766
+P79073	hfb2	Trichoderma reesei	adhesion	KS0099	Sordariomycetes	seed-like	seed-like	yes	no	no	PF06766
+Q4WGL5	sun1_Afu7g05450	Aspergillus fumigatus	wall	KS0100	Eurotiomycetes	seed-like	seed-like	yes	no	no	PF03856
+Q59NP5	sun41	Candida albicans	wall	KS0100	Saccharomycotina	seed-like	seed-like	yes	no	no	PF03856
+P78746	chsD_Afu1g12600	Aspergillus fumigatus	wall	KS0103	Eurotiomycetes	seed-independent	seed-independent	yes	no	no	PF01644,PF03142
+jgi:Neucr2:6661	chs6	Neurospora crassa	wall	KS0103	Sordariomycetes	seed-independent	seed-independent	yes	no	no	PF01644,PF03142
+Q5AF41	pga62_flo1	Candida albicans	adhesion	KS0104	Saccharomycotina	seed-like	seed-like	yes	no	no	PF13928
+Q04571	eas	Neurospora crassa	adhesion	KS0106	Sordariomycetes	seed-like	seed-like	yes	no	no	PF22354
+Q07730	ece1	Candida albicans	adhesion	KS0107	Saccharomycotina	seed-independent	seed-independent	no	no	no	
+Q12140	bsc1	Saccharomyces cerevisiae	adhesion	KS0108	Saccharomycotina	seed-like	seed-like	yes	no	no	PF10182
+Q1K7A8	dfg5	Neurospora crassa	wall	KS0109	Sordariomycetes	seed-like	seed-like	yes	no	no	PF03663
+Q5ACZ2	dfg5	Candida albicans	wall	KS0109	Saccharomycotina	seed-like	seed-like	yes	no	no	PF03663
+jgi:Neucr2:6123	neg1	Neurospora crassa	wall	KS0112	Sordariomycetes	seed-independent	seed-independent	no	no	no	
+Q4WDB9	cwh41_Afu6g04210	Aspergillus fumigatus	wall	KS0114	Eurotiomycetes	seed-independent	seed-independent	no	no	no	
+Q4WFV3	ags1_Afu3g00910	Aspergillus fumigatus	wall	KS0115	Eurotiomycetes	seed-independent	seed-independent	no	no	no	
+Q4X143	ags2_Afu2g11270	Aspergillus fumigatus	wall	KS0115	Eurotiomycetes	seed-independent	seed-independent	no	no	no	
+Q4WLB9	cfmA_Afu6g14090	Aspergillus fumigatus	wall	KS0116	Eurotiomycetes	seed-independent	seed-like	no	yes	no	PF05730
+Q4WLT6	scw4_Afu6g12380	Aspergillus fumigatus	wall	KS0117	Eurotiomycetes	seed-like	seed-like	yes	no	no	PF29664
+Q4WWF5	orlA_Afu3g05650	Aspergillus fumigatus	wall	KS0119	Eurotiomycetes	seed-independent	seed-independent	no	no	no	
+Q5AI14	tps2	Candida albicans	wall	KS0119	Saccharomycotina	seed-independent	seed-independent	no	no	no	
+Q4WYE0	glfB_Afu3g12700	Aspergillus fumigatus	adhesion	KS0120	Eurotiomycetes	seed-independent	seed-independent	no	no	no	
+Q4X0H6	chsE_Afu2g13440	Aspergillus fumigatus	wall	KS0121	Eurotiomycetes	seed-like	seed-like	yes	no	no	PF01644,PF03142
+Q4X0H7	csmB_Afu2g13430	Aspergillus fumigatus	wall	KS0121	Eurotiomycetes	seed-like	seed-like	yes	no	no	PF01644,PF03142
+jgi:Neucr2:6174	chs5	Neurospora crassa	wall	KS0121	Sordariomycetes	seed-like	seed-like	yes	no	no	PF01644,PF03142
+Q59L12	als3_als1	Candida albicans	adhesion	KS0122	Saccharomycotina	seed-like	seed-like	yes	no	no	PF05792,PF11766
+Q59SR6	irs4	Candida albicans	wall	KS0123	Saccharomycotina	seed-independent	seed-independent	no	no	no	
+Q59UT4	rbt5	Candida albicans	adhesion	KS0124	Saccharomycotina	seed-like	seed-like	yes	no	no	PF05730
+Q5A343	pga13	Candida albicans	wall	KS0125	Saccharomycotina	seed-independent	seed-independent	no	no	no	
+Q5A753	opy2	Candida albicans	wall	KS0126	Saccharomycotina	seed-independent	seed-independent	no	no	no	
+Q5AAL9	iff4	Candida albicans	adhesion	KS0127	Saccharomycotina	seed-independent	seed-independent	no	no	no	
+Q5AFI4	dfi1	Candida albicans	adhesion	KS0128	Saccharomycotina	seed-independent	seed-independent	no	no	no	
+jgi:Neucr2:3834	bgt2_eglc	Neurospora crassa	wall	KS0129	Sordariomycetes	seed-like	seed-like	yes	no	no	PF00332,PF29664
+jgi:Neucr2:5869	bgt1	Neurospora crassa	wall	KS0129	Sordariomycetes	seed-like	seed-like	yes	no	no	PF00332,PF29664
+Q75EX8	AGOS_AAL050W	Eremothecium gossypii	wall	KS0137	Saccharomycotina	seed-independent	seed-independent	no	no	no	
+Q7SDK1	so_soft	Neurospora crassa	fusion	KS0138	Sordariomycetes	seed-independent	seed-independent	no	no	no	
+Q99109	rep1	Mycosarcoma maydis	adhesion	KS0143	Ustilaginomycetes	seed-independent	seed-independent	no	no	no	
+jgi:Neucr2:1684	cps1	Neurospora crassa	wall	KS0146	Sordariomycetes	seed-independent	seed-independent	no	no	no	
+jgi:Neucr2:2755	cot-5	Neurospora crassa	wall	KS0147	Sordariomycetes	seed-independent	seed-independent	no	no	no	
+jgi:Neucr2:3723	ncl4	Neurospora crassa	adhesion	KS0148	Sordariomycetes	seed-independent	seed-independent	no	no	no	
+jgi:Neucr2:4224	ncl1	Neurospora crassa	adhesion	KS0149	Sordariomycetes	seed-independent	seed-independent	no	no	no	
+jgi:Neucr2:8199	ncl3	Neurospora crassa	adhesion	KS0150	Sordariomycetes	seed-independent	seed-independent	no	no	no	
+jgi:Neucr2:8934	ncl2	Neurospora crassa	adhesion	KS0151	Sordariomycetes	seed-independent	seed-independent	no	no	no	
+jgi:Ustma2_2:11962	hum3	Mycosarcoma maydis	adhesion	KS0152	Ustilaginomycetes	seed-like	seed-like	yes	no	no	PF01185

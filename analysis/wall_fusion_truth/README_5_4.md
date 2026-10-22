@@ -58,3 +58,7 @@ Tests: `tests/wall_fusion_truth/test_baseline_recall.py` (hand-counted fixture),
 1. Whether the job's `hmmfetch -f` finds all 39 names in the pressed database. The names equal the InterPro IDs of the entries, but the pressed database itself was not opened here; the job stops with `hmmfetch found N of 39` if one is missing.
 2. A sequence name in `kiss_sequences.faa` with a `#` (the six `#neg` copies) and the local keys `jgi:<portal>:<id>`: hmmsearch reads the name up to the first space; both were checked against `members_split.tsv` by the job, not by running hmmsearch on them.
 3. The Wilson interval treats clusters as independent. It is a proxy; a bootstrap over clusters (as `calibration`) is the upgrade if the interval will be quoted.
+
+## Run record and result (2026-10-22)
+
+Job 30233470 ran this script at `9472e32` (COMPLETED, 13 s). The small output tables and the provenance are committed in `docs/reports/data/kiss_baseline_2026-10-22/` (README there); the two raw domain tables stay on HPCC. The result note is `docs/reports/2026-10-22-kiss-baseline-recall.md`. It changes no tier, status or `narrow_ok`.
