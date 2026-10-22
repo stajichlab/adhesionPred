@@ -1,0 +1,7 @@
+item	value
+targets_sha256	15c1d46b5fce00fed7176a5243092f8b5bb106e261113d080f4ee5773c35383f
+nodes_sha256	78392a6926b01fadda65ab819b75e0685e62593fffc0efe09c70b04d26cb7f6b
+names_sha256	57a92ede8ed45de5bc9ebe944e05f19791e113eee6c43241b13cabe25e29720a
+min_sequences	5
+min_clades	2
+script	pr6_gap_summary.py
