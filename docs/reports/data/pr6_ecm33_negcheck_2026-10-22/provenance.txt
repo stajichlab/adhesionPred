@@ -1,0 +1,9 @@
+job: pr6_ecm33_negcheck (pre-freeze check of the ecm33 hard negatives)
+commit: 6fcdd0d2713eb5881e0d99ffcf4abe8a99cbc453 (pinned: 6fcdd0d2713eb5881e0d99ffcf4abe8a99cbc453)
+hmmer: # HMMER 3.4 (Aug 2023); http://hmmer.org/
+python: Python 3.12.13
+input kiss_sequences.faa sha256 66af609eeea24212f7813918fd5957489ded4e4e45792deadd955a0a93bacdf6
+input shared negatives sequences.faa sha256 355bee285e57a5da508c0045699a10a2fefdd7c9247ba9c36c7c1310d2269636
+input shared negatives controls.tsv sha256 ac9c96f85bdfceed7f943d52d0c36def9a4d70069c1f9c658eb18ae0fa9ceae8
+query: Q5AGC4
+settings: phmmer -E 1e-5 --domE 1e-5 (the definition); phmmer -E 1e-3 --domE 1e-3 (descriptive)

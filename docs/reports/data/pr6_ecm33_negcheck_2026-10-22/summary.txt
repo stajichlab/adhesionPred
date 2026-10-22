@@ -1,0 +1,9 @@
+PR 6 ecm33 pre-freeze check (DRAFT): which shared hard negatives are Ecm33 family members?
+definition: phmmer of Q5AGC4 against the shared negatives finds the protein at E <= 1e-05 (the freeze's labelled_rule)
+family members among the negatives: 2
+already listed in the freeze: P38248
+NEW (not yet listed): Q4WNS8
+per stratum: gpi_wall_enzyme: P38248, Q4WNS8
+weak hits (1e-5 < E <= 1e-3), descriptive only, never in the proposed list: 1
+proposed edit of the freeze (the owner decides; this script changes nothing):
+  "negatives_ignored": ["P38248", "Q4WNS8"],
