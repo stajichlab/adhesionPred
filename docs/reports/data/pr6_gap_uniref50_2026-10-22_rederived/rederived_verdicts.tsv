@@ -1,0 +1,9 @@
+query	genes	method	n_outside_seq	n_unassigned_seq	n_clades_committed	n_named_clades_fixed	rule_met_committed	rule_met_fixed	strict_committed	strict_fixed	status_committed	status_fixed	changed
+A0ACE4KFX7	hyd1_like	phmmer	5	2	2	1	yes	no	no	no	buildable	buildable_iterated_only	yes
+A0ACE4KFX7	hyd1_like	jackhmmer	43	3	4	3	yes	yes	yes	yes	buildable	buildable_iterated_only	yes
+P32323	aga1	phmmer	4	0	4	4	no	no	no	no	buildable_iterated_only	buildable_iterated_only	no
+P32323	aga1	jackhmmer	64	0	19	19	yes	yes	yes	yes	buildable_iterated_only	buildable_iterated_only	no
+Q07730	ece1	phmmer	0	0	0	0	no	no	no	no	buildable_iterated_only	buildable_iterated_only	no
+Q07730	ece1	jackhmmer	126	1	24	23	yes	yes	yes	yes	buildable_iterated_only	buildable_iterated_only	no
+Q5AGC4	ecm33	phmmer	379	5	19	18	yes	yes	yes	yes	buildable	buildable	no
+Q5AGC4	ecm33	jackhmmer	953	20	30	29	yes	yes	yes	yes	buildable	buildable	no

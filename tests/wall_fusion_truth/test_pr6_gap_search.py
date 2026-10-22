@@ -30,6 +30,7 @@ TAXA = [
     (131567, 1, "no rank", "cellular organisms"),
     (2759, 131567, "domain", "Eukaryota"),
     (4751, 2759, "kingdom", "Fungi"),
+    (99999, 4751, "species", "Fungus sp. unplaced"),
     (4890, 4751, "phylum", "Ascomycota"),
     (147537, 4890, "subphylum", "Saccharomycotina"),
     (4891, 147537, "class", "Saccharomycetes"),
@@ -97,7 +98,9 @@ def desc(taxid):
 @pytest.fixture
 def tax(tmp_path):
     nodes, names = write_dmp(tmp_path)
-    return gap.Taxonomy(nodes, names, {559292, 5476, 5141, 5140, 5144, 162425, 330879, 562, 4932})
+    return gap.Taxonomy(
+        nodes, names, {559292, 5476, 5141, 5140, 5144, 162425, 330879, 562, 4932, 99999}
+    )
 
 
 # --- clades -------------------------------------------------------------------------------------------------
@@ -243,7 +246,7 @@ def test_rule_not_met_cases(tax):
         )
     )
     assert one_clade["n_outside_seq"] == 5 and not one_clade["rule_met"]
-    assert "1 clade" in one_clade["reason"]
+    assert "1 named clade" in one_clade["reason"]
     strict = gap.training_rule(
         gap.classify_hits(
             "Q",
@@ -631,3 +634,35 @@ def test_sbatch_extraction_helpers_match_the_exact_header_token(tmp_path):
         ["bash", "-c", awk_len], capture_output=True, text=True, check=True
     ).stdout == ("P38248\t8\nP382480\t4\nQ5AGC4\t6\n")
     assert "n_id = substr($1, 2)" in t  # the helper tested above is the one the script uses
+
+
+def test_hits_without_a_fine_clade_are_not_a_clade_for_the_rule(tax):
+    """The hyd1_like pattern of round 2: 3 hits in one named clade plus 2 fungal hits with no assigned fine clade."""
+    assert tax.info(99999)["fungus"] and tax.info(99999)["clade_fine"] == ""
+    base = [{"target": sp("Q"), "accession": "Q", "evalue": 1e-50, "score": 90.0, "taxid": 5476}]
+    hits = base + [
+        {"target": sp(a), "accession": a, "evalue": 1e-6, "score": 27.0, "taxid": t}
+        for a, t in [("a", 5141), ("b", 5140), ("c", 5144), ("d", 99999), ("e", 99999)]
+    ]
+    r = gap.training_rule(gap.classify_hits("Q", "Eurotiomycetes", hits, tax))
+    assert r["n_outside_seq"] == 5  # the unassigned fungal hits count in the total
+    assert r["n_outside_clades"] == 1  # named clades only
+    assert r["per_clade"] == {"(no clade)": 2, "Sordariomycetes": 3}
+    assert not r["rule_met"] and not r["strict_per_clade_met"]
+    assert "1 named clade" in r["reason"] and "2 fungal hits have no assigned clade" in r["reason"]
+
+
+def test_a_second_named_clade_still_meets_the_rule_and_unassigned_hits_add_nothing_to_it(tax):
+    base = [{"target": sp("Q"), "accession": "Q", "evalue": 1e-50, "score": 90.0, "taxid": 5476}]
+    hits = base + [
+        {"target": sp(a), "accession": a, "evalue": 1e-6, "score": 27.0, "taxid": t}
+        for a, t in [("a", 5141), ("b", 5140), ("c", 162425), ("d", 99999), ("e", 99999)]
+    ]
+    r = gap.training_rule(gap.classify_hits("Q", "Saccharomycotina", hits, tax))
+    assert r["n_outside_clades"] == 2 and r["rule_met"] and not r["strict_per_clade_met"]
+    only_unassigned = base + [
+        {"target": sp(f"u{i}"), "accession": f"u{i}", "evalue": 1e-6, "score": 27.0, "taxid": 99999}
+        for i in range(6)
+    ]
+    r2 = gap.training_rule(gap.classify_hits("Q", "Saccharomycotina", only_unassigned, tax))
+    assert r2["n_outside_seq"] == 6 and r2["n_outside_clades"] == 0 and not r2["rule_met"]

@@ -33,7 +33,9 @@ target set (the same E-value cut is stricter against UniRef50 than against Swiss
 are not strictly comparable.
 
 Minimum training set (decision 7, provisional): AT LEAST 5 distinct outside sequences IN TOTAL, spread over AT LEAST 2
-clades outside the held-out clade. (The stricter reading, 5 sequences in each of 2 clades, is a descriptive column.)
+clades outside the held-out clade. Fungal hits without an assigned fine clade count in the total of sequences but are
+NOT a clade: the 2-clade condition (and the strict column) count named clades only. (The stricter reading, 5
+sequences in each of 2 clades, is a descriptive column.)
 Status of a target:
   buildable                 the rule is met by the phmmer (one pass) hits
   buildable_iterated_only   met only by the jackhmmer hits (iteration may drift: a flag for the owner, not a decision)
@@ -59,6 +61,7 @@ from pathlib import Path
 FUNGI = 4751
 MIN_SEQUENCES = 5  # decision 7, provisional
 MIN_CLADES = 2
+NO_CLADE = "(no clade)"  # fungal hits without an assigned fine clade: not a clade for the rule
 METHODS = ("phmmer", "jackhmmer")
 OUTPUTS = (
     "gap_per_query.tsv",
@@ -283,12 +286,17 @@ def training_rule(rows: list[dict]) -> dict:
     outside = [r for r in rows if r["where"] == "outside_clade"]
     per_clade: dict[str, list[dict]] = defaultdict(list)
     for r in outside:
-        per_clade[r["clade_fine"] or "(no clade)"].append(r)
+        per_clade[r["clade_fine"] or NO_CLADE].append(r)
     n_seq = len(outside)
-    n_clades = len(per_clade)
+    # Hits without a fine clade are fungal sequences (they count in the total) but they are not a clade: the
+    # 2-clade condition and the strict column count NAMED clades only (round 2 of 2026-10-22 counted the bucket
+    # as a clade, which turned hyd1_like into `buildable`; owner choice c of 2026-10-22).
+    named = {c: v for c, v in per_clade.items() if c != NO_CLADE}
+    n_unassigned = len(per_clade.get(NO_CLADE, []))
+    n_clades = len(named)
     n_species = len({r["species_taxid"] for r in outside})
     met = n_seq >= MIN_SEQUENCES and n_clades >= MIN_CLADES
-    strict = sum(1 for v in per_clade.values() if len(v) >= MIN_SEQUENCES) >= MIN_CLADES
+    strict = sum(1 for v in named.values() if len(v) >= MIN_SEQUENCES) >= MIN_CLADES
     if met:
         reason = ""
     elif n_seq == 0:
@@ -296,7 +304,10 @@ def training_rule(rows: list[dict]) -> dict:
     elif n_seq < MIN_SEQUENCES:
         reason = f"only {n_seq} outside sequences (minimum {MIN_SEQUENCES})"
     else:
-        reason = f"outside hits fall in {n_clades} clade (minimum {MIN_CLADES})"
+        reason = (
+            f"outside hits fall in {n_clades} named clade (minimum {MIN_CLADES}); "
+            f"{n_unassigned} fungal hits have no assigned clade"
+        )
     return {
         "n_outside_seq": n_seq,
         "n_outside_clades": n_clades,

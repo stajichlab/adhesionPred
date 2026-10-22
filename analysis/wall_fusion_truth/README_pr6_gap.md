@@ -83,3 +83,14 @@ Run on 2026-10-22 with the owner's go-ahead: code `6f8aa83`, `UNIPROT_FASTA=/srv
 ## Result of round 2 (job 30262455, UniRef50 2025_03)
 
 Run on 2026-10-22 with the owner's go-ahead: code `e11808b`, `sbatch -p batch --time=8:00:00 -c 8 --mem=16G`, `UNIPROT_FASTA=/srv/projects/db/Uniprot/2025_03/uniref50.fasta` (70,198,728 sequences, sha256 `bc52bdd6…`), COMPLETED in 3 h 19 min. Statuses: ecm33 `buildable` (379 outside fungal sequences with `phmmer`, 19 clade labels), hyd1_like `buildable` but marginal (5 outside sequences, 1 named clade plus the `(no clade)` bucket that the script counts as a clade), aga1 and ece1 `buildable_iterated_only` (drift flag: not buildable until a drift check is done). Record: `docs/reports/data/pr6_gap_uniref50_2026-10-22/`; report: `docs/reports/2026-10-22-pr6-gap-search-uniref50.md`. UniRef50 is about 122 times larger than Swiss-Prot, so round 1 and round 2 counts are not strictly comparable.
+
+## Clade rule fix after round 2 (2026-10-22, owner choice c)
+
+Round 2 counted the `(no clade)` bucket (fungal hits with no assigned fine clade) as a clade, so hyd1_like was called
+`buildable` on a one-pass set of 3 hits in Sordariomycetes plus 2 hits with no assigned clade. `pr6_gap_summary.py` now
+counts named clades only for the 2-clade condition and for the strict column; sequences without a clade still count in
+the total. `pr6_gap_rederive.py` re-derives the round 2 verdicts from the committed record without searching again; the
+result is in `docs/reports/data/pr6_gap_uniref50_2026-10-22_rederived/`. Only hyd1_like changes: the one-pass set no
+longer meets the rule (5 sequences, 1 named clade) but the iterated set does (43 sequences in 3 named clades), so it
+becomes `buildable_iterated_only`, with the same drift flag as aga1 and ece1. ecm33 stays `buildable`. The committed run
+record of job 30262455 is not edited. The drift check of aga1, ece1 and hyd1_like is in `README_pr6_drift.md`.
