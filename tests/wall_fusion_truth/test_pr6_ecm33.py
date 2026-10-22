@@ -426,6 +426,7 @@ def write_unit(
     n_excl=0,
     n_train=300,
     p38248=None,
+    neg_extra=None,
 ):
     d.mkdir(parents=True)
     (d / "manifest.json").write_text(
@@ -457,7 +458,9 @@ def write_unit(
     (d / "hits_pfam_relaxed.tsv").write_text("id\tscore\n")
     (d / "hits_iter.tsv").write_text("id\tevalue\n")
     (d / "neg_hits.tsv").write_text(
-        "accession\tscore\n" + (f"P38248\t{p38248}\n" if p38248 is not None else "")
+        "accession\tscore\n"
+        + (f"P38248\t{p38248}\n" if p38248 is not None else "")
+        + "".join(f"{a}\t{v}\n" for a, v in (neg_extra or {}).items())
     )
     (d / "neg_hits_relaxed.tsv").write_text("accession\tscore\n")
 
@@ -565,14 +568,14 @@ def test_report_end_to_end_both_modes_side_by_side_descriptive(tmp_path):
     assert sorted(p.name for p in out.iterdir()) == [
         "extra_calls.tsv",
         "hard_negative_calls.tsv",
-        "p38248_line.tsv",
+        "ignored_negatives_line.tsv",
         "recall_by_unit.tsv",
         "side_by_side.tsv",
         "summary.txt",
     ]
     assert not any(c in (out / "recall_by_unit.tsv").read_text() for c in ("estimated", "smoke"))
-    # P38248 on its own line: hit above the cutoff of 50 in the headline, below it in the second column
-    pl = list(csv.DictReader(open(out / "p38248_line.tsv"), delimiter="\t"))
+    # the freeze lists only P38248: one line per mode; hit above the cutoff of 50 in the headline, below it in the second column
+    pl = list(csv.DictReader(open(out / "ignored_negatives_line.tsv"), delimiter="\t"))
     assert [(r["independence_mode"], r["custom_hit"]) for r in pl] == [
         ("cluster30", "yes"),
         ("none", "no"),
@@ -582,6 +585,74 @@ def test_report_end_to_end_both_modes_side_by_side_descriptive(tmp_path):
         r["group"] != "P38248"
         for r in csv.DictReader(open(out / "hard_negative_calls.tsv"), delimiter="\t")
     )
+
+
+def test_report_writes_one_line_per_ignored_negative(tmp_path):
+    """negatives_ignored with two accessions (P38248 and Q4WNS8): each has its own line per mode, none is in a rate row."""
+    held = ["h0", "h1", "h2", "h3"]
+    fzd = frozen_fixture()
+    fzd["negatives_ignored"] = ["P38248", "Q4WNS8"]
+    fz = tmp_path / "fz2.json"
+    fz.write_text(json.dumps(fzd))
+    sha = rep.sha256_file(fz)
+    res = tmp_path / "res"
+    write_unit(
+        res / "U" / "cluster30",
+        sha,
+        held,
+        {"h0": 60.0},
+        p38248=350.0,
+        neg_extra={"Q4WNS8": 20.0},
+    )
+    write_unit(
+        res / "U" / "none",
+        sha,
+        held,
+        {"h0": 60.0},
+        p38248=20.0,
+        neg_extra={"Q4WNS8": 400.0},
+    )
+    out = tmp_path / "out"
+    assert (
+        rep.main(
+            [
+                "--results",
+                str(res),
+                "--units",
+                str(units_file(tmp_path, ["U"])),
+                "--freeze",
+                str(fz),
+                "--out",
+                str(out),
+            ]
+        )
+        == 0
+    )
+    lines = list(csv.DictReader(open(out / "ignored_negatives_line.tsv"), delimiter="\t"))
+    assert [(r["independence_mode"], r["accession"], r["custom_hit"]) for r in lines] == [
+        ("cluster30", "P38248", "yes"),
+        ("cluster30", "Q4WNS8", "no"),
+        ("none", "P38248", "no"),
+        ("none", "Q4WNS8", "yes"),
+    ]
+    summary = (out / "summary.txt").read_text()
+    assert "P38248, Q4WNS8" in summary and "ignored_negatives_line.tsv" in summary
+    # the rate rows are per stratum: no accession of the ignored list appears in them
+    assert not any(
+        r["group"] in ("P38248", "Q4WNS8")
+        for r in csv.DictReader(open(out / "hard_negative_calls.tsv"), delimiter="\t")
+    )
+
+
+def test_run_cutoff_leaves_every_ignored_negative_out_of_the_rate():
+    fz = frozen_fixture()
+    fz["negatives_ignored"] = ["P38248", "Q4WNS8"]
+    sizes = {"Afum_Af293_UniProt": 9647, "Calb_SC5314": 6212, "Cimm_RS": 9910, "Scer_S288C": 6722}
+    hits = [{"proteome": "Calb_SC5314", "id": "junk", "score": "12"}]
+    groups = {a: "gpi_wall_enzyme" for a in ("P38248", "Q4WNS8", "n1", "n2")}
+    res = bld.run_cutoff(fz, hits, set(), groups, {"P38248": 350.0, "Q4WNS8": 300.0}, sizes)
+    assert res["negatives_ignored"] == ["P38248", "Q4WNS8"]
+    assert res["cutoff"] <= 12.0 + 1e-9  # neither true Ecm33 pushes the cutoff up
 
 
 def test_report_second_mode_not_rebuilt_repeats_the_headline(tmp_path):

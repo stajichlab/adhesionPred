@@ -16,8 +16,9 @@ Independence modes (owner decision 2026-10-22). Every held-out unit is built and
 second, DESCRIPTIVE column `none` (only the held-out members themselves are removed). The modes come from the freeze file. When the
 headline rule removed no neighbour, the build job does not repeat the unit (SAME_AS_HEADLINE) and the second column repeats the headline.
 
-P38248 (S. cerevisiae Ecm33, a shared hard negative that is a true family member) is left out of the hard-negative rate by the freeze
-(`negatives_ignored`) and is reported on its own line (p38248_line.tsv): its custom score, the cutoff and whether it is hit.
+Every accession of the freeze `negatives_ignored` (P38248, S. cerevisiae Ecm33, and any other shared hard negative that is a true family
+member) is left out of the hard-negative rate by the freeze and is reported on its own line (ignored_negatives_line.tsv): its custom
+score, the cutoff and whether it is hit.
 
 Inputs (--results DIR, <unit>/<mode>/ written by pr6_ecm33_build.sbatch; `all` is not scored here)
   <unit>/<mode>/manifest.json      the training manifest (status buildable | not_buildable)
@@ -152,17 +153,14 @@ def write_tsv(path: Path, header: list[str], rows: list[dict]) -> None:
             w.writerow([r[h] for h in header])
 
 
-P38248 = "P38248"
-
-
 def score_dir(
     unit: str, mode: str, role: str, d: Path, fz: dict, fz_sha: str, bad: list[str]
-) -> tuple[dict, dict | None, list, list, dict | None]:
-    """(recall row, manifest, extra-call rows, hard-negative rows, P38248 line) of one (unit, mode) directory."""
+) -> tuple[dict, dict | None, list, list, list]:
+    """(recall row, manifest, extra-call rows, hard-negative rows, one line per ignored negative) of one (unit, mode) directory."""
     man_path = d / "manifest.json"
     if not man_path.is_file():
         bad.append(f"{unit}/{mode}: manifest.json is missing")
-        return {}, None, [], [], None
+        return {}, None, [], [], []
     man = json.load(open(man_path))
     base = {"independence_mode": mode, "role": role}
     if man["status"] != "buildable":
@@ -174,7 +172,7 @@ def score_dir(
             "rule_ok": "not_buildable",
             "status": "descriptive",
         }
-        return row, man, [], [], None
+        return row, man, [], [], []
     cut = json.load(open(d / "cutoff.json"))
     rel = json.load(open(d / "relaxed_cutoff.json"))
     for name, c in (("cutoff.json", cut), ("relaxed_cutoff.json", rel)):
@@ -220,27 +218,31 @@ def score_dir(
         }
         for g, rate in sorted(cut["hard_negative_call_rates"].items())
     ]
-    # P38248 on its own line: it is outside the hard-negative rate (freeze negatives_ignored) but a true family member
+    # every ignored negative on its own line: it is outside the hard-negative rate (freeze negatives_ignored) but a true family member
     neg = {r["accession"]: float(r["score"]) for r in read_tsv(d / "neg_hits.tsv")}
     negr = {r["accession"]: float(r["score"]) for r in read_tsv(d / "neg_hits_relaxed.tsv")}
-    line = None
-    if P38248 in fz["negatives_ignored"]:
-        sc = neg.get(P38248)
-        rs = negr.get(P38248)
-        line = {
-            "unit": unit,
-            "independence_mode": mode,
-            "role": role,
-            "accession": P38248,
-            "custom_score": "" if sc is None else sc,
-            "custom_cutoff": cut["cutoff"],
-            "custom_hit": "yes" if sc is not None and sc >= float(cut["cutoff"]) else "no",
-            "pfam_relaxed_score": "" if rs is None else rs,
-            "pfam_relaxed_cutoff": rel["cutoff"],
-            "pfam_relaxed_hit": "yes" if rs is not None and rs >= float(rel["cutoff"]) else "no",
-            "note": "true Ecm33; left out of the hard-negative rate by the freeze (negatives_ignored); the shared negative set is not changed",
-        }
-    return row, man, extra, hn, line
+    lines = []
+    for acc in fz["negatives_ignored"]:
+        sc = neg.get(acc)
+        rs = negr.get(acc)
+        lines.append(
+            {
+                "unit": unit,
+                "independence_mode": mode,
+                "role": role,
+                "accession": acc,
+                "custom_score": "" if sc is None else sc,
+                "custom_cutoff": cut["cutoff"],
+                "custom_hit": "yes" if sc is not None and sc >= float(cut["cutoff"]) else "no",
+                "pfam_relaxed_score": "" if rs is None else rs,
+                "pfam_relaxed_cutoff": rel["cutoff"],
+                "pfam_relaxed_hit": "yes"
+                if rs is not None and rs >= float(rel["cutoff"])
+                else "no",
+                "note": "true family member; left out of the hard-negative rate by the freeze (negatives_ignored); the shared negative set is not changed",
+            }
+        )
+    return row, man, extra, hn, lines
 
 
 EXTRA_HEADER = [
@@ -262,7 +264,7 @@ HN_HEADER = [
     "frozen_limit",
     "within_limit",
 ]
-P38248_HEADER = [
+IGNORED_HEADER = [
     "unit",
     "independence_mode",
     "role",
@@ -319,7 +321,7 @@ def main(argv: list[str] | None = None) -> int:
         rows.append(head)
         extra_rows += ex
         hn_rows += hn
-        p_rows += [pl] if pl else []
+        p_rows += pl
         sdir = a.results / unit / second_mode
         same = (sdir / "SAME_AS_HEADLINE").is_file()
         if same:
@@ -331,9 +333,7 @@ def main(argv: list[str] | None = None) -> int:
                 {**r, "independence_mode": second_mode, "role": "descriptive"} for r in ex
             ]
             hn_rows += [{**r, "independence_mode": second_mode, "role": "descriptive"} for r in hn]
-            p_rows += (
-                [{**pl, "independence_mode": second_mode, "role": "descriptive"}] if pl else []
-            )
+            p_rows += [{**r, "independence_mode": second_mode, "role": "descriptive"} for r in pl]
         else:
             second, second_man, ex2, hn2, pl2 = score_dir(
                 unit, second_mode, "descriptive", sdir, fz, fz_sha, bad
@@ -343,7 +343,7 @@ def main(argv: list[str] | None = None) -> int:
             rows.append(second)
             extra_rows += ex2
             hn_rows += hn2
-            p_rows += [pl2] if pl2 else []
+            p_rows += pl2
         wide.append(wide_row(unit, head, second, head_man, second_man, same))
     if bad:
         for b in bad:
@@ -354,7 +354,7 @@ def main(argv: list[str] | None = None) -> int:
     write_tsv(a.out / "side_by_side.tsv", WIDE_HEADER, wide)
     write_tsv(a.out / "extra_calls.tsv", EXTRA_HEADER, extra_rows)
     write_tsv(a.out / "hard_negative_calls.tsv", HN_HEADER, hn_rows)
-    write_tsv(a.out / "p38248_line.tsv", P38248_HEADER, p_rows)
+    write_tsv(a.out / "ignored_negatives_line.tsv", IGNORED_HEADER, p_rows)
     n_testable = sum(1 for r in rows if r["role"] == "headline" and r["testable_u"] == "yes")
     (a.out / "summary.txt").write_text(
         "\n".join(
@@ -363,7 +363,7 @@ def main(argv: list[str] | None = None) -> int:
                 f"freeze sha256 {fz_sha}",
                 f"independence: headline {head_mode}; second, descriptive column {second_mode} (side_by_side.tsv)",
                 f"units reported {len(wide)}; testable by u (u >= {fz['min_u']}) under the headline rule: {n_testable}",
-                "P38248 (a true Ecm33 among the shared negatives) is outside the hard-negative rate and has its own line (p38248_line.tsv)",
+                f"ignored negatives ({', '.join(fz['negatives_ignored'])}: true family members among the shared negatives) are outside the hard-negative rate and have their own lines (ignored_negatives_line.tsv)",
                 "no call, no status, no tier, no family_measure row is written; a custom model is report-only (decision 6)",
             ]
         )
