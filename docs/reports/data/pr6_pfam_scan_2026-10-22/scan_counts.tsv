@@ -1,0 +1,16 @@
+slice	group	n_clusters	hit_panel_model	hit_other_pfam	no_pfam_hit
+adhesion	ALL	12	0	9	3
+adhesion	A1_hydrophobin_like	2	0	1	1
+adhesion	A2_yeast_surface_adhesin_like	4	0	2	2
+adhesion	A3_neurospora_lectins	4	0	4	0
+adhesion	A4_adhesion_singletons	2	0	2	0
+wall	ALL	28	2	25	1
+wall	W1_glycosylation_and_glycan_supply	7	0	7	0
+wall	W2_chitin_synthase_regulation	5	0	5	0
+wall	W3_beta16_glucan_kre_family	5	0	5	0
+wall	W4_alpha13_glucan_and_other_synthases	2	0	2	0
+wall	W5_gpi_wall_proteins_and_signalling	6	2	3	1
+wall	W6_processing_and_other	3	0	3	0
+fusion	ALL	4	0	4	0
+fusion	F1_pheromone_receptors	3	0	3	0
+fusion	F2_so_fusion	1	0	1	0

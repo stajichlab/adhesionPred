@@ -1,0 +1,13 @@
+pfam_acc	name	n_clusters	clusters	slices	min_fraction	max_fraction	status
+PF01828	Peptidase_A4	2	KS0150;KS0151	adhesion	0.649	0.687	proposal_for_owner (cover >= 0.5)
+PF02055	Glyco_hydro_30	1	KS0112	wall	0.700	0.700	proposal_for_owner (cover >= 0.5)
+PF02076	STE3	2	KS0067;KS0079	fusion	0.648	0.832	proposal_for_owner (cover >= 0.5)
+PF02116	STE2	1	KS0030	fusion	0.650	0.650	proposal_for_owner (cover >= 0.5)
+PF03151	TPT	1	KS0120	adhesion	0.719	0.719	proposal_for_owner (cover >= 0.5)
+PF03200	Glyco_hydro_63	1	KS0114	wall	0.607	0.607	proposal_for_owner (cover >= 0.5)
+PF03388	Lectin_leg-like	1	KS0149	adhesion	0.703	0.703	proposal_for_owner (cover >= 0.5)
+PF03935	SKN1_KRE6_Sbg1	1	KS0010	wall	0.682	0.682	proposal_for_owner (cover >= 0.5)
+PF12271	Chs7	1	KS0088	wall	0.949	0.949	proposal_for_owner (cover >= 0.5)
+PF13641	Glyco_tranf_2_3	1	KS0146	wall	0.506	0.506	proposal_for_owner (cover >= 0.5)
+PF17056	KRE1	1	KS0072	wall	0.508	0.508	proposal_for_owner (cover >= 0.5)
+PF29797	Rep1	1	KS0143	adhesion	0.598	0.598	proposal_for_owner (cover >= 0.5)

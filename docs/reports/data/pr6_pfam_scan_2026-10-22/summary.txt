@@ -1,0 +1,9 @@
+PR 6 step 6.0: whole-Pfam scan of the clusters missed by the 39-model panel (DRAFT summary)
+missed clusters: 44 (adhesion 12, wall 28, fusion 4)
+hit_panel_model: 2
+hit_other_pfam: 38
+no_pfam_hit: 4
+custom-HMM targets (no_pfam_hit): 4
+panel proposals (families, cover >= 0.5): 12
+descriptive only: no call, no status, no tier; the proposals are for the owner to decide
+REPORT LOUD: 2 missed cluster(s) are hit by a panel model: KS0082 (pir1: PF22799:PIR1-like_C); KS0116 (cfmA_Afu6g14090: PF05730:CFEM)

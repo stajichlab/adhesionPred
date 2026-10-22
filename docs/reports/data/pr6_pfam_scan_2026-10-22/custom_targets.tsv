@@ -1,0 +1,5 @@
+slice	cluster_id	group	genes	clades_fine	strata_fine	accessions	weak_families
+adhesion	KS0017	A1_hydrophobin_like	hyd1_like	Eurotiomycetes	clade_only	A0ACE4KFX7	PF22354:Eas
+adhesion	KS0080	A2_yeast_surface_adhesin_like	aga1	Saccharomycotina	clade_only	P32323	
+adhesion	KS0107	A2_yeast_surface_adhesin_like	ece1	Saccharomycotina	clade_only	Q07730	
+wall	KS0086	W5_gpi_wall_proteins_and_signalling	ecm33	Saccharomycotina	clade_only	Q5AGC4	PF01030:Recep_L_domain;PF23952:LRR_EndoS

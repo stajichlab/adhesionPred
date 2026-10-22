@@ -56,3 +56,7 @@ Each step needs the owner's go-ahead (D21). **No new staging is expected**: the 
 ## How the result feeds 6.1
 
 Only the `no_pfam_hit` clusters (`custom_targets.tsv`) go to step 6.1 (one model per homologous family, found by a sensitive sequence search; decision 2). The `panel_proposals.tsv` families are a list for the owner, one decision per model; none is added to the panel by this job. If no cluster is left without a Pfam hit, the PR ends at the record PR (6c) with the list of Pfam models proposed for the panel. The next owner go-aheads are: the clone update, this job, then (after the owner reads the tables) the record PR and the 6.1 scripts.
+
+## Result of the run
+
+The run of job 30235946 (2026-10-22, code `ebb29a9`) is recorded in `docs/reports/data/pr6_pfam_scan_2026-10-22/` (tables, provenance and a README; the raw domain tables stay on HPCC) and described in `docs/reports/2026-10-22-pr6-pfam-scan.md`. It found 2 clusters hit by a panel model (KS0082 and KS0116, the two of the baseline), 38 hit by another Pfam family and 4 with no Pfam hit. The use of the 38 is an open owner decision.
