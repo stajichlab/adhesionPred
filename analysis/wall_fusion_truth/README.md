@@ -18,6 +18,7 @@ This folder holds the feasibility stage for the wall, adhesion and fusion truth 
 | `results/jgi_files.tsv` | The 23 downloaded MycoCosm protein files: portal, file name, role (`use` or `not used`), protein count, sha256, md5, md5 against the JGI manifest, check IDs. Hashes only. The script checks the sha256 of each used file against it. |
 | `results/jgi_portal_summary.tsv` | Per portal and slice: rows, found, absent, check agree / differs / no evidence, portal validated, accepted rows. |
 | `results/mapped_sequences.faa` | UniProt sequences of the mapped rows (small, derived). These are not JGI sequences. |
+| `build_control_set.py`, `build_kiss_fasta.py`, `seed_split.py`, `fetch_seeds_models.py`, `cluster_split.sh` | Tasks 5.2 and 5.3 (DRAFT, nothing run on HPCC). See `README_5_2_5_3.md`. The control set is `data/controls/wall-fusion-kiss2019/`. |
 
 ## How to run
 
