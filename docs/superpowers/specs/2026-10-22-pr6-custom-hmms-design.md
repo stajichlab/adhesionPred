@@ -137,6 +137,19 @@ PR order: **6a** this spec merged; **6b** tests first, the tier-derivation chang
 | 11 | No ESM models (issue #15, gate of 300 clusters, stands). | 8 |
 | 12 | Keep `glfB`, the `ncl` lectins, `cot-2/smi1` and the weak-evidence rows with their flags. The freeze lists them by name so that a result can be re-run without them. | 4.5 |
 
+## 7b. Owner decisions after the step 6.0 scan (final, 2026-10-22)
+
+Step 6.0 (job 30235946, record in `docs/reports/data/pr6_pfam_scan_2026-10-22/`, note `docs/reports/2026-10-22-pr6-pfam-scan.md`) found: of the 44 missed clusters, 2 hit a panel model, 38 hit another Pfam family and 4 have no Pfam hit. The owner decided how to use this:
+
+| # | Decision |
+|---|---|
+| S1 | The candidates for the next step are the union of a Pfam hit covering at least 50 percent of the sequence OR a best hit with an E-value of 1e-30 or better (26 clusters: the 14 with at least 50 percent coverage plus 12 partial hits; the 12 weaker partial hits stay descriptive). Coverage alone is a poor proxy, because a short domain in a long protein is normal. |
+| S2 | Every candidate family gets a specificity test before any panel addition: hits over the shared negatives and over the four kept proteomes, recorded in a measurement table with a script-derived tier (at most `smoke`). Nothing enters the active panel without a `family_measure.tsv` row and the owner's sign-off; `narrow_ok` stays `no` until signed. |
+| S3 | The outside-homolog search (steps 6.1 and 6.2) runs for the 4 gaps (hyd1_like KS0017, aga1 KS0080, ece1 KS0107, ecm33 KS0086), starting with the ecm33 check (Ecm33 PF12454 is in the panel yet gives no GA hit on Q5AGC4). A model is built only where the training rule of decision 7 is met; the rest are reported as `not_buildable` known gaps. |
+| S4 | The two pieces are drafted in parallel; the HPCC jobs run one at a time with the owner's go-ahead for each: the small gap search first, the specificity tests after. |
+
+The 14 "add to panel" proposals of the scan come from the same candidate list; they need no separate decision. The two wall clusters hit by adhesion family models (pir1 KS0082, cfmA KS0116) stay descriptive.
+
 ## 8. Not in this design
 
 No ESM or fine-tuned model (decision 11). No fusion model (decision 4). No change to any call, `narrow_ok`, tier or status file by this document. No non-homology module (composition, repeats, domain architecture) for the clade-restricted genes; that is a separate piece of work. No HPCC job has been run for PR 6. The grouping table is a reporting label made from annotation text; it is not evidence of homology.
