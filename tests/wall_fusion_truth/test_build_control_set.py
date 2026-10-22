@@ -22,6 +22,8 @@ SEQ_B = "M" + "LKIHGFEDCA" * 6
 SEQ_C = "M" + "KLMNPQRSTV" * 6
 SEQ_D = "M" + "VTSRQPNMLK" * 6
 SEQ_E = "M" + "WYACDEFGHI" * 6  # a UniProt sequence that differs from the JGI one
+SEQ_F = "M" + "QRSTVWYACD" * 6
+SEQ_G = "M" + "EFGHIKLMNP" * 6
 JGI_ONLY = "M" + "HIKLMNPQRS" * 6  # a JGI sequence: it must never reach an output
 
 
@@ -115,6 +117,26 @@ ROWS = [
         accession="P00005",
         jgi_seq_sha256=sha(SEQ_C),
     ),
+    # no accession by name, but exactly one cached UniProt entry has this very sequence
+    mrow(
+        "seqhit",
+        cluster_number="90",
+        category="adhesion",
+        slice="adhesion",
+        protein_id_jgi="99_Neucr2",
+        jgi_seq_sha256=sha(SEQ_F),
+        jgi_accept="portal_validated",
+    ),
+    # two cached UniProt entries have this sequence: the accession is ambiguous, so a local key
+    mrow(
+        "twin",
+        cluster_number="91",
+        category="adhesion",
+        slice="adhesion",
+        protein_id_jgi="98_Neucr2",
+        jgi_seq_sha256=sha(SEQ_G),
+        jgi_accept="portal_validated",
+    ),
     # a name conflict: not a control
     mrow(
         "hyr1",
@@ -176,6 +198,9 @@ UNIPROT = {
     "P00004": SEQ_D,
     "P00005": SEQ_E,
     "P00006": SEQ_A + "K",
+    "P00007": SEQ_F,
+    "P00008": SEQ_G,
+    "P00009": SEQ_G,
 }
 
 
@@ -253,11 +278,17 @@ def test_split_into_public_local_family_and_rejected(inputs, tmp_path):
     assert run(inputs, out) == 0
     controls = {r["accession"]: r for r in tsv(out / "controls.tsv")}
     local = {r["accession"]: r for r in tsv(out / "controls_local_sequence.tsv")}
-    assert set(controls) == {"P00001", "P00002", "P00003", "P00004", "P00005"}
-    assert set(local) == {"jgi:Neucr2:44"}  # the local key is marked jgi:
+    assert set(controls) == {"P00001", "P00002", "P00003", "P00004", "P00005", "P00007"}
+    assert set(local) == {"jgi:Neucr2:44", "jgi:Neucr2:98"}  # the local key is marked jgi:
     assert local["jgi:Neucr2:44"]["sequence_in_repo"] == "no"
     assert local["jgi:Neucr2:44"]["sequence_source"] == "jgi_file_local"
     assert local["jgi:Neucr2:44"]["sequence_sha256"] == sha(JGI_ONLY)
+    # the accession of seqhit was found by its sequence; the twin has two candidates and stays local
+    assert (
+        controls["P00007"]["gene"] == "seqhit"
+        and "identical sequence" in controls["P00007"]["notes"]
+    )
+    assert controls["P00007"]["sequence_matches_jgi"] == "yes"
     # family representatives and unmapped rows are never controls
     assert "P00006" not in controls
     fam = tsv(out / "family_reps.tsv")
@@ -320,7 +351,7 @@ def test_the_set_passes_the_l1_validator(inputs, tmp_path):
     run(inputs, out)
     rep = validate_controls(out)
     assert rep.ok, [str(d) for d in rep.defects]
-    assert rep.counts["rows"] == 5 and rep.counts["sequences"] == 5
+    assert rep.counts["rows"] == 6 and rep.counts["sequences"] == 6
 
 
 def test_two_runs_give_the_same_bytes(inputs, tmp_path):
@@ -346,7 +377,16 @@ def test_one_protein_in_two_slices_is_an_error(inputs, tmp_path):
 def test_clusters_tsv_and_split_members_replace_the_proxy(inputs, tmp_path):
     clusters = tmp_path / "clusters.tsv"
     members = tmp_path / "members_split.tsv"
-    accs = ["P00001", "P00002", "P00003", "P00004", "P00005", "jgi:Neucr2:44"]
+    accs = [
+        "P00001",
+        "P00002",
+        "P00003",
+        "P00004",
+        "P00005",
+        "P00007",
+        "jgi:Neucr2:44",
+        "jgi:Neucr2:98",
+    ]
     clusters.write_text(
         "accession\tcluster_id\n" + "".join(f"{a}\tKS000{i}\n" for i, a in enumerate(accs))
     )
@@ -407,7 +447,11 @@ def test_committed_counts_are_recomputed_from_the_mapping():
     controls = tsv(COMMITTED / "controls.tsv")
     local = tsv(COMMITTED / "controls_local_sequence.tsv")
     assert len(controls) + len(local) == len(keys)
-    assert {r["accession"] for r in local} == {k for k in keys if k.startswith("jgi:")}
+    # a row without an accession gets a local key, unless one cached UniProt entry has its sequence
+    local_keys = {r["accession"] for r in local}
+    assert local_keys <= {k for k in keys if k.startswith("jgi:")}
+    resolved = [r for r in controls if "identical sequence" in r["notes"]]
+    assert len(local_keys) + len(resolved) == len({k for k in keys if k.startswith("jgi:")})
     assert len(tsv(COMMITTED / "family_reps.tsv")) == sum(
         r["control_role"] == "family_rep" for r in rows
     )
@@ -416,7 +460,8 @@ def test_committed_counts_are_recomputed_from_the_mapping():
         r["control_role"] != "family_rep" and r["map_status"] not in bcs.STRICT for r in rows
     )
     # every strictly mapped row is in a control table: nothing is dropped, nothing is padded
-    assert {r["accession"] for r in controls} | {r["accession"] for r in local} == keys
+    got = {r["accession"] for r in controls} | local_keys
+    assert len(got) == len(keys) and {k for k in keys if not k.startswith("jgi:")} <= got
     # the owner's three name_conflict rows are not controls
     assert {"hyr1", "bhp2", "bhp3"} <= {r["gene_or_family_id"] for r in rejected}
     assert not {"hyr1", "bhp2", "bhp3"} & {

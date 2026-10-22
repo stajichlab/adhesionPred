@@ -226,10 +226,18 @@ def jgi_key(row: dict) -> str:
 def build(rows: list[dict], orgs: dict[str, dict], seqs: dict[str, dict], kiss: dict, date: str):
     """Return (controls, local, family_reps, rejected, family_sequences) as lists of dicts."""
     strata = clade_strata(rows)
+    by_sha: dict[str, list[str]] = defaultdict(list)
+    for acc, rec in seqs.items():
+        by_sha[sha256_text(rec["sequence"])].append(acc)
+    found_by_sequence: set[str] = set()
     groups: dict[str, list[dict]] = defaultdict(list)
     for r in rows:
         if r["map_status"] in STRICT and r["control_role"] == "kiss_row":
             acc = r["accession"]
+            if not acc and len(by_sha.get(r["jgi_seq_sha256"], [])) == 1:
+                # no accession by name, but one cached UniProt entry has this very sequence
+                acc = by_sha[r["jgi_seq_sha256"]][0]
+                found_by_sequence.add(acc)
             groups[acc if acc else jgi_key(r)].append(r)
 
     controls, local = [], []
@@ -244,10 +252,10 @@ def build(rows: list[dict], orgs: dict[str, dict], seqs: dict[str, dict], kiss: 
         clusters = sorted({r["cluster_number"] for r in g}, key=int)
         evidence = min((evidence_of(r) for r in g), key=EVIDENCE_ORDER.index)
         accept = next((e for e in EVIDENCE_ORDER if any(r["jgi_accept"] == e for r in g)), "")
-        public = bool(first["accession"]) and first["accession"] in seqs
+        public = key in seqs
         sha_jgi = next((r["jgi_seq_sha256"] for r in g if r["jgi_seq_sha256"]), "")
         if public:
-            seq = seqs[first["accession"]]["sequence"]
+            seq = seqs[key]["sequence"]
             sha = sha256_text(seq)
             matches = ("yes" if sha == sha_jgi else "no") if sha_jgi else "not_checked"
             source_of = "uniprot"
@@ -264,6 +272,11 @@ def build(rows: list[dict], orgs: dict[str, dict], seqs: dict[str, dict], kiss: 
             )
         if first["accession"] and not public:
             notes.append("UniProt accession without a sequence in the cache")
+        if key in found_by_sequence and not first["accession"]:
+            notes.append(
+                "accession found by an identical sequence (sha256) in the UniProt answers cached "
+                "in Task 5.1, not by name"
+            )
         if matches == "no":
             notes.append(
                 "the UniProt sequence differs from the JGI protein (map_kiss jgi_vs_uniprot "
@@ -534,6 +547,9 @@ UNVERIFIED = """# Notes that are not checked
   this protein.
 - **Sequence differs from JGI.** Where `sequence_matches_jgi` is `no`, the committed sequence is
   the UniProt one, not the Kiss (JGI) one.
+- **Accession found by sequence.** For a row with no accession by name, the accession is taken from
+  the one cached UniProt entry whose sequence has the same sha256 as the JGI protein (the `notes`
+  column says so). The Kiss gene name was not used and may differ from the UniProt gene name.
 - **Species names.** `species` and `taxon_id` come from NCBI Taxonomy answers cached by `map_kiss.py`
   (`results/organism_resolution.tsv`). They were not checked against `names.dmp`.
 - **Wall rows.** The wall rows are a descriptive panel for the wall models and a false-hit panel for

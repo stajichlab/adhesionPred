@@ -13,8 +13,8 @@ that report) bind this set.
 
 | File | Content |
 |---|---|
-| `controls.tsv` | 110 positive controls with a public UniProt sequence. Checked by the L1 validator. |
-| `controls_local_sequence.tsv` | 22 positive controls whose sequence is not public. Same columns. The validator does not read it. |
+| `controls.tsv` | 112 positive controls with a public UniProt sequence. Checked by the L1 validator. |
+| `controls_local_sequence.tsv` | 20 positive controls whose sequence is not public. Same columns. The validator does not read it. |
 | `sequences.faa` | UniProt sequences of `controls.tsv`. Header = accession. |
 | `clusters.tsv` | `accession<TAB>cluster_id`. Kiss cluster per slice: a proxy until Task 5.3. |
 | `family_reps.tsv`, `family_rep_sequences.faa` | 35 family representatives (Afu orthologs). Training seeds and baseline report only. |

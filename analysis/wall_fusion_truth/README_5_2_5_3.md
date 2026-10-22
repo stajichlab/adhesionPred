@@ -20,13 +20,15 @@ Tests: `tests/wall_fusion_truth/test_build_control_set.py`, `test_build_kiss_fas
 
 | | adhesion | wall | fusion | total |
 |---|---|---|---|---|
-| `controls.tsv` (public UniProt sequence; L1 validator: PASS) | 29 | 76 | 5 | 110 |
-| `controls_local_sequence.tsv` (key `jgi:<portal>:<id>`, no public sequence) | 7 | 15 | 0 | 22 |
+| `controls.tsv` (public UniProt sequence; L1 validator: PASS) | 31 | 76 | 5 | 112 |
+| `controls_local_sequence.tsv` (key `jgi:<portal>:<id>`, no public sequence) | 5 | 15 | 0 | 20 |
 | both | 36 | 91 | 5 | 132 |
 
-The 132 rows are the 133 strictly mapped Kiss rows with one merge (cot-2 and gs-1 are the same JGI protein 8184_Neucr2). In `controls.tsv` there are 56 Kiss clusters (per slice); with the local rows 66. `family_reps.tsv` has 35 rows (30 sequences; 12 of those accessions are also controls). `rejected.tsv` has 13 rows: 11 JGI-ID rows that are not mapped (hyr1, bhp2 and bhp3 as `name_conflict`) and 2 family rows without a locus.
+The 132 rows are the 133 strictly mapped Kiss rows with one merge (cot-2 and gs-1 are the same JGI protein 8184_Neucr2). In `controls.tsv` there are 57 Kiss clusters (per slice); with the local rows 66. `family_reps.tsv` has 35 rows (30 sequences; 12 of those accessions are also controls). `rejected.tsv` has 13 rows: 11 JGI-ID rows that are not mapped (hyr1, bhp2 and bhp3 as `name_conflict`) and 2 family rows without a locus.
 
-**Why two control files.** The L1 validator requires every accession to have a sequence in `sequences.faa`. The 22 rows with no UniProt accession have a sequence only in a JGI file, and JGI sequences are never committed. They are therefore in a second table with the same columns, kept out of `controls.tsv`. They count as controls; `build_kiss_fasta.py` reads them back. This is a trade-off the owner may change (open question 2).
+**Accessions found by sequence.** Of the 22 rows that map without an accession by name, two (pga62_flo1 and als3_als1, accessions Q5AF41 and Q59L12) have a sequence identical (sha256) to exactly one UniProt entry in the answers cached in Task 5.1. They are keyed by that accession and are in `controls.tsv` (the note says how). A row whose sequence matches two cached entries keeps its local key. One more (hum3) has a sequence identical to a hydrophobin sequence in `analysis/hydrophobin_truth/`; no accession was looked up for it (that needs a UniProt query).
+
+**Why two control files.** The L1 validator requires every accession to have a sequence in `sequences.faa`. The 20 rows with no usable UniProt accession have a sequence only in a JGI file, and JGI sequences are never committed. They are therefore in a second table with the same columns, kept out of `controls.tsv`. They count as controls; `build_kiss_fasta.py` reads them back. This is a trade-off the owner may change (open question 2).
 
 **Clusters are a proxy until Task 5.3.** `clusters.tsv` uses `KISS-<slice>-<cluster_number>`. COMMON-RULES rule 4 asks for MMseqs2. After the job, `build_control_set.py --clusters-tsv ... --split-members ...` replaces them and fills `leakage` and `seed_class`.
 

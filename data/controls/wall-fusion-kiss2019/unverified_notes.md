@@ -15,6 +15,9 @@
   this protein.
 - **Sequence differs from JGI.** Where `sequence_matches_jgi` is `no`, the committed sequence is
   the UniProt one, not the Kiss (JGI) one.
+- **Accession found by sequence.** For a row with no accession by name, the accession is taken from
+  the one cached UniProt entry whose sequence has the same sha256 as the JGI protein (the `notes`
+  column says so). The Kiss gene name was not used and may differ from the UniProt gene name.
 - **Species names.** `species` and `taxon_id` come from NCBI Taxonomy answers cached by `map_kiss.py`
   (`results/organism_resolution.tsv`). They were not checked against `names.dmp`.
 - **Wall rows.** The wall rows are a descriptive panel for the wall models and a false-hit panel for
