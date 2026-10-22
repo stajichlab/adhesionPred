@@ -1,0 +1,3 @@
+accession	gene	species	stratum	evalue	score	length	listed_in_freeze
+P38248	ECM33	Saccharomyces cerevisiae	gpi_wall_enzyme	7.6e-56	182.8	429	yes
+Q4WNS8	ecm33	Aspergillus fumigatus	gpi_wall_enzyme	8e-48	156.4	398	no
