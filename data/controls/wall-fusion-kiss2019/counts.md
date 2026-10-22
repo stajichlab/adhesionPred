@@ -8,10 +8,10 @@
 |---|---|
 | Rows (proteins) | 112 |
 | Sequences in `sequences.faa` | 112 |
-| Independent clusters (Kiss cluster per slice; a proxy until Task 5.3) | 57 |
+| Independent clusters (MMseqs2, 30% identity, 50% coverage) | 67 |
 | Rows positive | 112 |
 | Sequences positive | 112 |
-| Clusters positive | 57 |
+| Clusters positive | 67 |
 | Rows negative | 0 |
 | Sequences negative | 0 |
 | Clusters negative | 0 |
@@ -28,8 +28,8 @@ This set has no negatives on purpose. The hard negatives are the shared set of 1
 
 ## Rows kept out of `controls.tsv` because the sequence is not public
 
-`controls_local_sequence.tsv` holds 20 rows in 16 Kiss clusters. Their sequence is in a JGI file that stays on the owner's disk (key `jgi:<portal>:<proteinId>`; `sequence_sha256` is the check). The L1 validator does not read this file: it requires every accession to have a sequence in `sequences.faa`. `build_kiss_fasta.py` joins them back for Task 5.3.
-Both files together: 132 rows in 66 clusters.
+`controls_local_sequence.tsv` holds 20 rows in 17 Kiss clusters. Their sequence is in a JGI file that stays on the owner's disk (key `jgi:<portal>:<proteinId>`; `sequence_sha256` is the check). The L1 validator does not read this file: it requires every accession to have a sequence in `sequences.faa`. `build_kiss_fasta.py` joins them back for Task 5.3.
+Both files together: 132 rows in 76 clusters.
 
 ## Evidence level (both files)
 

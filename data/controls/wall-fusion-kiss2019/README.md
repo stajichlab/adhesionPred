@@ -16,7 +16,7 @@ that report) bind this set.
 | `controls.tsv` | 112 positive controls with a public UniProt sequence. Checked by the L1 validator. |
 | `controls_local_sequence.tsv` | 20 positive controls whose sequence is not public. Same columns. The validator does not read it. **These two files are one set: anything that reads the set must read both.** |
 | `sequences.faa` | UniProt sequences of `controls.tsv`. Header = accession. |
-| `clusters.tsv` | `accession<TAB>cluster_id`. Kiss cluster per slice: a proxy until Task 5.3. |
+| `clusters.tsv` | `accession<TAB>cluster_id`. MMseqs2 clusters (Task 5.3). |
 | `family_reps.tsv`, `family_rep_sequences.faa` | 35 family representatives (Afu orthologs). Training seeds and baseline report only; not clustered; each keeps its Kiss `cluster_number`; a flagged group in the report. |
 | `rejected.tsv` | 13 Kiss rows that are not controls, with the reason. |
 | `counts.md`, `unverified_notes.md` | counts and unchecked claims. |
@@ -70,14 +70,15 @@ before you use a row:
 ## How it was built
 
 ```
-python3 -I analysis/wall_fusion_truth/build_control_set.py
+python3 -I analysis/wall_fusion_truth/build_control_set.py --date 2026-10-22 \
+    --clusters-tsv docs/reports/data/kiss_cluster_split_2026-10-22/clusters.tsv \
+    --split-members docs/reports/data/kiss_cluster_split_2026-10-22/members_split.tsv
 ```
 
 The script is offline and deterministic (two runs give the same bytes). It reads
 `analysis/wall_fusion_truth/results/{row_mapping,organism_resolution}.tsv`,
 `results/query_cache.json` (the UniProt sequences) and the Kiss table. It never reads the JGI
-files. After Task 5.3 run it again with `--clusters-tsv` and `--split-members` (written by
-`seed_split.py`) to replace the proxy clusters and fill `leakage`, `seed_class_slice` and `seed_class_all39`.
+files. This copy was built with `--clusters-tsv` and `--split-members` from the Task 5.3 job (record `docs/reports/data/kiss_cluster_split_2026-10-22/`); without them the clusters are the Kiss proxy and `leakage` is `unknown`.
 
 Check: `python3 -m cellsurface_sorting_hat.controls data/controls/wall-fusion-kiss2019`
 (with `PYTHONPATH=src`).

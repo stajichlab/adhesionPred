@@ -1,0 +1,153 @@
+cluster_id	n_members	classes	slices	mixed_pos_neg	has_overlap_copy	seed_class_slice	seed_class_all39	n_members_with_hit_slice	n_members_with_hit_all39	best_identity_slice	best_identity_all39	clades_fine	clades_coarse	strata_fine	strata_coarse	kiss_clusters	jgi_accept	members
+KS0001	2	negative		no	no	not_applicable	seed-independent	0	0									A0A023I7E1,Q9UT45
+KS0002	1	positive	adhesion	no	no	seed-like	seed-like	1	1	74.6	74.6	Ustilaginomycetes	Basidiomycota	clade_only	clade_only	220	row_verified	A0A0D1BZL3
+KS0003	1	negative		no	no	not_applicable	seed-independent	0	0									A0A0D1DYI3
+KS0004	3	negative		no	no	not_applicable	seed-independent	0	0									A0A0D1E2P6,A0A0D2XVZ5,J9VKM5
+KS0005	6	positive	wall	no	no	seed-like	seed-like	6	6	100.0	100.0	Eurotiomycetes,Saccharomycotina,Sordariomycetes,Taphrinomycotina	Pezizomycotina,Saccharomycotina,Taphrinomycotina	shared	shared	635	portal_validated,row_verified	A0A1D8PCT0,O74475,P38631,Q10287,Q4WLT4,jgi:Neucr2:9773
+KS0006	2	positive	wall	no	no	seed-independent	seed-independent	0	0			Saccharomycotina,Sordariomycetes	Pezizomycotina,Saccharomycotina	shared	shared	6034	row_verified	A0A1D8PE53,P38678
+KS0007	3	positive	wall	no	no	seed-independent	seed-independent	0	0			Eurotiomycetes,Saccharomycotina	Pezizomycotina,Saccharomycotina	shared	shared	476	row_verified	A0A1D8PEG3,P13134,Q4WQI8
+KS0008	9	positive	wall	no	no	seed-like	seed-like	9	9	100.0	100.0	Eurotiomycetes,Saccharomycotina,Sordariomycetes	Pezizomycotina,Saccharomycotina	shared	shared	209	portal_validated,row_verified	A0A1D8PJ29,A0A1D8PTV3,P54267,Q4W9P7,Q4WIH1,Q92197,jgi:Neucr2:6692,jgi:Neucr2:7181,jgi:Neucr2:8241
+KS0009	1	positive	wall	no	no	seed-independent	seed-independent	0	0			Saccharomycotina	Saccharomycotina	clade_only	clade_only	1597	row_verified	A0A1D8PJN6
+KS0010	1	positive	wall	no	no	seed-independent	seed-independent	0	0			Saccharomycotina	Saccharomycotina	clade_only	clade_only	293	row_verified	A0A1D8PKB6
+KS0011	9	negative,positive	wall	yes	yes	seed-like	seed-like	1	9	100.0	100.0	Saccharomycotina	Saccharomycotina	clade_only	clade_only	374	row_verified	A0A384J6C4,A0A384JN58,A0A384K4T0,P53301,P53301#neg,Q4WD22,Q4WMW2,Q4WXE6,Q8J0P4
+KS0012	5	negative,positive	wall	yes	yes	seed-like	seed-like	2	5	100.0	100.0	Saccharomycotina	Saccharomycotina	clade_only	clade_only	374	row_verified	A0A384K116,P32623,P32623#neg,Q4WI46,Q5AJC0
+KS0013	1	negative		no	no	not_applicable	seed-independent	0	0									A0A385MIS5
+KS0014	3	negative		no	no	not_applicable	seed-independent	0	0									A0A9P6LVP5,P0DYC5,P0DYC6
+KS0015	3	positive	adhesion	no	no	seed-like	seed-like	3	3	100.0	100.0	Eurotiomycetes	Pezizomycotina	clade_only	clade_only	16148	locus_confirmed	A0ACE4JU10,E9QT94,P41746
+KS0016	9	positive	wall	no	no	seed-independent	seed-independent	0	0			Chytridiomycota,Eurotiomycetes,Saccharomycotina,Sordariomycetes,Ustilaginomycetes	Basidiomycota,Chytridiomycota,Pezizomycotina,Saccharomycotina	shared	shared	166	locus_confirmed,row_verified	A0ACE4K441,F4P6Q5,O74189,Q4WCG5,Q59X23,Q759J8,Q75DV8,Q7SD53,jgi:Ustma2_2:12965
+KS0017	1	positive	adhesion	no	no	seed-independent	seed-independent	0	0			Eurotiomycetes	Pezizomycotina	clade_only	clade_only	126186	locus_confirmed	A0ACE4KFX7
+KS0018	1	negative		no	no	not_applicable	seed-independent	0	0									A0ACF1AQZ4
+KS0019	7	negative		no	no	not_applicable	seed-like	0	7		89.5							A6N6J0,G2XF09,G5EAZ3,O14456,P0CB51,P48827,Q1E3R8
+KS0020	1	negative		no	no	not_applicable	seed-independent	0	0									A6XGK3
+KS0021	1	negative		no	no	not_applicable	seed-independent	0	0									A6XHF7
+KS0022	3	negative		no	no	not_applicable	seed-independent	0	0									A8NCG7,Q00023,Q4WBU0
+KS0023	1	negative		no	no	not_applicable	seed-independent	0	0									A8P0V4
+KS0024	1	negative		no	no	not_applicable	seed-independent	0	0									A8PZM4
+KS0025	1	negative		no	no	not_applicable	seed-independent	0	0									B0BK71
+KS0026	5	negative		no	no	not_applicable	seed-independent	0	0									B2ABX7,G4MM92,P07987,Q5B2E8,Q9C1S9
+KS0027	2	negative		no	no	not_applicable	seed-independent	0	0									B6GX22,O13716
+KS0028	1	negative		no	no	not_applicable	seed-like	0	1		100.0							B6QUR1
+KS0029	1	negative		no	no	not_applicable	seed-independent	0	0									C5P3X6
+KS0030	1	positive	fusion	no	no	seed-independent	seed-independent	0	0			Saccharomycotina	Saccharomycotina	clade_only	clade_only	9439	row_verified	D6VTK4
+KS0031	1	negative		no	no	not_applicable	seed-independent	0	0									E9DFH0
+KS0032	4	negative		no	no	not_applicable	seed-independent	0	0									E9F648,E9RBR0,F2SL83,P17489
+KS0033	11	negative		no	no	not_applicable	seed-independent	0	0									E9R598,I1RMG9,O59896,P38993,Q02497,Q09920,Q4PIF8,Q4WZB4,Q55P57,Q70KY3,S8FIE4
+KS0034	2	positive	wall	no	no	seed-independent	seed-independent	0	0			Eurotiomycetes,Saccharomycotina	Pezizomycotina,Saccharomycotina	shared	shared	762	row_verified	E9R5E2,P53704
+KS0035	6	positive	wall	no	no	seed-independent	seed-independent	0	0			Chytridiomycota,Eurotiomycetes,Saccharomycotina,Sordariomycetes,Tremellomycetes	Basidiomycota,Chytridiomycota,Pezizomycotina,Saccharomycotina	shared	shared	166	locus_confirmed,row_verified	F4P8T0,J9VNY5,Q1K4Z4,Q4WJ05,Q5ADM9,jgi:Ashgo1_1:1345
+KS0036	1	positive	adhesion	no	no	seed-like	seed-like	1	1	78.4	78.4	Saccharomycotina	Saccharomycotina	clade_only	clade_only	8594	row_verified	G1UB63
+KS0037	1	positive	adhesion	no	no	seed-like	seed-like	1	1	100.0	100.0	Saccharomycotina	Saccharomycotina	clade_only	clade_only	16358	row_verified	G1UBC2
+KS0038	1	negative		no	no	not_applicable	seed-independent	0	0									G2QFD0
+KS0039	4	negative		no	no	not_applicable	seed-independent	0	0									G2WQW0,P07981,P62694,Q8NK02
+KS0040	1	negative		no	no	not_applicable	seed-like	0	1		69.8							G2WSY1
+KS0041	1	negative		no	no	not_applicable	seed-like	0	1		51.7							G2WTI6
+KS0042	2	negative		no	no	not_applicable	seed-like	0	2		63.0							G2WYA4,K1XVG1
+KS0043	3	negative		no	no	not_applicable	seed-like	0	3		100.0							G2WYV9,I1RAQ3,Q4WNE1
+KS0044	1	negative		no	no	not_applicable	seed-like	0	1		50.0							G2X5B6
+KS0045	1	negative		no	no	not_applicable	seed-independent	0	0									G2X658
+KS0046	1	negative		no	no	not_applicable	seed-independent	0	0									G2X659
+KS0047	1	negative		no	no	not_applicable	seed-like	0	1		49.2							G2X962
+KS0048	3	negative		no	no	not_applicable	seed-like	0	3		49.5							G2X9U7,Q5AQQ0,Q6DWK3
+KS0049	2	negative		no	no	not_applicable	seed-like	0	2		54.4							G2XB57,I1REI8
+KS0050	1	negative		no	no	not_applicable	seed-independent	0	0									G4NDG4
+KS0051	3	negative,positive	wall	yes	no	seed-like	seed-like	1	3	39.4	39.4	Eurotiomycetes	Pezizomycotina	shared	shared	636		G5EB30,Q4WEP7,Q873Y0
+KS0052	2	positive	adhesion	no	no	seed-like	seed-like	2	2	100.0	100.0	Sordariomycetes	Pezizomycotina	clade_only	clade_only	7118	row_verified	I1RDW3,Q7S3P5
+KS0053	1	negative		no	no	not_applicable	seed-like	0	1		33.3							I1RET0
+KS0054	1	negative		no	no	not_applicable	seed-independent	0	0									J9VDC2
+KS0055	1	negative		no	no	not_applicable	seed-independent	0	0									J9VH79
+KS0056	1	positive	adhesion	no	no	seed-independent	seed-independent	0	0			Tremellomycetes	Basidiomycota	clade_only	clade_only	6453	locus_confirmed	J9VHS9
+KS0057	1	negative		no	no	not_applicable	seed-independent	0	0									J9VLH0
+KS0058	2	negative		no	no	not_applicable	seed-independent	0	0									J9VS02,Q4WNV0
+KS0059	1	negative		no	no	not_applicable	seed-like	0	1		62.6							K1WG73
+KS0060	1	negative		no	no	not_applicable	seed-like	0	1		41.3							K1XT82
+KS0061	1	negative		no	no	not_applicable	seed-like	0	1		59.6							K1XW16
+KS0062	1	negative		no	no	not_applicable	seed-independent	0	0									O42720
+KS0063	2	positive	wall	no	no	seed-independent	seed-independent	0	0			Saccharomycotina	Saccharomycotina	clade_only	clade_only	2972	row_verified	O74161,Q12114
+KS0064	1	negative		no	no	not_applicable	seed-like	0	1		32.5							O74199
+KS0065	1	positive	wall	no	no	seed-independent	seed-independent	0	0			Taphrinomycotina	Taphrinomycotina	clade_only	clade_only	8845	row_verified	O94614
+KS0066	1	negative		no	no	not_applicable	seed-independent	0	0									O94753
+KS0067	2	positive	fusion	no	no	seed-independent	seed-independent	0	0			Eurotiomycetes,Saccharomycotina	Pezizomycotina,Saccharomycotina	shared	shared	668	row_verified	P06783,Q4WUB6
+KS0068	4	negative		no	no	not_applicable	seed-like	0	3		100.0							P07982,Q66NB7,Q7SDR1,Q9HEZ1
+KS0069	1	positive	adhesion	no	no	seed-like	seed-like	1	1	100.0	100.0	Saccharomycotina	Saccharomycotina	clade_only	clade_only	14985	row_verified	P08640
+KS0070	8	negative,positive	wall	yes	yes	seed-like	seed-like	4	8	100.0	100.0	Eurotiomycetes,Saccharomycotina,Sordariomycetes	Pezizomycotina,Saccharomycotina	shared	shared	435	portal_validated,row_verified	P0C7S9,P0C954,P22146,P22146#neg,P43076,Q4WLT3,Q9Y7Y7,jgi:Neucr2:6440
+KS0071	1	negative		no	no	not_applicable	seed-independent	0	0									P0CS93
+KS0072	1	positive	wall	no	no	seed-independent	seed-independent	0	0			Saccharomycotina	Saccharomycotina	clade_only	clade_only	10706	row_verified	P0CY22
+KS0073	3	negative		no	no	not_applicable	seed-independent	0	0									P10863,P40552,Q12218
+KS0074	3	negative,positive	wall	yes	yes	seed-independent	seed-independent	0	0			Saccharomycotina	Saccharomycotina	clade_only	clade_only	171	row_verified	P23776,P23776#neg,Q9URU6
+KS0075	1	positive	adhesion	no	no	seed-like	seed-like	1	1	74.0	74.0	Saccharomycotina	Saccharomycotina	clade_only	clade_only	7187	row_verified	P25653
+KS0076	1	negative		no	no	not_applicable	seed-independent	0	0									P28319
+KS0077	4	negative,positive	wall	yes	yes	seed-like	seed-like	2	4	100.0	100.0	Saccharomycotina	Saccharomycotina	shared	shared	636	row_verified	P29029,P29029#neg,P40953,Q12713
+KS0078	3	positive	wall	no	no	seed-like	seed-like	3	3	100.0	100.0	Eurotiomycetes,Saccharomycotina,Sordariomycetes	Pezizomycotina,Saccharomycotina	shared	shared	368	portal_validated,row_verified	P29465,Q4WC58,jgi:Neucr2:1058
+KS0079	1	positive	fusion	no	no	seed-independent	seed-independent	0	0			Ustilaginomycetes	Basidiomycota	shared	shared	668	row_verified	P31302
+KS0080	1	positive	adhesion	no	no	seed-independent	seed-independent	0	0			Saccharomycotina	Saccharomycotina	clade_only	clade_only	5266	row_verified	P32323
+KS0081	1	negative		no	no	not_applicable	seed-independent	0	0									P32329
+KS0082	4	negative,positive	wall	yes	no	seed-independent	seed-like	0	4		82.6	Saccharomycotina	Saccharomycotina	clade_only	clade_only	4935	row_verified	P32478,P47001,Q03178,Q59SF7
+KS0083	4	positive	adhesion	no	no	seed-like	seed-like	4	4	100.0	100.0	Saccharomycotina	Saccharomycotina	clade_only	clade_only	7276	row_verified	P32768,P36170,P38894,P39712
+KS0084	1	positive	wall	no	no	seed-independent	seed-independent	0	0			Saccharomycotina	Saccharomycotina	clade_only	clade_only	361	row_verified	P34226
+KS0085	1	negative		no	no	not_applicable	seed-independent	0	0									P36027
+KS0086	3	negative,positive	wall	yes	no	seed-independent	seed-like	0	1		100.0	Saccharomycotina	Saccharomycotina	clade_only	clade_only	3228	row_verified	P38248,Q4WNS8,Q5AGC4
+KS0087	1	positive	wall	no	no	seed-independent	seed-independent	0	0			Saccharomycotina	Saccharomycotina	clade_only	clade_only	14891	row_verified	P38813
+KS0088	2	positive	wall	no	no	seed-independent	seed-independent	0	0			Saccharomycotina,Sordariomycetes	Pezizomycotina,Saccharomycotina	shared	shared	773	row_verified	P38843,Q7SB92
+KS0089	2	negative,positive	wall	yes	no	seed-like	seed-like	1	2	100.0	100.0	Saccharomycotina	Saccharomycotina	clade_only	clade_only	6796	row_verified	P39005,Q5ANN9
+KS0090	1	positive	wall	no	no	seed-independent	seed-independent	0	0			Saccharomycotina	Saccharomycotina	clade_only	clade_only	4272	row_verified	P40526
+KS0091	1	positive	wall	no	no	seed-independent	seed-independent	0	0			Saccharomycotina	Saccharomycotina	clade_only	clade_only	20021	row_verified	P40955
+KS0092	1	negative		no	no	not_applicable	seed-independent	0	0									P41748
+KS0093	1	negative		no	no	not_applicable	seed-independent	0	0									P41809
+KS0094	1	negative		no	no	not_applicable	seed-independent	0	0									P42835
+KS0095	1	negative		no	no	not_applicable	seed-independent	0	0									P43497
+KS0096	2	positive	adhesion	no	no	seed-like	seed-like	2	2	100.0	100.0	Saccharomycotina	Saccharomycotina	clade_only	clade_only	16358	row_verified	P46593,Q59TP1
+KS0097	1	negative		no	no	not_applicable	seed-independent	0	0									P47178
+KS0098	1	negative		no	no	not_applicable	seed-independent	0	0									P47179
+KS0099	2	positive	adhesion	no	no	seed-like	seed-like	2	2	100.0	100.0	Sordariomycetes	Pezizomycotina	clade_only	clade_only	7118	row_verified	P52754,P79073
+KS0100	3	negative,positive	wall	yes	no	seed-like	seed-like	2	3	100.0	100.0	Eurotiomycetes,Saccharomycotina	Pezizomycotina,Saccharomycotina	shared	shared	4470	row_verified	P53616,Q4WGL5,Q59NP5
+KS0101	1	negative		no	no	not_applicable	seed-independent	0	0									P53832
+KS0102	1	negative		no	no	not_applicable	seed-independent	0	0									P54867
+KS0103	2	positive	wall	no	no	seed-independent	seed-independent	0	0			Eurotiomycetes,Sordariomycetes	Pezizomycotina	shared	clade_only	9065	portal_validated	P78746,jgi:Neucr2:6661
+KS0104	2	negative,positive	adhesion	yes	no	seed-like	seed-like	1	1	100.0	100.0	Saccharomycotina	Saccharomycotina	clade_only	clade_only	7187	portal_validated	Q01589,Q5AF41
+KS0105	1	negative		no	no	not_applicable	seed-independent	0	0									Q04433
+KS0106	1	positive	adhesion	no	no	seed-like	seed-like	1	1	100.0	100.0	Sordariomycetes	Pezizomycotina	clade_only	clade_only	50327	row_verified	Q04571
+KS0107	1	positive	adhesion	no	no	seed-independent	seed-independent	0	0			Saccharomycotina	Saccharomycotina	clade_only	clade_only	140788	row_verified	Q07730
+KS0108	1	positive	adhesion	no	no	seed-like	seed-like	1	1	77.3	77.3	Saccharomycotina	Saccharomycotina	clade_only	clade_only	14985	row_verified	Q12140
+KS0109	2	positive	wall	no	no	seed-like	seed-like	2	2	100.0	100.0	Saccharomycotina,Sordariomycetes	Pezizomycotina,Saccharomycotina	shared	shared	843	row_verified	Q1K7A8,Q5ACZ2
+KS0110	1	negative		no	no	not_applicable	seed-like	0	1		35.6							Q4U4T0
+KS0111	4	negative		no	no	not_applicable	seed-like	0	4		47.2							Q4WA69,Q4WL79,Q4WLY1,Q4WU49
+KS0112	3	negative,positive	wall	yes	no	seed-independent	seed-independent	0	0			Sordariomycetes	Pezizomycotina	clade_only	clade_only	3807	portal_validated	Q4WBR2,Q8J0I9,jgi:Neucr2:6123
+KS0113	2	negative		no	no	not_applicable	seed-like	0	2		41.0							Q4WBS1,Q99036
+KS0114	1	positive	wall	no	no	seed-independent	seed-independent	0	0			Eurotiomycetes	Pezizomycotina	clade_only	clade_only	1557		Q4WDB9
+KS0115	2	positive	wall	no	no	seed-independent	seed-independent	0	0			Eurotiomycetes	Pezizomycotina	clade_only	clade_only	3602		Q4WFV3,Q4X143
+KS0116	2	negative,positive	wall	yes	yes	seed-independent	seed-like	0	2		73.8	Eurotiomycetes	Pezizomycotina	clade_only	clade_only	12180		Q4WLB9,Q4WLB9#neg
+KS0117	1	positive	wall	no	no	seed-like	seed-like	1	1	62.0	62.0	Eurotiomycetes	Pezizomycotina	clade_only	clade_only	3461		Q4WLT6
+KS0118	1	negative		no	no	not_applicable	seed-like	0	1		100.0							Q4WMA6
+KS0119	2	positive	wall	no	no	seed-independent	seed-independent	0	0			Eurotiomycetes,Saccharomycotina	Pezizomycotina,Saccharomycotina	shared	shared	222	row_verified	Q4WWF5,Q5AI14
+KS0120	1	positive	adhesion	no	no	seed-independent	seed-independent	0	0			Eurotiomycetes	Pezizomycotina	clade_only	clade_only	417		Q4WYE0
+KS0121	3	positive	wall	no	no	seed-like	seed-like	3	3	85.8	85.8	Eurotiomycetes,Sordariomycetes	Pezizomycotina	shared	clade_only	234	portal_validated	Q4X0H6,Q4X0H7,jgi:Neucr2:6174
+KS0122	1	positive	adhesion	no	no	seed-like	seed-like	1	1	96.8	96.8	Saccharomycotina	Saccharomycotina	clade_only	clade_only	8498	portal_validated	Q59L12
+KS0123	1	positive	wall	no	no	seed-independent	seed-independent	0	0			Saccharomycotina	Saccharomycotina	clade_only	clade_only	23348	row_verified	Q59SR6
+KS0124	1	positive	adhesion	no	no	seed-like	seed-like	1	1	92.3	92.3	Saccharomycotina	Saccharomycotina	clade_only	clade_only	8594	row_verified	Q59UT4
+KS0125	1	positive	wall	no	no	seed-independent	seed-independent	0	0			Saccharomycotina	Saccharomycotina	clade_only	clade_only	12110	row_verified	Q5A343
+KS0126	1	positive	wall	no	no	seed-independent	seed-independent	0	0			Saccharomycotina	Saccharomycotina	clade_only	clade_only	41483	row_verified	Q5A753
+KS0127	1	positive	adhesion	no	no	seed-independent	seed-independent	0	0			Saccharomycotina	Saccharomycotina	clade_only	clade_only	4291	row_verified	Q5AAL9
+KS0128	1	positive	adhesion	no	no	seed-independent	seed-independent	0	0			Saccharomycotina	Saccharomycotina	clade_only	clade_only	44817	row_verified	Q5AFI4
+KS0129	3	negative,positive	wall	yes	no	seed-like	seed-like	2	3	37.9	37.9	Sordariomycetes	Pezizomycotina	clade_only	clade_only	4166	portal_validated	Q5AUT0,jgi:Neucr2:3834,jgi:Neucr2:5869
+KS0130	2	negative		no	no	not_applicable	seed-independent	0	0									Q5B508,Q9P4W4
+KS0131	1	negative		no	no	not_applicable	seed-independent	0	0									Q5B6Q3
+KS0132	1	negative		no	no	not_applicable	seed-independent	0	0									Q5BAP5
+KS0133	2	negative		no	no	not_applicable	seed-independent	0	0									Q5J6J1,Q5J6J2
+KS0134	1	negative		no	no	not_applicable	seed-independent	0	0									Q5J6J3
+KS0135	1	negative		no	no	not_applicable	seed-independent	0	0									Q5QHG5
+KS0136	1	negative		no	no	not_applicable	seed-independent	0	0									Q5QHG6
+KS0137	1	positive	wall	no	no	seed-independent	seed-independent	0	0			Saccharomycotina	Saccharomycotina	shared	shared	166	row_verified	Q75EX8
+KS0138	1	positive	fusion	no	no	seed-independent	seed-independent	0	0			Sordariomycetes	Pezizomycotina	clade_only	clade_only	13739	row_verified	Q7SDK1
+KS0139	1	negative		no	no	not_applicable	seed-independent	0	0									Q8J0D5
+KS0140	1	negative		no	no	not_applicable	seed-independent	0	0									Q8NJP6
+KS0141	1	negative		no	no	not_applicable	seed-independent	0	0									Q8NJQ5
+KS0142	1	negative		no	no	not_applicable	seed-independent	0	0									Q99034
+KS0143	1	positive	adhesion	no	no	seed-independent	seed-independent	0	0			Ustilaginomycetes	Basidiomycota	clade_only	clade_only	8398	row_verified	Q99109
+KS0144	1	negative		no	no	not_applicable	seed-independent	0	0									Q9UW98
+KS0145	1	negative		no	no	not_applicable	seed-independent	0	0									XP_045276491.1
+KS0146	1	positive	wall	no	no	seed-independent	seed-independent	0	0			Sordariomycetes	Pezizomycotina	clade_only	clade_only	3398	portal_validated	jgi:Neucr2:1684
+KS0147	1	positive	wall	no	no	seed-independent	seed-independent	0	0			Sordariomycetes	Pezizomycotina	clade_only	clade_only	1678	portal_validated	jgi:Neucr2:2755
+KS0148	1	positive	adhesion	no	no	seed-independent	seed-independent	0	0			Sordariomycetes	Pezizomycotina	clade_only	clade_only	7971	portal_validated	jgi:Neucr2:3723
+KS0149	1	positive	adhesion	no	no	seed-independent	seed-independent	0	0			Sordariomycetes	Pezizomycotina	clade_only	clade_only	1012	portal_validated	jgi:Neucr2:4224
+KS0150	1	positive	adhesion	no	no	seed-independent	seed-independent	0	0			Sordariomycetes	Pezizomycotina	clade_only	clade_only	48004	portal_validated	jgi:Neucr2:8199
+KS0151	1	positive	adhesion	no	no	seed-independent	seed-independent	0	0			Sordariomycetes	Pezizomycotina	clade_only	clade_only	2024	portal_validated	jgi:Neucr2:8934
+KS0152	1	positive	adhesion	no	no	seed-like	seed-like	1	1	80.7	80.7	Ustilaginomycetes	Basidiomycota	clade_only	clade_only	5817	portal_validated	jgi:Ustma2_2:11962
