@@ -447,6 +447,125 @@ def test_main_stops_when_a_query_search_is_missing(tmp_path):
         run_main(tmp_path, tmp_path / "out")
 
 
+# --- UniRef50 headers (round 2) ---------------------------------------------------------------------------
+
+
+def uniref(acc, taxid, n=1, rep=None, species="Some species"):
+    """(target, description) of a UniRef50 hit: the cluster id and the rest of the header line."""
+    return f"UniRef50_{acc}", f"some protein n={n} Tax={species} TaxID={taxid} RepID={rep or acc}"
+
+
+def test_tblout_reads_taxid_from_uniref_and_still_from_uniprot(tmp_path):
+    t1, d1 = uniref("B1", 5141, n=7)
+    path = tmp_path / "x.tbl"
+    write_tbl(path, [(t1, 1e-9, 30.0, d1), (sp("U1"), 1e-9, 30.0, desc(5140))])
+    rows = {r["target"]: r for r in gap.parse_tblout(path)}
+    assert (
+        rows[t1]["taxid"] == 5141 and rows[t1]["rep"] == "B1" and rows[t1]["taxid_conflict"] is None
+    )
+    assert rows[sp("U1")]["taxid"] == 5140 and rows[sp("U1")]["rep"] is None
+
+
+def test_uniref_self_is_the_cluster_of_the_query_or_its_repid(tmp_path, tax):
+    def classify(target, d):
+        path = tmp_path / "t.tbl"
+        write_tbl(path, [(target, 1e-9, 30.0, d)])
+        rows = gap.classify_hits("Q07730", "Saccharomycotina", gap.parse_tblout(path), tax)
+        return [(r["accession"], r["where"]) for r in rows]
+
+    # the cluster of the query, and a cluster whose RepID names the query
+    assert classify(*uniref("Q07730", 5476)) == [("UniRef50_Q07730", "self")]
+    assert classify("UniRef50_B9WG30", "x n=2 Tax=C TaxID=5476 RepID=Q07730") == [
+        ("UniRef50_B9WG30", "self")
+    ]
+    # a representative that is another protein is a normal hit, classified by its own taxon
+    assert classify(*uniref("B9WG30", 5476)) == [("UniRef50_B9WG30", "inside_clade")]
+
+
+def test_uniref_member_counts_are_not_used_by_the_rule(tmp_path, tax):
+    path = tmp_path / "t.tbl"
+    taxa = [5141, 5140, 5144, 162425, 330879]
+    ns = [1, 1, 1, 1, 5000]  # a huge cluster counts once
+    hits = [uniref(f"R{i}", t, n=n) for i, (t, n) in enumerate(zip(taxa, ns, strict=True))]
+    write_tbl(path, [(target, 1e-8, 30.0, d) for target, d in hits])
+    rows = gap.classify_hits("Q0", "Saccharomycotina", gap.parse_tblout(path), tax)
+    rule = gap.training_rule(rows)
+    assert rule["n_outside_seq"] == 5 and rule["n_outside_clades"] == 2 and rule["rule_met"]
+
+
+def test_ox_and_taxid_that_disagree_give_no_taxon_and_are_reported_loudly(tmp_path, tax, capsys):
+    path = tmp_path / "t.tbl"
+    write_tbl(
+        path,
+        [
+            ("UniRef50_X1", 1e-9, 30.0, "p n=1 Tax=S OX=5141 TaxID=5140 RepID=X1"),
+            ("UniRef50_X2", 1e-9, 30.0, "p n=1 Tax=S OX=5141 TaxID=5141 RepID=X2"),
+        ],
+    )
+    rows = {r["target"]: r for r in gap.parse_tblout(path)}
+    assert rows["UniRef50_X1"]["taxid"] is None and rows["UniRef50_X1"]["taxid_conflict"] == (
+        5141,
+        5140,
+    )
+    assert rows["UniRef50_X2"]["taxid"] == 5141 and rows["UniRef50_X2"]["taxid_conflict"] is None
+    classified = gap.classify_hits("Q0", "Saccharomycotina", list(rows.values()), tax)
+    assert {r["accession"]: r["where"] for r in classified}["UniRef50_X1"] == "no_taxid"
+
+
+def test_main_with_uniref_headers_and_a_taxid_conflict(tmp_path, capsys):
+    make_run(tmp_path)
+    ph, jk = tmp_path / "ph", tmp_path / "jk"
+    own = uniref("Q5AGC4", 5476)
+    outside = [
+        uniref(f"R{i}", t, n=n)
+        for i, (t, n) in enumerate(
+            zip([5141, 5140, 5144, 162425, 330879], [1, 1, 3, 1, 900], strict=True)
+        )
+    ]
+    rows = [(own[0], 1e-80, 150.0, own[1])] + [(t, 1e-8, 30.0, d) for t, d in outside]
+    write_tbl(ph / "Q5AGC4.tbl", rows)
+    write_tbl(
+        jk / "Q5AGC4.tbl",
+        rows + [("UniRef50_BAD", 1e-8, 30.0, "p n=1 Tax=S OX=5141 TaxID=5140 RepID=BAD")],
+    )
+    out = tmp_path / "out"
+    assert run_main(tmp_path, out) == 0
+    cap = capsys.readouterr().out
+    assert "REPORT LOUD: 1 hit(s) carry OX= and TaxID= that disagree" in cap
+    conflicts = (out / "taxid_conflicts.tsv").read_text().splitlines()
+    assert conflicts[0] == "query\tmethod\thit\tOX\tTaxID" and conflicts[1].split("\t") == [
+        "Q5AGC4",
+        "jackhmmer",
+        "UniRef50_BAD",
+        "5141",
+        "5140",
+    ]
+    body = [r.split("\t") for r in (out / "gap_per_query.tsv").read_text().splitlines()]
+    row = dict(zip(body[0], next(r for r in body[1:] if r[3] == "Q5AGC4"), strict=True))
+    assert (
+        row["status"] == "buildable"
+        and row["phmmer_outside_seq"] == "5"
+        and row["jackhmmer_outside_seq"] == "5"
+    )
+
+
+def test_sbatch_is_ready_for_uniref50_and_a_longer_run():
+    t = text()
+    body = "\n".join(ln for ln in t.splitlines() if not ln.lstrip().startswith("#"))
+    # partition, time, cores and memory are only the #SBATCH defaults; the body fixes none of them
+    assert not re.search(r"--time|timeout|-p short|--mem", body)
+    assert 'THREADS="${SLURM_CPUS_PER_TASK:-8}"' in t
+    assert "overrides them on the sbatch command line" in t
+    # the target set (28.8 GB for UniRef50) is counted once and the count is reused
+    assert (
+        len(re.findall(r"grep -c '\^>' \"\$UNIPROT_FASTA\"", body)) == 1 and "$N_TARGET_SEQ" in body
+    )
+    # raw tables are kept if the summary step fails after hours of searching
+    assert "raw_after_summary_failure" in t
+    # the run settings are unchanged
+    assert "INC_E=1e-5" in t and "JACK_ITER=3" in t
+
+
 # --- the sbatch (static checks) ------------------------------------------------------------------------------
 
 

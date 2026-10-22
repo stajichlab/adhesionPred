@@ -12,8 +12,9 @@ Inputs
                  clades_fine, accessions). The held-out unit of a target is its own fine clade (all four are clade-only).
   --phmmer-dir / --jackhmmer-dir
                  one `<accession>.tbl` per target query: the `--tblout` of phmmer (one pass) and of jackhmmer
-                 (iterations) against the UniProt set. The description column of a UniProt hit carries `OX=<taxid>`.
-  --nodes, --names  the NCBI taxdump (nodes.dmp, names.dmp) that turns `OX=` into a clade.
+                 (iterations) against the target set. The description column of a UniProt hit carries `OX=<taxid>`;
+                 that of a UniRef50 hit carries `TaxID=<taxid>` and `RepID=<representative>` (both are read).
+  --nodes, --names  the NCBI taxdump (nodes.dmp, names.dmp) that turns `OX=` or `TaxID=` into a clade.
   --ecm33-domtbl, --ecm33-model, --ecm33-lengths  (optional) the Ecm33 check: `hmmsearch --domtblout` of the model
                  PF12454 against Q5AGC4 and P38248, the fetched model file (for GA and LENG) and a two-column table
                  sequence<TAB>length.
@@ -21,6 +22,15 @@ Inputs
 Clades are those of `map_kiss.clades_from_lineage` (fine level: Saccharomycotina for the yeasts, the class for
 Pezizomycotina and Basidiomycota, the phylum otherwise). Only fungi (taxon 4751 among the ancestors) count toward the
 minimum training set; hits from other kingdoms are counted apart and are descriptive.
+
+UniRef50 as the target (round 2): every hit is the REPRESENTATIVE of a 50 percent identity cluster (one sequence per
+cluster), so the counts of outside sequences are conservative against the same search of all UniProt. The header also
+carries `n=<members>`; the member counts are NOT used for the rule (only the representative sequence and its taxon
+are). The self hit of a query is recognised by the cluster id `UniRef50_<query>` or by `RepID=<query>`. A query that is
+only a member of a cluster whose representative is another protein is not "self": that representative is a homolog
+of the query at 50 percent identity or more and is classified by its own taxon. E-values depend on the size of the
+target set (the same E-value cut is stricter against UniRef50 than against Swiss-Prot), so counts of the two rounds
+are not strictly comparable.
 
 Minimum training set (decision 7, provisional): AT LEAST 5 distinct outside sequences IN TOTAL, spread over AT LEAST 2
 clades outside the held-out clade. (The stricter reading, 5 sequences in each of 2 clades, is a descriptive column.)
@@ -172,6 +182,9 @@ class Taxonomy:
 # ---------------------------------------------------------------------------------------------------- hits
 
 OX = re.compile(r"\bOX=(\d+)")
+TAXID = re.compile(r"\bTaxID=(\d+)")
+REPID = re.compile(r"\bRepID=(\S+)")
+UNIREF = re.compile(r"^UniRef\d+_(\S+)$")
 
 
 def uniprot_accession(target: str) -> str:
@@ -181,10 +194,15 @@ def uniprot_accession(target: str) -> str:
 
 
 def parse_tblout(path: Path) -> list[dict]:
-    """The hits of a phmmer/jackhmmer `--tblout`: target, E-value, score, taxid from `OX=` in the description.
+    """The hits of a phmmer/jackhmmer `--tblout`: target, E-value, score, taxid, representative.
+
+    The taxid is `OX=` (UniProt) or `TaxID=` (UniRef) in the description. If a description carries both and they
+    disagree, the hit is NOT given a taxon (taxid None, so it is `no_taxid` and never counts) and `taxid_conflict` holds
+    both values; `main` reports every such hit loudly. `rep` is the representative of a UniRef cluster (`RepID=` or the
+    suffix of the cluster id `UniRef50_<acc>`), None for a UniProt hit.
 
     The file must end with the `# [ok]` trailer (HMMER did not finish otherwise). A line has 18 columns followed by
-    the description of the target. A hit without `OX=` has taxid None."""
+    the description of the target. A hit with neither `OX=` nor `TaxID=` has taxid None."""
     lines = path.read_text().splitlines()
     if not lines or lines[-1].strip() != "# [ok]":
         raise ValueError(f"{path.name}: no '# [ok]' trailer (the search did not finish)")
@@ -196,14 +214,27 @@ def parse_tblout(path: Path) -> list[dict]:
         if len(f) < 18:
             raise ValueError(f"{path.name}: short line: {ln[:80]}")
         desc = f[18] if len(f) > 18 else ""
-        m = OX.search(desc)
+        ox, tid = OX.search(desc), TAXID.search(desc)
+        taxid, conflict = None, None
+        if ox and tid and ox.group(1) != tid.group(1):
+            conflict = (int(ox.group(1)), int(tid.group(1)))
+        elif ox or tid:
+            taxid = int((ox or tid).group(1))
+        rep = None
+        um, rm = UNIREF.match(f[0]), REPID.search(desc)
+        if rm:
+            rep = rm.group(1)
+        elif um:
+            rep = um.group(1)
         out.append(
             {
                 "target": f[0],
                 "accession": uniprot_accession(f[0]),
                 "evalue": float(f[4]),
                 "score": float(f[5]),
-                "taxid": int(m.group(1)) if m else None,
+                "taxid": taxid,
+                "rep": rep,
+                "taxid_conflict": conflict,
             }
         )
     return out
@@ -212,7 +243,8 @@ def parse_tblout(path: Path) -> list[dict]:
 def classify_hits(query_acc: str, held_out: str, hits: list[dict], tax: Taxonomy) -> list[dict]:
     """One row per distinct hit accession (the best E-value kept), with its clade and where it falls.
 
-    where: self (the query), no_taxid, non_fungal, inside_clade (the held-out clade), outside_clade."""
+    where: self (the query; for UniRef the cluster `UniRef50_<query>` or `RepID=<query>`), no_taxid, non_fungal,
+    inside_clade (the held-out clade), outside_clade."""
     best: dict[str, dict] = {}
     for h in hits:
         cur = best.get(h["accession"])
@@ -222,7 +254,7 @@ def classify_hits(query_acc: str, held_out: str, hits: list[dict], tax: Taxonomy
     for acc in sorted(best):
         h = best[acc]
         info = tax.info(h["taxid"]) if h["taxid"] is not None else None
-        if acc == query_acc:
+        if acc == query_acc or h.get("rep") == query_acc or acc == f"UniRef50_{query_acc}":
             where = "self"
         elif info is None:
             where = "no_taxid"
@@ -446,6 +478,7 @@ def main(argv: list[str] | None = None) -> int:
     dirs = {"phmmer": a.phmmer_dir, "jackhmmer": a.jackhmmer_dir}
     hits: dict[tuple[str, str], list[dict]] = {}
     taxids: set[int] = set()
+    conflicts: list[list] = []
     for t in targets:
         for acc in t["accessions"].split(","):
             for m in METHODS:
@@ -453,6 +486,11 @@ def main(argv: list[str] | None = None) -> int:
                 if not path.exists():
                     sys.exit(f"missing {path}")
                 hits[(acc, m)] = parse_tblout(path)
+                conflicts += [
+                    [acc, m, h["target"], *h["taxid_conflict"]]
+                    for h in hits[(acc, m)]
+                    if h["taxid_conflict"]
+                ]
                 taxids |= {h["taxid"] for h in hits[(acc, m)] if h["taxid"] is not None}
     tax = Taxonomy(a.nodes, a.names, taxids)
 
@@ -535,6 +573,10 @@ def main(argv: list[str] | None = None) -> int:
         ["query", "method", "hit_accession", "evalue", "score", "taxid", "clade_fine", "where"],
         hom_rows,
     )
+    if conflicts:
+        write_tsv(
+            a.out / "taxid_conflicts.tsv", ["query", "method", "hit", "OX", "TaxID"], conflicts
+        )
     ecm_lines: list[str] = []
     if a.ecm33_domtbl and a.ecm33_model and a.ecm33_lengths:
         model = parse_model_header(a.ecm33_model)
@@ -559,6 +601,14 @@ def main(argv: list[str] | None = None) -> int:
         "descriptive only: no model is built, no call, no status, no tier; not_buildable is a known gap",
         *ecm_lines,
     ]
+    if conflicts:
+        banner = "!" * 70
+        lines += [
+            banner,
+            f"REPORT LOUD: {len(conflicts)} hit(s) carry OX= and TaxID= that disagree; they have no taxon and are not "
+            "counted (see taxid_conflicts.tsv)",
+            banner,
+        ]
     for r in per_query:
         lines.append(
             f"{r[3]} ({r[2]}, {r[0]}, held-out {r[4]}): {r[-2]}" + (f" ({r[-1]})" if r[-1] else "")
