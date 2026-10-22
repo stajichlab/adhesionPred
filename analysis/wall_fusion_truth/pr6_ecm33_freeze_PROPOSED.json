@@ -1,0 +1,79 @@
+{
+ "frozen": false,
+ "status": "PROPOSED freeze. The owner freezes it: copy this file to pr6_ecm33_freeze.json (same folder), set \"frozen\": true, set owner_signature, commit. Nothing is built or scored before that commit; pr6_ecm33_build.py and pr6_ecm33_report.py refuse a file that is missing or not frozen.",
+ "target": "ecm33 (KS0086, Q5AGC4, wall slice, leave-clade-out at the fine level)",
+ "spec": "docs/superpowers/specs/2026-10-22-pr6-custom-hmms-design.md (sections 4.5, 4.6, 4.8)",
+ "members": "phmmer (one pass, E 1e-5) hits of Q5AGC4 against UniRef50 2025_03, fungal, with a fine clade (pr6_ecm33_members.py); the jackhmmer set is NOT used",
+ "cutoff_floor": 0.0,
+ "cutoff_floor_note": "the floor of analysis/hydrophobin_truth/relaxed.py (FLOOR = 0.0); proposal",
+ "extra_calls_per_10000": 5,
+ "extra_calls_note": "decision 8: at most 5 unlabelled extra calls per 10,000 proteins; per kept proteome (the precedent rule) and in all: 5 x 32,491 / 10,000 = 16.2455, about 16",
+ "labelled_rule": "a proteome protein is labelled (not an extra call) when phmmer of Q5AGC4 against that proteome finds it at E <= 1e-5 (the same definition of the family as the members)",
+ "hard_negative_rate": 0.05,
+ "hard_negative_rate_note": "the hydrophobin precedent value (relaxed.lowest_cutoff(..., 5, 0.05, ...)); proposal: the call rate of any shared hard-negative group (stratum of data/controls/hard-negatives-shared/controls.tsv) may not exceed it",
+ "negatives_ignored": [
+  "P38248"
+ ],
+ "negatives_ignored_note": "DECIDED by the owner 2026-10-22. P38248 (S. cerevisiae Ecm33, shared hard negative, stratum gpi_wall_enzyme) is a true member of the family: it is LEFT OUT of the hard-negative rate and reported on its own line (the report's p38248_line.tsv). The shared negative set itself is not changed for anyone else.",
+ "kept_proteomes": [
+  "Afum_Af293_UniProt",
+  "Calb_SC5314",
+  "Cimm_RS",
+  "Scer_S288C"
+ ],
+ "kept_proteome_sizes": {
+  "Afum_Af293_UniProt": 9647,
+  "Calb_SC5314": 6212,
+  "Cimm_RS": 9910,
+  "Scer_S288C": 6722
+ },
+ "min_unit_members": 5,
+ "min_unit_members_note": "a fine clade needs at least 5 members to be a held-out unit (provisional, like the floor of 5 clusters; members are not clusters)",
+ "training_rule": {
+  "min_sequences": 5,
+  "min_clades": 2,
+  "note": "decision 7, provisional; applied AFTER the independence rule"
+ },
+ "independence_mode": "cluster30",
+ "independence_note": "DECIDED by the owner 2026-10-22. HEADLINE: cluster30 (spec 4.4: no training member in the same MMseqs2 cluster, 30 percent identity and 50 percent coverage, as a held-out member). SECOND, DESCRIPTIVE column: none (only the held-out members themselves are removed). Both run for every held-out unit and are reported side by side, labelled headline and descriptive; the `all` model has no held-out unit and is built once. If cluster30 removes no neighbour of a unit, the second build would be identical and is not repeated (the report says so).",
+ "mmseqs": {
+  "command": "mmseqs easy-cluster --min-seq-id 0.3 -c 0.5",
+  "module": "MMseqs2/17-b804f"
+ },
+ "min_u": 3,
+ "min_u_note": "DECIDED by the owner 2026-10-22. u = held-out members that every comparator misses; a unit is testable when u >= 3 and the custom model must recover at least ceil(u/2) of them (spec 4.6; the hydrophobin run had u = 0).",
+ "aligner": {
+  "name": "mafft",
+  "module": "mafft/7.505",
+  "command": "mafft --localpair --maxiterate 1000 --quiet --thread N (L-INS-i, the precedent's options)"
+ },
+ "alignment_check": {
+  "occupancy": 0.5,
+  "min_columns": 100,
+  "min_median_coverage": 0.6,
+  "note": "PROPOSAL; the stop condition of the build (the hydrophobin cysteine check does not apply to Ecm33); a failing alignment stops the unit and is reported"
+ },
+ "model_build": "hmmbuild --amino --informat afa (module hmmer/3.4)",
+ "comparators": {
+  "pfam_ga": "PF12454 (Ecm33), hmmsearch --cut_ga",
+  "pfam_relaxed": "PF12454 with a frozen lower cutoff set by the same rule and the same data as the custom model (no positive score)",
+  "iteration": "jackhmmer -N 3 --incE 1e-5 -E 1e-5 seeded by the training alignment, searched over the held-out members, the four kept proteomes and the shared negatives"
+ },
+ "weak_evidence_rows_listed_by_name": "Kiss ecm33 (Q5AGC4) is row_verified; the members are homologs by search, not curated Ecm33 (stated in the report)",
+ "owner_signature": null,
+ "decided_by_owner_2026-10-22": [
+  "negatives_ignored",
+  "independence_mode",
+  "independence_second_column",
+  "min_u"
+ ],
+ "proposals_unchanged": [
+  "cutoff_floor",
+  "extra_calls_per_10000",
+  "hard_negative_rate",
+  "min_unit_members",
+  "alignment_check",
+  "training_rule"
+ ],
+ "independence_second_column": "none"
+}
