@@ -1,0 +1,13 @@
+slice	seed_class_kind	seed_class	n_rows	k_rows	n_clusters	k_clusters_any	k_clusters_all	row_recall	cluster_recall_any	wilson95_low	wilson95_high	status
+adhesion	slice	seed-like	24	24	16	16	16	1.000	1.000	0.806	1.000	estimated
+adhesion	slice	seed-independent	12	0	12	0	0	0.000	0.000	0.000	0.242	estimated
+adhesion	all39	seed-like	24	24	16	16	16	1.000	1.000	0.806	1.000	estimated
+adhesion	all39	seed-independent	12	0	12	0	0	0.000	0.000	0.000	0.242	estimated
+wall	slice	seed-like	39	39	14	14	14	1.000	1.000	0.785	1.000	estimated
+wall	slice	seed-independent	52	3	30	2	2	0.058	0.067	0.018	0.213	estimated
+wall	all39	seed-like	42	39	17	14	14	0.929	0.824	0.590	0.938	estimated
+wall	all39	seed-independent	49	3	27	2	2	0.061	0.074	0.021	0.234	estimated
+fusion	slice	seed-like	0	0	0	0	0					none
+fusion	slice	seed-independent	5	0	4	0	0	0.000	0.000	0.000	0.490	descriptive
+fusion	all39	seed-like	0	0	0	0	0					none
+fusion	all39	seed-independent	5	0	4	0	0	0.000	0.000	0.000	0.490	descriptive

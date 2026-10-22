@@ -1,0 +1,45 @@
+slice	cluster_id	n_members	accessions	genes	species	clades_fine	strata_fine	seed_class_slice	seed_class_all39	best_identity_all39	jgi_accept
+adhesion	KS0017	1	A0ACE4KFX7	hyd1_like	Histoplasma capsulatum	Eurotiomycetes	clade_only	seed-independent	seed-independent		locus_confirmed
+adhesion	KS0056	1	J9VHS9	cfl1	Cryptococcus neoformans	Tremellomycetes	clade_only	seed-independent	seed-independent		locus_confirmed
+adhesion	KS0080	1	P32323	aga1	Saccharomyces cerevisiae	Saccharomycotina	clade_only	seed-independent	seed-independent		row_verified
+adhesion	KS0107	1	Q07730	ece1	Candida albicans	Saccharomycotina	clade_only	seed-independent	seed-independent		row_verified
+adhesion	KS0120	1	Q4WYE0	glfB_Afu3g12700	Aspergillus fumigatus	Eurotiomycetes	clade_only	seed-independent	seed-independent		
+adhesion	KS0127	1	Q5AAL9	iff4	Candida albicans	Saccharomycotina	clade_only	seed-independent	seed-independent		row_verified
+adhesion	KS0128	1	Q5AFI4	dfi1	Candida albicans	Saccharomycotina	clade_only	seed-independent	seed-independent		row_verified
+adhesion	KS0143	1	Q99109	rep1	Mycosarcoma maydis	Ustilaginomycetes	clade_only	seed-independent	seed-independent		row_verified
+adhesion	KS0148	1	jgi:Neucr2:3723	ncl4	Neurospora crassa	Sordariomycetes	clade_only	seed-independent	seed-independent		portal_validated
+adhesion	KS0149	1	jgi:Neucr2:4224	ncl1	Neurospora crassa	Sordariomycetes	clade_only	seed-independent	seed-independent		portal_validated
+adhesion	KS0150	1	jgi:Neucr2:8199	ncl3	Neurospora crassa	Sordariomycetes	clade_only	seed-independent	seed-independent		portal_validated
+adhesion	KS0151	1	jgi:Neucr2:8934	ncl2	Neurospora crassa	Sordariomycetes	clade_only	seed-independent	seed-independent		portal_validated
+fusion	KS0030	1	D6VTK4	ste2	Saccharomyces cerevisiae	Saccharomycotina	clade_only	seed-independent	seed-independent		row_verified
+fusion	KS0067	2	P06783,Q4WUB6	preA_Afu5g07880,ste3	Aspergillus fumigatus,Saccharomyces cerevisiae	Eurotiomycetes,Saccharomycotina	shared	seed-independent	seed-independent		,row_verified
+fusion	KS0079	1	P31302	pra1	Mycosarcoma maydis	Ustilaginomycetes	shared	seed-independent	seed-independent		row_verified
+fusion	KS0138	1	Q7SDK1	so_soft	Neurospora crassa	Sordariomycetes	clade_only	seed-independent	seed-independent		row_verified
+wall	KS0006	2	A0A1D8PE53,P38678	cot-2/gs-1,smi1	Candida albicans,Neurospora crassa	Saccharomycotina,Sordariomycetes	shared	seed-independent	seed-independent		row_verified
+wall	KS0007	3	A0A1D8PEG3,P13134,Q4WQI8	kex2,kexB_Afu4g12970	Aspergillus fumigatus,Candida albicans,Saccharomyces cerevisiae	Eurotiomycetes,Saccharomycotina	shared	seed-independent	seed-independent		,row_verified
+wall	KS0009	1	A0A1D8PJN6	kre5	Candida albicans	Saccharomycotina	clade_only	seed-independent	seed-independent		row_verified
+wall	KS0010	1	A0A1D8PKB6	kre6	Candida albicans	Saccharomycotina	clade_only	seed-independent	seed-independent		row_verified
+wall	KS0016	9	A0ACE4K441,F4P6Q5,O74189,Q4WCG5,Q59X23,Q759J8,Q75DV8,Q7SD53,jgi:Ustma2_2:12965	AGOS_ABL085W,AGOS_ADR279C,BATDEDRAFT_35524,NCU09332,UM05433,pmt1,pmt4,pmt4_Afu8g04500	Aspergillus fumigatus,Batrachochytrium dendrobatidis,Candida albicans,Eremothecium gossypii,Histoplasma capsulatum,Mycosarcoma maydis,Neurospora crassa	Chytridiomycota,Eurotiomycetes,Saccharomycotina,Sordariomycetes,Ustilaginomycetes	shared	seed-independent	seed-independent		,locus_confirmed,row_verified
+wall	KS0034	2	E9R5E2,P53704	gfa1,gfa1_Afu6g06340	Aspergillus fumigatus,Candida albicans	Eurotiomycetes,Saccharomycotina	shared	seed-independent	seed-independent		,row_verified
+wall	KS0035	6	F4P8T0,J9VNY5,Q1K4Z4,Q4WJ05,Q5ADM9,jgi:Ashgo1_1:1345	ACR290W,BATDEDRAFT_20500,CND01240,NCU01648,pmt2,pmt2_Afu1g07690	Aspergillus fumigatus,Batrachochytrium dendrobatidis,Candida albicans,Cryptococcus neoformans,Eremothecium gossypii,Neurospora crassa	Chytridiomycota,Eurotiomycetes,Saccharomycotina,Sordariomycetes,Tremellomycetes	shared	seed-independent	seed-independent		,locus_confirmed,row_verified
+wall	KS0063	2	O74161,Q12114	chs5	Candida albicans,Saccharomyces cerevisiae	Saccharomycotina	clade_only	seed-independent	seed-independent		row_verified
+wall	KS0065	1	O94614	chr4	Schizosaccharomyces pombe	Taphrinomycotina	clade_only	seed-independent	seed-independent		row_verified
+wall	KS0072	1	P0CY22	kre1	Candida albicans	Saccharomycotina	clade_only	seed-independent	seed-independent		row_verified
+wall	KS0082	1	Q59SF7	pir1	Candida albicans	Saccharomycotina	clade_only	seed-independent	seed-like	82.6	row_verified
+wall	KS0084	1	P34226	chs4_skt5	Saccharomyces cerevisiae	Saccharomycotina	clade_only	seed-independent	seed-independent		row_verified
+wall	KS0086	1	Q5AGC4	ecm33	Candida albicans	Saccharomycotina	clade_only	seed-independent	seed-like	100.0	row_verified
+wall	KS0087	1	P38813	big1	Saccharomyces cerevisiae	Saccharomycotina	clade_only	seed-independent	seed-independent		row_verified
+wall	KS0088	2	P38843,Q7SB92	chs7	Neurospora crassa,Saccharomyces cerevisiae	Saccharomycotina,Sordariomycetes	shared	seed-independent	seed-independent		row_verified
+wall	KS0090	1	P40526	dfg10	Saccharomyces cerevisiae	Saccharomycotina	clade_only	seed-independent	seed-independent		row_verified
+wall	KS0091	1	P40955	chs6	Saccharomyces cerevisiae	Saccharomycotina	clade_only	seed-independent	seed-independent		row_verified
+wall	KS0112	1	jgi:Neucr2:6123	neg1	Neurospora crassa	Sordariomycetes	clade_only	seed-independent	seed-independent		portal_validated
+wall	KS0114	1	Q4WDB9	cwh41_Afu6g04210	Aspergillus fumigatus	Eurotiomycetes	clade_only	seed-independent	seed-independent		
+wall	KS0115	2	Q4WFV3,Q4X143	ags1_Afu3g00910,ags2_Afu2g11270	Aspergillus fumigatus	Eurotiomycetes	clade_only	seed-independent	seed-independent		
+wall	KS0116	1	Q4WLB9	cfmA_Afu6g14090	Aspergillus fumigatus	Eurotiomycetes	clade_only	seed-independent	seed-like	73.8	
+wall	KS0119	2	Q4WWF5,Q5AI14	orlA_Afu3g05650,tps2	Aspergillus fumigatus,Candida albicans	Eurotiomycetes,Saccharomycotina	shared	seed-independent	seed-independent		,row_verified
+wall	KS0123	1	Q59SR6	irs4	Candida albicans	Saccharomycotina	clade_only	seed-independent	seed-independent		row_verified
+wall	KS0125	1	Q5A343	pga13	Candida albicans	Saccharomycotina	clade_only	seed-independent	seed-independent		row_verified
+wall	KS0126	1	Q5A753	opy2	Candida albicans	Saccharomycotina	clade_only	seed-independent	seed-independent		row_verified
+wall	KS0137	1	Q75EX8	AGOS_AAL050W	Eremothecium gossypii	Saccharomycotina	shared	seed-independent	seed-independent		row_verified
+wall	KS0146	1	jgi:Neucr2:1684	cps1	Neurospora crassa	Sordariomycetes	clade_only	seed-independent	seed-independent		portal_validated
+wall	KS0147	1	jgi:Neucr2:2755	cot-5	Neurospora crassa	Sordariomycetes	clade_only	seed-independent	seed-independent		portal_validated
