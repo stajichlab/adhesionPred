@@ -1,0 +1,1 @@
+Intervals are the exact two-sided 95 percent Clopper-Pearson interval of k of n (stdlib, same function as the ecm33 evaluation). A wide interval is not a result: with these n it is the honest statement of how little each row shows.

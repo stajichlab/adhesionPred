@@ -1,0 +1,4 @@
+query A0ACE4KFX7 (KS0017), drift-supported hits with query cover >= 0.5, reading total
+members 30 = query + 29 hits in 4 named clades; excluded without a named clade 3 (listed, not counted)
+units: clade:Dothideomycetes unit; clade:Eurotiomycetes kiss_single; clade:Leotiomycetes too_few_members; clade:Sordariomycetes unit
+every cell stays descriptive: members are search hits, not independent curated truth

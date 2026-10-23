@@ -1,0 +1,128 @@
+{
+ "excluded_30pct_neighbours": [],
+ "held_out_ids": [
+  "A0ACE4KFX7",
+  "UniRef50_A0A1B8B552",
+  "UniRef50_A0A1T3CTW9",
+  "UniRef50_A0A8H4LLQ3",
+  "UniRef50_A0A8H5DJV6",
+  "UniRef50_A0A8K0WFS8",
+  "UniRef50_A0A9P9DF08",
+  "UniRef50_C7ZQZ4",
+  "UniRef50_K3V5D8",
+  "UniRef50_W7MSG5"
+ ],
+ "members_sha256": "31dd10d04112523df6a1bf12dbdda1ca6f43b44c70a1299b87a03495fc60aa5d",
+ "mode": "cluster30",
+ "n_excluded_neighbours": 0,
+ "n_held_out": 10,
+ "n_training": 20,
+ "n_training_clades": 3,
+ "reading": "total",
+ "reason": "",
+ "status": "buildable",
+ "training": [
+  {
+   "clade_fine": "Leotiomycetes",
+   "cluster": "UniRef50_A0A2K0UGM8",
+   "id": "UniRef50_A0A2J6TR41"
+  },
+  {
+   "clade_fine": "Sordariomycetes",
+   "cluster": "UniRef50_A0A2K0UGM8",
+   "id": "UniRef50_A0A2K0UGM8"
+  },
+  {
+   "clade_fine": "Sordariomycetes",
+   "cluster": "UniRef50_A0A428PAB1",
+   "id": "UniRef50_A0A428PAB1"
+  },
+  {
+   "clade_fine": "Dothideomycetes",
+   "cluster": "UniRef50_A0A6A6TUN3",
+   "id": "UniRef50_A0A6A6TUN3"
+  },
+  {
+   "clade_fine": "Dothideomycetes",
+   "cluster": "UniRef50_A0A2K0UGM8",
+   "id": "UniRef50_A0A6A6UDH5"
+  },
+  {
+   "clade_fine": "Sordariomycetes",
+   "cluster": "UniRef50_A0A2K0UGM8",
+   "id": "UniRef50_A0A6V8R0V1"
+  },
+  {
+   "clade_fine": "Sordariomycetes",
+   "cluster": "UniRef50_A0A428PAB1",
+   "id": "UniRef50_A0A8H4UMY2"
+  },
+  {
+   "clade_fine": "Sordariomycetes",
+   "cluster": "UniRef50_A0A6A6TUN3",
+   "id": "UniRef50_A0A8K0SLQ6"
+  },
+  {
+   "clade_fine": "Dothideomycetes",
+   "cluster": "UniRef50_A0A2K0UGM8",
+   "id": "UniRef50_A0A9P4W361"
+  },
+  {
+   "clade_fine": "Sordariomycetes",
+   "cluster": "UniRef50_A0A428PAB1",
+   "id": "UniRef50_A0A9P5HL03"
+  },
+  {
+   "clade_fine": "Leotiomycetes",
+   "cluster": "UniRef50_A0A2K0UGM8",
+   "id": "UniRef50_A0A9P6VPZ7"
+  },
+  {
+   "clade_fine": "Dothideomycetes",
+   "cluster": "UniRef50_R7Z4U3",
+   "id": "UniRef50_A0AAV9Q049"
+  },
+  {
+   "clade_fine": "Sordariomycetes",
+   "cluster": "UniRef50_A0A428PAB1",
+   "id": "UniRef50_C7Z356"
+  },
+  {
+   "clade_fine": "Sordariomycetes",
+   "cluster": "UniRef50_A0A2K0UGM8",
+   "id": "UniRef50_C7Z357"
+  },
+  {
+   "clade_fine": "Sordariomycetes",
+   "cluster": "UniRef50_A0A2K0UGM8",
+   "id": "UniRef50_G4MYZ7"
+  },
+  {
+   "clade_fine": "Sordariomycetes",
+   "cluster": "UniRef50_A0A2K0UGM8",
+   "id": "UniRef50_K3UAP1"
+  },
+  {
+   "clade_fine": "Leotiomycetes",
+   "cluster": "UniRef50_L8FR57",
+   "id": "UniRef50_L8FR57"
+  },
+  {
+   "clade_fine": "Dothideomycetes",
+   "cluster": "UniRef50_R7YX61",
+   "id": "UniRef50_R7YX61"
+  },
+  {
+   "clade_fine": "Dothideomycetes",
+   "cluster": "UniRef50_R7Z4U3",
+   "id": "UniRef50_R7Z4U3"
+  },
+  {
+   "clade_fine": "Dothideomycetes",
+   "cluster": "UniRef50_A0A2K0UGM8",
+   "id": "UniRef50_UPI001E8E78D5"
+  }
+ ],
+ "training_rule_met": true,
+ "unit": "cluster:UniRef50_C7ZQZ4"
+}

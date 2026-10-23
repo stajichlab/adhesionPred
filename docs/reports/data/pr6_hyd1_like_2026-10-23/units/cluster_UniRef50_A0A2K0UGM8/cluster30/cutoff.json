@@ -1,0 +1,84 @@
+{
+ "cutoff": 15.0,
+ "extra_call_limit_by_proteome": {
+  "Afum_Af293_UniProt": 4.8235,
+  "Calb_SC5314": 3.106,
+  "Cimm_RS": 4.955,
+  "Scer_S288C": 3.361
+ },
+ "extra_call_limit_total": 16.2455,
+ "extra_calls_by_proteome": {
+  "Afum_Af293_UniProt": 0,
+  "Calb_SC5314": 0,
+  "Cimm_RS": 0,
+  "Scer_S288C": 1
+ },
+ "extra_calls_per_10000": 5.0,
+ "extra_calls_total": 1,
+ "floor": 0.0,
+ "freeze_sha256": "65ed9bb6dbcc6035a4093537a5afc0f92a179d3f4356902c1aba83a12e552ff2",
+ "hard_negative_call_rates": {
+  "domain_non_member": 0.0,
+  "gpi_wall_enzyme": 0.0,
+  "laccase_etc": 0.0,
+  "mucin_sensor": 0.0,
+  "repeat_non_adhesin": 0.0,
+  "secretory_non_surface": 0.0,
+  "st_linker_enzyme": 0.0,
+  "wall_hydrolase": 0.0,
+  "wall_structural_other": 0.0
+ },
+ "hard_negative_max_rate": 0.0,
+ "hard_negative_rate_limit": 0.05,
+ "negatives_ignored": [],
+ "panel_ignored": [
+  "B6QUR1",
+  "XP_001242719.1",
+  "XP_001243627.2",
+  "sp|E9QT94|RODB_ASPFU",
+  "sp|P41746|RODA_ASPFU",
+  "sp|Q4WBR8|RODC_ASPFU",
+  "sp|Q4WC31|RODE_ASPFU",
+  "sp|Q4WE22|RODD_ASPFU",
+  "sp|Q4WEK0|RODF_ASPFU",
+  "sp|Q4X055|RODG_ASPFU",
+  "tr|E9R5X9|E9R5X9_ASPFU",
+  "tr|Q4W9B0|Q4W9B0_ASPFU",
+  "tr|Q4WDN9|Q4WDN9_ASPFU",
+  "tr|Q4WFE0|Q4WFE0_ASPFU",
+  "tr|Q4WFT1|Q4WFT1_ASPFU",
+  "tr|Q4WH58|Q4WH58_ASPFU",
+  "tr|Q4WHJ8|Q4WHJ8_ASPFU",
+  "tr|Q4WLZ9|Q4WLZ9_ASPFU",
+  "tr|Q4WZA5|Q4WZA5_ASPFU"
+ ],
+ "panel_ignored_counted": {
+  "at_headline_cutoff": {
+   "extra_calls_by_proteome": {
+    "Afum_Af293_UniProt": 3,
+    "Calb_SC5314": 0,
+    "Cimm_RS": 1,
+    "Scer_S288C": 1
+   },
+   "extra_calls_total": 5,
+   "hard_negative_call_rates": {
+    "domain_non_member": 0.0,
+    "gpi_wall_enzyme": 0.0,
+    "laccase_etc": 0.0,
+    "mucin_sensor": 0.0,
+    "repeat_non_adhesin": 0.0,
+    "secretory_non_surface": 0.0,
+    "st_linker_enzyme": 0.0,
+    "wall_hydrolase": 0.0,
+    "wall_structural_other": 0.0
+   },
+   "hard_negative_max_rate": 0.0
+  },
+  "cutoff_if_counted": 7.9,
+  "extra_calls_total_at_cutoff_if_counted": 7
+ },
+ "panel_ignored_negatives_left_out_of_rate": [
+  "B6QUR1"
+ ],
+ "positives_used": false
+}

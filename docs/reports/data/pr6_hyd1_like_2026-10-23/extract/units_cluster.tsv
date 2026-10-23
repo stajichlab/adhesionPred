@@ -1,0 +1,8 @@
+unit	cluster	n_members	clades	has_query	status
+cluster:UniRef50_A0A2K0UGM8	UniRef50_A0A2K0UGM8	10	Dothideomycetes,Leotiomycetes,Sordariomycetes	no	unit
+cluster:UniRef50_A0A428PAB1	UniRef50_A0A428PAB1	4	Sordariomycetes	no	too_few_members
+cluster:UniRef50_A0A6A6TUN3	UniRef50_A0A6A6TUN3	2	Dothideomycetes,Sordariomycetes	no	too_few_members
+cluster:UniRef50_C7ZQZ4	UniRef50_C7ZQZ4	10	Eurotiomycetes,Sordariomycetes	yes	unit
+cluster:UniRef50_L8FR57	UniRef50_L8FR57	1	Leotiomycetes	no	too_few_members
+cluster:UniRef50_R7YX61	UniRef50_R7YX61	1	Dothideomycetes	no	too_few_members
+cluster:UniRef50_R7Z4U3	UniRef50_R7Z4U3	2	Dothideomycetes	no	too_few_members

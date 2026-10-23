@@ -1,0 +1,7 @@
+job: pr6_hyd1_extract; commit 9f4843b1f7d3111c1f2c5db8544076b78d2b8a67 (pinned 9f4843b1f7d3111c1f2c5db8544076b78d2b8a67)
+seqkit: seqkit v2.4.0; mmseqs: b804fbe384e6f6c9fe96322ec0e92d48bccd0a42
+uniref50: /srv/projects/db/Uniprot/2025_03/uniref50.fasta (28781193344 bytes; round 2 sha256 bc52bdd6c97ba2cc365b7e42ae7abb34865e0a1a82a2f95a74590aae040c81ff)
+drift_hits.tsv sha256 6d78bbbb412bf0d11d98904c7aff4e48c297a826a72e0069ea32b168fe1eb4c9
+freeze sha256: 65ed9bb6dbcc6035a4093537a5afc0f92a179d3f4356902c1aba83a12e552ff2; external proteins: 6
+members: 30 (query A0ACE4KFX7 + 29 UniRef50 representatives); reading total
+hyd1_members.faa sha256 34e11fc855b4576461ff4b34b24ef061a061e13398875cc8811af47e4ad450d4
