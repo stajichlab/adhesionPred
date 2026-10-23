@@ -17,7 +17,8 @@ models** (the custom Ecm33 model and PANTHER), not truth, not Ecm33 function and
 | File | Purpose |
 |---|---|
 | `pr6_ecm33_eval_members.py` | stdlib; `select` (test clusters and id lists from `candidates.tsv`), `separate` (cluster30 table from the MMseqs2 clustering), `purity` (the 481 training members versus PANTHER-called clusters). Ids and metadata only. |
-| `pr6_ecm33_eval_extract.sbatch` | DRAFT job: selects, streams UniRef50 once with `seqkit grep -f`, runs `mmseqs easy-cluster` of training plus test sequences, writes `test_clusters.faa` (HPCC only), `separation.tsv`, id lists, `extract.sha256`. |
+| `pr6_ecm33_eval_fetch_reps.py` | stdlib, LOCAL, read-only: fetches the 187 UniRef50 representatives by id from the public UniProt REST service into a directory OUTSIDE the repo (`reps.faa`, `reps.faa.sha256`, `provenance.txt`); fails loudly on any missing, merged or obsolete id. |
+| `pr6_ecm33_eval_extract.sbatch` | DRAFT job: selects, verifies the staged `reps.faa` (sha256 sidecar, 187 ids exactly once), runs `mmseqs easy-cluster` of training plus test sequences, writes `test_clusters.faa` (HPCC only), `separation.tsv`, id lists, `extract.sha256`, `run.json`. |
 | `pr6_ecm33_eval_search.sbatch` | DRAFT job: all six searches with fixed thresholds; writes the hit tables, `run.json` (freeze sha256 and sha256 of each result file) and `provenance.txt`. |
 | `pr6_ecm33_eval_report.py` | stdlib; refuses without a signed freeze and matching sha256 values; the verdict line (whole headline set), per clade, tier, subfamily descriptive tables, u, comparators side by side, Clopper-Pearson intervals in every row. |
 | `pr6_ecm33_eval_freeze_PROPOSED.json` | the proposed freeze (`"frozen": false`). The signed `pr6_ecm33_eval_freeze.json` does **not** exist; only the owner creates it. |
@@ -50,20 +51,36 @@ models** (the custom Ecm33 model and PANTHER), not truth, not Ecm33 function and
   and written to `purity.json`, `purity_members.tsv`.
 - Every cell is labelled `headline` or `descriptive`; the intervals are Clopper-Pearson and treat clusters as independent, which clusters of one clade are not.
 
+## Why the sequences are fetched live
+
+The first extract job (30324005, code e81f3bd) failed safely: `FATAL: found 51 of 187 representatives in /srv/projects/db/Uniprot/2025_03/uniref50.fasta`. The 187 UniRef50 cluster ids of `candidates.tsv` were taken from the
+LIVE UniProt on 2026-10-23, and the HPCC file is the 2025_03 release, so 136 ids do not exist there. The signed freeze defines the test sequence as the cluster representative (UniRef50 FASTA record) and does not pin a sequence file, so the
+representative is fetched by cluster id from the live UniRef50 service. Caveat: the representative of a live cluster may differ from the 2025_03 one (and a live cluster may have been merged since its id was listed). The test set is
+therefore the live PANTHER / UniRef50 view of 2026-10-23, recorded with the fetch date, the service release header and the sha256 of `reps.faa`. The `-Z 70198728` value is the 2025_03 count and stays as frozen.
+
 ## Run order (each step needs the owner's go-ahead, D21; exact commands, NOT run)
 
 0. Merge the PR that holds this work. Owner: `cp pr6_ecm33_eval_freeze_PROPOSED.json pr6_ecm33_eval_freeze.json`, edit what is not accepted, set `"frozen": true` and `"owner_signature"`, commit (`freeze: ecm33 independent-set evaluation (owner)`).
-1. Update the HPCC clone to the merge commit (`git -C $PROJ_ROOT pull --ff-only`), then:
+1. Fetch locally (public read-only API; only the ids of the committed table are sent; no owner go-ahead is needed for this read; the output directory must be outside the repository):
    ```
-   sbatch --export=ALL,PROJ_ROOT=$PROJ_ROOT,CODE_COMMIT=<sha>,OUT=$WORK/ecm33_eval_extract \
+   python3 -I analysis/wall_fusion_truth/pr6_ecm33_eval_fetch_reps.py --out-dir ~/ecm33_eval_reps
+   ```
+   It stops with a list if any id does not return its own record. Read `provenance.txt` (187 requested and received, service release) first.
+2. Stage to HPCC (needs the owner's go-ahead; sequences go to the work directory only, never into the repository):
+   ```
+   scp ~/ecm33_eval_reps/reps.faa ~/ecm33_eval_reps/reps.faa.sha256 ~/ecm33_eval_reps/provenance.txt <hpcc>:$WORK/ecm33_eval_reps/
+   ```
+3. Update the HPCC clone to the merge commit (`git -C $PROJ_ROOT pull --ff-only`), then the extract job:
+   ```
+   sbatch --export=ALL,PROJ_ROOT=$PROJ_ROOT,CODE_COMMIT=<sha>,OUT=$WORK/ecm33_eval_extract,REPS_FASTA=$WORK/ecm33_eval_reps/reps.faa \
      -o $LOGS/%x.%j.log -e $LOGS/%x.%j.log analysis/wall_fusion_truth/pr6_ecm33_eval_extract.sbatch
    ```
-   Read `provenance.txt` (counts 187 and 109; how many separated) and `separation.tsv` before step 2.
-2. ```
+   Read `provenance.txt` (counts 187 and 109; how many separated) and `separation.tsv` before the search.
+4. ```
    sbatch --export=ALL,PROJ_ROOT=$PROJ_ROOT,CODE_COMMIT=<sha>,EXTRACT=$WORK/ecm33_eval_extract,OUT=$WORK/ecm33_eval_search,PFAM_RELEASE=38.2 \
      -o $LOGS/%x.%j.log -e $LOGS/%x.%j.log analysis/wall_fusion_truth/pr6_ecm33_eval_search.sbatch
    ```
-3. Copy the small tables to a local clone (never the FASTA), then:
+5. Copy the small tables to a local clone (never the FASTA), then:
    ```
    python3 -I analysis/wall_fusion_truth/pr6_ecm33_eval_report.py --results <search_out> --clusters <extract_out>/test_clusters.tsv \
      --separation <extract_out>/separation.tsv --freeze analysis/wall_fusion_truth/pr6_ecm33_eval_freeze.json \
@@ -73,13 +90,13 @@ models** (the custom Ecm33 model and PANTHER), not truth, not Ecm33 function and
 
 ## Checks the scripts make
 
-Pinned code (`git diff --quiet $CODE_COMMIT HEAD`), signed freeze, UniRef50 file size, training FASTA sha256 against the freeze, 187 ids found, no id shared by training and test, model and cutoff sha256 against the freeze,
+Pinned code (`git diff --quiet $CODE_COMMIT HEAD`), signed freeze, staged `reps.faa` against its sha256 sidecar (recorded in `run.json`), training FASTA sha256 against the freeze, 187 ids found exactly once and equal to the selection, no id shared by training and test, model and cutoff sha256 against the freeze,
 relaxed cutoff and `-Z` against the freeze, alignment ids equal to the 481 committed training ids, PF12454 fetched by accession, `extract.sha256` verified by the search job, `run.json` (freeze sha256, sha256 of every hit file) verified by the report,
 no result id outside the test set.
 
 ## Unconfirmed items
 
-- Resource requests (partition `batch`, time, memory, cores) are guesses; no run time was measured. The extract pass over 28.8 GB follows the build's extract job.
+- Resource requests (partition `batch`, time, memory, cores) are guesses; no run time was measured. The extract job no longer streams UniRef50; its resources are lowered guesses. The live fetch (rate, retries) was not run by the author; the URL form was checked once on one id.
 - `mmseqs easy-cluster` on 668 sequences and `jackhmmer -Z` are not run by the author; the alignment-seeded `jackhmmer` and `esl-reformat` step is the build job's, which ran.
 - The build alignment `all/none/train.aln.fa` is on HPCC only and has no committed hash: its ids are checked against the committed manifest and its sha256 is recorded, not pinned.
 - Whether a representative of a PANTHER cluster is a good stand-in for its PANTHER proteins is not known (a representative can lack a PANTHER call).
