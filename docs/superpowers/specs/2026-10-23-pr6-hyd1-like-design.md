@@ -79,7 +79,7 @@ Within the member set the truth is search-defined (circular). The repo has indep
 | Hydrophobin truth proteins T2/T3 | `analysis/hydrophobin_truth/positives_t2t3.faa`, `truth_all.tsv` | 174 named (131 T2, 43 T3) | curated, but almost all PF01185-type, so Pfam already covers them; informative for the model only if they are related to the Kiss protein |
 | The 8 other Kiss hydrophobin positives | `data/controls/wall-fusion-kiss2019/controls.tsv` (A0A0D1BZL3, Q7S3P5, P79073, I1RDW3, A0ACE4JU10, P41746, E9QT94, Q04571) | 8 | Kiss-curated, other clusters; Pfam-covered |
 
-The honest question is not "does the model hit hydrophobins" but "does a model of the Kiss protein's outside homologs recover curated hydrophobins that no Pfam hydrophobin model sees". Whether any curated hydrophobin is related to the Kiss protein is unknown; the pre-check job writes a relatedness table (phmmer of A0ACE4KFX7 over these sets, E <= 1e-3, descriptive) so the owner can decide with numbers. **Proposal:** (i) the nopfam9 set plus whichever truth proteins the relatedness table shows within E 1e-3 become an `external` descriptive line, (ii) every training member in a 30 percent cluster with an external protein is excluded from that evaluation's model (the same independence rule), (iii) the set is named and frozen before scoring. Not implemented in the scripts until decided; the freeze has `heldout_truth.external_set: null`. If the owner declines, the report states that all cells are circular.
+The honest question is not "does the model hit hydrophobins" but "does a model of the Kiss protein's outside homologs recover curated hydrophobins that no Pfam hydrophobin model sees". Whether any curated hydrophobin is related to the Kiss protein is unknown; the pre-check job writes a relatedness table (phmmer of A0ACE4KFX7 over these sets, E <= 1e-3, descriptive) so the owner can decide with numbers. **Decided 2026-10-23 (section 9, item 4):** the set is the related truth proteins minus training members (n = 6). The original proposal was: (i) the nopfam9 set plus whichever truth proteins the relatedness table shows within E 1e-3 become an `external` descriptive line, (ii) every training member in a 30 percent cluster with an external protein is excluded from that evaluation's model (the same independence rule), (iii) the set is named and frozen before scoring. Implemented as the unit `external`; the freeze holds the ids.
 
 ## 7. Freeze contents (PROPOSALS; file `analysis/wall_fusion_truth/pr6_hyd1_freeze_PROPOSED.json`, `frozen: false`)
 
@@ -89,28 +89,36 @@ Decided by the owner already (not reopened): 5 extra calls per 10,000 (16.2455 o
 
 | Step | Job | Needs | Output | Owner reads |
 |---|---|---|---|---|
-| 0 | this PR merged; HPCC clone updated | go-ahead | | |
-| 1 | `pr6_hyd1_negatives_precheck.sbatch` (short, minutes): phmmer of the Kiss protein and the eight-model Pfam panel at GA over the 161 negatives and the four proteomes; relatedness table | go-ahead | family and panel tables, proposed `negatives_ignored`, relatedness | whether a hydrophobin sits among the negatives; Q4, Q7, Q8 |
-| 2 | `pr6_hyd1_extract.sbatch` (one pass over UniRef50, MMseqs2 on 30 sequences): members, FASTA, 30 percent clusters, `units_cluster.tsv`. Scores nothing; needs no freeze; run with `READING` equal to the reading the freeze will name | go-ahead | members, units, cluster units | the unit list, how small the clusters are |
+| 0 | this PR merged; HPCC clone updated to the merge commit | go-ahead | | |
+| 1 | DONE 2026-10-23 (job 30321490): `pr6_hyd1_negatives_precheck.sbatch` | | family and panel tables, relatedness | results in section 9 |
+| 2 | `pr6_hyd1_extract.sbatch` (after the freeze is signed; it reads the freeze for the reading and the external set): members, FASTA, 30 percent clusters, `units_cluster.tsv`, `cysteines.tsv`, `external.faa`, `ext_cluster.tsv`. Scores nothing | go-ahead | members, units, cluster units | the unit list, how small the clusters are |
 | 2b | optional: an inside-clade drift check (query coverage of the 16 Eurotiomycetes hits). A script is not drafted | Q3 | | |
-| 3 | the freeze commit (the owner only) | decisions Q1 to Q10 | `pr6_hyd1_freeze.json`, `frozen: true` | |
+| 3 | the freeze commit (the owner only) | decisions of section 9 | `pr6_hyd1_freeze.json`, `frozen: true` | |
 | 4 | `pr6_hyd1_build.sbatch` array (tasks from `pr6_hyd1_build.py tasks`): manifest, MAFFT, `hmmbuild`, cutoff, only then the held-out searches | go-ahead | `<unit>/<mode>/` tables | |
 | 5 | `pr6_hyd1_report.py` locally; a record PR; a report | | `recall_by_unit.tsv` | Q-after: ship or not |
 
 No call, status, tier, `narrow_ok`, `family_measure.tsv` or `family_table.tsv` row is written by any of this.
 
-## 9. Open owner questions, in order of dependency, each with my recommendation
+## 9. Owner decisions of 2026-10-23 (all recommendations accepted) and open items
 
-1. **Build hyd1_like at all?** It rests on 29 search-defined members, one Kiss protein and a 98-residue seed. Recommendation: yes, report-only. It is the one gap with a Kiss-curated protein and a possible independent test, and the cost is small.
-2. **Reading of the training rule: `total` or `per_clade`?** `total` is what the ecm33 code did and leaves two clade units (Sordariomycetes, Dothideomycetes) plus the Kiss unit. `per_clade` leaves only the Kiss unit and an undersized Leotiomycetes. Recommendation: `total` for consistency with ecm33, stated as the weaker reading, with per_clade counts printed in `units.tsv`.
-3. **Which hits are members?** (a) Add the 16 inside-clade Eurotiomycetes hits? It would create a real Eurotiomycetes clade unit (the clade of the kept proteomes Afum_Af293 and Cimm_RS), but they have no query-coverage check. (b) Use the 3 no-clade hits (the strongest, near full length) as training only, not as a unit and not toward the rule? Recommendation: keep both out for now (the rule you set); run the optional inside-clade check (step 2b) first and decide (a) afterwards; ask separately on (b) because it changes the Kiss-unit training set most.
-4. **An independent held-out set?** Section 6. Recommendation: yes, the nopfam9 plus related truth proteins as a descriptive external line, after the relatedness table is read. If the table shows none related, say so and keep every cell circular.
-5. **Independence columns:** carry over cluster30 headline and `none` second column. Recommendation: yes.
-6. **Comparators and `min_u`:** accept the independent set of section 5 with the jackhmmer ceiling outside u, `min_u` 3. Recommendation: yes; also accept that the Kiss unit (n = 1) is never a rule unit and is read as a single-protein line labelled `partial`.
-7. **Hard-negative rate and `negatives_ignored`:** 0.05, with the list filled only from the pre-check output (family rule, phmmer E <= 1e-5). Recommendation: yes; any hit by the panel but not by phmmer is a separate decision (Q8).
-8. **Other hydrophobins among the proteomes and negatives** (hit by the panel at GA, not by phmmer): leave them out of the extra-call count and report on their own line (`ignore`), or charge them as false hits (`count`)? Kiss lists hydrophobins in the adhesion category, so a hit is not a false hit, but an `ignore` rule lowers the cutoff. Recommendation: `ignore`, listed by id before the freeze, with the rate also printed with them counted.
-9. **Alignment check:** `min_columns` 40, no cysteine check. Recommendation: yes; check the cysteine pattern of the 30 members in step 2 as a descriptive note (not a stop condition).
-10. **`-Z`** 70198728 for seed comparators. Recommendation: yes.
+Pre-check result (job 30321490, code 5fb6b48, read-only outputs in `adhesionPred-ecm33-results/hyd1_negcheck/`): 0 family members among the 161 shared negatives (phmmer of A0ACE4KFX7, E <= 1e-5); 0 proteome proteins called family by phmmer; 1 hydrophobin-class Pfam hit among the negatives (B6QUR1, MP1, *T. marneffei*, stratum laccase_etc, HsbA GA score 168.7, not called family by phmmer); 19 hit rows among the four kept proteomes (18 distinct proteins: Afum_Af293 16, Cimm_RS 2; E9QT94 hits two models), none called family by phmmer; 7 curated hydrophobin truth proteins within E 1e-3 of the Kiss protein (I1RDP9 2.3e-10, G9MKB2 2.7e-10, I1RDQ0 3.7e-9, A0A6V8R0V1 2e-8, Q8X1T7 1.3e-5, A0A067P943 7.3e-4, Q9Y8F0 8.1e-4). The query has no Pfam GA hit.
+
+Decided (recorded in `pr6_hyd1_freeze_PROPOSED.json` under `decided_by_owner_2026-10-23`; the file stays `frozen: false` until the owner signs):
+
+1. **Build hyd1_like at all:** yes, report-only (as recommended; not separately asked, unchanged).
+2. **Training rule reading = `total`** (the ecm33 code), stated as the weaker reading; the `per_clade` counts are still printed in `units.tsv`.
+3. **Members** = the query + the 29 drift-supported hits with a named clade = 30 members in 4 named clades. The 16 inside-clade Eurotiomycetes hits and the 3 supported no-clade hits stay OUT for now.
+4. **External held-out set (descriptive, tiny):** the curated hydrophobin truth proteins within E <= 1e-3 of the Kiss protein, MINUS training members. Recomputed from the committed drift table: A0A6V8R0V1 is UniRef50_A0A6V8R0V1 (Sordariomycetes, supported, query cover 0.551), so it is a member, stays in the training set and is removed from the external set. **External set n = 6:** I1RDP9, G9MKB2, I1RDQ0, Q8X1T7, A0A067P943, Q9Y8F0. Scored as the unit `external` (one column, cluster30: training members in a 30 percent cluster with an external protein are removed). n = 6 is a count of proteins, not of independent clusters; no estimate.
+5. **Independence columns:** cluster30 headline, `none` second descriptive column.
+6. **Comparators:** the alignment-independent set of section 5 (eight hydrophobin-class Pfam models at GA, the relaxed panel, one-pass phmmer of the Kiss protein skipped in the Kiss unit); jackhmmer from the single protein only as a ceiling outside u; `min_u` 3; the Kiss unit (n = 1) is never a rule unit.
+7. **Hard-negative rate 0.05, `negatives_ignored` = []** (no family member among the shared negatives).
+8. **`ignore`:** hydrophobin-class panel hits that phmmer does not call family are left out of the extra-call count and the hard-negative rate, **listed by id in the freeze** (`panel_ignored`: 18 proteome proteins + B6QUR1 = 19 distinct ids). The report also prints the extra-call count and the hard-negative rate with those ids counted (columns `*_panel_counted`, at the headline cutoff, and `cutoff_if_panel_counted`).
+9. **Alignment check:** `min_columns` 40 (the query is 98 residues); no cysteine check as a stop condition; the cysteine count of the 30 members is written to `cysteines.tsv` by the extract job as a descriptive note.
+10. **`-Z` 70198728** on the seed searches.
+
+Reporting rule added with the decisions: every row of the report (headline units, descriptive column, external line, Kiss unit) prints the exact two-sided 95 percent Clopper-Pearson interval for each recall and for recovered-of-u (the function of `pr6_ecm33_eval_report.py`, imported). A wide interval is not a result.
+
+Still open: (a) the inside-clade drift check of the 16 Eurotiomycetes hits (step 2b, no script drafted); (b) whether the 3 no-clade hits are ever used as training only; (c) `cutoff_floor` 0.0, `min_unit_members` 5, alignment `occupancy` 0.5 and `min_median_coverage` 0.6 remain proposals; (d) the freeze signature itself.
 
 ## 10. What this does not show
 

@@ -1,6 +1,6 @@
 #!/bin/bash -l
 # PR 6 for hyd1_like (DRAFT, NOT SUBMITTED; nothing of this has run on HPCC). Modeled on pr6_ecm33_build.sbatch, trimmed. SLURM array: task i is the i-th
-# (unit, mode) pair of `pr6_hyd1_build.py tasks` (clade units and the Kiss unit in both independence modes, cluster units in the headline mode, then `all`).
+# (unit, mode) pair of `pr6_hyd1_build.py tasks` (clade units and the Kiss unit in both independence modes, cluster units in the headline mode, the `external` line once when the freeze names an external set, then `all`).
 # Per task: manifest -> alignment -> HMM -> false-hit searches -> cutoff -> ONLY THEN the held-out searches (refused if cutoff.json is missing).
 # It writes no call, no status, no tier and does not touch data/sorting_hat. A custom model is report-only (decision 6).
 #
@@ -50,13 +50,17 @@ grep -q '"frozen": true' "$FREEZE" || fail "$FREEZE is not frozen"
 [ "$(sha256sum < "$EXTRACT/hyd1_members.faa" | cut -d' ' -f1)" = "$(tr -d '[:space:]' < "$EXTRACT/hyd1_members.faa.sha256")" ] || fail "hyd1_members.faa differs from its .sha256"
 FZ_READING="$($PY -I -c "import json,sys; print(json.load(open(sys.argv[1]))['training_rule']['reading'])" "$FREEZE")"
 grep -q "reading $FZ_READING\$" "$EXTRACT/provenance.txt" || fail "the extract job used another training-rule reading than the freeze ($FZ_READING): rerun it with READING=$FZ_READING"
-MEM="$EXTRACT/members/members.tsv"; MFA="$EXTRACT/hyd1_members.faa"; CLU="$EXTRACT/clu_cluster.tsv"
+MEM="$EXTRACT/members/members.tsv"; MFA="$EXTRACT/hyd1_members.faa"; CLU="$EXTRACT/clu_cluster.tsv"; HFA="$MFA"
 
 mkdir -p "$TMP/w" "$OUT"; W="$TMP/w"
 $BUILD tasks --units "$EXTRACT/members/units.tsv" --units-cluster "$EXTRACT/units_cluster.tsv" --freeze "$FREEZE" > "$W/tasks.list"
 LINE="$(sed -n "$((SLURM_ARRAY_TASK_ID + 1))p" "$W/tasks.list")"
 [ -n "$LINE" ] || { echo "task $SLURM_ARRAY_TASK_ID has no (unit, mode) pair; nothing to do"; exit 0; }
 UNIT="$(printf '%s' "$LINE" | cut -f1)"; MODE="$(printf '%s' "$LINE" | cut -f2)"
+if [ "$UNIT" = external ]; then   # the external line: held-out = freeze heldout_truth.external_set (sequences from the extract job), clusters over members + external
+  [ -s "$EXTRACT/external.faa" ] && [ -s "$EXTRACT/ext_cluster.tsv" ] || fail "the extract job has no external.faa / ext_cluster.tsv"
+  HFA="$EXTRACT/external.faa"; CLU="$EXTRACT/ext_cluster.tsv"
+fi
 UDIR="$OUT/${UNIT//:/_}/$MODE"
 [ ! -e "$UDIR" ] || fail "$UDIR exists; nothing is overwritten"
 IS_KISS=no; if [ "$UNIT" != all ] && awk -F'\t' -v u="$UNIT" '$1==u && $NF=="kiss_single" {f=1} END{exit !f}' "$EXTRACT/members/units.tsv" "$EXTRACT/units_cluster.tsv"; then IS_KISS=yes; fi
@@ -89,8 +93,10 @@ $BUILD check-alignment --manifest "$W/unit/manifest.json" --alignment "$W/train.
 hmmbuild --amino --informat afa --cpu "$THREADS" -n "hyd1_like_${UNIT//:/_}" "$W/model.hmm" "$W/train.aln.fa" > "$W/hmmbuild.log"
 
 # 3. The false-hit side: the four kept proteomes and the shared negatives. `labelled` = phmmer of the Kiss protein at E 1e-5 (the freeze's labelled_rule),
-#    plus, when the freeze says proteome_other_hydrophobin = ignore, the proteome proteins hit by the hydrophobin-class panel at GA.
-FLOOR="$(jget cutoff_floor)"; Z="$(jget evalue_db_size)"; OTHER="$(jget proteome_other_hydrophobin)"
+#    The hydrophobin-class panel hits that phmmer does not call family are NOT searched again here: the freeze lists them by id (`panel_ignored`, owner decision
+#    2026-10-23, Q8), and `$BUILD cutoff` leaves exactly those ids out of the extra calls and the hard-negative rate while proteome_other_hydrophobin = ignore,
+#    and ALSO writes the numbers with them counted (cutoff.json, key panel_ignored_counted).
+FLOOR="$(jget cutoff_floor)"; Z="$(jget evalue_db_size)"
 awk -F'\t' 'NR>1 {print $1 "\t" $6}' "$PROJ_ROOT/$NEG/controls.tsv" > "$W/ng.body"; { printf 'accession\tgroup\n'; cat "$W/ng.body"; } > "$W/neg_groups.tsv"
 tr ' ' '\n' <<< "$PANEL_NAMES" > "$W/panel.names"; hmmfetch -f "$RESOLVED" "$W/panel.names" > "$W/panel.hmm"
 [ "$(grep -c '^ACC ' "$W/panel.hmm")" -eq 8 ] || fail "panel.hmm does not hold 8 models"
@@ -101,9 +107,6 @@ for p in $PROTEOMES; do
   awk -v p="$p" 'BEGIN{OFS="\t"} !/^#/ {print p, $1, $6}' "$W/c_$p.tbl" >> "$W/proteome_hits.tsv"
   phmmer -E 1e-5 --domE 1e-5 --cpu "$THREADS" --noali -o /dev/null --tblout "$W/l_$p.tbl" "$W/query.faa" "$PROTEOME_DIR/$p.faa"
   awk '!/^#/ {print $1}' "$W/l_$p.tbl" >> "$W/labelled.txt"
-  if [ "$OTHER" = ignore ]; then
-    hmmsearch --cut_ga --cpu "$THREADS" --noali -o /dev/null --tblout "$W/g_$p.tbl" "$W/panel.hmm" "$PROTEOME_DIR/$p.faa"; awk '!/^#/ {print $1}' "$W/g_$p.tbl" >> "$W/labelled.txt"
-  fi
 done
 sort -u "$W/labelled.txt" -o "$W/labelled.txt"
 hmmsearch -T "$FLOOR" --cpu "$THREADS" --noali -o /dev/null --tblout "$W/c_neg.tbl" "$W/model.hmm" "$PROJ_ROOT/$NEG/sequences.faa"
@@ -119,7 +122,8 @@ $BUILD cutoff --freeze "$FREEZE" --proteome-hits "$W/proteome_hits.tsv" --labell
 #    IS the seed, so the two seed comparators are not run (the report says seed_in_unit).
 [ -s "$W/cutoff.json" ] || fail "no cutoff: the held-out step does not start"
 if [ "$UNIT" != all ]; then   # the `all` model has no held-out unit
-seqkit grep -f "$W/unit/heldout_ids.txt" "$MFA" > "$W/heldout.faa"
+seqkit grep -f "$W/unit/heldout_ids.txt" "$HFA" > "$W/heldout.faa"
+[ "$(grep -c '^>' "$W/heldout.faa")" -eq "$(wc -l < "$W/unit/heldout_ids.txt")" ] || fail "heldout.faa does not hold every held-out id"
 hmmsearch -T "$FLOOR" --cpu "$THREADS" --noali -o /dev/null --tblout "$W/h_custom.tbl" "$W/model.hmm" "$W/heldout.faa"
 hmmsearch --cut_ga --cpu "$THREADS" --noali -o /dev/null --tblout "$W/h_ga.tbl" "$W/panel.hmm" "$W/heldout.faa"
 hmmsearch --nobias --cut_ga --cpu "$THREADS" --noali -o /dev/null --tblout "$W/h_rel.tbl" "$PROJ_ROOT/data/sorting_hat/hydrophobin_relaxed.hmm" "$W/heldout.faa"

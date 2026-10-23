@@ -418,8 +418,18 @@ def test_proposed_freeze_records_the_owner_decisions_of_2026_10_23():
     assert "Clopper-Pearson" in fz["u"]["interval"] and fz["u"]["min_u"] == 3
 
 
-def test_the_signed_freeze_does_not_exist_yet():
-    assert not (WF / "pr6_ecm33_eval_freeze.json").exists()  # only the owner creates it
+def test_a_signed_eval_freeze_if_present_is_the_proposal_signed():
+    """Only the owner creates the signed freeze. Once it exists it must be frozen, signed, and differ from the
+    proposal only in `frozen`, `owner_signature` and the status text."""
+    signed_path = WF / "pr6_ecm33_eval_freeze.json"
+    if not signed_path.exists():
+        return
+    proposed = json.load(open(WF / "pr6_ecm33_eval_freeze_PROPOSED.json"))
+    signed = json.load(open(signed_path))
+    assert signed["frozen"] is True
+    assert str(signed.get("owner_signature") or "").strip()
+    differing = {k for k in set(proposed) | set(signed) if proposed.get(k) != signed.get(k)}
+    assert differing <= {"frozen", "owner_signature", "status"}, sorted(differing)
 
 
 # ------------------------------------------------------------------------------------------------- scripts and no sequences
