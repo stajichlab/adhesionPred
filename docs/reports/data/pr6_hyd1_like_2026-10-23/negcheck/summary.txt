@@ -1,0 +1,9 @@
+PR 6 hyd1_like pre-freeze check (DRAFT): shared hard negatives that are family members or hydrophobin-class
+family definition: phmmer of A0ACE4KFX7 finds the negative at E <= 1e-05 (the freeze's labelled_rule)
+family members among the negatives: 0 (none)
+hydrophobin-class Pfam GA hits among the negatives: 1 (B6QUR1)
+panel hits that phmmer does NOT call family (owner question 8; not in the proposed list): B6QUR1
+weak hits (1e-5 < E <= 1e-3), descriptive: 0
+truth proteins within E 1e-3 of A0ACE4KFX7 (descriptive): 7
+proposed edit of the freeze (the owner decides; this script changes nothing):
+  "negatives_ignored": [],

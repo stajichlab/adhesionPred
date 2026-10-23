@@ -1,0 +1,8 @@
+job: pr6_hyd1_negcheck (pre-freeze check of the hyd1_like hard negatives and proteomes)
+commit: 5fb6b4864ce0e573ecd46fc2baf24b7ac6884d24 (pinned: 5fb6b4864ce0e573ecd46fc2baf24b7ac6884d24)
+hmmer: # HMMER 3.4 (Aug 2023); http://hmmer.org/
+pfam_resolved: /bigdata/operations/pkgadmin/srv/projects/db/pfam/2026-01-27-Pfam38.2/Pfam-A.hmm
+input kiss_sequences.faa sha256 66af609eeea24212f7813918fd5957489ded4e4e45792deadd955a0a93bacdf6
+input negatives sequences.faa sha256 355bee285e57a5da508c0045699a10a2fefdd7c9247ba9c36c7c1310d2269636
+input truth proteins sha256 0d7ac98b80c75e2a5138879fc50ba3eb266e4fc63d5d0c2dbf7378cf49307501
+query: A0ACE4KFX7; panel models: Hydrophobin Hydrophobin_2 Eas DewD Hyd1F Hydrophobin_D Hydrophobin_like HsbA

@@ -1,0 +1,5 @@
+unit	clade_fine	n_members	n_outside_seq	n_outside_clades	rule_total	rule_per_clade	kiss_unit	status
+clade:Dothideomycetes	Dothideomycetes	7	23	3	yes	no	no	unit
+clade:Eurotiomycetes	Eurotiomycetes	1	29	3	yes	yes	yes	kiss_single
+clade:Leotiomycetes	Leotiomycetes	3	27	3	yes	yes	no	too_few_members
+clade:Sordariomycetes	Sordariomycetes	19	11	3	yes	no	no	unit

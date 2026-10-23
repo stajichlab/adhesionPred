@@ -1,0 +1,4 @@
+hit_id	query_accession	taxid	clade_fine	where	score	evalue	is_query	query_cover	in_phmmer
+UniRef50_A0A1J9P1Q5		716546	(no clade)	outside_clade	122.8	2.3e-32	no	0.990	yes
+UniRef50_A0A2J6TR40		716546	(no clade)	outside_clade	88.2	1.4e-21	no	0.980	yes
+UniRef50_A0A9P4ULB3		716546	(no clade)	outside_clade	79.3	8.4e-19	no	0.857	no

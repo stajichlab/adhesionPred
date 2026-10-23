@@ -47,3 +47,7 @@ Held-out ids absent from every manifest and alignment (also the excluded 30 perc
 ## Unconfirmed
 
 HPCC resources and run times (guesses); `hmmfetch -f` by model name for the eight panel models (names from `data/sorting_hat/family_table.tsv`; HsbA name unverified against Pfam-A 38.2); `phmmer`/`jackhmmer` `-Z` behavior; MMseqs2 option set; that `Cimm_RS` etc. are in `$PROTEOME_DIR` (the ecm33 default path is reused); the inside-clade Eurotiomycetes hits stay out (no script drafted for their drift check); the extract/build steps for the external line (`external.faa`, `ext_cluster.tsv`, the `external` task) are new and untested on HPCC. Nothing in this folder has been run on HPCC.
+
+## Result of the build (2026-10-23)
+
+Pre-check 30321490, extract 30325384 and build array 30335767 (10 tasks, code `9f4843b`, freeze sha256 `65ed9bb6...552ff2`) all ran; the report ran locally. No unit is testable (u_indep at most 2 against `min_u` 3; Sordariomycetes under cluster30 is not buildable, 4 training sequences). The relaxed hydrophobin comparator already recovers most held-out members (for example 19 of 19 Sordariomycetes under `none`), the Kiss unit (n = 1) is recovered, and every cell is descriptive. Record: `docs/reports/data/pr6_hyd1_like_2026-10-23/`; report: `docs/reports/2026-10-23-pr6-hyd1-like-build.md`.
