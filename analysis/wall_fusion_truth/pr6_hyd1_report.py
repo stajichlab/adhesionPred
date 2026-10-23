@@ -15,6 +15,12 @@ alignment ties the custom model by construction (u = 0 in all 11 units):
     found by that very iteration, so it recovers them by construction; it measures what a search from the Kiss protein alone reaches.
 A unit is testable when u_indep >= min_u (freeze); the custom model must then recover ceil(u/2) of those u members. Whatever the numbers, no cell
 is `estimated`: every cell is `descriptive`, except that the Kiss unit row (leave-cluster-out of KS0017, n = 1 cluster) carries the label `partial`.
+
+Rows (column `line`): headline (cluster30) and descriptive (none) for clade and cluster units; the Kiss unit in both columns (kiss_unit_*); the
+`external` line (curated hydrophobins related to the Kiss protein, minus the training members; tiny, descriptive). EVERY row prints the exact two-sided
+95 percent Clopper-Pearson interval for each recall and for recovered-of-u. A wide interval is not a result.
+The cutoff columns print the extra calls and the hard-negative rate twice: with the panel_ignored ids left out (the headline rule, Q8 `ignore`) and
+with them counted (columns *_panel_counted, evaluated at the headline cutoff; cutoff_if_panel_counted is the cutoff that rule alone would give).
 """
 
 from __future__ import annotations
@@ -38,6 +44,9 @@ def _load(name: str):
 
 
 e33 = _load("pr6_ecm33_report")
+ev = _load("pr6_ecm33_eval_report")  # the exact stdlib Clopper-Pearson function
+clopper_pearson = ev.clopper_pearson
+fmt_ci = ev.fmt_ci
 read_tsv = e33.read_tsv
 write_tsv = e33.write_tsv
 sha256_file = e33.sha256_file
@@ -74,7 +83,7 @@ def unit_row(
     new = custom & u_set
     need = math.ceil(u / 2) if u else 0
     testable = u >= min_u
-    return {
+    row = {
         "unit": unit,
         "n_held_out": len(h),
         "custom_hit": len(custom & h),
@@ -92,14 +101,52 @@ def unit_row(
         "recall_custom": f"{len(custom & h)}/{len(h)}",
         "label": "partial" if kiss else "descriptive",
     }
+    row.update(intervals(row, len(h), len(u_set), len(new)))
+    return row
+
+
+CI_NOTE = (
+    "Intervals are the exact two-sided 95 percent Clopper-Pearson interval of k of n (stdlib, same function as the ecm33 evaluation). "
+    "A wide interval is not a result: with these n it is the honest statement of how little each row shows."
+)
+
+
+def intervals(row: dict, n_held: int, n_u: int, n_new: int) -> dict:
+    """CI columns for every recall (custom, each comparator, the ceiling) and for recovered-of-u. NA when the denominator is 0 or the
+    comparator was not run (seed_in_unit)."""
+    out = {"recall_custom_ci95": fmt_ci(row["custom_hit"], n_held)}
+    for col, key in (
+        ("pfam_ga_hit", "pfam_ga_ci95"),
+        ("relaxed_panel_hit", "relaxed_panel_ci95"),
+        ("phmmer_seed_hit", "phmmer_seed_ci95"),
+        ("jackhmmer_seed_hit_ceiling", "jackhmmer_seed_ceiling_ci95"),
+    ):
+        out[key] = "NA" if row[col] == "seed_in_unit" else fmt_ci(int(row[col]), n_held)
+    out["recovered_of_u_ci95"] = fmt_ci(n_new, n_u)
+    return out
 
 
 HEADER = list(unit_row("x", [], set(), set(), set(), set(), set(), 3, False)) + [
+    "line",
     "independence_mode",
     "cutoff",
     "extra_calls_total",
     "extra_call_limit_total",
+    "hard_negative_max_rate",
+    "panel_ignored_n",
+    "extra_calls_total_panel_counted",
+    "hard_negative_max_rate_panel_counted",
+    "cutoff_if_panel_counted",
 ]
+
+
+def line_of(unit: str, mode: str, fz: dict) -> str:
+    """Which line of the report a row is: the headline column, the descriptive column, the external line or the Kiss unit."""
+    if unit == "external":
+        return "external_descriptive"
+    if unit == "clade:" + fz["heldout_truth"]["kiss_unit_clade"]:
+        return "kiss_unit_" + ("headline" if mode == fz["independence_mode"] else "descriptive")
+    return "headline" if mode == fz["independence_mode"] else "descriptive"
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -119,12 +166,15 @@ def main(argv: list[str] | None = None) -> int:
         d = man_path.parent
         man = json.load(open(man_path))
         unit, mode = man["unit"], man["mode"]
+        if unit == "all":  # the all-members model holds nothing out: no held-out row
+            continue
         if man["status"] != "buildable":
             rows.append(
                 {
                     **{k: "" for k in HEADER},
                     "unit": unit,
                     "independence_mode": mode,
+                    "line": line_of(unit, mode, fz),
                     "n_held_out": man["n_held_out"],
                     "rule_ok": "not_buildable",
                     "label": "descriptive",
@@ -159,11 +209,19 @@ def main(argv: list[str] | None = None) -> int:
             int(fz["min_u"]),
             unit == "clade:" + fz["heldout_truth"]["kiss_unit_clade"],
         )
+        alt = cut.get("panel_ignored_counted", {})
+        at = alt.get("at_headline_cutoff", {})
         r.update(
+            line=line_of(unit, mode, fz),
             independence_mode=mode,
             cutoff=cut["cutoff"],
             extra_calls_total=cut["extra_calls_total"],
             extra_call_limit_total=f"{cut['extra_call_limit_total']:.4f}",
+            hard_negative_max_rate=cut.get("hard_negative_max_rate", ""),
+            panel_ignored_n=len(cut.get("panel_ignored", [])),
+            extra_calls_total_panel_counted=at.get("extra_calls_total", ""),
+            hard_negative_max_rate_panel_counted=at.get("hard_negative_max_rate", ""),
+            cutoff_if_panel_counted=alt.get("cutoff_if_counted", ""),
         )
         rows.append(r)
     if bad:
@@ -172,9 +230,11 @@ def main(argv: list[str] | None = None) -> int:
         return 1
     a.out.mkdir(parents=True, exist_ok=True)
     write_tsv(a.out / "recall_by_unit.tsv", HEADER, rows)
+    (a.out / "notes.txt").write_text(CI_NOTE + "\n")
     print(
         f"{len(rows)} unit/mode rows written; every cell descriptive (the Kiss unit row is labelled partial)"
     )
+    print(CI_NOTE)
     return 0
 
 

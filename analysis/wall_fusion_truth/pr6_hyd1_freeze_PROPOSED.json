@@ -1,71 +1,159 @@
 {
  "frozen": false,
- "status": "PROPOSED freeze, every value except the ones listed under decided_by_owner is a PROPOSAL for the owner. The owner freezes it: copy to pr6_hyd1_freeze.json (same folder), set \"frozen\": true, fill the null items (negatives_ignored after the pre-check job, heldout_truth.external_set after owner question 4), set owner_signature, commit. Nothing is built or scored before that commit; pr6_hyd1_build.py and pr6_hyd1_report.py refuse a file that is missing or not frozen.",
+ "status": "PROPOSED freeze. The values listed under decided_by_owner_2026-10-23 and decided_by_owner_2026-10-22 are owner decisions; every value listed under proposals is still a PROPOSAL. The owner freezes it: copy to pr6_hyd1_freeze.json (same folder), set \"frozen\": true, set owner_signature, commit. Nothing is built or scored before that commit; pr6_hyd1_build.py and pr6_hyd1_report.py refuse a file that is missing or not frozen. This file stays frozen: false.",
  "target": "hyd1_like (KS0017, A0ACE4KFX7, H. capsulatum, adhesion slice; leave-cluster-out, reported partial)",
  "spec": "docs/superpowers/specs/2026-10-23-pr6-hyd1-like-design.md",
- "members": "the query + the 32 drift-supported hits (class supported_homolog, query coverage >= 0.5) with a named fine clade (29 hits, 3 clades); the 3 hits without a fine clade are listed and excluded (pr6_hyd1_members.py)",
+ "members": "DECIDED 2026-10-23 (Q3): the query A0ACE4KFX7 + the 29 drift-supported hits (class supported_homolog, query coverage >= 0.5) with a named fine clade = 30 members in 4 named clades. The 16 inside-clade Eurotiomycetes hits and the 3 supported hits without a clade stay OUT for now (pr6_hyd1_members.py)",
  "cutoff_floor": 0.0,
  "extra_calls_per_10000": 5,
  "extra_calls_note": "decision 8; 5 x 32,491 / 10,000 = 16.2455 over the four kept proteomes",
  "labelled_rule": "a proteome protein is labelled (not an extra call) when phmmer of A0ACE4KFX7 against that proteome finds it at E <= 1e-5",
  "proteome_other_hydrophobin": "ignore",
- "proteome_other_hydrophobin_note": "PROPOSAL (owner question 8): proteome proteins hit by a hydrophobin-class Pfam model at GA (list from the pre-check job) are true hydrophobins, so they are left out of the extra-call count like labelled proteins and reported on their own line. 'count' would charge them as false hits.",
+ "panel_ignored": [
+  "XP_001242719.1",
+  "XP_001243627.2",
+  "sp|E9QT94|RODB_ASPFU",
+  "sp|P41746|RODA_ASPFU",
+  "sp|Q4WBR8|RODC_ASPFU",
+  "sp|Q4WC31|RODE_ASPFU",
+  "sp|Q4WE22|RODD_ASPFU",
+  "sp|Q4WEK0|RODF_ASPFU",
+  "sp|Q4X055|RODG_ASPFU",
+  "tr|E9R5X9|E9R5X9_ASPFU",
+  "tr|Q4W9B0|Q4W9B0_ASPFU",
+  "tr|Q4WDN9|Q4WDN9_ASPFU",
+  "tr|Q4WFE0|Q4WFE0_ASPFU",
+  "tr|Q4WFT1|Q4WFT1_ASPFU",
+  "tr|Q4WH58|Q4WH58_ASPFU",
+  "tr|Q4WHJ8|Q4WHJ8_ASPFU",
+  "tr|Q4WLZ9|Q4WLZ9_ASPFU",
+  "tr|Q4WZA5|Q4WZA5_ASPFU",
+  "B6QUR1"
+ ],
+ "panel_ignored_by_source": {
+  "Afum_Af293_UniProt": [
+   "sp|Q4WC31|RODE_ASPFU",
+   "sp|E9QT94|RODB_ASPFU",
+   "sp|P41746|RODA_ASPFU",
+   "sp|Q4WBR8|RODC_ASPFU",
+   "sp|Q4X055|RODG_ASPFU",
+   "sp|Q4WEK0|RODF_ASPFU",
+   "sp|Q4WE22|RODD_ASPFU",
+   "tr|Q4WZA5|Q4WZA5_ASPFU",
+   "tr|E9R5X9|E9R5X9_ASPFU",
+   "tr|Q4W9B0|Q4W9B0_ASPFU",
+   "tr|Q4WHJ8|Q4WHJ8_ASPFU",
+   "tr|Q4WDN9|Q4WDN9_ASPFU",
+   "tr|Q4WLZ9|Q4WLZ9_ASPFU",
+   "tr|Q4WFT1|Q4WFT1_ASPFU",
+   "tr|Q4WFE0|Q4WFE0_ASPFU",
+   "tr|Q4WH58|Q4WH58_ASPFU"
+  ],
+  "Cimm_RS": [
+   "XP_001242719.1",
+   "XP_001243627.2"
+  ],
+  "shared_negatives (MP1, T. marneffei, stratum laccase_etc, HsbA GA score 168.7)": [
+   "B6QUR1"
+  ]
+ },
+ "panel_ignored_note": "DECIDED 2026-10-23 (Q8). Exact ids from the read-only outputs proteome_panel_ga.tsv (19 hit rows, 18 distinct proteins: E9QT94 hits two models) and negatives_panel_table.tsv of pre-check job 30321490, none of them called family by phmmer E <= 1e-5. 18 + 1 = 19 distinct ids. Applied only while proteome_other_hydrophobin is ignore.",
+ "proteome_other_hydrophobin_note": "DECIDED 2026-10-23 (Q8): ignore. Hydrophobin-class panel hits that phmmer of the Kiss protein does not call family are left out of the extra-call count and the hard-negative rate, LISTED BY ID in panel_ignored. The report also prints the extra-call count and the hard-negative rate with those ids counted.",
  "hard_negative_rate": 0.05,
  "negatives_ignored": [],
- "negatives_ignored_note": "TO FILL from the pre-check job (pr6_hyd1_negatives_precheck.sbatch): the shared negatives found by phmmer of A0ACE4KFX7 at E <= 1e-5. Candidate named only by reading controls.tsv, NOT yet a member: B6QUR1 (MP1, Pfam HsbA); the job decides. An empty list at the freeze is allowed only if the job ran and found none.",
- "kept_proteomes": ["Afum_Af293_UniProt", "Calb_SC5314", "Cimm_RS", "Scer_S288C"],
- "kept_proteome_sizes": {"Afum_Af293_UniProt": 9647, "Calb_SC5314": 6212, "Cimm_RS": 9910, "Scer_S288C": 6722},
+ "negatives_ignored_note": "DECIDED 2026-10-23 (Q7): empty. Pre-check job 30321490 (code 5fb6b48): 0 family members among the 161 shared negatives (phmmer E <= 1e-5). B6QUR1 is a panel hit, not a family member: it is in panel_ignored, not here.",
+ "kept_proteomes": [
+  "Afum_Af293_UniProt",
+  "Calb_SC5314",
+  "Cimm_RS",
+  "Scer_S288C"
+ ],
+ "kept_proteome_sizes": {
+  "Afum_Af293_UniProt": 9647,
+  "Calb_SC5314": 6212,
+  "Cimm_RS": 9910,
+  "Scer_S288C": 6722
+ },
  "min_unit_members": 5,
  "training_rule": {
   "min_sequences": 5,
   "min_clades": 2,
   "reading": "total",
-  "note": "decision 7, provisional, applied AFTER the independence rule. reading total = the ecm33 code (5 sequences in all outside clades together, in >= 2 clades); per_clade = >= 2 outside clades each with >= 5 sequences (owner question 2; per_clade leaves only the Kiss unit and Leotiomycetes buildable)"
+  "note": "DECIDED 2026-10-23 (Q2): reading total (the ecm33 code: 5 sequences in all outside clades together, in >= 2 clades), applied AFTER the independence rule. This is the WEAKER reading; per_clade (>= 2 outside clades each with >= 5 sequences) would leave only the Kiss unit buildable. per_clade counts are still printed in units.tsv."
  },
  "independence_mode": "cluster30",
  "independence_second_column": "none",
- "independence_note": "PROPOSAL (the ecm33 owner decision carried over, owner question 5): HEADLINE cluster30 (MMseqs2 30 percent identity, 50 percent coverage), second DESCRIPTIVE column none. A cluster: unit has one column (the held-out cluster is already removed).",
- "mmseqs": {"command": "mmseqs easy-cluster --min-seq-id 0.3 -c 0.5", "module": "MMseqs2/17-b804f"},
+ "independence_note": "DECIDED 2026-10-23 (Q5): HEADLINE cluster30 (MMseqs2 30 percent identity, 50 percent coverage), second DESCRIPTIVE column none. A cluster: unit has one column (the held-out cluster is already removed).",
+ "mmseqs": {
+  "command": "mmseqs easy-cluster --min-seq-id 0.3 -c 0.5",
+  "module": "MMseqs2/17-b804f"
+ },
  "min_u": 3,
- "min_u_note": "PROPOSAL carried over from ecm33. u here = held-out members missed by every INDEPENDENT comparator (Pfam GA panel, relaxed panel, single-seed phmmer); the jackhmmer-from-seed ceiling is reported but never enters u. The custom model must recover ceil(u/2) of u.",
- "aligner": {"name": "mafft", "module": "mafft/7.505", "command": "mafft --localpair --maxiterate 1000 --quiet --thread N (L-INS-i, the precedent's options)"},
+ "min_u_note": "DECIDED 2026-10-23 (Q6): min_u 3; the Kiss unit (n = 1) is never a rule unit. u = held-out members missed by every INDEPENDENT comparator (Pfam GA panel, relaxed panel, single-seed phmmer, the last skipped in the Kiss unit); the jackhmmer-from-seed ceiling is reported but never enters u. The custom model must recover ceil(u/2) of u.",
+ "aligner": {
+  "name": "mafft",
+  "module": "mafft/7.505",
+  "command": "mafft --localpair --maxiterate 1000 --quiet --thread N (L-INS-i, the precedent's options)"
+ },
  "alignment_check": {
   "occupancy": 0.5,
   "min_columns": 40,
   "min_median_coverage": 0.6,
-  "note": "PROPOSAL; the stop condition of the build. min_columns is 40, not the ecm33 100: the query is 98 residues and 31 of 32 hits are 61 to 197 residues, so 100 occupied columns cannot be reached. A cysteine-column check as in analysis/hydrophobin_truth/lco.py is NOT proposed: whether KS0017 has the 8 cysteines is unchecked."
+  "note": "min_columns 40 DECIDED 2026-10-23 (Q9; the query is 98 residues, 100 occupied columns cannot be reached); occupancy 0.5 and min_median_coverage 0.6 are still PROPOSALS. No cysteine-column check as a stop condition; the cysteine pattern of the 30 members is a descriptive note only."
  },
  "model_build": "hmmbuild --amino --informat afa (module hmmer/3.4)",
  "evalue_db_size": 70198728,
- "evalue_db_size_note": "PROPOSAL: -Z for the seed comparators over the tiny held-out file = the UniRef50 2025_03 sequence count of the round 2 provenance (uniprot_fasta_sequences), so E <= 1e-5 means what it meant in the search that found the members",
+ "evalue_db_size_note": "DECIDED 2026-10-23 (Q10): -Z 70198728 on the seed searches = the UniRef50 2025_03 sequence count of the round 2 provenance (uniprot_fasta_sequences), so E <= 1e-5 means what it meant in the search that found the members",
  "comparators": {
   "pfam_ga": "the eight hydrophobin-class Pfam models of the panel (PF01185 PF06766 PF22354 PF28987 PF29802 PF29785 PF29465 PF12296), hmmsearch --cut_ga; INDEPENDENT",
   "relaxed_panel": "data/sorting_hat/hydrophobin_relaxed.hmm (frozen 2.6-bit full-sequence cutoff, --nobias --cut_ga; committed 2026-10); INDEPENDENT; the 8-cysteine condition of the module is not applied (reported as a second descriptive column only if the owner asks)",
   "phmmer_seed": "phmmer -Z <evalue_db_size> -E 1e-5 of the single Kiss protein A0ACE4KFX7 over the held-out members; INDEPENDENT of the training alignment; not run in the Kiss unit (the seed is the held-out member)",
-  "jackhmmer_seed_ceiling": "jackhmmer -N 3 --incE 1e-5 from the single Kiss protein, same -Z; CEILING: it found the members, so it recovers them by construction; reported, never in u"
+  "jackhmmer_seed_ceiling": "jackhmmer -N 3 --incE 1e-5 from the single Kiss protein, same -Z; CEILING: it found the members, so it recovers them by construction; reported, never in u",
+  "_note": "DECIDED 2026-10-23 (Q6): the alignment-independent set; jackhmmer from the single protein only as a ceiling outside u"
  },
  "heldout_truth": {
   "kiss_unit_clade": "Eurotiomycetes",
   "within_member_set": "clade units and cluster units of the drift-supported members: search-defined and circular, every cell descriptive",
-  "external_set": null,
-  "external_set_note": "OWNER QUESTION 4. Proposal: the 9 Swiss-Prot hydrophobins without a hydrophobin Pfam cross-reference (analysis/hydrophobin_truth/nopfam9.faa) and the other curated truth proteins that the pre-check relatedness table shows within E 1e-3 of the Kiss protein, scored as an extra descriptive line after the same 30 percent exclusion. Null until decided."
+  "external_set": [
+   "I1RDP9",
+   "G9MKB2",
+   "I1RDQ0",
+   "Q8X1T7",
+   "A0A067P943",
+   "Q9Y8F0"
+  ],
+  "external_set_note": "DECIDED 2026-10-23, DESCRIPTIVE only and tiny (n = 6). The 7 curated hydrophobin truth proteins within E <= 1e-3 of the Kiss protein in the pre-check relatedness table (job 30321490: I1RDP9 2.3e-10, G9MKB2 2.7e-10, I1RDQ0 3.7e-9, A0A6V8R0V1 2e-8, Q8X1T7 1.3e-5, A0A067P943 7.3e-4, Q9Y8F0 8.1e-4) MINUS A0A6V8R0V1, which is a training member (UniRef50_A0A6V8R0V1, Sordariomycetes, drift-supported, query cover 0.551; it stays a member and is never a test protein). Scored as the unit 'external' after the same 30 percent exclusion (training members in a 30 percent cluster with an external protein are removed). Sequences: analysis/hydrophobin_truth/positives_t2t3.faa.",
+  "external_set_removed_as_training_members": [
+   "A0A6V8R0V1"
+  ]
  },
  "weak_evidence_rows_listed_by_name": "the query A0ACE4KFX7 is locus_confirmed (not row_verified); the members are homologs by iterated search, not curated hyd1_like",
  "owner_signature": null,
- "decided_by_owner_2026-10-22": ["extra_calls_per_10000", "kept_proteomes", "adhesion_leave_cluster_out_partial", "custom_models_report_only"],
- "proposals": [
-  "cutoff_floor",
-  "proteome_other_hydrophobin",
-  "hard_negative_rate",
-  "negatives_ignored",
-  "min_unit_members",
+ "decided_by_owner_2026-10-22": [
+  "extra_calls_per_10000",
+  "kept_proteomes",
+  "adhesion_leave_cluster_out_partial",
+  "custom_models_report_only"
+ ],
+ "decided_by_owner_2026-10-23": [
   "training_rule.reading",
+  "members",
   "independence_mode",
   "independence_second_column",
-  "min_u",
-  "alignment_check",
-  "evalue_db_size",
   "comparators",
-  "heldout_truth"
+  "min_u",
+  "hard_negative_rate",
+  "negatives_ignored",
+  "proteome_other_hydrophobin",
+  "panel_ignored",
+  "alignment_check.min_columns",
+  "evalue_db_size",
+  "heldout_truth.external_set"
+ ],
+ "proposals": [
+  "cutoff_floor",
+  "min_unit_members",
+  "alignment_check.occupancy",
+  "alignment_check.min_median_coverage"
  ]
 }

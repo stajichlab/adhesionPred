@@ -8,7 +8,7 @@ Design, decisions needed and the staged plan: `docs/superpowers/specs/2026-10-23
 |---|---|
 | `pr6_hyd1_members.py` | stdlib; members (query + drift-supported hits, query coverage >= 0.5, named clade) and clade units from the committed drift record |
 | `pr6_hyd1_build.py` | `cluster-units`, `manifest` (clade, cluster or `all`), `tasks`, `check-alignment`, `cutoff`; reuses `pr6_ecm33_build.py` for the independence helpers, alignment checks, cutoff rule and freeze guard (only the unit kinds and the two training-rule readings are new) |
-| `pr6_hyd1_report.py` | `recall_by_unit.tsv` with independent comparators, `u_indep` and `u_with_ceiling`; refuses an unfrozen freeze or cutoffs made with another one |
+| `pr6_hyd1_report.py` | `recall_by_unit.tsv` with independent comparators, `u_indep` and `u_with_ceiling`, Clopper-Pearson intervals in every row (function imported from `pr6_ecm33_eval_report.py`), the external line, the panel-counted numbers; refuses an unfrozen freeze or cutoffs made with another one |
 | `pr6_hyd1_negatives_precheck.py` / `.sbatch` | pre-freeze check of the 161 shared negatives and the four proteomes (family rule and hydrophobin Pfam panel) plus a relatedness table |
 | `pr6_hyd1_extract.sbatch` | members, UniRef50 sequences, MMseqs2 30 percent clusters, cluster units |
 | `pr6_hyd1_build.sbatch` | the array: manifest, MAFFT, `hmmbuild`, cutoff, then the held-out searches |
@@ -17,7 +17,9 @@ Design, decisions needed and the staged plan: `docs/superpowers/specs/2026-10-23
 
 Reuse note: no ecm33 file was refactored. `pr6_ecm33_report.py` is imported for `read_tsv`, `write_tsv`, `sha256_file`, `recovered_by_score`; `pr6_ecm33_negatives_precheck.py` for the tblout parser and `build`. What was copied or rewritten: `unit_row` (new comparator logic), `make_manifest` (units that are clades or clusters), `unit_table`/`select_members` (different input table), and the three sbatch scripts (adapted, trimmed).
 
-## Run order (exact commands, NOT run; each step needs the owner's go-ahead)
+## Run order (exact commands, NOT run; each HPCC step needs the owner's go-ahead)
+
+Owner decisions of 2026-10-23 are recorded in `pr6_hyd1_freeze_PROPOSED.json` (`decided_by_owner_2026-10-23`), spec section 9. The pre-check job (30321490) is done.
 
 Local check first (no HPCC):
 ```
@@ -27,22 +29,16 @@ python3 -I analysis/wall_fusion_truth/pr6_hyd1_members.py \
 ```
 Expected: 30 members (query + 29) in 4 clades; 3 excluded; units Sordariomycetes `unit`, Dothideomycetes `unit`, Leotiomycetes `too_few_members`, Eurotiomycetes `kiss_single` (reading `total`).
 
-1. Update the HPCC clone to the merge commit of the PR that holds these files.
-2. **Pre-check** (short partition; resources a guess):
+1. **Sign the freeze** (the owner only): `cp pr6_hyd1_freeze_PROPOSED.json pr6_hyd1_freeze.json`, set `"frozen": true` and `owner_signature`, commit. Nothing is built before it. `panel_ignored` (19 ids), `negatives_ignored` ([]) and `heldout_truth.external_set` (6 ids) are already filled.
+2. **Update the HPCC clone** to the merge commit of the PR that holds the freeze and these files (go-ahead needed).
+3. **Extract job** (go-ahead needed). It reads the signed freeze for the training-rule reading and the external set:
    ```
-   sbatch --export=ALL,PROJ_ROOT=$B/adhesionPred-kiss53,CODE_COMMIT=<sha>,IN=$W/kiss_cluster_split/in,OUT=$W/hyd1_negcheck,PFAM_RELEASE=38.2 \
-     -o $W/logs/%x.%j.log -e $W/logs/%x.%j.log $B/adhesionPred-kiss53/analysis/wall_fusion_truth/pr6_hyd1_negatives_precheck.sbatch
-   ```
-   Expected in `$OUT`: `negatives_family_table.tsv`, `negatives_panel_table.tsv`, `weak_E1e-3.tsv`, `related.tsv`, `proposed_negatives_ignored.json`, `summary.txt`, `proteome_labelled_phmmer.tsv`, `proteome_panel_ga.tsv`, raw tblout files, `provenance.txt`. Checks: `summary.txt` has no LOUD line; the owner reads which negatives are family members and which are only panel hits.
-3. **Extract** (set `READING` to the reading the freeze will name; default `total`):
-   ```
-   sbatch --export=ALL,PROJ_ROOT=...,CODE_COMMIT=<sha>,OUT=$W/hyd1_extract,READING=total \
+   sbatch --export=ALL,PROJ_ROOT=...,CODE_COMMIT=<sha>,OUT=$W/hyd1_extract \
      -o $W/logs/%x.%j.log -e $W/logs/%x.%j.log .../pr6_hyd1_extract.sbatch
    ```
-   Expected: `members/` (members.tsv 30 rows, excluded.tsv 3, units.tsv, member_ids.txt 29 ids), `hyd1_members.faa` (30 sequences) and `.sha256`, `clu_cluster.tsv`, `units_cluster.tsv`, `provenance.txt`. Checks: 29 ids found in UniRef50; no duplicate id.
-4. **Freeze** (the owner only): `cp pr6_hyd1_freeze_PROPOSED.json pr6_hyd1_freeze.json`, fill `negatives_ignored` from step 2, settle `heldout_truth.external_set`, set `"frozen": true` and `owner_signature`, commit.
-5. **Build array**: compute N from `pr6_hyd1_build.py tasks` (see the header of `pr6_hyd1_build.sbatch`), then `sbatch --array=0-$N%4 --export=ALL,PROJ_ROOT=...,CODE_COMMIT=<sha>,EXTRACT=$W/hyd1_extract,OUT=$W/hyd1_build,PFAM_RELEASE=38.2 ... pr6_hyd1_build.sbatch`. Results in `<out>/<unit>/<mode>/`. The job stops without a frozen freeze and when the extract job used another reading than the freeze.
-6. **Report** (local): `python3 -I analysis/wall_fusion_truth/pr6_hyd1_report.py --results <hyd1_build> --freeze analysis/wall_fusion_truth/pr6_hyd1_freeze.json --out <dir>`.
+   Expected: `members/` (members.tsv 30 rows, excluded.tsv 3, units.tsv, member_ids.txt 29 ids), `hyd1_members.faa` (30 sequences) and `.sha256`, `clu_cluster.tsv`, `units_cluster.tsv`, `cysteines.tsv` (descriptive), `external.faa` (6 sequences), `ext_cluster.tsv` (clusters over members + external), `provenance.txt`. Checks: 29 ids found in UniRef50; no duplicate id; no external id is a member.
+4. **Build array** (go-ahead needed): compute N from `pr6_hyd1_build.py tasks` (see the header of `pr6_hyd1_build.sbatch`; the list now also holds one `external` task), then `sbatch --array=0-$N%4 --export=ALL,PROJ_ROOT=...,CODE_COMMIT=<sha>,EXTRACT=$W/hyd1_extract,OUT=$W/hyd1_build,PFAM_RELEASE=38.2 ... pr6_hyd1_build.sbatch`. Results in `<out>/<unit>/<mode>/`. The job stops without a frozen freeze and when the extract job used another reading than the freeze.
+5. **Report** (local, no HPCC): `python3 -I analysis/wall_fusion_truth/pr6_hyd1_report.py --results <hyd1_build> --freeze analysis/wall_fusion_truth/pr6_hyd1_freeze.json --out <dir>`. Every row prints the exact 95 percent Clopper-Pearson interval for each recall and for recovered-of-u (`*_ci95`); a wide interval is not a result. The `line` column marks headline, descriptive, external and Kiss-unit rows; the extra calls and hard-negative rate are printed with the `panel_ignored` ids left out and with them counted.
 
 ## Checks built in
 
@@ -50,4 +46,4 @@ Held-out ids absent from every manifest and alignment (also the excluded 30 perc
 
 ## Unconfirmed
 
-HPCC resources and run times (guesses); `hmmfetch -f` by model name for the eight panel models (names from `data/sorting_hat/family_table.tsv`; HsbA name unverified against Pfam-A 38.2); `phmmer`/`jackhmmer` `-Z` behavior; MMseqs2 option set; that `Cimm_RS` etc. are in `$PROTEOME_DIR` (the ecm33 default path is reused); whether Q3 inside-clade hits are wanted (no script drafted for the inside-clade drift check); the external held-out set (not implemented until decided). Nothing in this folder has been run on HPCC.
+HPCC resources and run times (guesses); `hmmfetch -f` by model name for the eight panel models (names from `data/sorting_hat/family_table.tsv`; HsbA name unverified against Pfam-A 38.2); `phmmer`/`jackhmmer` `-Z` behavior; MMseqs2 option set; that `Cimm_RS` etc. are in `$PROTEOME_DIR` (the ecm33 default path is reused); the inside-clade Eurotiomycetes hits stay out (no script drafted for their drift check); the extract/build steps for the external line (`external.faa`, `ext_cluster.tsv`, the `external` task) are new and untested on HPCC. Nothing in this folder has been run on HPCC.

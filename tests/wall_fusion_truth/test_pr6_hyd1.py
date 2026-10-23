@@ -303,7 +303,7 @@ def test_the_proposed_freeze_is_a_proposal_and_matches_the_decisions():
     for k in e33b.FREEZE_KEYS + bld.EXTRA_FREEZE_KEYS:
         assert k in fz
     assert fz["comparators"]["jackhmmer_seed_ceiling"].startswith("jackhmmer")
-    assert fz["heldout_truth"]["external_set"] is None  # an owner decision, not made here
+    assert fz["frozen"] is False and fz["owner_signature"] is None  # the owner signs, not the code
     assert fz["evalue_db_size"] == 70198728  # the round 2 provenance
     prov = (ROOT / "docs/reports/data/pr6_gap_uniref50_2026-10-22/provenance.txt").read_text()
     assert "uniprot_fasta_sequences: 70198728" in prov
@@ -659,3 +659,170 @@ def test_scripts_import_no_call_status_or_tier_code_and_write_no_committed_table
             r"data/sorting_hat|\bfamily_table\.tsv|family_measure",
             re.sub(r'""".*?"""', "", src, flags=re.S),
         )
+
+
+# ------------------------------------------------------------------------------------------------ owner decisions of 2026-10-23
+
+SEVEN = ["I1RDP9", "G9MKB2", "I1RDQ0", "A0A6V8R0V1", "Q8X1T7", "A0A067P943", "Q9Y8F0"]
+
+
+def real_member_ids():
+    members, _ = mem.select_members(
+        mem.read_tsv(DRIFT / "drift_hits.tsv"), mem.read_tsv(DRIFT / "hits_manifest.tsv")
+    )
+    return {m["hit_id"].removeprefix("UniRef50_") for m in members}
+
+
+def test_freeze_records_the_owner_decisions_and_stays_unfrozen():
+    fz = json.loads(PROPOSED.read_text())
+    assert fz["frozen"] is False and fz["owner_signature"] is None
+    assert not (WF / "pr6_hyd1_freeze.json").exists()  # only the owner creates it
+    assert fz["training_rule"]["reading"] == "total"
+    assert (fz["independence_mode"], fz["independence_second_column"]) == ("cluster30", "none")
+    assert fz["min_u"] == 3 and fz["hard_negative_rate"] == 0.05 and fz["negatives_ignored"] == []
+    assert fz["evalue_db_size"] == 70198728 and fz["alignment_check"]["min_columns"] == 40
+    assert fz["proteome_other_hydrophobin"] == "ignore"
+    decided = set(fz["decided_by_owner_2026-10-23"])
+    assert {"training_rule.reading", "panel_ignored", "heldout_truth.external_set"} <= decided
+    assert not decided & set(fz["proposals"])
+
+
+def test_panel_ignored_is_listed_by_id():
+    fz = json.loads(PROPOSED.read_text())
+    ids = fz["panel_ignored"]
+    assert (
+        len(ids) == len(set(ids)) == 19
+    )  # 18 proteome proteins (19 hit rows, E9QT94 twice) + B6QUR1
+    assert "B6QUR1" in ids and sum(len(v) for v in fz["panel_ignored_by_source"].values()) == 19
+    neg = {
+        r["accession"]: r
+        for r in csv.DictReader(
+            open(ROOT / "data/controls/hard-negatives-shared/controls.tsv"), delimiter="\t"
+        )
+    }
+    assert "B6QUR1" in neg and not [i for i in ids if i in neg and i != "B6QUR1"]
+    assert fz["negatives_ignored"] == []  # no family member among the shared negatives
+
+
+def test_external_set_is_the_seven_minus_training_members():
+    fz = json.loads(PROPOSED.read_text())
+    members = real_member_ids()
+    assert len(members) == 30 and "A0A6V8R0V1" in members
+    ext = fz["heldout_truth"]["external_set"]
+    assert ext == [i for i in SEVEN if i not in members] and len(ext) == 6
+    assert not set(ext) & members and fz["heldout_truth"][
+        "external_set_removed_as_training_members"
+    ] == ["A0A6V8R0V1"]
+
+
+def test_clopper_pearson_exact_edges_and_known_value():
+    assert rep.clopper_pearson(0, 5)[0] == 0.0 and rep.clopper_pearson(5, 5)[1] == 1.0
+    lo, hi = rep.clopper_pearson(0, 1)
+    assert lo == 0.0 and math.isclose(hi, 0.975, abs_tol=1e-9)
+    lo, hi = rep.clopper_pearson(3, 10)
+    assert math.isclose(lo, 0.06674, abs_tol=1e-4) and math.isclose(hi, 0.65245, abs_tol=1e-4)
+    assert rep.fmt_ci(0, 0) == "NA"
+    assert rep.clopper_pearson is sys.modules["pr6_ecm33_eval_report"].clopper_pearson
+
+
+def test_every_row_prints_intervals_and_the_wide_interval_sentence(tmp_path):
+    held = [f"h{i}" for i in range(6)]
+    row = rep.unit_row("external", held, set(held[:4]), set(), set(), {"h0"}, set(), 3, False)
+    assert row["recall_custom_ci95"] == rep.fmt_ci(4, 6)
+    assert row["recovered_of_u_ci95"] == rep.fmt_ci(
+        3, 5
+    )  # u = 5 (h0 seen by the seed), custom h1..h3
+    assert row["phmmer_seed_ci95"] == rep.fmt_ci(1, 6)
+    kiss = rep.unit_row(
+        "clade:Eurotiomycetes", ["A0ACE4KFX7"], {"A0ACE4KFX7"}, set(), set(), None, set(), 3, True
+    )
+    assert kiss["phmmer_seed_ci95"] == "NA" and kiss["recall_custom_ci95"] == rep.fmt_ci(1, 1)
+    assert "A wide interval is not a result" in rep.CI_NOTE
+    for k in ("recall_custom_ci95", "recovered_of_u_ci95", "pfam_ga_ci95", "relaxed_panel_ci95"):
+        assert k in rep.HEADER
+
+
+def test_report_lines_and_external_row(tmp_path):
+    fz = tmp_path / "fz.json"
+    fz.write_text(json.dumps(frozen_fixture()))
+    res = tmp_path / "res"
+    sha = rep.sha256_file(fz)
+    held = ["a", "b", "c"]
+    for unit, mode in (("clade:S", "cluster30"), ("clade:S", "none"), ("external", "cluster30")):
+        write_unit_dir(res, unit, mode, held, sha, [("a", 90)])
+    assert rep.main(["--results", str(res), "--freeze", str(fz), "--out", str(tmp_path / "o")]) == 0
+    rows = {
+        (r["unit"], r["independence_mode"]): r
+        for r in csv.DictReader(open(tmp_path / "o/recall_by_unit.tsv"), delimiter="\t")
+    }
+    assert rows[("clade:S", "cluster30")]["line"] == "headline"
+    assert rows[("clade:S", "none")]["line"] == "descriptive"
+    ext = rows[("external", "cluster30")]
+    assert ext["line"] == "external_descriptive" and ext["label"] == "descriptive"
+    assert ext["recall_custom_ci95"] == rep.fmt_ci(1, 3)
+    assert "wide interval" in (tmp_path / "o/notes.txt").read_text()
+
+
+def cutoff_fixture(panel):
+    fz = {**frozen_fixture(), "panel_ignored": panel}
+    hits = [{"proteome": "P", "id": f"p{i}", "score": str(s)} for i, s in enumerate([50, 40, 30])]
+    hits += [{"proteome": "P", "id": "x_panel", "score": "100"}]
+    groups = {"n1": "g", "n2": "g", "B6QUR1": "laccase_etc", "n3": "laccase_etc"}
+    nh = {"B6QUR1": 168.7, "n1": 10.0}
+    return fz, hits, groups, nh, {"P": 100000}  # 50 extra calls would be allowed
+
+
+def test_panel_ignored_is_left_out_of_the_rate_and_counted_too():
+    fz, hits, groups, nh, sizes = cutoff_fixture(["x_panel", "B6QUR1"])
+    res = bld.run_cutoff_hyd1(fz, hits, set(), groups, nh, sizes)
+    assert res["panel_ignored"] == ["B6QUR1", "x_panel"]
+    assert res["negatives_ignored"] == []  # the freeze list is untouched
+    assert res["panel_ignored_negatives_left_out_of_rate"] == ["B6QUR1"]
+    assert (
+        res["cutoff"] == 30.0
+    )  # B6QUR1 (168.7) no longer forces the cutoff up; only n1 (10.0, 1 of 2) does
+    assert "laccase_etc" in res["hard_negative_call_rates"]
+    alt = res["panel_ignored_counted"]
+    assert alt["cutoff_if_counted"] > res["cutoff"]
+    head = alt["at_headline_cutoff"]
+    assert head["extra_calls_total"] == res["extra_calls_total"] + 1  # x_panel (100) counted too
+    assert head["hard_negative_call_rates"]["laccase_etc"] == 0.5  # B6QUR1 counted too
+    # `count` turns the whole thing off
+    off = bld.run_cutoff_hyd1(
+        {**fz, "proteome_other_hydrophobin": "count"}, hits, set(), groups, nh, sizes
+    )
+    assert off["panel_ignored"] == []
+    assert off["cutoff"] == alt["cutoff_if_counted"]
+
+
+def test_external_unit_manifest_holds_out_external_and_removes_30pct_neighbours():
+    members = fixture_members({"A": 5, "B": 6, "Eurotiomycetes": 1})
+    ids = [bld.fasta_id(m) for m in members]
+    cl = clusters_for(members, [[ids[0], "EXT1"]])
+    cl["EXT1"] = cl[ids[0]]
+    cl["EXT2"] = "EXT2"
+    man = bld.make_manifest(members, "external", cl, "cluster30", "total", ["EXT1", "EXT2"])
+    assert man["held_out_ids"] == ["EXT1", "EXT2"]
+    assert ids[0] in man["excluded_30pct_neighbours"] and ids[0] not in {
+        t["id"] for t in man["training"]
+    }
+    with pytest.raises(ValueError):
+        bld.make_manifest(members, "external", cl, "none", "total", ["EXT1"])  # one column only
+    with pytest.raises(ValueError):
+        bld.make_manifest(
+            members, "external", cl, "cluster30", "total", [ids[1]]
+        )  # a training member
+    with pytest.raises(ValueError):
+        bld.make_manifest(members, "external", cl, "cluster30", "total", [])
+    t = bld.task_list(
+        [{"unit": "clade:A", "status": "unit"}], [], "cluster30", "none", external=True
+    )
+    assert ("external", "cluster30") in t and t[-1] == ("all", "none")
+    assert ("external", "cluster30") not in bld.task_list([], [], "cluster30", "none")
+
+
+def test_extract_reads_the_freeze_and_the_build_does_not_research_the_panel():
+    ex = (WF / "pr6_hyd1_extract.sbatch").read_text()
+    assert "pr6_hyd1_freeze.json" in ex and "external.faa" in ex and "cysteines.tsv" in ex
+    bt = (WF / "pr6_hyd1_build.sbatch").read_text()
+    assert 'tblout "$W/g_$p.tbl"' not in bt and "panel_ignored" in bt
