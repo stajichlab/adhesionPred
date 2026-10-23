@@ -469,7 +469,124 @@ def test_search_script_has_the_frozen_options():
 
 def test_extract_script_uses_the_freeze_separation_command():
     t = (WF / "pr6_ecm33_eval_extract.sbatch").read_text()
-    assert "--min-seq-id 0.3 -c 0.5" in t and "MMseqs2/17-b804f" in t and "seqkit grep" in t
+    assert "--min-seq-id 0.3 -c 0.5" in t and "MMseqs2/17-b804f" in t
+
+
+def test_extract_script_reads_the_staged_representatives_only():
+    t = (WF / "pr6_ecm33_eval_extract.sbatch").read_text()
+    assert ': "${REPS_FASTA:?' in t and '"$REPS_FASTA.sha256"' in t and "sidecar" in t
+    assert (
+        "seqkit" not in t.lower()
+        and "uniref50.fasta" not in t.lower()
+        and "UNIREF50_BYTES" not in t
+    )
+    assert "found $N_FOUND of $N_IDS" in t and "uniq -d" in t and "reps_fasta_sha256" in t
+    assert "freeze_sha256" in t and "pr6_ecm33_eval_freeze.json" in t
+
+
+fetch = load("pr6_ecm33_eval_fetch_reps")
+
+
+def test_fetch_ids_are_the_187_selected_clusters():
+    ids = fetch.cluster_ids(CAND)
+    assert len(ids) == 187 and len(set(ids)) == 187 and all(i.startswith("UniRef50_") for i in ids)
+
+
+def test_fetch_refuses_a_path_inside_the_repo(tmp_path):
+    with pytest.raises(SystemExit):
+        fetch.refuse_repo_path(ROOT / "analysis" / "x")
+    with pytest.raises(SystemExit):
+        fetch.main(["--out-dir", str(ROOT / "ecm33_reps_tmp")])
+    assert not (ROOT / "ecm33_reps_tmp").exists()
+    assert fetch.refuse_repo_path(tmp_path / "ok") == (tmp_path / "ok").resolve()
+
+
+class FakeResp:
+    def __init__(self, body, headers=None):
+        self.body = body
+        self.headers = headers or {"X-UniProt-Release": "2026_03"}
+
+    def read(self):
+        return self.body.encode()
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, *a):
+        return False
+
+
+def fake_opener(answers):
+    import urllib.error
+
+    def op(req, timeout=0):
+        cid = req.full_url.rsplit("/", 1)[1].removesuffix(".fasta")
+        a = answers[cid]
+        if isinstance(a, int):
+            raise urllib.error.HTTPError(req.full_url, a, "x", {}, None)
+        return FakeResp(a)
+
+    return op
+
+
+def test_fetch_writes_the_staged_fasta_with_sha_and_provenance(tmp_path):
+    ans = {
+        "UniRef50_A": ">UniRef50_A Name n=2 Tax=X\nMKV\nLLA\n",
+        "UniRef50_B": ">UniRef50_B Other\nMMMM\n",
+    }
+    out = tmp_path / "o"
+    rc = fetch.run(
+        ["UniRef50_A", "UniRef50_B"], out, opener=fake_opener(ans), delay=0, sleep=lambda s: None
+    )
+    assert rc == 0
+    assert (out / "reps.faa").read_text() == ">UniRef50_A\nMKVLLA\n>UniRef50_B\nMMMM\n"
+    import hashlib
+
+    side = (out / "reps.faa.sha256").read_text().split()
+    assert (
+        side[0] == hashlib.sha256((out / "reps.faa").read_bytes()).hexdigest()
+        and side[1] == "reps.faa"
+    )
+    prov = (out / "provenance.txt").read_text()
+    assert "ids requested: 2" in prov and "ids received: 2" in prov and "2026_03" in prov
+
+
+def test_fetch_reports_obsolete_merged_and_empty_ids_and_writes_no_fasta(tmp_path, capsys):
+    ans = {
+        "UniRef50_A": ">UniRef50_A x\nMKV\n",
+        "UniRef50_GONE": 404,
+        "UniRef50_MERGED": ">UniRef50_OTHER x\nMKV\n",
+        "UniRef50_EMPTY": "",
+    }
+    out = tmp_path / "o"
+    rc = fetch.run(
+        list(ans), out, opener=fake_opener(ans), delay=0, retries=2, sleep=lambda s: None
+    )
+    err = capsys.readouterr().err
+    assert rc == 1
+    for cid in ("UniRef50_GONE", "UniRef50_MERGED", "UniRef50_EMPTY"):
+        assert cid in err
+    assert "different cluster id" in err and "404" in err and "3 of 4" in err
+    assert not (out / "reps.faa").exists() and not (out / "reps.faa.sha256").exists()
+
+
+def test_fetch_retries_a_server_error_then_gives_up_loudly(tmp_path, capsys):
+    ans = {"UniRef50_A": 503}
+    waits = []
+    rc = fetch.run(
+        ["UniRef50_A"],
+        tmp_path / "o",
+        opener=fake_opener(ans),
+        delay=0,
+        retries=3,
+        sleep=waits.append,
+    )
+    assert (
+        rc == 1
+        and len(waits) == 3
+        and waits == sorted(waits)
+        and "gave up" in capsys.readouterr().err
+    )
 
 
 def test_committed_outputs_carry_no_sequences(tmp_path):

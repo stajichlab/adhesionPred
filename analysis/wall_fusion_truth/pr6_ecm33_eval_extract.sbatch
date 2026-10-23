@@ -1,6 +1,7 @@
 #!/bin/bash -l
 # Independent-set evaluation of the frozen custom Ecm33 'all' model, step 1 (DRAFT, NOT SUBMITTED; nothing was run on HPCC): select the test
-# clusters from the committed candidates.tsv, fetch the cluster REPRESENTATIVE sequences from UniRef50 2025_03 by id, and run the cluster30
+# clusters from the committed candidates.tsv, check the staged cluster REPRESENTATIVE sequences (fetched by id from the live UniRef50
+# service on a laptop by pr6_ecm33_eval_fetch_reps.py; 2025_03 on HPCC holds only 51 of the 187 ids, job 30324005), and run the cluster30
 # separation (MMseqs2) of the test sequences against the 481 training members. It builds no model, scores nothing, and writes no call, no
 # status and no tier. Sequences stay in $OUT on HPCC; none is committed.
 # Design: analysis/wall_fusion_truth/pr6_ecm33_eval_freeze_PROPOSED.json (every choice there is a PROPOSAL until the owner signs
@@ -13,31 +14,30 @@
 # Inputs:
 #   $PROJ_ROOT   a clone at CODE_COMMIT (candidates.tsv, members.tsv, the freeze, the scripts; all committed; the clone must hold the
 #                merge of the PR of this script).
-#   $UNIREF50    default /srv/projects/db/Uniprot/2025_03/uniref50.fasta; its size must be 28,781,193,344 bytes (the round 2 provenance).
+#   $REPS_FASTA  the staged reps.faa (187 records, header = the UniRef50 id) of pr6_ecm33_eval_fetch_reps.py, with $REPS_FASTA.sha256
+#                (sha256sum format) next to it; the sidecar is verified. The sequences are the live UniRef50 view of the fetch date.
 #   $TRAIN_FAA   the staged ecm33_members.faa of the build's extract job (481 training members); its sha256 must be the freeze's
 #                separation.training_members_faa_sha256. Default: /bigdata/stajichlab/jstajich/projects/adhesionPred/_workdir/kiss_cluster_split/ecm33_extract/ecm33_members.faa
-# Tools: seqkit/2.4.0 (the UniRef50 file is streamed ONCE), MMseqs2/17-b804f (`mmseqs easy-cluster --min-seq-id 0.3 -c 0.5`, from the freeze).
-# Resources: NOT MEASURED, a guess. batch partition (the file-system pass over 28.8 GB is the long part; the 2-hour limit of a short
-# partition is not assured for it), 8 cores, 16 GB (187 ids and 668 sequences are tiny; seqkit buffers little), 3 hours.
+# Tools: MMseqs2/17-b804f (`mmseqs easy-cluster --min-seq-id 0.3 -c 0.5`, from the freeze).
+# Resources: NOT MEASURED, a guess. batch partition, 4 cores, 8 GB, 1 hour (668 sequences are tiny; no large file is streamed).
 #
 # Submit (after the go-ahead; $OUT must NOT exist; the log directory must exist):
-#   sbatch --export=ALL,PROJ_ROOT=/path/to/clone,CODE_COMMIT=<sha>,OUT=/path/to/new_outdir \
+#   sbatch --export=ALL,PROJ_ROOT=/path/to/clone,CODE_COMMIT=<sha>,OUT=/path/to/new_outdir,REPS_FASTA=/path/to/staged/reps.faa \
 #     -o /path/to/logs/%x.%j.log -e /path/to/logs/%x.%j.log analysis/wall_fusion_truth/pr6_ecm33_eval_extract.sbatch
 #SBATCH -p batch
-#SBATCH -c 8
-#SBATCH --mem=16G
-#SBATCH --time=3:00:00
+#SBATCH -c 4
+#SBATCH --mem=8G
+#SBATCH --time=1:00:00
 #SBATCH -J pr6_ecm33_eval_extract
 set -euo pipefail
 : "${PROJ_ROOT:?export PROJ_ROOT (an HPCC clone that holds this script) before sbatch}"
 : "${CODE_COMMIT:?export CODE_COMMIT (the reviewed commit) before sbatch}"
 : "${OUT:?export OUT (a new output directory) before sbatch}"
-UNIREF50="${UNIREF50:-/srv/projects/db/Uniprot/2025_03/uniref50.fasta}"
-UNIREF50_BYTES=28781193344
+: "${REPS_FASTA:?export REPS_FASTA (the staged reps.faa with its .sha256 sidecar) before sbatch}"
 TRAIN_FAA="${TRAIN_FAA:-/bigdata/stajichlab/jstajich/projects/adhesionPred/_workdir/kiss_cluster_split/ecm33_extract/ecm33_members.faa}"
 TMP="${SCRATCH:?SCRATCH is not set; run this as a SLURM job}/pr6_ecm33_eval_extract.$$"
 trap 'rm -rf "$TMP"' EXIT
-THREADS="${SLURM_CPUS_PER_TASK:-8}"
+THREADS="${SLURM_CPUS_PER_TASK:-4}"
 WF=analysis/wall_fusion_truth
 CAND=docs/reports/data/ecm33_independent_set_candidates
 BLD=docs/reports/data/pr6_ecm33_build_2026-10-23
@@ -54,8 +54,10 @@ echo "pin ok: HEAD $(git -C "$PROJ_ROOT" rev-parse HEAD); code pinned to $CODE_C
 [ -f "$FREEZE" ] || fail "$FREEZE is missing: the freeze commit comes before any run"
 grep -q '"frozen": true' "$FREEZE" || fail "$FREEZE is not frozen"
 [ ! -e "$OUT" ] || fail "$OUT exists; nothing is overwritten"
-[ -s "$UNIREF50" ] || fail "$UNIREF50 is missing or empty"
-[ "$(stat -c %s "$UNIREF50")" = "$UNIREF50_BYTES" ] || fail "$UNIREF50 is not $UNIREF50_BYTES bytes: it is not the file of the round 2 record"
+[ -s "$REPS_FASTA" ] || fail "$REPS_FASTA is missing or empty"
+[ -s "$REPS_FASTA.sha256" ] || fail "$REPS_FASTA.sha256 (the sidecar) is missing or empty"
+REPS_SHA=$(sha256sum < "$REPS_FASTA" | cut -d' ' -f1)
+[ "$REPS_SHA" = "$(cut -d' ' -f1 < "$REPS_FASTA.sha256")" ] || fail "$REPS_FASTA does not match its .sha256 sidecar"
 [ -s "$TRAIN_FAA" ] || fail "$TRAIN_FAA is missing"
 [ "$(sha256sum < "$TRAIN_FAA" | cut -d' ' -f1)" = "$(jget separation.training_members_faa_sha256)" ] || fail "$TRAIN_FAA is not the training FASTA of the freeze (sha256)"
 mkdir -p "$TMP"
@@ -68,12 +70,14 @@ N_IDS=$(wc -l < "$TMP/sel/test_cluster_ids.txt")
 N_PE=$(wc -l < "$TMP/sel/headline_pe_cluster_ids.txt")
 [ "$N_PE" -eq "$(jget test_set.expected_headline_pe_clusters)" ] || fail "$N_PE clusters at the PANTHER E cut, the freeze says $(jget test_set.expected_headline_pe_clusters)"
 
-# 2. One pass over UniRef50: the representatives whose first header token is exactly a cluster id (seqkit grep -f: exact ids, no regex).
-module load seqkit/2.4.0 MMseqs2/17-b804f
-seqkit grep -j "$THREADS" -f "$TMP/sel/test_cluster_ids.txt" "$UNIREF50" | awk '/^>/ { print $1; next } { print }' > "$TMP/test_clusters.faa"
-N_FOUND=$(grep -c '^>' "$TMP/test_clusters.faa")
-[ "$N_FOUND" -eq "$N_IDS" ] || fail "found $N_FOUND of $N_IDS representatives in $UNIREF50"
-[ "$(grep '^>' "$TMP/test_clusters.faa" | sort | uniq -d | wc -l)" -eq 0 ] || fail "duplicate ids in the test FASTA"
+# 2. The staged representatives (header = the cluster id): all test ids present exactly once, nothing else.
+module load MMseqs2/17-b804f
+awk '/^>/ { print $1; next } { print }' "$REPS_FASTA" > "$TMP/test_clusters.faa"
+grep '^>' "$TMP/test_clusters.faa" | sed 's/^>//' > "$TMP/staged_ids.txt"
+N_FOUND=$(wc -l < "$TMP/staged_ids.txt")
+[ "$N_FOUND" -eq "$N_IDS" ] || fail "found $N_FOUND of $N_IDS representatives in $REPS_FASTA"
+[ "$(sort "$TMP/staged_ids.txt" | uniq -d | wc -l)" -eq 0 ] || fail "duplicate ids in the staged FASTA"
+[ "$(sort "$TMP/staged_ids.txt" | uniq | comm -3 - <(sort "$TMP/sel/test_cluster_ids.txt") | wc -l)" -eq 0 ] || fail "the staged ids are not the selected test cluster ids"
 
 # 3. The cluster30 separation: training members and test sequences clustered TOGETHER (the freeze's command).
 cat "$TRAIN_FAA" "$TMP/test_clusters.faa" > "$TMP/all.faa"
@@ -93,11 +97,12 @@ cp "$TMP/purity/purity_members.tsv" "$TMP/purity/purity.json" "$OUT.tmp.$$/"
   echo "job: pr6_ecm33_eval_extract (independent-set evaluation, ecm33 all model)"
   echo "commit: $(git -C "$PROJ_ROOT" rev-parse HEAD) (pinned: $CODE_COMMIT)"
   echo "freeze sha256: $(sha256sum < "$FREEZE" | cut -d' ' -f1)"
-  echo "seqkit: $(seqkit version 2>&1 | head -1)"
   echo "mmseqs: $(mmseqs version)"
-  echo "uniref50: $UNIREF50 ($UNIREF50_BYTES bytes)"
+  echo "representatives: $REPS_FASTA sha256 $REPS_SHA (live UniRef50 fetch; see its provenance.txt)"
   echo "training faa: $TRAIN_FAA sha256 $(sha256sum < "$TRAIN_FAA" | cut -d' ' -f1)"
   echo "test clusters: $N_IDS (at the PANTHER E cut: $N_PE); separated: $(awk -F'\t' 'NR>1 && $5=="yes"' "$TMP/separation.tsv" | wc -l)"
 } > "$OUT.tmp.$$/provenance.txt"
+$PY -I -c "import json,sys; json.dump({'job':'pr6_ecm33_eval_extract','freeze_sha256':sys.argv[1],'reps_fasta_sha256':sys.argv[2],'code_commit':sys.argv[3]}, open(sys.argv[4],'w'), indent=2)" \
+  "$(sha256sum < "$FREEZE" | cut -d' ' -f1)" "$REPS_SHA" "$CODE_COMMIT" "$OUT.tmp.$$/run.json"
 mv "$OUT.tmp.$$" "$OUT"
 echo "wrote $OUT"
