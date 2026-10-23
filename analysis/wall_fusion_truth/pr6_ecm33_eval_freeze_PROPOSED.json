@@ -1,0 +1,97 @@
+{
+ "frozen": false,
+ "status": "PROPOSED evaluation freeze (DRAFT, written 2026-10-23, nothing run). The owner freezes it: copy this file to pr6_ecm33_eval_freeze.json (same folder), set \"frozen\": true, set owner_signature, change any PROPOSAL not accepted, commit. pr6_ecm33_eval_extract.sbatch, pr6_ecm33_eval_search.sbatch and pr6_ecm33_eval_report.py refuse a missing or unfrozen file; the report also refuses unless every result file records the sha256 of the signed file. Every key listed under proposals is a PROPOSAL for the owner, not a decision.",
+ "target": "frozen custom Ecm33 'all' model (data/custom_models/ecm33_all_2026-10-23), report-only, on an independent held-out set",
+ "scoping": "docs/reports/2026-10-23-ecm33-independent-set-scoping.md; candidates: docs/reports/data/ecm33_independent_set_candidates/candidates.tsv",
+ "spec": "docs/superpowers/specs/2026-10-22-pr6-custom-hmms-design.md (4.6, 4.7); docs/reports/2026-10-22-pr6-drift-check.md section 4b",
+ "custom_model": {
+  "path": "data/custom_models/ecm33_all_2026-10-23/model.hmm",
+  "sha256": "9a6e2c812540b0b1892f081611bf4044ec674bc524d68f5c6fc3d16001c50937",
+  "cutoff_json": "data/custom_models/ecm33_all_2026-10-23/cutoff.json",
+  "cutoff_json_sha256": "1f51e55bcdeb78a1820a540f1762a661f39dc167836a2c1c502ce4ddb65ee486",
+  "cutoff_bits": 29.6,
+  "cutoff_kind": "full-sequence score threshold, equivalent to hmmsearch -T 29.6; the job keeps hits down to the floor 0.0 and the report applies 29.6 (the build did the same); scores below 29.6 are descriptive near-misses and retune nothing",
+  "retuned": false,
+  "note": "nothing is retuned: the cutoff and the model are the frozen ones of the build (extra calls 4 of 32,491 proteome proteins, hard-negative rates 0 in every group)"
+ },
+ "test_set": {
+  "source_table": "docs/reports/data/ecm33_independent_set_candidates/candidates.tsv",
+  "selection": "overlap_with_training == new_cluster",
+  "expected_proteins": 725,
+  "expected_clusters": 187,
+  "unit": "one UniRef50 cluster; the test sequence is the cluster representative (UniRef50 FASTA record), like the training members",
+  "cluster_attribute_rules": {
+   "clade_fine": "most frequent clade_fine of the cluster's proteins, ties alphabetical (2 clusters have two clades)",
+   "tier": "best tier of the cluster's proteins, T1 before T2 before T3 (35 clusters mix T2 and T3)",
+   "subfamily": "SF12 if any protein of the cluster is SF12, else the most frequent",
+   "best_panther_evalue": "smallest PANTHER E of the cluster's proteins"
+  },
+  "headline_panther_evalue": 1e-10,
+  "expected_headline_pe_proteins": 563,
+  "expected_headline_pe_clusters": 109,
+  "columns": {
+   "headline": "clusters with best PANTHER E <= 1e-10 AND separated from every training member by cluster30",
+   "descriptive_1": "clusters with best PANTHER E <= 1e-10, no separation applied",
+   "descriptive_2": "all 187 clusters (725 proteins)"
+  },
+  "strata": [
+   "fine clade",
+   "evidence tier (T2_named, T3_panther_only; T1 has no new cluster)",
+   "PANTHER subfamily (SF12 kept apart from SF3)"
+  ]
+ },
+ "separation": {
+  "tool": "mmseqs easy-cluster over the 481 training members plus the test representatives together",
+  "command": "mmseqs easy-cluster --min-seq-id 0.3 -c 0.5",
+  "module": "MMseqs2/17-b804f",
+  "rule": "a test sequence in the same cluster as any training member is NOT separated: excluded from the headline, listed in separation.tsv, kept in descriptive_1 and descriptive_2",
+  "training_members_faa_sha256": "b5e9110d7e315d4035ab16ab1ed7f0f294d410bf603affb429f6d8de3f3eb8ee",
+  "training_members_faa_note": "ecm33_members.faa of the build's extract job (sha256 from the build provenance, committed)",
+  "limit": "cluster membership is a heuristic (greedy set cover): a pair under the threshold can sit in different clusters; the rule is the freeze's cluster30 and is reported with that limit"
+ },
+ "searches": {
+  "custom": "hmmsearch -T 0.0 --noali with the model above; hit = full-sequence score >= 29.6",
+  "pfam_ga": "PF12454 (Pfam 38.2, hmmfetch -f by name Ecm33), hmmsearch --cut_ga",
+  "pfam_relaxed": "PF12454, hit = full-sequence score >= relaxed_pfam_cutoff_bits (hmmsearch -T 0.0)",
+  "relaxed_pfam_cutoff_bits": 15.0,
+  "relaxed_pfam_cutoff_source": "docs/reports/data/pr6_ecm33_build_2026-10-23/ecm33_build/all/none/relaxed_cutoff.json (the build's rule, no positive score)",
+  "iteration_alignment_seeded": "jackhmmer -N 3 -E 1e-5 --incE 1e-5 --incdomE 1e-5 seeded by the build alignment of the all model (/bigdata/stajichlab/jstajich/projects/adhesionPred/_workdir/kiss_cluster_split/ecm33_build/all/none/train.aln.fa converted with esl-reformat stockholm): the build job's exact options, NO -Z",
+  "phmmer_seed_only": "phmmer -E 1e-5 --domE 1e-5 -Z 70198728 of the single sequence Q5AGC4 (data/controls/wall-fusion-kiss2019/sequences.faa)",
+  "jackhmmer_seed_only": "jackhmmer -N 3 -E 1e-5 --incE 1e-5 --incdomE 1e-5 -Z 70198728 of the single sequence Q5AGC4",
+  "iteration_hit_rule": "a test sequence is a hit when its tblout E-value is <= 1e-5 (the report constant ITER_E)",
+  "target_sets": {
+   "hmmsearch_methods": "the test representatives only (hits are scores; no E-value is used)",
+   "iterative_and_phmmer_methods": "the test representatives plus a background: the 161 shared hard negatives and the four kept proteomes (the build's iteration target). The training members are NOT in the target, so no seed-only search can use them. Only test ids are scored; background hits are not read."
+  },
+  "evalue_db_size": 70198728,
+  "evalue_db_size_note": "UniRef50 2025_03 sequence count (round 2 provenance): a seed-only E-value is the one a search of UniRef50 would give, as in the hyd1_like design (specs/2026-10-23-pr6-hyd1-like-design.md section 1, decision 10)"
+ },
+ "u": {
+  "comparators": ["pfam_ga", "pfam_relaxed", "iteration_alignment_seeded", "phmmer_seed_only", "jackhmmer_seed_only"],
+  "definition": "u = test clusters missed by EVERY comparator above (the custom model is not a comparator)",
+  "min_u": 3,
+  "rule": "a group (a clade, or the whole headline set) is testable when u >= min_u and the custom model recovers at least ceil(u/2) of the u clusters; the plain per-comparator recall is reported beside it",
+  "no_equal_false_hit_budget_view": true
+ },
+ "report_only": true,
+ "false_hit_side": "the build's: 4 extra calls of 32,491 proteome proteins and hard-negative call rate 0 in every group; the two true members among the shared negatives (P38248, Q4WNS8) are ignored by the build freeze. Not rerun here.",
+ "purity_check": "descriptive, from candidates.tsv and the committed members.tsv: the training members versus the PANTHER-called UniRef50 clusters (expected 164 of 481 in none); no job",
+ "owner_signature": "",
+ "decided_by_owner_2026-10-22_and_23": [
+  "custom model is report-only; nothing changes a call, tier, panel or narrow_ok",
+  "min_u = 3 and the ceil(u/2) rule (2026-10-22)",
+  "the cutoff 29.6 and the model of the build freeze (frozen)",
+  "evaluate on an independent held-out set; a comparator that does not use the training alignment (jackhmmer and phmmer seeded by Q5AGC4 alone) (2026-10-23 wishes)"
+ ],
+ "proposals": [
+  "test_set.selection and unit (the cluster representative)",
+  "test_set.headline_panther_evalue 1e-10",
+  "test_set.cluster_attribute_rules",
+  "separation (cluster30 against the training members, headline excludes non-separated)",
+  "searches.evalue_db_size 70198728 and the background of the target set",
+  "searches.iteration_alignment_seeded without -Z (the build's exact options)",
+  "searches.iteration_hit_rule E <= 1e-5 for the three iterative or phmmer comparators",
+  "searches.relaxed_pfam_cutoff_bits 15.0 (taken from the build record)",
+  "the strata (clade, tier, subfamily) and the descriptive columns"
+ ]
+}
