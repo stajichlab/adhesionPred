@@ -11,7 +11,7 @@ Test set (every choice is a PROPOSAL until the owner signs analysis/wall_fusion_
     training members are representatives. The representative need not be one of the PANTHER proteins of the cluster.
   - HEADLINE = clusters with at least one protein of PANTHER E <= 1e-10 (563 proteins, 109 clusters) AND no training member in the same
     MMseqs2 30 percent identity / 50 percent coverage cluster. DESCRIPTIVE columns: the same E cut without the separation; all 187.
-  - Cluster attributes (proposal): clade = the most frequent clade_fine of the cluster's proteins (ties: alphabetical); tier = the best tier
+  - Cluster attributes (decided by the owner 2026-10-23): clade = the most frequent clade_fine of the cluster's proteins (ties: alphabetical); tier = the best tier
     (T1 before T2 before T3); subfamily = SF12 if any protein is SF12, else the most frequent subfamily; best PANTHER E = the smallest.
 
 Subcommands

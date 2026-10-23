@@ -4,8 +4,7 @@ Drafted 2026-10-23 by Claude Code (claude-sonnet-5-5). **Nothing was run: no HPC
 writes or changes a call, a status, a tier, a panel, `narrow_ok`, `family_measure.tsv` or `family_table.tsv`. Scoping: `docs/reports/2026-10-23-ecm33-independent-set-scoping.md`.
 Build record (why this evaluation exists: u = 0 because the alignment-seeded iteration comparator tied the model): `docs/reports/2026-10-23-pr6-ecm33-build.md`.
 
-**Every design choice below is a PROPOSAL for the owner** and is written in `pr6_ecm33_eval_freeze_PROPOSED.json` (`"frozen": false`). Decided already (not reopened): custom model report-only; `min_u` 3 and the
-ceil(u/2) rule; the model and the cutoff 29.6 bits of the build freeze; the wish for comparators that do not use the training alignment.
+The design is written in `pr6_ecm33_eval_freeze_PROPOSED.json` (`"frozen": false`). **Decided by the owner on 2026-10-23** (applied here): (1) the test unit is the UniRef50 cluster representative; (2) separation from the 481 training members by the shared-MMseqs2-cluster rule (cluster30, `--min-seq-id 0.3 -c 0.5`; no order-independent easy-search is added); (3) `-Z 70198728` on **all three** iterative comparators, including the alignment-seeded jackhmmer; (4) cluster attributes: clade = modal clade, tier = T2 if any protein of the cluster is T2, subfamily = SF12 if any protein is SF12 (they only decide which row a cluster appears in); (5) the verdict applies to the whole headline set (below). Decided earlier: custom model report-only; `min_u` 3 and the ceil(u/2) rule; the model and the cutoff 29.6 bits of the build freeze; comparators that do not use the training alignment. The remaining items stay **proposals** (listed under `proposals` in the file) until the owner signs.
 
 ## What PANTHER is, and what recall here means
 
@@ -20,11 +19,11 @@ models** (the custom Ecm33 model and PANTHER), not truth, not Ecm33 function and
 | `pr6_ecm33_eval_members.py` | stdlib; `select` (test clusters and id lists from `candidates.tsv`), `separate` (cluster30 table from the MMseqs2 clustering), `purity` (the 481 training members versus PANTHER-called clusters). Ids and metadata only. |
 | `pr6_ecm33_eval_extract.sbatch` | DRAFT job: selects, streams UniRef50 once with `seqkit grep -f`, runs `mmseqs easy-cluster` of training plus test sequences, writes `test_clusters.faa` (HPCC only), `separation.tsv`, id lists, `extract.sha256`. |
 | `pr6_ecm33_eval_search.sbatch` | DRAFT job: all six searches with fixed thresholds; writes the hit tables, `run.json` (freeze sha256 and sha256 of each result file) and `provenance.txt`. |
-| `pr6_ecm33_eval_report.py` | stdlib; refuses without a signed freeze and matching sha256 values; per clade, tier, subfamily tables, u, the rule, comparators side by side. |
+| `pr6_ecm33_eval_report.py` | stdlib; refuses without a signed freeze and matching sha256 values; the verdict line (whole headline set), per clade, tier, subfamily descriptive tables, u, comparators side by side, Clopper-Pearson intervals in every row. |
 | `pr6_ecm33_eval_freeze_PROPOSED.json` | the proposed freeze (`"frozen": false`). The signed `pr6_ecm33_eval_freeze.json` does **not** exist; only the owner creates it. |
-| `tests/wall_fusion_truth/test_pr6_ecm33_eval.py` | 28 tests: counts from the real `candidates.tsv`, separation, u and the rule at the boundaries, freeze and sha256 refusals, static checks of the jobs. |
+| `tests/wall_fusion_truth/test_pr6_ecm33_eval.py` | tests (including Clopper-Pearson reference values, the verdict row and `-Z` on all three iterative commands): counts from the real `candidates.tsv`, separation, u and the rule at the boundaries, freeze and sha256 refusals, static checks of the jobs. |
 
-## The design (PROPOSALS)
+## The design
 
 - **Test set**: `candidates.tsv` rows with `overlap_with_training == new_cluster`: **725 proteins in 187 UniRef50 clusters** (recounted by the script and the tests).
 - **Unit**: one UniRef50 cluster, tested by the cluster's **representative sequence** (the UniRef50 FASTA record of the cluster id), exactly like the training members. The representative need not be one of the
@@ -36,17 +35,20 @@ models** (the custom Ecm33 model and PANTHER), not truth, not Ecm33 function and
 - **Strata** (reported for every column): fine clade, tier (T2 named, T3 PANTHER-only; T1 has no new cluster), PANTHER subfamily (SF12 apart from SF3).
 - **Methods** (fixed thresholds, one pass, nothing retuned): `custom` = frozen all-model, hit at full-sequence score >= 29.6 (`hmmsearch -T 29.6`; the job keeps hits down to 0.0 and the report applies the
   cutoff, as the build did, so near-miss scores can be read but retune nothing); `pfam_ga` = PF12454 `--cut_ga`; `pfam_relaxed` = PF12454 at 15.0 bits (the build's relaxed cutoff);
-  `iteration_alignment_seeded` = the build job's exact `jackhmmer -N 3 -E 1e-5 --incE 1e-5 --incdomE 1e-5` seeded by the build alignment of the all-model (no `-Z`); **new, independent of the training alignment**:
+  `iteration_alignment_seeded` = the build job's exact `jackhmmer -N 3 -E 1e-5 --incE 1e-5 --incdomE 1e-5` seeded by the build alignment of the all-model (with `-Z 70198728`, as the other two); **new, independent of the training alignment**:
   `phmmer_seed_only` (`-E 1e-5 --domE 1e-5 -Z 70198728`) and `jackhmmer_seed_only` (`-N 3 ... -Z 70198728`), both of Q5AGC4 alone.
 - **-Z 70198728** (UniRef50 2025_03 sequence count) makes a seed-only E-value the one a UniRef50 search would give, as in the hyd1_like design (decision 10). The iterative and phmmer methods search the test sequences plus a
-  background (161 shared negatives and the four kept proteomes, the build's iteration target); the training members are in **no** target. A hit is E <= 1e-5. The alignment-seeded comparator keeps the build's options
-  (no `-Z`): its E-values come from a smaller database, so it is the more permissive comparator, which is the stricter test for the custom model (open choice 5).
-- **u** = clusters missed by **every** comparator (`pfam_ga`, `pfam_relaxed`, `iteration_alignment_seeded`, `phmmer_seed_only`, `jackhmmer_seed_only`). A group (a clade, or the whole headline set) is **testable**
-  when u >= 3 and the custom model recovers >= ceil(u/2) of u. The report prints the rule, the plain per-comparator recall (counts) and the per-clade table. No equal-false-hit-budget view (not asked).
+  background (161 shared negatives and the four kept proteomes, the build's iteration target); the training members are in **no** target. A hit is E <= 1e-5. All three iterative comparators use `-Z 70198728` (owner decision 2026-10-23), so their E-values are on the same database size.
+- **u** = clusters missed by **every** comparator (`pfam_ga`, `pfam_relaxed`, `iteration_alignment_seeded`, `phmmer_seed_only`, `jackhmmer_seed_only`).
+- **Verdict (owner decision 2026-10-23)**: one row only, the **whole headline set** (PANTHER E <= 1e-10 and separated, about 109 clusters before separation), `min_u` 3. The model **passes** when u >= 3 and it recovers at least
+  ceil(u/2) of the u missed clusters (u 3 needs 2; u 4 needs 2; u 5 needs 3). With u < 3 the verdict line says `not testable (u < 3)`. Per-clade, per-tier and per-subfamily rows, and the two descriptive columns, are **descriptive** and never a verdict.
+- **Every row** (verdict row and descriptive rows) prints n clusters, u, the number of u recovered, the plain per-comparator recall, and the exact two-sided 95 percent Clopper-Pearson interval for the recovered fraction (recovered of u)
+  and for each recall (hits of n), 3 decimals (stdlib only; lower bound 0 for k = 0, upper bound 1 for k = n). **At small u the interval is wide and a wide row is not a result** (2 of 3 gives about 0.094 to 0.992).
+  No equal-false-hit-budget view (not asked).
 - **False hits**: the frozen cutoff only; the build's numbers (4 extra calls in 32,491 proteome proteins, call rate 0 in every hard-negative group; P38248 and Q4WNS8 are true members among the shared negatives and are ignored by the build freeze) are quoted, not rerun.
 - **Purity check** (descriptive, no job): `purity` reads `candidates.tsv` and the committed `members.tsv`; **164 of 481** training members are in no PANTHER-called UniRef50 cluster. It is also run inside the extract job
   and written to `purity.json`, `purity_members.tsv`.
-- Every cell is labelled `headline` or `descriptive`; no interval, no `estimated`. Clusters of one clade are related, not independent.
+- Every cell is labelled `headline` or `descriptive`; the intervals are Clopper-Pearson and treat clusters as independent, which clusters of one clade are not.
 
 ## Run order (each step needs the owner's go-ahead, D21; exact commands, NOT run)
 
@@ -67,7 +69,7 @@ models** (the custom Ecm33 model and PANTHER), not truth, not Ecm33 function and
      --separation <extract_out>/separation.tsv --freeze analysis/wall_fusion_truth/pr6_ecm33_eval_freeze.json \
      --cutoff-json data/custom_models/ecm33_all_2026-10-23/cutoff.json --out <report_out>
    ```
-   Outputs: `groups.tsv` (column x group type x group: n, recall of the custom model and of each comparator, any comparator, u, recovered of u, testable, rule), `clusters.tsv`, `u_clusters.tsv`, `not_separated.tsv`, `summary.txt`.
+   Outputs: `groups.tsv` (column x group type x group: n, recall and interval of the custom model and of each comparator, any comparator, u, recovered of u with interval, testable and rule on the verdict row only), `clusters.tsv`, `u_clusters.tsv`, `not_separated.tsv`, `summary.txt` (verdict line first, then every row with its intervals).
 
 ## Checks the scripts make
 
@@ -83,12 +85,11 @@ no result id outside the test set.
 - Whether a representative of a PANTHER cluster is a good stand-in for its PANTHER proteins is not known (a representative can lack a PANTHER call).
 - PANTHER and UniProt counts are of 2026-10-23 and change.
 
-## Owner choices (with recommendations)
+## Owner choices still open (proposals, with recommendations)
 
-1. Unit and sequence: the cluster representative, one per cluster (recommended; it matches the training members). Alternative: one PANTHER protein per cluster, needing a fetch by accession.
-2. Headline: PANTHER E <= 1e-10 and cluster30-separated (recommended); descriptive: E cut only, and all 187.
-3. Separation by shared MMseqs2 cluster (the freeze's cluster30 rule, recommended) versus an order-independent `mmseqs easy-search` of test against training at 30 percent / 50 percent coverage (not drafted; add if you want the stricter rule).
-4. `-Z 70198728` and the background (negatives plus kept proteomes) for the seed-only searches (recommended).
-5. Alignment-seeded comparator with the build's exact options, no `-Z` (recommended for comparability and because it is the stricter test); alternative: add `-Z` for all three iterative comparators.
-6. Cluster attribute rules (modal clade, best tier, SF12 if any) (recommended; 2 and 35 clusters are affected).
-7. Which numbers count as the verdict: the rule at the whole-headline level first, then per clade only where u >= 3; with 109 headline clusters in 18 clades expect most clades to be untestable. Recommended: read the whole-headline row and the u list first.
+Decisions 1 to 5 (unit, cluster30 separation, `-Z` on all three iterative comparators, attribute rules, verdict on the whole headline set) are made and no longer listed. Open until the owner signs:
+
+1. Headline PANTHER E cut 1e-10 (recommended), with the descriptive columns (E cut only; all 187).
+2. The background of the seed-only searches (negatives plus kept proteomes) and `evalue_db_size` 70198728.
+3. Hit rule E <= 1e-5 for the iterative and phmmer comparators; relaxed Pfam cutoff 15.0 bits from the build record.
+4. The strata (clade, tier, subfamily) as descriptive rows.

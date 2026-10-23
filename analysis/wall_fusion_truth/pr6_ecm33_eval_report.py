@@ -14,8 +14,15 @@ phylogenetic tree), so recall here measures AGREEMENT between two profile models
 or `headline` (the headline column of the freeze); no interval, no `estimated`.
 
 Columns of groups.tsv: `column` is headline | descriptive_1 | descriptive_2 (the freeze test_set.columns). `u` = clusters missed by EVERY
-comparator (pfam_ga, pfam_relaxed, iteration_alignment_seeded, phmmer_seed_only, jackhmmer_seed_only). The group is testable when
-u >= min_u; rule_ok when the custom model recovers at least ceil(u/2) of u.
+comparator (pfam_ga, pfam_relaxed, iteration_alignment_seeded, phmmer_seed_only, jackhmmer_seed_only).
+
+THE VERDICT (owner decision 2026-10-23) applies to ONE row: the whole HEADLINE set (column headline, group all). The model passes when
+u >= min_u (3) and it recovers at least ceil(u/2) of the u missed clusters; with u < 3 the verdict is "not testable (u < 3)". Every other row
+(per clade, tier, subfamily, and the two descriptive columns) is DESCRIPTIVE and never carries a verdict (rule_ok = descriptive).
+
+EVERY row prints n clusters, u, the number of u recovered, the plain recall of each comparator and of the custom model, and the exact
+two-sided 95 percent Clopper-Pearson interval for the recovered fraction (recovered of u) and for every recall (hits of n), 3 decimals.
+At small u the interval is wide and a wide row is not a result (2 of 3 gives about 0.094 to 0.992).
 """
 
 from __future__ import annotations
@@ -49,6 +56,54 @@ HIT_FILES = {
     "phmmer_seed_only": "hits_phmmer_seed.tsv",
     "jackhmmer_seed_only": "hits_jack_seed.tsv",
 }
+
+
+def _binom_cdf(k: int, n: int, p: float) -> float:
+    """P(X <= k) for X ~ Binomial(n, p), exact sum (stdlib)."""
+    return sum(math.comb(n, i) * p**i * (1.0 - p) ** (n - i) for i in range(k + 1))
+
+
+def clopper_pearson(k: int, n: int, alpha: float = 0.05) -> tuple[float, float]:
+    """Exact two-sided (1 - alpha) Clopper-Pearson interval for k of n, by bisection on the exact binomial tails.
+
+    Lower bound: the p with P(X >= k | p) = alpha/2 (0 when k = 0). Upper bound: the p with P(X <= k | p) = alpha/2 (1 when k = n).
+    """
+    if n <= 0:
+        raise ValueError("n must be positive")
+    if not 0 <= k <= n:
+        raise ValueError("k must be between 0 and n")
+    half = alpha / 2.0
+    if k == 0:
+        lo = 0.0
+    else:
+        a, b = 0.0, 1.0  # P(X >= k | p) = 1 - cdf(k-1) rises with p
+        for _ in range(200):
+            m = (a + b) / 2.0
+            if 1.0 - _binom_cdf(k - 1, n, m) < half:
+                a = m
+            else:
+                b = m
+        lo = (a + b) / 2.0
+    if k == n:
+        hi = 1.0
+    else:
+        a, b = 0.0, 1.0  # P(X <= k | p) falls with p
+        for _ in range(200):
+            m = (a + b) / 2.0
+            if _binom_cdf(k, n, m) > half:
+                a = m
+            else:
+                b = m
+        hi = (a + b) / 2.0
+    return lo, hi
+
+
+def fmt_ci(k: int, n: int) -> str:
+    """`lo-hi` with 3 decimals, or NA when n = 0."""
+    if n == 0:
+        return "NA"
+    lo, hi = clopper_pearson(k, n)
+    return f"{lo:.3f}-{hi:.3f}"
 
 
 def sha256_file(path: Path) -> str:
@@ -133,7 +188,7 @@ def group_row(
     min_u: int,
     n_proteins: int,
 ) -> dict:
-    """One group of test clusters. `hits` maps `custom` and every comparator to the set of cluster ids it recovers (any id; restricted here)."""
+    """One group of test clusters. Only the row (headline, all) carries the verdict; every other row is descriptive. `hits` maps `custom` and every comparator to the set of cluster ids it recovers (any id; restricted here)."""
     comp = set()
     for c in COMPARATORS:
         comp |= hits[c] & ids
@@ -151,6 +206,12 @@ def group_row(
     }
     for c in COMPARATORS:
         row[c] = len(hits[c] & ids)
+    verdict_row = column == "headline" and kind == "all"
+    if verdict_row:
+        rule_ok = ("yes" if len(custom_u) >= need else "no") if u >= min_u else "not_testable"
+    else:
+        rule_ok = "descriptive"
+    n = len(ids)
     row.update(
         {
             "any_comparator": len(comp),
@@ -159,11 +220,16 @@ def group_row(
             "min_u": min_u,
             "testable_u": "yes" if u >= min_u else "no",
             "ceil_u_half": need,
-            "rule_ok": ("yes" if len(custom_u) >= need else "no") if u >= min_u else "not_testable",
-            "recall_custom": f"{len(hits['custom'] & ids)}/{len(ids)}",
+            "rule_ok": rule_ok,
+            "recall_custom": f"{len(hits['custom'] & ids)}/{n}",
             "status": "headline" if column == "headline" else "descriptive",
+            "ci_recovered_of_u": fmt_ci(len(custom_u), u),
+            "ci_recall_custom": fmt_ci(len(hits["custom"] & ids), n),
         }
     )
+    for c in COMPARATORS:
+        row[f"recall_{c}"] = f"{len(hits[c] & ids)}/{n}"
+        row[f"ci_recall_{c}"] = fmt_ci(len(hits[c] & ids), n)
     return row
 
 
@@ -180,7 +246,11 @@ GROUP_HEADER = (
         "rule_ok",
         "recall_custom",
         "status",
+        "ci_recovered_of_u",
+        "ci_recall_custom",
     ]
+    + [f"recall_{c}" for c in COMPARATORS]
+    + [f"ci_recall_{c}" for c in COMPARATORS]
 )
 
 
@@ -349,14 +419,28 @@ def main(argv: list[str] | None = None) -> int:
     lines = [
         "PR 6 ecm33 independent-set report (DRAFT): the custom 'all' model is report-only; no call, status, tier, family_measure row or narrow_ok is written.",
         "PANTHER is itself an HMM: recall here is agreement between two profile models, not truth and not adhesion.",
-        f"freeze sha256 {fz_sha}; custom cutoff {cut} bits (frozen), relaxed Pfam {rel} bits, min_u {min_u}, rule: custom recovers >= ceil(u/2) of u",
+        f"freeze sha256 {fz_sha}; custom cutoff {cut} bits (frozen), relaxed Pfam {rel} bits, min_u {min_u}, rule: custom recovers >= ceil(u/2) of u (verdict on the whole headline set only)",
         f"search job commit: {run.get('commit', '')}",
     ]
-    for col, g in top.items():
+    h = top["headline"]
+    if h["u"] < min_u:
+        verdict = f"not testable (u < {min_u}): u = {h['u']}"
+    elif h["rule_ok"] == "yes":
+        verdict = f"PASS: u = {h['u']}, custom recovers {h['custom_recovers_of_u']} of u (needs {h['ceil_u_half']})"
+    else:
+        verdict = f"FAIL: u = {h['u']}, custom recovers {h['custom_recovers_of_u']} of u (needs {h['ceil_u_half']})"
+    lines.insert(2, f"VERDICT (whole headline set, min_u {min_u}): {verdict}")
+    lines.append(
+        "Every other row is DESCRIPTIVE, never a verdict. Intervals are exact two-sided 95 percent Clopper-Pearson. "
+        "At small u the interval is wide and a wide row is not a result (2 of 3 gives about 0.094 to 0.992)."
+    )
+    for g in groups:
         lines.append(
-            f"{col} ({COLUMNS[col]}): {g['n_clusters']} clusters ({g['n_proteins']} proteins); custom {g['recall_custom']}; "
-            + "; ".join(f"{c} {g[c]}" for c in COMPARATORS)
-            + f"; u {g['u']}; custom recovers {g['custom_recovers_of_u']} of u; testable {g['testable_u']}; rule {g['rule_ok']}"
+            f"[{g['column']}] {g['group_type']}={g['group']}: n {g['n_clusters']} clusters; u {g['u']}; "
+            f"recovered {g['custom_recovers_of_u']} of u (95% CI {g['ci_recovered_of_u']}); "
+            f"recall custom {g['recall_custom']} (CI {g['ci_recall_custom']}); "
+            + "; ".join(f"{c} {g[f'recall_{c}']} (CI {g[f'ci_recall_{c}']})" for c in COMPARATORS)
+            + f"; {g['rule_ok'] if g['rule_ok'] != 'descriptive' else 'descriptive'}"
         )
     (a.out / "summary.txt").write_text("\n".join(lines) + "\n")
     print((a.out / "summary.txt").read_text())
