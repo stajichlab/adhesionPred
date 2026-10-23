@@ -1,0 +1,45 @@
+cluster_id	slice	genes	pfam_scan_class	pfam_hit_first	n_accessions	n_uniprot_accessions	n_jgi_keys_skipped	panther_families	panther_name	n_fungal_in_family	broad_or_specific	n_fine_clades_ge5
+KS0017	adhesion	hyd1_like	no_pfam_hit		1	1	0					
+KS0056	adhesion	cfl1	hit_other_pfam	PF21671	1	1	0	PTHR35192x1	PROTEIN, PUTATIVE-RELATED	1521	specific	5
+KS0080	adhesion	aga1	no_pfam_hit		1	1	0					
+KS0107	adhesion	ece1	no_pfam_hit		1	1	0					
+KS0120	adhesion	glfB_Afu3g12700	hit_other_pfam	PF03151	1	1	0	PTHR11132x1	Triose Phosphate/Phosphate Translocator	9969	broad	35
+KS0127	adhesion	iff4	hit_other_pfam	PF11765	1	1	0					
+KS0128	adhesion	dfi1	hit_other_pfam	PF04478	1	1	0					
+KS0143	adhesion	rep1	hit_other_pfam	PF29797	1	1	0	PTHR48128x1	Hydrophobic Surface Structural Protein	1	intermediate	0
+KS0148	adhesion	ncl4	hit_other_pfam	PF22669	1	0	1					
+KS0149	adhesion	ncl1	hit_other_pfam	PF03388	1	0	1					
+KS0150	adhesion	ncl3	hit_other_pfam	PF01828	1	0	1					
+KS0151	adhesion	ncl2	hit_other_pfam	PF01828	1	0	1					
+KS0006	wall	cot-2/gs-1,smi1	hit_other_pfam	PF09346	2	2	0	PTHR47432x2	Cell wall assembly regulator KNR4/SMI1	1432	specific	16
+KS0007	wall	kex2,kexB_Afu4g12970	hit_other_pfam	PF00082	3	3	0	PTHR42884x3	Subtilisin-like proprotein convertase	1870	intermediate	26
+KS0009	wall	kre5	hit_other_pfam	PF18404	1	1	0	PTHR11226x1	UDP-GLUCOSE GLYCOPROTEIN:GLUCOSYLTRANSFERASE	1616	intermediate	21
+KS0010	wall	kre6	hit_other_pfam	PF03935	1	1	0	PTHR31361x1	BETA-GLUCAN SYNTHESIS-ASSOCIATED PROTEIN KRE6-RELATED	3325	specific	22
+KS0016	wall	AGOS_ABL085W,AGOS_ADR279C,BATDEDRAFT_35524,NCU09332,UM05433,pmt1,pmt4,pmt4_Afu8g04500	hit_other_pfam	PF02366	9	8	1	PTHR10050x8	DOLICHYL-PHOSPHATE-MANNOSE--PROTEIN MANNOSYLTRANSFERASE	5658	intermediate	32
+KS0034	wall	gfa1,gfa1_Afu6g06340	hit_other_pfam	PF01380	2	2	0	PTHR10937x2	Glutamine--fructose-6-phosphate aminotransferase	1754	broad	24
+KS0035	wall	ACR290W,BATDEDRAFT_20500,CND01240,NCU01648,pmt2,pmt2_Afu1g07690	hit_other_pfam	PF02366	6	5	1	PTHR10050x5	DOLICHYL-PHOSPHATE-MANNOSE--PROTEIN MANNOSYLTRANSFERASE	5658	intermediate	32
+KS0063	wall	chs5	hit_other_pfam	PF16893	2	2	0	PTHR47351x2	Chitin Synthase Export/Cell Fusion Regulator	1521	specific	21
+KS0065	wall	chr4	hit_other_pfam	PF08238	1	1	0	PTHR46430x1	Chitin Synthase Regulator	4935	specific	31
+KS0072	wall	kre1	hit_other_pfam	PF17056	1	1	0					
+KS0082	wall	pir1	hit_panel_model	PF22799:PIR1-like_C	1	1	0	PTHR47254x1	Yeast Cell Wall Mannoprotein PIR	1432	specific	7
+KS0084	wall	chs4_skt5	hit_other_pfam	PF08238	1	1	0	PTHR46430x1	Chitin Synthase Regulator	4935	specific	31
+KS0086	wall	ecm33	no_pfam_hit		1	1	0	PTHR31018x1	Cell Wall Integrity and Assembly Regulator	1757	intermediate	15
+KS0087	wall	big1	hit_other_pfam	PF27676	1	1	0	PTHR28285x1	PROTEIN BIG1	1349	specific	14
+KS0088	wall	chs7	hit_other_pfam	PF12271	2	2	0	PTHR35329x2	CHITIN SYNTHASE EXPORT CHAPERONE	2957	specific	29
+KS0090	wall	dfg10	hit_other_pfam	PF02544	1	1	0	PTHR14624x1	DFG10 PROTEIN	1060	intermediate	15
+KS0091	wall	chs6	hit_other_pfam	PF09295	1	1	0	PTHR31975x1	BUD SITE SELECTION PROTEIN 7-RELATED	1749	specific	24
+KS0112	wall	neg1	hit_other_pfam	PF02055	1	0	1					
+KS0114	wall	cwh41_Afu6g04210	hit_other_pfam	PF03200	1	1	0	PTHR10412x1	MANNOSYL-OLIGOSACCHARIDE GLUCOSIDASE	3070	broad	23
+KS0115	wall	ags1_Afu3g00910,ags2_Afu2g11270	hit_other_pfam	PF26127	2	2	0	PTHR47182x2	CELL WALL ALPHA-1,3-GLUCAN SYNTHASE AGS1-RELATED	1794	specific	11
+KS0116	wall	cfmA_Afu6g14090	hit_panel_model	PF05730:CFEM	1	1	0	PTHR37928x1	CFEM domain-containing protein	4336	specific	14
+KS0119	wall	orlA_Afu3g05650,tps2	hit_other_pfam	PF00982	2	2	0	PTHR10788x2	TREHALOSE-6-PHOSPHATE SYNTHASE	5703	broad	30
+KS0123	wall	irs4	hit_other_pfam	PF12763	1	1	0	PTHR11216x1	PAN1/END3 actin cytoskeleton-regulatory complex	4694	broad	28
+KS0125	wall	pga13	hit_other_pfam	PF29361	1	1	0					
+KS0126	wall	opy2	hit_other_pfam	PF09463	1	1	0	PTHR14596x1	Oxidant-induced cell-cycle arrest/Chorion assembly	203	intermediate	10
+KS0137	wall	AGOS_AAL050W	hit_other_pfam	PF02815	1	1	0	PTHR10050x1	DOLICHYL-PHOSPHATE-MANNOSE--PROTEIN MANNOSYLTRANSFERASE	5658	intermediate	32
+KS0146	wall	cps1	hit_other_pfam	PF13641	1	0	1					
+KS0147	wall	cot-5	hit_other_pfam	PF00534	1	0	1					
+KS0030	fusion	ste2	hit_other_pfam	PF02116	1	1	0	PTHR28009x1	PHEROMONE ALPHA FACTOR RECEPTOR	1037	specific	9
+KS0067	fusion	preA_Afu5g07880,ste3	hit_other_pfam	PF02076	2	2	0	PTHR28097x2	PHEROMONE A FACTOR RECEPTOR	3188	specific	17
+KS0079	fusion	pra1	hit_other_pfam	PF02076	1	1	0	PTHR28097x1	PHEROMONE A FACTOR RECEPTOR	3188	specific	17
+KS0138	fusion	so_soft	hit_other_pfam	PF19050	1	1	0	PTHR46689x1	MEMBRANE PROTEIN, PUTATIVE-RELATED	3397	intermediate	20

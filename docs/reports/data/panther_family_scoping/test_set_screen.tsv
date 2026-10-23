@@ -1,0 +1,61 @@
+panther_family	name	n_fungal	n_reviewed_fungal	n_fine_clades_ge5	frac_fungal_of_all_taxa	broad_or_specific	n_our_accessions_in_family	n_screen_criteria_met_of_5	n_fungal_without_shipped_pfam	why_listed
+PTHR31468	1,3-BETA-GLUCANOSYLTRANSFERASE GAS1	6166	24	21	0.927	specific	3	5	3	accession+pfam:PF03198+pfam:PF07983
+PTHR12145	MANNAN ENDO-1,6-ALPHA-MANNOSIDASE DCW1	6108	9	13	0.996	specific	2	5	6	accession+pfam:PF03663
+PTHR46430	Chitin Synthase Regulator	4935	10	31	0.939	specific	2	5	4934	accession
+PTHR37928	CFEM domain-containing protein	4336	14	14	0.999	specific	2	5	13	accession+pfam:PF05730
+PTHR28097	PHEROMONE A FACTOR RECEPTOR	3188	9	17	0.998	specific	3	5	3188	accession+pfam:PF02076
+PTHR35329	CHITIN SYNTHASE EXPORT CHAPERONE	2957	19	29	0.998	specific	2	5	2957	accession+pfam:PF12271
+PTHR47182	CELL WALL ALPHA-1,3-GLUCAN SYNTHASE AGS1-RELATED	1794	5	11	0.945	specific	2	5	1794	accession+pfam:PF26108+pfam:PF26111+pfam:PF26114+pfam:PF26122+pfam:PF26127
+PTHR31975	BUD SITE SELECTION PROTEIN 7-RELATED	1749	5	24	0.904	specific	1	5	1749	accession+pfam:PF09295
+PTHR28154	CELL WALL SYNTHESIS PROTEIN KNH1-RELATED	1356	6	16	0.992	specific	1	5	132	accession+pfam:PF05390+pfam:PF10342
+PTHR28285	PROTEIN BIG1	1349	8	14	0.996	specific	1	5	1349	accession
+PTHR31316	Secreted Beta-Glucosidase SUN	1230	13	8	0.990	specific	2	5	0	accession+pfam:PF03856
+PTHR28009	PHEROMONE ALPHA FACTOR RECEPTOR	1037	5	9	0.994	specific	1	5	1037	accession+pfam:PF02116
+PTHR10963	Glycosyl Hydrolase Family 16	16681	28	31	0.494	broad	3	4	8559	accession+pfam:PF00722
+PTHR22914	CHITIN SYNTHASE	14025	128	35	0.803	specific	11	4	148	accession+pfam:PF01644+pfam:PF03142+pfam:PF08407
+PTHR11132	Triose Phosphate/Phosphate Translocator	9969	52	35	0.212	broad	1	4	9969	accession+pfam:PF03151
+PTHR31297	Glycosyl Hydrolase 5 (Cellulase A)	9251	48	28	0.583	intermediate	1	4	1152	accession+pfam:PF00150
+PTHR16631	Beta-glucan modifying enzymes	6886	34	24	0.722	specific	1	4	60	accession+pfam:PF00332+pfam:PF29664
+PTHR46471	Polysaccharide Deacetylase	5719	7	28	0.961	specific	0	4	659	pfam:PF01522
+PTHR10788	TREHALOSE-6-PHOSPHATE SYNTHASE	5703	23	30	0.241	broad	2	4	5703	accession+pfam:PF00982+pfam:PF02358
+PTHR10050	DOLICHYL-PHOSPHATE-MANNOSE--PROTEIN MANNOSYLTRANSFERASE	5658	16	32	0.395	intermediate	14	4	5658	accession+pfam:PF02366+pfam:PF16192
+PTHR45708	Glycosyl Hydrolase 18 Family Chitinases	4989	28	19	0.364	intermediate	3	4	811	accession+pfam:PF00704
+PTHR31361	BETA-GLUCAN SYNTHESIS-ASSOCIATED PROTEIN KRE6-RELATED	3325	6	22	0.803	specific	1	4	3325	accession+pfam:PF03935
+PTHR47700	Killer toxin exochitinase-related	2937	9	9	0.996	specific	0	4	595	pfam:PF00704
+PTHR12741	Glycosyltransferase 48	2411	10	25	0.206	intermediate	5	4	122	accession+pfam:PF02364
+PTHR42884	Subtilisin-like proprotein convertase	1870	5	26	0.097	intermediate	3	4	1870	accession
+PTHR31018	Cell Wall Integrity and Assembly Regulator	1757	13	15	0.588	intermediate	1	4	1216	accession+pfam:PF12454
+PTHR10937	Glutamine--fructose-6-phosphate aminotransferase	1754	11	24	0.047	broad	2	4	1754	accession+pfam:PF01380
+PTHR31030	PLASMA MEMBRANE FUSION PROTEIN PRM1	1544	32	21	0.996	specific	0	4	0	pfam:PF27758
+PTHR47351	Chitin Synthase Export/Cell Fusion Regulator	1521	3	21	0.995	specific	2	4	1521	accession+pfam:PF16893
+PTHR35185	GPI-anchored Adhesion Regulator	1505	6	8	0.965	specific	0	4	64	pfam:PF10342
+PTHR47254	Yeast Cell Wall Mannoprotein PIR	1432	19	7	0.980	specific	1	4	11	accession+pfam:PF22799
+PTHR47432	Cell wall assembly regulator KNR4/SMI1	1432	9	16	0.505	specific	2	4	1432	accession
+PTHR42341	HYDROPHOBIN	1325	45	6	1.000	specific	4	4	0	accession+pfam:PF06766
+PTHR33793	ALPHA-AGGLUTININ	645	16	3	0.963	specific	1	4	94	accession+pfam:PF05792+pfam:PF11766
+PTHR43806	Subtilisin-like serine protease	14849	152	32	0.196	broad	0	3	14849	pfam:PF00082
+PTHR42715	Cellulose-degrading glycosyl hydrolase 3	13710	83	24	0.484	broad	0	3	9938	pfam:PF07691
+PTHR11177	Glycosyl Hydrolase Family 18	11154	18	32	0.298	broad	0	3	11	pfam:PF00704
+PTHR14218	Tripeptidyl-peptidase I and related peptidases	8445	16	16	0.552	broad	0	3	8444	pfam:PF00082
+PTHR11216	PAN1/END3 actin cytoskeleton-regulatory complex	4694	69	28	0.202	broad	0	3	4694	accession
+PTHR10587	Polysaccharide deacetylase, ArnD subfamily	3957	10	26	0.104	broad	0	3	42	pfam:PF01522
+PTHR40633	SRP1/TIP1-like Cell Wall Component	3707	2	23	0.996	specific	0	3	396	pfam:PF10342
+PTHR46689	MEMBRANE PROTEIN, PUTATIVE-RELATED	3397	1	20	0.866	intermediate	1	3	3397	accession+pfam:PF19050
+PTHR38123	Cell Wall Mannoprotein 1	3234	3	11	0.997	specific	0	3	66	pfam:PF12296
+PTHR34142	Glycosyl Hydrolase 5 (Cellulase A)	3093	16	13	0.357	intermediate	0	3	8	pfam:PF00150
+PTHR10412	MANNOSYL-OLIGOSACCHARIDE GLUCOSIDASE	3070	3	23	0.252	broad	1	3	3068	accession+pfam:PF03200+pfam:PF16923
+PTHR12223	Intracellular Lectin and Glycoprotein Transporter	2765	5	27	0.318	intermediate	0	3	2765	pfam:PF03388
+PTHR11226	UDP-GLUCOSE GLYCOPROTEIN:GLUCOSYLTRANSFERASE	1616	2	21	0.230	intermediate	1	3	1616	accession+pfam:PF18404
+PTHR45918	ALPHA-1,3/1,6-MANNOSYLTRANSFERASE ALG2	1540	10	22	0.353	intermediate	0	3	1540	pfam:PF00534
+PTHR35192	PROTEIN, PUTATIVE-RELATED	1521	2	5	1.000	specific	1	3	1520	accession
+PTHR28092	FACTOR-INDUCED GENE 1 PROTEIN	1327	2	9	0.995	specific	0	3	1	pfam:PF12351
+PTHR14624	DFG10 PROTEIN	1060	2	15	0.299	intermediate	1	3	1060	accession
+PTHR31737	PROTEIN TOS1	995	6	11	0.651	specific	0	3	0	pfam:PF10287+pfam:PF10290
+PTHR47844	Glycosyltransferase family GT2 and GT47	2281	4	14	0.706	specific	0	2	2281	pfam:PF13641
+PTHR11069	GLUCOSYLCERAMIDASE	1604	4	9	0.130	intermediate	0	2	1602	pfam:PF02055
+PTHR37536	PUTATIVE (AFU_ORTHOLOGUE AFUA_3G02970)-RELATED	2521	2	7	0.846	specific	0	1	2521	pfam:PF01828
+PTHR14596	Oxidant-induced cell-cycle arrest/Chorion assembly	203	0	10	0.280	intermediate	0	1	203	accession
+PTHR10068	Multifunctional Adhesion and Immune Modulatory Proteins	201	2	7	0.093	intermediate	1	1	198	accession
+PTHR48138	Keratinocyte Proline-Rich	41	1	2	0.182	intermediate	1	1	36	accession
+PTHR35607	Fungal Pathogen Heme-Binding RBT5	14	1	1	0.184	intermediate	1	1	8	accession
+PTHR48128	Hydrophobic Surface Structural Protein	1	1	0	0.002	intermediate	1	1	1	accession
