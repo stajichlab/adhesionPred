@@ -673,10 +673,23 @@ def real_member_ids():
     return {m["hit_id"].removeprefix("UniRef50_") for m in members}
 
 
+def test_a_signed_hyd1_freeze_if_present_is_the_proposal_signed():
+    """Only the owner creates the signed freeze. Once it exists it must be frozen, signed, and differ from the
+    proposal only in `frozen`, `owner_signature` and the status text."""
+    signed_path = WF / "pr6_hyd1_freeze.json"
+    if not signed_path.exists():
+        return
+    proposed = json.load(open(WF / "pr6_hyd1_freeze_PROPOSED.json"))
+    signed = json.load(open(signed_path))
+    assert signed["frozen"] is True
+    assert str(signed.get("owner_signature") or "").strip()
+    differing = {k for k in set(proposed) | set(signed) if proposed.get(k) != signed.get(k)}
+    assert differing <= {"frozen", "owner_signature", "status"}, sorted(differing)
+
+
 def test_freeze_records_the_owner_decisions_and_stays_unfrozen():
     fz = json.loads(PROPOSED.read_text())
     assert fz["frozen"] is False and fz["owner_signature"] is None
-    assert not (WF / "pr6_hyd1_freeze.json").exists()  # only the owner creates it
     assert fz["training_rule"]["reading"] == "total"
     assert (fz["independence_mode"], fz["independence_second_column"]) == ("cluster30", "none")
     assert fz["min_u"] == 3 and fz["hard_negative_rate"] == 0.05 and fz["negatives_ignored"] == []
