@@ -1,0 +1,2 @@
+id	name	model_path	cutoff_bits	sha256	kind	use	validation	supporting_record
+ecm33_all_2026-10-23	ecm33_all	../../data/custom_models/ecm33_all_2026-10-23/model.hmm	29.6	9a6e2c812540b0b1892f081611bf4044ec674bc524d68f5c6fc3d16001c50937	custom	report_only	unvalidated_beyond_circular_holdout	docs/reports/2026-10-23-pr6-ecm33-build.md; analysis/wall_fusion_truth/pr6_ecm33_freeze.json

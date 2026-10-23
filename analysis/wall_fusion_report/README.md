@@ -90,3 +90,19 @@ uv run --no-project --with pytest pytest tests/wall_fusion_report -q
 ```
 
 The tests use a stub `hmmsearch` and a fake Pfam file built from its own fixture (`tests/wall_fusion_report/data/fake_pfam_models.tsv`, not from the model TSV). They need neither HMMER nor Pfam. They check parsing, grouping, the label, the sets, repeated IDs (warning, unique count), `.zst` input, a model name that differs from Pfam (error), a model without a GA line (error, exit code 2), the no-call guarantee (no call or status column; only the three reports and the two NOTICE files) and the inclusion rule. The verified-ID list `tests/wall_fusion_report/data/verified_pfam_ids.tsv` is extracted from reports 05 (Table A) and 07 (with the Pfam names of `analysis/cell_wall_check/full_pfam_ga_hits.tsv`); a test parses 05 again and compares.
+
+## Custom Ecm33 model (report only, unvalidated; added 2026-10-23)
+
+Owner decision of 2026-10-23: the custom Ecm33 HMM is integrated into this report, REPORT ONLY, until more testing. Nothing here touches `data/sorting_hat`, `family_table.tsv`, `family_measure.tsv`, any call, tier, status or `narrow_ok`.
+
+Why: Pfam PF12454 (Ecm33) does not reach GA on true Ecm33s (S. cerevisiae Ecm33 has no hit; see the notes of the report). The custom model is the `all` model of the ecm33 build (trained on all 481 members; job 30287890). Files: `data/custom_models/ecm33_all_2026-10-23/` (`model.hmm`, `cutoff.json`, `provenance.txt`, `SHA256SUMS`, README). model.hmm sha256 `9a6e2c812540b0b1892f081611bf4044ec674bc524d68f5c6fc3d16001c50937`.
+
+How it is searched: the optional table `wall_fusion_custom_models.tsv` (columns `id, name, model_path, cutoff_bits, sha256, kind, use, validation, supporting_record`; `kind` must be `custom`, `use` `report_only`, `validation` `unvalidated_beyond_circular_holdout`) is passed with `--custom-models-tsv`. Each model is searched with `hmmsearch -T <cutoff_bits>` (sequence bit score, NO `--cut_ga`; the model has no GA line). The Pfam search is unchanged (`--cut_ga`). The script refuses to run if the model file's sha256 differs from the table, or if the NAME in the file differs from the table. Without the option the outputs are exactly as before.
+
+Outputs when the option is given: a separate section "Custom models" at the end of `wall_fusion_report.md` (model sha256 and cutoff in its table), and separate tables `wall_fusion_custom_hits.tsv` and `wall_fusion_custom_counts.tsv` (each with a NOTICE). Custom hits are never merged into the Pfam tables or counts, and never pooled with them. `results/` was NOT regenerated; the section appears on the next run.
+
+Cutoff: 29.6 bits, set from the false-hit side only under the signed freeze (`analysis/wall_fusion_truth/pr6_ecm33_freeze.json`, sha256 `a7553076d4963e4daedf3d7fdf0eba28b8e8349847b2644482fc2e854d7ce915`): 4 extra calls over the four kept proteomes (limit 16.2455), 0 hard-negative calls.
+
+Evidence and its limits (`docs/reports/2026-10-23-pr6-ecm33-build.md`): finds all 469 held-out members in all 11 clades, and both true Ecm33s among the shared negatives (P38248, Q4WNS8); 0 hard-negative calls; 4 to 5 extra calls. BUT the held-out members come from the same phmmer search that supplied the training members (circular), the iteration comparator (jackhmmer) ties it, and no unit was testable under the u rule (u = 0 everywhere). So the model is UNVALIDATED beyond that circular test. A hit is not an Ecm33 call.
+
+Integration: the draft `submit_wall_fusion_report.sbatch` accepts `CUSTOM_MODELS_TSV` and `CUSTOM_MODEL_HMM`, pins the model sha256 and exits (code 3) if it differs. DRAFT: nothing was submitted or run.
