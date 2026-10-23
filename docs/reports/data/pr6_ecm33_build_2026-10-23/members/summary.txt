@@ -1,0 +1,5 @@
+query Q5AGC4, method phmmer, UniRef50 representatives
+hits 681: non-fungal 195 (never members)
+members with a fine clade 481 in 19 clades; fungal hits without a fine clade 5 (listed, not counted)
+held-out units (testable and training rule met) 11; clades too small to test 8; not buildable 0
+every cell stays descriptive: members of a clade are related, not independent clusters

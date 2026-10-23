@@ -1,0 +1,7 @@
+job: pr6_ecm33_extract (PR 6 steps 6.1 and 6.2, ecm33)
+commit: ba15e0c83ed52b2636ef6837ad51e0edf3d4c698 (pinned: ba15e0c83ed52b2636ef6837ad51e0edf3d4c698)
+seqkit: seqkit v2.4.0
+uniref50: /srv/projects/db/Uniprot/2025_03/uniref50.fasta (28781193344 bytes, the file of the round 2 record; sha256 bc52bdd6c97ba2cc365b7e42ae7abb34865e0a1a82a2f95a74590aae040c81ff)
+homologs: docs/reports/data/pr6_gap_uniref50_2026-10-22/gap_homologs.tsv.gz sha256 801fbb169d6b0e91f6ca9a3a255dc51124ade7cfce3200e3063250558dcdd317
+members: 481 (member ids fetched from UniRef50: 480; the query Q5AGC4 from the Kiss control set)
+ecm33_members.faa sha256 b5e9110d7e315d4035ab16ab1ed7f0f294d410bf603affb429f6d8de3f3eb8ee

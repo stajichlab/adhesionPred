@@ -1,0 +1,6 @@
+hit_id	query_accession	taxid	clade_fine	where	score	evalue	is_query	reason
+UniRef50_A0A165J3A7		716546		outside_clade	190.2	1.9e-52	no	fungal hit without a fine clade (not a clade; not counted)
+UniRef50_A0A1D8PCY4		451864		outside_clade	231.5	5.4e-65	no	fungal hit without a fine clade (not a clade; not counted)
+UniRef50_A0A8H4XLY3		716546		outside_clade	84.9	2e-20	no	fungal hit without a fine clade (not a clade; not counted)
+UniRef50_M3BQ75		4751		outside_clade	140.3	2.9e-37	no	fungal hit without a fine clade (not a clade; not counted)
+UniRef50_W2SBI4		716546		outside_clade	191.2	9.7e-53	no	fungal hit without a fine clade (not a clade; not counted)

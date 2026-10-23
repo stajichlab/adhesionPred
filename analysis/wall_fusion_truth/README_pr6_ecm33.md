@@ -140,3 +140,7 @@ is a proposal made from the data: a protein with a weak hit (the descriptive tab
 
 The freeze commit; the clone update; the extract job; the build array; copying the results back; the record PR. aga1 and ece1 are not part of this build; hyd1_like is a known gap
 (its `buildable` verdict in the round 2 table rests on the "(no clade)" bucket of the summary script, which this work does not count as a clade).
+
+## Result of the build (2026-10-23)
+
+Jobs 30285974 (extract) and 30287890 (build array, code `ba15e0c8`, freeze sha256 `a7553076...2ce915`) are done; the record is `docs/reports/data/pr6_ecm33_build_2026-10-23/` and the report `docs/reports/2026-10-23-pr6-ecm33-build.md`. The custom Ecm33 model hits every held-out member in all 11 units under both independence modes (469 of 469 per mode), with at most 5 extra calls (limit 16.2455) and no hard-negative group over 0.05; Pfam GA hits 0 to 24 of 106 in the largest units. The iteration comparator also hits every member, so u = 0 in every unit and, by the freeze rule (testable only if u >= 3), 0 of 11 units are testable in both modes. The freeze's own criterion for worth shipping is therefore neither met nor refuted: the custom model works and beats Pfam, but it is not shown to beat a cheap iterated profile. The held-out members come from the same phmmer search as the training members (circular). Every cell is descriptive; no tier, panel, call, `narrow_ok` or status changes.

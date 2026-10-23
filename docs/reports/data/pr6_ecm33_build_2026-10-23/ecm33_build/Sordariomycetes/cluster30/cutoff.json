@@ -1,0 +1,37 @@
+{
+ "cutoff": 41.8,
+ "extra_call_limit_by_proteome": {
+  "Afum_Af293_UniProt": 4.8235,
+  "Calb_SC5314": 3.106,
+  "Cimm_RS": 4.955,
+  "Scer_S288C": 3.361
+ },
+ "extra_call_limit_total": 16.2455,
+ "extra_calls_by_proteome": {
+  "Afum_Af293_UniProt": 4,
+  "Calb_SC5314": 0,
+  "Cimm_RS": 0,
+  "Scer_S288C": 0
+ },
+ "extra_calls_per_10000": 5.0,
+ "extra_calls_total": 4,
+ "floor": 0.0,
+ "freeze_sha256": "a7553076d4963e4daedf3d7fdf0eba28b8e8349847b2644482fc2e854d7ce915",
+ "hard_negative_call_rates": {
+  "domain_non_member": 0.0,
+  "gpi_wall_enzyme": 0.0,
+  "laccase_etc": 0.0,
+  "mucin_sensor": 0.0,
+  "repeat_non_adhesin": 0.0,
+  "secretory_non_surface": 0.0,
+  "st_linker_enzyme": 0.0,
+  "wall_hydrolase": 0.0,
+  "wall_structural_other": 0.0
+ },
+ "hard_negative_rate_limit": 0.05,
+ "negatives_ignored": [
+  "P38248",
+  "Q4WNS8"
+ ],
+ "positives_used": false
+}
