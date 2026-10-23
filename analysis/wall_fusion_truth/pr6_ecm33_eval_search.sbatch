@@ -8,7 +8,7 @@
 #   custom                    hmmsearch -T 0.0 with the committed all-model (sha256 checked); the report applies 29.6 bits
 #   pfam_ga                   PF12454 hmmsearch --cut_ga
 #   pfam_relaxed              PF12454 hmmsearch -T 0.0; the report applies the relaxed cutoff (15.0, from the build record)
-#   iteration_alignment_seeded  jackhmmer -N 3 -E 1e-5 --incE 1e-5 --incdomE 1e-5 seeded by the build alignment (the build job's exact options, no -Z)
+#   iteration_alignment_seeded  jackhmmer -N 3 -E 1e-5 --incE 1e-5 --incdomE 1e-5 seeded by the build alignment (the build job's options plus -Z 70198728, owner decision 2026-10-23)
 #   phmmer_seed_only          phmmer -E 1e-5 --domE 1e-5 -Z 70198728 of Q5AGC4 alone
 #   jackhmmer_seed_only       jackhmmer -N 3 -E 1e-5 --incE 1e-5 --incdomE 1e-5 -Z 70198728 of Q5AGC4 alone
 # The iterative and phmmer methods search the test sequences plus a background (the 161 shared negatives and the four kept proteomes, the
@@ -120,7 +120,7 @@ grep '^>' "$TEST" | sed 's/^>//' > "$W/test_ids.txt"
 hmmsearch -T "$FLOOR" --cpu "$THREADS" --noali -o /dev/null --tblout "$W/custom.tbl" "$MODEL" "$TEST"
 hmmsearch --cut_ga --cpu "$THREADS" --noali -o /dev/null --tblout "$W/ga.tbl" "$W/pf12454.hmm" "$TEST"
 hmmsearch -T "$FLOOR" --cpu "$THREADS" --noali -o /dev/null --tblout "$W/rel.tbl" "$W/pf12454.hmm" "$TEST"
-jackhmmer -N 3 -E 1e-5 --incE 1e-5 --incdomE 1e-5 --cpu "$THREADS" --noali -o /dev/null --tblout "$W/iter.tbl" "$W/train.sto" "$W/bg_target.faa"
+jackhmmer -N 3 -E 1e-5 --incE 1e-5 --incdomE 1e-5 -Z "$EVALDB" --cpu "$THREADS" --noali -o /dev/null --tblout "$W/iter.tbl" "$W/train.sto" "$W/bg_target.faa"
 phmmer -E 1e-5 --domE 1e-5 -Z "$EVALDB" --cpu "$THREADS" --noali -o /dev/null --tblout "$W/phmmer.tbl" "$W/q5agc4.faa" "$W/bg_target.faa"
 jackhmmer -N 3 -E 1e-5 --incE 1e-5 --incdomE 1e-5 -Z "$EVALDB" --cpu "$THREADS" --noali -o /dev/null --tblout "$W/jack.tbl" "$W/q5agc4.faa" "$W/bg_target.faa"
 

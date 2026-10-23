@@ -147,6 +147,35 @@ def test_u_and_the_rule_at_the_boundaries(u, rec, testable, ok):
     assert (g["testable_u"], g["rule_ok"]) == (testable, ok)
 
 
+@pytest.mark.parametrize(
+    "k,n,lo,hi",
+    [
+        (0, 3, 0.0, 0.708),
+        (3, 3, 0.292, 1.0),
+        (2, 3, 0.094, 0.992),
+        (1, 2, 0.013, 0.987),
+        (5, 5, 0.478, 1.0),
+    ],
+)
+def test_clopper_pearson_known_values(k, n, lo, hi):
+    got = rep.clopper_pearson(k, n)
+    assert round(got[0], 3) == lo and round(got[1], 3) == hi
+    if k == 0:
+        assert got[0] == 0.0
+    if k == n:
+        assert got[1] == 1.0
+    assert rep.fmt_ci(k, n) == f"{lo:.3f}-{hi:.3f}"
+    assert rep.fmt_ci(0, 0) == "NA"
+
+
+def test_verdict_applies_only_to_the_whole_headline_row():
+    ids = {f"c{i}" for i in range(6)}
+    h = hits_with({"c0", "c1"})
+    assert rep.group_row("headline", "all", "all", ids, h, 3, 1)["rule_ok"] == "no"  # u 6 needs 3
+    for col, kind in (("headline", "clade"), ("descriptive_1", "all"), ("descriptive_2", "tier")):
+        assert rep.group_row(col, kind, "x", ids, h, 3, 1)["rule_ok"] == "descriptive"
+
+
 def test_u_counts_only_clusters_missed_by_every_one_of_the_five_comparators():
     ids = {"a", "b", "c", "d", "e", "f"}
     h = hits_with(
@@ -296,6 +325,14 @@ def test_report_end_to_end_on_a_fixture(tmp_path):
         top["custom"] == "1" and top["pfam_ga"] == "1" and top["u"] == "3"
     )  # B is below 29.6; A, C, D... u = A, B, D
     assert top["custom_recovers_of_u"] == "1" and top["rule_ok"] == "no"  # u 3 needs 2
+    assert top["ci_recovered_of_u"] == rep.fmt_ci(1, 3) and top["ci_recall_custom"] == rep.fmt_ci(
+        1, 4
+    )
+    summ = (out / "summary.txt").read_text()
+    assert "VERDICT (whole headline set, min_u 3): FAIL" in summ
+    assert "wide row is not a result" in summ
+    assert all("CI" in ln for ln in summ.splitlines() if ln.startswith("["))
+    assert sum(ln.startswith("[") for ln in summ.splitlines()) == len(g)
     # no call, status, tier or family_measure file is written
     assert sorted(p.name for p in out.iterdir()) == [
         "clusters.tsv",
@@ -371,6 +408,16 @@ def test_proposed_freeze_matches_the_committed_model_and_tables():
     assert fz["proposals"] and fz["decided_by_owner_2026-10-22_and_23"]
 
 
+def test_proposed_freeze_records_the_owner_decisions_of_2026_10_23():
+    fz = json.load(open(PROPOSED))
+    assert fz["frozen"] is False
+    assert len(fz["decided_by_owner_2026-10-23"]) == 5
+    assert "-Z 70198728" in fz["searches"]["iteration_alignment_seeded"]
+    assert "NO -Z" not in json.dumps(fz)
+    assert not any("without -Z" in p for p in fz["proposals"])
+    assert "Clopper-Pearson" in fz["u"]["interval"] and fz["u"]["min_u"] == 3
+
+
 def test_the_signed_freeze_does_not_exist_yet():
     assert not (WF / "pr6_ecm33_eval_freeze.json").exists()  # only the owner creates it
 
@@ -394,13 +441,16 @@ def test_sbatch_static_checks(name):
 def test_search_script_has_the_frozen_options():
     t = (WF / "pr6_ecm33_eval_search.sbatch").read_text()
     assert (
-        '-Z "$EVALDB"' in t and t.count('-Z "$EVALDB"') == 2
-    )  # phmmer and jackhmmer seed-only, nothing else
+        '-Z "$EVALDB"' in t and t.count('-Z "$EVALDB"') == 3
+    )  # phmmer, jackhmmer seed-only and the alignment-seeded jackhmmer (owner decision 2026-10-23)
     assert "70198728" in t
     assert (
-        'jackhmmer -N 3 -E 1e-5 --incE 1e-5 --incdomE 1e-5 --cpu "$THREADS" --noali -o /dev/null --tblout "$W/iter.tbl" "$W/train.sto"'
+        'jackhmmer -N 3 -E 1e-5 --incE 1e-5 --incdomE 1e-5 -Z "$EVALDB" --cpu "$THREADS" --noali -o /dev/null --tblout "$W/iter.tbl" "$W/train.sto"'
         in t
     )
+    for line in t.splitlines():  # every iterative or phmmer command line carries -Z
+        if line.startswith(("jackhmmer ", "phmmer ")):
+            assert '-Z "$EVALDB"' in line, line
     assert (
         "hmmsearch --cut_ga" in t and "-T 29.6" not in t
     )  # the report applies the frozen cutoff from the freeze
