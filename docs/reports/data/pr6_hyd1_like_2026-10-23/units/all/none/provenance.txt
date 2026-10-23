@@ -1,0 +1,4 @@
+job: pr6_hyd1_build (unit all, mode none); commit 9f4843b1f7d3111c1f2c5db8544076b78d2b8a67 (pinned 9f4843b1f7d3111c1f2c5db8544076b78d2b8a67)
+freeze sha256: 65ed9bb6dbcc6035a4093537a5afc0f92a179d3f4356902c1aba83a12e552ff2
+hmmer: # HMMER 3.4 (Aug 2023); http://hmmer.org/; mafft: v7.505 (2022/Apr/10); pfam_resolved: /bigdata/operations/pkgadmin/srv/projects/db/pfam/2026-01-27-Pfam38.2/Pfam-A.hmm
+hyd1_members.faa sha256: 34e11fc855b4576461ff4b34b24ef061a061e13398875cc8811af47e4ad450d4; model.hmm sha256: db6eb4d9e85dc3490d6d73f6d0fc0a3e6616cdb1e5a9bcf0569f1c0687ebb659

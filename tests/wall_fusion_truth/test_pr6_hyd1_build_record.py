@@ -28,14 +28,14 @@ def test_no_committed_file_holds_a_sequence():
 
 
 def test_provenance_carries_the_pin_and_the_freeze_hash():
-    paths = list(REC.glob("build/*/*/provenance.txt"))
+    paths = list(REC.glob("units/*/*/provenance.txt"))
     assert len(paths) == 9
     for p in paths:
         text = p.read_text()
         assert f"commit {PIN} (pinned {PIN})" in text, p
         assert f"freeze sha256: {FREEZE_SHA}" in text, p
     assert f"commit {PIN}" in (REC / "extract/provenance.txt").read_text()
-    for p in REC.glob("build/*/*/cutoff.json"):
+    for p in REC.glob("units/*/*/cutoff.json"):
         assert FREEZE_SHA in p.read_text(), p
 
 
@@ -51,12 +51,12 @@ def test_nine_unit_mode_rows_and_sordariomycetes_cluster30_not_buildable():
         and r["rule_ok"] == "not_buildable"
     ]
     assert len(bad) == 1
-    assert (REC / "build/clade_Sordariomycetes/cluster30/manifest.json").exists()
+    assert (REC / "units/clade_Sordariomycetes/cluster30/manifest.json").exists()
     assert (
         '"status": "not_buildable"'
-        in (REC / "build/clade_Sordariomycetes/cluster30/manifest.json").read_text()
+        in (REC / "units/clade_Sordariomycetes/cluster30/manifest.json").read_text()
     )
-    assert not (REC / "build/clade_Sordariomycetes/cluster30/cutoff.json").exists()
+    assert not (REC / "units/clade_Sordariomycetes/cluster30/cutoff.json").exists()
 
 
 def test_no_unit_is_testable_and_u_is_at_most_two():
@@ -77,7 +77,7 @@ def test_the_kiss_unit_is_recovered():
         assert r["n_held_out"] == "1" and r["custom_hit"] == "1"
     scores = {}
     for mode in ("cluster30", "none"):
-        text = (REC / f"build/clade_Eurotiomycetes/{mode}/hits_custom.tsv").read_text()
+        text = (REC / f"units/clade_Eurotiomycetes/{mode}/hits_custom.tsv").read_text()
         scores[mode] = float(text.splitlines()[1].split("\t")[1])
     assert scores["cluster30"] > 50 and scores["none"] > 70
 
@@ -87,7 +87,7 @@ def test_panel_ignored_is_nineteen_ids():
     assert {r["panel_ignored_n"] for r in rows if r["panel_ignored_n"]} == {"19"}
     import json
 
-    cut = json.loads((REC / "build/all/none/cutoff.json").read_text())
+    cut = json.loads((REC / "units/all/none/cutoff.json").read_text())
     assert len(cut["panel_ignored"]) == 19
     assert "B6QUR1" in cut["panel_ignored"]
     assert (REC / "negcheck/proteome_panel_ga.tsv").read_text().count("\n") == 20
