@@ -1,0 +1,12 @@
+unit	n_held_out	n_excluded_neighbours_headline	n_training_headline	n_training_second	custom_hit_headline	custom_hit_second	u_headline	u_second	rule_ok_headline	rule_ok_second	second_is_same_training_set
+Dothideomycetes	106	136	239	375	106	106	0	0	not_testable	not_testable	no
+Eurotiomycetes	55	153	273	426	55	55	0	0	not_testable	not_testable	no
+Glomeromycota	8	29	444	473	8	8	0	0	not_testable	not_testable	no
+Kickxellomycota	37	152	292	444	37	37	0	0	not_testable	not_testable	no
+Leotiomycetes	38	149	294	443	38	38	0	0	not_testable	not_testable	no
+Mucoromycota	33	147	301	448	33	33	0	0	not_testable	not_testable	no
+Orbiliomycetes	12	160	309	469	12	12	0	0	not_testable	not_testable	no
+Pezizomycetes	5	142	334	476	5	5	0	0	not_testable	not_testable	no
+Saccharomycotina	107	147	227	374	107	107	0	0	not_testable	not_testable	no
+Sordariomycetes	57	131	293	424	57	57	0	0	not_testable	not_testable	no
+Taphrinomycotina	11	157	313	470	11	11	0	0	not_testable	not_testable	no

@@ -1,0 +1,45 @@
+unit	independence_mode	role	accession	custom_score	custom_cutoff	custom_hit	pfam_relaxed_score	pfam_relaxed_cutoff	pfam_relaxed_hit	note
+Dothideomycetes	cluster30	headline	P38248	368.4	32.9	yes		15.0	no	true family member; left out of the hard-negative rate by the freeze (negatives_ignored); the shared negative set is not changed
+Dothideomycetes	cluster30	headline	Q4WNS8	393.7	32.9	yes	69.0	15.0	yes	true family member; left out of the hard-negative rate by the freeze (negatives_ignored); the shared negative set is not changed
+Dothideomycetes	none	descriptive	P38248	389.2	19.8	yes		15.0	no	true family member; left out of the hard-negative rate by the freeze (negatives_ignored); the shared negative set is not changed
+Dothideomycetes	none	descriptive	Q4WNS8	437.7	19.8	yes	69.0	15.0	yes	true family member; left out of the hard-negative rate by the freeze (negatives_ignored); the shared negative set is not changed
+Eurotiomycetes	cluster30	headline	P38248	362.5	31.1	yes		15.0	no	true family member; left out of the hard-negative rate by the freeze (negatives_ignored); the shared negative set is not changed
+Eurotiomycetes	cluster30	headline	Q4WNS8	389.1	31.1	yes	69.0	15.0	yes	true family member; left out of the hard-negative rate by the freeze (negatives_ignored); the shared negative set is not changed
+Eurotiomycetes	none	descriptive	P38248	391.6	25.3	yes		15.0	no	true family member; left out of the hard-negative rate by the freeze (negatives_ignored); the shared negative set is not changed
+Eurotiomycetes	none	descriptive	Q4WNS8	419.2	25.3	yes	69.0	15.0	yes	true family member; left out of the hard-negative rate by the freeze (negatives_ignored); the shared negative set is not changed
+Glomeromycota	cluster30	headline	P38248	407.3	37.0	yes		15.0	no	true family member; left out of the hard-negative rate by the freeze (negatives_ignored); the shared negative set is not changed
+Glomeromycota	cluster30	headline	Q4WNS8	454.2	37.0	yes	69.0	15.0	yes	true family member; left out of the hard-negative rate by the freeze (negatives_ignored); the shared negative set is not changed
+Glomeromycota	none	descriptive	P38248	393.5	36.5	yes		15.0	no	true family member; left out of the hard-negative rate by the freeze (negatives_ignored); the shared negative set is not changed
+Glomeromycota	none	descriptive	Q4WNS8	444.9	36.5	yes	69.0	15.0	yes	true family member; left out of the hard-negative rate by the freeze (negatives_ignored); the shared negative set is not changed
+Kickxellomycota	cluster30	headline	P38248	394.7	45.9	yes		15.0	no	true family member; left out of the hard-negative rate by the freeze (negatives_ignored); the shared negative set is not changed
+Kickxellomycota	cluster30	headline	Q4WNS8	413.3	45.9	yes	69.0	15.0	yes	true family member; left out of the hard-negative rate by the freeze (negatives_ignored); the shared negative set is not changed
+Kickxellomycota	none	descriptive	P38248	397.6	35.6	yes		15.0	no	true family member; left out of the hard-negative rate by the freeze (negatives_ignored); the shared negative set is not changed
+Kickxellomycota	none	descriptive	Q4WNS8	454.5	35.6	yes	69.0	15.0	yes	true family member; left out of the hard-negative rate by the freeze (negatives_ignored); the shared negative set is not changed
+Leotiomycetes	cluster30	headline	P38248	372.2	36.5	yes		15.0	no	true family member; left out of the hard-negative rate by the freeze (negatives_ignored); the shared negative set is not changed
+Leotiomycetes	cluster30	headline	Q4WNS8	395.3	36.5	yes	69.0	15.0	yes	true family member; left out of the hard-negative rate by the freeze (negatives_ignored); the shared negative set is not changed
+Leotiomycetes	none	descriptive	P38248	388.2	28.0	yes		15.0	no	true family member; left out of the hard-negative rate by the freeze (negatives_ignored); the shared negative set is not changed
+Leotiomycetes	none	descriptive	Q4WNS8	444.7	28.0	yes	69.0	15.0	yes	true family member; left out of the hard-negative rate by the freeze (negatives_ignored); the shared negative set is not changed
+Mucoromycota	cluster30	headline	P38248	381.6	39.3	yes		15.0	no	true family member; left out of the hard-negative rate by the freeze (negatives_ignored); the shared negative set is not changed
+Mucoromycota	cluster30	headline	Q4WNS8	404.7	39.3	yes	69.0	15.0	yes	true family member; left out of the hard-negative rate by the freeze (negatives_ignored); the shared negative set is not changed
+Mucoromycota	none	descriptive	P38248	392.1	37.4	yes		15.0	no	true family member; left out of the hard-negative rate by the freeze (negatives_ignored); the shared negative set is not changed
+Mucoromycota	none	descriptive	Q4WNS8	451.7	37.4	yes	69.0	15.0	yes	true family member; left out of the hard-negative rate by the freeze (negatives_ignored); the shared negative set is not changed
+Orbiliomycetes	cluster30	headline	P38248	371.8	38.2	yes		15.0	no	true family member; left out of the hard-negative rate by the freeze (negatives_ignored); the shared negative set is not changed
+Orbiliomycetes	cluster30	headline	Q4WNS8	407.1	38.2	yes	69.0	15.0	yes	true family member; left out of the hard-negative rate by the freeze (negatives_ignored); the shared negative set is not changed
+Orbiliomycetes	none	descriptive	P38248	384.9	33.9	yes		15.0	no	true family member; left out of the hard-negative rate by the freeze (negatives_ignored); the shared negative set is not changed
+Orbiliomycetes	none	descriptive	Q4WNS8	443.2	33.9	yes	69.0	15.0	yes	true family member; left out of the hard-negative rate by the freeze (negatives_ignored); the shared negative set is not changed
+Pezizomycetes	cluster30	headline	P38248	384.7	40.7	yes		15.0	no	true family member; left out of the hard-negative rate by the freeze (negatives_ignored); the shared negative set is not changed
+Pezizomycetes	cluster30	headline	Q4WNS8	409.7	40.7	yes	69.0	15.0	yes	true family member; left out of the hard-negative rate by the freeze (negatives_ignored); the shared negative set is not changed
+Pezizomycetes	none	descriptive	P38248	390.0	31.0	yes		15.0	no	true family member; left out of the hard-negative rate by the freeze (negatives_ignored); the shared negative set is not changed
+Pezizomycetes	none	descriptive	Q4WNS8	439.0	31.0	yes	69.0	15.0	yes	true family member; left out of the hard-negative rate by the freeze (negatives_ignored); the shared negative set is not changed
+Saccharomycotina	cluster30	headline	P38248	314.9	40.4	yes		15.0	no	true family member; left out of the hard-negative rate by the freeze (negatives_ignored); the shared negative set is not changed
+Saccharomycotina	cluster30	headline	Q4WNS8	391.9	40.4	yes	69.0	15.0	yes	true family member; left out of the hard-negative rate by the freeze (negatives_ignored); the shared negative set is not changed
+Saccharomycotina	none	descriptive	P38248	337.3	39.8	yes		15.0	no	true family member; left out of the hard-negative rate by the freeze (negatives_ignored); the shared negative set is not changed
+Saccharomycotina	none	descriptive	Q4WNS8	449.1	39.8	yes	69.0	15.0	yes	true family member; left out of the hard-negative rate by the freeze (negatives_ignored); the shared negative set is not changed
+Sordariomycetes	cluster30	headline	P38248	378.4	41.8	yes		15.0	no	true family member; left out of the hard-negative rate by the freeze (negatives_ignored); the shared negative set is not changed
+Sordariomycetes	cluster30	headline	Q4WNS8	413.8	41.8	yes	69.0	15.0	yes	true family member; left out of the hard-negative rate by the freeze (negatives_ignored); the shared negative set is not changed
+Sordariomycetes	none	descriptive	P38248	393.1	34.1	yes		15.0	no	true family member; left out of the hard-negative rate by the freeze (negatives_ignored); the shared negative set is not changed
+Sordariomycetes	none	descriptive	Q4WNS8	451.2	34.1	yes	69.0	15.0	yes	true family member; left out of the hard-negative rate by the freeze (negatives_ignored); the shared negative set is not changed
+Taphrinomycotina	cluster30	headline	P38248	383.1	44.9	yes		15.0	no	true family member; left out of the hard-negative rate by the freeze (negatives_ignored); the shared negative set is not changed
+Taphrinomycotina	cluster30	headline	Q4WNS8	414.4	44.9	yes	69.0	15.0	yes	true family member; left out of the hard-negative rate by the freeze (negatives_ignored); the shared negative set is not changed
+Taphrinomycotina	none	descriptive	P38248	379.7	30.7	yes		15.0	no	true family member; left out of the hard-negative rate by the freeze (negatives_ignored); the shared negative set is not changed
+Taphrinomycotina	none	descriptive	Q4WNS8	433.4	30.7	yes	69.0	15.0	yes	true family member; left out of the hard-negative rate by the freeze (negatives_ignored); the shared negative set is not changed

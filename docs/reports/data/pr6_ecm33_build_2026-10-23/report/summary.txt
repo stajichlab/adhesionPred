@@ -1,0 +1,6 @@
+PR 6 ecm33 held-out report (DRAFT): every cell is descriptive; members are related UniRef50 representatives, not independent clusters.
+freeze sha256 a7553076d4963e4daedf3d7fdf0eba28b8e8349847b2644482fc2e854d7ce915
+independence: headline cluster30; second, descriptive column none (side_by_side.tsv)
+units reported 11; testable by u (u >= 3) under the headline rule: 0
+ignored negatives (P38248, Q4WNS8: true family members among the shared negatives) are outside the hard-negative rate and have their own lines (ignored_negatives_line.tsv)
+no call, no status, no tier, no family_measure row is written; a custom model is report-only (decision 6)

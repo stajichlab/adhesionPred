@@ -1,0 +1,9 @@
+job: pr6_ecm33_build (unit Dothideomycetes, independence mode none; headline cluster30)
+commit: ba15e0c83ed52b2636ef6837ad51e0edf3d4c698 (pinned: ba15e0c83ed52b2636ef6837ad51e0edf3d4c698)
+freeze sha256: a7553076d4963e4daedf3d7fdf0eba28b8e8349847b2644482fc2e854d7ce915
+hmmer: # HMMER 3.4 (Aug 2023); http://hmmer.org/
+mafft: v7.505 (2022/Apr/10)
+mmseqs: b804fbe384e6f6c9fe96322ec0e92d48bccd0a42
+pfam_resolved: /bigdata/operations/pkgadmin/srv/projects/db/pfam/2026-01-27-Pfam38.2/Pfam-A.hmm
+ecm33_members.faa sha256: b5e9110d7e315d4035ab16ab1ed7f0f294d410bf603affb429f6d8de3f3eb8ee
+model.hmm sha256: 9c7d4bb2e10a1e8a63e8ff0e2d305fb2bd5ef6e975f746403cbd3b10a131ccb5

@@ -1,0 +1,2402 @@
+{
+ "excluded_30pct_neighbours": [],
+ "held_out_ids": [
+  "UniRef50_A0A3N4I6W9",
+  "UniRef50_A0A3N4JI38",
+  "UniRef50_A0A3N4KHJ4",
+  "UniRef50_A0A3N4M091",
+  "UniRef50_U4KUC2"
+ ],
+ "members_sha256": "0b2a3bdd161dc0dc4616f2b9bf9d4648ddb4bffd175f97cd50501d73550922ab",
+ "mode": "none",
+ "n_excluded_neighbours": 0,
+ "n_held_out": 5,
+ "n_training": 476,
+ "n_training_clades": 18,
+ "reason": "",
+ "status": "buildable",
+ "training": [
+  {
+   "clade_fine": "Saccharomycotina",
+   "cluster": "UniRef50_A0AAW0FPK6",
+   "id": "Q5AGC4"
+  },
+  {
+   "clade_fine": "Eurotiomycetes",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_A0A072P8U2"
+  },
+  {
+   "clade_fine": "Eurotiomycetes",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_A0A072PAP4"
+  },
+  {
+   "clade_fine": "Mucoromycota",
+   "cluster": "UniRef50_UPI00221EE070",
+   "id": "UniRef50_A0A077WLY2"
+  },
+  {
+   "clade_fine": "Mucoromycota",
+   "cluster": "UniRef50_UPI00221EE070",
+   "id": "UniRef50_A0A077WXH5"
+  },
+  {
+   "clade_fine": "Sordariomycetes",
+   "cluster": "UniRef50_A0A8K0M2Q4",
+   "id": "UniRef50_A0A084QVM2"
+  },
+  {
+   "clade_fine": "Sordariomycetes",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_A0A086T7A9"
+  },
+  {
+   "clade_fine": "Leotiomycetes",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_A0A093XT07"
+  },
+  {
+   "clade_fine": "Leotiomycetes",
+   "cluster": "UniRef50_A0A093Z5V2",
+   "id": "UniRef50_A0A093Z5V2"
+  },
+  {
+   "clade_fine": "Leotiomycetes",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_A0A094C9L3"
+  },
+  {
+   "clade_fine": "Leotiomycetes",
+   "cluster": "UniRef50_A0A9P9WH60",
+   "id": "UniRef50_A0A094DPY3"
+  },
+  {
+   "clade_fine": "Saccharomycotina",
+   "cluster": "UniRef50_A0AAX4HFV2",
+   "id": "UniRef50_A0A099P944"
+  },
+  {
+   "clade_fine": "Sordariomycetes",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_A0A0A1TDW4"
+  },
+  {
+   "clade_fine": "Saccharomycotina",
+   "cluster": "UniRef50_A0AAX4HFV2",
+   "id": "UniRef50_A0A0A8L3D7"
+  },
+  {
+   "clade_fine": "Sordariomycetes",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_A0A0B2WSQ2"
+  },
+  {
+   "clade_fine": "Mucoromycota",
+   "cluster": "UniRef50_UPI00221EE070",
+   "id": "UniRef50_A0A0B7NR12"
+  },
+  {
+   "clade_fine": "Eurotiomycetes",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_A0A0B8N483"
+  },
+  {
+   "clade_fine": "Leotiomycetes",
+   "cluster": "UniRef50_A0A9P9WH60",
+   "id": "UniRef50_A0A0C3CD85"
+  },
+  {
+   "clade_fine": "Leotiomycetes",
+   "cluster": "UniRef50_A0A0C3D040",
+   "id": "UniRef50_A0A0C3D040"
+  },
+  {
+   "clade_fine": "Eurotiomycetes",
+   "cluster": "UniRef50_A0A437A077",
+   "id": "UniRef50_A0A0D1WNJ1"
+  },
+  {
+   "clade_fine": "Eurotiomycetes",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_A0A0D2A9W0"
+  },
+  {
+   "clade_fine": "Dothideomycetes",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_A0A0D2AJY8"
+  },
+  {
+   "clade_fine": "Eurotiomycetes",
+   "cluster": "UniRef50_A0A0D2BHQ2",
+   "id": "UniRef50_A0A0D2BHQ2"
+  },
+  {
+   "clade_fine": "Taphrinomycotina",
+   "cluster": "UniRef50_A0A0E9NF67",
+   "id": "UniRef50_A0A0E9NF67"
+  },
+  {
+   "clade_fine": "Eurotiomycetes",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_A0A0G2EBW3"
+  },
+  {
+   "clade_fine": "Dothideomycetes",
+   "cluster": "UniRef50_A0A6A6AW51",
+   "id": "UniRef50_A0A0G2GB44"
+  },
+  {
+   "clade_fine": "Dothideomycetes",
+   "cluster": "UniRef50_A0A0G2HF94",
+   "id": "UniRef50_A0A0G2HF94"
+  },
+  {
+   "clade_fine": "Eurotiomycetes",
+   "cluster": "UniRef50_A0A9P9WH60",
+   "id": "UniRef50_A0A0H1B3H0"
+  },
+  {
+   "clade_fine": "Eurotiomycetes",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_A0A0J8RQ55"
+  },
+  {
+   "clade_fine": "Saccharomycotina",
+   "cluster": "UniRef50_A0A1Y2FGQ1",
+   "id": "UniRef50_A0A0J9X2V3"
+  },
+  {
+   "clade_fine": "Saccharomycotina",
+   "cluster": "UniRef50_A0A1Y2FGQ1",
+   "id": "UniRef50_A0A0J9XJP6"
+  },
+  {
+   "clade_fine": "Sordariomycetes",
+   "cluster": "UniRef50_A0A8K0M2Q4",
+   "id": "UniRef50_A0A0K2FQT2"
+  },
+  {
+   "clade_fine": "Eurotiomycetes",
+   "cluster": "UniRef50_A0A0U5CCB7",
+   "id": "UniRef50_A0A0U5CCB7"
+  },
+  {
+   "clade_fine": "Saccharomycotina",
+   "cluster": "UniRef50_A0A9P7BAC1",
+   "id": "UniRef50_A0A0V1Q2M9"
+  },
+  {
+   "clade_fine": "Leotiomycetes",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_A0A132BAG5"
+  },
+  {
+   "clade_fine": "Dothideomycetes",
+   "cluster": "UniRef50_A0A139HTP9",
+   "id": "UniRef50_A0A139HTP9"
+  },
+  {
+   "clade_fine": "Dothideomycetes",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_A0A150V3F9"
+  },
+  {
+   "clade_fine": "Dothideomycetes",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_A0A150V7S3"
+  },
+  {
+   "clade_fine": "Mucoromycota",
+   "cluster": "UniRef50_UPI00221EE070",
+   "id": "UniRef50_A0A162UQ08"
+  },
+  {
+   "clade_fine": "Mucoromycota",
+   "cluster": "UniRef50_UPI00221EE070",
+   "id": "UniRef50_A0A163B527"
+  },
+  {
+   "clade_fine": "Mucoromycota",
+   "cluster": "UniRef50_UPI00221EE070",
+   "id": "UniRef50_A0A163JHB9"
+  },
+  {
+   "clade_fine": "Xylonomycetes",
+   "cluster": "UniRef50_A0A165A0B7",
+   "id": "UniRef50_A0A165A0B7"
+  },
+  {
+   "clade_fine": "Saccharomycotina",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_A0A167DR01"
+  },
+  {
+   "clade_fine": "Mucoromycota",
+   "cluster": "UniRef50_UPI00221EE070",
+   "id": "UniRef50_A0A167PL47"
+  },
+  {
+   "clade_fine": "Eurotiomycetes",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_A0A167V3C4"
+  },
+  {
+   "clade_fine": "Mucoromycota",
+   "cluster": "UniRef50_UPI00221EE070",
+   "id": "UniRef50_A0A168P7W7"
+  },
+  {
+   "clade_fine": "Mucoromycota",
+   "cluster": "UniRef50_UPI00221EE070",
+   "id": "UniRef50_A0A168PC51"
+  },
+  {
+   "clade_fine": "Sordariomycetes",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_A0A179IKX0"
+  },
+  {
+   "clade_fine": "Saccharomycotina",
+   "cluster": "UniRef50_A0AAX4HFV2",
+   "id": "UniRef50_A0A1A0H1X4"
+  },
+  {
+   "clade_fine": "Eurotiomycetes",
+   "cluster": "UniRef50_A0A9P9WH60",
+   "id": "UniRef50_A0A1B7NZM1"
+  },
+  {
+   "clade_fine": "Saccharomycotina",
+   "cluster": "UniRef50_A0AAX4HFV2",
+   "id": "UniRef50_A0A1B7TCG3"
+  },
+  {
+   "clade_fine": "Sordariomycetes",
+   "cluster": "UniRef50_A0A8K0M2Q4",
+   "id": "UniRef50_A0A1B8B709"
+  },
+  {
+   "clade_fine": "Leotiomycetes",
+   "cluster": "UniRef50_A0A9P8F622",
+   "id": "UniRef50_A0A1B8ETP1"
+  },
+  {
+   "clade_fine": "Mucoromycota",
+   "cluster": "UniRef50_UPI00221EE070",
+   "id": "UniRef50_A0A1C7MXT6"
+  },
+  {
+   "clade_fine": "Saccharomycotina",
+   "cluster": "UniRef50_A0A1Y2FGQ1",
+   "id": "UniRef50_A0A1D2VKU8"
+  },
+  {
+   "clade_fine": "Saccharomycotina",
+   "cluster": "UniRef50_A0A1Y2FGQ1",
+   "id": "UniRef50_A0A1E3PSW3"
+  },
+  {
+   "clade_fine": "Saccharomycotina",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_A0A1E3Q318"
+  },
+  {
+   "clade_fine": "Saccharomycotina",
+   "cluster": "UniRef50_A0A9P7BAC1",
+   "id": "UniRef50_A0A1E3QKT3"
+  },
+  {
+   "clade_fine": "Saccharomycotina",
+   "cluster": "UniRef50_A0AAX4HFV2",
+   "id": "UniRef50_A0A1E3QRB3"
+  },
+  {
+   "clade_fine": "Saccharomycotina",
+   "cluster": "UniRef50_A0AAX4HFV2",
+   "id": "UniRef50_A0A1E4T8M3"
+  },
+  {
+   "clade_fine": "Saccharomycotina",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_A0A1E4TK60"
+  },
+  {
+   "clade_fine": "Saccharomycotina",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_A0A1E4TK75"
+  },
+  {
+   "clade_fine": "Saccharomycotina",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_A0A1E4TYZ3"
+  },
+  {
+   "clade_fine": "Saccharomycotina",
+   "cluster": "UniRef50_A0AAX4HFV2",
+   "id": "UniRef50_A0A1E4TZU6"
+  },
+  {
+   "clade_fine": "Saccharomycotina",
+   "cluster": "UniRef50_A0A9P7BAC1",
+   "id": "UniRef50_A0A1E5RHV3"
+  },
+  {
+   "clade_fine": "Eurotiomycetes",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_A0A1J9NZ80"
+  },
+  {
+   "clade_fine": "Dothideomycetes",
+   "cluster": "UniRef50_A0A1J9RNH5",
+   "id": "UniRef50_A0A1J9RLG6"
+  },
+  {
+   "clade_fine": "Dothideomycetes",
+   "cluster": "UniRef50_A0A1J9RNH5",
+   "id": "UniRef50_A0A1J9RNH5"
+  },
+  {
+   "clade_fine": "Saccharomycotina",
+   "cluster": "UniRef50_A0A1Y2FGQ1",
+   "id": "UniRef50_A0A1L0B3A8"
+  },
+  {
+   "clade_fine": "Saccharomycotina",
+   "cluster": "UniRef50_A0AAX4HFV2",
+   "id": "UniRef50_A0A1L0BT89"
+  },
+  {
+   "clade_fine": "Saccharomycotina",
+   "cluster": "UniRef50_A0AAX4HFV2",
+   "id": "UniRef50_A0A1L0BVX3"
+  },
+  {
+   "clade_fine": "Leotiomycetes",
+   "cluster": "UniRef50_S3DC47",
+   "id": "UniRef50_A0A1L7WP42"
+  },
+  {
+   "clade_fine": "Leotiomycetes",
+   "cluster": "UniRef50_A0A1L7WST2",
+   "id": "UniRef50_A0A1L7WST2"
+  },
+  {
+   "clade_fine": "Leotiomycetes",
+   "cluster": "UniRef50_S3DC47",
+   "id": "UniRef50_A0A1L7XCW6"
+  },
+  {
+   "clade_fine": "Eurotiomycetes",
+   "cluster": "UniRef50_A0A395H0H1",
+   "id": "UniRef50_A0A1L9PB12"
+  },
+  {
+   "clade_fine": "Eurotiomycetes",
+   "cluster": "UniRef50_A0A395H0H1",
+   "id": "UniRef50_A0A1L9R5J1"
+  },
+  {
+   "clade_fine": "Eurotiomycetes",
+   "cluster": "UniRef50_A0A395H0H1",
+   "id": "UniRef50_A0A1L9S9T0"
+  },
+  {
+   "clade_fine": "Eurotiomycetes",
+   "cluster": "UniRef50_A0A395H0H1",
+   "id": "UniRef50_A0A1L9V0S8"
+  },
+  {
+   "clade_fine": "Saccharomycotina",
+   "cluster": "UniRef50_A0A9P7BAC1",
+   "id": "UniRef50_A0A1Q2ZYP8"
+  },
+  {
+   "clade_fine": "Saccharomycotina",
+   "cluster": "UniRef50_A0A1Y2FGQ1",
+   "id": "UniRef50_A0A1Q3AK49"
+  },
+  {
+   "clade_fine": "Kickxellomycota",
+   "cluster": "UniRef50_A0A1R0GN90",
+   "id": "UniRef50_A0A1R0GN89"
+  },
+  {
+   "clade_fine": "Kickxellomycota",
+   "cluster": "UniRef50_A0A1R0GN90",
+   "id": "UniRef50_A0A1R0GN90"
+  },
+  {
+   "clade_fine": "Kickxellomycota",
+   "cluster": "UniRef50_A0A1R1XKA7",
+   "id": "UniRef50_A0A1R0GQ91"
+  },
+  {
+   "clade_fine": "Kickxellomycota",
+   "cluster": "UniRef50_A0A1R1XKA7",
+   "id": "UniRef50_A0A1R0GTQ8"
+  },
+  {
+   "clade_fine": "Kickxellomycota",
+   "cluster": "UniRef50_A0A1R1XKA7",
+   "id": "UniRef50_A0A1R0H3I7"
+  },
+  {
+   "clade_fine": "Kickxellomycota",
+   "cluster": "UniRef50_A0A1R1XPW6",
+   "id": "UniRef50_A0A1R0H744"
+  },
+  {
+   "clade_fine": "Kickxellomycota",
+   "cluster": "UniRef50_A0A1R1XKA7",
+   "id": "UniRef50_A0A1R0H847"
+  },
+  {
+   "clade_fine": "Kickxellomycota",
+   "cluster": "UniRef50_A0A1R1XKA7",
+   "id": "UniRef50_A0A1R0H8A7"
+  },
+  {
+   "clade_fine": "Kickxellomycota",
+   "cluster": "UniRef50_A0A9P8F622",
+   "id": "UniRef50_A0A1R1PMP2"
+  },
+  {
+   "clade_fine": "Kickxellomycota",
+   "cluster": "UniRef50_A0A9P8F622",
+   "id": "UniRef50_A0A1R1PR65"
+  },
+  {
+   "clade_fine": "Kickxellomycota",
+   "cluster": "UniRef50_A0A1R1PUS9",
+   "id": "UniRef50_A0A1R1PUS9"
+  },
+  {
+   "clade_fine": "Kickxellomycota",
+   "cluster": "UniRef50_A0A1R1PUS9",
+   "id": "UniRef50_A0A1R1X7W2"
+  },
+  {
+   "clade_fine": "Kickxellomycota",
+   "cluster": "UniRef50_A0A1R1XPW6",
+   "id": "UniRef50_A0A1R1XIA2"
+  },
+  {
+   "clade_fine": "Kickxellomycota",
+   "cluster": "UniRef50_A0A1R1XKA7",
+   "id": "UniRef50_A0A1R1XKA7"
+  },
+  {
+   "clade_fine": "Kickxellomycota",
+   "cluster": "UniRef50_A0A1R1XKA7",
+   "id": "UniRef50_A0A1R1XNZ7"
+  },
+  {
+   "clade_fine": "Kickxellomycota",
+   "cluster": "UniRef50_A0A1R1XPW6",
+   "id": "UniRef50_A0A1R1XPW6"
+  },
+  {
+   "clade_fine": "Kickxellomycota",
+   "cluster": "UniRef50_A0A1R1PUS9",
+   "id": "UniRef50_A0A1R1Y3Y7"
+  },
+  {
+   "clade_fine": "Kickxellomycota",
+   "cluster": "UniRef50_A0A1R1XPW6",
+   "id": "UniRef50_A0A1R1Y459"
+  },
+  {
+   "clade_fine": "Kickxellomycota",
+   "cluster": "UniRef50_A0A2T9YAY1",
+   "id": "UniRef50_A0A1R1YIA1"
+  },
+  {
+   "clade_fine": "Dothideomycetes",
+   "cluster": "UniRef50_A0A6A6AW51",
+   "id": "UniRef50_A0A1S8BHR8"
+  },
+  {
+   "clade_fine": "Taphrinomycotina",
+   "cluster": "UniRef50_A0A1Y2FGQ1",
+   "id": "UniRef50_A0A1U7LNS5"
+  },
+  {
+   "clade_fine": "Dothideomycetes",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_A0A1V8SGC8"
+  },
+  {
+   "clade_fine": "Dothideomycetes",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_A0A1V8TX88"
+  },
+  {
+   "clade_fine": "Lecanoromycetes",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_A0A1W5DCP8"
+  },
+  {
+   "clade_fine": "Mucoromycota",
+   "cluster": "UniRef50_UPI00221EE070",
+   "id": "UniRef50_A0A1X0QSV0"
+  },
+  {
+   "clade_fine": "Mucoromycota",
+   "cluster": "UniRef50_UPI00221EE070",
+   "id": "UniRef50_A0A1X2G2H9"
+  },
+  {
+   "clade_fine": "Mucoromycota",
+   "cluster": "UniRef50_UPI00221EE070",
+   "id": "UniRef50_A0A1X2G497"
+  },
+  {
+   "clade_fine": "Mucoromycota",
+   "cluster": "UniRef50_UPI00221EE070",
+   "id": "UniRef50_A0A1X2GEL7"
+  },
+  {
+   "clade_fine": "Mucoromycota",
+   "cluster": "UniRef50_UPI00221EE070",
+   "id": "UniRef50_A0A1X2GZA9"
+  },
+  {
+   "clade_fine": "Mucoromycota",
+   "cluster": "UniRef50_UPI00221EE070",
+   "id": "UniRef50_A0A1X2H7K4"
+  },
+  {
+   "clade_fine": "Basidiobolomycota",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_A0A1Y1ZDF8"
+  },
+  {
+   "clade_fine": "Dothideomycetes",
+   "cluster": "UniRef50_A0AAN6LU94",
+   "id": "UniRef50_A0A1Y2A5R9"
+  },
+  {
+   "clade_fine": "Dothideomycetes",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_A0A1Y2A6S5"
+  },
+  {
+   "clade_fine": "Taphrinomycotina",
+   "cluster": "UniRef50_A0A1Y2FGQ1",
+   "id": "UniRef50_A0A1Y2FGQ1"
+  },
+  {
+   "clade_fine": "Dothideomycetes",
+   "cluster": "UniRef50_A0AAN6LU94",
+   "id": "UniRef50_A0A1Y2LZV7"
+  },
+  {
+   "clade_fine": "Sordariomycetes",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_A0A1Y2X1V6"
+  },
+  {
+   "clade_fine": "Eurotiomycetes",
+   "cluster": "UniRef50_A0A395H0H1",
+   "id": "UniRef50_A0A229YBK2"
+  },
+  {
+   "clade_fine": "Eurotiomycetes",
+   "cluster": "UniRef50_A0A9P9WH60",
+   "id": "UniRef50_A0A2B7Y7R7"
+  },
+  {
+   "clade_fine": "Sordariomycetes",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_A0A2C5WTF0"
+  },
+  {
+   "clade_fine": "Mucoromycota",
+   "cluster": "UniRef50_UPI00221EE070",
+   "id": "UniRef50_A0A2G4SW26"
+  },
+  {
+   "clade_fine": "Eurotiomycetes",
+   "cluster": "UniRef50_A0A2G7FNX0",
+   "id": "UniRef50_A0A2G7FNX0"
+  },
+  {
+   "clade_fine": "Eurotiomycetes",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_A0A2H3I704"
+  },
+  {
+   "clade_fine": "Eurotiomycetes",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_A0A2H3IGI6"
+  },
+  {
+   "clade_fine": "Eurotiomycetes",
+   "cluster": "UniRef50_A0A395H0H1",
+   "id": "UniRef50_A0A2I1D0D8"
+  },
+  {
+   "clade_fine": "Eurotiomycetes",
+   "cluster": "UniRef50_A0A395H0H1",
+   "id": "UniRef50_A0A2I2G402"
+  },
+  {
+   "clade_fine": "Leotiomycetes",
+   "cluster": "UniRef50_A0A2J6PDJ6",
+   "id": "UniRef50_A0A2J6PDJ6"
+  },
+  {
+   "clade_fine": "Leotiomycetes",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_A0A2J6QLR7"
+  },
+  {
+   "clade_fine": "Leotiomycetes",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_A0A2J6QSX7"
+  },
+  {
+   "clade_fine": "Leotiomycetes",
+   "cluster": "UniRef50_A0A2J6PDJ6",
+   "id": "UniRef50_A0A2J6R1J8"
+  },
+  {
+   "clade_fine": "Leotiomycetes",
+   "cluster": "UniRef50_S3DC47",
+   "id": "UniRef50_A0A2J6RUC7"
+  },
+  {
+   "clade_fine": "Leotiomycetes",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_A0A2J6RWW2"
+  },
+  {
+   "clade_fine": "Sordariomycetes",
+   "cluster": "UniRef50_A0A8K0M2Q4",
+   "id": "UniRef50_A0A2L2TRM1"
+  },
+  {
+   "clade_fine": "Sordariomycetes",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_A0A2N3N5R5"
+  },
+  {
+   "clade_fine": "Leotiomycetes",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_A0A2S7QKD0"
+  },
+  {
+   "clade_fine": "Kickxellomycota",
+   "cluster": "UniRef50_A0A1R1PUS9",
+   "id": "UniRef50_A0A2T9XYW1"
+  },
+  {
+   "clade_fine": "Kickxellomycota",
+   "cluster": "UniRef50_A0A2T9YAY1",
+   "id": "UniRef50_A0A2T9Y9P8"
+  },
+  {
+   "clade_fine": "Kickxellomycota",
+   "cluster": "UniRef50_A0A2T9YAY1",
+   "id": "UniRef50_A0A2T9YAY1"
+  },
+  {
+   "clade_fine": "Kickxellomycota",
+   "cluster": "UniRef50_A0A1R1PUS9",
+   "id": "UniRef50_A0A2T9YSK6"
+  },
+  {
+   "clade_fine": "Kickxellomycota",
+   "cluster": "UniRef50_A0A2T9YAY1",
+   "id": "UniRef50_A0A2T9Z3N4"
+  },
+  {
+   "clade_fine": "Kickxellomycota",
+   "cluster": "UniRef50_A0A2T9YAY1",
+   "id": "UniRef50_A0A2T9ZBY4"
+  },
+  {
+   "clade_fine": "Kickxellomycota",
+   "cluster": "UniRef50_A0A2T9ZHI4",
+   "id": "UniRef50_A0A2T9ZHI4"
+  },
+  {
+   "clade_fine": "Saccharomycotina",
+   "cluster": "UniRef50_A0A9P7BAC1",
+   "id": "UniRef50_A0A2V1AAM2"
+  },
+  {
+   "clade_fine": "Leotiomycetes",
+   "cluster": "UniRef50_A0A2V1CCS7",
+   "id": "UniRef50_A0A2V1CCS7"
+  },
+  {
+   "clade_fine": "Dothideomycetes",
+   "cluster": "UniRef50_A0A9W4UQW4",
+   "id": "UniRef50_A0A2V1D7Z6"
+  },
+  {
+   "clade_fine": "Eurotiomycetes",
+   "cluster": "UniRef50_A0A395H0H1",
+   "id": "UniRef50_A0A317X0T0"
+  },
+  {
+   "clade_fine": "Eurotiomycetes",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_A0A364L0W1"
+  },
+  {
+   "clade_fine": "Mucoromycota",
+   "cluster": "UniRef50_UPI00221EE070",
+   "id": "UniRef50_A0A367KQ54"
+  },
+  {
+   "clade_fine": "Sordariomycetes",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_A0A367L492"
+  },
+  {
+   "clade_fine": "Saccharomycotina",
+   "cluster": "UniRef50_A0A9P7BAC1",
+   "id": "UniRef50_A0A376B811"
+  },
+  {
+   "clade_fine": "Eurotiomycetes",
+   "cluster": "UniRef50_A0A395H0H1",
+   "id": "UniRef50_A0A395H0H1"
+  },
+  {
+   "clade_fine": "Eurotiomycetes",
+   "cluster": "UniRef50_A0A2G7FNX0",
+   "id": "UniRef50_A0A395HZM5"
+  },
+  {
+   "clade_fine": "Sordariomycetes",
+   "cluster": "UniRef50_A0A8K0M2Q4",
+   "id": "UniRef50_A0A395SJA1"
+  },
+  {
+   "clade_fine": "Eurotiomycetes",
+   "cluster": "UniRef50_A0A395H0H1",
+   "id": "UniRef50_A0A3A2ZIY8"
+  },
+  {
+   "clade_fine": "Leotiomycetes",
+   "cluster": "UniRef50_A0A3D8SFD2",
+   "id": "UniRef50_A0A3D8SFD2"
+  },
+  {
+   "clade_fine": "Leotiomycetes",
+   "cluster": "UniRef50_S3DC47",
+   "id": "UniRef50_A0A3D8SG67"
+  },
+  {
+   "clade_fine": "Leotiomycetes",
+   "cluster": "UniRef50_A0A3E2GS93",
+   "id": "UniRef50_A0A3E2GS93"
+  },
+  {
+   "clade_fine": "Eurotiomycetes",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_A0A3M7NFA6"
+  },
+  {
+   "clade_fine": "Sordariomycetes",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_A0A3N2Q428"
+  },
+  {
+   "clade_fine": "Mucoromycota",
+   "cluster": "UniRef50_UPI00221EE070",
+   "id": "UniRef50_A0A433DIB8"
+  },
+  {
+   "clade_fine": "Mucoromycota",
+   "cluster": "UniRef50_UPI00221EE070",
+   "id": "UniRef50_A0A433QWD2"
+  },
+  {
+   "clade_fine": "Orbiliomycetes",
+   "cluster": "UniRef50_A0A437A077",
+   "id": "UniRef50_A0A437A077"
+  },
+  {
+   "clade_fine": "Eurotiomycetes",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_A0A438NAS1"
+  },
+  {
+   "clade_fine": "Saccharomycotina",
+   "cluster": "UniRef50_A0AAX4HFV2",
+   "id": "UniRef50_A0A448YRT4"
+  },
+  {
+   "clade_fine": "Saccharomycotina",
+   "cluster": "UniRef50_A0A1Y2FGQ1",
+   "id": "UniRef50_A0A4C2E953"
+  },
+  {
+   "clade_fine": "Saccharomycotina",
+   "cluster": "UniRef50_A0AAX4HFV2",
+   "id": "UniRef50_A0A4P9ZG60"
+  },
+  {
+   "clade_fine": "Kickxellomycota",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_A0A4Q0A2V0"
+  },
+  {
+   "clade_fine": "Sordariomycetes",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_A0A4Q4UJ95"
+  },
+  {
+   "clade_fine": "Saccharomycotina",
+   "cluster": "UniRef50_A0AAW0FPK6",
+   "id": "UniRef50_A0A4T0X6D0"
+  },
+  {
+   "clade_fine": "Dothideomycetes",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_A0A4U0U4J6"
+  },
+  {
+   "clade_fine": "Dothideomycetes",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_A0A4U0UF24"
+  },
+  {
+   "clade_fine": "Dothideomycetes",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_A0A4U0XLH7"
+  },
+  {
+   "clade_fine": "Dothideomycetes",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_A0A4U0Y175"
+  },
+  {
+   "clade_fine": "Zoopagomycota",
+   "cluster": "UniRef50_A0A4V1J163",
+   "id": "UniRef50_A0A4V1J163"
+  },
+  {
+   "clade_fine": "Dothideomycetes",
+   "cluster": "UniRef50_A0A4Z1NFD6",
+   "id": "UniRef50_A0A4Z1NFD6"
+  },
+  {
+   "clade_fine": "Chytridiomycota",
+   "cluster": "UniRef50_A0A507C8W5",
+   "id": "UniRef50_A0A507C8W5"
+  },
+  {
+   "clade_fine": "Dothideomycetes",
+   "cluster": "UniRef50_A0A4Z1NFD6",
+   "id": "UniRef50_A0A517L6S0"
+  },
+  {
+   "clade_fine": "Sordariomycetes",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_A0A553IAA1"
+  },
+  {
+   "clade_fine": "Eurotiomycetes",
+   "cluster": "UniRef50_A0A395H0H1",
+   "id": "UniRef50_A0A5M3YVC3"
+  },
+  {
+   "clade_fine": "Dothideomycetes",
+   "cluster": "UniRef50_A0A5N5CUD3",
+   "id": "UniRef50_A0A5N5CUD3"
+  },
+  {
+   "clade_fine": "Dothideomycetes",
+   "cluster": "UniRef50_A0A1J9RNH5",
+   "id": "UniRef50_A0A5N5CUV7"
+  },
+  {
+   "clade_fine": "Dothideomycetes",
+   "cluster": "UniRef50_A0A5N5DN88",
+   "id": "UniRef50_A0A5N5DN88"
+  },
+  {
+   "clade_fine": "Dothideomycetes",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_A0A5N5DS10"
+  },
+  {
+   "clade_fine": "Sordariomycetes",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_A0A5N5MIX6"
+  },
+  {
+   "clade_fine": "Eurotiomycetes",
+   "cluster": "UniRef50_A0A395H0H1",
+   "id": "UniRef50_A0A5N5WI16"
+  },
+  {
+   "clade_fine": "Eurotiomycetes",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_A0A5N6UF17"
+  },
+  {
+   "clade_fine": "Saccharomycotina",
+   "cluster": "UniRef50_A0AAW0FPK6",
+   "id": "UniRef50_A0A642UI12"
+  },
+  {
+   "clade_fine": "Saccharomycotina",
+   "cluster": "UniRef50_A0A1Y2FGQ1",
+   "id": "UniRef50_A0A642UKZ8"
+  },
+  {
+   "clade_fine": "Saccharomycotina",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_A0A642V7X9"
+  },
+  {
+   "clade_fine": "Dothideomycetes",
+   "cluster": "UniRef50_A0A6A5W5K2",
+   "id": "UniRef50_A0A6A5W5K2"
+  },
+  {
+   "clade_fine": "Dothideomycetes",
+   "cluster": "UniRef50_A0A6A5Y592",
+   "id": "UniRef50_A0A6A5Y592"
+  },
+  {
+   "clade_fine": "Dothideomycetes",
+   "cluster": "UniRef50_A0AAN6LU94",
+   "id": "UniRef50_A0A6A5ZB30"
+  },
+  {
+   "clade_fine": "Dothideomycetes",
+   "cluster": "UniRef50_A0A6A6AW51",
+   "id": "UniRef50_A0A6A5ZMW0"
+  },
+  {
+   "clade_fine": "Dothideomycetes",
+   "cluster": "UniRef50_A0A6A6AW51",
+   "id": "UniRef50_A0A6A6AW51"
+  },
+  {
+   "clade_fine": "Dothideomycetes",
+   "cluster": "UniRef50_A0A6A6AW51",
+   "id": "UniRef50_A0A6A6AZJ4"
+  },
+  {
+   "clade_fine": "Dothideomycetes",
+   "cluster": "UniRef50_A0A6A6AW51",
+   "id": "UniRef50_A0A6A6B0M3"
+  },
+  {
+   "clade_fine": "Dothideomycetes",
+   "cluster": "UniRef50_A0A6A6AW51",
+   "id": "UniRef50_A0A6A6B1V9"
+  },
+  {
+   "clade_fine": "Dothideomycetes",
+   "cluster": "UniRef50_A0A6A6AW51",
+   "id": "UniRef50_A0A6A6B6M2"
+  },
+  {
+   "clade_fine": "Dothideomycetes",
+   "cluster": "UniRef50_A0A6A6B896",
+   "id": "UniRef50_A0A6A6B896"
+  },
+  {
+   "clade_fine": "Dothideomycetes",
+   "cluster": "UniRef50_A0A6A6AW51",
+   "id": "UniRef50_A0A6A6BDU8"
+  },
+  {
+   "clade_fine": "Dothideomycetes",
+   "cluster": "UniRef50_A0A6A6AW51",
+   "id": "UniRef50_A0A6A6BHU7"
+  },
+  {
+   "clade_fine": "Dothideomycetes",
+   "cluster": "UniRef50_A0A5N5CUD3",
+   "id": "UniRef50_A0A6A6BI49"
+  },
+  {
+   "clade_fine": "Dothideomycetes",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_A0A6A6C8D2"
+  },
+  {
+   "clade_fine": "Dothideomycetes",
+   "cluster": "UniRef50_A0AAN6LU94",
+   "id": "UniRef50_A0A6A6EG15"
+  },
+  {
+   "clade_fine": "Dothideomycetes",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_A0A6A6HCC6"
+  },
+  {
+   "clade_fine": "Dothideomycetes",
+   "cluster": "UniRef50_A0A6A6NZ62",
+   "id": "UniRef50_A0A6A6NZ62"
+  },
+  {
+   "clade_fine": "Dothideomycetes",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_A0A6A6PLB5"
+  },
+  {
+   "clade_fine": "Dothideomycetes",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_A0A6A6QYI8"
+  },
+  {
+   "clade_fine": "Dothideomycetes",
+   "cluster": "UniRef50_A0A6A6R8D1",
+   "id": "UniRef50_A0A6A6R8D1"
+  },
+  {
+   "clade_fine": "Dothideomycetes",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_A0A6A6S5C0"
+  },
+  {
+   "clade_fine": "Dothideomycetes",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_A0A6A6SYN8"
+  },
+  {
+   "clade_fine": "Dothideomycetes",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_A0A6A6V915"
+  },
+  {
+   "clade_fine": "Dothideomycetes",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_A0A6A6WB15"
+  },
+  {
+   "clade_fine": "Dothideomycetes",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_A0A6A6WRU6"
+  },
+  {
+   "clade_fine": "Dothideomycetes",
+   "cluster": "UniRef50_A0AAN6LU94",
+   "id": "UniRef50_A0A6A6XWK2"
+  },
+  {
+   "clade_fine": "Dothideomycetes",
+   "cluster": "UniRef50_A0A6A6Z2Q1",
+   "id": "UniRef50_A0A6A6Z2Q1"
+  },
+  {
+   "clade_fine": "Dothideomycetes",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_A0A6G1G986"
+  },
+  {
+   "clade_fine": "Dothideomycetes",
+   "cluster": "UniRef50_A0A6G1H2H1",
+   "id": "UniRef50_A0A6G1H2H1"
+  },
+  {
+   "clade_fine": "Dothideomycetes",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_A0A6G1H4M7"
+  },
+  {
+   "clade_fine": "Dothideomycetes",
+   "cluster": "UniRef50_A0AAN6LU94",
+   "id": "UniRef50_A0A6G1J9J4"
+  },
+  {
+   "clade_fine": "Dothideomycetes",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_A0A6G1L3V2"
+  },
+  {
+   "clade_fine": "Dothideomycetes",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_A0A6H0XQU6"
+  },
+  {
+   "clade_fine": "Dothideomycetes",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_A0A6J3LWD8"
+  },
+  {
+   "clade_fine": "Dothideomycetes",
+   "cluster": "UniRef50_A0A6A6AW51",
+   "id": "UniRef50_A0A7C8I5H6"
+  },
+  {
+   "clade_fine": "Dothideomycetes",
+   "cluster": "UniRef50_A0AAN6LU94",
+   "id": "UniRef50_A0A7C8I6V0"
+  },
+  {
+   "clade_fine": "Saccharomycotina",
+   "cluster": "UniRef50_A0A1Y2FGQ1",
+   "id": "UniRef50_A0A7G3ZFB6"
+  },
+  {
+   "clade_fine": "Eurotiomycetes",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_A0A7H8R4H5"
+  },
+  {
+   "clade_fine": "Saccharomycotina",
+   "cluster": "UniRef50_A0A9P7BAC1",
+   "id": "UniRef50_A0A7H9AVN5"
+  },
+  {
+   "clade_fine": "Taphrinomycotina",
+   "cluster": "UniRef50_A0A8H8DPY6",
+   "id": "UniRef50_A0A899G8U1"
+  },
+  {
+   "clade_fine": "Leotiomycetes",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_A0A8A3P1H1"
+  },
+  {
+   "clade_fine": "Dothideomycetes",
+   "cluster": "UniRef50_A0A8E2EVL7",
+   "id": "UniRef50_A0A8E2EVL7"
+  },
+  {
+   "clade_fine": "Orbiliomycetes",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_A0A8H2DJK5"
+  },
+  {
+   "clade_fine": "Lecanoromycetes",
+   "cluster": "UniRef50_A0A8H3I9B7",
+   "id": "UniRef50_A0A8H3ESX7"
+  },
+  {
+   "clade_fine": "Lecanoromycetes",
+   "cluster": "UniRef50_A0A8H3I9B7",
+   "id": "UniRef50_A0A8H3I9B7"
+  },
+  {
+   "clade_fine": "Dothideomycetes",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_A0A8H3VDX4"
+  },
+  {
+   "clade_fine": "Dothideomycetes",
+   "cluster": "UniRef50_A0A8H3VL16",
+   "id": "UniRef50_A0A8H3VL16"
+  },
+  {
+   "clade_fine": "Dothideomycetes",
+   "cluster": "UniRef50_A0A5N5DN88",
+   "id": "UniRef50_A0A8H4IQG0"
+  },
+  {
+   "clade_fine": "Dothideomycetes",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_A0A8H4IXH5"
+  },
+  {
+   "clade_fine": "Dothideomycetes",
+   "cluster": "UniRef50_A0A6A6AW51",
+   "id": "UniRef50_A0A8H4J0I8"
+  },
+  {
+   "clade_fine": "Dothideomycetes",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_A0A8H4N2W9"
+  },
+  {
+   "clade_fine": "Dothideomycetes",
+   "cluster": "UniRef50_A0A8H4N361",
+   "id": "UniRef50_A0A8H4N361"
+  },
+  {
+   "clade_fine": "Dothideomycetes",
+   "cluster": "UniRef50_A0A1J9RNH5",
+   "id": "UniRef50_A0A8H4N7X1"
+  },
+  {
+   "clade_fine": "Leotiomycetes",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_A0A8H4RGR8"
+  },
+  {
+   "clade_fine": "Leotiomycetes",
+   "cluster": "UniRef50_A0A8H4RLN0",
+   "id": "UniRef50_A0A8H4RLN0"
+  },
+  {
+   "clade_fine": "Leotiomycetes",
+   "cluster": "UniRef50_S3DC47",
+   "id": "UniRef50_A0A8H4RRX7"
+  },
+  {
+   "clade_fine": "Leotiomycetes",
+   "cluster": "UniRef50_A0A8H4RW97",
+   "id": "UniRef50_A0A8H4RW97"
+  },
+  {
+   "clade_fine": "Sordariomycetes",
+   "cluster": "UniRef50_A0A8H5PUB8",
+   "id": "UniRef50_A0A8H5PUB8"
+  },
+  {
+   "clade_fine": "Sordariomycetes",
+   "cluster": "UniRef50_A0A8H5VVL9",
+   "id": "UniRef50_A0A8H5VVL9"
+  },
+  {
+   "clade_fine": "Sordariomycetes",
+   "cluster": "UniRef50_A0A8H5Z4E8",
+   "id": "UniRef50_A0A8H5Z4E8"
+  },
+  {
+   "clade_fine": "Saccharomycotina",
+   "cluster": "UniRef50_A0AAW0FPK6",
+   "id": "UniRef50_A0A8H6BTZ9"
+  },
+  {
+   "clade_fine": "Dothideomycetes",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_A0A8H6VDK3"
+  },
+  {
+   "clade_fine": "Dothideomycetes",
+   "cluster": "UniRef50_A0A8H7INX0",
+   "id": "UniRef50_A0A8H7INX0"
+  },
+  {
+   "clade_fine": "Dothideomycetes",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_A0A8H7IS93"
+  },
+  {
+   "clade_fine": "Dothideomycetes",
+   "cluster": "UniRef50_A0AAN6LU94",
+   "id": "UniRef50_A0A8H7MIT0"
+  },
+  {
+   "clade_fine": "Mucoromycota",
+   "cluster": "UniRef50_UPI00221EE070",
+   "id": "UniRef50_A0A8H7Q1V6"
+  },
+  {
+   "clade_fine": "Mucoromycota",
+   "cluster": "UniRef50_UPI00221EE070",
+   "id": "UniRef50_A0A8H7UAG6"
+  },
+  {
+   "clade_fine": "Taphrinomycotina",
+   "cluster": "UniRef50_A0A8H8DPY6",
+   "id": "UniRef50_A0A8H8DPY6"
+  },
+  {
+   "clade_fine": "Leotiomycetes",
+   "cluster": "UniRef50_S3DC47",
+   "id": "UniRef50_A0A8H8R6G8"
+  },
+  {
+   "clade_fine": "Saccharomycotina",
+   "cluster": "UniRef50_A0A1Y2FGQ1",
+   "id": "UniRef50_A0A8J5BAB3"
+  },
+  {
+   "clade_fine": "Saccharomycotina",
+   "cluster": "UniRef50_A0AAX4HFV2",
+   "id": "UniRef50_A0A8J5QE19"
+  },
+  {
+   "clade_fine": "Sordariomycetes",
+   "cluster": "UniRef50_A0A8K0M2Q4",
+   "id": "UniRef50_A0A8K0M2Q4"
+  },
+  {
+   "clade_fine": "Sordariomycetes",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_A0A8K0WVY7"
+  },
+  {
+   "clade_fine": "Sordariomycetes",
+   "cluster": "UniRef50_A0A8K0X3J4",
+   "id": "UniRef50_A0A8K0X3J4"
+  },
+  {
+   "clade_fine": "Leotiomycetes",
+   "cluster": "UniRef50_S3DC47",
+   "id": "UniRef50_A0A8T9C9T0"
+  },
+  {
+   "clade_fine": "Glomeromycota",
+   "cluster": "UniRef50_A0A9N9GLU1",
+   "id": "UniRef50_A0A9N9B2B8"
+  },
+  {
+   "clade_fine": "Glomeromycota",
+   "cluster": "UniRef50_UPI00221EE070",
+   "id": "UniRef50_A0A9N9B3V8"
+  },
+  {
+   "clade_fine": "Glomeromycota",
+   "cluster": "UniRef50_A0A9N9CEG0",
+   "id": "UniRef50_A0A9N9CEG0"
+  },
+  {
+   "clade_fine": "Glomeromycota",
+   "cluster": "UniRef50_A0A9N9CEG0",
+   "id": "UniRef50_A0A9N9CH87"
+  },
+  {
+   "clade_fine": "Glomeromycota",
+   "cluster": "UniRef50_A0A9N9GLU1",
+   "id": "UniRef50_A0A9N9D5I5"
+  },
+  {
+   "clade_fine": "Glomeromycota",
+   "cluster": "UniRef50_A0A9N9GLU1",
+   "id": "UniRef50_A0A9N9DGY8"
+  },
+  {
+   "clade_fine": "Glomeromycota",
+   "cluster": "UniRef50_A0A9N9GLU1",
+   "id": "UniRef50_A0A9N9GLU1"
+  },
+  {
+   "clade_fine": "Leotiomycetes",
+   "cluster": "UniRef50_A0A9N9PR27",
+   "id": "UniRef50_A0A9N9LUS1"
+  },
+  {
+   "clade_fine": "Glomeromycota",
+   "cluster": "UniRef50_A0A9N9CEG0",
+   "id": "UniRef50_A0A9N9NE43"
+  },
+  {
+   "clade_fine": "Leotiomycetes",
+   "cluster": "UniRef50_A0A9N9PR27",
+   "id": "UniRef50_A0A9N9PR27"
+  },
+  {
+   "clade_fine": "Leotiomycetes",
+   "cluster": "UniRef50_A0A9N9PRT1",
+   "id": "UniRef50_A0A9N9PRT1"
+  },
+  {
+   "clade_fine": "Leotiomycetes",
+   "cluster": "UniRef50_A0A9N9PRT1",
+   "id": "UniRef50_A0A9N9Q670"
+  },
+  {
+   "clade_fine": "Sordariomycetes",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_A0A9N9V0B8"
+  },
+  {
+   "clade_fine": "Saccharomycotina",
+   "cluster": "UniRef50_A0AAX4HFV2",
+   "id": "UniRef50_A0A9P0QRD2"
+  },
+  {
+   "clade_fine": "Dothideomycetes",
+   "cluster": "UniRef50_A0A9P4H376",
+   "id": "UniRef50_A0A9P4H376"
+  },
+  {
+   "clade_fine": "Dothideomycetes",
+   "cluster": "UniRef50_A0AAN6LU94",
+   "id": "UniRef50_A0A9P4JBL3"
+  },
+  {
+   "clade_fine": "Dothideomycetes",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_A0A9P4N9Q4"
+  },
+  {
+   "clade_fine": "Dothideomycetes",
+   "cluster": "UniRef50_A0A6A6AW51",
+   "id": "UniRef50_A0A9P4QPR9"
+  },
+  {
+   "clade_fine": "Dothideomycetes",
+   "cluster": "UniRef50_A0AAN6LU94",
+   "id": "UniRef50_A0A9P4UC15"
+  },
+  {
+   "clade_fine": "Dothideomycetes",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_A0A9P4VP75"
+  },
+  {
+   "clade_fine": "Sordariomycetes",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_A0A9P5H0C5"
+  },
+  {
+   "clade_fine": "Mucoromycota",
+   "cluster": "UniRef50_A0A9P6TMA7",
+   "id": "UniRef50_A0A9P6TMA7"
+  },
+  {
+   "clade_fine": "Mortierellomycota",
+   "cluster": "UniRef50_A0A2T9YAY1",
+   "id": "UniRef50_A0A9P6V912"
+  },
+  {
+   "clade_fine": "Saccharomycotina",
+   "cluster": "UniRef50_A0A9P7BAC1",
+   "id": "UniRef50_A0A9P6WC61"
+  },
+  {
+   "clade_fine": "Mucoromycota",
+   "cluster": "UniRef50_I1C9M9",
+   "id": "UniRef50_A0A9P6XBN9"
+  },
+  {
+   "clade_fine": "Saccharomycotina",
+   "cluster": "UniRef50_A0A9P7BAC1",
+   "id": "UniRef50_A0A9P7BAC1"
+  },
+  {
+   "clade_fine": "Saccharomycotina",
+   "cluster": "UniRef50_A0A9P7BAC1",
+   "id": "UniRef50_A0A9P7V8R5"
+  },
+  {
+   "clade_fine": "Leotiomycetes",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_A0A9P7YA76"
+  },
+  {
+   "clade_fine": "Saccharomycotina",
+   "cluster": "UniRef50_A0AAX4HFV2",
+   "id": "UniRef50_A0A9P8AGP6"
+  },
+  {
+   "clade_fine": "Dothideomycetes",
+   "cluster": "UniRef50_A0A9P8F622",
+   "id": "UniRef50_A0A9P8F622"
+  },
+  {
+   "clade_fine": "Geoglossomycetes",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_A0A9P8IG48"
+  },
+  {
+   "clade_fine": "Geoglossomycetes",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_A0A9P8LIP0"
+  },
+  {
+   "clade_fine": "Saccharomycotina",
+   "cluster": "UniRef50_A0AAX4HFV2",
+   "id": "UniRef50_A0A9P8Q3E7"
+  },
+  {
+   "clade_fine": "Sordariomycetes",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_A0A9P8VM66"
+  },
+  {
+   "clade_fine": "Sordariomycetes",
+   "cluster": "UniRef50_A0A8K0M2Q4",
+   "id": "UniRef50_A0A9P8VVR3"
+  },
+  {
+   "clade_fine": "Sordariomycetes",
+   "cluster": "UniRef50_A0A8K0M2Q4",
+   "id": "UniRef50_A0A9P9DK36"
+  },
+  {
+   "clade_fine": "Leotiomycetes",
+   "cluster": "UniRef50_A0A9P9RTJ2",
+   "id": "UniRef50_A0A9P9RTJ2"
+  },
+  {
+   "clade_fine": "Sordariomycetes",
+   "cluster": "UniRef50_A0A9P9WH60",
+   "id": "UniRef50_A0A9P9WH60"
+  },
+  {
+   "clade_fine": "Sordariomycetes",
+   "cluster": "UniRef50_A0A9P9WSM6",
+   "id": "UniRef50_A0A9P9WSM6"
+  },
+  {
+   "clade_fine": "Sordariomycetes",
+   "cluster": "UniRef50_A0A9Q0BC55",
+   "id": "UniRef50_A0A9Q0BC55"
+  },
+  {
+   "clade_fine": "Dothideomycetes",
+   "cluster": "UniRef50_A0A9Q8Z5V2",
+   "id": "UniRef50_A0A9Q8Z5V2"
+  },
+  {
+   "clade_fine": "Dothideomycetes",
+   "cluster": "UniRef50_A0A9W4UQW4",
+   "id": "UniRef50_A0A9W4UQW4"
+  },
+  {
+   "clade_fine": "Saccharomycotina",
+   "cluster": "UniRef50_A0AAX4HFV2",
+   "id": "UniRef50_A0A9W4X9E8"
+  },
+  {
+   "clade_fine": "Saccharomycotina",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_A0A9W4XEX8"
+  },
+  {
+   "clade_fine": "Dothideomycetes",
+   "cluster": "UniRef50_A0A2T9YAY1",
+   "id": "UniRef50_A0A9W4XRT3"
+  },
+  {
+   "clade_fine": "Saccharomycotina",
+   "cluster": "UniRef50_A0AAX4HFV2",
+   "id": "UniRef50_A0A9W6SY57"
+  },
+  {
+   "clade_fine": "Saccharomycotina",
+   "cluster": "UniRef50_A0AAX4HFV2",
+   "id": "UniRef50_A0A9W6YT54"
+  },
+  {
+   "clade_fine": "Saccharomycotina",
+   "cluster": "UniRef50_A0A9P8F622",
+   "id": "UniRef50_A0A9W6YXF2"
+  },
+  {
+   "clade_fine": "Saccharomycotina",
+   "cluster": "UniRef50_A0A9W6Z3G8",
+   "id": "UniRef50_A0A9W6Z3G8"
+  },
+  {
+   "clade_fine": "Kickxellomycota",
+   "cluster": "UniRef50_A0A9W7ZL18",
+   "id": "UniRef50_A0A9W7ZL18"
+  },
+  {
+   "clade_fine": "Kickxellomycota",
+   "cluster": "UniRef50_A0A2T9YAY1",
+   "id": "UniRef50_A0A9W7ZTL1"
+  },
+  {
+   "clade_fine": "Kickxellomycota",
+   "cluster": "UniRef50_A0A9W8AID0",
+   "id": "UniRef50_A0A9W8AAN1"
+  },
+  {
+   "clade_fine": "Kickxellomycota",
+   "cluster": "UniRef50_A0A9W8AID0",
+   "id": "UniRef50_A0A9W8AID0"
+  },
+  {
+   "clade_fine": "Kickxellomycota",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_A0A9W8AJD8"
+  },
+  {
+   "clade_fine": "Kickxellomycota",
+   "cluster": "UniRef50_A0A9W8AID0",
+   "id": "UniRef50_A0A9W8AKN2"
+  },
+  {
+   "clade_fine": "Kickxellomycota",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_A0A9W8B0V2"
+  },
+  {
+   "clade_fine": "Kickxellomycota",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_A0A9W8B5I2"
+  },
+  {
+   "clade_fine": "Kickxellomycota",
+   "cluster": "UniRef50_A0A2T9YAY1",
+   "id": "UniRef50_A0A9W8H7M8"
+  },
+  {
+   "clade_fine": "Kickxellomycota",
+   "cluster": "UniRef50_A0A2T9YAY1",
+   "id": "UniRef50_A0A9W8I9K5"
+  },
+  {
+   "clade_fine": "Sordariomycetes",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_A0A9W8YWD0"
+  },
+  {
+   "clade_fine": "Eurotiomycetes",
+   "cluster": "UniRef50_A0A9W9FT23",
+   "id": "UniRef50_A0A9W9FT23"
+  },
+  {
+   "clade_fine": "Eurotiomycetes",
+   "cluster": "UniRef50_A0A165A0B7",
+   "id": "UniRef50_A0A9W9FUG8"
+  },
+  {
+   "clade_fine": "Eurotiomycetes",
+   "cluster": "UniRef50_A0A395H0H1",
+   "id": "UniRef50_A0A9W9G6X9"
+  },
+  {
+   "clade_fine": "Eurotiomycetes",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_A0A9W9G7J5"
+  },
+  {
+   "clade_fine": "Eurotiomycetes",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_A0A9W9III9"
+  },
+  {
+   "clade_fine": "Eurotiomycetes",
+   "cluster": "UniRef50_A0A1Y2FGQ1",
+   "id": "UniRef50_A0A9W9JWM4"
+  },
+  {
+   "clade_fine": "Eurotiomycetes",
+   "cluster": "UniRef50_A0A395H0H1",
+   "id": "UniRef50_A0A9W9NPR9"
+  },
+  {
+   "clade_fine": "Eurotiomycetes",
+   "cluster": "UniRef50_A0A395H0H1",
+   "id": "UniRef50_A0A9W9W766"
+  },
+  {
+   "clade_fine": "Sordariomycetes",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_A0AA39GIM2"
+  },
+  {
+   "clade_fine": "Dothideomycetes",
+   "cluster": "UniRef50_A0A1J9RNH5",
+   "id": "UniRef50_A0AA39WHG3"
+  },
+  {
+   "clade_fine": "Sordariomycetes",
+   "cluster": "UniRef50_A0A8K0M2Q4",
+   "id": "UniRef50_A0AA40DPI2"
+  },
+  {
+   "clade_fine": "Sordariomycetes",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_A0AA40DQY3"
+  },
+  {
+   "clade_fine": "Sordariomycetes",
+   "cluster": "UniRef50_A0A8K0M2Q4",
+   "id": "UniRef50_A0AA40F0P7"
+  },
+  {
+   "clade_fine": "Sordariomycetes",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_A0AA40FC85"
+  },
+  {
+   "clade_fine": "Sordariomycetes",
+   "cluster": "UniRef50_A0A8K0M2Q4",
+   "id": "UniRef50_A0AA40K4P3"
+  },
+  {
+   "clade_fine": "Eurotiomycetes",
+   "cluster": "UniRef50_A0A395H0H1",
+   "id": "UniRef50_A0AAD4CX32"
+  },
+  {
+   "clade_fine": "Mucoromycota",
+   "cluster": "UniRef50_UPI00221EE070",
+   "id": "UniRef50_A0AAD5HGS7"
+  },
+  {
+   "clade_fine": "Mucoromycota",
+   "cluster": "UniRef50_UPI00221EE070",
+   "id": "UniRef50_A0AAD5PCI5"
+  },
+  {
+   "clade_fine": "Sordariomycetes",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_A0AAD5WUB4"
+  },
+  {
+   "clade_fine": "Orbiliomycetes",
+   "cluster": "UniRef50_A0A8K0M2Q4",
+   "id": "UniRef50_A0AAD6IS92"
+  },
+  {
+   "clade_fine": "Lecanoromycetes",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_A0AAD9Z6C9"
+  },
+  {
+   "clade_fine": "Sordariomycetes",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_A0AAE0KJ51"
+  },
+  {
+   "clade_fine": "Sordariomycetes",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_A0AAE0MUX7"
+  },
+  {
+   "clade_fine": "Saccharomycotina",
+   "cluster": "UniRef50_A0A9P7BAC1",
+   "id": "UniRef50_A0AAI9SVM0"
+  },
+  {
+   "clade_fine": "Sordariomycetes",
+   "cluster": "UniRef50_A0A8K0M2Q4",
+   "id": "UniRef50_A0AAJ0BSX1"
+  },
+  {
+   "clade_fine": "Eurotiomycetes",
+   "cluster": "UniRef50_A0A395H0H1",
+   "id": "UniRef50_A0AAN4YSP4"
+  },
+  {
+   "clade_fine": "Saccharomycotina",
+   "cluster": "UniRef50_A0AAW0FPK6",
+   "id": "UniRef50_A0AAN6DFS1"
+  },
+  {
+   "clade_fine": "Dothideomycetes",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_A0AAN6FDN2"
+  },
+  {
+   "clade_fine": "Dothideomycetes",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_A0AAN6KH72"
+  },
+  {
+   "clade_fine": "Dothideomycetes",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_A0AAN6KTV1"
+  },
+  {
+   "clade_fine": "Dothideomycetes",
+   "cluster": "UniRef50_A0AAN6LU94",
+   "id": "UniRef50_A0AAN6LU94"
+  },
+  {
+   "clade_fine": "Sordariomycetes",
+   "cluster": "UniRef50_A0A9P9WSM6",
+   "id": "UniRef50_A0AAN6N2C4"
+  },
+  {
+   "clade_fine": "Dothideomycetes",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_A0AAN6RKC6"
+  },
+  {
+   "clade_fine": "Sordariomycetes",
+   "cluster": "UniRef50_A0A9P9WH60",
+   "id": "UniRef50_A0AAN7B1Z0"
+  },
+  {
+   "clade_fine": "Mucoromycota",
+   "cluster": "UniRef50_UPI00221EE070",
+   "id": "UniRef50_A0AAN7DMD8"
+  },
+  {
+   "clade_fine": "Dothideomycetes",
+   "cluster": "UniRef50_A0AAN7W491",
+   "id": "UniRef50_A0AAN7W491"
+  },
+  {
+   "clade_fine": "Dothideomycetes",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_A0AAN7WQQ1"
+  },
+  {
+   "clade_fine": "Saccharomycotina",
+   "cluster": "UniRef50_A0A9P7BAC1",
+   "id": "UniRef50_A0AAN7ZXR1"
+  },
+  {
+   "clade_fine": "Dothideomycetes",
+   "cluster": "UniRef50_A0AAQ3M4L6",
+   "id": "UniRef50_A0AAQ3M4L6"
+  },
+  {
+   "clade_fine": "Saccharomycotina",
+   "cluster": "UniRef50_A0AAX4HFV2",
+   "id": "UniRef50_A0AAV5Q7D2"
+  },
+  {
+   "clade_fine": "Saccharomycotina",
+   "cluster": "UniRef50_A0AAX4HFV2",
+   "id": "UniRef50_A0AAV5QWS1"
+  },
+  {
+   "clade_fine": "Saccharomycotina",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_A0AAV5RN53"
+  },
+  {
+   "clade_fine": "Saccharomycotina",
+   "cluster": "UniRef50_A0A9P7BAC1",
+   "id": "UniRef50_A0AAV5RYX2"
+  },
+  {
+   "clade_fine": "Saccharomycotina",
+   "cluster": "UniRef50_A0A9P7BAC1",
+   "id": "UniRef50_A0AAV5S3E0"
+  },
+  {
+   "clade_fine": "Sordariomycetes",
+   "cluster": "UniRef50_A0A8K0M2Q4",
+   "id": "UniRef50_A0AAV9H2H2"
+  },
+  {
+   "clade_fine": "Eurotiomycetes",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_A0AAV9N7R0"
+  },
+  {
+   "clade_fine": "Orbiliomycetes",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_A0AAV9VEV2"
+  },
+  {
+   "clade_fine": "Orbiliomycetes",
+   "cluster": "UniRef50_G1XN74",
+   "id": "UniRef50_A0AAV9X152"
+  },
+  {
+   "clade_fine": "Agaricomycetes",
+   "cluster": "UniRef50_A0AAW0FPK6",
+   "id": "UniRef50_A0AAW0FPK6"
+  },
+  {
+   "clade_fine": "Sordariomycetes",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_A0AAW0Q6J0"
+  },
+  {
+   "clade_fine": "Saccharomycotina",
+   "cluster": "UniRef50_A0A9P8F622",
+   "id": "UniRef50_A0AAX4H978"
+  },
+  {
+   "clade_fine": "Saccharomycotina",
+   "cluster": "UniRef50_A0AAX4HFV2",
+   "id": "UniRef50_A0AAX4HFV2"
+  },
+  {
+   "clade_fine": "Sordariomycetes",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_A0AAX6MG56"
+  },
+  {
+   "clade_fine": "Saccharomycotina",
+   "cluster": "UniRef50_A0AAX4HFV2",
+   "id": "UniRef50_A0AB34Q1W2"
+  },
+  {
+   "clade_fine": "Saccharomycotina",
+   "cluster": "UniRef50_A0AAW0FPK6",
+   "id": "UniRef50_A3LVQ4"
+  },
+  {
+   "clade_fine": "Saccharomycotina",
+   "cluster": "UniRef50_A0A9P7BAC1",
+   "id": "UniRef50_A5DIT4"
+  },
+  {
+   "clade_fine": "Saccharomycotina",
+   "cluster": "UniRef50_A0AAX4HFV2",
+   "id": "UniRef50_A5E1A7"
+  },
+  {
+   "clade_fine": "Saccharomycotina",
+   "cluster": "UniRef50_B5VFV5",
+   "id": "UniRef50_B5VFV5"
+  },
+  {
+   "clade_fine": "Taphrinomycotina",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_B6K4C7"
+  },
+  {
+   "clade_fine": "Eurotiomycetes",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_B6Q2L5"
+  },
+  {
+   "clade_fine": "Saccharomycotina",
+   "cluster": "UniRef50_A0AAX4HFV2",
+   "id": "UniRef50_C4R381"
+  },
+  {
+   "clade_fine": "Saccharomycotina",
+   "cluster": "UniRef50_A0AAW0FPK6",
+   "id": "UniRef50_C4Y115"
+  },
+  {
+   "clade_fine": "Saccharomycotina",
+   "cluster": "UniRef50_A0AAX4HFV2",
+   "id": "UniRef50_C4Y9E0"
+  },
+  {
+   "clade_fine": "Saccharomycotina",
+   "cluster": "UniRef50_A0AAX4HFV2",
+   "id": "UniRef50_C5DK13"
+  },
+  {
+   "clade_fine": "Sordariomycetes",
+   "cluster": "UniRef50_A0A8K0M2Q4",
+   "id": "UniRef50_C7Z981"
+  },
+  {
+   "clade_fine": "Eurotiomycetes",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_D4AZK9"
+  },
+  {
+   "clade_fine": "Sordariomycetes",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_E3QN96"
+  },
+  {
+   "clade_fine": "Dothideomycetes",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_E5R4U8"
+  },
+  {
+   "clade_fine": "Dothideomycetes",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_F9XNJ0"
+  },
+  {
+   "clade_fine": "Saccharomycotina",
+   "cluster": "UniRef50_A0A9P7BAC1",
+   "id": "UniRef50_G0V553"
+  },
+  {
+   "clade_fine": "Saccharomycotina",
+   "cluster": "UniRef50_A0A9P7BAC1",
+   "id": "UniRef50_G0VAV5"
+  },
+  {
+   "clade_fine": "Saccharomycotina",
+   "cluster": "UniRef50_A0AAX4HFV2",
+   "id": "UniRef50_G0WDA8"
+  },
+  {
+   "clade_fine": "Orbiliomycetes",
+   "cluster": "UniRef50_G1XN74",
+   "id": "UniRef50_G1XN74"
+  },
+  {
+   "clade_fine": "Orbiliomycetes",
+   "cluster": "UniRef50_G1XNP6",
+   "id": "UniRef50_G1XNP6"
+  },
+  {
+   "clade_fine": "Sordariomycetes",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_G2QTH8"
+  },
+  {
+   "clade_fine": "Saccharomycotina",
+   "cluster": "UniRef50_A0AAX4HFV2",
+   "id": "UniRef50_G3ANA1"
+  },
+  {
+   "clade_fine": "Saccharomycotina",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_G3AS84"
+  },
+  {
+   "clade_fine": "Saccharomycotina",
+   "cluster": "UniRef50_A0AAX4HFV2",
+   "id": "UniRef50_G3BAL9"
+  },
+  {
+   "clade_fine": "Saccharomycotina",
+   "cluster": "UniRef50_A0AAW0FPK6",
+   "id": "UniRef50_G3BDE2"
+  },
+  {
+   "clade_fine": "Saccharomycotina",
+   "cluster": "UniRef50_A0AAX4HFV2",
+   "id": "UniRef50_G8BFI8"
+  },
+  {
+   "clade_fine": "Saccharomycotina",
+   "cluster": "UniRef50_A0A9P7BAC1",
+   "id": "UniRef50_G8BU95"
+  },
+  {
+   "clade_fine": "Saccharomycotina",
+   "cluster": "UniRef50_A0AAX4HFV2",
+   "id": "UniRef50_G8JM29"
+  },
+  {
+   "clade_fine": "Saccharomycotina",
+   "cluster": "UniRef50_A0AAX4HFV2",
+   "id": "UniRef50_G8Y2M5"
+  },
+  {
+   "clade_fine": "Saccharomycotina",
+   "cluster": "UniRef50_A0A9P7BAC1",
+   "id": "UniRef50_G8YIE9"
+  },
+  {
+   "clade_fine": "Saccharomycotina",
+   "cluster": "UniRef50_A0A9P7BAC1",
+   "id": "UniRef50_G8ZQS9"
+  },
+  {
+   "clade_fine": "Sordariomycetes",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_G9MJ35"
+  },
+  {
+   "clade_fine": "Saccharomycotina",
+   "cluster": "UniRef50_B5VFV5",
+   "id": "UniRef50_H0GE15"
+  },
+  {
+   "clade_fine": "Saccharomycotina",
+   "cluster": "UniRef50_A0A9P7BAC1",
+   "id": "UniRef50_H0GTJ1"
+  },
+  {
+   "clade_fine": "Sordariomycetes",
+   "cluster": "UniRef50_A0A9P8F622",
+   "id": "UniRef50_H1VQH0"
+  },
+  {
+   "clade_fine": "Saccharomycotina",
+   "cluster": "UniRef50_A0A1Y2FGQ1",
+   "id": "UniRef50_H2ARM7"
+  },
+  {
+   "clade_fine": "Saccharomycotina",
+   "cluster": "UniRef50_A0A9P7BAC1",
+   "id": "UniRef50_H2ATH3"
+  },
+  {
+   "clade_fine": "Saccharomycotina",
+   "cluster": "UniRef50_A0A9P7BAC1",
+   "id": "UniRef50_H2AXQ5"
+  },
+  {
+   "clade_fine": "Mucoromycota",
+   "cluster": "UniRef50_I1C9M9",
+   "id": "UniRef50_I1C9M9"
+  },
+  {
+   "clade_fine": "Mucoromycota",
+   "cluster": "UniRef50_UPI00221EE070",
+   "id": "UniRef50_I1CQM9"
+  },
+  {
+   "clade_fine": "Saccharomycotina",
+   "cluster": "UniRef50_A0A9P7BAC1",
+   "id": "UniRef50_I2GWN5"
+  },
+  {
+   "clade_fine": "Eurotiomycetes",
+   "cluster": "UniRef50_A0A9P8F622",
+   "id": "UniRef50_I3QJH5"
+  },
+  {
+   "clade_fine": "Sordariomycetes",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_J3NN62"
+  },
+  {
+   "clade_fine": "Saccharomycotina",
+   "cluster": "UniRef50_A0AAX4HFV2",
+   "id": "UniRef50_J7R750"
+  },
+  {
+   "clade_fine": "Saccharomycotina",
+   "cluster": "UniRef50_A0A9P7BAC1",
+   "id": "UniRef50_J7RHX4"
+  },
+  {
+   "clade_fine": "Saccharomycotina",
+   "cluster": "UniRef50_A0AAX4HFV2",
+   "id": "UniRef50_K0KW97"
+  },
+  {
+   "clade_fine": "Dothideomycetes",
+   "cluster": "UniRef50_A0A1J9RNH5",
+   "id": "UniRef50_K2QX50"
+  },
+  {
+   "clade_fine": "Dothideomycetes",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_K2RN47"
+  },
+  {
+   "clade_fine": "Dothideomycetes",
+   "cluster": "UniRef50_K2RP71",
+   "id": "UniRef50_K2RP71"
+  },
+  {
+   "clade_fine": "Dothideomycetes",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_M2MR84"
+  },
+  {
+   "clade_fine": "Sordariomycetes",
+   "cluster": "UniRef50_A0A8K0M2Q4",
+   "id": "UniRef50_N4TJJ5"
+  },
+  {
+   "clade_fine": "Taphrinomycotina",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_O13960"
+  },
+  {
+   "clade_fine": "Taphrinomycotina",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_O74411"
+  },
+  {
+   "clade_fine": "Saccharomycotina",
+   "cluster": "UniRef50_A0A9P7BAC1",
+   "id": "UniRef50_P08459"
+  },
+  {
+   "clade_fine": "Saccharomycotina",
+   "cluster": "UniRef50_A0A9P7BAC1",
+   "id": "UniRef50_P25380"
+  },
+  {
+   "clade_fine": "Saccharomycotina",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_P38248"
+  },
+  {
+   "clade_fine": "Eurotiomycetes",
+   "cluster": "UniRef50_Q0CUX6",
+   "id": "UniRef50_Q0CUX6"
+  },
+  {
+   "clade_fine": "Saccharomycotina",
+   "cluster": "UniRef50_A0A1Y2FGQ1",
+   "id": "UniRef50_Q12355"
+  },
+  {
+   "clade_fine": "Eurotiomycetes",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_Q4WNS8"
+  },
+  {
+   "clade_fine": "Saccharomycotina",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_Q6FK20"
+  },
+  {
+   "clade_fine": "Saccharomycotina",
+   "cluster": "UniRef50_A0A9P7BAC1",
+   "id": "UniRef50_Q6FSC3"
+  },
+  {
+   "clade_fine": "Saccharomycotina",
+   "cluster": "UniRef50_A0A9P7BAC1",
+   "id": "UniRef50_Q6FX57"
+  },
+  {
+   "clade_fine": "Dothideomycetes",
+   "cluster": "UniRef50_A0A1Y2FGQ1",
+   "id": "UniRef50_R1EXJ0"
+  },
+  {
+   "clade_fine": "Taphrinomycotina",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_R4XAS2"
+  },
+  {
+   "clade_fine": "Dothideomycetes",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_R7YLU1"
+  },
+  {
+   "clade_fine": "Saccharomycotina",
+   "cluster": "UniRef50_A0A1Y2FGQ1",
+   "id": "UniRef50_R9XAF1"
+  },
+  {
+   "clade_fine": "Leotiomycetes",
+   "cluster": "UniRef50_S3DC47",
+   "id": "UniRef50_S3DC47"
+  },
+  {
+   "clade_fine": "Leotiomycetes",
+   "cluster": "UniRef50_S3DYD7",
+   "id": "UniRef50_S3DYD7"
+  },
+  {
+   "clade_fine": "Orbiliomycetes",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_S7ZZ46"
+  },
+  {
+   "clade_fine": "Orbiliomycetes",
+   "cluster": "UniRef50_S8A3C2",
+   "id": "UniRef50_S8A3C2"
+  },
+  {
+   "clade_fine": "Orbiliomycetes",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_S8AJB1"
+  },
+  {
+   "clade_fine": "Orbiliomycetes",
+   "cluster": "UniRef50_G1XN74",
+   "id": "UniRef50_S8BUS2"
+  },
+  {
+   "clade_fine": "Orbiliomycetes",
+   "cluster": "UniRef50_G1XNP6",
+   "id": "UniRef50_S8C0C0"
+  },
+  {
+   "clade_fine": "Taphrinomycotina",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_S9X1M7"
+  },
+  {
+   "clade_fine": "Eurotiomycetes",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_U1GSD9"
+  },
+  {
+   "clade_fine": "Taphrinomycotina",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_UPI000867CF0D"
+  },
+  {
+   "clade_fine": "Dothideomycetes",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_UPI000DC991B6"
+  },
+  {
+   "clade_fine": "Dothideomycetes",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_UPI0015C2E9EF"
+  },
+  {
+   "clade_fine": "Sordariomycetes",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_UPI002008B956"
+  },
+  {
+   "clade_fine": "Mucoromycota",
+   "cluster": "UniRef50_UPI00221EE070",
+   "id": "UniRef50_UPI00221EE070"
+  },
+  {
+   "clade_fine": "Mucoromycota",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_UPI002220A812"
+  },
+  {
+   "clade_fine": "Saccharomycotina",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_UPI002224F1CE"
+  },
+  {
+   "clade_fine": "Mucoromycota",
+   "cluster": "UniRef50_UPI00221EE070",
+   "id": "UniRef50_UPI0022FE5153"
+  },
+  {
+   "clade_fine": "Mucoromycota",
+   "cluster": "UniRef50_UPI00221EE070",
+   "id": "UniRef50_UPI002301AD80"
+  },
+  {
+   "clade_fine": "Sordariomycetes",
+   "cluster": "UniRef50_A0A8K0M2Q4",
+   "id": "UniRef50_UPI002301D066"
+  },
+  {
+   "clade_fine": "Eurotiomycetes",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_UPI002540262E"
+  },
+  {
+   "clade_fine": "Eurotiomycetes",
+   "cluster": "UniRef50_A0A1Y2FGQ1",
+   "id": "UniRef50_UPI00254063E7"
+  },
+  {
+   "clade_fine": "Saccharomycotina",
+   "cluster": "UniRef50_A0AAX4HFV2",
+   "id": "UniRef50_UPI002EDB45EF"
+  },
+  {
+   "clade_fine": "Saccharomycotina",
+   "cluster": "UniRef50_A0A9P7BAC1",
+   "id": "UniRef50_UPI0030DE31D3"
+  },
+  {
+   "clade_fine": "Saccharomycotina",
+   "cluster": "UniRef50_A0AAW0FPK6",
+   "id": "UniRef50_UPI00315D3D27"
+  },
+  {
+   "clade_fine": "Saccharomycotina",
+   "cluster": "UniRef50_A0AAX4HFV2",
+   "id": "UniRef50_UPI00315D9899"
+  },
+  {
+   "clade_fine": "Dothideomycetes",
+   "cluster": "UniRef50_A0A6A6AW51",
+   "id": "UniRef50_UPI0033586515"
+  },
+  {
+   "clade_fine": "Dothideomycetes",
+   "cluster": "UniRef50_A0A5N5DN88",
+   "id": "UniRef50_UPI00335EF683"
+  },
+  {
+   "clade_fine": "Dothideomycetes",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_UPI0034E6C485"
+  },
+  {
+   "clade_fine": "Eurotiomycetes",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_W2SFH8"
+  },
+  {
+   "clade_fine": "Sordariomycetes",
+   "cluster": "UniRef50_W3WII5",
+   "id": "UniRef50_W3WII5"
+  },
+  {
+   "clade_fine": "Saccharomycotina",
+   "cluster": "UniRef50_A0AAX4HFV2",
+   "id": "UniRef50_W6MPI0"
+  },
+  {
+   "clade_fine": "Saccharomycotina",
+   "cluster": "UniRef50_A0A9P8F622",
+   "id": "UniRef50_W6MXX4"
+  },
+  {
+   "clade_fine": "Leotiomycetes",
+   "cluster": "UniRef50_A0A6A6C8D2",
+   "id": "UniRef50_W9CSH5"
+  }
+ ],
+ "training_rule_met": true,
+ "unit": "Pezizomycetes"
+}
