@@ -9,3 +9,7 @@ Custom (non-Pfam) profile HMM of Ecm33, built by the ecm33 build job 30287890 (u
 Status: custom, REPORT ONLY, UNVALIDATED beyond a circular held-out test (owner decision 2026-10-23). It finds all 469 held-out members in 11 clades and both true Ecm33s among the shared negatives (P38248, Q4WNS8), but the held-out members come from the same search that supplied the training, the iteration comparator ties it, and no unit was testable. Record: `docs/reports/2026-10-23-pr6-ecm33-build.md`.
 
 Use: only through `analysis/wall_fusion_report/` (`wall_fusion_custom_models.tsv`, `hmmsearch -T 29.6`). It changes no call, tier, status, `family_table.tsv`, `family_measure.tsv` or `narrow_ok`.
+
+## Owner decision 2026-10-24
+
+The owner decided to KEEP this model, report-only, and to record that it may need additional development. It is unvalidated beyond a circular held-out test (the 469 held-out members come from the same search that supplied the training) and a PANTHER agreement test (verdict `not testable (u < 3): u = 1`; 14 of 15 headline clusters), and it ties seed-only jackhmmer (14 of 15 headline, 185 of 187 in all). The model, `cutoff.json` and `SHA256SUMS` are unchanged. Options for further development: `docs/reports/2026-10-24-pr6-decision-note.md`.
