@@ -1,0 +1,4 @@
+kiss_cluster	gene	accession	organism	panther_family	subfamily	subfamily_name	pfam_scan_class	pfam_scan_proposal	weak_families	other_pfam_hits
+KS0065	chr4	O94614	Schizosaccharomyces pombe	PTHR46430	PTHR46430:SF2	CHITIN SYNTHASE REGULATORY FACTOR 4	hit_other_pfam	partial_domain_for_owner	PF00515:TPR_1;PF13174:TPR_6;PF13424:TPR_12;PF13432:TPR_16	PF08238:Sel1:frac=0.264:score=24:ievalue=6.7e-05:seq=O94614;PF07719:TPR_2:frac=0.046:score=23.1:ievalue=8.8e-05:seq=O94614;PF13181:TPR_8:frac=0.044:score=24.1:ievalue=4.1e-05:seq=O94614
+KS0084	chs4_skt5	P34226	Saccharomyces cerevisiae	PTHR46430	PTHR46430:SF1	CHITIN SYNTHASE REGULATOR SKT5-RELATED	hit_other_pfam	partial_domain_for_owner		PF08238:Sel1:frac=0.353:score=34.2:ievalue=4e-08:seq=P34226
+KS0056	cfl1	J9VHS9	Cryptococcus neoformans	PTHR35192	PTHR35192:SF2	APPLE DOMAIN-CONTAINING PROTEIN	hit_other_pfam	partial_domain_for_owner		PF21671:CPL1-like:frac=0.184:score=71.6:ievalue=6.8e-20:seq=J9VHS9

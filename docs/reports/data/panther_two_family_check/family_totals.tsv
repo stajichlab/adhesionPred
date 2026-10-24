@@ -1,0 +1,11 @@
+panther_family	family_name	n_uniprot	n_interpro	domain_of_life	kingdom	n	frac_of_family	n_in_domain
+PTHR46430	Chitin Synthase Regulator	5247	5476	Eukaryota	Fungi	4935	0.941	5000
+PTHR46430	Chitin Synthase Regulator	5247	5476	Bacteria	Pseudomonadati	229	0.044	246
+PTHR46430	Chitin Synthase Regulator	5247	5476	Eukaryota	(none)	57	0.011	5000
+PTHR46430	Chitin Synthase Regulator	5247	5476	Bacteria	Bacillati	15	0.003	246
+PTHR46430	Chitin Synthase Regulator	5247	5476	Eukaryota	Metazoa	4	0.001	5000
+PTHR46430	Chitin Synthase Regulator	5247	5476	Eukaryota	Viridiplantae	4	0.001	5000
+PTHR46430	Chitin Synthase Regulator	5247	5476	Archaea	Methanobacteriati	1	0.000	1
+PTHR46430	Chitin Synthase Regulator	5247	5476	Bacteria	Thermotogati	1	0.000	246
+PTHR46430	Chitin Synthase Regulator	5247	5476	Bacteria	Fusobacteriati	1	0.000	246
+PTHR35192	PROTEIN, PUTATIVE-RELATED	1521	1598	Eukaryota	Fungi	1521	1.000	1521

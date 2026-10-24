@@ -1,0 +1,66 @@
+panther_family	scope	database	entry	entry_name	n_with_entry	n_in_scope	fraction
+PTHR46430	fungal_all_subfamilies	pfam	PF08238	Sel1 repeat	4843	4935	0.981
+PTHR46430	fungal_all_subfamilies	pfam	PF07106	TBPIP/Hop2 winged helix domain	25	4935	0.005
+PTHR46430	fungal_all_subfamilies	pfam	(none)	no entry of this database	89	4935	0.018
+PTHR46430	fungal_all_subfamilies	interpro	IPR051726	Chitin Synthase Regulator	4935	4935	1.000
+PTHR46430	fungal_all_subfamilies	interpro	IPR011990	Tetratricopeptide-like helical domain superfamily	4921	4935	0.997
+PTHR46430	fungal_all_subfamilies	interpro	IPR006597	Sel1-like repeat	4883	4935	0.989
+PTHR46430	fungal_all_subfamilies	interpro	IPR019734	Tetratricopeptide repeat	467	4935	0.095
+PTHR46430	fungal_all_subfamilies	interpro	IPR036388	Winged helix-like DNA-binding domain superfamily	29	4935	0.006
+PTHR46430	fungal_all_subfamilies	interpro	IPR010776	Homologous-pairing protein 2, winged helix domain	25	4935	0.005
+PTHR46430	fungal_all_subfamilies	interpro	(none)	no entry of this database	0	4935	0.000
+PTHR46430	fungal_(family only)	pfam	PF08238	Sel1 repeat	126	134	0.940
+PTHR46430	fungal_(family only)	pfam	(none)	no entry of this database	8	134	0.060
+PTHR46430	fungal_(family only)	interpro	IPR051726	Chitin Synthase Regulator	134	134	1.000
+PTHR46430	fungal_(family only)	interpro	IPR011990	Tetratricopeptide-like helical domain superfamily	131	134	0.978
+PTHR46430	fungal_(family only)	interpro	IPR006597	Sel1-like repeat	129	134	0.963
+PTHR46430	fungal_(family only)	interpro	(none)	no entry of this database	0	134	0.000
+PTHR46430	fungal_PTHR46430:SF1	pfam	PF08238	Sel1 repeat	1692	1708	0.991
+PTHR46430	fungal_PTHR46430:SF1	pfam	(none)	no entry of this database	15	1708	0.009
+PTHR46430	fungal_PTHR46430:SF1	interpro	IPR051726	Chitin Synthase Regulator	1708	1708	1.000
+PTHR46430	fungal_PTHR46430:SF1	interpro	IPR011990	Tetratricopeptide-like helical domain superfamily	1707	1708	0.999
+PTHR46430	fungal_PTHR46430:SF1	interpro	IPR006597	Sel1-like repeat	1702	1708	0.996
+PTHR46430	fungal_PTHR46430:SF1	interpro	(none)	no entry of this database	0	1708	0.000
+PTHR46430	fungal_PTHR46430:SF2	pfam	PF08238	Sel1 repeat	1429	1487	0.961
+PTHR46430	fungal_PTHR46430:SF2	pfam	PF07106	TBPIP/Hop2 winged helix domain	25	1487	0.017
+PTHR46430	fungal_PTHR46430:SF2	pfam	(none)	no entry of this database	57	1487	0.038
+PTHR46430	fungal_PTHR46430:SF2	interpro	IPR051726	Chitin Synthase Regulator	1487	1487	1.000
+PTHR46430	fungal_PTHR46430:SF2	interpro	IPR011990	Tetratricopeptide-like helical domain superfamily	1479	1487	0.995
+PTHR46430	fungal_PTHR46430:SF2	interpro	IPR006597	Sel1-like repeat	1453	1487	0.977
+PTHR46430	fungal_PTHR46430:SF2	interpro	IPR019734	Tetratricopeptide repeat	459	1487	0.309
+PTHR46430	fungal_PTHR46430:SF2	interpro	IPR036388	Winged helix-like DNA-binding domain superfamily	29	1487	0.020
+PTHR46430	fungal_PTHR46430:SF2	interpro	IPR010776	Homologous-pairing protein 2, winged helix domain	25	1487	0.017
+PTHR46430	fungal_PTHR46430:SF2	interpro	(none)	no entry of this database	0	1487	0.000
+PTHR46430	fungal_PTHR46430:SF3	pfam	PF08238	Sel1 repeat	1596	1606	0.994
+PTHR46430	fungal_PTHR46430:SF3	pfam	(none)	no entry of this database	9	1606	0.006
+PTHR46430	fungal_PTHR46430:SF3	interpro	IPR051726	Chitin Synthase Regulator	1606	1606	1.000
+PTHR46430	fungal_PTHR46430:SF3	interpro	IPR011990	Tetratricopeptide-like helical domain superfamily	1604	1606	0.999
+PTHR46430	fungal_PTHR46430:SF3	interpro	IPR006597	Sel1-like repeat	1599	1606	0.996
+PTHR46430	fungal_PTHR46430:SF3	interpro	(none)	no entry of this database	0	1606	0.000
+PTHR46430	non_fungal_all_subfamilies	pfam	PF08238	Sel1 repeat	277	312	0.888
+PTHR46430	non_fungal_all_subfamilies	pfam	PF01753	MYND finger	27	312	0.087
+PTHR46430	non_fungal_all_subfamilies	pfam	PF01471	Putative peptidoglycan binding domain	14	312	0.045
+PTHR46430	non_fungal_all_subfamilies	pfam	(none)	no entry of this database	23	312	0.074
+PTHR46430	non_fungal_all_subfamilies	interpro	IPR051726	Chitin Synthase Regulator	312	312	1.000
+PTHR46430	non_fungal_all_subfamilies	interpro	IPR011990	Tetratricopeptide-like helical domain superfamily	307	312	0.984
+PTHR46430	non_fungal_all_subfamilies	interpro	IPR006597	Sel1-like repeat	305	312	0.978
+PTHR46430	non_fungal_all_subfamilies	interpro	IPR002893	Zinc finger, MYND-type	27	312	0.087
+PTHR46430	non_fungal_all_subfamilies	interpro	IPR036365	PGBD-like superfamily	15	312	0.048
+PTHR46430	non_fungal_all_subfamilies	interpro	IPR002477	Peptidoglycan binding-like	14	312	0.045
+PTHR46430	non_fungal_all_subfamilies	interpro	IPR036366	PGBD superfamily	13	312	0.042
+PTHR46430	non_fungal_all_subfamilies	interpro	IPR001841	Zinc finger, RING-type	12	312	0.038
+PTHR46430	non_fungal_all_subfamilies	interpro	IPR036869	Chaperone J-domain superfamily	8	312	0.026
+PTHR46430	non_fungal_all_subfamilies	interpro	IPR013083	Zinc finger, RING/FYVE/PHD-type	8	312	0.026
+PTHR46430	non_fungal_all_subfamilies	interpro	(none)	no entry of this database	0	312	0.000
+PTHR35192	fungal_all_subfamilies	pfam	PF21671	Protein CPL1-like	1472	1521	0.968
+PTHR35192	fungal_all_subfamilies	pfam	(none)	no entry of this database	49	1521	0.032
+PTHR35192	fungal_all_subfamilies	interpro	IPR038955	Protein PriA/CPL1	1521	1521	1.000
+PTHR35192	fungal_all_subfamilies	interpro	IPR048661	Protein CPL1-like	1472	1521	0.968
+PTHR35192	fungal_all_subfamilies	interpro	IPR009030	Growth factor receptor cysteine-rich domain superfamily	38	1521	0.025
+PTHR35192	fungal_all_subfamilies	interpro	(none)	no entry of this database	0	1521	0.000
+PTHR35192	fungal_PTHR35192:SF2	pfam	PF21671	Protein CPL1-like	1472	1521	0.968
+PTHR35192	fungal_PTHR35192:SF2	pfam	(none)	no entry of this database	49	1521	0.032
+PTHR35192	fungal_PTHR35192:SF2	interpro	IPR038955	Protein PriA/CPL1	1521	1521	1.000
+PTHR35192	fungal_PTHR35192:SF2	interpro	IPR048661	Protein CPL1-like	1472	1521	0.968
+PTHR35192	fungal_PTHR35192:SF2	interpro	IPR009030	Growth factor receptor cysteine-rich domain superfamily	38	1521	0.025
+PTHR35192	fungal_PTHR35192:SF2	interpro	(none)	no entry of this database	0	1521	0.000
