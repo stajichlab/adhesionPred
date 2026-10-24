@@ -11,8 +11,8 @@ The owner chose nested labels for the AGA1-class study: a broad flag ("Ser/Thr-r
 | Job | Tool (module) | What it answers | Draft resources |
 |---|---|---|---|
 | `signalp.sbatch` | SignalP 6, eukarya, fast mode, CPU build (`signalp/6`) | Does the N-terminus carry a secretion signal peptide, and where is it cut? | `short`, 8 CPUs, 16 GB, 1.5 h limit |
-| `predgpi.sbatch` | PredGPI (`predgpi/202001`) | Is there a C-terminal GPI-anchor signal, and where is the omega (attachment) site? | `short`, 4 CPUs, 8 GB, 2 h limit |
-| `disorder.sbatch` | AIUPred (`aiupred/2.x`), optionally IUPred3 (`iupred/3`) | Per-residue disorder score; Ser/Thr-rich wall proteins are expected to be long disordered stretches | `short`, 4 CPUs, 8 GB, 1.5 h limit |
+| `predgpi.sbatch` | PredGPI (`predgpi/202001`) | Is there a C-terminal GPI-anchor signal, and where is the omega (attachment) site? | `short`, 2 CPUs, 8 GB, 2 h limit |
+| `disorder.sbatch` | AIUPred (`aiupred/2.x`), optionally IUPred3 (`iupred/3`) | Per-residue disorder score; Ser/Thr-rich wall proteins are expected to be long disordered stretches | 4 CPUs, 8 GB, 1.5 h limit; AIUPred on a GPU partition the owner names on the command line (IUPred3 on CPU) |
 
 Input: one FASTA of the 850 proteins, built locally by `stage_inputs.py` from the out-of-repo sequence cache (header = bare accession), with a sha256 and a lengths table; the owner copies it to HPCC. Every job runs a pin check (the clone must match the reviewed commit for `analysis/aga1_class`), refuses an existing output directory, checks the FASTA against its sha256 and the committed accession manifest, and writes a provenance file with the tool versions.
 
@@ -43,7 +43,7 @@ SignalP: about 2 s per protein on CPU in the repo's earlier measurement, so abou
 
 ## Open items
 
-1. Confirm read-only on HPCC: PredGPI, AIUPred, IUPred3 command lines and versions; the `signalp/6` CPU module; whether `short` takes the requested CPUs/memory (README section 4). The placeholder lines must be edited and merged before the pin commit is chosen.
+1. The command lines of PredGPI, AIUPred and IUPred3 were confirmed read-only from the install directories and are now in the sbatch files. Still unknown: whether python has torch after the AIUPred module, the GPU partition name, run times, and all raw output formats (README sections 4 and 5).
 2. Which disorder tool is primary (AIUPred drafted first; IUPred3 as an optional second job) and the disorder threshold (0.5 drafted).
 3. Whether the Pfl/SOWgp/Mad group tags matter for the prediction step (no; the table is keyed by accession and joins to `proteins.tsv`).
 4. A PredGPI adapter from its raw output to the normalised table, after the first output is seen.

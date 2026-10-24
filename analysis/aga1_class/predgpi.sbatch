@@ -1,22 +1,22 @@
 #!/bin/bash -l
 # AGA1-class prediction step, job 2 of 3: PredGPI on the 850 staged proteins.
 # DRAFT, NOT SUBMITTED. Nothing of this step has run on HPCC. Needs the owner's go-ahead for EACH submission.
-# PLACEHOLDER: the PredGPI command line on HPCC is NOT KNOWN to the author. Before submitting, check read-only on a login node:
-#     module load predgpi/202001; echo "$PREDGPI_HOME"; ls "$PREDGPI_HOME"; <the main script> --help
-# (module predgpi/202001 loads miniconda3, sets PREDGPI_HOME=/opt/linux/rocky/8.x/x86_64/pkgs/predgpi/202001 and puts that
-# directory on PATH.) Then replace the line marked PLACEHOLDER-CMD with the confirmed command and submit with CMD_CONFIRMED=yes.
-# Without CMD_CONFIRMED=yes the job stops after the pin check and the input checks, before any tool is run.
+# Command line confirmed read-only from the install directory (2026-10-24): `predgpi.py -f FASTA -o OUTF -m json|gff3`
+# (-m default gff3; -c selects the conservative omega site). `module load predgpi/202001` did NOT set PREDGPI_HOME in a
+# non-interactive shell, so this job exports it and stops if the directory or predgpi.py is missing.
+# STILL UNVERIFIED: the raw gff3 layout and its key names (the source prints 'Estimated False Positive Rate =',
+# 'HMM log(probability) =', 'GPI-Anchor length=' and one of Highly Probable / Probable / Weakly GPI-Anchored protein /
+# Improbable GPI-Anchored protein), and the run time. The raw file is therefore kept untouched; the converter wants the
+# NORMALISED table (convert_predictions.py), so an adapter is written after the first real output is read.
 #
 # Inputs:  $IN/aga1_proteins.faa (+ .sha256), staged by analysis/aga1_class/stage_inputs.py and copied by the owner.
-# Output:  $OUT/predgpi_raw.txt (the tool's own output, untouched), $OUT/provenance.txt. $OUT must NOT exist.
-#          The converter wants the NORMALISED table (see convert_predictions.py); adapting the raw output to it is done
-#          after the first real output has been read (README, "to confirm").
+# Output:  $OUT/predgpi_raw.gff3 (the tool's own output, untouched), $OUT/provenance.txt. $OUT must NOT exist.
 #
 # Submit (after the go-ahead; the log directory must exist):
-#   sbatch --export=ALL,PROJ_ROOT=/path/to/clone,CODE_COMMIT=<sha>,IN=/path/to/in,OUT=/path/to/new_outdir,CMD_CONFIRMED=yes \
+#   sbatch --export=ALL,PROJ_ROOT=/path/to/clone,CODE_COMMIT=<sha>,IN=/path/to/in,OUT=/path/to/new_outdir \
 #     -o /path/to/logs/%x.%j.log -e /path/to/logs/%x.%j.log analysis/aga1_class/predgpi.sbatch
 #SBATCH -p short
-#SBATCH -c 4
+#SBATCH -c 2
 #SBATCH --mem=8G
 #SBATCH --time=2:00:00
 #SBATCH -J aga1_predgpi
@@ -30,6 +30,7 @@ trap 'rm -rf "$TMP"' EXIT
 PINNED="analysis/aga1_class"
 N_EXP=850
 TOOL_MODULE="predgpi/202001"
+PREDGPI_DIR=/opt/linux/rocky/8.x/x86_64/pkgs/predgpi/202001
 
 fail() { echo "FATAL: $*" >&2; exit 1; }
 
@@ -50,26 +51,35 @@ FA="$IN/aga1_proteins.faa"
 [ "$(grep -c '^>' "$FA")" -eq "$N_EXP" ] || fail "$FA does not hold $N_EXP sequences"
 grep '^>' "$FA" | sed 's/^>//; s/[[:space:]].*//' | sort | cmp -s - "$PROJ_ROOT/$PINNED/manifest_accessions.txt" \
   || fail "the names of $FA differ from the committed manifest"
-[ "${CMD_CONFIRMED:-no}" = "yes" ] || fail "PLACEHOLDER command not confirmed: check the PredGPI CLI read-only, edit the PLACEHOLDER-CMD line, then export CMD_CONFIRMED=yes"
 mkdir -p "$TMP"
 
 module load "$TOOL_MODULE"
-: "${PREDGPI_HOME:?PREDGPI_HOME not set by module $TOOL_MODULE}"
-# PLACEHOLDER-CMD (TO CONFIRM: module load predgpi/202001; <script> --help): the next line is a GUESS of the form, not a verified call.
-predgpi.py -f "$FA" -o "$TMP/predgpi_raw.txt"
-[ -s "$TMP/predgpi_raw.txt" ] || fail "PredGPI wrote no output"
+export PREDGPI_HOME="$PREDGPI_DIR"   # the module did not set it in a non-interactive shell
+[ -d "$PREDGPI_HOME" ] || fail "$PREDGPI_HOME is missing"
+[ -f "$PREDGPI_HOME/predgpi.py" ] || fail "$PREDGPI_HOME/predgpi.py is missing"
+PREDGPI_PY="$PREDGPI_HOME/predgpi.py"
+predgpi.py -f "$FA" -o "$TMP/predgpi_raw.gff3" -m gff3
+[ -s "$TMP/predgpi_raw.gff3" ] || fail "PredGPI wrote no output"
+N_LINES=$(wc -l < "$TMP/predgpi_raw.gff3")
+N_IDS=0
+while read -r a; do grep -qF -- "$a" "$TMP/predgpi_raw.gff3" && N_IDS=$((N_IDS + 1)); done < "$PROJ_ROOT/$PINNED/manifest_accessions.txt" || true
+# The raw layout is UNVERIFIED: a short count is reported, not fatal (the raw file is the product; the adapter checks it).
+[ "$N_IDS" -eq "$N_EXP" ] || echo "WARNING: only $N_IDS of $N_EXP accessions appear in the raw output; read it before conversion" >&2
 
 {
   echo "job: aga1_predgpi (AGA1-class prediction step)"
   echo "commit: $(git -C "$PROJ_ROOT" rev-parse HEAD) (pinned: $CODE_COMMIT)"
   echo "module: $TOOL_MODULE"
   echo "predgpi_home: $PREDGPI_HOME"
+  echo "predgpi_py: $PREDGPI_PY"
+  echo "predgpi_py_sha256: $(sha256sum < "$PREDGPI_PY" | cut -d' ' -f1)"
   echo "predgpi_dir_listing: $(ls "$PREDGPI_HOME" | tr '\n' ' ')"
-  echo "tool_version: PLACEHOLDER (record what the confirmed --help or a version flag prints)"
+  echo "settings: -m gff3 (default omega site, no -c)"
   echo "input sha256 $(sha256sum < "$FA" | cut -d' ' -f1)"
+  echo "raw_lines: $N_LINES; manifest accessions found in raw output: $N_IDS of $N_EXP"
 } > "$TMP/provenance.txt"
 
 [ ! -e "$OUT" ] || fail "$OUT appeared while the job ran; nothing is overwritten"
 mkdir -p "$OUT"
-cp "$TMP/predgpi_raw.txt" "$TMP/provenance.txt" "$OUT/"
+cp "$TMP/predgpi_raw.gff3" "$TMP/provenance.txt" "$OUT/"
 echo "wrote $OUT"

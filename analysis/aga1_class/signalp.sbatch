@@ -59,7 +59,9 @@ N_ROWS=$(grep -vc '^#' "$TMP/out/prediction_results.txt" || true)
 {
   echo "job: aga1_signalp (AGA1-class prediction step)"
   echo "commit: $(git -C "$PROJ_ROOT" rev-parse HEAD) (pinned: $CODE_COMMIT)"
-  echo "module: $SIGNALP_MODULE"
+  echo "module: $SIGNALP_MODULE (the default of signalp/6; versions on disk: 6.0g, 6.0h, 6.0i and their -gpu builds)"
+  echo "module_list: $(module -t list 2>&1 | tr '\n' ' ')"
+  echo "signalp6_path: $(readlink -f "$(command -v signalp6)")"
   echo "signalp6_version: $(signalp6 --version 2>&1)"
   echo "settings: --organism eukarya --mode fast --format none"
   echo "input sha256 $(sha256sum < "$FA" | cut -d' ' -f1)"

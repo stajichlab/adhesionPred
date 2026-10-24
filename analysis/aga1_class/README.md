@@ -29,21 +29,23 @@ number of non-standard residues (one protein has 2) and the sequence source.
 ## 2. Submit commands (DRAFT, NOT SUBMITTED; one go-ahead per submission)
 
 Preconditions: the PR holding these files is merged, the clone on HPCC is at that commit and clean for `analysis/aga1_class`
-(`CODE_COMMIT` = the merge commit), the log directory exists, `OUT` does not exist. Every job is committed unedited after running.
-The two placeholder commands (section 4) must be edited and merged BEFORE the pin commit is chosen, never edited on HPCC.
+(`CODE_COMMIT` = the merge commit), the log directory exists, `OUT` does not exist. The sbatch files are final: the owner passes
+only values through `--export` and the command line, and the files are committed unedited after running.
 
 ```
 W=/bigdata/stajichlab/jstajich/projects/adhesionPred/_workdir/aga1_prediction
 sbatch --export=ALL,PROJ_ROOT=/path/to/clone,CODE_COMMIT=<sha>,IN=$W/in,OUT=$W/signalp \
   -o $W/logs/%x.%j.log -e $W/logs/%x.%j.log analysis/aga1_class/signalp.sbatch
-sbatch --export=ALL,PROJ_ROOT=/path/to/clone,CODE_COMMIT=<sha>,IN=$W/in,OUT=$W/predgpi,CMD_CONFIRMED=yes \
+sbatch --export=ALL,PROJ_ROOT=/path/to/clone,CODE_COMMIT=<sha>,IN=$W/in,OUT=$W/predgpi \
   -o $W/logs/%x.%j.log -e $W/logs/%x.%j.log analysis/aga1_class/predgpi.sbatch
-sbatch --export=ALL,PROJ_ROOT=/path/to/clone,CODE_COMMIT=<sha>,IN=$W/in,OUT=$W/disorder_aiupred,TOOL=aiupred,CMD_CONFIRMED=yes \
+# AIUPred needs a GPU: name the GPU partition on the command line (not written in the file; look it up with `sinfo`)
+sbatch -p <gpu-partition> --gres=gpu:1 \
+  --export=ALL,PROJ_ROOT=/path/to/clone,CODE_COMMIT=<sha>,IN=$W/in,OUT=$W/disorder_aiupred,TOOL=aiupred \
   -o $W/logs/%x.%j.log -e $W/logs/%x.%j.log analysis/aga1_class/disorder.sbatch
-# optional second disorder tool, own go-ahead: OUT=$W/disorder_iupred3,TOOL=iupred3
+# optional second disorder tool on CPU, own go-ahead: OUT=$W/disorder_iupred3,TOOL=iupred3 (no -p or --gres)
 ```
 
-Without `CMD_CONFIRMED=yes` the PredGPI and disorder jobs stop after the pin and input checks and run no tool.
+The AIUPred job stops on a node without CUDA unless `ALLOW_CPU=yes` is exported (CPU AIUPred is documented as very slow).
 
 ## 3. Convert (local, after the raw outputs are copied back)
 
@@ -61,17 +63,27 @@ converter exits 1 with a `FATAL:` message on a missing or extra accession, a dup
 SignalP header that is not a Eukarya run, a disorder score outside [0, 1] or out of order, or (with `--lengths`) a residue count
 that differs from the staged length. It refuses an existing output file.
 
-## 4. To confirm read-only on HPCC before submit (placeholders)
 
-1. PredGPI CLI: `module load predgpi/202001; echo "$PREDGPI_HOME"; ls "$PREDGPI_HOME"; <main script> --help`. The draft line
-   `predgpi.py -f ... -o ...` is a guess. Also the PredGPI version string and which model/threshold the default uses.
-2. AIUPred: `module avail aiupred`, then `module load aiupred; <script> --help`. The draft `aiupred.py -i ... -o ...` is a guess;
-   also the exact module name and whether `--gpu` or a GPU-less run is the default.
-3. IUPred3: `module load iupred/3; <script> --help`. The draft `iupred3.py FASTA long` is a guess; IUPred3 normally takes one
-   sequence per call (loop needed) and has `long`, `short`, `glob` modes (`long` is drafted).
-4. SignalP: `module load signalp/6; signalp6 --help` (flag names are those of the repo's GPU job, which ran on HPCC; the CPU
-   module `signalp/6` was not run by the author). Whether the CPU build honours `--torch_num_threads`.
-5. Whether `short` allows the resources asked (4 to 8 CPUs, 8 to 16 GB) without waiting behind `AssocGrpCpuLimit`.
+## 4. Command lines: confirmed and not (read-only checks on HPCC, 2026-10-24, from the install directories)
+
+Confirmed and used in the sbatch files:
+
+* PredGPI (`predgpi/202001`): `predgpi.py -f FASTA -o OUTF -m json|gff3` (default gff3; `-c` = conservative omega site). The module
+  did not set `PREDGPI_HOME` in a non-interactive shell, so the job exports `/opt/linux/rocky/8.x/x86_64/pkgs/predgpi/202001`
+  and stops if the directory or `predgpi.py` is missing. Drafted with `-m gff3`; JSON key names are not known, so JSON is not used.
+* AIUPred (`aiupred/2.x`): `aiupred.py -i FASTA [-o OUT] [-g GPU] [--force-cpu]`; the module only prepends the PATH, loads no
+  python; needs torch (~=2.0.1), numpy, scipy.
+* IUPred3 (`iupred/3`): `iupred3.py SEQFILE {long|short|glob} [-a] [-s no|medium|strong]`, needs scipy; one sequence per file, so the
+  job loops over records (`long` mode).
+* SignalP: versions on disk 6.0g, 6.0h, 6.0i and their `-gpu` builds; the job uses the default `signalp/6` (CPU) and records
+  which build it resolved to (`module -t list`, `readlink -f signalp6`, version) in `provenance.txt`.
+
+Still to check or unknown:
+
+1. Whether `python3` after `module load aiupred/2.x` can import torch, numpy and scipy (the job checks and stops with a message),
+   and whether a CUDA device is visible; AIUPred and IUPred3 run times (CPU AIUPred is "very slow").
+2. The name of the GPU partition (given by the owner with `-p`) and whether `short` takes the requested CPUs/memory without waiting.
+3. Whether PredGPI finishes 850 sequences within the 2 h `short` limit (unmeasured).
 
 ## 5. Format assumptions, all UNVERIFIED until the first real output is seen
 
@@ -80,11 +92,15 @@ that differs from the staged length. It refuses an existing output file.
   position stored is the first number, the last residue of the signal peptide) and is empty for `OTHER`. The first four columns
   are those the repo's `modules/signalp.py` already parses on real output; the cleavage field text is from the SignalP 6
   documentation as remembered, not from a file read here. Eukarya, fast mode: only `SP` and `OTHER` are expected; anything else stops the converter.
-* PredGPI: the converter reads a NORMALISED table (`id`, `prediction` = `GPI-anchored` or `Not GPI-anchored`, `omega_site`,
-  `fp_rate`, optional `score`). The raw PredGPI output layout, the meaning and scale of its false-positive rate, and whether it
-  reports an omega site are all unknown; an adapter from the raw file to this table is written after the first real output.
-* AIUPred and IUPred3: the converter reads `>ID` record lines followed by `pos aa score` rows, scores in [0, 1], `#` lines
-  ignored. Raw layouts of both tools are unknown (IUPred3 prints a `#` comment block then `pos aa score`; AIUPred's layout is not known).
+* PredGPI: the raw gff3 layout and key names are unknown (the source prints `Estimated False Positive Rate =`,
+  `HMM log(probability) =`, `GPI-Anchor length=` and one of Highly Probable / Probable / Weakly GPI-Anchored protein /
+  Improbable GPI-Anchored protein; whether these appear in the gff3 attributes is not known). The converter reads a NORMALISED
+  table (`id`, `prediction` = `GPI-anchored` or `Not GPI-anchored`, `omega_site`, `fp_rate`, optional `score`); an adapter from
+  `predgpi_raw.gff3` to it is written after the first real output, together with the choice of which classes count as `yes`.
+* AIUPred: per the README, a `>header` line then `pos<TAB>aa<TAB>score` rows; the exact header echo is unverified.
+* IUPred3: `#` comment lines then `pos aa score` rows (from memory of the release). The job writes its own `>ID` line and drops the `#` lines.
+* The converter reads `>ID` records followed by `pos aa score` rows, scores in [0, 1], `#` lines ignored. The sbatch jobs only
+  warn (not stop) when the record count of the raw disorder or PredGPI output is off, so the raw file is never lost.
 * SignalP 6 may only look at the first part of long sequences or truncate them; whether that applies to the 74 proteins over
   1,022 aa is not known (the SP lies at the N-terminus either way, so the call should not change, but this is not tested).
 * The FASTA header is the bare accession, so every tool should return it as the first token; a tool that rewrites ids would trip the

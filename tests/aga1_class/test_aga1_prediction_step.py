@@ -240,13 +240,30 @@ def test_sbatch_syntax_and_guards(name):
     assert "provenance.txt" in t
 
 
-@pytest.mark.parametrize("name", ["predgpi.sbatch", "disorder.sbatch"])
-def test_placeholder_commands_are_guarded(name):
+@pytest.mark.parametrize("name", SBATCH)
+def test_no_placeholders_left(name):
     t = (D / name).read_text()
-    assert "PLACEHOLDER-CMD" in t and "CMD_CONFIRMED" in t
-    assert t.index("CMD_CONFIRMED:-no") < t.index('module load "$TOOL_MODULE"')
+    assert "PLACEHOLDER" not in t and "CMD_CONFIRMED" not in t
+
+
+def test_predgpi_command_and_home():
+    t = (D / "predgpi.sbatch").read_text()
+    assert 'export PREDGPI_HOME="$PREDGPI_DIR"' in t
+    assert (
+        '[ -f "$PREDGPI_HOME/predgpi.py" ] || fail' in t and '[ -d "$PREDGPI_HOME" ] || fail' in t
+    )
+    assert 'predgpi.py -f "$FA" -o "$TMP/predgpi_raw.gff3" -m gff3' in t
+
+
+def test_disorder_commands_and_guards():
+    t = (D / "disorder.sbatch").read_text()
+    assert '"$AIUPRED_PY" -i "$FA" -o' in t
+    assert "--force-cpu" in t and "ALLOW_CPU" in t and "import torch, numpy, scipy" in t
+    assert t.index("ALLOW_CPU:-no") < t.index('"$TMP/disorder_raw.txt" --force-cpu')
+    assert "iupred3.py" in t and " long" in t and "import scipy" in t
+    assert "#SBATCH --gres" not in t  # the GPU partition is named by the owner on the command line
 
 
 def test_signalp_records_versions():
     t = (D / "signalp.sbatch").read_text()
-    assert "signalp6 --version" in t and "--organism eukarya" in t
+    assert "signalp6 --version" in t and "--organism eukarya" in t and "module -t list" in t
