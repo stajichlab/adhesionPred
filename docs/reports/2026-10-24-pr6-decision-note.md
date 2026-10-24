@@ -1,6 +1,6 @@
 # PR 6 decision note: what to do next with custom models and PANTHER families
 
-*2026-10-24. Author: Claude Code (claude-sonnet-5-5). For the project owner. This note RECOMMENDS and DECIDES NOTHING. No HPCC or SLURM step was run, no script, freeze or result table was changed. Every number was re-read from a committed file (named in brackets). The Ecm33 independent evaluation is not yet on `main`; it is read from branch `origin/pr6-ecm33-independent-eval-results` (`docs/reports/2026-10-24-pr6-ecm33-independent-eval.md`).*
+*2026-10-24. Author: Claude Code (claude-sonnet-5-5). For the project owner. This note RECOMMENDS and DECIDES NOTHING. No HPCC or SLURM step was run, no script, freeze or result table was changed. Every number was re-read from a committed file (named in brackets). The Ecm33 independent evaluation (merged as #135) is `docs/reports/2026-10-24-pr6-ecm33-independent-eval.md`.*
 
 ## Words used in this note (each defined once)
 
