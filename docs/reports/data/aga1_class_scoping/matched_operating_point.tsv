@@ -1,0 +1,5 @@
+positives	method	n_pos	pos_called	sensitivity	wilson_lo	wilson_hi	hn_all_false_pos	hn_all_n
+pos_tierA	existing repeat call	35	18	0.514	0.356	0.67	6	172
+pos_tierA	feature model (comp_len_struct, LCL seed 0 OOF), threshold set so hard-negative false positives <= the call's	35	24	0.686	0.52	0.814	6	172
+pos_all	existing repeat call	67	25	0.373	0.267	0.493	6	172
+pos_all	feature model (comp_len_struct, LCL seed 0 OOF), threshold set so hard-negative false positives <= the call's	67	44	0.657	0.537	0.759	6	172

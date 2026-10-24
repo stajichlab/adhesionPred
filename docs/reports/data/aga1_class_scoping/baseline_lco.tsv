@@ -1,0 +1,91 @@
+scheme	fold	featset	pos_set	neg_set	n_pos	n_pos_clusters	n_neg	auc	ci_lo	ci_hi	interval
+leave-clade-out	Eurotiomycetes	comp	tierA	hn_all	4	2	58	0.784			n too small
+leave-clade-out	Eurotiomycetes	comp	tierA	hn_st30	4	2	19	0.539			n too small
+leave-clade-out	Eurotiomycetes	comp	tierA	hn_stfrac25	4	2	8	0.219			n too small
+leave-clade-out	Eurotiomycetes	comp	tierA	hn_repeat	4	2	2	0.625			n too small
+leave-clade-out	Saccharomycotina	comp	tierA	hn_all	21	10	28	0.92	0.811	0.987	cluster bootstrap
+leave-clade-out	Saccharomycotina	comp	tierA	hn_st30	21	10	23	0.907	0.78	0.99	cluster bootstrap
+leave-clade-out	Saccharomycotina	comp	tierA	hn_stfrac25	21	10	23	0.903	0.776	0.987	cluster bootstrap
+leave-clade-out	Saccharomycotina	comp	tierA	hn_repeat	21	10	10	0.795	0.5	0.979	cluster bootstrap
+leave-clade-out	Saccharomycotina	comp	tierA	bg	21	10	389	0.962	0.929	0.983	cluster bootstrap
+leave-clade-out	Sordariomycetes	comp	tierA	hn_all	2	2	42	0.94			n too small
+leave-clade-out	Sordariomycetes	comp	tierA	hn_st30	2	2	16	0.969			n too small
+leave-clade-out	Sordariomycetes	comp	tierA	hn_stfrac25	2	2	4	0.75			n too small
+leave-clade-out	Sordariomycetes	comp	tierA	hn_repeat	2	2	2	1.0			n too small
+leave-clade-out	Taphrinomycotina	comp	tierA	hn_all	8	5	5	1.0			n too small
+leave-clade-out	Taphrinomycotina	comp	tierA	hn_st30	8	5	2	1.0			n too small
+leave-clade-out	Eurotiomycetes	comp	all	hn_all	4	2	58	0.353			n too small
+leave-clade-out	Eurotiomycetes	comp	all	hn_st30	4	2	19	0.237			n too small
+leave-clade-out	Eurotiomycetes	comp	all	hn_stfrac25	4	2	8	0.219			n too small
+leave-clade-out	Eurotiomycetes	comp	all	hn_repeat	4	2	2	0.25			n too small
+leave-clade-out	Saccharomycotina	comp	all	hn_all	51	21	28	0.806	0.665	0.916	cluster bootstrap
+leave-clade-out	Saccharomycotina	comp	all	hn_st30	51	21	23	0.777	0.622	0.902	cluster bootstrap
+leave-clade-out	Saccharomycotina	comp	all	hn_stfrac25	51	21	23	0.773	0.62	0.896	cluster bootstrap
+leave-clade-out	Saccharomycotina	comp	all	hn_repeat	51	21	10	0.637	0.303	0.871	cluster bootstrap
+leave-clade-out	Saccharomycotina	comp	all	bg	51	21	389	0.901	0.825	0.954	cluster bootstrap
+leave-clade-out	Sordariomycetes	comp	all	hn_all	2	2	42	0.964			n too small
+leave-clade-out	Sordariomycetes	comp	all	hn_st30	2	2	16	0.906			n too small
+leave-clade-out	Sordariomycetes	comp	all	hn_stfrac25	2	2	4	0.75			n too small
+leave-clade-out	Sordariomycetes	comp	all	hn_repeat	2	2	2	1.0			n too small
+leave-clade-out	Taphrinomycotina	comp	all	hn_all	10	6	5	1.0			n too small
+leave-clade-out	Taphrinomycotina	comp	all	hn_st30	10	6	2	1.0			n too small
+leave-clade-out	Eurotiomycetes	comp_len_struct	tierA	hn_all	4	2	58	0.966			n too small
+leave-clade-out	Eurotiomycetes	comp_len_struct	tierA	hn_st30	4	2	19	0.895			n too small
+leave-clade-out	Eurotiomycetes	comp_len_struct	tierA	hn_stfrac25	4	2	8	0.75			n too small
+leave-clade-out	Eurotiomycetes	comp_len_struct	tierA	hn_repeat	4	2	2	1.0			n too small
+leave-clade-out	Saccharomycotina	comp_len_struct	tierA	hn_all	21	10	28	0.912	0.798	0.986	cluster bootstrap
+leave-clade-out	Saccharomycotina	comp_len_struct	tierA	hn_st30	21	10	23	0.892	0.756	0.985	cluster bootstrap
+leave-clade-out	Saccharomycotina	comp_len_struct	tierA	hn_stfrac25	21	10	23	0.892	0.755	0.985	cluster bootstrap
+leave-clade-out	Saccharomycotina	comp_len_struct	tierA	hn_repeat	21	10	10	0.757	0.45	0.959	cluster bootstrap
+leave-clade-out	Saccharomycotina	comp_len_struct	tierA	bg	21	10	389	0.964	0.937	0.983	cluster bootstrap
+leave-clade-out	Sordariomycetes	comp_len_struct	tierA	hn_all	2	2	42	0.976			n too small
+leave-clade-out	Sordariomycetes	comp_len_struct	tierA	hn_st30	2	2	16	0.938			n too small
+leave-clade-out	Sordariomycetes	comp_len_struct	tierA	hn_stfrac25	2	2	4	0.75			n too small
+leave-clade-out	Sordariomycetes	comp_len_struct	tierA	hn_repeat	2	2	2	1.0			n too small
+leave-clade-out	Taphrinomycotina	comp_len_struct	tierA	hn_all	8	5	5	0.975			n too small
+leave-clade-out	Taphrinomycotina	comp_len_struct	tierA	hn_st30	8	5	2	0.938			n too small
+leave-clade-out	Eurotiomycetes	comp_len_struct	all	hn_all	4	2	58	0.776			n too small
+leave-clade-out	Eurotiomycetes	comp_len_struct	all	hn_st30	4	2	19	0.487			n too small
+leave-clade-out	Eurotiomycetes	comp_len_struct	all	hn_stfrac25	4	2	8	0.375			n too small
+leave-clade-out	Eurotiomycetes	comp_len_struct	all	hn_repeat	4	2	2	0.5			n too small
+leave-clade-out	Saccharomycotina	comp_len_struct	all	hn_all	51	21	28	0.735	0.578	0.867	cluster bootstrap
+leave-clade-out	Saccharomycotina	comp_len_struct	all	hn_st30	51	21	23	0.695	0.517	0.853	cluster bootstrap
+leave-clade-out	Saccharomycotina	comp_len_struct	all	hn_stfrac25	51	21	23	0.699	0.525	0.853	cluster bootstrap
+leave-clade-out	Saccharomycotina	comp_len_struct	all	hn_repeat	51	21	10	0.569	0.253	0.809	cluster bootstrap
+leave-clade-out	Saccharomycotina	comp_len_struct	all	bg	51	21	389	0.849	0.748	0.931	cluster bootstrap
+leave-clade-out	Sordariomycetes	comp_len_struct	all	hn_all	2	2	42	0.952			n too small
+leave-clade-out	Sordariomycetes	comp_len_struct	all	hn_st30	2	2	16	0.875			n too small
+leave-clade-out	Sordariomycetes	comp_len_struct	all	hn_stfrac25	2	2	4	0.75			n too small
+leave-clade-out	Sordariomycetes	comp_len_struct	all	hn_repeat	2	2	2	1.0			n too small
+leave-clade-out	Taphrinomycotina	comp_len_struct	all	hn_all	10	6	5	0.9			n too small
+leave-clade-out	Taphrinomycotina	comp_len_struct	all	hn_st30	10	6	2	0.75			n too small
+leave-clade-out	Eurotiomycetes	comp_len_struct_repeat	tierA	hn_all	4	2	58	0.966			n too small
+leave-clade-out	Eurotiomycetes	comp_len_struct_repeat	tierA	hn_st30	4	2	19	0.895			n too small
+leave-clade-out	Eurotiomycetes	comp_len_struct_repeat	tierA	hn_stfrac25	4	2	8	0.812			n too small
+leave-clade-out	Eurotiomycetes	comp_len_struct_repeat	tierA	hn_repeat	4	2	2	1.0			n too small
+leave-clade-out	Saccharomycotina	comp_len_struct_repeat	tierA	hn_all	21	10	28	0.867	0.754	0.943	cluster bootstrap
+leave-clade-out	Saccharomycotina	comp_len_struct_repeat	tierA	hn_st30	21	10	23	0.845	0.703	0.935	cluster bootstrap
+leave-clade-out	Saccharomycotina	comp_len_struct_repeat	tierA	hn_stfrac25	21	10	23	0.843	0.709	0.937	cluster bootstrap
+leave-clade-out	Saccharomycotina	comp_len_struct_repeat	tierA	hn_repeat	21	10	10	0.7	0.398	0.864	cluster bootstrap
+leave-clade-out	Saccharomycotina	comp_len_struct_repeat	tierA	bg	21	10	389	0.947	0.908	0.976	cluster bootstrap
+leave-clade-out	Sordariomycetes	comp_len_struct_repeat	tierA	hn_all	2	2	42	0.857			n too small
+leave-clade-out	Sordariomycetes	comp_len_struct_repeat	tierA	hn_st30	2	2	16	0.625			n too small
+leave-clade-out	Sordariomycetes	comp_len_struct_repeat	tierA	hn_stfrac25	2	2	4	0.625			n too small
+leave-clade-out	Sordariomycetes	comp_len_struct_repeat	tierA	hn_repeat	2	2	2	1.0			n too small
+leave-clade-out	Taphrinomycotina	comp_len_struct_repeat	tierA	hn_all	8	5	5	0.925			n too small
+leave-clade-out	Taphrinomycotina	comp_len_struct_repeat	tierA	hn_st30	8	5	2	0.812			n too small
+leave-clade-out	Eurotiomycetes	comp_len_struct_repeat	all	hn_all	4	2	58	0.672			n too small
+leave-clade-out	Eurotiomycetes	comp_len_struct_repeat	all	hn_st30	4	2	19	0.342			n too small
+leave-clade-out	Eurotiomycetes	comp_len_struct_repeat	all	hn_stfrac25	4	2	8	0.281			n too small
+leave-clade-out	Eurotiomycetes	comp_len_struct_repeat	all	hn_repeat	4	2	2	0.25			n too small
+leave-clade-out	Saccharomycotina	comp_len_struct_repeat	all	hn_all	51	21	28	0.644	0.462	0.806	cluster bootstrap
+leave-clade-out	Saccharomycotina	comp_len_struct_repeat	all	hn_st30	51	21	23	0.596	0.396	0.776	cluster bootstrap
+leave-clade-out	Saccharomycotina	comp_len_struct_repeat	all	hn_stfrac25	51	21	23	0.593	0.405	0.777	cluster bootstrap
+leave-clade-out	Saccharomycotina	comp_len_struct_repeat	all	hn_repeat	51	21	10	0.451	0.174	0.706	cluster bootstrap
+leave-clade-out	Saccharomycotina	comp_len_struct_repeat	all	bg	51	21	389	0.823	0.723	0.914	cluster bootstrap
+leave-clade-out	Sordariomycetes	comp_len_struct_repeat	all	hn_all	2	2	42	0.786			n too small
+leave-clade-out	Sordariomycetes	comp_len_struct_repeat	all	hn_st30	2	2	16	0.562			n too small
+leave-clade-out	Sordariomycetes	comp_len_struct_repeat	all	hn_stfrac25	2	2	4	0.625			n too small
+leave-clade-out	Sordariomycetes	comp_len_struct_repeat	all	hn_repeat	2	2	2	0.75			n too small
+leave-clade-out	Taphrinomycotina	comp_len_struct_repeat	all	hn_all	10	6	5	0.92			n too small
+leave-clade-out	Taphrinomycotina	comp_len_struct_repeat	all	hn_st30	10	6	2	0.8			n too small
