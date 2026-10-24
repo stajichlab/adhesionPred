@@ -13,3 +13,5 @@ Use: only through `analysis/wall_fusion_report/` (`wall_fusion_custom_models.tsv
 ## Owner decision 2026-10-24
 
 The owner decided to KEEP this model, report-only, and to record that it may need additional development. It is unvalidated beyond a circular held-out test (the 469 held-out members come from the same search that supplied the training) and a PANTHER agreement test (verdict `not testable (u < 3): u = 1`; 14 of 15 headline clusters), and it ties seed-only jackhmmer (14 of 15 headline, 185 of 187 in all). The model, `cutoff.json` and `SHA256SUMS` are unchanged. Options for further development: `docs/reports/2026-10-24-pr6-decision-note.md`.
+
+Model card (plain-words summary, numbers, limits): `MODEL_CARD.md`.
