@@ -1,0 +1,851 @@
+accession	gene	organism	clade_coarse	role_group	role	pos_tier	curated_class	uniprot_gpi_feature	uniprot_signal_feature	signal_peptide_pred	sp_cleavage_pos	sp_cleavage_prob	sp_prob	sp_prediction_raw	gpi_pred	gpi_omega_site	gpi_confidence_class	gpi_fpr_upper_bound	gpi_note
+A0A023I7E1	ENG1	Rhizomucor miehei	Mucoromycota	hard_negative	hard_negative		hard_negative	no	yes	yes	24	0.977	0.999757	SP	no	NA	NA	NA	
+A0A023PXC2		Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	no	NA	NA	1.6e-05	OTHER	yes	93	high	0.0015	
+A0A023PXD5		Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	no	NA	NA	0.000135	OTHER	no	NA	NA	NA	
+A0A023PXI4		Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	no	NA	NA	0.025251	OTHER	no	NA	NA	NA	
+A0A023PYC6		Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	no	NA	NA	0.219129	OTHER	no	NA	NA	NA	
+A0A023PYD9		Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	no	NA	NA	0.231272	OTHER	no	NA	NA	NA	
+A0A023PYE9		Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	no	NA	NA	0.116236	OTHER	no	NA	NA	NA	
+A0A023PYF4		Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	26	0.7173	0.689422	SP	no	NA	NA	NA	
+A0A023PYH0		Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	no	NA	NA	0.185958	OTHER	no	NA	NA	NA	
+A0A023PZE6		Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	no	NA	NA	2e-06	OTHER	no	NA	NA	NA	
+A0A023PZG0		Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	20	0.4639	0.644904	SP	no	NA	NA	NA	
+A0A023PZG5		Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	24	0.7607	0.828791	SP	no	NA	NA	NA	
+A0A023PZL2		Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	no	NA	NA	0.000129	OTHER	no	NA	NA	NA	
+A0A0A2K7M3	HfbA (PEX2_043940)	Penicillium expansum	Pezizomycotina	hard_negative	hard_negative		hard_negative	no	yes	yes	27	0.4133	0.999713	SP	no	NA	NA	NA	
+A0A0D1BZL3	hum2	Mycosarcoma maydis	Basidiomycota	kiss_row_positive	kiss_row_positive					yes	19	0.9725	0.999761	SP	no	NA	NA	NA	
+A0A0D1C5X6	lep1 (UMAG_11940)	Mycosarcoma maydis	Basidiomycota	adhesin_other_mechanism	adhesin_other_mechanism		adhesin	no	yes	yes	24	0.9755	0.999731	SP	no	NA	NA	NA	
+A0A0D1DYI3	rsp3 (UMAG_03274)	Mycosarcoma maydis	Basidiomycota	hard_negative	hard_negative		hard_negative	no	yes	yes	23	0.9725	0.999726	SP	no	NA	NA	NA	
+A0A0D1E2P6	DNJ1	Mycosarcoma maydis	Basidiomycota	hard_negative	hard_negative		hard_negative	no	yes	yes	31	0.938	0.99944	SP	no	NA	NA	NA	
+A0A0D2XVZ5	DNJ1	Fusarium oxysporum	Pezizomycotina	hard_negative	hard_negative		hard_negative	no	yes	yes	21	0.9796	0.999754	SP	no	NA	NA	NA	
+A0A0E1RVD3		Coccidioides immitis	Pezizomycotina	adhesin_other_mechanism	adhesin_other_mechanism		adhesin	no	yes	yes	18	0.9761	0.999798	SP	yes	171	high	0.0015	
+A0A1D8PCT0	gsc1	Candida albicans	Saccharomycotina	kiss_row_positive	kiss_row_positive					no	NA	NA	1e-06	OTHER	no	NA	NA	NA	
+A0A1D8PCV9	PDE2	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	excluded_indirect_regulator	excluded_indirect_regulator		indirect_regulator	no	no	no	NA	NA	7e-06	OTHER	no	NA	NA	NA	
+A0A1D8PCY4	ECM33	Candida albicans	Saccharomycotina	excluded_surface_other_adhesion_phenotype	excluded_surface_other_adhesion_phenotype		surface_other_adhesion_phenotype	no	yes	yes	18	0.9779	0.999765	SP	yes	397	high	0.0015	
+A0A1D8PD52	MSB1	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	excluded_indirect_regulator	excluded_indirect_regulator		indirect_regulator	no	no	no	NA	NA	0.0	OTHER	no	NA	NA	NA	
+A0A1D8PE35	HAP2	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	excluded_indirect_regulator	excluded_indirect_regulator		indirect_regulator	no	no	no	NA	NA	1e-06	OTHER	no	NA	NA	NA	
+A0A1D8PE53	SMI1	Candida albicans	Saccharomycotina	excluded_indirect_regulator	excluded_indirect_regulator		indirect_regulator	no	no	no	NA	NA	0.0	OTHER	no	NA	NA	NA	
+A0A1D8PE87	NOT5	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	excluded_indirect_regulator	excluded_indirect_regulator		indirect_regulator	no	no	no	NA	NA	0.0	OTHER	no	NA	NA	NA	
+A0A1D8PEG3	kex2	Candida albicans	Saccharomycotina	kiss_row_positive	kiss_row_positive					yes	20	0.9748	0.999668	SP	no	NA	NA	NA	
+A0A1D8PES5	HNV1	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	25	0.9811	0.999843	SP	no	NA	NA	NA	
+A0A1D8PFE5	RAX2	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	21	0.9817	0.999773	SP	no	NA	NA	NA	
+A0A1D8PHU1	TPK2	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	excluded_indirect_regulator	excluded_indirect_regulator		indirect_regulator	no	no	no	NA	NA	0.0	OTHER	no	NA	NA	NA	
+A0A1D8PIK2	RAP1	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	excluded_indirect_regulator	excluded_indirect_regulator		indirect_regulator	no	no	no	NA	NA	0.0	OTHER	no	NA	NA	NA	
+A0A1D8PIY8	FLO9	Candida albicans	Saccharomycotina	class_positive_B	class_positive	B	adhesin	no	yes	yes	19	0.9796	0.999694	SP	yes	1219	high	0.0015	
+A0A1D8PJ29	chs8	Candida albicans	Saccharomycotina	kiss_row_positive	kiss_row_positive					no	NA	NA	0.0	OTHER	no	NA	NA	NA	
+A0A1D8PJ68		Candida albicans	Saccharomycotina	adhesin_other_mechanism	adhesin_other_mechanism		adhesin	no	yes	yes	18	0.4718	0.553806	SP	no	NA	NA	NA	
+A0A1D8PJA8	TOS1	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	21	0.9639	0.9994	SP	no	NA	NA	NA	
+A0A1D8PJB5		Candida albicans	Saccharomycotina	adhesin_other_mechanism	adhesin_other_mechanism		adhesin	no	no	no	NA	NA	0.006574	OTHER	no	NA	NA	NA	
+A0A1D8PJN6	kre5	Candida albicans	Saccharomycotina	kiss_row_positive	kiss_row_positive					yes	22	0.9807	0.999764	SP	no	NA	NA	NA	
+A0A1D8PJZ6	SNF5	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	excluded_indirect_regulator	excluded_indirect_regulator		indirect_regulator	no	no	no	NA	NA	0.0	OTHER	no	NA	NA	NA	
+A0A1D8PK00	CUP5	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	excluded_indirect_regulator	excluded_indirect_regulator		indirect_regulator	no	no	no	NA	NA	3e-06	OTHER	no	NA	NA	NA	
+A0A1D8PKB6	kre6	Candida albicans	Saccharomycotina	kiss_row_positive	kiss_row_positive					no	NA	NA	0.0	OTHER	no	NA	NA	NA	
+A0A1D8PKY7	HIS4	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	excluded_indirect_regulator	excluded_indirect_regulator		indirect_regulator	no	no	no	NA	NA	1e-06	OTHER	no	NA	NA	NA	
+A0A1D8PMH9	CWH41	Candida albicans	Saccharomycotina	excluded_surface_other_adhesion_phenotype	excluded_surface_other_adhesion_phenotype		surface_other_adhesion_phenotype	no	yes	yes	18	0.9811	0.999705	SP	no	NA	NA	NA	
+A0A1D8PMR6	ZRT101	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	17	0.8563	0.895328	SP	yes	437	weak	0.01	
+A0A1D8PN26	HAP5	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	excluded_indirect_regulator	excluded_indirect_regulator		indirect_regulator	no	no	no	NA	NA	0.0	OTHER	no	NA	NA	NA	
+A0A1D8PP43	ADH1	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	excluded_indirect_regulator	excluded_indirect_regulator		indirect_regulator	no	no	no	NA	NA	0.0	OTHER	no	NA	NA	NA	
+A0A1D8PQ86	ALS9	Candida albicans	Saccharomycotina	class_positive_A	class_positive	A	adhesin	yes	yes	yes	17	0.9742	0.999632	SP	yes	1867	high	0.0015	
+A0A1D8PQB9	ALS4	Candida albicans	Saccharomycotina	class_positive_A	class_positive	A	adhesin	yes	yes	yes	17	0.9705	0.999754	SP	yes	2077	high	0.0015	
+A0A1D8PQU2	FMP28	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	excluded_indirect_regulator	excluded_indirect_regulator		indirect_regulator	no	no	no	NA	NA	0.0	OTHER	no	NA	NA	NA	
+A0A1D8PR83	CYR1	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	excluded_indirect_regulator	excluded_indirect_regulator		indirect_regulator	no	no	no	NA	NA	3e-06	OTHER	no	NA	NA	NA	
+A0A1D8PRI0	NPT1	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	excluded_indirect_regulator	excluded_indirect_regulator		indirect_regulator	no	no	no	NA	NA	0.0	OTHER	no	NA	NA	NA	
+A0A1D8PT45	SOK1	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	excluded_indirect_regulator	excluded_indirect_regulator		indirect_regulator	no	no	no	NA	NA	0.0	OTHER	no	NA	NA	NA	
+A0A1D8PTB4	STE2	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	excluded_indirect_regulator	excluded_indirect_regulator		indirect_regulator	no	no	no	NA	NA	1.7e-05	OTHER	no	NA	NA	NA	
+A0A1D8PTV3	chs2	Candida albicans	Saccharomycotina	kiss_row_positive	kiss_row_positive					no	NA	NA	0.0	OTHER	no	NA	NA	NA	
+A0A2H0ZI19		Candidozyma auris	Saccharomycotina	class_positive_B	class_positive	B	adhesin	no	yes	yes	21	0.98	0.999744	SP	yes	641	high	0.0015	
+A0A2H0ZI42	IFF4109	Candidozyma auris	Saccharomycotina	class_positive_A	class_positive	A	adhesin	yes	yes	yes	21	0.9782	0.999763	SP	yes	2923	high	0.0015	
+A0A2H0ZKA3		Candidozyma auris	Saccharomycotina	class_positive_B	class_positive	B	adhesin	no	yes	yes	23	0.9672	0.999527	SP	yes	686	high	0.0015	
+A0A2H0ZQQ9		Candidozyma auris	Saccharomycotina	class_positive_B	class_positive	B	adhesin	no	yes	yes	19	0.9734	0.999738	SP	yes	735	high	0.0015	
+A0A2H0ZYK9		Candidozyma auris	Saccharomycotina	class_positive_B	class_positive	B	adhesin	no	yes	yes	21	0.1879	0.527634	SP	yes	1350	high	0.0015	
+A0A2H1A127		Candidozyma auris	Saccharomycotina	class_positive_B	class_positive	B	adhesin	no	yes	yes	19	0.9573	0.999692	SP	yes	834	high	0.0015	
+A0A2H1A319	SCF1	Candidozyma auris	Saccharomycotina	adhesin_other_mechanism	adhesin_other_mechanism		adhesin	yes	yes	yes	17	0.3127	0.575723	SP	yes	737	high	0.0015	
+A0A2H1A5L3		Candidozyma auris	Saccharomycotina	adhesin_other_mechanism	adhesin_other_mechanism		adhesin	no	yes	yes	17	0.9841	0.999774	SP	yes	2585	high	0.0015	
+A0A384J6C4	crh1	Botrytis cinerea	Pezizomycotina	hard_negative	hard_negative		hard_negative	yes	yes	yes	20	0.9769	0.999763	SP	yes	360	weak	0.01	
+A0A384J9V8	BcLysM1 (BCIN_02g05630)	Botrytis cinerea B05.10	Pezizomycotina	adhesin_other_mechanism	adhesin_other_mechanism		adhesin	no	yes	yes	19	0.9547	0.999674	SP	no	NA	NA	NA	
+A0A384JA57	Bhp1 (BCIN_02g07970)	Botrytis cinerea B05.10	Pezizomycotina	hard_negative	hard_negative		hard_negative	no	yes	yes	29	0.4419	0.999777	SP	no	NA	NA	NA	
+A0A384JJM8	Bhp3 (BCIN_06g00510)	Botrytis cinerea B05.10	Pezizomycotina	hard_negative	hard_negative		hard_negative	no	yes	yes	24	0.8499	0.999755	SP	no	NA	NA	NA	
+A0A384JN58	crh4	Botrytis cinerea	Pezizomycotina	hard_negative	hard_negative		hard_negative	yes	yes	yes	21	0.9725	0.999712	SP	yes	346	high	0.0015	
+A0A384JW35	Bhp2 (BCIN_11g01450)	Botrytis cinerea B05.10	Pezizomycotina	hard_negative	hard_negative		hard_negative	no	yes	yes	29	0.9583	0.999697	SP	no	NA	NA	NA	
+A0A384K116	crh3	Botrytis cinerea	Pezizomycotina	hard_negative	hard_negative		hard_negative	yes	yes	yes	19	0.941	0.999399	SP	yes	415	high	0.0015	
+A0A384K4T0	crh2	Botrytis cinerea	Pezizomycotina	hard_negative	hard_negative		hard_negative	no	yes	yes	21	0.9771	0.999789	SP	no	NA	NA	NA	
+A0A385MIS5	Chi	Moniliophthora perniciosa	Basidiomycota	hard_negative	hard_negative		hard_negative	no	yes	yes	23	0.9786	0.999695	SP	no	NA	NA	NA	
+A0A9P6LVP5	BGZ70_003642	Mortierella alpina	Mortierellomycota	hard_negative	hard_negative		hard_negative	no	yes	yes	20	0.9706	0.999573	SP	no	NA	NA	NA	
+A0AAW0V6D7		Candidozyma auris	Saccharomycotina	adhesin_other_mechanism	adhesin_other_mechanism		adhesin	no	no	no	NA	NA	1e-05	OTHER	no	NA	NA	NA	
+A0AAW0V956		Candidozyma auris	Saccharomycotina	class_positive_B	class_positive	B	adhesin	no	yes	yes	19	0.9793	0.999726	SP	yes	838	high	0.0015	
+A0AAW0V9R8	ALS4112	Candidozyma auris	Saccharomycotina	class_positive_A	class_positive	A	adhesin	yes	yes	yes	18	0.7938	0.997521	SP	yes	1770	high	0.0015	
+A0AAW0V9U7	ALS4498	Candidozyma auris	Saccharomycotina	class_positive_A	class_positive	A	adhesin	yes	yes	yes	12	0.7338	0.999183	SP	yes	814	high	0.0015	
+A0AAW0VBN8		Candidozyma auris	Saccharomycotina	class_positive_B	class_positive	B	adhesin	no	yes	yes	21	0.9764	0.999593	SP	yes	1697	high	0.0015	
+A0AAW0VN33		Candidozyma auris	Saccharomycotina	class_positive_B	class_positive	B	adhesin	no	yes	no	NA	NA	1e-06	OTHER	yes	1222	high	0.0015	
+A0ACE4JU10	bad1	Histoplasma capsulatum	Pezizomycotina	kiss_row_positive	kiss_row_positive					yes	18	0.9851	0.999833	SP	no	NA	NA	NA	
+A0ACE4K441	pmt1	Histoplasma capsulatum	Pezizomycotina	kiss_row_positive	kiss_row_positive					no	NA	NA	6.6e-05	OTHER	no	NA	NA	NA	
+A0ACE4KFX7	hyd1_like	Histoplasma capsulatum	Pezizomycotina	kiss_row_positive	kiss_row_positive					yes	19	0.9836	0.999726	SP	no	NA	NA	NA	
+A0ACF1AQZ4	SOD3	Histoplasma ohiense	Pezizomycotina	hard_negative	hard_negative		hard_negative	no	yes	yes	21	0.6896	0.999568	SP	yes	204	high	0.0015	
+A0ACF1AYZ2	YPS3 (I7I48_01120)	Histoplasma ohiense	Pezizomycotina	adhesin_other_mechanism	adhesin_other_mechanism		adhesin	no	yes	yes	22	0.976	0.999705	SP	no	NA	NA	NA	
+A4D962		Ajellomyces dermatitidis	Pezizomycotina	adhesin_other_mechanism	adhesin_other_mechanism		adhesin	no	yes	yes	21	0.963	0.999677	SP	no	NA	NA	NA	
+A6N6J0	chit46	Trichoderma harzianum	Pezizomycotina	hard_negative	hard_negative		hard_negative	no	yes	yes	22	0.9573	0.99916	SP	no	NA	NA	NA	
+A6XGK3	MCPA	Trichophyton rubrum	Pezizomycotina	hard_negative	hard_negative		hard_negative	no	yes	yes	17	0.9802	0.999447	SP	no	NA	NA	NA	
+A6XHF7	MCPB	Trichophyton rubrum	Pezizomycotina	hard_negative	hard_negative		hard_negative	no	yes	yes	21	0.9644	0.999453	SP	no	NA	NA	NA	
+A8NCG7	AA9-X282	Coprinopsis cinerea	Basidiomycota	hard_negative	hard_negative		hard_negative	no	yes	yes	18	0.7853	0.999718	SP	no	NA	NA	NA	
+A8P0V4	PDH	Coprinopsis cinerea	Basidiomycota	hard_negative	hard_negative		hard_negative	no	yes	yes	18	0.9818	0.999741	SP	no	NA	NA	NA	
+A8PZM4	SAP1	Malassezia globosa	Basidiomycota	hard_negative	hard_negative		hard_negative	no	yes	yes	20	0.974	0.999751	SP	no	NA	NA	NA	
+ACE80261	LIP1	Blumeria graminis	Pezizomycotina	hard_negative	hard_negative		hard_negative			yes	23	0.7851	0.99902	SP	no	NA	NA	NA	
+B0BK71	msp1	Mycetinis scorodonius	Basidiomycota	hard_negative	hard_negative		hard_negative	no	yes	yes	20	0.9654	0.997155	SP	no	NA	NA	NA	
+B2ABX7	CEL6A	Podospora anserina	Pezizomycotina	hard_negative	hard_negative		hard_negative	no	yes	yes	24	0.9456	0.99967	SP	no	NA	NA	NA	
+B3STP1	SWP7	Nosema bombycis	Microsporidia	adhesin_other_mechanism	adhesin_other_mechanism		adhesin	no	yes	no	NA	NA	0.372435	OTHER	no	NA	NA	NA	
+B4UN42		Candida glabrata	Saccharomycotina	class_positive_B	class_positive	B	adhesin	no	yes	yes	26	0.9404	0.999258	SP	yes	3219	high	0.0015	
+B6GX22	PCH_Pc12g07500	Penicillium rubens	Pezizomycotina	hard_negative	hard_negative		hard_negative	no	yes	yes	21	0.967	0.999348	SP	no	NA	NA	NA	
+B6QIN6	PMAA_098220	Talaromyces marneffei	Pezizomycotina	hard_negative	hard_negative		hard_negative	no	no	no	NA	NA	0.0	OTHER	no	NA	NA	NA	
+B6QPY8	PMAA_039680	Talaromyces marneffei	Pezizomycotina	adhesin_other_mechanism	adhesin_other_mechanism		adhesin	no	no	no	NA	NA	0.0	OTHER	no	NA	NA	NA	
+B6QUR1		Talaromyces marneffei	Pezizomycotina	hard_negative	hard_negative		hard_negative	no	yes	yes	18	0.9816	0.999759	SP	yes	442	high	0.0015	
+C4R2D7	FLO11	Komagataella phaffii	Saccharomycotina	adhesin_other_mechanism	adhesin_other_mechanism		adhesin	no	yes	yes	22	0.8407	0.998373	SP	yes	814	high	0.0015	
+C4XZ24	FLO11	Clavispora lusitaniae	Saccharomycotina	adhesin_other_mechanism	adhesin_other_mechanism		adhesin	no	yes	yes	23	0.9642	0.999671	SP	yes	2138	high	0.0015	
+C5P3X6	MEP1	Coccidioides posadasii	Pezizomycotina	hard_negative	hard_negative		hard_negative	no	yes	yes	18	0.9697	0.999727	SP	no	NA	NA	NA	
+D3W9Z7	aspf2	Aspergillus fumigatus	Pezizomycotina	hard_negative	hard_negative		hard_negative	no	yes	yes	31	0.3582	0.999654	SP	no	NA	NA	NA	
+D6VTK4	ste2	Saccharomyces cerevisiae	Saccharomycotina	kiss_row_positive	kiss_row_positive					no	NA	NA	3e-05	OTHER	no	NA	NA	NA	
+E9DFH0	HEX1	Coccidioides posadasii	Pezizomycotina	hard_negative	hard_negative		hard_negative	no	yes	yes	20	0.9805	0.999727	SP	no	NA	NA	NA	
+E9F648	Mlac1	Metarhizium robertsii	Pezizomycotina	hard_negative	hard_negative		hard_negative	no	yes	yes	20	0.9813	0.999758	SP	no	NA	NA	NA	
+E9P9G2	FLO11	Saccharomyces cerevisiae	Saccharomycotina	adhesin_other_mechanism	adhesin_other_mechanism		adhesin	no	yes	yes	21	0.9827	0.999772	SP	yes	1338	high	0.0015	
+E9QT94	rodB	Aspergillus fumigatus	Pezizomycotina	adhesin_other_mechanism	adhesin_other_mechanism		adhesin	no	yes	yes	16	0.9743	0.99977	SP	yes	119	high	0.0015	
+E9R598	fetC	Aspergillus fumigatus	Pezizomycotina	hard_negative	hard_negative		hard_negative	no	yes	yes	20	0.9838	0.999779	SP	no	NA	NA	NA	
+E9R5E2	gfa1_Afu6g06340	Aspergillus fumigatus	Pezizomycotina	kiss_row_positive	kiss_row_positive					no	NA	NA	0.0	OTHER	no	NA	NA	NA	
+E9RBR0	abr2	Aspergillus fumigatus	Pezizomycotina	hard_negative	hard_negative		hard_negative	no	yes	yes	17	0.968	0.999716	SP	no	NA	NA	NA	
+F2SL83	vioL	Trichophyton rubrum	Pezizomycotina	hard_negative	hard_negative		hard_negative	no	yes	yes	18	0.9738	0.999702	SP	no	NA	NA	NA	
+F4P6Q5	BATDEDRAFT_35524	Batrachochytrium dendrobatidis	Chytridiomycota	kiss_row_positive	kiss_row_positive					no	NA	NA	9.7e-05	OTHER	no	NA	NA	NA	
+F4P8T0	BATDEDRAFT_20500	Batrachochytrium dendrobatidis	Chytridiomycota	kiss_row_positive	kiss_row_positive					no	NA	NA	0.0	OTHER	no	NA	NA	NA	
+F9WWD1	GT2 (MYCGRDRAFT_65552)	Zymoseptoria tritici IPO323	Pezizomycotina	hard_negative	hard_negative		hard_negative	no	no	no	NA	NA	0.00214	OTHER	no	NA	NA	NA	
+G1UB63	CSA1	Candida albicans	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	yes	yes	yes	17	0.9807	0.999699	SP	yes	989	high	0.0015	
+G1UB67	DEF1	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	excluded_indirect_regulator	excluded_indirect_regulator		indirect_regulator	no	no	no	NA	NA	0.0	OTHER	no	NA	NA	NA	
+G1UBC2	EAP1	Candida albicans	Saccharomycotina	class_positive_A	class_positive	A	adhesin	yes	yes	yes	18	0.9456	0.998464	SP	yes	630	high	0.0015	
+G2QFD0	LMCO1	Thermothelomyces thermophilus	Pezizomycotina	hard_negative	hard_negative		hard_negative	no	yes	yes	20	0.6413	0.67377	SP	no	NA	NA	NA	
+G2WQW0	GH7-2	Verticillium dahliae	Pezizomycotina	hard_negative	hard_negative		hard_negative	no	yes	yes	17	0.9806	0.999726	SP	no	NA	NA	NA	
+G2WSY1	PR1	Verticillium dahliae	Pezizomycotina	hard_negative	hard_negative		hard_negative	no	yes	yes	19	0.975	0.99974	SP	no	NA	NA	NA	
+G2WTI6	SCP1	Verticillium dahliae	Pezizomycotina	hard_negative	hard_negative		hard_negative	no	yes	yes	21	0.7773	0.999492	SP	no	NA	NA	NA	
+G2WYA4	SCP41	Verticillium dahliae	Pezizomycotina	hard_negative	hard_negative		hard_negative	no	yes	yes	16	0.9722	0.999742	SP	yes	185	high	0.0015	
+G2WYV9	SCP116	Verticillium dahliae	Pezizomycotina	hard_negative	hard_negative		hard_negative	no	yes	yes	17	0.9802	0.999758	SP	yes	135	high	0.0015	
+G2X5B6	SCP43	Verticillium dahliae	Pezizomycotina	hard_negative	hard_negative		hard_negative	no	yes	yes	18	0.9632	0.99969	SP	yes	191	high	0.0015	
+G2X658	SCP77	Verticillium dahliae	Pezizomycotina	hard_negative	hard_negative		hard_negative	no	yes	yes	21	0.9709	0.999772	SP	no	NA	NA	NA	
+G2X659	SCP76	Verticillium dahliae	Pezizomycotina	hard_negative	hard_negative		hard_negative	no	yes	yes	18	0.9699	0.999662	SP	yes	219	high	0.0015	
+G2X962	SCP99	Verticillium dahliae	Pezizomycotina	hard_negative	hard_negative		hard_negative	no	yes	yes	21	0.9769	0.999794	SP	no	NA	NA	NA	
+G2X9U7	PDA1	Verticillium dahliae	Pezizomycotina	hard_negative	hard_negative		hard_negative	no	yes	yes	19	0.9456	0.997075	SP	no	NA	NA	NA	
+G2XB57	SCP72	Verticillium dahliae	Pezizomycotina	hard_negative	hard_negative		hard_negative	no	yes	yes	21	0.8412	0.999637	SP	yes	171	high	0.0015	
+G2XF09	ECH	Verticillium dahliae	Pezizomycotina	hard_negative	hard_negative		hard_negative	no	yes	yes	24	0.771	0.999405	SP	no	NA	NA	NA	
+G4MM92	cel6A	Pyricularia oryzae	Pezizomycotina	hard_negative	hard_negative		hard_negative	no	yes	yes	25	0.6997	0.999747	SP	no	NA	NA	NA	
+G4MWK2	MHP1	Pyricularia oryzae	Pezizomycotina	adhesin_other_mechanism	adhesin_other_mechanism		adhesin	no	yes	yes	27	0.9114	0.999713	SP	no	NA	NA	NA	
+G4N4W3	MSB2 (MGG_06033)	Pyricularia oryzae 70-15	Pezizomycotina	hard_negative	hard_negative		hard_negative	no	yes	yes	20	0.9716	0.999608	SP	no	NA	NA	NA	
+G4NDG4	PEP4	Pyricularia oryzae	Pezizomycotina	hard_negative	hard_negative		hard_negative	no	yes	no	NA	NA	0.344969	OTHER	no	NA	NA	NA	
+G5EAZ3	chiB	Aspergillus nidulans	Pezizomycotina	hard_negative	hard_negative		hard_negative	no	no	no	NA	NA	0.0	OTHER	no	NA	NA	NA	
+G5EB30	chiA	Aspergillus nidulans	Pezizomycotina	hard_negative	hard_negative		hard_negative	yes	yes	yes	21	0.9759	0.999747	SP	yes	935	high	0.0015	
+G8BJ61	ALS7	Candida parapsilosis	Saccharomycotina	class_positive_B	class_positive	B	adhesin	no	yes	yes	22	0.9781	0.999785	SP	yes	1362	high	0.0015	
+I1BJN3	CotH7	Rhizopus delemar	Mucoromycota	adhesin_other_mechanism	adhesin_other_mechanism		adhesin	yes	yes	yes	17	0.98	0.99969	SP	yes	567	weak	0.01	
+I1C4E4	CotH2	Rhizopus delemar	Mucoromycota	adhesin_other_mechanism	adhesin_other_mechanism		adhesin	yes	yes	yes	19	0.9792	0.999687	SP	yes	571	high	0.0015	
+I1CFE1	CotH3	Rhizopus delemar	Mucoromycota	adhesin_other_mechanism	adhesin_other_mechanism		adhesin	yes	yes	yes	17	0.9828	0.999777	SP	yes	579	high	0.0015	
+I1RAQ3	CFEMN1	Fusarium graminearum	Pezizomycotina	hard_negative	hard_negative		hard_negative	yes	yes	yes	17	0.9767	0.999753	SP	yes	139	high	0.0015	
+I1RDW3	hyd5	Fusarium graminearum	Pezizomycotina	kiss_row_positive	kiss_row_positive					yes	24	0.9537	0.99974	SP	no	NA	NA	NA	
+I1REI8	CFEM1	Fusarium graminearum	Pezizomycotina	hard_negative	hard_negative		hard_negative	yes	yes	yes	17	0.9656	0.999782	SP	yes	163	high	0.0015	
+I1RET0	CFEM5	Fusarium graminearum	Pezizomycotina	hard_negative	hard_negative		hard_negative	no	yes	yes	23	0.876	0.999525	SP	yes	130	high	0.0015	
+I1RMG9	FET3	Fusarium graminearum	Pezizomycotina	hard_negative	hard_negative		hard_negative	no	yes	yes	22	0.9723	0.999431	SP	no	NA	NA	NA	
+I1RXJ5	Hyd3 (FG09066)	Fusarium graminearum PH-1	Pezizomycotina	adhesin_other_mechanism	adhesin_other_mechanism		adhesin	no	yes	yes	18	0.9713	0.999764	SP	no	NA	NA	NA	
+I2HB70		Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	no	NA	NA	0.000983	OTHER	no	NA	NA	NA	
+J9VDC2	PQP1	Cryptococcus neoformans	Basidiomycota	hard_negative	hard_negative		hard_negative	no	yes	yes	23	0.9776	0.999703	SP	no	NA	NA	NA	
+J9VH79	CEL1	Cryptococcus neoformans	Basidiomycota	hard_negative	hard_negative		hard_negative	no	yes	yes	16	0.9734	0.999693	SP	no	NA	NA	NA	
+J9VHS9	CFL1 (CNAG_00795)	Cryptococcus neoformans H99	Basidiomycota	adhesin_other_mechanism	adhesin_other_mechanism		adhesin	no	yes	yes	18	0.9779	0.999737	SP	no	NA	NA	NA	
+J9VKM5	DNJ1	Cryptococcus neoformans	Basidiomycota	hard_negative	hard_negative		hard_negative	no	yes	yes	22	0.9802	0.999749	SP	no	NA	NA	NA	
+J9VLH0	CNE1	Cryptococcus neoformans	Basidiomycota	hard_negative	hard_negative		hard_negative	no	yes	yes	23	0.5892	0.645374	SP	no	NA	NA	NA	
+J9VNY5	CND01240	Cryptococcus neoformans	Basidiomycota	kiss_row_positive	kiss_row_positive					no	NA	NA	1.9e-05	OTHER	no	NA	NA	NA	
+J9VQE5	CPL1 (CNAG_02797)	Cryptococcus neoformans H99	Basidiomycota	hard_negative	hard_negative		hard_negative	no	yes	yes	30	0.8762	0.911173	SP	no	NA	NA	NA	
+J9VS02	cnap1	Cryptococcus neoformans	Basidiomycota	hard_negative	hard_negative		hard_negative	no	yes	yes	16	0.9704	0.999754	SP	yes	463	high	0.0015	
+K1WG73	CFEM6	Drepanopeziza brunnea	Pezizomycotina	hard_negative	hard_negative		hard_negative	yes	yes	yes	25	0.7872	0.99963	SP	yes	248	high	0.0015	
+K1XT82	CFEM9	Drepanopeziza brunnea	Pezizomycotina	hard_negative	hard_negative		hard_negative	yes	yes	yes	18	0.9819	0.999705	SP	yes	213	high	0.0015	
+K1XVG1	CFEM1	Drepanopeziza brunnea	Pezizomycotina	hard_negative	hard_negative		hard_negative	yes	yes	yes	17	0.9819	0.999741	SP	yes	207	high	0.0015	
+K1XW16	CFEM8	Drepanopeziza brunnea	Pezizomycotina	hard_negative	hard_negative		hard_negative	yes	yes	yes	17	0.9812	0.999803	SP	yes	141	high	0.0015	
+O13318	PHR2	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	yes	yes	yes	22	0.9596	0.999668	SP	yes	515	high	0.0015	
+O13515		Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	22	0.4895	0.999579	SP	no	NA	NA	NA	
+O13519		Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	no	NA	NA	0.001978	OTHER	no	NA	NA	NA	
+O13547	CCW14	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	yes	yes	yes	22	0.9767	0.99977	SP	yes	215	high	0.0015	
+O13716	agn1	Schizosaccharomyces pombe	Taphrinomycotina	hard_negative	hard_negative		hard_negative	no	yes	yes	20	0.978	0.999743	SP	yes	394	probable	0.005	
+O14456	chit1	Metarhizium anisopliae	Pezizomycotina	hard_negative	hard_negative		hard_negative	no	yes	yes	22	0.9275	0.999612	SP	no	NA	NA	NA	
+O42720	CBP1	Histoplasma capsulatum	Pezizomycotina	hard_negative	hard_negative		hard_negative	no	yes	yes	32	0.8372	0.999696	SP	no	NA	NA	NA	
+O59896	LCC3-1	Trametes cinnabarina	Basidiomycota	hard_negative	hard_negative		hard_negative	no	yes	yes	21	0.9804	0.999597	SP	no	NA	NA	NA	
+O59923	SIR2	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	excluded_indirect_regulator	excluded_indirect_regulator		indirect_regulator	no	no	no	NA	NA	2.6e-05	OTHER	no	NA	NA	NA	
+O74161	chs5	Candida albicans	Saccharomycotina	kiss_row_positive	kiss_row_positive					no	NA	NA	0.0	OTHER	no	NA	NA	NA	
+O74189	PMT1	Candida albicans	Saccharomycotina	excluded_indirect_regulator	excluded_indirect_regulator		indirect_regulator	no	no	no	NA	NA	0.0	OTHER	no	NA	NA	NA	
+O74199	chi11	Metarhizium anisopliae	Pezizomycotina	hard_negative	hard_negative		hard_negative	no	yes	no	NA	NA	0.017427	OTHER	no	NA	NA	NA	
+O74254	GAM1	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	20	0.9872	0.999751	SP	no	NA	NA	NA	
+O74346	map4	Schizosaccharomyces pombe	Taphrinomycotina	class_positive_A	class_positive	A	adhesin	no	yes	yes	23	0.9688	0.999701	SP	no	NA	NA	NA	
+O74475	bgs4	Schizosaccharomyces pombe	Taphrinomycotina	kiss_row_positive	kiss_row_positive					no	NA	NA	1.1e-05	OTHER	no	NA	NA	NA	
+O74670	MSG	Pneumocystis jirovecii	Taphrinomycotina	adhesin_other_mechanism	adhesin_other_mechanism		adhesin	no	no	no	NA	NA	0.0	OTHER	no	NA	NA	NA	
+O94072	VMA4	Candida albicans (Yeast)	Saccharomycotina	excluded_indirect_regulator	excluded_indirect_regulator		indirect_regulator	no	no	no	NA	NA	5e-06	OTHER	no	NA	NA	NA	
+O94091	LIP1	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	16	0.9787	0.999726	SP	no	NA	NA	NA	
+O94614	chr4	Schizosaccharomyces pombe	Taphrinomycotina	kiss_row_positive	kiss_row_positive					no	NA	NA	0.0	OTHER	no	NA	NA	NA	
+O94753	vpl2	Pleurotus eryngii	Basidiomycota	hard_negative	hard_negative		hard_negative	no	yes	yes	30	0.9215	0.999769	SP	no	NA	NA	NA	
+P00635	PHO5	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	17	0.9761	0.999613	SP	no	NA	NA	NA	
+P00724	SUC2	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	19	0.9787	0.999758	SP	no	NA	NA	NA	
+P00729	PRC1	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	20	0.7046	0.999561	SP	no	NA	NA	NA	
+P01149	MF(ALPHA)1	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	19	0.9785	0.999634	SP	no	NA	NA	NA	
+P06783	ste3	Saccharomyces cerevisiae	Saccharomycotina	kiss_row_positive	kiss_row_positive					no	NA	NA	0.0	OTHER	no	NA	NA	NA	
+P07267	PEP4	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	22	0.9718	0.999779	SP	no	NA	NA	NA	
+P07981	egl1	Trichoderma reesei	Pezizomycotina	hard_negative	hard_negative		hard_negative	no	yes	yes	22	0.9758	0.99974	SP	no	NA	NA	NA	
+P07982	egl2	Trichoderma reesei	Pezizomycotina	hard_negative	hard_negative		hard_negative	no	yes	yes	21	0.9797	0.999739	SP	no	NA	NA	NA	
+P07987	cbh2	Trichoderma reesei	Pezizomycotina	hard_negative	hard_negative		hard_negative	no	yes	yes	24	0.9557	0.999721	SP	no	NA	NA	NA	
+P08459	SPS2	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	yes	yes	no	NA	NA	0.105946	OTHER	no	NA	NA	NA	
+P08640	FLO11	Saccharomyces cerevisiae	Saccharomycotina	class_positive_A	class_positive	A	adhesin	yes	yes	yes	21	0.9815	0.999751	SP	yes	1345	high	0.0015	
+P09232	PRB1	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	28	0.5737	0.617095	SP	no	NA	NA	NA	
+P09620	KEX1	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	22	0.8454	0.883244	SP	no	NA	NA	NA	
+P0C5L8		Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	no	NA	NA	0.015334	OTHER	no	NA	NA	NA	
+P0C5M6		Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	no	NA	NA	0.000124	OTHER	no	NA	NA	NA	
+P0C7S9	gel1	Aspergillus fumigatus	Pezizomycotina	hard_negative	hard_negative		hard_negative	no	yes	yes	25	0.692	0.999587	SP	yes	429	high	0.0015	
+P0C954	gel2	Aspergillus fumigatus	Pezizomycotina	hard_negative	hard_negative		hard_negative	no	yes	yes	21	0.9726	0.999663	SP	yes	451	high	0.0015	
+P0CB51	CTS1	Coccidioides posadasii	Pezizomycotina	hard_negative	hard_negative		hard_negative	no	yes	yes	17	0.98	0.999736	SP	no	NA	NA	NA	
+P0CE85	PAU19	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	20	0.9698	0.999541	SP	no	NA	NA	NA	
+P0CI66		Saccharomyces cerevisiae	Saccharomycotina	adhesin_other_mechanism	adhesin_other_mechanism		adhesin	no	no	no	NA	NA	7.4e-05	OTHER	no	NA	NA	NA	
+P0CI67		Saccharomyces cerevisiae	Saccharomycotina	adhesin_other_mechanism	adhesin_other_mechanism		adhesin	no	no	no	NA	NA	7.4e-05	OTHER	no	NA	NA	NA	
+P0CS93	GAOA	Fusarium graminearum	Pezizomycotina	hard_negative	hard_negative		hard_negative	no	yes	yes	18	0.9711	0.999697	SP	no	NA	NA	NA	
+P0CU05	pfl6	Schizosaccharomyces pombe	Taphrinomycotina	class_positive_A	class_positive	A	adhesin	no	yes	yes	24	0.8423	0.899425	SP	no	NA	NA	NA	
+P0CU38	ALS2	Candida albicans	Saccharomycotina	class_positive_A	class_positive	A	adhesin	yes	yes	yes	17	0.9694	0.999736	SP	yes	2507	high	0.0015	
+P0CY22	KRE1	Candida albicans	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	20	0.9821	0.999781	SP	no	NA	NA	NA	
+P0CY27	SAP1	Candida albicans	Saccharomycotina	excluded_surface_other_adhesion_phenotype	excluded_surface_other_adhesion_phenotype		surface_other_adhesion_phenotype	no	yes	yes	18	0.9783	0.999754	SP	no	NA	NA	NA	
+P0CY29	SAP3	Candida albicans	Saccharomycotina	excluded_surface_other_adhesion_phenotype	excluded_surface_other_adhesion_phenotype		surface_other_adhesion_phenotype	no	yes	yes	18	0.9806	0.999792	SP	no	NA	NA	NA	
+P0DJ06	SAP2	Candida albicans	Saccharomycotina	excluded_surface_other_adhesion_phenotype	excluded_surface_other_adhesion_phenotype		surface_other_adhesion_phenotype	no	yes	yes	18	0.9813	0.999773	SP	no	NA	NA	NA	
+P0DYC5	BGZ82_000752	Podila clonocystis	Mortierellomycota	hard_negative	hard_negative		hard_negative	no	yes	yes	20	0.9709	0.999304	SP	no	NA	NA	NA	
+P0DYC6		Mortierella alpina	Mortierellomycota	hard_negative	hard_negative		hard_negative	no	yes	yes	20	0.7053	0.999577	SP	no	NA	NA	NA	
+P10863	TIR1	Saccharomyces cerevisiae	Saccharomycotina	hard_negative	hard_negative		hard_negative	yes	yes	yes	18	0.9812	0.999735	SP	yes	233	high	0.0015	
+P12630	BAR1	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	24	0.9801	0.999802	SP	no	NA	NA	NA	
+P13130	SPS100	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	24	0.9536	0.999724	SP	no	NA	NA	NA	
+P13134	KEX2	Saccharomyces cerevisiae	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	23	0.9555	0.99887	SP	no	NA	NA	NA	
+P13649	URA3	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	excluded_indirect_regulator	excluded_indirect_regulator		indirect_regulator	no	no	no	NA	NA	0.0	OTHER	no	NA	NA	NA	
+P15703	BGL2	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	23	0.9757	0.999726	SP	no	NA	NA	NA	
+P16474	KAR2	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	no	NA	NA	0.009489	OTHER	no	NA	NA	NA	
+P17260	KRE1	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	uncurated_repeat_bearing	uncurated_repeat_bearing		uniprot	yes	yes	yes	26	0.9671	0.99942	SP	yes	288	high	0.0015	
+P17489	yA	Aspergillus nidulans	Pezizomycotina	hard_negative	hard_negative		hard_negative	no	yes	yes	20	0.9791	0.999767	SP	no	NA	NA	NA	
+P17967	PDI1	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	22	0.9791	0.999655	SP	no	NA	NA	NA	
+P20840	SAG1	Saccharomyces cerevisiae	Saccharomycotina	class_positive_A	class_positive	A	adhesin	yes	yes	yes	19	0.935	0.999734	SP	yes	619	high	0.0015	
+P22023	KRE5	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	19	0.8016	0.999768	SP	no	NA	NA	NA	
+P22146	GAS1	Saccharomyces cerevisiae	Saccharomycotina	hard_negative	hard_negative		hard_negative	yes	yes	yes	22	0.9802	0.999725	SP	yes	528	high	0.0015	
+P22943	HSP12	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	excluded_indirect_regulator	excluded_indirect_regulator		indirect_regulator	no	no	no	NA	NA	1e-06	OTHER	no	NA	NA	NA	
+P23285	CPR2	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	20	0.974	0.999736	SP	no	NA	NA	NA	
+P23776	EXG1	Saccharomyces cerevisiae	Saccharomycotina	hard_negative	hard_negative		hard_negative	no	yes	yes	24	0.7696	0.999701	SP	no	NA	NA	NA	
+P24031	PHO3	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	17	0.9797	0.99972	SP	no	NA	NA	NA	
+P25036	YSP3	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	no	NA	NA	0.26546	OTHER	no	NA	NA	NA	
+P25334	CPR4	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	20	0.9806	0.999746	SP	no	NA	NA	NA	
+P25371	ADP1	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	25	0.9783	0.999628	SP	no	NA	NA	NA	
+P25381	RRT12	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	17	0.9737	0.999341	SP	no	NA	NA	NA	
+P25574	EMC1	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	24	0.9664	0.999742	SP	no	NA	NA	NA	
+P25577		Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	19	0.9819	0.999678	SP	no	NA	NA	NA	
+P25625	PER1	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	18	0.9871	0.999815	SP	no	NA	NA	NA	
+P25639		Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	20	0.9742	0.999542	SP	no	NA	NA	NA	
+P25653	FIG2	Saccharomyces cerevisiae	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	yes	yes	yes	22	0.9683	0.999675	SP	yes	1586	high	0.0015	
+P27654	TIP1	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	yes	yes	yes	19	0.9835	0.999777	SP	yes	186	high	0.0015	
+P27825	CNE1	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	uncurated_repeat_bearing	uncurated_repeat_bearing		uniprot	no	yes	yes	29	0.3845	0.999513	SP	yes	471	high	0.0015	
+P28319	CWP1	Saccharomyces cerevisiae	Saccharomycotina	hard_negative	hard_negative		hard_negative	yes	yes	yes	20	0.9802	0.9998	SP	yes	217	high	0.0015	
+P29029	CTS1	Saccharomyces cerevisiae	Saccharomycotina	hard_negative	hard_negative		hard_negative	no	yes	yes	20	0.9797	0.999793	SP	no	NA	NA	NA	
+P29465	chs3	Saccharomyces cerevisiae	Saccharomycotina	kiss_row_positive	kiss_row_positive					no	NA	NA	0.0	OTHER	no	NA	NA	NA	
+P29717	XOG1	Candida albicans	Saccharomycotina	excluded_surface_other_adhesion_phenotype	excluded_surface_other_adhesion_phenotype		surface_other_adhesion_phenotype	no	yes	yes	21	0.9801	0.999743	SP	no	NA	NA	NA	
+P31302	pra1	Mycosarcoma maydis	Basidiomycota	kiss_row_positive	kiss_row_positive					no	NA	NA	0.0	OTHER	no	NA	NA	NA	
+P32323	AGA1	Saccharomyces cerevisiae	Saccharomycotina	class_positive_A	class_positive	A	adhesin	yes	yes	yes	24	0.9785	0.999765	SP	yes	700	high	0.0015	
+P32329	YPS1	Saccharomyces cerevisiae	Saccharomycotina	hard_negative	hard_negative		hard_negative	yes	yes	no	NA	NA	0.211298	OTHER	yes	548	high	0.0015	
+P32334	MSB2	Saccharomyces cerevisiae	Saccharomycotina	hard_negative	hard_negative		hard_negative	no	yes	yes	21	0.7897	0.999757	SP	no	NA	NA	NA	
+P32361	IRE1	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	23	0.9267	0.985984	SP	no	NA	NA	NA	
+P32435	MF(ALPHA)2	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	19	0.9858	0.999723	SP	no	NA	NA	NA	
+P32472	FPR2	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	17	0.9769	0.999552	SP	no	NA	NA	NA	
+P32474	EUG1	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	23	0.9815	0.999714	SP	no	NA	NA	NA	
+P32478	HSP150	Saccharomyces cerevisiae	Saccharomycotina	hard_negative	hard_negative		hard_negative	no	yes	yes	18	0.982	0.999513	SP	no	NA	NA	NA	
+P32603	SPR1	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	20	0.9777	0.999365	SP	no	NA	NA	NA	
+P32623	UTR2	Saccharomyces cerevisiae	Saccharomycotina	hard_negative	hard_negative		hard_negative	yes	yes	yes	23	0.9692	0.999793	SP	yes	445	high	0.0015	
+P32768	FLO1	Saccharomyces cerevisiae	Saccharomycotina	class_positive_A	class_positive	A	adhesin	yes	yes	yes	24	0.9749	0.999733	SP	yes	1512	high	0.0015	
+P32781	AGA2	Saccharomyces cerevisiae	Saccharomycotina	adhesin_other_mechanism	adhesin_other_mechanism		adhesin	no	yes	yes	18	0.9577	0.999743	SP	no	NA	NA	NA	
+P32791	FRE1	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	20	0.981	0.999708	SP	no	NA	NA	NA	
+P32802	EMP70	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	22	0.979	0.999774	SP	no	NA	NA	NA	
+P32803	EMP24	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	20	0.9787	0.999739	SP	no	NA	NA	NA	
+P32857	PTM1	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	26	0.8283	0.878884	SP	no	NA	NA	NA	
+P33767	WBP1	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	20	0.9454	0.999676	SP	no	NA	NA	NA	
+P34226	chs4_skt5	Saccharomyces cerevisiae	Saccharomycotina	kiss_row_positive	kiss_row_positive					no	NA	NA	0.0	OTHER	no	NA	NA	NA	
+P35176	CPR5	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	22	0.9807	0.999698	SP	no	NA	NA	NA	
+P35206	CSG2	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	no	NA	NA	0.005026	OTHER	no	NA	NA	NA	
+P35842	PHO11	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	17	0.9788	0.999673	SP	no	NA	NA	NA	
+P35994	PAU16	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	20	0.9697	0.999534	SP	no	NA	NA	NA	
+P36016	LHS1	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	no	NA	NA	0.327632	OTHER	no	NA	NA	NA	
+P36027	MID2	Saccharomyces cerevisiae	Saccharomycotina	hard_negative	hard_negative		hard_negative	no	yes	yes	25	0.7803	0.830139	SP	no	NA	NA	NA	
+P36033	FRE2	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	20	0.9775	0.999753	SP	no	NA	NA	NA	
+P36081	PSG1	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	22	0.9747	0.999653	SP	no	NA	NA	NA	
+P36091	DCW1	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	yes	yes	yes	21	0.977	0.99977	SP	yes	427	high	0.0015	
+P36096	TUL1	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	26	0.9709	0.999747	SP	no	NA	NA	NA	
+P36110	PRY2	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	18	0.9025	0.998477	SP	no	NA	NA	NA	
+P36135	UTH1	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	17	0.9807	0.999732	SP	no	NA	NA	NA	
+P36137	UIP5	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	no	NA	NA	0.004467	OTHER	no	NA	NA	NA	
+P36170	FLO10	Saccharomyces cerevisiae	Saccharomycotina	class_positive_A	class_positive	A	adhesin	yes	yes	yes	24	0.9768	0.99969	SP	yes	1146	high	0.0015	
+P37302	APE3	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	no	NA	NA	0.249792	OTHER	no	NA	NA	NA	
+P38068	GRX7	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	32	0.5164	0.553949	SP	no	NA	NA	NA	
+P38082	NRG2	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	excluded_indirect_regulator	excluded_indirect_regulator		indirect_regulator	no	no	no	NA	NA	0.0	OTHER	no	NA	NA	NA	
+P38109	ATG42	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	24	0.9145	0.999735	SP	no	NA	NA	NA	
+P38138	ROT2	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	20	0.9821	0.999764	SP	no	NA	NA	NA	
+P38155	PAU24	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	25	0.7286	0.99955	SP	no	NA	NA	NA	
+P38215		Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	20	0.8755	0.995029	SP	no	NA	NA	NA	
+P38248	ECM33	Saccharomyces cerevisiae	Saccharomycotina	hard_negative	hard_negative		hard_negative	yes	yes	yes	19	0.977	0.999726	SP	yes	406	high	0.0015	
+P38288	TOS1	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	23	0.9798	0.999774	SP	no	NA	NA	NA	
+P38320		Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	no	NA	NA	2e-06	OTHER	no	NA	NA	NA	
+P38616	YGP1	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	19	0.9668	0.999356	SP	no	NA	NA	NA	
+P38631	fks1	Saccharomyces cerevisiae	Saccharomycotina	kiss_row_positive	kiss_row_positive					no	NA	NA	1e-06	OTHER	no	NA	NA	NA	
+P38678	cot-2/gs-1	Neurospora crassa	Pezizomycotina	kiss_row_positive	kiss_row_positive					no	NA	NA	1e-06	OTHER	no	NA	NA	NA	
+P38693	PHO12	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	17	0.9788	0.999673	SP	no	NA	NA	NA	
+P38725	PAU13	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	25	0.7324	0.999561	SP	no	NA	NA	NA	
+P38729		Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	no	NA	NA	0.003191	OTHER	no	NA	NA	NA	
+P38733		Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	22	0.8746	0.932899	SP	no	NA	NA	NA	
+P38739	WSC4	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	26	0.9726	0.999712	SP	no	NA	NA	NA	
+P38742	NPR3	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	no	NA	NA	1e-06	OTHER	no	NA	NA	NA	
+P38745		Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	20	0.983	0.99978	SP	no	NA	NA	NA	
+P38813	BIG1	Saccharomyces cerevisiae	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	19	0.9398	0.998637	SP	no	NA	NA	NA	
+P38819	ERP5	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	21	0.5104	0.999472	SP	no	NA	NA	NA	
+P38836	ECM14	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	24	0.9706	0.999768	SP	no	NA	NA	NA	
+P38841		Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	19	0.9804	0.999753	SP	no	NA	NA	NA	
+P38843	chs7	Saccharomyces cerevisiae	Saccharomycotina	kiss_row_positive	kiss_row_positive					no	NA	NA	0.001008	OTHER	no	NA	NA	NA	
+P38844	DSE2	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	yes	yes	yes	21	0.9821	0.999729	SP	yes	296	high	0.0015	
+P38849	MTC6	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	20	0.9359	0.99911	SP	no	NA	NA	NA	
+P38875	GPI16	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	19	0.9788	0.999784	SP	no	NA	NA	NA	
+P38881	NVJ1	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	no	NA	NA	1e-06	OTHER	no	NA	NA	NA	
+P38887	SMN1	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	18	0.9849	0.999721	SP	no	NA	NA	NA	
+P38888	MNL1	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	20	0.9767	0.999744	SP	yes	772	probable	0.005	
+P38894	FLO5	Saccharomyces cerevisiae	Saccharomycotina	class_positive_A	class_positive	A	adhesin	yes	yes	yes	24	0.9805	0.999792	SP	yes	1050	high	0.0015	
+P38928	AXL2	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	22	0.9805	0.999772	SP	no	NA	NA	NA	
+P38993	FET3	Saccharomyces cerevisiae	Saccharomycotina	hard_negative	hard_negative		hard_negative	no	yes	yes	21	0.9797	0.999791	SP	no	NA	NA	NA	
+P39005	KRE9	Saccharomyces cerevisiae	Saccharomycotina	hard_negative	hard_negative		hard_negative	no	yes	yes	21	0.9801	0.999743	SP	no	NA	NA	NA	
+P39105	PLB1	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	yes	yes	yes	22	0.9789	0.999787	SP	yes	642	high	0.0015	
+P39543	SOP4	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	20	0.5768	0.999755	SP	no	NA	NA	NA	
+P39545	PAU7	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	20	0.9593	0.988588	SP	no	NA	NA	NA	
+P39704	ERP2	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	25	0.978	0.99971	SP	no	NA	NA	NA	
+P39712	FLO9	Saccharomyces cerevisiae	Saccharomycotina	class_positive_A	class_positive	A	adhesin	yes	yes	yes	24	0.9317	0.99978	SP	yes	1297	high	0.0015	
+P39719	FLC2	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	24	0.5809	0.999536	SP	no	NA	NA	NA	
+P39827	CDC10	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	excluded_indirect_regulator	excluded_indirect_regulator		indirect_regulator	no	no	no	NA	NA	0.0	OTHER	no	NA	NA	NA	
+P39931	SSP120	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	22	0.9457	0.999647	SP	no	NA	NA	NA	
+P39982	HHY1	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	no	NA	NA	0.022923	OTHER	no	NA	NA	NA	
+P39989		Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	21	0.9809	0.999788	SP	no	NA	NA	NA	
+P40006	IRC22	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	18	0.6572	0.998855	SP	no	NA	NA	NA	
+P40049		Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	23	0.9439	0.999396	SP	no	NA	NA	NA	
+P40071	TMN3	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	no	NA	NA	0.018688	OTHER	no	NA	NA	NA	
+P40092	SPI1	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	yes	yes	yes	19	0.9503	0.999377	SP	yes	127	high	0.0015	
+P40358	JEM1	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	22	0.5096	0.556107	SP	no	NA	NA	NA	
+P40367	LAS21	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	no	NA	NA	1e-05	OTHER	no	NA	NA	NA	
+P40442	CSS1	Saccharomyces cerevisiae	Saccharomycotina	adhesin_other_mechanism	adhesin_other_mechanism		adhesin	no	yes	yes	23	0.9707	0.998519	SP	no	NA	NA	NA	
+P40472	SIM1	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	19	0.9572	0.999301	SP	no	NA	NA	NA	
+P40505	SDS3	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	excluded_indirect_regulator	excluded_indirect_regulator		indirect_regulator	no	no	no	NA	NA	0.0	OTHER	no	NA	NA	NA	
+P40520		Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	23	0.7799	0.999772	SP	no	NA	NA	NA	
+P40526	dfg10	Saccharomyces cerevisiae	Saccharomycotina	kiss_row_positive	kiss_row_positive					no	NA	NA	2.9e-05	OTHER	no	NA	NA	NA	
+P40552	TIR3	Saccharomyces cerevisiae	Saccharomycotina	hard_negative	hard_negative		hard_negative	yes	yes	yes	22	0.9745	0.999773	SP	yes	249	high	0.0015	
+P40557	EPS1	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	27	0.9683	0.999789	SP	no	NA	NA	NA	
+P40583	YPS6	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	yes	yes	yes	23	0.4782	0.804805	SP	yes	515	high	0.0015	
+P40585	PAU15	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	20	0.9697	0.999534	SP	no	NA	NA	NA	
+P40953	CHT2	Candida albicans	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	yes	yes	yes	19	0.9642	0.999687	SP	yes	558	high	0.0015	
+P40954	CHT3	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	19	0.8627	0.999747	SP	no	NA	NA	NA	
+P40955	chs6	Saccharomyces cerevisiae	Saccharomycotina	kiss_row_positive	kiss_row_positive					no	NA	NA	0.0	OTHER	no	NA	NA	NA	
+P41543	OST1	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	22	0.9809	0.999767	SP	no	NA	NA	NA	
+P41746	rodA	Aspergillus fumigatus	Pezizomycotina	adhesin_other_mechanism	adhesin_other_mechanism		adhesin	no	yes	yes	26	0.9354	0.999782	SP	yes	139	high	0.0015	
+P41748	pepA	Aspergillus fumigatus	Pezizomycotina	hard_negative	hard_negative		hard_negative	no	yes	yes	20	0.958	0.999701	SP	no	NA	NA	NA	
+P41809	HKR1	Saccharomyces cerevisiae	Saccharomycotina	hard_negative	hard_negative		hard_negative	no	yes	yes	21	0.9721	0.999501	SP	yes	1781	weak	0.01	
+P41821	MID1	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	20	0.9775	0.99975	SP	no	NA	NA	NA	
+P42835	EGT2	Saccharomyces cerevisiae	Saccharomycotina	hard_negative	hard_negative		hard_negative	yes	yes	yes	20	0.979	0.999714	SP	yes	1019	high	0.0015	
+P43076	PHR1	Candida albicans	Saccharomycotina	excluded_surface_other_adhesion_phenotype	excluded_surface_other_adhesion_phenotype		surface_other_adhesion_phenotype	yes	yes	yes	20	0.983	0.999685	SP	yes	526	high	0.0015	
+P43094	SAP5	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	18	0.9792	0.999754	SP	no	NA	NA	NA	
+P43497	CWP2	Saccharomyces cerevisiae	Saccharomycotina	hard_negative	hard_negative		hard_negative	yes	yes	yes	20	0.9745	0.99968	SP	yes	71	high	0.0015	
+P43552		Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	23	0.984	0.999747	SP	no	NA	NA	NA	
+P43555	EMP47	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	28	0.9728	0.99972	SP	no	NA	NA	NA	
+P43561	FET5	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	18	0.9803	0.999696	SP	no	NA	NA	NA	
+P43595	DCV1	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	no	NA	NA	0.018144	OTHER	no	NA	NA	NA	
+P43600	CSS2	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	19	0.9758	0.999653	SP	no	NA	NA	NA	
+P43611	OSW7	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	no	NA	NA	0.121862	OTHER	no	NA	NA	NA	
+P43613	ERJ5	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	20	0.9796	0.999657	SP	no	NA	NA	NA	
+P46592	MNT2	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	excluded_indirect_regulator	excluded_indirect_regulator		indirect_regulator	no	no	no	NA	NA	9.4e-05	OTHER	no	NA	NA	NA	
+P46593	HWP1	Candida albicans	Saccharomycotina	class_positive_A	class_positive	A	adhesin	yes	yes	yes	27	0.9777	0.999723	SP	no	NA	NA	NA	
+P46982	MNN5	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	no	NA	NA	0.168799	OTHER	no	NA	NA	NA	
+P46989	ATG27	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	19	0.9738	0.999496	SP	no	NA	NA	NA	
+P46992	TOH1	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	yes	yes	yes	19	0.9747	0.999775	SP	yes	367	weak	0.01	
+P46999	PIR5	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	uncurated_repeat_bearing	uncurated_repeat_bearing		uniprot	no	yes	yes	21	0.8417	0.996664	SP	no	NA	NA	NA	
+P47001	CIS3	Saccharomyces cerevisiae	Saccharomycotina	hard_negative	hard_negative		hard_negative	no	yes	yes	21	0.9782	0.99977	SP	no	NA	NA	NA	
+P47032	PRY1	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	19	0.9773	0.9997	SP	no	NA	NA	NA	
+P47033	PRY3	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	yes	yes	yes	18	0.9776	0.999775	SP	yes	853	high	0.0015	
+P47040	YHC3	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	no	NA	NA	0.0	OTHER	no	NA	NA	NA	
+P47055	LOH1	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	18	0.4632	0.54098	SP	no	NA	NA	NA	
+P47056	IRC18	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	22	0.9802	0.999731	SP	yes	199	weak	0.01	
+P47121		Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	no	NA	NA	0.000146	OTHER	no	NA	NA	NA	
+P47157		Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	no	NA	NA	0.000167	OTHER	no	NA	NA	NA	
+P47178	DAN1	Saccharomyces cerevisiae	Saccharomycotina	hard_negative	hard_negative		hard_negative	yes	yes	yes	19	0.9757	0.999732	SP	yes	275	high	0.0015	
+P47179	DAN4	Saccharomyces cerevisiae	Saccharomycotina	hard_negative	hard_negative		hard_negative	yes	yes	yes	19	0.9544	0.992913	SP	yes	1141	high	0.0015	
+P48439	OST3	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	22	0.9681	0.999652	SP	no	NA	NA	NA	
+P48560	TOS6	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	yes	yes	yes	18	0.9659	0.999726	SP	yes	76	high	0.0015	
+P48827	chit42	Trichoderma harzianum	Pezizomycotina	hard_negative	hard_negative		hard_negative	no	yes	yes	20	0.9758	0.999005	SP	no	NA	NA	NA	
+P49018	GPI8	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	22	0.9582	0.999755	SP	no	NA	NA	NA	
+P50112	KNH1	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	20	0.9707	0.999733	SP	no	NA	NA	NA	
+P50142	HSP60	Ajellomyces capsulatus	Pezizomycotina	adhesin_other_mechanism	adhesin_other_mechanism		adhesin	no	no	no	NA	NA	0.0	OTHER	no	NA	NA	NA	
+P52290	DIA3	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	20	0.9677	0.999767	SP	no	NA	NA	NA	
+P52751	MPG1	Pyricularia oryzae	Pezizomycotina	adhesin_other_mechanism	adhesin_other_mechanism		adhesin	no	yes	yes	19	0.9836	0.999757	SP	no	NA	NA	NA	
+P52754	hfb1	Trichoderma reesei	Pezizomycotina	kiss_row_positive	kiss_row_positive					yes	22	0.8609	0.999714	SP	no	NA	NA	NA	
+P52911	EXG2	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	22	0.9809	0.999728	SP	yes	539	high	0.0015	
+P53057	YPS5	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	21	0.8181	0.857479	SP	no	NA	NA	NA	
+P53058	VEL1	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	19	0.9822	0.999792	SP	no	NA	NA	NA	
+P53075	SHE10	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	23	0.7014	0.98432	SP	no	NA	NA	NA	
+P53116		Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	no	NA	NA	0.000415	OTHER	no	NA	NA	NA	
+P53121	FLC3	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	28	0.9607	0.999637	SP	no	NA	NA	NA	
+P53189	SCW11	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	20	0.9073	0.999531	SP	no	NA	NA	NA	
+P53198	ERP6	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	19	0.9761	0.999486	SP	no	NA	NA	NA	
+P53214	MTL1	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	35	0.8405	0.874057	SP	no	NA	NA	NA	
+P53249		Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	27	0.3813	0.524992	SP	no	NA	NA	NA	
+P53262	VOA1	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	16	0.3459	0.998831	SP	no	NA	NA	NA	
+P53301	CRH1	Saccharomyces cerevisiae	Saccharomycotina	hard_negative	hard_negative		hard_negative	yes	yes	yes	22	0.9338	0.995003	SP	yes	485	high	0.0015	
+P53334	SCW4	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	30	0.3979	0.999696	SP	no	NA	NA	NA	
+P53379	MKC7	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	yes	yes	yes	22	0.9719	0.999613	SP	no	NA	NA	NA	
+P53541	SPO1	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	17	0.9752	0.999804	SP	no	NA	NA	NA	
+P53616	SUN4	Saccharomyces cerevisiae	Saccharomycotina	hard_negative	hard_negative		hard_negative	no	yes	yes	22	0.9784	0.99973	SP	no	NA	NA	NA	
+P53698	CYC1	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	excluded_indirect_regulator	excluded_indirect_regulator		indirect_regulator	no	no	no	NA	NA	0.0	OTHER	no	NA	NA	NA	
+P53704	gfa1	Candida albicans	Saccharomycotina	kiss_row_positive	kiss_row_positive					no	NA	NA	0.0	OTHER	no	NA	NA	NA	
+P53705	BUD4	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	excluded_indirect_regulator	excluded_indirect_regulator		indirect_regulator	no	no	no	NA	NA	1e-06	OTHER	no	NA	NA	NA	
+P53746	FRE4	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	18	0.9769	0.999668	SP	no	NA	NA	NA	
+P53753	DSE4	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	16	0.9556	0.998374	SP	no	NA	NA	NA	
+P53826		Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	no	NA	NA	0.033731	OTHER	no	NA	NA	NA	
+P53832	WSC2	Saccharomyces cerevisiae	Saccharomycotina	hard_negative	hard_negative		hard_negative	no	yes	yes	23	0.9785	0.999779	SP	no	NA	NA	NA	
+P53862		Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	no	NA	NA	0.066275	OTHER	no	NA	NA	NA	
+P53872		Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	yes	yes	yes	20	0.9807	0.999726	SP	yes	174	high	0.0015	
+P53896	PGA1	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	23	0.9823	0.999636	SP	no	NA	NA	NA	
+P53964		Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	26	0.9465	0.999747	SP	no	NA	NA	NA	
+P53975		Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	26	0.9465	0.999747	SP	no	NA	NA	NA	
+P54267	chsG_Afu3g14420	Aspergillus fumigatus	Pezizomycotina	kiss_row_positive	kiss_row_positive					no	NA	NA	0.0	OTHER	no	NA	NA	NA	
+P54837	ERV25	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	20	0.9733	0.999772	SP	no	NA	NA	NA	
+P54867	SLG1	Saccharomyces cerevisiae	Saccharomycotina	hard_negative	hard_negative		hard_negative	no	yes	yes	21	0.9771	0.999728	SP	no	NA	NA	NA	
+P62694	cbh1	Trichoderma reesei	Pezizomycotina	hard_negative	hard_negative		hard_negative	no	yes	yes	17	0.9746	0.999738	SP	no	NA	NA	NA	
+P78746	chsD_Afu1g12600	Aspergillus fumigatus	Pezizomycotina	kiss_row_positive	kiss_row_positive					no	NA	NA	3e-05	OTHER	no	NA	NA	NA	
+P79073	hfb2	Trichoderma reesei	Pezizomycotina	kiss_row_positive	kiss_row_positive					yes	15	0.9796	0.999761	SP	no	NA	NA	NA	
+P82476	CDA3 (CNAG_01239)	Cryptococcus neoformans H99	Basidiomycota	adhesin_other_mechanism	adhesin_other_mechanism		adhesin	yes	yes	yes	18	0.9639	0.99954	SP	yes	386	high	0.0015	
+P82610	MET6	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	excluded_indirect_regulator	excluded_indirect_regulator		indirect_regulator	no	no	no	NA	NA	6e-06	OTHER	no	NA	NA	NA	
+P82612	GPM1	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	excluded_indirect_regulator	excluded_indirect_regulator		indirect_regulator	no	no	no	NA	NA	0.0	OTHER	no	NA	NA	NA	
+P87020	PRA1	Candida albicans	Saccharomycotina	excluded_surface_other_adhesion_phenotype	excluded_surface_other_adhesion_phenotype		surface_other_adhesion_phenotype	no	yes	yes	15	0.9513	0.999682	SP	no	NA	NA	NA	
+P87267		Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	no	NA	NA	2e-06	OTHER	yes	96	high	0.0015	
+P87287		Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	no	NA	NA	3.1e-05	OTHER	no	NA	NA	NA	
+P89113	DDR2	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	22	0.9628	0.988838	SP	no	NA	NA	NA	
+P9WEJ2		Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	no	NA	NA	0.015523	OTHER	no	NA	NA	NA	
+Q00023	CEL1	Agaricus bisporus	Basidiomycota	hard_negative	hard_negative		hard_negative	no	yes	yes	29	0.9006	0.999997	SP	no	NA	NA	NA	
+Q00310	MNT1	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	excluded_indirect_regulator	excluded_indirect_regulator		indirect_regulator	no	no	yes	22	0.4936	0.584663	SP	no	NA	NA	NA	
+Q01589	SED1	Saccharomyces cerevisiae	Saccharomycotina	hard_negative	hard_negative		hard_negative	yes	yes	yes	18	0.9763	0.999537	SP	yes	307	high	0.0015	
+Q02203		Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	21	0.9733	0.999717	SP	no	NA	NA	NA	
+Q02497		Trametes hirsuta	Basidiomycota	hard_negative	hard_negative		hard_negative	no	yes	yes	21	0.9814	0.999683	SP	no	NA	NA	NA	
+Q02786	LCL1	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	yes	yes	no	NA	NA	7e-06	OTHER	yes	79	high	0.0015	
+Q02795	SWP1	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	19	0.979	0.999555	SP	no	NA	NA	NA	
+Q02933	RNY1	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	no	NA	NA	0.006047	OTHER	no	NA	NA	NA	
+Q03029	SPO19	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	yes	yes	yes	20	0.6888	0.998216	SP	yes	197	high	0.0015	
+Q03050	PAU10	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	25	0.7324	0.999561	SP	no	NA	NA	NA	
+Q03103	ERO1	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	18	0.9813	0.999728	SP	no	NA	NA	NA	
+Q03125	NRG1	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	excluded_indirect_regulator	excluded_indirect_regulator		indirect_regulator	no	no	no	NA	NA	1e-06	OTHER	no	NA	NA	NA	
+Q03178	PIR1	Saccharomyces cerevisiae	Saccharomycotina	hard_negative	hard_negative		hard_negative	no	yes	yes	18	0.9818	0.999615	SP	no	NA	NA	NA	
+Q03180	PIR3	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	uncurated_repeat_bearing	uncurated_repeat_bearing		uniprot	no	yes	yes	18	0.9829	0.999585	SP	no	NA	NA	NA	
+Q03187		Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	no	NA	NA	0.008686	OTHER	no	NA	NA	NA	
+Q03655	GAS3	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	yes	yes	yes	21	0.9714	0.999656	SP	yes	496	high	0.0015	
+Q03674	PLB2	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	yes	yes	yes	19	0.8931	0.943846	SP	yes	680	high	0.0015	
+Q03691	ROT1	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	no	NA	NA	0.005814	OTHER	yes	231	high	0.0015	
+Q03723	OST6	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	24	0.9636	0.999447	SP	no	NA	NA	NA	
+Q03778	FMN1	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	no	NA	NA	0.019451	OTHER	no	NA	NA	NA	
+Q04033		Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	18	0.9753	0.999762	SP	no	NA	NA	NA	
+Q04100		Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	no	NA	NA	0.001794	OTHER	no	NA	NA	NA	
+Q04121	NHX1	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	no	NA	NA	0.014038	OTHER	no	NA	NA	NA	
+Q04433	FIT1	Saccharomyces cerevisiae	Saccharomycotina	hard_negative	hard_negative		hard_negative	yes	yes	yes	18	0.9656	0.99969	SP	yes	506	high	0.0015	
+Q04521		Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	19	0.864	0.89961	SP	no	NA	NA	NA	
+Q04562	TMN2	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	18	0.9807	0.999772	SP	no	NA	NA	NA	
+Q04571	eas	Neurospora crassa	Pezizomycotina	kiss_row_positive	kiss_row_positive					yes	26	0.8584	0.999774	SP	no	NA	NA	NA	
+Q04739	GAL83	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	excluded_indirect_regulator	excluded_indirect_regulator		indirect_regulator	no	no	no	NA	NA	3.6e-05	OTHER	no	NA	NA	NA	
+Q04746	KAR5	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	19	0.9739	0.999725	SP	no	NA	NA	NA	
+Q04924	GTB1	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	20	0.9536	0.999704	SP	no	NA	NA	NA	
+Q04951	SCW10	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	29	0.4098	0.999545	SP	no	NA	NA	NA	
+Q05031	DFG5	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	yes	yes	yes	26	0.973	0.999692	SP	yes	432	high	0.0015	
+Q05164	HPF1	Saccharomyces cerevisiae	Saccharomycotina	class_positive_A	class_positive	A	adhesin	yes	yes	yes	23	0.9744	0.998884	SP	yes	945	high	0.0015	
+Q05359	ERP1	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	22	0.978	0.999801	SP	no	NA	NA	NA	
+Q05777	NCW2	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	yes	yes	yes	17	0.9628	0.999372	SP	yes	229	high	0.0015	
+Q05790	CRR1	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	20	0.9732	0.998661	SP	no	NA	NA	NA	
+Q05827	HOR7	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	19	0.9671	0.985483	SP	yes	35	probable	0.005	
+Q06135	GAS2	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	yes	yes	yes	24	0.964	0.998779	SP	yes	530	high	0.0015	
+Q06325	YPS7	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	22	0.97	0.999596	SP	yes	573	high	0.0015	
+Q06350	CTS2	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	no	NA	NA	2e-06	OTHER	no	NA	NA	NA	
+Q06490	THI22	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	14	0.7821	0.999288	SP	no	NA	NA	NA	
+Q06689		Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	no	NA	NA	0.332276	OTHER	no	NA	NA	NA	
+Q06702	CDA1	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	22	0.9852	0.998932	SP	no	NA	NA	NA	
+Q06703	CDA2	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	25	0.8051	0.847006	SP	no	NA	NA	NA	
+Q06815	MRL1	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	no	NA	NA	0.380665	OTHER	no	NA	NA	NA	
+Q07716	AIM6	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	no	NA	NA	0.036941	OTHER	no	NA	NA	NA	
+Q07730	ECE1	Candida albicans	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	18	0.7666	0.81165	SP	no	NA	NA	NA	
+Q07790		Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	no	NA	NA	0.04826	OTHER	no	NA	NA	NA	
+Q07880		Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	no	NA	NA	0.00037	OTHER	no	NA	NA	NA	
+Q07895		Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	23	0.9448	0.992916	SP	no	NA	NA	NA	
+Q07987	PAU23	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	20	0.9761	0.999669	SP	no	NA	NA	NA	
+Q07988	AFB1	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	yes	yes	yes	25	0.9736	0.999603	SP	yes	199	high	0.0015	
+Q07990		Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	yes	yes	yes	24	0.9719	0.999765	SP	yes	136	high	0.0015	
+Q07992	BUD28	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	19	0.9809	0.999719	SP	no	NA	NA	NA	
+Q08045	LCL2	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	24	0.972	0.999734	SP	no	NA	NA	NA	
+Q08108	PLB3	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	yes	yes	yes	26	0.8996	0.999695	SP	yes	660	high	0.0015	
+Q08193	GAS5	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	yes	yes	yes	19	0.974	0.999003	SP	yes	453	high	0.0015	
+Q08199	SIL1	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	19	0.835	0.994657	SP	no	NA	NA	NA	
+Q08271	GAS4	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	yes	yes	yes	21	0.973	0.999771	SP	yes	447	high	0.0015	
+Q08272		Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	no	NA	NA	8.6e-05	OTHER	no	NA	NA	NA	
+Q08300	CSS3	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	20	0.9612	0.999652	SP	no	NA	NA	NA	
+Q08439		Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	no	NA	NA	0.002596	OTHER	no	NA	NA	NA	
+Q08498		Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	no	NA	NA	0.0	OTHER	no	NA	NA	NA	
+Q08532		Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	no	NA	NA	0.00917	OTHER	yes	108	high	0.0015	
+Q08673	SRL1	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	19	0.97	0.99972	SP	no	NA	NA	NA	
+Q08844		Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	24	0.9771	0.999622	SP	no	NA	NA	NA	
+Q08905	FRE3	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	20	0.978	0.999756	SP	no	NA	NA	NA	
+Q08906	FIT2	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	yes	yes	yes	18	0.9765	0.998394	SP	yes	124	high	0.0015	
+Q08907	FIT3	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	yes	yes	yes	18	0.9788	0.999746	SP	yes	173	high	0.0015	
+Q08908	FRE5	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	19	0.9792	0.999765	SP	no	NA	NA	NA	
+Q08910		Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	19	0.9813	0.999798	SP	no	NA	NA	NA	
+Q08912		Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	no	NA	NA	0.016467	OTHER	no	NA	NA	NA	
+Q08929	GUP2	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	no	NA	NA	0.16292	OTHER	no	NA	NA	NA	
+Q08967	FLC1	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	21	0.9762	0.999739	SP	no	NA	NA	NA	
+Q08976		Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	no	NA	NA	0.00084	OTHER	no	NA	NA	NA	
+Q08989		Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	no	NA	NA	0.007977	OTHER	no	NA	NA	NA	
+Q09920	fio1	Schizosaccharomyces pombe	Taphrinomycotina	hard_negative	hard_negative		hard_negative	no	yes	yes	22	0.9778	0.999458	SP	no	NA	NA	NA	
+Q10287	bgs1	Schizosaccharomyces pombe	Taphrinomycotina	kiss_row_positive	kiss_row_positive					no	NA	NA	0.0	OTHER	no	NA	NA	NA	
+Q12025	EMC10	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	17	0.96	0.999549	SP	no	NA	NA	NA	
+Q12064	BUD30	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	no	NA	NA	3e-06	OTHER	no	NA	NA	NA	
+Q12070		Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	no	NA	NA	0.248739	OTHER	yes	77	weak	0.01	
+Q12114	chs5	Saccharomyces cerevisiae	Saccharomycotina	kiss_row_positive	kiss_row_positive					no	NA	NA	0.0	OTHER	no	NA	NA	NA	
+Q12127	CCW12	Saccharomyces cerevisiae	Saccharomycotina	excluded_surface_other_adhesion_phenotype	excluded_surface_other_adhesion_phenotype		surface_other_adhesion_phenotype	yes	yes	yes	18	0.9695	0.999625	SP	yes	106	high	0.0015	
+Q12140	BSC1	Saccharomyces cerevisiae	Saccharomycotina	adhesin_other_mechanism	adhesin_other_mechanism		adhesin	no	no	no	NA	NA	0.0	OTHER	no	NA	NA	NA	
+Q12200	NCR1	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	19	0.9786	0.999758	SP	no	NA	NA	NA	
+Q12212	SIA1	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	no	NA	NA	0.146705	OTHER	no	NA	NA	NA	
+Q12215	WSC3	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	38	0.5841	0.619094	SP	no	NA	NA	NA	
+Q12218	TIR4	Saccharomyces cerevisiae	Saccharomycotina	hard_negative	hard_negative		hard_negative	yes	yes	yes	18	0.9853	0.999809	SP	yes	465	high	0.0015	
+Q12232	SLP1	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	21	0.943	0.990582	SP	no	NA	NA	NA	
+Q12254	SVS1	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	19	0.9737	0.999705	SP	no	NA	NA	NA	
+Q12282	SPR2	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	yes	yes	yes	20	0.9674	0.995419	SP	yes	213	high	0.0015	
+Q12303	YPS3	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	yes	yes	yes	20	0.9778	0.999357	SP	yes	483	high	0.0015	
+Q12331		Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	26	0.7999	0.999694	SP	no	NA	NA	NA	
+Q12335	PST2	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	no	NA	NA	0.056113	OTHER	no	NA	NA	NA	
+Q12355	PST1	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	yes	yes	yes	19	0.9831	0.999717	SP	yes	419	high	0.0015	
+Q12370	PAU17	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	20	0.9717	0.999595	SP	no	NA	NA	NA	
+Q12396	EMP46	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	46	0.6409	0.711748	SP	no	NA	NA	NA	
+Q12403	ERP3	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	21	0.9802	0.99979	SP	no	NA	NA	NA	
+Q12404	MPD1	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	21	0.9779	0.999746	SP	no	NA	NA	NA	
+Q12408	NPC2	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	21	0.9765	0.999752	SP	no	NA	NA	NA	
+Q12424		Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	no	NA	NA	0.0	OTHER	no	NA	NA	NA	
+Q12438	GRX6	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	31	0.2519	0.581012	SP	no	NA	NA	NA	
+Q12450	ERP4	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	19	0.9806	0.999716	SP	no	NA	NA	NA	
+Q12465	RAX2	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	20	0.9336	0.99488	SP	no	NA	NA	NA	
+Q12473	FRE6	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	17	0.9805	0.999742	SP	no	NA	NA	NA	
+Q12507	SFG1	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	excluded_indirect_regulator	excluded_indirect_regulator		indirect_regulator	no	no	no	NA	NA	0.0	OTHER	no	NA	NA	NA	
+Q12512	ZPS1	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	20	0.9542	0.999697	SP	no	NA	NA	NA	
+Q12713	chit33	Trichoderma harzianum	Pezizomycotina	hard_negative	hard_negative		hard_negative	no	yes	yes	19	0.979	0.999707	SP	no	NA	NA	NA	
+Q1E3R8	CTS1	Coccidioides immitis	Pezizomycotina	hard_negative	hard_negative		hard_negative	no	yes	yes	17	0.9801	0.999725	SP	no	NA	NA	NA	
+Q1K4Z4	NCU01648	Neurospora crassa	Pezizomycotina	kiss_row_positive	kiss_row_positive					no	NA	NA	0.006202	OTHER	no	NA	NA	NA	
+Q1K7A8	dfg5	Neurospora crassa	Pezizomycotina	kiss_row_positive	kiss_row_positive					yes	20	0.9781	0.999768	SP	yes	463	high	0.0015	
+Q2LC47	MAD2	Metarhizium anisopliae	Pezizomycotina	class_positive_A	class_positive	A	adhesin	yes	yes	yes	16	0.9691	0.999713	SP	yes	283	high	0.0015	
+Q2LC49	MAD1	Metarhizium anisopliae	Pezizomycotina	class_positive_A	class_positive	A	adhesin	yes	yes	yes	19	0.9683	0.999716	SP	yes	693	high	0.0015	
+Q2V2Q2		Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	yes	yes	yes	18	0.9291	0.999424	SP	yes	53	high	0.0015	
+Q3E6R4		Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	yes	yes	yes	18	0.9449	0.980442	SP	yes	40	high	0.0015	
+Q3E755		Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	no	NA	NA	0.000921	OTHER	no	NA	NA	NA	
+Q3E763		Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	no	NA	NA	0.038264	OTHER	no	NA	NA	NA	
+Q3E782		Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	no	NA	NA	0.000852	OTHER	no	NA	NA	NA	
+Q3E7A7		Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	no	NA	NA	0.001474	OTHER	no	NA	NA	NA	
+Q3E7B9		Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	no	NA	NA	0.110497	OTHER	no	NA	NA	NA	
+Q3E821		Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	24	0.5182	0.554438	SP	no	NA	NA	NA	
+Q3E837		Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	no	NA	NA	0.00022	OTHER	NA	NA	NA	NA	length<=40: PredGPI does not score sequences this short
+Q4PIF8	fer1	Mycosarcoma maydis	Basidiomycota	hard_negative	hard_negative		hard_negative	no	yes	yes	29	0.9713	0.999462	SP	no	NA	NA	NA	
+Q4U4T0	chi2	Metarhizium anisopliae	Pezizomycotina	hard_negative	hard_negative		hard_negative	no	yes	yes	18	0.9307	0.999524	SP	no	NA	NA	NA	
+Q4W9P7	chsB_Afu4g04180	Aspergillus fumigatus	Pezizomycotina	kiss_row_positive	kiss_row_positive					no	NA	NA	0.0	OTHER	no	NA	NA	NA	
+Q4WA69	bglK	Aspergillus fumigatus	Pezizomycotina	hard_negative	hard_negative		hard_negative	no	no	no	NA	NA	5.6e-05	OTHER	no	NA	NA	NA	
+Q4WBR2	neg1	Aspergillus fumigatus	Pezizomycotina	hard_negative	hard_negative		hard_negative	no	yes	yes	22	0.9403	0.999693	SP	no	NA	NA	NA	
+Q4WBS1	manF	Aspergillus fumigatus	Pezizomycotina	hard_negative	hard_negative		hard_negative	no	yes	yes	18	0.8915	0.999614	SP	no	NA	NA	NA	
+Q4WBU0	AA9C	Aspergillus fumigatus	Pezizomycotina	hard_negative	hard_negative		hard_negative	no	yes	yes	19	0.9794	0.999738	SP	no	NA	NA	NA	
+Q4WC58	chsF_Afu8g05630	Aspergillus fumigatus	Pezizomycotina	kiss_row_positive	kiss_row_positive					no	NA	NA	0.0	OTHER	no	NA	NA	NA	
+Q4WCG5	pmt4_Afu8g04500	Aspergillus fumigatus	Pezizomycotina	kiss_row_positive	kiss_row_positive					no	NA	NA	3.7e-05	OTHER	no	NA	NA	NA	
+Q4WD22	crh1	Aspergillus fumigatus	Pezizomycotina	hard_negative	hard_negative		hard_negative	yes	yes	yes	17	0.967	0.999685	SP	yes	326	high	0.0015	
+Q4WDB9	cwh41_Afu6g04210	Aspergillus fumigatus	Pezizomycotina	kiss_row_positive	kiss_row_positive					yes	26	0.6698	0.763432	SP	no	NA	NA	NA	
+Q4WEP7	chiA1_Afu5g03760	Aspergillus fumigatus	Pezizomycotina	kiss_row_positive	kiss_row_positive					yes	22	0.9782	0.99975	SP	yes	863	high	0.0015	
+Q4WFV3	ags1_Afu3g00910	Aspergillus fumigatus	Pezizomycotina	kiss_row_positive	kiss_row_positive					yes	19	0.9027	0.927823	SP	no	NA	NA	NA	
+Q4WG20		Aspergillus fumigatus	Pezizomycotina	adhesin_other_mechanism	adhesin_other_mechanism		adhesin	no	no	no	NA	NA	3e-06	OTHER	no	NA	NA	NA	
+Q4WGL5	sun1_Afu7g05450	Aspergillus fumigatus	Pezizomycotina	kiss_row_positive	kiss_row_positive					yes	19	0.9806	0.999451	SP	no	NA	NA	NA	
+Q4WI46	crh2	Aspergillus fumigatus	Pezizomycotina	hard_negative	hard_negative		hard_negative	no	yes	yes	20	0.9824	0.999759	SP	yes	420	high	0.0015	
+Q4WIH1	chsA_Afu2g01870	Aspergillus fumigatus	Pezizomycotina	kiss_row_positive	kiss_row_positive					no	NA	NA	0.0	OTHER	no	NA	NA	NA	
+Q4WJ05	pmt2_Afu1g07690	Aspergillus fumigatus	Pezizomycotina	kiss_row_positive	kiss_row_positive					no	NA	NA	0.0	OTHER	no	NA	NA	NA	
+Q4WL79	bglH	Aspergillus fumigatus	Pezizomycotina	hard_negative	hard_negative		hard_negative	no	no	no	NA	NA	0.000286	OTHER	no	NA	NA	NA	
+Q4WLB9	cfmA	Aspergillus fumigatus	Pezizomycotina	hard_negative	hard_negative		hard_negative	no	yes	yes	18	0.9697	0.999699	SP	yes	276	high	0.0015	
+Q4WLT3	gel7_Afu6g12410	Aspergillus fumigatus	Pezizomycotina	kiss_row_positive	kiss_row_positive					yes	19	0.9708	0.999468	SP	yes	512	high	0.0015	
+Q4WLT4	fks1_Afu6g12400	Aspergillus fumigatus	Pezizomycotina	kiss_row_positive	kiss_row_positive					no	NA	NA	2e-05	OTHER	no	NA	NA	NA	
+Q4WLT6	scw4_Afu6g12380	Aspergillus fumigatus	Pezizomycotina	kiss_row_positive	kiss_row_positive					yes	18	0.9697	0.999643	SP	no	NA	NA	NA	
+Q4WLX2		Aspergillus fumigatus	Pezizomycotina	adhesin_other_mechanism	adhesin_other_mechanism		adhesin	no	no	no	NA	NA	0.0	OTHER	no	NA	NA	NA	
+Q4WLY1	bglJ	Aspergillus fumigatus	Pezizomycotina	hard_negative	hard_negative		hard_negative	no	no	no	NA	NA	4.5e-05	OTHER	no	NA	NA	NA	
+Q4WMA6	cfmB	Aspergillus fumigatus	Pezizomycotina	hard_negative	hard_negative		hard_negative	yes	yes	yes	18	0.9714	0.999792	SP	yes	180	high	0.0015	
+Q4WMW2	crh4	Aspergillus fumigatus	Pezizomycotina	hard_negative	hard_negative		hard_negative	no	yes	yes	21	0.9748	0.999788	SP	yes	427	probable	0.005	
+Q4WNE1	cfmC	Aspergillus fumigatus	Pezizomycotina	hard_negative	hard_negative		hard_negative	yes	yes	yes	19	0.977	0.999775	SP	yes	172	high	0.0015	
+Q4WNS8	ecm33	Aspergillus fumigatus	Pezizomycotina	hard_negative	hard_negative		hard_negative	no	yes	yes	19	0.9616	0.999671	SP	yes	372	high	0.0015	
+Q4WNV0	ctsD	Aspergillus fumigatus	Pezizomycotina	hard_negative	hard_negative		hard_negative	yes	yes	yes	19	0.9737	0.999688	SP	yes	445	high	0.0015	
+Q4WQI8	kexB_Afu4g12970	Aspergillus fumigatus	Pezizomycotina	kiss_row_positive	kiss_row_positive					yes	19	0.955	0.999696	SP	no	NA	NA	NA	
+Q4WU49	bglI	Aspergillus fumigatus	Pezizomycotina	hard_negative	hard_negative		hard_negative	no	no	no	NA	NA	0.001491	OTHER	no	NA	NA	NA	
+Q4WUB6	preA_Afu5g07880	Aspergillus fumigatus	Pezizomycotina	kiss_row_positive	kiss_row_positive					no	NA	NA	0.0	OTHER	no	NA	NA	NA	
+Q4WWF5	orlA_Afu3g05650	Aspergillus fumigatus	Pezizomycotina	kiss_row_positive	kiss_row_positive					no	NA	NA	1e-06	OTHER	no	NA	NA	NA	
+Q4WXC4		Aspergillus fumigatus	Pezizomycotina	class_positive_A	class_positive	A	adhesin	no	yes	yes	17	0.9794	0.999675	SP	yes	408	high	0.0015	
+Q4WXE6	crh3	Aspergillus fumigatus	Pezizomycotina	hard_negative	hard_negative		hard_negative	no	yes	yes	19	0.9776	0.999806	SP	no	NA	NA	NA	
+Q4WXJ1		Aspergillus fumigatus	Pezizomycotina	adhesin_other_mechanism	adhesin_other_mechanism		adhesin	no	yes	yes	25	0.9713	0.999734	SP	no	NA	NA	NA	
+Q4WYE0	glfB_Afu3g12700	Aspergillus fumigatus	Pezizomycotina	kiss_row_positive	kiss_row_positive					no	NA	NA	2.9e-05	OTHER	no	NA	NA	NA	
+Q4WZB4	abr1	Aspergillus fumigatus	Pezizomycotina	hard_negative	hard_negative		hard_negative	no	yes	yes	18	0.9676	0.999723	SP	no	NA	NA	NA	
+Q4X0H6	chsE_Afu2g13440	Aspergillus fumigatus	Pezizomycotina	kiss_row_positive	kiss_row_positive					no	NA	NA	0.0	OTHER	no	NA	NA	NA	
+Q4X0H7	csmB_Afu2g13430	Aspergillus fumigatus	Pezizomycotina	kiss_row_positive	kiss_row_positive					no	NA	NA	4.7e-05	OTHER	no	NA	NA	NA	
+Q4X143	ags2_Afu2g11270	Aspergillus fumigatus	Pezizomycotina	kiss_row_positive	kiss_row_positive					yes	19	0.9785	0.999581	SP	no	NA	NA	NA	
+Q55P57	LAC1	Cryptococcus deneoformans	Basidiomycota	hard_negative	hard_negative		hard_negative	no	yes	yes	20	0.7063	0.998097	SP	no	NA	NA	NA	
+Q59KZ1	APE2	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	no	NA	NA	7.7e-05	OTHER	no	NA	NA	NA	
+Q59L12	ALS3	Candida albicans	Saccharomycotina	class_positive_A	class_positive	A	adhesin	yes	yes	yes	17	0.9697	0.999632	SP	yes	1132	high	0.0015	
+Q59L72	PGA52	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	yes	yes	yes	17	0.9758	0.999678	SP	yes	361	high	0.0015	
+Q59L86	PGA25	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	yes	yes	yes	19	0.971	0.999684	SP	yes	852	high	0.0015	
+Q59L96	PGA48	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	yes	yes	yes	17	0.9748	0.999747	SP	yes	83	high	0.0015	
+Q59LX9	BTN1	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	no	NA	NA	0.0	OTHER	no	NA	NA	NA	
+Q59MD0	PGA50	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	yes	yes	yes	17	0.9749	0.999763	SP	yes	278	high	0.0015	
+Q59N10	PGA39	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	yes	yes	yes	18	0.9763	0.998917	SP	yes	258	high	0.0015	
+Q59NP5	SUN41	Candida albicans	Saccharomycotina	excluded_surface_other_adhesion_phenotype	excluded_surface_other_adhesion_phenotype		surface_other_adhesion_phenotype	no	yes	yes	22	0.6553	0.99968	SP	no	NA	NA	NA	
+Q59PF9	HWP2	Candida albicans	Saccharomycotina	adhesin_other_mechanism	adhesin_other_mechanism		adhesin	yes	yes	yes	20	0.9459	0.999484	SP	yes	883	high	0.0015	
+Q59PT4	LCL2	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	17	0.9706	0.999711	SP	no	NA	NA	NA	
+Q59PV6	PRY1	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	20	0.9784	0.999657	SP	no	NA	NA	NA	
+Q59PW0	PIR32	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	21	0.8609	0.999667	SP	no	NA	NA	NA	
+Q59Q34	SPF1	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	excluded_indirect_regulator	excluded_indirect_regulator		indirect_regulator	no	no	no	NA	NA	2e-06	OTHER	no	NA	NA	NA	
+Q59QA5	PGA49	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	yes	yes	no	NA	NA	0.263396	OTHER	yes	706	high	0.0015	
+Q59QH2	CSH1	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	excluded_indirect_regulator	excluded_indirect_regulator		indirect_regulator	no	no	no	NA	NA	0.000155	OTHER	no	NA	NA	NA	
+Q59RR0	ACE2	Candida albicans	Saccharomycotina	excluded_surface_other_adhesion_phenotype	excluded_surface_other_adhesion_phenotype		surface_other_adhesion_phenotype	no	no	no	NA	NA	4.2e-05	OTHER	no	NA	NA	NA	
+Q59RW5	HXK1	Candida albicans	Saccharomycotina	excluded_surface_other_adhesion_phenotype	excluded_surface_other_adhesion_phenotype		surface_other_adhesion_phenotype	no	no	no	NA	NA	0.0	OTHER	no	NA	NA	NA	
+Q59SF7	PIR1	Candida albicans	Saccharomycotina	uncurated_repeat_bearing	uncurated_repeat_bearing		uniprot	no	yes	yes	18	0.9845	0.999695	SP	no	NA	NA	NA	
+Q59SG9	PGA55	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	uncurated_repeat_bearing	uncurated_repeat_bearing		uniprot	yes	yes	no	NA	NA	0.466287	OTHER	yes	1382	high	0.0015	
+Q59SR6	IRS4	Candida albicans	Saccharomycotina	excluded_indirect_regulator	excluded_indirect_regulator		indirect_regulator	no	no	no	NA	NA	0.0	OTHER	no	NA	NA	NA	
+Q59SU1	SAP9	Candida albicans	Saccharomycotina	excluded_surface_other_adhesion_phenotype	excluded_surface_other_adhesion_phenotype		surface_other_adhesion_phenotype	yes	yes	yes	17	0.9811	0.999743	SP	yes	519	high	0.0015	
+Q59TP1	RBT1	Candida albicans	Saccharomycotina	adhesin_other_mechanism	adhesin_other_mechanism		adhesin	yes	yes	yes	20	0.9337	0.994523	SP	yes	696	high	0.0015	
+Q59U10	BCR1	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	excluded_indirect_regulator	excluded_indirect_regulator		indirect_regulator	no	no	no	NA	NA	0.0	OTHER	no	NA	NA	NA	
+Q59UP6	PGA10	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	yes	yes	yes	20	0.9774	0.999767	SP	yes	225	high	0.0015	
+Q59UQ8	PEP7	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	excluded_indirect_regulator	excluded_indirect_regulator		indirect_regulator	no	no	no	NA	NA	0.0	OTHER	no	NA	NA	NA	
+Q59UR3	SWI1	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	excluded_indirect_regulator	excluded_indirect_regulator		indirect_regulator	no	no	no	NA	NA	0.0	OTHER	no	NA	NA	NA	
+Q59UT4	RBT5	Candida albicans	Saccharomycotina	excluded_surface_other_adhesion_phenotype	excluded_surface_other_adhesion_phenotype		surface_other_adhesion_phenotype	yes	yes	yes	15	0.9421	0.999658	SP	yes	221	high	0.0015	
+Q59UT5	PGA7	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	yes	yes	yes	13	0.9659	0.998617	SP	yes	188	high	0.0015	
+Q59V01	PGA23	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	yes	yes	yes	18	0.9686	0.999256	SP	yes	256	high	0.0015	
+Q59V02	PGA22	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	yes	yes	yes	18	0.9795	0.999695	SP	yes	140	high	0.0015	
+Q59VH7	SAP7	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	19	0.4668	0.669213	SP	no	NA	NA	NA	
+Q59VW6	PGA5	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	yes	yes	yes	23	0.9799	0.999743	SP	yes	621	probable	0.005	
+Q59WG5		Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	20	0.949	0.99494	SP	no	NA	NA	NA	
+Q59WG7	BIG1	Candida albicans	Saccharomycotina	excluded_surface_other_adhesion_phenotype	excluded_surface_other_adhesion_phenotype		surface_other_adhesion_phenotype	no	yes	yes	16	0.9274	0.992634	SP	no	NA	NA	NA	
+Q59WH0	ADA2	Candida albicans	Saccharomycotina	excluded_surface_other_adhesion_phenotype	excluded_surface_other_adhesion_phenotype		surface_other_adhesion_phenotype	no	no	no	NA	NA	3e-06	OTHER	no	NA	NA	NA	
+Q59X23	pmt4	Candida albicans	Saccharomycotina	kiss_row_positive	kiss_row_positive					no	NA	NA	6e-05	OTHER	no	NA	NA	NA	
+Q59X67	EFG1	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	excluded_indirect_regulator	excluded_indirect_regulator		indirect_regulator	no	no	no	NA	NA	0.0	OTHER	no	NA	NA	NA	
+Q59XA7	HYR3	Candida albicans	Saccharomycotina	class_positive_B	class_positive	B	adhesin	yes	yes	yes	20	0.9684	0.999682	SP	yes	1224	high	0.0015	
+Q59XB0	IFF8	Candida albicans	Saccharomycotina	class_positive_B	class_positive	B	adhesin	yes	yes	yes	19	0.9688	0.999667	SP	yes	688	high	0.0015	
+Q59XL0	IFF6	Candida albicans	Saccharomycotina	class_positive_B	class_positive	B	adhesin	yes	yes	yes	19	0.9104	0.976808	SP	yes	1063	high	0.0015	
+Q59XU5	RAS1	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	excluded_indirect_regulator	excluded_indirect_regulator		indirect_regulator	no	no	no	NA	NA	0.0	OTHER	no	NA	NA	NA	
+Q59XU9	GPD1	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	excluded_indirect_regulator	excluded_indirect_regulator		indirect_regulator	no	no	no	NA	NA	0.0	OTHER	no	NA	NA	NA	
+Q59XW9	IRC22-2	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	19	0.9806	0.999602	SP	no	NA	NA	NA	
+Q59XX2	MP65	Candida albicans	Saccharomycotina	excluded_surface_other_adhesion_phenotype	excluded_surface_other_adhesion_phenotype		surface_other_adhesion_phenotype	no	yes	yes	32	0.4377	0.9997	SP	no	NA	NA	NA	
+Q59Y11	PGA46	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	yes	yes	yes	29	0.9491	0.999748	SP	yes	315	high	0.0015	
+Q59Y20	DSE1	Candida albicans	Saccharomycotina	excluded_surface_other_adhesion_phenotype	excluded_surface_other_adhesion_phenotype		surface_other_adhesion_phenotype	no	no	no	NA	NA	1e-06	OTHER	no	NA	NA	NA	
+Q59Y31	YWP1	Candida albicans	Saccharomycotina	excluded_surface_other_adhesion_phenotype	excluded_surface_other_adhesion_phenotype		surface_other_adhesion_phenotype	yes	yes	yes	21	0.977	0.999723	SP	yes	510	high	0.0015	
+Q59YF4	IRC22-1	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	19	0.9806	0.999602	SP	no	NA	NA	NA	
+Q59Z29	AFT2	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	excluded_indirect_regulator	excluded_indirect_regulator		indirect_regulator	no	no	no	NA	NA	0.0	OTHER	no	NA	NA	NA	
+Q59ZB1	AAH1	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	excluded_indirect_regulator	excluded_indirect_regulator		indirect_regulator	no	no	no	NA	NA	0.0	OTHER	no	NA	NA	NA	
+Q59ZX3	RBE1	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	19	0.9692	0.999667	SP	no	NA	NA	NA	
+Q5A029	IFF3	Candida albicans	Saccharomycotina	class_positive_B	class_positive	B	adhesin	yes	yes	yes	20	0.977	0.999766	SP	yes	918	high	0.0015	
+Q5A0X8	CSA2	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	26	0.6165	0.999766	SP	yes	125	weak	0.01	
+Q5A1A9	PGA43	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	yes	yes	yes	24	0.9651	0.999736	SP	yes	205	high	0.0015	
+Q5A1B2	PGA42	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	yes	yes	yes	16	0.9829	0.999775	SP	no	NA	NA	NA	
+Q5A1B3	PGA41	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	yes	yes	yes	18	0.9501	0.999677	SP	yes	268	high	0.0015	
+Q5A1E0	IFF5	Candida albicans	Saccharomycotina	class_positive_B	class_positive	B	adhesin	yes	yes	yes	20	0.9769	0.999763	SP	yes	1285	high	0.0015	
+Q5A1E1	PGA15	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	yes	yes	yes	16	0.9791	0.999687	SP	yes	143	high	0.0015	
+Q5A210	PGA34	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	yes	yes	yes	20	0.9795	0.999688	SP	yes	173	high	0.0015	
+Q5A287	SFL1	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	excluded_indirect_regulator	excluded_indirect_regulator		indirect_regulator	no	no	no	NA	NA	2.8e-05	OTHER	no	NA	NA	NA	
+Q5A2J7	YVC1	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	excluded_indirect_regulator	excluded_indirect_regulator		indirect_regulator	no	no	no	NA	NA	0.0	OTHER	no	NA	NA	NA	
+Q5A2Z7	ALS6	Candida albicans	Saccharomycotina	class_positive_A	class_positive	A	adhesin	yes	yes	yes	18	0.9111	0.99953	SP	yes	1341	high	0.0015	
+Q5A302	ERV25	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	21	0.9772	0.999788	SP	no	NA	NA	NA	
+Q5A312	ALS7	Candida albicans	Saccharomycotina	class_positive_A	class_positive	A	adhesin	yes	yes	yes	18	0.9748	0.999473	SP	yes	1545	high	0.0015	
+Q5A319	NPR3	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	no	NA	NA	0.412434	OTHER	no	NA	NA	NA	
+Q5A343	PGA13	Candida albicans	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	yes	yes	yes	23	0.9738	0.999552	SP	yes	430	high	0.0015	
+Q5A360	SIL1	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	18	0.9802	0.999733	SP	no	NA	NA	NA	
+Q5A446	CFL1	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	18	0.9818	0.999765	SP	no	NA	NA	NA	
+Q5A4F3	AHR1	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	excluded_indirect_regulator	excluded_indirect_regulator		indirect_regulator	no	no	no	NA	NA	0.0	OTHER	no	NA	NA	NA	
+Q5A4M8	SUR7	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	no	NA	NA	0.00048	OTHER	no	NA	NA	NA	
+Q5A4X3	ROT2	Candida albicans	Saccharomycotina	excluded_surface_other_adhesion_phenotype	excluded_surface_other_adhesion_phenotype		surface_other_adhesion_phenotype	no	yes	yes	16	0.9796	0.999671	SP	no	NA	NA	NA	
+Q5A4X8	PGA14	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	yes	yes	yes	18	0.9706	0.99843	SP	yes	100	high	0.0015	
+Q5A5K7	PGA28	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	yes	yes	yes	23	0.9806	0.999736	SP	yes	196	high	0.0015	
+Q5A5M7	RBR3	Candida albicans	Saccharomycotina	class_positive_B	class_positive	B	adhesin	yes	yes	yes	30	0.6852	0.99355	SP	yes	1538	high	0.0015	
+Q5A5S7	ATG27	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	15	0.9645	0.999632	SP	no	NA	NA	NA	
+Q5A5U4	RHD3	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	yes	yes	yes	15	0.9495	0.991221	SP	yes	181	high	0.0015	
+Q5A5U6	PGA30	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	yes	yes	yes	18	0.9788	0.999566	SP	yes	252	high	0.0015	
+Q5A651	SAP10	Candida albicans	Saccharomycotina	excluded_surface_other_adhesion_phenotype	excluded_surface_other_adhesion_phenotype		surface_other_adhesion_phenotype	yes	yes	yes	20	0.9725	0.999391	SP	yes	427	high	0.0015	
+Q5A6M0	RBR1	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	yes	yes	yes	24	0.8087	0.999519	SP	yes	80	high	0.0015	
+Q5A6M2	RBR2	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	yes	yes	yes	22	0.7896	0.99975	SP	yes	138	high	0.0015	
+Q5A6N7	HAP31	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	excluded_indirect_regulator	excluded_indirect_regulator		indirect_regulator	no	no	no	NA	NA	0.0	OTHER	no	NA	NA	NA	
+Q5A6U1	IFF9	Candida albicans	Saccharomycotina	class_positive_B	class_positive	B	adhesin	yes	yes	yes	20	0.9772	0.999776	SP	yes	918	high	0.0015	
+Q5A753	opy2	Candida albicans	Saccharomycotina	kiss_row_positive	kiss_row_positive					no	NA	NA	0.0	OTHER	no	NA	NA	NA	
+Q5A7M9	RHR2	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	excluded_indirect_regulator	excluded_indirect_regulator		indirect_regulator	no	no	no	NA	NA	0.0	OTHER	no	NA	NA	NA	
+Q5A7R7	IFF11	Candida albicans	Saccharomycotina	class_positive_B	class_positive	B	adhesin	no	yes	no	NA	NA	0.485946	OTHER	no	NA	NA	NA	
+Q5A849	HYR4	Candida albicans	Saccharomycotina	class_positive_B	class_positive	B	adhesin	yes	yes	yes	20	0.7741	0.802662	SP	no	NA	NA	NA	
+Q5A8A2	NPC2	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	21	0.9683	0.999412	SP	no	NA	NA	NA	
+Q5A8I6	PGA61	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	yes	yes	yes	16	0.9814	0.99977	SP	yes	203	high	0.0015	
+Q5A8I8	IHD1	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	yes	yes	yes	16	0.9823	0.999738	SP	yes	361	high	0.0015	
+Q5A8N2	SAP4	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	18	0.9754	0.999715	SP	no	NA	NA	NA	
+Q5A8T4	ALS1	Candida albicans	Saccharomycotina	class_positive_A	class_positive	A	adhesin	yes	yes	yes	17	0.9777	0.999769	SP	yes	1237	high	0.0015	
+Q5A8T7	ALS5	Candida albicans	Saccharomycotina	class_positive_A	class_positive	A	adhesin	yes	yes	yes	19	0.9702	0.999723	SP	yes	1322	high	0.0015	
+Q5AA09	PGA26	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	yes	yes	yes	18	0.9681	0.999584	SP	yes	109	high	0.0015	
+Q5AA33	PGA45	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	yes	yes	yes	17	0.9836	0.999805	SP	yes	432	high	0.0015	
+Q5AA40	CHS7	Candida albicans	Saccharomycotina	excluded_surface_other_adhesion_phenotype	excluded_surface_other_adhesion_phenotype		surface_other_adhesion_phenotype	no	no	no	NA	NA	0.000233	OTHER	no	NA	NA	NA	
+Q5AAH2	CHT1	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	17	0.8335	0.999648	SP	yes	435	high	0.0015	
+Q5AAL9	IFF4	Candida albicans	Saccharomycotina	class_positive_B	class_positive	B	adhesin	yes	yes	yes	20	0.9787	0.999721	SP	yes	1501	high	0.0015	
+Q5AAN7	PBR1	Candida albicans	Saccharomycotina	excluded_surface_other_adhesion_phenotype	excluded_surface_other_adhesion_phenotype		surface_other_adhesion_phenotype	no	yes	yes	21	0.9806	0.99977	SP	no	NA	NA	NA	
+Q5AAU5	ATC1	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	no	NA	NA	9e-06	OTHER	no	NA	NA	NA	
+Q5AB48	RBT4	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	19	0.9273	0.997568	SP	no	NA	NA	NA	
+Q5AB49		Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	23	0.9236	0.986781	SP	no	NA	NA	NA	
+Q5ABP8	ROT1	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	24	0.9712	0.999738	SP	no	NA	NA	NA	
+Q5ABW2	PGA60	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	yes	yes	yes	18	0.9787	0.999757	SP	yes	718	high	0.0015	
+Q5AC08	SAP6	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	18	0.9775	0.999763	SP	no	NA	NA	NA	
+Q5ACL7	PGA1	Candida albicans	Saccharomycotina	adhesin_other_mechanism	adhesin_other_mechanism		adhesin	yes	yes	yes	21	0.5215	0.999282	SP	yes	106	high	0.0015	
+Q5ACN3	PGA11	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	yes	yes	yes	18	0.9766	0.999714	SP	no	NA	NA	NA	
+Q5ACP5	PGA12	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	yes	yes	yes	19	0.9668	0.99958	SP	no	NA	NA	NA	
+Q5ACR4	YOS9	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	18	0.9658	0.99947	SP	no	NA	NA	NA	
+Q5ACV9	SOD6	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	yes	yes	yes	18	0.9037	0.9864	SP	no	NA	NA	NA	
+Q5ACZ2	DFG5	Candida albicans	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	yes	yes	yes	21	0.9792	0.999764	SP	no	NA	NA	NA	
+Q5AD05	SOD4	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	yes	yes	yes	15	0.9562	0.999353	SP	yes	209	high	0.0015	
+Q5AD07	SOD5	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	yes	yes	yes	15	0.966	0.999567	SP	yes	205	high	0.0015	
+Q5AD23	PGA27	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	yes	yes	yes	20	0.9818	0.999798	SP	yes	457	high	0.0015	
+Q5AD34	PGA19	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	yes	yes	yes	20	0.9812	0.99978	SP	yes	207	probable	0.005	
+Q5AD78	DCW1	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	yes	yes	yes	18	0.9766	0.999708	SP	yes	430	weak	0.01	
+Q5ADM7	TDH3	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	excluded_indirect_regulator	excluded_indirect_regulator		indirect_regulator	no	no	no	NA	NA	0.0	OTHER	no	NA	NA	NA	
+Q5ADM9	pmt2	Candida albicans	Saccharomycotina	kiss_row_positive	kiss_row_positive					no	NA	NA	4.3e-05	OTHER	no	NA	NA	NA	
+Q5ADQ7	PGA32	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	yes	yes	yes	16	0.9741	0.997336	SP	yes	401	high	0.0015	
+Q5AEG7	PGA18	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	uncurated_repeat_bearing	uncurated_repeat_bearing		uniprot	yes	yes	yes	18	0.9804	0.999773	SP	yes	722	high	0.0015	
+Q5AEM6	SAP8	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	33	0.3816	0.999691	SP	no	NA	NA	NA	
+Q5AF39	PGA59	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	yes	yes	yes	18	0.9774	0.999697	SP	yes	88	high	0.0015	
+Q5AF41	PGA62	Candida albicans	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	yes	yes	yes	18	0.9773	0.999742	SP	yes	189	high	0.0015	
+Q5AFA2	CRH11	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	yes	yes	yes	21	0.974	0.999735	SP	yes	430	high	0.0015	
+Q5AFC2	PGA54	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	yes	yes	yes	22	0.7195	0.999521	SP	no	NA	NA	NA	
+Q5AFI4	DFI1	Candida albicans	Saccharomycotina	excluded_surface_other_adhesion_phenotype	excluded_surface_other_adhesion_phenotype		surface_other_adhesion_phenotype	no	no	no	NA	NA	1.1e-05	OTHER	no	NA	NA	NA	
+Q5AFN8	SSR1	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	yes	yes	yes	22	0.978	0.999742	SP	yes	213	high	0.0015	
+Q5AFP8	KEX1	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	19	0.9829	0.999781	SP	no	NA	NA	NA	
+Q5AG46	PGA58	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	yes	yes	yes	18	0.9769	0.999679	SP	yes	218	high	0.0015	
+Q5AGC4	ECM331	Candida albicans	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	yes	yes	yes	20	0.978	0.999718	SP	yes	383	high	0.0015	
+Q5AGW8	NUP	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	22	0.9119	0.978637	SP	no	NA	NA	NA	
+Q5AH00	VMA11	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	excluded_indirect_regulator	excluded_indirect_regulator		indirect_regulator	no	no	no	NA	NA	0.0	OTHER	no	NA	NA	NA	
+Q5AHA4	PGA17	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	yes	yes	yes	19	0.974	0.999713	SP	yes	531	high	0.0015	
+Q5AHC0	PGA33	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	yes	yes	yes	16	0.8525	0.998488	SP	yes	219	high	0.0015	
+Q5AHE8	PGA16	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	yes	yes	yes	18	0.9672	0.985647	SP	yes	78	weak	0.01	
+Q5AHZ2		Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	18	0.9778	0.99972	SP	no	NA	NA	NA	
+Q5AI14	tps2	Candida albicans	Saccharomycotina	kiss_row_positive	kiss_row_positive					no	NA	NA	1e-06	OTHER	no	NA	NA	NA	
+Q5AI48		Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	18	0.9654	0.998851	SP	no	NA	NA	NA	
+Q5AIA1	EXG2	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	yes	yes	yes	21	0.9734	0.999765	SP	yes	456	high	0.0015	
+Q5AIR7	ENG1	Candida albicans	Saccharomycotina	excluded_surface_other_adhesion_phenotype	excluded_surface_other_adhesion_phenotype		surface_other_adhesion_phenotype	no	yes	yes	18	0.9794	0.999764	SP	no	NA	NA	NA	
+Q5AJC0	UTR2	Candida albicans	Saccharomycotina	excluded_surface_other_adhesion_phenotype	excluded_surface_other_adhesion_phenotype		surface_other_adhesion_phenotype	yes	yes	yes	23	0.7445	0.999701	SP	yes	442	high	0.0015	
+Q5AJK6	PGA44	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	yes	yes	yes	22	0.9796	0.999775	SP	yes	285	high	0.0015	
+Q5AJV5	FGR23	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	yes	yes	yes	21	0.9776	0.999711	SP	yes	1092	high	0.0015	
+Q5AJY5	PGA4	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	yes	yes	yes	18	0.9537	0.99846	SP	yes	430	high	0.0015	
+Q5AK51	SFL2	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	excluded_indirect_regulator	excluded_indirect_regulator		indirect_regulator	no	no	no	NA	NA	3e-06	OTHER	no	NA	NA	NA	
+Q5AK54	CRH12	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	yes	yes	yes	18	0.9788	0.999713	SP	yes	473	high	0.0015	
+Q5AK94	RNY1-A	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	17	0.976	0.99978	SP	no	NA	NA	NA	
+Q5AK97	PGA37	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	yes	yes	yes	18	0.9723	0.999659	SP	yes	183	high	0.0015	
+Q5AKB1	RNY1-B	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	18	0.9667	0.999527	SP	no	NA	NA	NA	
+Q5AKU5	SIM1	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	31	0.7474	0.999764	SP	no	NA	NA	NA	
+Q5AL03	HYR1	Candida albicans	Saccharomycotina	class_positive_B	class_positive	B	adhesin	yes	yes	yes	20	0.9728	0.999694	SP	yes	895	high	0.0015	
+Q5AMF7	PGA57	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	yes	yes	yes	18	0.6187	0.64075	SP	yes	189	probable	0.005	
+Q5AMJ5	PGA53	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	yes	yes	yes	17	0.976	0.999691	SP	yes	108	high	0.0015	
+Q5AMQ6	RFX2	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	excluded_indirect_regulator	excluded_indirect_regulator		indirect_regulator	no	no	no	NA	NA	0.0	OTHER	no	NA	NA	NA	
+Q5AMT2	BGL2	Candida albicans	Saccharomycotina	excluded_surface_other_adhesion_phenotype	excluded_surface_other_adhesion_phenotype		surface_other_adhesion_phenotype	no	yes	yes	18	0.9774	0.999713	SP	no	NA	NA	NA	
+Q5AND1	MTC6	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	no	NA	NA	0.315523	OTHER	no	NA	NA	NA	
+Q5ANF0	SFP1	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	excluded_indirect_regulator	excluded_indirect_regulator		indirect_regulator	no	no	no	NA	NA	4e-06	OTHER	no	NA	NA	NA	
+Q5ANJ4	TEC1	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	excluded_indirect_regulator	excluded_indirect_regulator		indirect_regulator	no	no	no	NA	NA	0.0	OTHER	no	NA	NA	NA	
+Q5ANN9	kre9	Candida albicans	Saccharomycotina	kiss_row_positive	kiss_row_positive					yes	21	0.9752	0.999731	SP	no	NA	NA	NA	
+Q5AP52	FGR41	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	yes	yes	yes	22	0.9823	0.999757	SP	no	NA	NA	NA	
+Q5AP80	WOR1	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	excluded_indirect_regulator	excluded_indirect_regulator		indirect_regulator	no	no	no	NA	NA	0.0	OTHER	no	NA	NA	NA	
+Q5APJ9	PGA6	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	yes	yes	yes	19	0.9779	0.999686	SP	yes	193	high	0.0015	
+Q5AQ36	SHO1	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	excluded_indirect_regulator	excluded_indirect_regulator		indirect_regulator	no	no	no	NA	NA	0.0	OTHER	no	NA	NA	NA	
+Q5AQQ0	cda	Aspergillus nidulans	Pezizomycotina	hard_negative	hard_negative		hard_negative	no	yes	yes	26	0.7405	0.999658	SP	no	NA	NA	NA	
+Q5AUT0	eglC	Aspergillus nidulans	Pezizomycotina	hard_negative	hard_negative		hard_negative	yes	yes	yes	19	0.9499	0.996454	SP	yes	441	high	0.0015	
+Q5AXD9		Emericella nidulans	Pezizomycotina	excluded_surface_other_adhesion_phenotype	excluded_surface_other_adhesion_phenotype		surface_other_adhesion_phenotype	no	yes	yes	22	0.9707	0.999682	SP	no	NA	NA	NA	
+Q5B2E8	cbhC	Aspergillus nidulans	Pezizomycotina	hard_negative	hard_negative		hard_negative	no	yes	yes	19	0.9797	0.999681	SP	no	NA	NA	NA	
+Q5B508	pgaB	Aspergillus nidulans	Pezizomycotina	hard_negative	hard_negative		hard_negative	no	yes	yes	29	0.3334	0.999712	SP	no	NA	NA	NA	
+Q5B6Q3	exgB	Aspergillus nidulans	Pezizomycotina	hard_negative	hard_negative		hard_negative	no	yes	yes	16	0.9575	0.998429	SP	no	NA	NA	NA	
+Q5BAP5	xgeA	Aspergillus nidulans	Pezizomycotina	hard_negative	hard_negative		hard_negative	yes	yes	yes	25	0.9689	0.999386	SP	yes	601	high	0.0015	
+Q5J6J1	SCPA	Trichophyton rubrum	Pezizomycotina	hard_negative	hard_negative		hard_negative	yes	yes	yes	19	0.9471	0.999718	SP	yes	621	high	0.0015	
+Q5J6J2	SCPB	Trichophyton rubrum	Pezizomycotina	hard_negative	hard_negative		hard_negative	yes	yes	yes	21	0.9752	0.999804	SP	yes	632	high	0.0015	
+Q5J6J3	DPP4	Trichophyton rubrum	Pezizomycotina	hard_negative	hard_negative		hard_negative	no	yes	yes	15	0.977	0.999741	SP	no	NA	NA	NA	
+Q5QHG5	LAP1	Trichophyton rubrum	Pezizomycotina	hard_negative	hard_negative		hard_negative	no	yes	yes	18	0.9754	0.999667	SP	no	NA	NA	NA	
+Q5QHG6	LAP2	Trichophyton rubrum	Pezizomycotina	hard_negative	hard_negative		hard_negative	no	yes	yes	21	0.9752	0.999774	SP	no	NA	NA	NA	
+Q66NB7	Eg5A	Phanerodontia chrysosporium	Basidiomycota	hard_negative	hard_negative		hard_negative	no	yes	yes	19	0.7615	0.999743	SP	no	NA	NA	NA	
+Q6B0X2		Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	no	NA	NA	0.182247	OTHER	no	NA	NA	NA	
+Q6B2U8	TDA8	Saccharomyces cerevisiae	Saccharomycotina	adhesin_other_mechanism	adhesin_other_mechanism		adhesin	no	no	no	NA	NA	0.003463	OTHER	no	NA	NA	NA	
+Q6DTM6	EPA7	Candida glabrata	Saccharomycotina	adhesin_other_mechanism	adhesin_other_mechanism		adhesin	no	yes	yes	25	0.9772	0.999749	SP	yes	683	high	0.0015	
+Q6DWK3	CDA	Colletotrichum lindemuthianum	Pezizomycotina	hard_negative	hard_negative		hard_negative	no	yes	yes	27	0.6565	0.995097	SP	no	NA	NA	NA	
+Q6FKZ0	TIR6	Candida glabrata	Saccharomycotina	excluded_surface_other_adhesion_phenotype	excluded_surface_other_adhesion_phenotype		surface_other_adhesion_phenotype	no	yes	yes	18	0.9803	0.999766	SP	yes	204	high	0.0015	
+Q6FNG1	AWP2	Candida glabrata	Saccharomycotina	adhesin_other_mechanism	adhesin_other_mechanism		adhesin	no	yes	yes	24	0.8465	0.894639	SP	yes	804	high	0.0015	
+Q6FPM8		Candida glabrata	Saccharomycotina	class_positive_B	class_positive	B	adhesin	no	yes	yes	19	0.9688	0.999771	SP	yes	870	high	0.0015	
+Q6FPM9		Candida glabrata	Saccharomycotina	class_positive_B	class_positive	B	adhesin	no	yes	yes	19	0.9775	0.999744	SP	yes	729	high	0.0015	
+Q6FPR1		Candida glabrata	Saccharomycotina	class_positive_B	class_positive	B	adhesin	no	yes	yes	17	0.9794	0.999761	SP	yes	952	high	0.0015	
+Q6FQC7		Candida glabrata	Saccharomycotina	class_positive_B	class_positive	B	adhesin	no	yes	yes	21	0.9812	0.999721	SP	yes	1746	high	0.0015	
+Q6FR82	EPA23	Candida glabrata	Saccharomycotina	class_positive_B	class_positive	B	adhesin	no	yes	yes	18	0.984	0.999785	SP	yes	839	high	0.0015	
+Q6FRC8	TIR4	Candida glabrata	Saccharomycotina	excluded_surface_other_adhesion_phenotype	excluded_surface_other_adhesion_phenotype		surface_other_adhesion_phenotype	no	yes	yes	19	0.9769	0.999732	SP	yes	215	high	0.0015	
+Q6FRC9	TIR5	Candida glabrata	Saccharomycotina	excluded_surface_other_adhesion_phenotype	excluded_surface_other_adhesion_phenotype		surface_other_adhesion_phenotype	no	yes	yes	19	0.9769	0.999732	SP	yes	215	high	0.0015	
+Q6FRS0	SSR1	Candida glabrata	Saccharomycotina	excluded_surface_other_adhesion_phenotype	excluded_surface_other_adhesion_phenotype		surface_other_adhesion_phenotype	no	yes	yes	19	0.9789	0.999724	SP	yes	190	high	0.0015	
+Q6FTA2		Candida glabrata	Saccharomycotina	adhesin_other_mechanism	adhesin_other_mechanism		adhesin	no	yes	yes	18	0.9683	0.999492	SP	no	NA	NA	NA	
+Q6FUQ8	TIR2	Candida glabrata	Saccharomycotina	excluded_surface_other_adhesion_phenotype	excluded_surface_other_adhesion_phenotype		surface_other_adhesion_phenotype	no	yes	yes	18	0.9746	0.999706	SP	yes	316	high	0.0015	
+Q6FUQ9	TIR1	Candida glabrata	Saccharomycotina	excluded_surface_other_adhesion_phenotype	excluded_surface_other_adhesion_phenotype		surface_other_adhesion_phenotype	no	yes	yes	19	0.9706	0.999732	SP	yes	200	high	0.0015	
+Q6FUW3	EPA3	Candida glabrata	Saccharomycotina	class_positive_B	class_positive	B	adhesin	no	yes	yes	18	0.9786	0.999763	SP	yes	953	high	0.0015	
+Q6FUW5	EPA1	Candida glabrata	Saccharomycotina	adhesin_other_mechanism	adhesin_other_mechanism		adhesin	no	yes	yes	30	0.9766	0.999743	SP	yes	1006	high	0.0015	
+Q6FUW7		Candida glabrata	Saccharomycotina	class_positive_B	class_positive	B	adhesin	no	yes	yes	23	0.9743	0.999696	SP	yes	943	probable	0.005	
+Q6FWQ0	TIR3	Candida glabrata	Saccharomycotina	excluded_surface_other_adhesion_phenotype	excluded_surface_other_adhesion_phenotype		surface_other_adhesion_phenotype	no	yes	yes	21	0.9774	0.999758	SP	yes	230	high	0.0015	
+Q6FX55	EPA6	Candida glabrata	Saccharomycotina	adhesin_other_mechanism	adhesin_other_mechanism		adhesin	no	yes	yes	25	0.9771	0.999697	SP	yes	684	high	0.0015	
+Q6FY32	YPS7	Candida glabrata	Saccharomycotina	excluded_surface_other_adhesion_phenotype	excluded_surface_other_adhesion_phenotype		surface_other_adhesion_phenotype	no	yes	yes	18	0.9832	0.999732	SP	yes	561	high	0.0015	
+Q6TGC5	INT1 (PCINT1)	Pneumocystis carinii	Taphrinomycotina	adhesin_other_mechanism	adhesin_other_mechanism		adhesin	no	no	no	NA	NA	0.00011	OTHER	no	NA	NA	NA	
+Q70KY3	LAC1	Melanocarpus albomyces	Pezizomycotina	hard_negative	hard_negative		hard_negative	no	yes	yes	22	0.9797	0.99968	SP	no	NA	NA	NA	
+Q759J8	AGOS_ADR279C	Eremothecium gossypii	Saccharomycotina	kiss_row_positive	kiss_row_positive					no	NA	NA	3.6e-05	OTHER	no	NA	NA	NA	
+Q75DV8	AGOS_ABL085W	Eremothecium gossypii	Saccharomycotina	kiss_row_positive	kiss_row_positive					no	NA	NA	2.5e-05	OTHER	no	NA	NA	NA	
+Q75EX8	AGOS_AAL050W	Eremothecium gossypii	Saccharomycotina	kiss_row_positive	kiss_row_positive					no	NA	NA	0.000118	OTHER	no	NA	NA	NA	
+Q7S3P5	NCU08192	Neurospora crassa	Pezizomycotina	kiss_row_positive	kiss_row_positive					yes	24	0.8198	0.999734	SP	no	NA	NA	NA	
+Q7SB92	chs7	Neurospora crassa	Pezizomycotina	kiss_row_positive	kiss_row_positive					no	NA	NA	0.00507	OTHER	no	NA	NA	NA	
+Q7SD53	NCU09332	Neurospora crassa	Pezizomycotina	kiss_row_positive	kiss_row_positive					no	NA	NA	0.000155	OTHER	no	NA	NA	NA	
+Q7SDK1	so_soft	Neurospora crassa	Pezizomycotina	kiss_row_positive	kiss_row_positive					no	NA	NA	0.0	OTHER	no	NA	NA	NA	
+Q7SDR1	gh5-1	Neurospora crassa	Pezizomycotina	hard_negative	hard_negative		hard_negative	no	yes	yes	16	0.9737	0.999569	SP	no	NA	NA	NA	
+Q7Z9I1	pfl4	Schizosaccharomyces pombe	Taphrinomycotina	class_positive_A	class_positive	A	adhesin	no	yes	yes	21	0.9331	0.983409	SP	no	NA	NA	NA	
+Q873Y0	chiA1	Aspergillus fumigatus	Pezizomycotina	hard_negative	hard_negative		hard_negative	yes	yes	yes	22	0.9782	0.99975	SP	yes	800	high	0.0015	
+Q874R4	pfl3	Schizosaccharomyces pombe	Taphrinomycotina	class_positive_A	class_positive	A	adhesin	no	yes	yes	24	0.9779	0.999794	SP	no	NA	NA	NA	
+Q8J0D5	MEP1	Microsporum canis	Pezizomycotina	hard_negative	hard_negative		hard_negative	no	yes	yes	19	0.9756	0.999208	SP	no	NA	NA	NA	
+Q8J0I9		Trichoderma harzianum	Pezizomycotina	hard_negative	hard_negative		hard_negative	no	yes	yes	28	0.9256	0.999695	SP	no	NA	NA	NA	
+Q8J0M4		Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	no	NA	NA	0.131424	OTHER	no	NA	NA	NA	
+Q8J0P4	crh5	Aspergillus fumigatus	Pezizomycotina	hard_negative	hard_negative		hard_negative	no	yes	yes	19	0.9692	0.999756	SP	yes	369	high	0.0015	
+Q8NJP6	axeA	Talaromyces purpureogenus	Pezizomycotina	hard_negative	hard_negative		hard_negative	no	yes	yes	21	0.9767	0.999691	SP	no	NA	NA	NA	
+Q8NJQ5	chit37	Trichoderma harzianum	Pezizomycotina	hard_negative	hard_negative		hard_negative	no	yes	yes	25	0.9769	0.999753	SP	no	NA	NA	NA	
+Q8NK02	cbhB	Aspergillus nidulans	Pezizomycotina	hard_negative	hard_negative		hard_negative	no	yes	yes	23	0.976	0.999765	SP	no	NA	NA	NA	
+Q8NK60	SOWgp58	Coccidioides immitis	Pezizomycotina	class_positive_A	class_positive	A	adhesin	no	yes	yes	20	0.9797	0.999757	SP	yes	304	high	0.0015	
+Q8NK61	SOWgp66	Coccidioides immitis	Pezizomycotina	class_positive_A	class_positive	A	adhesin	no	yes	yes	20	0.9797	0.999757	SP	yes	351	high	0.0015	
+Q8TFG9	pfl2	Schizosaccharomyces pombe	Taphrinomycotina	class_positive_B	class_positive	B	adhesin	yes	yes	yes	23	0.9578	0.999671	SP	yes	1011	high	0.0015	
+Q8TGJ3	KSH1	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	26	0.8039	0.812271	SP	no	NA	NA	NA	
+Q8TGQ2		Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	no	NA	NA	0.0	OTHER	no	NA	NA	NA	
+Q8TGR2		Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	no	NA	NA	0.050325	OTHER	no	NA	NA	NA	
+Q8TGS4		Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	no	NA	NA	0.005311	OTHER	NA	NA	NA	NA	length<=40: PredGPI does not score sequences this short
+Q8TGS5		Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	no	NA	NA	0.012214	OTHER	NA	NA	NA	NA	length<=40: PredGPI does not score sequences this short
+Q8TGT1		Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	no	NA	NA	0.001555	OTHER	no	NA	NA	NA	
+Q92197	chsC_Afu5g00760	Aspergillus fumigatus	Pezizomycotina	kiss_row_positive	kiss_row_positive					no	NA	NA	0.0	OTHER	no	NA	NA	NA	
+Q92344	pfl8	Schizosaccharomyces pombe	Taphrinomycotina	class_positive_B	class_positive	B	adhesin	no	yes	yes	20	0.956	0.999516	SP	no	NA	NA	NA	
+Q96V71	SOWgp82	Coccidioides posadasii	Pezizomycotina	class_positive_A	class_positive	A	adhesin	no	yes	yes	20	0.9797	0.999757	SP	yes	398	high	0.0015	
+Q96WV6		Schizosaccharomyces pombe	Taphrinomycotina	class_positive_A	class_positive	A	adhesin	yes	yes	yes	23	0.9793	0.999779	SP	yes	3943	high	0.0015	
+Q99034	axe1	Trichoderma reesei	Pezizomycotina	hard_negative	hard_negative		hard_negative	no	yes	no	NA	NA	0.419767	OTHER	no	NA	NA	NA	
+Q99036	man1	Trichoderma reesei	Pezizomycotina	hard_negative	hard_negative		hard_negative	no	yes	yes	27	0.9533	0.999385	SP	no	NA	NA	NA	
+Q99109	rep1	Mycosarcoma maydis	Basidiomycota	adhesin_other_mechanism	adhesin_other_mechanism		adhesin	no	yes	yes	21	0.9774	0.999764	SP	no	NA	NA	NA	
+Q99220	YOS9	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	23	0.4306	0.793042	SP	no	NA	NA	NA	
+Q99316	MPD2	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	24	0.833	0.999772	SP	no	NA	NA	NA	
+Q9C1S9	cel6A	Mycothermus thermophilus	Pezizomycotina	hard_negative	hard_negative		hard_negative	no	yes	yes	23	0.9449	0.999693	SP	no	NA	NA	NA	
+Q9HDL9	gp43	Paracoccidioides brasiliensis	Pezizomycotina	adhesin_other_mechanism	adhesin_other_mechanism		adhesin	no	yes	yes	23	0.9729	0.999586	SP	no	NA	NA	NA	
+Q9HEZ1	xynA	Phanerodontia chrysosporium	Basidiomycota	hard_negative	hard_negative		hard_negative	no	yes	yes	19	0.9809	0.999742	SP	no	NA	NA	NA	
+Q9P4E5	LIP10	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	20	0.7027	0.967894	SP	no	NA	NA	NA	
+Q9P4E6	LIP9	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	14	0.9422	0.987667	SP	no	NA	NA	NA	
+Q9P4E7	LIP7	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	13	0.9724	0.999577	SP	no	NA	NA	NA	
+Q9P4E8	LIP6	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	16	0.9701	0.997382	SP	no	NA	NA	NA	
+Q9P4W4	pgaA	Aspergillus niger	Pezizomycotina	hard_negative	hard_negative		hard_negative	no	yes	yes	19	0.9797	0.999703	SP	no	NA	NA	NA	
+Q9P5N1	pfl7	Schizosaccharomyces pombe	Taphrinomycotina	class_positive_A	class_positive	A	adhesin	no	yes	yes	23	0.9588	0.999772	SP	no	NA	NA	NA	
+Q9P6J6		Schizosaccharomyces pombe	Taphrinomycotina	adhesin_other_mechanism	adhesin_other_mechanism		adhesin	no	no	no	NA	NA	0.000147	OTHER	no	NA	NA	NA	
+Q9P6S0	gsf2	Schizosaccharomyces pombe	Taphrinomycotina	adhesin_other_mechanism	adhesin_other_mechanism		adhesin	yes	yes	yes	27	0.9626	0.994198	SP	yes	1539	high	0.0015	
+Q9P7Q2	pfl9	Schizosaccharomyces pombe	Taphrinomycotina	class_positive_A	class_positive	A	adhesin	no	yes	yes	21	0.9801	0.999698	SP	no	NA	NA	NA	
+Q9P8V9	LIP8	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	no	NA	NA	0.341752	OTHER	no	NA	NA	NA	
+Q9P8W0	LIP5	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	14	0.7995	0.842234	SP	no	NA	NA	NA	
+Q9P8W1	LIP4	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	14	0.9605	0.997182	SP	no	NA	NA	NA	
+Q9P8W2	LIP3	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	16	0.9832	0.999795	SP	no	NA	NA	NA	
+Q9P8W5	LIP2	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	16	0.9738	0.999558	SP	no	NA	NA	NA	
+Q9URU4	pfl5	Schizosaccharomyces pombe	Taphrinomycotina	class_positive_A	class_positive	A	adhesin	no	yes	yes	19	0.9875	0.999766	SP	no	NA	NA	NA	
+Q9URU6	exg1	Schizosaccharomyces pombe	Taphrinomycotina	hard_negative	hard_negative		hard_negative	no	yes	no	NA	NA	0.293425	OTHER	no	NA	NA	NA	
+Q9UT45	eng1	Schizosaccharomyces pombe	Taphrinomycotina	hard_negative	hard_negative		hard_negative	no	yes	yes	19	0.9718	0.999808	SP	no	NA	NA	NA	
+Q9UW98	DPPV	Trichophyton rubrum	Pezizomycotina	hard_negative	hard_negative		hard_negative	no	yes	yes	19	0.9769	0.999717	SP	no	NA	NA	NA	
+Q9UWF6	PLB1	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	background_assumed_negative	background_assumed_negative		uniprot	no	yes	yes	17	0.9787	0.999775	SP	no	NA	NA	NA	
+Q9Y7W4	CRK1	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	Saccharomycotina	excluded_indirect_regulator	excluded_indirect_regulator		indirect_regulator	no	no	no	NA	NA	0.0	OTHER	no	NA	NA	NA	
+Q9Y7Y7	gas4	Schizosaccharomyces pombe	Taphrinomycotina	hard_negative	hard_negative		hard_negative	yes	yes	yes	23	0.9745	0.999757	SP	yes	428	high	0.0015	
+S8FIE4	LCC1	Fomitopsis schrenkii	Basidiomycota	hard_negative	hard_negative		hard_negative	no	yes	yes	21	0.9816	0.999753	SP	no	NA	NA	NA	
+W0TYL6		Candida glabrata	Saccharomycotina	class_positive_B	class_positive	B	adhesin	no	no	no	NA	NA	0.303101	OTHER	no	NA	NA	NA	
+XP_045276491.1	ENG2	Blastomyces dermatitidis	Pezizomycotina	hard_negative	hard_negative		hard_negative			yes	19	0.9713	0.999646	SP	no	NA	NA	NA	

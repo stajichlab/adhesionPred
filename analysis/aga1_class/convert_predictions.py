@@ -1,16 +1,22 @@
 """Raw SignalP 6 / PredGPI / disorder outputs -> one table per protein for the AGA1-class prediction step (stdlib only).
 
-FORMATS ARE UNVERIFIED until the first real output is seen (see analysis/aga1_class/README.md):
-  SignalP 6 `prediction_results.txt` (format as parsed by src/cellsurface_sorting_hat/modules/signalp.py, plus the cleavage column):
-      '# SignalP-6.0 ... Organism: Eukarya ...' / '# ID<TAB>Prediction<TAB>OTHER<TAB>SP(Sec/SPI)<TAB>CS Position'
-      then 'ID<TAB>SP<TAB>p_other<TAB>p_sp<TAB>CS pos: 22-23. Pr: 0.9876' (the CS field is empty for OTHER).
-  PredGPI: NORMALISED intermediate TSV (the raw PredGPI output format is not known to the author; adapt the raw output to this
-      once seen): header `id<TAB>prediction<TAB>omega_site<TAB>fp_rate[<TAB>score]`, prediction `GPI-anchored` or
-      `Not GPI-anchored`, omega_site and score may be empty or NA.
+SignalP and PredGPI formats were checked against the real outputs of 2026-10-24 (jobs 30451696, 30453935); the disorder format is
+still UNVERIFIED (see analysis/aga1_class/README.md):
+  SignalP 6 `prediction_results.txt`: 2 `#` lines (the first holds `Organism: Eukarya`), then TAB rows
+      `ID<TAB>Prediction<TAB>OTHER<TAB>SP(Sec/SPI)<TAB>CS Position`, CS like `CS pos: 24-25. Pr: 0.9770` (empty for OTHER).
+  PredGPI `predgpi_raw.gff3` (read directly, no adapter): 9 TAB columns `ID PredGPI <type> start end score . . attributes`, one row
+      per protein. Type `Chain` = not GPI-anchored (start 1, end = protein length; the score 1.0 means nothing). Type
+      `GPI-anchor` = GPI-anchored (start = end = omega site; the score is the confidence class of the tool: 1.0 = estimated false
+      positive rate <= 0.0015, 0.70 = <= 0.005, 0.55 = <= 0.01; the tool calls GPI at <= 0.01). The gff3 holds no false positive
+      rate and no raw score, so none is invented: the table gives `gpi_confidence_class` (high / probable / weak) and
+      `gpi_fpr_upper_bound`. PredGPI never scores a sequence of 40 aa or fewer (it returns a silent "no"), so those get `NA`.
+      The protein lengths (lengths.tsv of stage_inputs.py) are therefore required.
   Disorder (AIUPred or IUPred3): per-residue text, one record per protein: a line `>ID ...` followed by rows `pos aa score`
       (whitespace separated, pos 1..n); `#` lines are ignored. If the raw tool prints another layout, convert it first.
+The disorder block is optional but explicit: pass either --disorder FILE --disorder-tool T, or --no-disorder (the disorder columns
+are then left out of the table entirely, never written as zero or NA).
 Fails loudly (non-zero exit, message on stderr) on a missing accession, a duplicate, an empty file, an unparseable row, an
-unexpected accession, a length mismatch (with --lengths). Nothing is ever written as a silent zero: a value that does not
+unexpected accession, a length mismatch. Nothing is ever written as a silent zero: a value that does not
 apply is written as NA.
 """
 
@@ -21,10 +27,18 @@ import re
 import sys
 from pathlib import Path
 
+GPI_CLASSES = {
+    "1.0": ("high", 0.0015),
+    "0.7": ("probable", 0.005),
+    "0.70": ("probable", 0.005),
+    "0.55": ("weak", 0.01),
+}
+PREDGPI_MIN_LEN = 41  # PredGPI scores a sequence only if len(seq) > 40
+SHORT_NOTE = "length<=40: PredGPI does not score sequences this short"
 CS_RE = re.compile(r"^CS pos:\s*(\d+)-(\d+)\.\s*Pr:\s*([0-9.eE+-]+)\s*$")
 OUT_COLS = [
     "accession", "signal_peptide_pred", "sp_cleavage_pos", "sp_cleavage_prob", "sp_prob", "sp_prediction_raw",
-    "gpi_pred", "gpi_omega_site", "gpi_fp_rate", "gpi_score",
+    "gpi_pred", "gpi_omega_site", "gpi_confidence_class", "gpi_fpr_upper_bound", "gpi_note",
     "disorder_tool", "disorder_threshold", "disorder_n_res", "disorder_mean", "disorder_frac", "disorder_longest_run",
 ]  # fmt: skip
 
@@ -121,36 +135,62 @@ def parse_signalp(path):
     return out
 
 
-def parse_predgpi(path):
-    lines = [ln for ln in _read_lines(path, "predgpi") if ln.strip() and not ln.startswith("#")]
-    if not lines:
-        raise ConvertError(f"predgpi: {path}: no rows")
-    head = lines[0].split("\t")
-    need = ["id", "prediction", "omega_site", "fp_rate"]
-    if head[:4] != need:
-        raise ConvertError(f"predgpi: header must start with {need}, got {head}")
+def parse_predgpi(path, lengths):
+    """Read the raw PredGPI gff3 (one row per protein) against the protein lengths."""
     out = {}
-    for n, line in enumerate(lines[1:], 2):
-        where = f"predgpi:{path}:row{n}"
+    for n, line in enumerate(_read_lines(path, "predgpi"), 1):
+        where = f"predgpi:{path}:{n}"
+        if not line.strip():
+            continue
         f = line.split("\t")
-        if len(f) < 4:
-            raise ConvertError(f"{where}: expected at least 4 TAB separated fields")
-        pid = f[0].strip()
-        if not pid:
-            raise ConvertError(f"{where}: empty id")
+        if len(f) != 9:
+            raise ConvertError(f"{where}: expected 9 TAB separated gff3 columns, got {len(f)}")
+        pid, source, kind, start, end, score = f[:6]
+        if not pid.strip() or pid != pid.strip():
+            raise ConvertError(f"{where}: empty or padded ID {pid!r}")
         if pid in out:
-            raise ConvertError(f"{where}: duplicate id {pid}")
-        pred = {"GPI-anchored": "yes", "Not GPI-anchored": "no"}.get(f[1].strip())
-        if pred is None:
-            raise ConvertError(f"{where}: unexpected prediction {f[1]!r}")
-        omega = f[2].strip()
-        omega = "NA" if omega in ("", "NA") else int(_num(omega, where, "omega site"))
-        fp = _num(f[3], where, "FP rate")
-        if fp < 0:
-            raise ConvertError(f"{where}: negative FP rate")
-        score = f[4].strip() if len(f) > 4 else ""
-        score = "NA" if score in ("", "NA") else _num(score, where, "score")
-        out[pid] = {"pred": pred, "omega": omega, "fp": fp, "score": score}
+            raise ConvertError(f"{where}: duplicate ID {pid}")
+        if source != "PredGPI":
+            raise ConvertError(f"{where}: source column is {source!r}, expected PredGPI")
+        if pid not in lengths:
+            raise ConvertError(f"{where}: {pid} is not in the lengths table")
+        try:
+            start, end = int(start), int(end)
+        except ValueError:
+            raise ConvertError(f"{where}: start/end are not integers: {f[3]!r} {f[4]!r}") from None
+        short = lengths[pid] < PREDGPI_MIN_LEN
+        if kind == "Chain":
+            if start != 1 or end != lengths[pid]:
+                raise ConvertError(
+                    f"{where}: Chain row {start}-{end} for {pid} does not span the protein (length {lengths[pid]})"
+                )
+            out[pid] = {"pred": "NA" if short else "no", "omega": "NA", "cls": "NA", "ub": "NA",
+                        "note": SHORT_NOTE if short else ""}  # fmt: skip
+        elif kind == "GPI-anchor":
+            if start != end:
+                raise ConvertError(
+                    f"{where}: GPI-anchor row for {pid} has start {start} != end {end}"
+                )
+            if not 1 <= start <= lengths[pid]:
+                raise ConvertError(
+                    f"{where}: omega site {start} outside the protein (length {lengths[pid]})"
+                )
+            if short:
+                raise ConvertError(
+                    f"{where}: {pid} is {lengths[pid]} aa; PredGPI should not score it, but a GPI-anchor row exists"
+                )
+            if score not in GPI_CLASSES:
+                raise ConvertError(
+                    f"{where}: unknown GPI-anchor confidence score {score!r} (known: 1.0, 0.70, 0.55)"
+                )
+            cls, ub = GPI_CLASSES[score]
+            out[pid] = {"pred": "yes", "omega": start, "cls": cls, "ub": ub, "note": ""}
+        else:
+            raise ConvertError(
+                f"{where}: unknown feature type {kind!r} (expected Chain or GPI-anchor)"
+            )
+    if not out:
+        raise ConvertError(f"predgpi: {path}: no rows")
     return out
 
 
@@ -208,32 +248,41 @@ def check_ids(label, have, want):
         )
 
 
-def convert(manifest, signalp, predgpi, disorder, tool, threshold, lengths=None):
+def convert(manifest, signalp, predgpi, disorder, tool, threshold, lengths):
+    """`disorder` None means the disorder block is not requested (its columns are then absent)."""
     want = read_manifest(manifest)
-    sp, gp, dis = (
-        parse_signalp(signalp),
-        parse_predgpi(predgpi),
-        parse_disorder(disorder, threshold),
-    )
-    for label, have in (("signalp", sp), ("predgpi", gp), ("disorder", dis)):
+    ln = read_lengths(lengths)
+    check_ids("lengths", ln, want)
+    sp, gp = parse_signalp(signalp), parse_predgpi(predgpi, ln)
+    checks = [("signalp", sp), ("predgpi", gp)]
+    dis = None
+    if disorder is not None:
+        dis = parse_disorder(disorder, threshold)
+        checks.append(("disorder", dis))
+    for label, have in checks:
         check_ids(label, have, want)
-    if lengths:
-        ln = read_lengths(lengths)
-        check_ids("lengths", ln, want)
+    if dis is not None:
         bad = [a for a in want if dis[a]["n"] != ln[a]]
         if bad:
             raise ConvertError(f"disorder: {len(bad)} records differ in length from lengths.tsv, first: "
                                f"{bad[0]} has {dis[bad[0]]['n']} residues, expected {ln[bad[0]]}")  # fmt: skip
     rows = []
     for a in want:
-        s, g, d = sp[a], gp[a], dis[a]
-        rows.append({
+        s, g = sp[a], gp[a]
+        row = {
             "accession": a, "signal_peptide_pred": s["pred"], "sp_cleavage_pos": s["cpos"],
             "sp_cleavage_prob": s["cprob"], "sp_prob": s["p_sp"], "sp_prediction_raw": s["raw"],
-            "gpi_pred": g["pred"], "gpi_omega_site": g["omega"], "gpi_fp_rate": g["fp"], "gpi_score": g["score"],
-            "disorder_tool": tool, "disorder_threshold": threshold, "disorder_n_res": d["n"],
-            "disorder_mean": f"{d['mean']:.4f}", "disorder_frac": f"{d['frac']:.4f}", "disorder_longest_run": d["longest"],
-        })  # fmt: skip
+            "gpi_pred": g["pred"], "gpi_omega_site": g["omega"], "gpi_confidence_class": g["cls"],
+            "gpi_fpr_upper_bound": g["ub"], "gpi_note": g["note"],
+        }  # fmt: skip
+        if dis is not None:
+            d = dis[a]
+            row.update({
+                "disorder_tool": tool, "disorder_threshold": threshold, "disorder_n_res": d["n"],
+                "disorder_mean": f"{d['mean']:.4f}", "disorder_frac": f"{d['frac']:.4f}",
+                "disorder_longest_run": d["longest"],
+            })  # fmt: skip
+        rows.append(row)
     return rows
 
 
@@ -242,12 +291,27 @@ def main(argv=None):
     ap.add_argument("--manifest", required=True)
     ap.add_argument("--signalp", required=True)
     ap.add_argument("--predgpi", required=True)
-    ap.add_argument("--disorder", required=True)
-    ap.add_argument("--disorder-tool", required=True, choices=["aiupred", "iupred3"])
+    ap.add_argument("--disorder", help="per-residue disorder file (needs --disorder-tool)")
+    ap.add_argument("--disorder-tool", choices=["aiupred", "iupred3"])
+    ap.add_argument(
+        "--no-disorder",
+        action="store_true",
+        help="explicitly leave the disorder block out (no disorder columns)",
+    )
     ap.add_argument("--disorder-threshold", type=float, default=0.5)
-    ap.add_argument("--lengths", help="lengths.tsv of stage_inputs.py (checks the residue counts)")
+    ap.add_argument(
+        "--lengths",
+        required=True,
+        help="lengths.tsv of stage_inputs.py (PredGPI checks, residue counts)",
+    )
     ap.add_argument("--out", required=True, help="output TSV; must not exist")
     a = ap.parse_args(argv)
+    if a.no_disorder == bool(a.disorder):
+        ap.error("give exactly one of --disorder FILE (with --disorder-tool) or --no-disorder")
+    if a.disorder and not a.disorder_tool:
+        ap.error("--disorder needs --disorder-tool")
+    if a.no_disorder and a.disorder_tool:
+        ap.error("--no-disorder and --disorder-tool contradict each other")
     if Path(a.out).exists():
         print(f"FATAL: {a.out} exists; nothing is overwritten", file=sys.stderr)
         return 1
@@ -256,7 +320,7 @@ def main(argv=None):
             a.manifest,
             a.signalp,
             a.predgpi,
-            a.disorder,
+            None if a.no_disorder else a.disorder,
             a.disorder_tool,
             a.disorder_threshold,
             a.lengths,
@@ -266,8 +330,9 @@ def main(argv=None):
         return 1
     with open(a.out, "w", newline="") as fh:
         w = csv.writer(fh, delimiter="\t", lineterminator="\n")
-        w.writerow(OUT_COLS)
-        w.writerows([[r[c] for c in OUT_COLS] for r in rows])
+        cols = [c for c in OUT_COLS if c in rows[0]]
+        w.writerow(cols)
+        w.writerows([[r[c] for c in cols] for r in rows])
     print(f"wrote {a.out}: {len(rows)} proteins")
     return 0
 

@@ -32,18 +32,36 @@ SIGNALP = (
     "P1 synthetic desc\tSP\t0.0100\t0.9900\tCS pos: 22-23. Pr: 0.9500\n"
     "P2\tOTHER\t0.9990\t0.0010\t\n"
     "P3\tOTHER\t0.8000\t0.2000\t\n"
+    "P4\tSP\t0.1\t0.9\tCS pos: 19-20. Pr: 0.5000\n"
+    "P5\tOTHER\t0.9\t0.1\t\n"
 )
+# SYNTHETIC gff3 in the layout of the real PredGPI output (P1 5 aa would be too short in reality; lengths below are synthetic too)
 PREDGPI = (
-    "id\tprediction\tomega_site\tfp_rate\tscore\n"
-    "P1\tGPI-anchored\t300\t0.0100\t12.5\n"
-    "P2\tNot GPI-anchored\t\t55.0\t\n"
-    "P3\tGPI-anchored\tNA\t0.5\t3.0\n"
+    "P1\tPredGPI\tGPI-anchor\t60\t60\t1.0\t.\t.\tOntology_term=GO:0046658;evidence=ECO:0000256\n"
+    "P2\tPredGPI\tChain\t1\t50\t1.0\t.\t.\tevidence=ECO:0000256\n"
+    "P3\tPredGPI\tChain\t1\t39\t1.0\t.\t.\tevidence=ECO:0000256\n"
+    "P4\tPredGPI\tGPI-anchor\t70\t70\t0.55\t.\t.\tOntology_term=GO:0046658;evidence=ECO:0000256\n"
+    "P5\tPredGPI\tGPI-anchor\t80\t80\t0.7\t.\t.\tOntology_term=GO:0046658;evidence=ECO:0000256\n"
 )
+LENGTHS = "accession\tlength\nP1\t100\nP2\t50\nP3\t39\nP4\t90\nP5\t95\n"
+
+
+def _rec(name, head, n):
+    rows = [f"{i} A {sc}" for i, sc in enumerate(head, 1)] + [
+        f"{i} A 0.0" for i in range(len(head) + 1, n + 1)
+    ]
+    return f">{name} x\n" + "\n".join(rows) + "\n"
+
+
 DISORDER = (
     "# SYNTHETIC per-residue scores\n"
-    ">P1 x\n1 M 0.1\n2 S 0.6\n3 T 0.7\n4 S 0.8\n5 A 0.2\n"
-    ">P2\n1 M 0.0\n2 A 0.0\n"
-    ">P3\n1 M 0.5\n2 A 0.5\n3 G 0.4\n"
+    + _rec("P1", [0.1, 0.6, 0.7, 0.8, 0.2], 100)
+    .replace("2 A 0.6", "2 S 0.6")
+    .replace("3 A 0.7", "3 T 0.7")
+    + _rec("P2", [], 50)
+    + _rec("P3", [0.5, 0.5, 0.4], 39)
+    + _rec("P4", [], 90)
+    + _rec("P5", [], 95)
 )
 
 
@@ -55,51 +73,101 @@ def files(tmp_path):
         return str(p)
 
     return {
-        "manifest": w("m.txt", "P1\nP2\nP3\n"),
+        "manifest": w("m.txt", "P1\nP2\nP3\nP4\nP5\n"),
         "signalp": w("sp.txt", SIGNALP),
         "predgpi": w("gpi.tsv", PREDGPI),
         "disorder": w("dis.txt", DISORDER),
-        "lengths": w("len.tsv", "accession\tlength\nP1\t5\nP2\t2\nP3\t3\n"),
+        "lengths": w("len.tsv", LENGTHS),
         "tmp": tmp_path,
     }
 
 
-def run(f, **over):
-    a = {k: f[k] for k in ("manifest", "signalp", "predgpi", "disorder")}
+def run(f, disorder=True, **over):
+    a = {k: f[k] for k in ("manifest", "signalp", "predgpi", "disorder", "lengths")}
     a.update(over)
     return conv.convert(
         a["manifest"],
         a["signalp"],
         a["predgpi"],
-        a["disorder"],
+        a["disorder"] if disorder else None,
         "aiupred",
         0.5,
-        over.get("lengths"),
+        a["lengths"],
     )
 
 
 def test_convert_values(files):
     rows = {r["accession"]: r for r in run(files)}
-    assert list(rows) == ["P1", "P2", "P3"]
+    assert list(rows) == ["P1", "P2", "P3", "P4", "P5"]
     p1 = rows["P1"]
     assert (p1["signal_peptide_pred"], p1["sp_cleavage_pos"], p1["sp_cleavage_prob"]) == (
         "yes",
         22,
         0.95,
     )
-    assert (p1["gpi_pred"], p1["gpi_omega_site"], p1["gpi_fp_rate"], p1["gpi_score"]) == (
-        "yes",
-        300,
-        0.01,
-        12.5,
-    )
-    assert p1["disorder_n_res"] == 5 and p1["disorder_longest_run"] == 3
-    assert p1["disorder_mean"] == "0.4800" and p1["disorder_frac"] == "0.6000"
+    assert (p1["gpi_pred"], p1["gpi_omega_site"], p1["gpi_confidence_class"], p1["gpi_fpr_upper_bound"]) == (
+        "yes", 60, "high", 0.0015,
+    )  # fmt: skip
+    assert p1["disorder_n_res"] == 100 and p1["disorder_longest_run"] == 3
+    assert p1["disorder_mean"] == "0.0240" and p1["disorder_frac"] == "0.0300"
     assert rows["P2"]["signal_peptide_pred"] == "no" and rows["P2"]["sp_cleavage_pos"] == "NA"
-    assert rows["P2"]["gpi_omega_site"] == "NA" and rows["P2"]["disorder_longest_run"] == 0
     assert (
-        rows["P3"]["gpi_omega_site"] == "NA" and rows["P3"]["disorder_longest_run"] == 2
-    )  # score == threshold counts
+        rows["P2"]["gpi_pred"],
+        rows["P2"]["gpi_omega_site"],
+        rows["P2"]["gpi_confidence_class"],
+    ) == ("no", "NA", "NA")
+    assert rows["P2"]["gpi_fpr_upper_bound"] == "NA" and rows["P2"]["disorder_longest_run"] == 0
+    assert rows["P3"]["disorder_longest_run"] == 2  # score == threshold counts
+    assert (rows["P4"]["gpi_confidence_class"], rows["P4"]["gpi_fpr_upper_bound"]) == ("weak", 0.01)
+    assert (rows["P5"]["gpi_confidence_class"], rows["P5"]["gpi_fpr_upper_bound"]) == (
+        "probable",
+        0.005,
+    )
+    assert not any(
+        "fp_rate" in c or c == "gpi_score" for c in rows["P1"]
+    )  # no invented false positive rate
+
+
+def test_short_protein_is_na_not_no(files):
+    rows = {r["accession"]: r for r in run(files)}
+    # P3 is 39 aa: PredGPI never scores it, its Chain row is a silent "no" in the tool, so it must be NA here
+    assert rows["P3"]["gpi_pred"] == "NA" and "length<=40" in rows["P3"]["gpi_note"]
+    assert rows["P2"]["gpi_note"] == ""  # 50 aa: scored, a real "no"
+    # exactly 40 aa is still too short, 41 is scored
+    assert conv.PREDGPI_MIN_LEN == 41
+    one = {"P": 40}, {"Q": 41}
+    for lens, want in zip(one, ("NA", "no"), strict=True):
+        acc = next(iter(lens))
+        p = files["tmp"] / f"g_{acc}.gff3"
+        p.write_text(f"{acc}\tPredGPI\tChain\t1\t{lens[acc]}\t1.0\t.\t.\te=1\n")
+        assert conv.parse_predgpi(str(p), lens)[acc]["pred"] == want
+
+
+def test_no_disorder_flag_leaves_columns_out(files):
+    out = files["tmp"] / "t.tsv"
+    args = ["--manifest", files["manifest"], "--signalp", files["signalp"], "--predgpi", files["predgpi"],
+            "--lengths", files["lengths"], "--no-disorder", "--out", str(out)]  # fmt: skip
+    assert conv.main(args) == 0
+    head = out.read_text().splitlines()[0].split("\t")
+    assert head == [c for c in conv.OUT_COLS if not c.startswith("disorder_")]
+    assert "gpi_confidence_class" in head and "gpi_fp_rate" not in head
+
+
+@pytest.mark.parametrize(
+    "extra",
+    [
+        [],
+        ["--no-disorder", "--disorder", "x", "--disorder-tool", "aiupred"],
+        ["--disorder", "x"],
+        ["--no-disorder", "--disorder-tool", "aiupred"],
+    ],
+)
+def test_disorder_block_must_be_explicit(files, extra):
+    args = ["--manifest", files["manifest"], "--signalp", files["signalp"], "--predgpi", files["predgpi"],
+            "--lengths", files["lengths"], "--out", str(files["tmp"] / "t.tsv"), *extra]  # fmt: skip
+    with pytest.raises(SystemExit) as e:
+        conv.main(args)
+    assert e.value.code == 2  # argparse error: never a silent default
 
 
 def test_cli_writes_table_and_checks_lengths(files):
@@ -108,7 +176,7 @@ def test_cli_writes_table_and_checks_lengths(files):
             "--disorder", files["disorder"], "--disorder-tool", "aiupred", "--lengths", files["lengths"], "--out", str(out)]  # fmt: skip
     assert conv.main(args) == 0
     rows = list(csv.reader(out.open(), delimiter="\t"))
-    assert rows[0] == conv.OUT_COLS and len(rows) == 4
+    assert rows[0] == conv.OUT_COLS and len(rows) == 6
     assert conv.main(args) == 1  # refuses an existing output
 
 
@@ -124,7 +192,7 @@ def test_fail_missing_accession(files, capsys):
         run(files)
     out = files["tmp"] / "t.tsv"
     rc = conv.main(["--manifest", files["manifest"], "--signalp", files["signalp"], "--predgpi", files["predgpi"],
-                    "--disorder", files["disorder"], "--disorder-tool", "aiupred", "--out", str(out)])  # fmt: skip
+                    "--disorder", files["disorder"], "--disorder-tool", "aiupred", "--lengths", files["lengths"], "--out", str(out)])  # fmt: skip
     assert rc == 1 and not out.exists() and "FATAL" in capsys.readouterr().err
 
 
@@ -138,16 +206,43 @@ def test_fail_extra_accession(files):
     "key,old,new,msg",
     [
         ("signalp", "P2\tOTHER", "P1\tOTHER", "duplicate ID P1"),
-        ("predgpi", "P2\tNot", "P1\tNot", "duplicate id P1"),
-        ("disorder", ">P2\n", ">P1\n", "duplicate record P1"),
+        ("predgpi", "P2\tPredGPI", "P1\tPredGPI", "duplicate ID P1"),
+        ("disorder", ">P2 x\n", ">P1\n", "duplicate record P1"),
         ("signalp", "0.9900", "abc", "SP probability is not a number"),
         ("signalp", "CS pos: 22-23. Pr: 0.9500", "", "without a parsable"),
         ("signalp", "Eukarya", "Gram-positive", "not a Eukarya run"),
         ("signalp", "P2\tOTHER", "P2\tLIPO", "unexpected prediction"),
         ("signalp", "P2\tOTHER\t0.9990\t0.0010\t", "P2\tOTHER\t0.9990", "expected 5 TAB"),
-        ("predgpi", "GPI-anchored\t300", "maybe\t300", "unexpected prediction"),
-        ("predgpi", "0.0100", "nan", "not finite"),
-        ("predgpi", "id\tprediction", "id\tcall", "header must start with"),
+        ("predgpi", "GPI-anchor\t60\t60", "Mystery\t60\t60", "unknown feature type"),
+        ("predgpi", "GPI-anchor\t60\t60", "GPI-anchor\t60\t61", "start 60 != end 61"),
+        ("predgpi", "GPI-anchor\t60\t60", "GPI-anchor\t160\t160", "outside the protein"),
+        ("predgpi", "60\t60\t1.0", "60\t60\t0.9", "unknown GPI-anchor confidence score"),
+        (
+            "predgpi",
+            "P2\tPredGPI\tChain\t1\t50",
+            "P2\tPredGPI\tChain\t1\t49",
+            "does not span the protein",
+        ),
+        (
+            "predgpi",
+            "P2\tPredGPI\tChain\t1\t50",
+            "P2\tPredGPI\tChain\t2\t50",
+            "does not span the protein",
+        ),
+        ("predgpi", "P2\tPredGPI\tChain", "P2\tOther\tChain", "expected PredGPI"),
+        (
+            "predgpi",
+            "P2\tPredGPI\tChain\t1\t50\t1.0\t.\t.\t",
+            "P2\tPredGPI\tChain\t1\t50\t1.0\t.\t",
+            "expected 9 TAB",
+        ),
+        ("predgpi", "P2\tPredGPI\tChain\t1\t50", "P2\tPredGPI\tChain\tone\t50", "not integers"),
+        (
+            "predgpi",
+            "P3\tPredGPI\tChain\t1\t39",
+            "P3\tPredGPI\tGPI-anchor\t30\t30",
+            "PredGPI should not score it",
+        ),
         ("disorder", "2 S 0.6", "2 S x", "not a number"),
         ("disorder", "3 T 0.7", "4 T 0.7", "out of order"),
         ("disorder", "2 S 0.6", "2 S 1.6", "outside [0, 1]"),
@@ -160,26 +255,32 @@ def test_fail_unparseable(files, key, old, new, msg):
         run(files)
 
 
-@pytest.mark.parametrize("key", ["signalp", "predgpi", "disorder", "manifest"])
+@pytest.mark.parametrize("key", ["signalp", "predgpi", "disorder", "manifest", "lengths"])
 def test_fail_empty_file(files, key):
     Path(files[key]).write_text("")
     with pytest.raises(conv.ConvertError, match="is empty"):
         run(files)
 
 
-def test_fail_header_only_files(files):
-    Path(files["predgpi"]).write_text("id\tprediction\tomega_site\tfp_rate\n")
-    with pytest.raises(conv.ConvertError, match="manifest accessions missing"):
+def test_fail_missing_gpi_row_and_no_rows(files):
+    edit(files, "predgpi", "P2\tPredGPI\tChain\t1\t50\t1.0\t.\t.\tevidence=ECO:0000256\n", "")
+    with pytest.raises(conv.ConvertError, match="predgpi: 1 manifest accessions missing"):
         run(files)
     Path(files["signalp"]).write_text("# SignalP-6.0\tOrganism: Eukarya\n")
     with pytest.raises(conv.ConvertError, match="no prediction rows"):
         run(files)
 
 
+def test_fail_lengths_missing_accession(files):
+    edit(files, "lengths", "P5\t95\n", "")
+    with pytest.raises(conv.ConvertError, match="lengths: 1 manifest accessions missing"):
+        run(files)
+
+
 def test_fail_length_mismatch(files):
-    edit(files, "lengths", "P1\t5", "P1\t6")
+    edit(files, "lengths", "P1\t100", "P1\t101")
     with pytest.raises(conv.ConvertError, match="differ in length"):
-        run(files, lengths=files["lengths"])
+        run(files)
 
 
 def test_missing_file(files):

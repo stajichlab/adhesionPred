@@ -1,0 +1,9 @@
+job: aga1_signalp (AGA1-class prediction step)
+commit: 424f5e8861dfd4c0cb56fd7533c5e69610120086 (pinned: 424f5e8861dfd4c0cb56fd7533c5e69610120086)
+module: signalp/6 (the default of signalp/6; versions on disk: 6.0g, 6.0h, 6.0i and their -gpu builds)
+module_list: Currently Loaded Modulefiles: slurm/24.11.1 openmpi/4.1.2_slurm-24.11.1_mpi1-compat java/21.0.7 texlive/20220403 pandoc/2.17.1.1 workspace/scratch R/4.5.2 hpcc_user_utils/current miniconda3/py39_4.12.0 signalp/6 
+signalp6_path: /bigdata/operations/pkgadmin/opt/linux/centos/8.x/x86_64/pkgs/signalp/6.0i/env/bin/signalp6
+signalp6_version: SignalP 6.0 Signal peptide prediction tool 6.0h
+settings: --organism eukarya --mode fast --format none
+input sha256 708384fbdbe4a2b24714c8547a12ef23671faff7e1bd75fd5c9cf8475ac63a0e
+rows: 850

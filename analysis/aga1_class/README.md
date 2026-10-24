@@ -8,7 +8,8 @@ submission below needs the owner's go-ahead (D21). No sequence is committed.
 | `stage_inputs.py` | local, deterministic: builds `aga1_proteins.faa` for the 850 accessions from the out-of-repo cache, with `.sha256`, `count.txt`, `lengths.tsv` |
 | `manifest_accessions.txt` | committed, accessions only (850, sorted); a test compares it with `proteins.tsv` |
 | `signalp.sbatch`, `predgpi.sbatch`, `disorder.sbatch` | one job per tool, `short` partition, pin check, `${SCRATCH:?}`, refuse an existing `OUT`, provenance file |
-| `convert_predictions.py` | raw outputs to one table per protein (stdlib); fails loudly, no silent zeros |
+| `convert_predictions.py` | raw SignalP and PredGPI gff3 (and, later, a disorder table) to one table per protein (stdlib); fails loudly, no silent zeros |
+| `build_record_table.py` | joins that table with the readable columns of `proteins.tsv` (role group, gene, UniProt features) |
 
 ## 1. Stage the input (local)
 
@@ -49,19 +50,33 @@ The AIUPred job stops on a node without CUDA unless `ALLOW_CPU=yes` is exported 
 
 ## 3. Convert (local, after the raw outputs are copied back)
 
+PredGPI's raw `predgpi_raw.gff3` is read directly by the converter (no adapter file); `--lengths` is required for it. The
+disorder block is explicit: give `--disorder FILE --disorder-tool T`, or `--no-disorder` (the disorder columns are then left out,
+never zero). The SignalP + PredGPI run of 2026-10-24 used `--no-disorder`; see `docs/reports/data/aga1_prediction_step_2026-10-24/`.
+
 ```
 python3 -I analysis/aga1_class/convert_predictions.py --manifest analysis/aga1_class/manifest_accessions.txt \
-  --signalp <OUT>/signalp/prediction_results.txt --predgpi <normalised PredGPI table> \
-  --disorder <OUT>/disorder_aiupred/<per-residue file> --disorder-tool aiupred --lengths "$HOME/aga1_prediction_in/lengths.tsv" \
+  --signalp <OUT>/signalp/prediction_results.txt --predgpi <OUT>/predgpi/predgpi_raw.gff3 \
+  --lengths "$HOME/aga1_prediction_in/lengths.tsv" \
+  --no-disorder   # later: --disorder <OUT>/disorder_aiupred/<per-residue file> --disorder-tool aiupred
   --out <new table path>
+python3 -I analysis/aga1_class/build_record_table.py --predictions <that table> --out <new record table>
 ```
 
 Output columns: `accession` (join key to `proteins.tsv`), `signal_peptide_pred`, `sp_cleavage_pos`, `sp_cleavage_prob`, `sp_prob`,
-`sp_prediction_raw`, `gpi_pred`, `gpi_omega_site`, `gpi_fp_rate`, `gpi_score`, `disorder_tool`, `disorder_threshold` (0.5),
-`disorder_n_res`, `disorder_mean`, `disorder_frac`, `disorder_longest_run`. A value that does not apply is `NA`, never 0. The
-converter exits 1 with a `FATAL:` message on a missing or extra accession, a duplicate, an empty file, an unparseable row, a
-SignalP header that is not a Eukarya run, a disorder score outside [0, 1] or out of order, or (with `--lengths`) a residue count
-that differs from the staged length. It refuses an existing output file.
+`sp_prediction_raw`, `gpi_pred` (yes / no / NA), `gpi_omega_site`, `gpi_confidence_class` (high / probable / weak),
+`gpi_fpr_upper_bound` (0.0015 / 0.005 / 0.01), `gpi_note`, then, only with a disorder file, `disorder_tool`, `disorder_threshold`
+(0.5), `disorder_n_res`, `disorder_mean`, `disorder_frac`, `disorder_longest_run`. A value that does not apply is `NA`, never 0.
+The gff3 holds no false positive rate and no raw score, so none is given. PredGPI never scores a sequence of 40 aa or fewer: those
+get `gpi_pred` NA with a note, not `no`. The converter exits 1 with a `FATAL:` message on a missing or extra accession, a
+duplicate, an empty file, an unparseable row, a SignalP header that is not a Eukarya run, a gff3 row with the wrong column count,
+an unknown type or confidence score, a `GPI-anchor` row with start != end, a `Chain` row that does not span the protein, a
+disorder score outside [0, 1] or out of order, or a residue count that differs from the staged length. It refuses an existing
+output file.
+
+The `.sha256` file written by `stage_inputs.py` holds the hash only (no file name), so `sha256sum -c` does not work on it. Compare
+by hand: `sha256sum < aga1_proteins.faa` (or `shasum -a 256 < aga1_proteins.faa`) must equal `cat aga1_proteins.faa.sha256`.
+The sbatch pin checks already do exactly that.
 
 
 ## 4. Command lines: confirmed and not (read-only checks on HPCC, 2026-10-24, from the install directories)
@@ -85,23 +100,20 @@ Still to check or unknown:
 2. The name of the GPU partition (given by the owner with `-p`) and whether `short` takes the requested CPUs/memory without waiting.
 3. Whether PredGPI finishes 850 sequences within the 2 h `short` limit (unmeasured).
 
-## 5. Format assumptions, all UNVERIFIED until the first real output is seen
+## 5. Format assumptions (SignalP and PredGPI VERIFIED on the real outputs of 2026-10-24; the disorder formats are still UNVERIFIED)
 
-* SignalP 6 `prediction_results.txt`: two `#` header lines (the first holds `Organism: Eukarya`), then TAB rows
+* SignalP 6 (verified) `prediction_results.txt`: two `#` header lines (the first holds `Organism: Eukarya`), then TAB rows
   `ID, Prediction, OTHER, SP(Sec/SPI), CS Position`; `CS Position` looks like `CS pos: 22-23. Pr: 0.9876` (the cleavage
-  position stored is the first number, the last residue of the signal peptide) and is empty for `OTHER`. The first four columns
-  are those the repo's `modules/signalp.py` already parses on real output; the cleavage field text is from the SignalP 6
-  documentation as remembered, not from a file read here. Eukarya, fast mode: only `SP` and `OTHER` are expected; anything else stops the converter.
-* PredGPI: the raw gff3 layout and key names are unknown (the source prints `Estimated False Positive Rate =`,
-  `HMM log(probability) =`, `GPI-Anchor length=` and one of Highly Probable / Probable / Weakly GPI-Anchored protein /
-  Improbable GPI-Anchored protein; whether these appear in the gff3 attributes is not known). The converter reads a NORMALISED
-  table (`id`, `prediction` = `GPI-anchored` or `Not GPI-anchored`, `omega_site`, `fp_rate`, optional `score`); an adapter from
-  `predgpi_raw.gff3` to it is written after the first real output, together with the choice of which classes count as `yes`.
+  position stored is the first number, the last residue of the signal peptide) and is empty for `OTHER`. Verified on the real output
+  (850 rows; the cleavage field is `CS pos: 24-25. Pr: 0.9770`). Eukarya, fast mode: only `SP` and `OTHER` are expected; anything else stops the converter.
+* PredGPI (verified): 9-column gff3, one row per protein; `Chain` (no GPI, start 1, end = length) or `GPI-anchor` (start = end =
+  omega site, score = confidence class 1.0 / 0.70 / 0.55, attribute `Ontology_term=GO:0046658`). No false positive rate and no raw
+  score are in the file. Sequences of 40 aa or fewer are never scored. The converter reads this file directly.
 * AIUPred: per the README, a `>header` line then `pos<TAB>aa<TAB>score` rows; the exact header echo is unverified.
 * IUPred3: `#` comment lines then `pos aa score` rows (from memory of the release). The job writes its own `>ID` line and drops the `#` lines.
 * The converter reads `>ID` records followed by `pos aa score` rows, scores in [0, 1], `#` lines ignored. The sbatch jobs only
   warn (not stop) when the record count of the raw disorder or PredGPI output is off, so the raw file is never lost.
-* SignalP 6 may only look at the first part of long sequences or truncate them; whether that applies to the 74 proteins over
-  1,022 aa is not known (the SP lies at the N-terminus either way, so the call should not change, but this is not tested).
+* SignalP 6 and the 74 proteins over 1,022 aa: all 74 got a call (53 SP, 21 OTHER); whether the tool truncated them is still
+  not known (see the results report).
 * The FASTA header is the bare accession, so every tool should return it as the first token; a tool that rewrites ids would trip the
   converter's accession checks.

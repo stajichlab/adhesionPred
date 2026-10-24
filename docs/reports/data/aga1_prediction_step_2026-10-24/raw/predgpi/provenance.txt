@@ -1,0 +1,10 @@
+job: aga1_predgpi (AGA1-class prediction step)
+commit: 424f5e8861dfd4c0cb56fd7533c5e69610120086 (pinned: 424f5e8861dfd4c0cb56fd7533c5e69610120086)
+module: predgpi/202001
+predgpi_home: /opt/linux/rocky/8.x/x86_64/pkgs/predgpi/202001
+predgpi_py: /opt/linux/rocky/8.x/x86_64/pkgs/predgpi/202001/predgpi.py
+predgpi_py_sha256: 6b2a92d64ef7f37c55e9594ab08669e207150a63d096360f6439b0d268af4853
+predgpi_dir_listing: Dockerfile GPIDAT LICENSE predgpilib predgpi.py README.md requirements.txt testdata 
+settings: -m gff3 (default omega site, no -c)
+input sha256 708384fbdbe4a2b24714c8547a12ef23671faff7e1bd75fd5c9cf8475ac63a0e
+raw_lines: 850; manifest accessions found in raw output: 850 of 850
