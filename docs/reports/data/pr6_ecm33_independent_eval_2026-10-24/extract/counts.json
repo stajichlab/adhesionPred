@@ -1,0 +1,43 @@
+{
+ "clades_clusters": {
+  "Basidiobolomycota": 1,
+  "Chytridiomycota": 4,
+  "Dothideomycetes": 40,
+  "Entomophthoromycota": 21,
+  "Eurotiomycetes": 18,
+  "Glomeromycota": 1,
+  "Kickxellomycota": 3,
+  "Leotiomycetes": 18,
+  "Mortierellomycota": 2,
+  "Mucoromycota": 10,
+  "Orbiliomycetes": 6,
+  "Pezizomycetes": 1,
+  "Saccharomycotina": 21,
+  "Sordariomycetes": 39,
+  "Taphrinomycotina": 1,
+  "Zoopagomycota": 1
+ },
+ "n_clusters_all": 187,
+ "n_clusters_pe": 109,
+ "n_clusters_with_two_clades": 2,
+ "n_clusters_with_two_tiers": 35,
+ "n_proteins_all": 725,
+ "n_proteins_pe": 563,
+ "panther_evalue_threshold": 1e-10,
+ "subfamily_clusters": {
+  "SF12": 4,
+  "SF3": 183
+ },
+ "subfamily_proteins": {
+  "SF12": 7,
+  "SF3": 718
+ },
+ "tiers_clusters": {
+  "T2_named": 80,
+  "T3_panther_only": 107
+ },
+ "tiers_proteins": {
+  "T2_named": 321,
+  "T3_panther_only": 404
+ }
+}

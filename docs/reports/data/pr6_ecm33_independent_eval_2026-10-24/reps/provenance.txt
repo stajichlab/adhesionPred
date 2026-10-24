@@ -1,0 +1,8 @@
+job: pr6_ecm33_eval_fetch_reps (UniRef50 representatives of the independent-set test clusters)
+source: https://rest.uniprot.org/uniref/{id}.fasta (UniProt REST, one request per id)
+date: 2026-10-23 (the test set is the live view of this date, not the 2025_03 release)
+ids requested: 187
+ids received: 187
+service: x-uniprot-release: 2026_03; x-uniprot-release-date: 02-September-2026; x-api-deployment-date: 23-September-2026
+candidates.tsv sha256: e0d2c9a24e40b241bc8d4e019f247d1630456ba04b5c7cfbe5296e09124d0ecf
+reps.faa sha256: 493d386e31a87e452deeb5327fd20d4850d3abbce977ff6595c7248049605586

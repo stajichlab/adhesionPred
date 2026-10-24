@@ -1,0 +1,14 @@
+{
+ "commit": "a8d0876afc2bf9a56f52c87d616f7cc8feb848f9",
+ "files": {
+  "hits_custom.tsv": "9e496a2eaee929daba6bc72b669e1d4b471a6c7e74c5a35def726c992168cb10",
+  "hits_iter_aln.tsv": "4335ad66d08fe5adb61da44514683383688347d936c053681612e392340675da",
+  "hits_jack_seed.tsv": "4af61acbb015d9bef69002e3d36d6e17cc44282d96224f45e69a7ec927c11e19",
+  "hits_pfam_ga.tsv": "6309dcc37511ecf9c57f1c173b592e6a2b52a54f3a99aca6121f985226963dba",
+  "hits_pfam_relaxed.tsv": "46d9fbc11fdb7adbe5b3c4498a97b51928cdc9b9b04fc36e3eb9f276beb73f03",
+  "hits_phmmer_seed.tsv": "32221716227a682751bc979a51db500feca9a9284bdaaeb53875c952aa7f23e6"
+ },
+ "freeze_sha256": "22e6727879f9847b166b3ccdc75ceb702a87589b504983c5208589ee1dffc270",
+ "hmmer": "# HMMER 3.4 (Aug 2023); http://hmmer.org/",
+ "train_aln_sha256": "037e252fdbab66eb112e93133d2516445c1b61084b753b49d1359aabc7d2550a"
+}

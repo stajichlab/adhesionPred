@@ -1,0 +1,7 @@
+job: pr6_ecm33_eval_extract (independent-set evaluation, ecm33 all model)
+commit: a8d0876afc2bf9a56f52c87d616f7cc8feb848f9 (pinned: a8d0876afc2bf9a56f52c87d616f7cc8feb848f9)
+freeze sha256: 22e6727879f9847b166b3ccdc75ceb702a87589b504983c5208589ee1dffc270
+mmseqs: b804fbe384e6f6c9fe96322ec0e92d48bccd0a42
+representatives: /bigdata/stajichlab/jstajich/projects/adhesionPred/_workdir/kiss_cluster_split/ecm33_eval_reps/reps.faa sha256 493d386e31a87e452deeb5327fd20d4850d3abbce977ff6595c7248049605586 (live UniRef50 fetch; see its provenance.txt)
+training faa: /bigdata/stajichlab/jstajich/projects/adhesionPred/_workdir/kiss_cluster_split/ecm33_extract/ecm33_members.faa sha256 b5e9110d7e315d4035ab16ab1ed7f0f294d410bf603affb429f6d8de3f3eb8ee
+test clusters: 187 (at the PANTHER E cut: 109); separated: 66

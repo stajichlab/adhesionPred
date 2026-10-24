@@ -1,0 +1,6 @@
+{
+  "job": "pr6_ecm33_eval_extract",
+  "freeze_sha256": "22e6727879f9847b166b3ccdc75ceb702a87589b504983c5208589ee1dffc270",
+  "reps_fasta_sha256": "493d386e31a87e452deeb5327fd20d4850d3abbce977ff6595c7248049605586",
+  "code_commit": "a8d0876afc2bf9a56f52c87d616f7cc8feb848f9"
+}
