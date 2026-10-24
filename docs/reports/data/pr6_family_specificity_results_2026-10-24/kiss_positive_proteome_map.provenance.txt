@@ -1,0 +1,24 @@
+kiss_positive_proteome_map.tsv: provenance
+date_of_query: 2026-10-24 (UniProt REST response header date Sat, 24 Oct 2026 19:21 GMT)
+uniprot_release: 2026_03 (x-uniprot-release-date 02-September-2026)
+source_service: https://rest.uniprot.org/uniprotkb/stream (public read; nothing else was fetched)
+input_positives: docs/reports/data/kiss_cluster_split_2026-10-22/members_split.tsv, 132 rows with class=positive
+  112 plain UniProt accessions (queried), 20 archived JGI ids (jgi:Neucr2:*, jgi:Ustma2_2:*, jgi:Ashgo1_1:*; not queried)
+query: accession:A OR accession:B ... in two batches of 56 (the service allows at most 100 OR terms), format=tsv,
+  fields=accession,id,organism_id,organism_name,gene_oln,gene_orf,gene_primary,xref_sgd,xref_cgd,xref_refseq,xref_proteomes,length,sequence_version,version
+  All 112 accessions were returned; the two batches were concatenated under one header into kiss_positives_uniprot_2026_03.tsv (no sequence).
+method (pr6_kiss_proteome_map.py, pr6_build_kiss_positive_proteome_map.py):
+  Afum_Af293_UniProt (taxon 330879): the proteome id is the UniProt accession (sp|ACC| or tr|ACC| header).
+  Calb_SC5314 (taxon 237561): the single CAALFM_<chr><5 digits><W|C>A ordered-locus name is rewritten as the
+    CGD Assembly 22 id <chr>_<5 digits><W|C>_A (CAALFM_C206100WA -> C2_06100W_A; chromosome R as CR).
+  Scer_S288C (taxon 559292): the single SGD systematic name (YNL238W) in the ordered-locus field.
+  Cimm_RS (taxon 246410): RefSeq XP_ ids, matched without the version suffix by the helper; no Kiss positive is
+    a Coccidioides entry (organisms found: 12 species, none Coccidioides), so no row uses this proteome.
+  Any positive of another organism, or a JGI id of a species without a kept proteome, is not_in_kept_proteomes.
+  Anything the rules could not resolve would be status unmapped (none were).
+counts: mapped 85 (Afum 26, Calb 35, Scer 24), not_in_kept_proteomes 47, unmapped 0
+not checked (the proteome FASTA files are on HPCC only): that the proteome entry has the same sequence as the
+  UniProt entry, that a UniProt accession is still the proteome's primary accession, and that every mapped id exists
+  in its proteome. Evidence for the id format: 34 of the 85 mapped ids (Afum 13, Calb 12, Scer 9) appear in
+  run1/run2 proteome_hits.tsv; the other 51 mapped ids are not hit by any of the 33 families, so they have no
+  independent evidence in this record.

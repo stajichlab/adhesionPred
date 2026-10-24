@@ -1,0 +1,133 @@
+accession	cluster_id	organism_id	organism	status	proteome	proteome_id	uniprot_ordered_locus	basis
+A0A0D1BZL3	KS0002	5270	Mycosarcoma maydis (Corn smut fungus) (Ustilago maydis)	not_in_kept_proteomes				UniProt organism 5270 has no kept proteome
+A0A1D8PCT0	KS0005	237561	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	mapped	Calb_SC5314	C1_02420C_A	CAALFM_C102420CA orf19.10446	CAALFM ordered-locus name rewritten as CGD Assembly 22 id
+O74475	KS0005	284812	Schizosaccharomyces pombe (strain 972 / ATCC 24843) (Fission yeast)	not_in_kept_proteomes				UniProt organism 284812 has no kept proteome
+P38631	KS0005	559292	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	mapped	Scer_S288C	YLR342W	YLR342W	SGD systematic name from the UniProt ordered-locus field
+Q10287	KS0005	284812	Schizosaccharomyces pombe (strain 972 / ATCC 24843) (Fission yeast)	not_in_kept_proteomes				UniProt organism 284812 has no kept proteome
+Q4WLT4	KS0005	330879	Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / Af293) (Neosartorya fumigata)	mapped	Afum_Af293_UniProt	Q4WLT4		UniProt accession (sp|ACC| or tr|ACC| header)
+jgi:Neucr2:9773	KS0005		Neurospora crassa	not_in_kept_proteomes				JGI project Neucr2 is a species with no kept proteome
+A0A1D8PE53	KS0006	237561	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	mapped	Calb_SC5314	C1_07870C_A	CAALFM_C107870CA orf19.12525	CAALFM ordered-locus name rewritten as CGD Assembly 22 id
+P38678	KS0006	367110	Neurospora crassa (strain ATCC 24698 / 74-OR23-1A / CBS 708.71 / DSM 1257 / FGSC 987)	not_in_kept_proteomes				UniProt organism 367110 has no kept proteome
+A0A1D8PEG3	KS0007	237561	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	mapped	Calb_SC5314	C1_08990C_A	CAALFM_C108990CA orf19.12219	CAALFM ordered-locus name rewritten as CGD Assembly 22 id
+P13134	KS0007	559292	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	mapped	Scer_S288C	YNL238W	YNL238W	SGD systematic name from the UniProt ordered-locus field
+Q4WQI8	KS0007	330879	Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / Af293) (Neosartorya fumigata)	mapped	Afum_Af293_UniProt	Q4WQI8		UniProt accession (sp|ACC| or tr|ACC| header)
+A0A1D8PJ29	KS0008	237561	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	mapped	Calb_SC5314	C3_00710W_A	CAALFM_C300710WA orf19.12839	CAALFM ordered-locus name rewritten as CGD Assembly 22 id
+A0A1D8PTV3	KS0008	237561	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	mapped	Calb_SC5314	CR_09020C_A	CAALFM_CR09020CA orf19.7298	CAALFM ordered-locus name rewritten as CGD Assembly 22 id
+P54267	KS0008	330879	Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / Af293) (Neosartorya fumigata)	mapped	Afum_Af293_UniProt	P54267		UniProt accession (sp|ACC| or tr|ACC| header)
+Q4W9P7	KS0008	330879	Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / Af293) (Neosartorya fumigata)	mapped	Afum_Af293_UniProt	Q4W9P7		UniProt accession (sp|ACC| or tr|ACC| header)
+Q4WIH1	KS0008	330879	Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / Af293) (Neosartorya fumigata)	mapped	Afum_Af293_UniProt	Q4WIH1		UniProt accession (sp|ACC| or tr|ACC| header)
+Q92197	KS0008	330879	Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / Af293) (Neosartorya fumigata)	mapped	Afum_Af293_UniProt	Q92197		UniProt accession (sp|ACC| or tr|ACC| header)
+jgi:Neucr2:6692	KS0008		Neurospora crassa	not_in_kept_proteomes				JGI project Neucr2 is a species with no kept proteome
+jgi:Neucr2:7181	KS0008		Neurospora crassa	not_in_kept_proteomes				JGI project Neucr2 is a species with no kept proteome
+jgi:Neucr2:8241	KS0008		Neurospora crassa	not_in_kept_proteomes				JGI project Neucr2 is a species with no kept proteome
+A0A1D8PJN6	KS0009	237561	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	mapped	Calb_SC5314	C3_02960C_A	CAALFM_C302960CA orf19.7922	CAALFM ordered-locus name rewritten as CGD Assembly 22 id
+A0A1D8PKB6	KS0010	237561	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	mapped	Calb_SC5314	C3_05830W_A	CAALFM_C305830WA orf19.7363	CAALFM ordered-locus name rewritten as CGD Assembly 22 id
+P53301	KS0011	559292	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	mapped	Scer_S288C	YGR189C	YGR189C	SGD systematic name from the UniProt ordered-locus field
+P32623	KS0012	559292	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	mapped	Scer_S288C	YEL040W	YEL040W	SGD systematic name from the UniProt ordered-locus field
+Q5AJC0	KS0012	237561	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	mapped	Calb_SC5314	C3_01730C_A	CAALFM_C301730CA	CAALFM ordered-locus name rewritten as CGD Assembly 22 id
+A0ACE4JU10	KS0015	2059318	Histoplasma mississippiense (Darling's disease fungus)	not_in_kept_proteomes				UniProt organism 2059318 has no kept proteome
+E9QT94	KS0015	330879	Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / Af293) (Neosartorya fumigata)	mapped	Afum_Af293_UniProt	E9QT94		UniProt accession (sp|ACC| or tr|ACC| header)
+P41746	KS0015	330879	Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / Af293) (Neosartorya fumigata)	mapped	Afum_Af293_UniProt	P41746		UniProt accession (sp|ACC| or tr|ACC| header)
+A0ACE4K441	KS0016	2059318	Histoplasma mississippiense (Darling's disease fungus)	not_in_kept_proteomes				UniProt organism 2059318 has no kept proteome
+F4P6Q5	KS0016	684364	Batrachochytrium dendrobatidis (strain JAM81 / FGSC 10211) (Frog chytrid fungus)	not_in_kept_proteomes				UniProt organism 684364 has no kept proteome
+O74189	KS0016	237561	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	mapped	Calb_SC5314	C7_02890C_A	CAALFM_C702890CA	CAALFM ordered-locus name rewritten as CGD Assembly 22 id
+Q4WCG5	KS0016	330879	Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / Af293) (Neosartorya fumigata)	mapped	Afum_Af293_UniProt	Q4WCG5		UniProt accession (sp|ACC| or tr|ACC| header)
+Q59X23	KS0016	237561	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	mapped	Calb_SC5314	C2_06100W_A	CAALFM_C206100WA	CAALFM ordered-locus name rewritten as CGD Assembly 22 id
+Q759J8	KS0016	284811	Eremothecium gossypii (strain ATCC 10895 / CBS 109.51 / FGSC 9923 / NRRL Y-1056) (Yeast) (Ashbya gossypii)	not_in_kept_proteomes				UniProt organism 284811 has no kept proteome
+Q75DV8	KS0016	284811	Eremothecium gossypii (strain ATCC 10895 / CBS 109.51 / FGSC 9923 / NRRL Y-1056) (Yeast) (Ashbya gossypii)	not_in_kept_proteomes				UniProt organism 284811 has no kept proteome
+Q7SD53	KS0016	367110	Neurospora crassa (strain ATCC 24698 / 74-OR23-1A / CBS 708.71 / DSM 1257 / FGSC 987)	not_in_kept_proteomes				UniProt organism 367110 has no kept proteome
+jgi:Ustma2_2:12965	KS0016		Mycosarcoma maydis (Ustilago maydis)	not_in_kept_proteomes				JGI project Ustma2_2 is a species with no kept proteome
+A0ACE4KFX7	KS0017	2059318	Histoplasma mississippiense (Darling's disease fungus)	not_in_kept_proteomes				UniProt organism 2059318 has no kept proteome
+D6VTK4	KS0030	559292	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	mapped	Scer_S288C	YFL026W	YFL026W	SGD systematic name from the UniProt ordered-locus field
+E9R5E2	KS0034	330879	Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / Af293) (Neosartorya fumigata)	mapped	Afum_Af293_UniProt	E9R5E2		UniProt accession (sp|ACC| or tr|ACC| header)
+P53704	KS0034	237561	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	mapped	Calb_SC5314	C3_02280C_A	CAALFM_C302280CA	CAALFM ordered-locus name rewritten as CGD Assembly 22 id
+F4P8T0	KS0035	684364	Batrachochytrium dendrobatidis (strain JAM81 / FGSC 10211) (Frog chytrid fungus)	not_in_kept_proteomes				UniProt organism 684364 has no kept proteome
+J9VNY5	KS0035	235443	Cryptococcus neoformans (strain H99 / ATCC 208821 / CBS 10515 / FGSC 9487) (Cryptococcus neoformans var. grubii serotype A)	not_in_kept_proteomes				UniProt organism 235443 has no kept proteome
+Q1K4Z4	KS0035	367110	Neurospora crassa (strain ATCC 24698 / 74-OR23-1A / CBS 708.71 / DSM 1257 / FGSC 987)	not_in_kept_proteomes				UniProt organism 367110 has no kept proteome
+Q4WJ05	KS0035	330879	Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / Af293) (Neosartorya fumigata)	mapped	Afum_Af293_UniProt	Q4WJ05		UniProt accession (sp|ACC| or tr|ACC| header)
+Q5ADM9	KS0035	237561	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	mapped	Calb_SC5314	C3_06890W_A	CAALFM_C306890WA	CAALFM ordered-locus name rewritten as CGD Assembly 22 id
+jgi:Ashgo1_1:1345	KS0035		Eremothecium gossypii (Ashbya gossypii)	not_in_kept_proteomes				JGI project Ashgo1_1 is a species with no kept proteome
+G1UB63	KS0036	237561	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	mapped	Calb_SC5314	C7_00090C_A	CAALFM_C700090CA	CAALFM ordered-locus name rewritten as CGD Assembly 22 id
+G1UBC2	KS0037	237561	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	mapped	Calb_SC5314	C2_09530W_A	CAALFM_C209530WA	CAALFM ordered-locus name rewritten as CGD Assembly 22 id
+Q4WEP7	KS0051	330879	Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / Af293) (Neosartorya fumigata)	mapped	Afum_Af293_UniProt	Q4WEP7		UniProt accession (sp|ACC| or tr|ACC| header)
+I1RDW3	KS0052	229533	Gibberella zeae (strain ATCC MYA-4620 / CBS 123657 / FGSC 9075 / NRRL 31084 / PH-1) (Wheat head blight fungus) (Fusarium graminearum)	not_in_kept_proteomes				UniProt organism 229533 has no kept proteome
+Q7S3P5	KS0052	367110	Neurospora crassa (strain ATCC 24698 / 74-OR23-1A / CBS 708.71 / DSM 1257 / FGSC 987)	not_in_kept_proteomes				UniProt organism 367110 has no kept proteome
+J9VHS9	KS0056	235443	Cryptococcus neoformans (strain H99 / ATCC 208821 / CBS 10515 / FGSC 9487) (Cryptococcus neoformans var. grubii serotype A)	not_in_kept_proteomes				UniProt organism 235443 has no kept proteome
+O74161	KS0063	237561	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	mapped	Calb_SC5314	C2_04140W_A	CAALFM_C204140WA	CAALFM ordered-locus name rewritten as CGD Assembly 22 id
+Q12114	KS0063	559292	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	mapped	Scer_S288C	YLR330W	YLR330W	SGD systematic name from the UniProt ordered-locus field
+O94614	KS0065	284812	Schizosaccharomyces pombe (strain 972 / ATCC 24843) (Fission yeast)	not_in_kept_proteomes				UniProt organism 284812 has no kept proteome
+P06783	KS0067	559292	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	mapped	Scer_S288C	YKL178C	YKL178C	SGD systematic name from the UniProt ordered-locus field
+Q4WUB6	KS0067	330879	Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / Af293) (Neosartorya fumigata)	mapped	Afum_Af293_UniProt	Q4WUB6		UniProt accession (sp|ACC| or tr|ACC| header)
+P08640	KS0069	559292	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	mapped	Scer_S288C	YIR019C	YIR019C	SGD systematic name from the UniProt ordered-locus field
+P22146	KS0070	559292	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	mapped	Scer_S288C	YMR307W	YMR307W	SGD systematic name from the UniProt ordered-locus field
+P43076	KS0070	237561	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	mapped	Calb_SC5314	C4_04530C_A	CAALFM_C404530CA	CAALFM ordered-locus name rewritten as CGD Assembly 22 id
+Q4WLT3	KS0070	330879	Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / Af293) (Neosartorya fumigata)	mapped	Afum_Af293_UniProt	Q4WLT3		UniProt accession (sp|ACC| or tr|ACC| header)
+jgi:Neucr2:6440	KS0070		Neurospora crassa	not_in_kept_proteomes				JGI project Neucr2 is a species with no kept proteome
+P0CY22	KS0072	237561	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	mapped	Calb_SC5314	CR_03790C_A	CAALFM_CR03790CA	CAALFM ordered-locus name rewritten as CGD Assembly 22 id
+P23776	KS0074	559292	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	mapped	Scer_S288C	YLR300W	YLR300W	SGD systematic name from the UniProt ordered-locus field
+P25653	KS0075	559292	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	mapped	Scer_S288C	YCR089W	YCR089W	SGD systematic name from the UniProt ordered-locus field
+P29029	KS0077	559292	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	mapped	Scer_S288C	YLR286C	YLR286C	SGD systematic name from the UniProt ordered-locus field
+P40953	KS0077	237561	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	mapped	Calb_SC5314	C5_04130C_A	CAALFM_C504130CA	CAALFM ordered-locus name rewritten as CGD Assembly 22 id
+P29465	KS0078	559292	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	mapped	Scer_S288C	YBR023C	YBR023C	SGD systematic name from the UniProt ordered-locus field
+Q4WC58	KS0078	330879	Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / Af293) (Neosartorya fumigata)	mapped	Afum_Af293_UniProt	Q4WC58		UniProt accession (sp|ACC| or tr|ACC| header)
+jgi:Neucr2:1058	KS0078		Neurospora crassa	not_in_kept_proteomes				JGI project Neucr2 is a species with no kept proteome
+P31302	KS0079	5270	Mycosarcoma maydis (Corn smut fungus) (Ustilago maydis)	not_in_kept_proteomes				UniProt organism 5270 has no kept proteome
+P32323	KS0080	559292	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	mapped	Scer_S288C	YNR044W	YNR044W	SGD systematic name from the UniProt ordered-locus field
+Q59SF7	KS0082	237561	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	mapped	Calb_SC5314	C2_08870C_A	CAALFM_C208870CA	CAALFM ordered-locus name rewritten as CGD Assembly 22 id
+P32768	KS0083	559292	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	mapped	Scer_S288C	YAR050W	YAR050W	SGD systematic name from the UniProt ordered-locus field
+P36170	KS0083	559292	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	mapped	Scer_S288C	YKR102W	YKR102W	SGD systematic name from the UniProt ordered-locus field
+P38894	KS0083	559292	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	mapped	Scer_S288C	YHR211W	YHR211W	SGD systematic name from the UniProt ordered-locus field
+P39712	KS0083	559292	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	mapped	Scer_S288C	YAL063C	YAL063C	SGD systematic name from the UniProt ordered-locus field
+P34226	KS0084	559292	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	mapped	Scer_S288C	YBL061C	YBL061C	SGD systematic name from the UniProt ordered-locus field
+Q5AGC4	KS0086	237561	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	mapped	Calb_SC5314	C5_02460C_A	CAALFM_C502460CA	CAALFM ordered-locus name rewritten as CGD Assembly 22 id
+P38813	KS0087	559292	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	mapped	Scer_S288C	YHR101C	YHR101C	SGD systematic name from the UniProt ordered-locus field
+P38843	KS0088	559292	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	mapped	Scer_S288C	YHR142W	YHR142W	SGD systematic name from the UniProt ordered-locus field
+Q7SB92	KS0088	367110	Neurospora crassa (strain ATCC 24698 / 74-OR23-1A / CBS 708.71 / DSM 1257 / FGSC 987)	not_in_kept_proteomes				UniProt organism 367110 has no kept proteome
+Q5ANN9	KS0089	237561	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	mapped	Calb_SC5314	C3_04180W_A	CAALFM_C304180WA orf19.13283	CAALFM ordered-locus name rewritten as CGD Assembly 22 id
+P40526	KS0090	559292	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	mapped	Scer_S288C	YIL049W	YIL049W	SGD systematic name from the UniProt ordered-locus field
+P40955	KS0091	559292	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	mapped	Scer_S288C	YJL099W	YJL099W	SGD systematic name from the UniProt ordered-locus field
+P46593	KS0096	237561	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	mapped	Calb_SC5314	C4_03570W_A	CAALFM_C403570WA	CAALFM ordered-locus name rewritten as CGD Assembly 22 id
+Q59TP1	KS0096	237561	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	mapped	Calb_SC5314	C4_03520C_A	CAALFM_C403520CA	CAALFM ordered-locus name rewritten as CGD Assembly 22 id
+P52754	KS0099	51453	Trichoderma reesei (Filamentous fungus) (Hypocrea jecorina)	not_in_kept_proteomes				UniProt organism 51453 has no kept proteome
+P79073	KS0099	51453	Trichoderma reesei (Filamentous fungus) (Hypocrea jecorina)	not_in_kept_proteomes				UniProt organism 51453 has no kept proteome
+Q4WGL5	KS0100	330879	Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / Af293) (Neosartorya fumigata)	mapped	Afum_Af293_UniProt	Q4WGL5		UniProt accession (sp|ACC| or tr|ACC| header)
+Q59NP5	KS0100	237561	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	mapped	Calb_SC5314	C6_00820W_A	CAALFM_C600820WA	CAALFM ordered-locus name rewritten as CGD Assembly 22 id
+P78746	KS0103	330879	Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / Af293) (Neosartorya fumigata)	mapped	Afum_Af293_UniProt	P78746		UniProt accession (sp|ACC| or tr|ACC| header)
+jgi:Neucr2:6661	KS0103		Neurospora crassa	not_in_kept_proteomes				JGI project Neucr2 is a species with no kept proteome
+Q5AF41	KS0104	237561	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	mapped	Calb_SC5314	C4_02390W_A	CAALFM_C402390WA	CAALFM ordered-locus name rewritten as CGD Assembly 22 id
+Q04571	KS0106	367110	Neurospora crassa (strain ATCC 24698 / 74-OR23-1A / CBS 708.71 / DSM 1257 / FGSC 987)	not_in_kept_proteomes				UniProt organism 367110 has no kept proteome
+Q07730	KS0107	237561	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	mapped	Calb_SC5314	C4_03470C_A	CAALFM_C403470CA	CAALFM ordered-locus name rewritten as CGD Assembly 22 id
+Q12140	KS0108	559292	Saccharomyces cerevisiae (strain ATCC 204508 / S288c) (Baker's yeast)	mapped	Scer_S288C	YDL037C	YDL037C	SGD systematic name from the UniProt ordered-locus field
+Q1K7A8	KS0109	367110	Neurospora crassa (strain ATCC 24698 / 74-OR23-1A / CBS 708.71 / DSM 1257 / FGSC 987)	not_in_kept_proteomes				UniProt organism 367110 has no kept proteome
+Q5ACZ2	KS0109	237561	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	mapped	Calb_SC5314	C2_00520W_A	CAALFM_C200520WA	CAALFM ordered-locus name rewritten as CGD Assembly 22 id
+jgi:Neucr2:6123	KS0112		Neurospora crassa	not_in_kept_proteomes				JGI project Neucr2 is a species with no kept proteome
+Q4WDB9	KS0114	330879	Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / Af293) (Neosartorya fumigata)	mapped	Afum_Af293_UniProt	Q4WDB9		UniProt accession (sp|ACC| or tr|ACC| header)
+Q4WFV3	KS0115	330879	Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / Af293) (Neosartorya fumigata)	mapped	Afum_Af293_UniProt	Q4WFV3		UniProt accession (sp|ACC| or tr|ACC| header)
+Q4X143	KS0115	330879	Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / Af293) (Neosartorya fumigata)	mapped	Afum_Af293_UniProt	Q4X143		UniProt accession (sp|ACC| or tr|ACC| header)
+Q4WLB9	KS0116	330879	Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / Af293) (Neosartorya fumigata)	mapped	Afum_Af293_UniProt	Q4WLB9		UniProt accession (sp|ACC| or tr|ACC| header)
+Q4WLT6	KS0117	330879	Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / Af293) (Neosartorya fumigata)	mapped	Afum_Af293_UniProt	Q4WLT6		UniProt accession (sp|ACC| or tr|ACC| header)
+Q4WWF5	KS0119	330879	Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / Af293) (Neosartorya fumigata)	mapped	Afum_Af293_UniProt	Q4WWF5		UniProt accession (sp|ACC| or tr|ACC| header)
+Q5AI14	KS0119	237561	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	mapped	Calb_SC5314	C1_03380W_A	CAALFM_C103380WA orf19.10556	CAALFM ordered-locus name rewritten as CGD Assembly 22 id
+Q4WYE0	KS0120	330879	Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / Af293) (Neosartorya fumigata)	mapped	Afum_Af293_UniProt	Q4WYE0		UniProt accession (sp|ACC| or tr|ACC| header)
+Q4X0H6	KS0121	330879	Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / Af293) (Neosartorya fumigata)	mapped	Afum_Af293_UniProt	Q4X0H6		UniProt accession (sp|ACC| or tr|ACC| header)
+Q4X0H7	KS0121	330879	Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / Af293) (Neosartorya fumigata)	mapped	Afum_Af293_UniProt	Q4X0H7		UniProt accession (sp|ACC| or tr|ACC| header)
+jgi:Neucr2:6174	KS0121		Neurospora crassa	not_in_kept_proteomes				JGI project Neucr2 is a species with no kept proteome
+Q59L12	KS0122	237561	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	mapped	Calb_SC5314	CR_07070C_A	CAALFM_CR07070CA	CAALFM ordered-locus name rewritten as CGD Assembly 22 id
+Q59SR6	KS0123	237561	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	mapped	Calb_SC5314	C3_03660W_A	CAALFM_C303660WA	CAALFM ordered-locus name rewritten as CGD Assembly 22 id
+Q59UT4	KS0124	237561	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	mapped	Calb_SC5314	C4_00130W_A	CAALFM_C400130WA	CAALFM ordered-locus name rewritten as CGD Assembly 22 id
+Q5A343	KS0125	237561	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	mapped	Calb_SC5314	CR_08510W_A	CAALFM_CR08510WA	CAALFM ordered-locus name rewritten as CGD Assembly 22 id
+Q5A753	KS0126	237561	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	mapped	Calb_SC5314	C1_08310W_A	CAALFM_C108310WA orf19.12576	CAALFM ordered-locus name rewritten as CGD Assembly 22 id
+Q5AAL9	KS0127	237561	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	mapped	Calb_SC5314	CR_00610W_A	CAALFM_CR00610WA	CAALFM ordered-locus name rewritten as CGD Assembly 22 id
+Q5AFI4	KS0128	237561	Candida albicans (strain SC5314 / ATCC MYA-2876) (Yeast)	mapped	Calb_SC5314	C7_00360W_A	CAALFM_C700360WA	CAALFM ordered-locus name rewritten as CGD Assembly 22 id
+jgi:Neucr2:3834	KS0129		Neurospora crassa	not_in_kept_proteomes				JGI project Neucr2 is a species with no kept proteome
+jgi:Neucr2:5869	KS0129		Neurospora crassa	not_in_kept_proteomes				JGI project Neucr2 is a species with no kept proteome
+Q75EX8	KS0137	284811	Eremothecium gossypii (strain ATCC 10895 / CBS 109.51 / FGSC 9923 / NRRL Y-1056) (Yeast) (Ashbya gossypii)	not_in_kept_proteomes				UniProt organism 284811 has no kept proteome
+Q7SDK1	KS0138	367110	Neurospora crassa (strain ATCC 24698 / 74-OR23-1A / CBS 708.71 / DSM 1257 / FGSC 987)	not_in_kept_proteomes				UniProt organism 367110 has no kept proteome
+Q99109	KS0143	5270	Mycosarcoma maydis (Corn smut fungus) (Ustilago maydis)	not_in_kept_proteomes				UniProt organism 5270 has no kept proteome
+jgi:Neucr2:1684	KS0146		Neurospora crassa	not_in_kept_proteomes				JGI project Neucr2 is a species with no kept proteome
+jgi:Neucr2:2755	KS0147		Neurospora crassa	not_in_kept_proteomes				JGI project Neucr2 is a species with no kept proteome
+jgi:Neucr2:3723	KS0148		Neurospora crassa	not_in_kept_proteomes				JGI project Neucr2 is a species with no kept proteome
+jgi:Neucr2:4224	KS0149		Neurospora crassa	not_in_kept_proteomes				JGI project Neucr2 is a species with no kept proteome
+jgi:Neucr2:8199	KS0150		Neurospora crassa	not_in_kept_proteomes				JGI project Neucr2 is a species with no kept proteome
+jgi:Neucr2:8934	KS0151		Neurospora crassa	not_in_kept_proteomes				JGI project Neucr2 is a species with no kept proteome
+jgi:Ustma2_2:11962	KS0152		Mycosarcoma maydis (Ustilago maydis)	not_in_kept_proteomes				JGI project Ustma2_2 is a species with no kept proteome

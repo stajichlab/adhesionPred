@@ -5,11 +5,13 @@ import hashlib
 import importlib.util
 import re
 import subprocess
+import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 REC = ROOT / "docs/reports/data/pr6_family_specificity_results_2026-10-24"
 REPORT = ROOT / "docs/reports/2026-10-24-pr6-family-specificity-results.md"
+MEMBERS = ROOT / "docs/reports/data/kiss_cluster_split_2026-10-22/members_split.tsv"
 SCRIPT = ROOT / "analysis/wall_fusion_truth/pr6_family_specificity_results_summary.py"
 
 
@@ -55,7 +57,7 @@ def test_row_counts_and_circular_recall_and_leakage():
 
 def test_sha256_lists_match_committed_files():
     lines = (REC / "SHA256SUMS.txt").read_text().splitlines()
-    assert len(lines) == 15
+    assert len(lines) == 18
     for line in lines:
         digest, name = line.split("  ", 1)
         assert _sha(REC / name) == digest, name
@@ -149,21 +151,143 @@ def test_run2_families_are_under_five_per_10000():
     assert _tsv(REC / "run2/negatives_hits.tsv") == []
 
 
-def test_summary_table_is_deterministic_and_excludes_own_members():
-    spec = importlib.util.spec_from_file_location("results_summary", SCRIPT)
+def _load(path, name):
+    spec = importlib.util.spec_from_file_location(name, path)
     mod = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(mod)
+    return mod
+
+
+def _helpers():
+    sys.path.insert(0, str(SCRIPT.parent))
+    try:
+        return _load(SCRIPT, "results_summary"), importlib.import_module("pr6_kiss_proteome_map")
+    finally:
+        sys.path.remove(str(SCRIPT.parent))
+
+
+def _summary():
+    return {(r["run"], r["pfam_acc"]): r for r in _tsv(REC / "summary.tsv")}
+
+
+def test_every_kiss_positive_is_mapped_or_listed_unmapped():
+    members = [r for r in _tsv(MEMBERS) if r["class"] == "positive"]
+    rows = _tsv(REC / "kiss_positive_proteome_map.tsv")
+    assert len(members) == 132
+    assert [r["accession"] for r in rows] == [m["accession"] for m in members]
+    assert {r["status"] for r in rows} <= {"mapped", "not_in_kept_proteomes", "unmapped"}
+    for r in rows:
+        if r["status"] == "mapped":
+            assert r["proteome"] and r["proteome_id"], r
+        if r["status"] == "unmapped":
+            assert r["basis"], r  # listed explicitly, never silently dropped
+    by_status = {
+        s: sum(r["status"] == s for r in rows)
+        for s in ("mapped", "not_in_kept_proteomes", "unmapped")
+    }
+    assert by_status == {"mapped": 85, "not_in_kept_proteomes": 47, "unmapped": 0}
+    by_proteome = {p: sum(r["proteome"] == p for r in rows) for p in {r["proteome"] for r in rows}}
+    assert by_proteome == {"": 47, "Afum_Af293_UniProt": 26, "Calb_SC5314": 35, "Scer_S288C": 24}
+    assert not [r for r in rows if r["proteome"] == "Cimm_RS"]  # no Coccidioides positive
+    assert len({(r["proteome"], r["proteome_id"]) for r in rows if r["status"] == "mapped"}) == 85
+
+
+def test_map_is_reproducible_from_the_committed_uniprot_export():
+    _, pm = _helpers()
+    spec = importlib.util.spec_from_file_location(
+        "build_map", SCRIPT.parent / "pr6_build_kiss_positive_proteome_map.py"
+    )
+    sys.path.insert(0, str(SCRIPT.parent))
+    try:
+        build = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(build)
+    finally:
+        sys.path.remove(str(SCRIPT.parent))
+    rows = build.build(REC, MEMBERS)
+    assert [{k: str(v) for k, v in r.items()} for r in rows] == _tsv(
+        REC / "kiss_positive_proteome_map.tsv"
+    )
+    assert len(_tsv(REC / "kiss_positives_uniprot_2026_03.tsv")) == 112
+
+
+def test_id_rules_and_named_cases():
+    _, pm = _helpers()
+    assert pm.calb_a22_id("CAALFM_C206100WA") == "C2_06100W_A"
+    assert pm.calb_a22_id("CAALFM_CR00610WA orf19.1") == "CR_00610W_A"
+    assert pm.calb_a22_id("CaO19.7472") is None
+    assert pm.scer_systematic_id("YNL238W") == "YNL238W"
+    assert pm.scer_systematic_id("N1122") is None
+    assert pm.normalize_proteome_id("Cimm_RS", "XP_001239171.1") == pm.normalize_proteome_id(
+        "Cimm_RS", "XP_001239171.2"
+    )
+    assert pm.normalize_proteome_id("Afum_Af293_UniProt", "tr|Q4WGG2|Q4WGG2_ASPFU") == "Q4WGG2"
+    by = {r["accession"]: r for r in _tsv(REC / "kiss_positive_proteome_map.tsv")}
+    assert by["Q5AAL9"]["proteome_id"] == "CR_00610W_A"  # IFF4
+    assert by["P13134"]["proteome_id"] == "YNL238W"  # KEX2
+    assert by["A0A1D8PEG3"]["proteome_id"] == "C1_08990C_A"
+    assert by["Q59X23"]["proteome_id"] == "C2_06100W_A"
+    assert by["P29465"]["proteome_id"] == "YBR023C"  # CHS3
+    assert by["jgi:Neucr2:9773"]["status"] == "not_in_kept_proteomes"
+    assert all(
+        by[a]["status"] == "not_in_kept_proteomes"
+        for a in by
+        if by[a]["organism_id"] in {"2059318", "5270"}
+    )
+
+
+def test_summary_table_is_deterministic_and_counts_own_members_by_proteome_id():
+    mod, _ = _helpers()
     rows = mod.summarize(REC)
     assert len(rows) == 33
     committed = _tsv(REC / "summary.tsv")
     assert [{k: str(v) for k, v in r.items()} for r in rows] == committed
-    by = {r["pfam_acc"]: r for r in committed}
-    assert (by["PF02366"]["own_in_proteomes"], by["PF02366"]["kept_per10k_excl_own"]) == (
-        "2",
-        "4.92",
+    assert list(committed[0]) == mod.COLUMNS
+    s = _summary()
+    pmt = s[("run1", "PF02366")]
+    assert (pmt["own_in_proteomes"], pmt["kept_hits_excl_own"], pmt["kept_per10k_excl_own"]) == (
+        "5",
+        "13",
+        "4.00",
     )
-    assert by["PF00082"]["kept_per10k_excl_own"] == "11.08"
-    assert all(r["own_in_proteomes"] == "0" for r in committed if r["run"] == "run2")
+    assert s[("run1", "PF16192")]["own_in_proteomes"] == "5"
+    s8 = s[("run1", "PF00082")]
+    assert (s8["own_in_proteomes"], s8["kept_hits_excl_own"], s8["kept_per10k_excl_own"]) == (
+        "3",
+        "34",
+        "10.46",
+    )
+    assert s[("run1", "PF11765")]["own_in_proteomes"] == "1"  # IFF4 is one of its 14 hits
+    big1 = s[("run2", "PF27678")]
+    assert (big1["own_in_proteomes"], big1["kept_hits_excl_own"], big1["non_kiss_hits"]) == (
+        "1",
+        "0",
+        "0",
+    )
+    g1 = s[("run1", "PF00534")]
+    assert (g1["kept_hits_total"], g1["own_in_proteomes"], g1["kept_hits_excl_own"]) == (
+        "23",
+        "0",
+        "23",
+    )
+    assert g1["kept_per10k_excl_own"] == "7.08"
+    for r in committed:
+        assert int(r["own_in_proteomes"]) + int(r["other_kiss_positive_in_proteomes"]) + int(
+            r["non_kiss_hits"]
+        ) == int(r["kept_hits_total"])
+        assert int(r["own_in_proteomes"]) <= int(r["n_own_members"])
+        assert r["own_mapped_not_hit"] == "0"
+        assert (r["over_limit_excl_own"] == "yes") == (float(r["kept_per10k_excl_own"]) > 5)
+
+
+def test_other_kiss_positive_hits_and_the_corrected_families_above_five():
+    s = _summary()
+    others = {k[1]: int(r["other_kiss_positive_in_proteomes"]) for k, r in s.items()}
+    assert {a: n for a, n in others.items() if n} == {"PF13641": 4}
+    gt = s[("run1", "PF13641")]
+    assert (gt["kept_hits_excl_own"], gt["kept_per10k_excl_own"]) == ("20", "6.16")
+    assert (gt["non_kiss_hits"], gt["non_kiss_per10k"]) == ("16", "4.92")
+    above = sorted(a for (run, a), r in s.items() if r["over_limit_excl_own"] == "yes")
+    assert above == ["PF00082", "PF00534", "PF13641"]
 
 
 def test_family_table_and_family_measure_unchanged_from_origin_main():
@@ -192,6 +316,9 @@ def test_report_states_the_main_numbers_and_limits():
         "1.54",
         "3.08",
         "circular",
+        "Correction",
+        "CR_00610W_A",
+        "capped at `smoke`",
         "NOT established",
         "owner-signed",
     ):
