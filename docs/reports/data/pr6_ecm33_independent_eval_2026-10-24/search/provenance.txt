@@ -1,0 +1,8 @@
+job: pr6_ecm33_eval_search (independent-set evaluation, ecm33 all model)
+commit: a8d0876afc2bf9a56f52c87d616f7cc8feb848f9 (pinned: a8d0876afc2bf9a56f52c87d616f7cc8feb848f9)
+freeze sha256: 22e6727879f9847b166b3ccdc75ceb702a87589b504983c5208589ee1dffc270
+model.hmm sha256: 9a6e2c812540b0b1892f081611bf4044ec674bc524d68f5c6fc3d16001c50937
+pfam_resolved: /bigdata/operations/pkgadmin/srv/projects/db/pfam/2026-01-27-Pfam38.2/Pfam-A.hmm
+train.aln.fa sha256: 037e252fdbab66eb112e93133d2516445c1b61084b753b49d1359aabc7d2550a (recorded, not pinned)
+test_clusters.faa sha256: 493d386e31a87e452deeb5327fd20d4850d3abbce977ff6595c7248049605586
+evalue_db_size (-Z): 70198728

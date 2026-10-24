@@ -1,0 +1,3 @@
+cluster_id	clade_fine	tier	subfamily	n_proteins	best_panther_evalue	headline_pe	separated	custom_score	custom_hit	pfam_ga_hit	pfam_relaxed_hit	iteration_alignment_seeded_hit	phmmer_seed_only_hit	jackhmmer_seed_only_hit	in_u
+UniRef50_A0A9P5VCA1	Mortierellomycota	T3_panther_only	SF3	1	5.7e-17	yes	yes		no	no	no	no	no	no	yes
+UniRef50_A0A9W6T7D3	Saccharomycotina	T3_panther_only	SF3	1	0.0011	no	yes		no	no	no	no	no	no	yes

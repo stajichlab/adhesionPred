@@ -1,0 +1,83 @@
+{
+ "by_clade_members_and_not_in_panther": {
+  "Agaricomycetes": [
+   1,
+   0
+  ],
+  "Basidiobolomycota": [
+   1,
+   0
+  ],
+  "Chytridiomycota": [
+   1,
+   0
+  ],
+  "Dothideomycetes": [
+   106,
+   47
+  ],
+  "Eurotiomycetes": [
+   55,
+   27
+  ],
+  "Geoglossomycetes": [
+   2,
+   1
+  ],
+  "Glomeromycota": [
+   8,
+   0
+  ],
+  "Kickxellomycota": [
+   37,
+   3
+  ],
+  "Lecanoromycetes": [
+   4,
+   0
+  ],
+  "Leotiomycetes": [
+   38,
+   19
+  ],
+  "Mortierellomycota": [
+   1,
+   1
+  ],
+  "Mucoromycota": [
+   33,
+   15
+  ],
+  "Orbiliomycetes": [
+   12,
+   2
+  ],
+  "Pezizomycetes": [
+   5,
+   1
+  ],
+  "Saccharomycotina": [
+   107,
+   22
+  ],
+  "Sordariomycetes": [
+   57,
+   23
+  ],
+  "Taphrinomycotina": [
+   11,
+   3
+  ],
+  "Xylonomycetes": [
+   1,
+   0
+  ],
+  "Zoopagomycota": [
+   1,
+   0
+  ]
+ },
+ "n_members": 481,
+ "n_not_in_panther_cluster": 164,
+ "note": "descriptive; PANTHER is itself an HMM, so a member outside every PANTHER-called cluster is a disagreement between two profile models, not proof that it is not Ecm33"
+}
