@@ -1,0 +1,17 @@
+pfam_acc	name	proteome	protein	annotation
+PF27678	BIG1_C	Scer_S288C	YHR101C	"BIG1 SGDID:S000001143, Chr VIII from 315771-314874,315968-315859, Genome Release 64-5-1, reverse complement, Verified ORF, ""Integral membrane protein of the end"
+PF09346	SMI1_KNR4	Afum_Af293_UniProt	tr|Q4WTQ9|Q4WTQ9_ASPFU	1,3-beta-glucan biosynthesis protein, putative OS=Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / Af293) OX=330879 GN=AFUA_5G05770 PE=3 
+PF09346	SMI1_KNR4	Calb_SC5314	C1_07870C_A	
+PF09346	SMI1_KNR4	Calb_SC5314	C3_05350C_A	
+PF09346	SMI1_KNR4	Cimm_RS	XP_001242350.2	1,3-beta-glucan biosynthesis protein [Coccidioides immitis RS]
+PF09346	SMI1_KNR4	Scer_S288C	YGR229C	"SMI1 SGDID:S000003461, Chr VII from 950899-949382, Genome Release 64-5-1, reverse complement, Verified ORF, ""Protein involved in the regulation of cell wall syn"
+PF02544	Steroid_dh	Afum_Af293_UniProt	tr|Q4WJM4|Q4WJM4_ASPFU	Polyprenal reductase OS=Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / Af293) OX=330879 GN=AFUA_1G05470 PE=3 SV=1
+PF02544	Steroid_dh	Afum_Af293_UniProt	tr|Q4WNY1|Q4WNY1_ASPFU	3-oxo-5-alpha-steroid 4-dehydrogenase family protein OS=Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / Af293) OX=330879 GN=AFUA_4G07350
+PF02544	Steroid_dh	Afum_Af293_UniProt	tr|Q4WPX1|Q4WPX1_ASPFU	very-long-chain enoyl-CoA reductase OS=Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / Af293) OX=330879 GN=AFUA_4G10760 PE=3 SV=1
+PF02544	Steroid_dh	Calb_SC5314	C1_01050C_A	
+PF02544	Steroid_dh	Calb_SC5314	C2_08970C_A	
+PF02544	Steroid_dh	Cimm_RS	XP_001244483.1	3-oxo-5-alpha-steroid 4-dehydrogenase [Coccidioides immitis RS]
+PF02544	Steroid_dh	Cimm_RS	XP_001244622.1	3-oxo-5-alpha-steroid 4-dehydrogenase 1 [Coccidioides immitis RS]
+PF02544	Steroid_dh	Cimm_RS	XP_001247707.1	steroid alpha reductase [Coccidioides immitis RS]
+PF02544	Steroid_dh	Scer_S288C	YDL015C	"TSC13 SGDID:S000002173, Chr IV from 426934-426002, Genome Release 64-5-1, reverse complement, Verified ORF, ""Enoyl reductase; catalyzes last step in each cycle "
+PF02544	Steroid_dh	Scer_S288C	YIL049W	"DFG10 SGDID:S000001311, Chr IX from 260158-260919, Genome Release 64-5-1, Verified ORF, ""Probable polyprenol reductase; catalyzes conversion of polyprenol to do"

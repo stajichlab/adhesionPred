@@ -1,0 +1,5 @@
+pfam_acc	accession	cluster_id	slice	own_or_other
+PF27678	P38813	KS0087	wall	own
+PF09346	A0A1D8PE53	KS0006	wall	own
+PF09346	P38678	KS0006	wall	own
+PF02544	P40526	KS0090	wall	own

@@ -1,0 +1,7 @@
+pin ok: HEAD f56277354f174f0a852f86cf7fc61234c84995e0; code pinned to f56277354f174f0a852f86cf7fc61234c84995e0
+3 extra families: BIG1_C (1 own members), SMI1_KNR4 (2 own members), Steroid_dh (1 own members)
+inputs ok: 3 families, 132 positives, 161 negatives, proteomes: Afum_Af293_UniProt Calb_SC5314 Cimm_RS Scer_S288C
+3 models match the extras list
+models: 3 fetched, 3 with a GA line, 0 without
+3 extra families summarized
+wrote /bigdata/stajichlab/jstajich/projects/adhesionPred/_workdir/kiss_cluster_split/family_specificity_extras_out

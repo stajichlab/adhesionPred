@@ -1,0 +1,18 @@
+job: pr6_family_specificity (PR 6, owner decisions 1 and 2 of 2026-10-22)
+commit: e36c6e4a02031f30e1c64a74f581ee0f7389e8d7 (pinned: e36c6e4a02031f30e1c64a74f581ee0f7389e8d7)
+hmmer: # HMMER 3.4 (Aug 2023); http://hmmer.org/
+python: Python 3.12.13
+pfam_hmm: /srv/projects/db/pfam/current/Pfam-A.hmm
+pfam_resolved: /bigdata/operations/pkgadmin/srv/projects/db/pfam/2026-01-27-Pfam38.2/Pfam-A.hmm
+pfam_release: 38.2
+pfam_sha256: 4b0da6399b97d2b23329de82190b2e5705bde1dea4cb2d028a52712d5966739e
+pfam_sha256_same_as_earlier_jobs: yes (earlier: 4b0da6399b97d2b23329de82190b2e5705bde1dea4cb2d028a52712d5966739e)
+input kiss_sequences.faa sha256 66af609eeea24212f7813918fd5957489ded4e4e45792deadd955a0a93bacdf6
+input negatives.faa sha256 355bee285e57a5da508c0045699a10a2fefdd7c9247ba9c36c7c1310d2269636
+input Afum_Af293_UniProt.faa sha256 97832354454a1c5002028778f84f65edbe6f2ed571b13cca2499810b6483a992
+input Calb_SC5314.faa sha256 8f6877602d46b33b0df2facf0b8da86638f08c3adc019137d6b986006c9e53d4
+input Cimm_RS.faa sha256 3d677a028b3f1928b7cda1ac55f5c95684e612a3d3e8ff46aead1c544f6c4704
+input Scer_S288C.faa sha256 e01f9e1ef7e5a01ff7cd0ee7a843e6d1c1da8c3777fdfac3a5293711d4c56518
+families: 30 (candidate rule: coverage >= 0.5 or E-value <= 1e-30, both inclusive)
+settings: hmmsearch --cut_ga with the candidate models over the Kiss positives, the shared negatives and the kept proteomes
+tier_changes: none; panel_changes: none; family_measure.tsv and family_table.tsv are not written
