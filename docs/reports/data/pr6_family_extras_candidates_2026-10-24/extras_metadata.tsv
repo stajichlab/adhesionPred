@@ -1,0 +1,4 @@
+order	pfam_acc	panther_family	panther_name	panther_n_fungal	panther_broad_or_specific	gene	scan_ievalue	scan_frac	expected	n_own_members
+1	PF27678	PTHR28285	PROTEIN BIG1	1349	specific	big1	8.2e-30	0.170	specific	1
+2	PF09346	PTHR47432	Cell wall assembly regulator KNR4/SMI1	1432	specific	cot-2/gs-1,smi1	5.2e-19	0.323	specific	2
+3	PF02544	PTHR14624	DFG10 PROTEIN	1060	intermediate	dfg10	7.4e-09	0.419	broad_expected	1

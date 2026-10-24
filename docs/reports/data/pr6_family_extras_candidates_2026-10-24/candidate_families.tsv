@@ -1,0 +1,4 @@
+pfam_acc	name	n_clusters	clusters	slices	n_hits	max_frac	min_ievalue	rule_coverage	rule_evalue	in_family_table
+PF27678	BIG1_C	1	KS0087	wall	1	0.170	8.2e-30	no	no	no
+PF09346	SMI1_KNR4	1	KS0006	wall	1	0.323	5.2e-19	no	no	no
+PF02544	Steroid_dh	1	KS0090	wall	1	0.419	7.4e-09	no	no	no
