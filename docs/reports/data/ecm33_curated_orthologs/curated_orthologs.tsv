@@ -1,0 +1,22 @@
+accession	set	organism	clade_fine	reviewed	pmid	how_resolved	uniref50	uniref50_is_training_member	uniref50_is_independent_test_cluster	separated_30pct	independent
+A6ZL22	swissprot_PTHR31018	Saccharomyces cerevisiae (strain YJM789)	Saccharomycotina	yes		UniProt reviewed, PTHR31018	UniRef50_P38248	yes	no	not_applicable	no
+A6ZY20	swissprot_PTHR31018	Saccharomyces cerevisiae (strain YJM789)	Saccharomycotina	yes		UniProt reviewed, PTHR31018	UniRef50_Q12355	yes	no	not_applicable	no
+B5VE42	swissprot_PTHR31018	Saccharomyces cerevisiae (strain AWRI1631)	Saccharomycotina	yes		UniProt reviewed, PTHR31018	UniRef50_P38248	yes	no	not_applicable	no
+C7GQJ1	swissprot_PTHR31018	Saccharomyces cerevisiae (strain JAY291)	Saccharomycotina	yes		UniProt reviewed, PTHR31018	UniRef50_P38248	yes	no	not_applicable	no
+D4AZK9	swissprot_PTHR31018	Arthroderma benhamiae (strain ATCC MYA-4681 / CBS 112371)	Eurotiomycetes	yes		UniProt reviewed, PTHR31018	UniRef50_D4AZK9	yes	no	not_applicable	no
+O13960	swissprot_PTHR31018	Schizosaccharomyces pombe (strain 972 / ATCC 24843)	Taphrinomycotina	yes		UniProt reviewed, PTHR31018	UniRef50_O13960	yes	no	not_applicable	no
+O74411	swissprot_PTHR31018	Schizosaccharomyces pombe (strain 972 / ATCC 24843)	Taphrinomycotina	yes		UniProt reviewed, PTHR31018	UniRef50_O74411	yes	no	not_applicable	no
+P08459	swissprot_PTHR31018	Saccharomyces cerevisiae (strain ATCC 204508 / S288c)	Saccharomycotina	yes		UniProt reviewed, PTHR31018	UniRef50_P08459	yes	no	not_applicable	no
+P25380	swissprot_PTHR31018	Saccharomyces cerevisiae (strain ATCC 204508 / S288c)	Saccharomycotina	yes		UniProt reviewed, PTHR31018	UniRef50_P25380	yes	no	not_applicable	no
+P38248	swissprot_PTHR31018	Saccharomyces cerevisiae (strain ATCC 204508 / S288c)	Saccharomycotina	yes		UniProt reviewed, PTHR31018	UniRef50_P38248	yes	no	not_applicable	no
+Q12355	swissprot_PTHR31018	Saccharomyces cerevisiae (strain ATCC 204508 / S288c)	Saccharomycotina	yes		UniProt reviewed, PTHR31018	UniRef50_Q12355	yes	no	not_applicable	no
+Q4WNS8	swissprot_PTHR31018	Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / Af293)	Eurotiomycetes	yes		UniProt reviewed, PTHR31018	UniRef50_Q4WNS8	yes	no	not_applicable	no
+Q5AGC4	swissprot_PTHR31018	Candida albicans (strain SC5314 / ATCC MYA-2876)	Saccharomycotina	yes		UniProt reviewed, PTHR31018	UniRef50_Q5AGC4	yes	no	not_applicable	no
+P38248	literature_named	Saccharomyces cerevisiae (strain ATCC 204508 / S288c)	Saccharomycotina	yes	15583168	Swiss-Prot (S. cerevisiae Ecm33)	UniRef50_P38248	yes	no	not_applicable	no
+Q12355	literature_named	Saccharomyces cerevisiae (strain ATCC 204508 / S288c)	Saccharomycotina	yes	15583168	Swiss-Prot (S. cerevisiae Pst1)	UniRef50_Q12355	yes	no	not_applicable	no
+Q5AGC4	literature_named	Candida albicans (strain SC5314 / ATCC MYA-2876)	Saccharomycotina	yes		Swiss-Prot (C. albicans Ecm33; the Kiss query)	UniRef50_Q5AGC4	yes	no	not_applicable	no
+O13960	literature_named	Schizosaccharomyces pombe (strain 972 / ATCC 24843)	Taphrinomycotina	yes	20032302	Swiss-Prot (S. pombe ecm33)	UniRef50_O13960	yes	no	not_applicable	no
+Q4WNS8	literature_named	Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / Af293)	Eurotiomycetes	yes	16804168	Swiss-Prot (A. fumigatus ecm33)	UniRef50_Q4WNS8	yes	no	not_applicable	no
+J4UGA7	literature_named	Beauveria bassiana (strain ARSEF 2860)	Sordariomycetes	no	24549768	UniProt name search, B. bassiana ARSEF 2860 (locus not checked against the paper)	UniRef50_A0A179IKX0	yes	no	not_applicable	no
+G9MJ35	literature_named	Hypocrea virens (strain Gv29-8 / FGSC 10586)	Sordariomycetes	no	30840111	UniProt name search, T. virens Gv29-8 (locus not checked against the paper)	UniRef50_G9MJ35	yes	no	not_applicable	no
+N1RSC8	literature_named	Fusarium oxysporum f. sp. cubense (strain race 4)	Sordariomycetes	no	35183338	UniProt name search, F. oxysporum f. sp. cubense race 4 (locus not checked against the paper)	UniRef50_A0A428P255	no	yes	no	no
