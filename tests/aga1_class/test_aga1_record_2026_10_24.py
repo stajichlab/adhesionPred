@@ -161,9 +161,9 @@ def test_record_paths_are_not_gitignored():
     files = [p for p in REC.rglob("*") if p.is_file()]
     assert len(files) == 6
     r = subprocess.run(["git", "check-ignore", *map(str, files)], cwd=ROOT, capture_output=True)
-    assert r.returncode == 1, (
-        "a record file matches .gitignore"
-    )  # 1 = none ignored (0 = at least one ignored)
+    assert (
+        r.returncode == 1
+    ), "a record file matches .gitignore"  # 1 = none ignored (0 = at least one ignored)
     assert not any(
         part in ("build", "results", "input", "output", "dist")
         for p in files
