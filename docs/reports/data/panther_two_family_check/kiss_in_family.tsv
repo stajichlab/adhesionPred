@@ -1,0 +1,4 @@
+panther_family	subfamily	subfamily_name	accession	kiss_cluster	gene	organism	fine_clade	uniprot_status	pfam
+PTHR46430	PTHR46430:SF2	CHITIN SYNTHASE REGULATORY FACTOR 4	O94614	KS0065	chr4	Schizosaccharomyces pombe	Taphrinomycotina	reviewed	PF08238;PF13181;
+PTHR46430	PTHR46430:SF1	CHITIN SYNTHASE REGULATOR SKT5-RELATED	P34226	KS0084	chs4_skt5	Saccharomyces cerevisiae	Saccharomycotina	reviewed	PF08238;
+PTHR35192	PTHR35192:SF2	APPLE DOMAIN-CONTAINING PROTEIN	J9VHS9	KS0056	cfl1	Cryptococcus neoformans	Tremellomycetes	unreviewed	PF21671;
