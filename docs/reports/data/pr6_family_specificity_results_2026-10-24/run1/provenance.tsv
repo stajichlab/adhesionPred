@@ -1,0 +1,9 @@
+item	value
+script	analysis/wall_fusion_truth/pr6_family_specificity.py
+coverage_min	0.5
+evalue_max	1e-30
+kept_proteomes	Afum_Af293_UniProt=9647;Calb_SC5314=6212;Cimm_RS=9910;Scer_S288C=6722
+kept_total	32491
+n_families	30
+tier_changes	none
+panel_changes	none

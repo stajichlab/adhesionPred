@@ -1,0 +1,6 @@
+pin ok: HEAD e36c6e4a02031f30e1c64a74f581ee0f7389e8d7; code pinned to e36c6e4a02031f30e1c64a74f581ee0f7389e8d7
+26 candidate clusters, 30 candidate families
+inputs ok: 30 families, 132 positives, 161 negatives, proteomes: Afum_Af293_UniProt Calb_SC5314 Cimm_RS Scer_S288C
+models: 30 fetched, 30 with a GA line, 0 without
+30 families summarized
+wrote /bigdata/stajichlab/jstajich/projects/adhesionPred/_workdir/kiss_cluster_split/family_specificity

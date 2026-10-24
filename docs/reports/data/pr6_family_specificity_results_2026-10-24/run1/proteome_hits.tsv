@@ -1,0 +1,270 @@
+pfam_acc	name	proteome	protein	annotation
+PF00082	Peptidase_S8	Afum_Af293_UniProt	sp|P28296|ORYZ_ASPFU	Alkaline protease 1 OS=Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / Af293) OX=330879 GN=alp1 PE=1 SV=2
+PF00082	Peptidase_S8	Afum_Af293_UniProt	sp|P87184|ALP2_ASPFU	Alkaline protease 2 OS=Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / Af293) OX=330879 GN=alp2 PE=1 SV=1
+PF00082	Peptidase_S8	Afum_Af293_UniProt	sp|Q4WQU0|SED4_ASPFU	Tripeptidyl-peptidase sed4 OS=Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / Af293) OX=330879 GN=sed4 PE=1 SV=1
+PF00082	Peptidase_S8	Afum_Af293_UniProt	sp|Q70GH4|SED3_ASPFU	Tripeptidyl-peptidase sed3 OS=Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / Af293) OX=330879 GN=sed3 PE=1 SV=1
+PF00082	Peptidase_S8	Afum_Af293_UniProt	sp|Q70J59|SED2_ASPFU	Tripeptidyl-peptidase sed2 OS=Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / Af293) OX=330879 GN=sed2 PE=1 SV=1
+PF00082	Peptidase_S8	Afum_Af293_UniProt	tr|Q4WGG2|Q4WGG2_ASPFU	Subtilisin-like protease OS=Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / Af293) OX=330879 GN=AFUA_7G04930 PE=3 SV=1
+PF00082	Peptidase_S8	Afum_Af293_UniProt	tr|Q4WH48|Q4WH48_ASPFU	Alkaline protease 1 OS=Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / Af293) OX=330879 GN=AFUA_7G08340 PE=3 SV=1
+PF00082	Peptidase_S8	Afum_Af293_UniProt	tr|Q4WQI8|Q4WQI8_ASPFU	Subtilisin-like protease OS=Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / Af293) OX=330879 GN=AFUA_4G12970 PE=3 SV=1
+PF00082	Peptidase_S8	Calb_SC5314	C1_08990C_A	
+PF00082	Peptidase_S8	Calb_SC5314	C2_06880C_A	
+PF00082	Peptidase_S8	Calb_SC5314	C7_03860W_A	
+PF00082	Peptidase_S8	Calb_SC5314	CR_00650W_A	
+PF00082	Peptidase_S8	Calb_SC5314	CR_00660W_A	
+PF00082	Peptidase_S8	Cimm_RS	XP_001239171.1	subtilisin-like protease [Coccidioides immitis RS]
+PF00082	Peptidase_S8	Cimm_RS	XP_001239265.1	subtilisin-like protease [Coccidioides immitis RS]
+PF00082	Peptidase_S8	Cimm_RS	XP_001239266.2	subtilisin-like protease [Coccidioides immitis RS]
+PF00082	Peptidase_S8	Cimm_RS	XP_001239485.1	subtilisin-like protease [Coccidioides immitis RS]
+PF00082	Peptidase_S8	Cimm_RS	XP_001239995.2	subtilisin-like protease [Coccidioides immitis RS]
+PF00082	Peptidase_S8	Cimm_RS	XP_001240123.1	subtilisin-like protease [Coccidioides immitis RS]
+PF00082	Peptidase_S8	Cimm_RS	XP_001242586.2	protease [Coccidioides immitis RS]
+PF00082	Peptidase_S8	Cimm_RS	XP_001242776.2	subtilisin-like protease [Coccidioides immitis RS]
+PF00082	Peptidase_S8	Cimm_RS	XP_001243127.1	subtilisin-like protease [Coccidioides immitis RS]
+PF00082	Peptidase_S8	Cimm_RS	XP_001244306.1	subtilisin-like protease [Coccidioides immitis RS]
+PF00082	Peptidase_S8	Cimm_RS	XP_001244446.1	tripeptidyl peptidase SED3 [Coccidioides immitis RS]
+PF00082	Peptidase_S8	Cimm_RS	XP_001244548.2	subtilisin-like protease [Coccidioides immitis RS]
+PF00082	Peptidase_S8	Cimm_RS	XP_001245074.2	uncharacterized protein CIMG_04515 [Coccidioides immitis RS]
+PF00082	Peptidase_S8	Cimm_RS	XP_001246116.1	subtilisin-like protease [Coccidioides immitis RS]
+PF00082	Peptidase_S8	Cimm_RS	XP_001246396.2	tripeptidyl peptidase SED3 [Coccidioides immitis RS]
+PF00082	Peptidase_S8	Cimm_RS	XP_001246854.1	kex protein [Coccidioides immitis RS]
+PF00082	Peptidase_S8	Cimm_RS	XP_001247623.1	subtilisin-like protease [Coccidioides immitis RS]
+PF00082	Peptidase_S8	Cimm_RS	XP_001247979.1	subtilisin-like protease [Coccidioides immitis RS]
+PF00082	Peptidase_S8	Cimm_RS	XP_001248417.2	tripeptidyl peptidase SED3 [Coccidioides immitis RS]
+PF00082	Peptidase_S8	Cimm_RS	XP_001249110.1	subtilisin-like protease [Coccidioides immitis RS]
+PF00082	Peptidase_S8	Scer_S288C	YCR045C	"RRT12 SGDID:S000000641, Chr III from 209610-208135, Genome Release 64-5-1, reverse complement, Verified ORF, ""Probable subtilisin-family protease; role in forma"
+PF00082	Peptidase_S8	Scer_S288C	YEL060C	"PRB1 SGDID:S000000786, Chr V from 41953-40046, Genome Release 64-5-1, reverse complement, Verified ORF, ""Vacuolar proteinase B yscB with H3 N-terminal endopepti"
+PF00082	Peptidase_S8	Scer_S288C	YNL238W	"KEX2 SGDID:S000005182, Chr XIV from 202428-204872, Genome Release 64-5-1, Verified ORF, ""Kexin, a subtilisin-like protease (proprotein convertase); a calcium-de"
+PF00082	Peptidase_S8	Scer_S288C	YOR003W	"YSP3 SGDID:S000005529, Chr XV from 331455-332891, Genome Release 64-5-1, Verified ORF, ""Putative precursor of the subtilisin-like protease III; SWAT-GFP and mCh"
+PF00534	Glycos_transf_1	Afum_Af293_UniProt	tr|Q4WJ82|Q4WJ82_ASPFU	GDP-Man:Man(3)GlcNAc(2)-PP-Dol alpha-1,2-mannosyltransferase OS=Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / Af293) OX=330879 GN=AFUA
+PF00534	Glycos_transf_1	Afum_Af293_UniProt	tr|Q4WQU7|Q4WQU7_ASPFU	Glycosyl transferase, putative OS=Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / Af293) OX=330879 GN=AFUA_4G14070 PE=4 SV=1
+PF00534	Glycos_transf_1	Afum_Af293_UniProt	tr|Q4WR99|Q4WR99_ASPFU	Glycosyl transferase, putative OS=Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / Af293) OX=330879 GN=AFUA_1G17030 PE=4 SV=1
+PF00534	Glycos_transf_1	Afum_Af293_UniProt	tr|Q4WRA7|Q4WRA7_ASPFU	Phosphatidylinositol N-acetylglucosaminyltransferase GPI3 subunit OS=Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / Af293) OX=330879 GN
+PF00534	Glycos_transf_1	Afum_Af293_UniProt	tr|Q4WRQ8|Q4WRQ8_ASPFU	alpha-1,3-glucan synthase OS=Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / Af293) OX=330879 GN=AFUA_1G15440 PE=3 SV=1
+PF00534	Glycos_transf_1	Afum_Af293_UniProt	tr|Q4WVT1|Q4WVT1_ASPFU	Alpha-1,3/1,6-mannosyltransferase ALG2 OS=Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / Af293) OX=330879 GN=AFUA_5G13210 PE=3 SV=1
+PF00534	Glycos_transf_1	Afum_Af293_UniProt	tr|Q4WX14|Q4WX14_ASPFU	Glycosyl transferase, putative OS=Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / Af293) OX=330879 GN=AFUA_3G07860 PE=4 SV=1
+PF00534	Glycos_transf_1	Afum_Af293_UniProt	tr|Q4WY80|Q4WY80_ASPFU	Trehalose synthase (Ccg-9), putative OS=Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / Af293) OX=330879 GN=AFUA_3G12100 PE=3 SV=1
+PF00534	Glycos_transf_1	Calb_SC5314	C4_06000W_A	
+PF00534	Glycos_transf_1	Calb_SC5314	C6_02270C_A	
+PF00534	Glycos_transf_1	Calb_SC5314	C6_04030W_A	
+PF00534	Glycos_transf_1	Calb_SC5314	CR_04040C_A	
+PF00534	Glycos_transf_1	Cimm_RS	XP_001240120.1	alpha-1,2-mannosyltransferase [Coccidioides immitis RS]
+PF00534	Glycos_transf_1	Cimm_RS	XP_001241041.2	alpha-1,3-glucan synthase [Coccidioides immitis RS]
+PF00534	Glycos_transf_1	Cimm_RS	XP_001243553.2	phosphatidylinositol N-acetylglucosaminyltransferase GPI3 subunit [Coccidioides immitis RS]
+PF00534	Glycos_transf_1	Cimm_RS	XP_001244583.1	alpha-1,2-mannosyltransferase [Coccidioides immitis RS]
+PF00534	Glycos_transf_1	Cimm_RS	XP_012214079.1	trehalose synthase [Coccidioides immitis RS]
+PF00534	Glycos_transf_1	Scer_S288C	YBR110W	"ALG1 SGDID:S000000314, Chr II from 458872-460221, Genome Release 64-5-1, Verified ORF, ""Mannosyltransferase; involved in asparagine-linked glycosylation in the "
+PF00534	Glycos_transf_1	Scer_S288C	YFR015C	"GSY1 SGDID:S000001911, Chr VI from 176391-174265, Genome Release 64-5-1, reverse complement, Verified ORF, ""Glycogen synthase; expression induced by glucose lim"
+PF00534	Glycos_transf_1	Scer_S288C	YGL065C	"ALG2 SGDID:S000003033, Chr VII from 381271-379760, Genome Release 64-5-1, reverse complement, Verified ORF, ""Mannosyltransferase in the N-linked glycosylation p"
+PF00534	Glycos_transf_1	Scer_S288C	YLR258W	"GSY2 SGDID:S000004248, Chr XII from 660716-662833, Genome Release 64-5-1, Verified ORF, ""Glycogen synthase; expression induced by glucose limitation, nitrogen s"
+PF00534	Glycos_transf_1	Scer_S288C	YNL048W	"ALG11 SGDID:S000004993, Chr XIV from 538173-539819, Genome Release 64-5-1, Verified ORF, ""Alpha-1,2-mannosyltransferase; catalyzes sequential addition of the tw"
+PF00534	Glycos_transf_1	Scer_S288C	YPL175W	"SPT14 SGDID:S000006096, Chr XVI from 218630-218646,218747-220088, Genome Release 64-5-1, Verified ORF, ""UDP-glycosyltransferase subunit of the GPI-GnT complex; "
+PF00982	Glyco_transf_20	Afum_Af293_UniProt	sp|Q4WHW0|TPS1B_ASPFU	Alpha,alpha-trehalose-phosphate synthase [UDP-forming] 2 OS=Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / Af293) OX=330879 GN=tpsB PE=
+PF00982	Glyco_transf_20	Afum_Af293_UniProt	sp|Q4WLM9|TPS1A_ASPFU	Alpha,alpha-trehalose-phosphate synthase [UDP-forming] 1 OS=Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / Af293) OX=330879 GN=tpsA PE=
+PF00982	Glyco_transf_20	Afum_Af293_UniProt	tr|Q4W9Z6|Q4W9Z6_ASPFU	alpha,alpha-trehalose-phosphate synthase (UDP-forming) OS=Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / Af293) OX=330879 GN=AFUA_4G031
+PF00982	Glyco_transf_20	Afum_Af293_UniProt	tr|Q4WG65|Q4WG65_ASPFU	Alpha,alpha-trehalose phosphate synthase subunit TPS3, putative OS=Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / Af293) OX=330879 GN=A
+PF00982	Glyco_transf_20	Afum_Af293_UniProt	tr|Q4WHV9|Q4WHV9_ASPFU	Alpha,alpha-trehalose phosphate synthase subunit, putative OS=Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / Af293) OX=330879 GN=AFUA_2
+PF00982	Glyco_transf_20	Afum_Af293_UniProt	tr|Q4WW37|Q4WW37_ASPFU	alpha,alpha-trehalose-phosphate synthase (UDP-forming) OS=Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / Af293) OX=330879 GN=AFUA_5G143
+PF00982	Glyco_transf_20	Afum_Af293_UniProt	tr|Q4WWF5|Q4WWF5_ASPFU	Alpha,alpha-trehalose-phosphate synthase subunit Tps2, putative OS=Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / Af293) OX=330879 GN=A
+PF00982	Glyco_transf_20	Calb_SC5314	C1_03380W_A	
+PF00982	Glyco_transf_20	Calb_SC5314	C2_10690W_A	
+PF00982	Glyco_transf_20	Calb_SC5314	CR_05720W_A	
+PF00982	Glyco_transf_20	Cimm_RS	XP_001240344.2	trehalose-phosphatase [Coccidioides immitis RS]
+PF00982	Glyco_transf_20	Cimm_RS	XP_001247960.1	alpha,alpha-trehalose-phosphate synthase [UDP-forming] 1 [Coccidioides immitis RS]
+PF00982	Glyco_transf_20	Cimm_RS	XP_001248276.1	trehalose-phosphatase [Coccidioides immitis RS]
+PF00982	Glyco_transf_20	Scer_S288C	YBR126C	"TPS1 SGDID:S000000330, Chr II from 490392-488905, Genome Release 64-5-1, reverse complement, Verified ORF, ""Synthase subunit of trehalose-6-P synthase/phosphata"
+PF00982	Glyco_transf_20	Scer_S288C	YDR074W	"TPS2 SGDID:S000002481, Chr IV from 593893-596583, Genome Release 64-5-1, Verified ORF, ""Phosphatase subunit of the trehalose-6-P synthase/phosphatase complex; i"
+PF00982	Glyco_transf_20	Scer_S288C	YML100W	"TSL1 SGDID:S000004566, Chr XIII from 70624-73920, Genome Release 64-5-1, Verified ORF, ""Large subunit of trehalose 6-phosphate synthase/phosphatase complex; Tps"
+PF00982	Glyco_transf_20	Scer_S288C	YMR261C	"TPS3 SGDID:S000004874, Chr XIII from 793369-790205, Genome Release 64-5-1, reverse complement, Verified ORF, ""Regulatory subunit of trehalose-6-phosphate syntha"
+PF01380	SIS	Afum_Af293_UniProt	tr|E9R5E2|E9R5E2_ASPFU	glutamine--fructose-6-phosphate transaminase (isomerizing) OS=Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / Af293) OX=330879 GN=AFUA_6
+PF01380	SIS	Afum_Af293_UniProt	tr|Q4WMS7|Q4WMS7_ASPFU	Sugar isomerase, KpsF/GutQ OS=Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / Af293) OX=330879 GN=AFUA_6G08860 PE=4 SV=1
+PF01380	SIS	Calb_SC5314	C3_02280C_A	
+PF01380	SIS	Calb_SC5314	C4_05400C_A	
+PF01380	SIS	Cimm_RS	XP_001243362.2	glutamine-fructose-6-phosphate transaminase (isomerizing) [Coccidioides immitis RS]
+PF01380	SIS	Cimm_RS	XP_001247582.1	sugar isomerase [Coccidioides immitis RS]
+PF01380	SIS	Scer_S288C	YKL104C	"GFA1 SGDID:S000001587, Chr XI from 245373-243220, Genome Release 64-5-1, reverse complement, Verified ORF, ""Glutamine-fructose-6-phosphate amidotransferase; cat"
+PF01380	SIS	Scer_S288C	YMR085W	"YMR085W SGDID:S000004690, Chr XIII from 437491-438789, Genome Release 64-5-1, Uncharacterized ORF, ""Putative protein of unknown function; YMR085W and adjacent O"
+PF01828	Peptidase_A4	Afum_Af293_UniProt	tr|Q4WAG2|Q4WAG2_ASPFU	Aspergillopepsin, putaitve OS=Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / Af293) OX=330879 GN=AFUA_7G01200 PE=4 SV=1
+PF01828	Peptidase_A4	Afum_Af293_UniProt	tr|Q4WF96|Q4WF96_ASPFU	Aspergillopepsin, putative OS=Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / Af293) OX=330879 GN=AFUA_3G02970 PE=4 SV=1
+PF01828	Peptidase_A4	Afum_Af293_UniProt	tr|Q4WMI3|Q4WMI3_ASPFU	Ankyrin repeat protein OS=Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / Af293) OX=330879 GN=AFUA_6G09800 PE=4 SV=1
+PF02055	Glyco_hydro_30	Afum_Af293_UniProt	sp|Q4WBR2|NEG1_ASPFU	Endo-1,6-beta-D-glucanase neg1 OS=Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / Af293) OX=330879 GN=neg1 PE=1 SV=1
+PF02076	STE3	Afum_Af293_UniProt	tr|Q4WUB6|Q4WUB6_ASPFU	A-pheromone receptor PreA OS=Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / Af293) OX=330879 GN=AFUA_5G07880 PE=3 SV=1
+PF02076	STE3	Calb_SC5314	C1_05620C_A	
+PF02076	STE3	Cimm_RS	XP_001242263.2	a-pheromone receptor PreA [Coccidioides immitis RS]
+PF02076	STE3	Scer_S288C	YKL178C	"STE3 SGDID:S000001661, Chr XI from 114627-113215, Genome Release 64-5-1, reverse complement, Verified ORF, ""Receptor for a factor pheromone; couples to MAP kina"
+PF02116	STE2	Afum_Af293_UniProt	tr|Q4WYU8|Q4WYU8_ASPFU	Mating-type alpha-pheromone receptor PreB OS=Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / Af293) OX=330879 GN=AFUA_3G14330 PE=3 SV=1
+PF02116	STE2	Calb_SC5314	CR_06610W_A	
+PF02116	STE2	Cimm_RS	XP_001246357.1	mating-type alpha-pheromone receptor PreB [Coccidioides immitis RS]
+PF02116	STE2	Scer_S288C	YFL026W	"STE2 SGDID:S000001868, Chr VI from 82580-83875, Genome Release 64-5-1, Verified ORF, ""Receptor for alpha-factor pheromone; seven transmembrane-domain GPCR that "
+PF02358	Trehalose_PPase	Afum_Af293_UniProt	tr|Q4WG65|Q4WG65_ASPFU	Alpha,alpha-trehalose phosphate synthase subunit TPS3, putative OS=Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / Af293) OX=330879 GN=A
+PF02358	Trehalose_PPase	Afum_Af293_UniProt	tr|Q4WHV9|Q4WHV9_ASPFU	Alpha,alpha-trehalose phosphate synthase subunit, putative OS=Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / Af293) OX=330879 GN=AFUA_2
+PF02358	Trehalose_PPase	Afum_Af293_UniProt	tr|Q4WWF5|Q4WWF5_ASPFU	Alpha,alpha-trehalose-phosphate synthase subunit Tps2, putative OS=Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / Af293) OX=330879 GN=A
+PF02358	Trehalose_PPase	Calb_SC5314	C1_03380W_A	
+PF02358	Trehalose_PPase	Calb_SC5314	C2_10690W_A	
+PF02358	Trehalose_PPase	Cimm_RS	XP_001240344.2	trehalose-phosphatase [Coccidioides immitis RS]
+PF02358	Trehalose_PPase	Cimm_RS	XP_001248276.1	trehalose-phosphatase [Coccidioides immitis RS]
+PF02358	Trehalose_PPase	Scer_S288C	YDR074W	"TPS2 SGDID:S000002481, Chr IV from 593893-596583, Genome Release 64-5-1, Verified ORF, ""Phosphatase subunit of the trehalose-6-P synthase/phosphatase complex; i"
+PF02358	Trehalose_PPase	Scer_S288C	YML100W	"TSL1 SGDID:S000004566, Chr XIII from 70624-73920, Genome Release 64-5-1, Verified ORF, ""Large subunit of trehalose 6-phosphate synthase/phosphatase complex; Tps"
+PF02358	Trehalose_PPase	Scer_S288C	YMR261C	"TPS3 SGDID:S000004874, Chr XIII from 793369-790205, Genome Release 64-5-1, reverse complement, Verified ORF, ""Regulatory subunit of trehalose-6-phosphate syntha"
+PF02366	PMT	Afum_Af293_UniProt	sp|Q4WCG5|PMT4_ASPFU	Dolichyl-phosphate-mannose--protein mannosyltransferase 4 OS=Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / Af293) OX=330879 GN=pmt4 PE
+PF02366	PMT	Afum_Af293_UniProt	tr|Q4WJ05|Q4WJ05_ASPFU	Dolichyl-phosphate-mannose--protein mannosyltransferase OS=Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / Af293) OX=330879 GN=AFUA_1G07
+PF02366	PMT	Afum_Af293_UniProt	tr|Q4WWN0|Q4WWN0_ASPFU	Dolichyl-phosphate-mannose--protein mannosyltransferase OS=Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / Af293) OX=330879 GN=AFUA_3G06
+PF02366	PMT	Calb_SC5314	C2_06100W_A	
+PF02366	PMT	Calb_SC5314	C3_06890W_A	
+PF02366	PMT	Calb_SC5314	C4_04780W_A	
+PF02366	PMT	Calb_SC5314	C7_02890C_A	
+PF02366	PMT	Calb_SC5314	CR_09770C_A	
+PF02366	PMT	Cimm_RS	XP_001246667.2	dolichyl-phosphate-mannose-protein mannosyltransferase [Coccidioides immitis RS]
+PF02366	PMT	Cimm_RS	XP_001248430.1	mannosyltransferase PMTI [Coccidioides immitis RS]
+PF02366	PMT	Cimm_RS	XP_001248779.1	O-mannosyl transferase pmtA [Coccidioides immitis RS]
+PF02366	PMT	Scer_S288C	YAL023C	"PMT2 SGDID:S000000021, Chr I from 108551-106272, Genome Release 64-5-1, reverse complement, Verified ORF, ""Protein O-mannosyltransferase of the ER membrane; tra"
+PF02366	PMT	Scer_S288C	YDL093W	"PMT5 SGDID:S000002251, Chr IV from 289909-292140, Genome Release 64-5-1, Verified ORF, ""Protein O-mannosyltransferase; transfers mannose residues from dolichyl "
+PF02366	PMT	Scer_S288C	YDL095W	"PMT1 SGDID:S000002253, Chr IV from 287059-289512, Genome Release 64-5-1, Verified ORF, ""Protein O-mannosyltransferase of the ER membrane; transfers mannose from"
+PF02366	PMT	Scer_S288C	YDR307W	"PMT7 SGDID:S000002715, Chr IV from 1075865-1077853, Genome Release 64-5-1, Uncharacterized ORF, ""Putative protein mannosyltransferase similar to Pmt1p; has a po"
+PF02366	PMT	Scer_S288C	YGR199W	"PMT6 SGDID:S000003431, Chr VII from 897502-899781, Genome Release 64-5-1, Verified ORF, ""Protein O-mannosyltransferase; transfers mannose from dolichyl phosphat"
+PF02366	PMT	Scer_S288C	YJR143C	"PMT4 SGDID:S000003904, Chr X from 700614-698326, Genome Release 64-5-1, reverse complement, Verified ORF, ""Protein O-mannosyltransferase; transfers mannose resi"
+PF02366	PMT	Scer_S288C	YOR321W	"PMT3 SGDID:S000005848, Chr XV from 916030-918291, Genome Release 64-5-1, Verified ORF, ""Protein O-mannosyltransferase; transfers mannose residues from dolichyl "
+PF03151	TPT	Afum_Af293_UniProt	tr|Q4WB12|Q4WB12_ASPFU	Integral membrane protein OS=Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / Af293) OX=330879 GN=AFUA_8G00670 PE=3 SV=2
+PF03151	TPT	Afum_Af293_UniProt	tr|Q4WEV8|Q4WEV8_ASPFU	ER to Golgi transport protein (Sly41), putative OS=Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / Af293) OX=330879 GN=AFUA_5G04360 PE=3
+PF03151	TPT	Afum_Af293_UniProt	tr|Q4WN02|Q4WN02_ASPFU	Nucleotide-sugar transporter, putative OS=Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / Af293) OX=330879 GN=AFUA_6G08100 PE=3 SV=1
+PF03151	TPT	Afum_Af293_UniProt	tr|Q4WYE0|Q4WYE0_ASPFU	DUF250 domain membrane protein OS=Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / Af293) OX=330879 GN=AFUA_3G12700 PE=3 SV=1
+PF03151	TPT	Calb_SC5314	C6_00590W_A	
+PF03151	TPT	Calb_SC5314	C7_02310C_A	
+PF03151	TPT	Cimm_RS	XP_001242429.2	ER to Golgi transporter [Coccidioides immitis RS]
+PF03151	TPT	Cimm_RS	XP_001244004.1	uncharacterized protein CIMG_03445 [Coccidioides immitis RS]
+PF03151	TPT	Cimm_RS	XP_001247384.2	nucleotide-sugar transporter [Coccidioides immitis RS]
+PF03151	TPT	Scer_S288C	YJL193W	"YJL193W SGDID:S000003729, Chr X from 71366-72574, Genome Release 64-5-1, Uncharacterized ORF, ""Putative protein of unknown function; predicted to encode a trios"
+PF03151	TPT	Scer_S288C	YML038C	"YMD8 SGDID:S000004502, Chr XIII from 204103-202775, Genome Release 64-5-1, reverse complement, Verified ORF, ""Putative nucleotide sugar transporter; has similar"
+PF03151	TPT	Scer_S288C	YOR307C	"SLY41 SGDID:S000005834, Chr XV from 894092-892731, Genome Release 64-5-1, reverse complement, Verified ORF, ""Protein involved in ER-to-Golgi transport; packaged"
+PF03200	Glyco_hydro_63	Afum_Af293_UniProt	tr|Q4WDB9|Q4WDB9_ASPFU	Mannosyl-oligosaccharide glucosidase OS=Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / Af293) OX=330879 GN=AFUA_6G04210 PE=3 SV=1
+PF03200	Glyco_hydro_63	Calb_SC5314	C3_03410C_A	
+PF03200	Glyco_hydro_63	Calb_SC5314	C4_06100W_A	
+PF03200	Glyco_hydro_63	Cimm_RS	XP_001239165.2	mannosyl-oligosaccharide glucosidase [Coccidioides immitis RS]
+PF03200	Glyco_hydro_63	Scer_S288C	YGL027C	"CWH41 SGDID:S000002995, Chr VII from 446143-443642, Genome Release 64-5-1, reverse complement, Verified ORF, ""Processing alpha glucosidase I; ER type II integra"
+PF03388	Lectin_leg-like	Afum_Af293_UniProt	tr|Q4WZI6|Q4WZI6_ASPFU	Lectin family integral membrane protein, putative OS=Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / Af293) OX=330879 GN=AFUA_2G16800 PE
+PF03388	Lectin_leg-like	Afum_Af293_UniProt	tr|Q4X0V3|Q4X0V3_ASPFU	Lectin family integral membrane protein, putative OS=Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / Af293) OX=330879 GN=AFUA_2G12180 PE
+PF03388	Lectin_leg-like	Calb_SC5314	C2_07810W_A	
+PF03388	Lectin_leg-like	Calb_SC5314	CR_07180W_A	
+PF03388	Lectin_leg-like	Cimm_RS	XP_001239823.1	lectin family integral membrane protein [Coccidioides immitis RS]
+PF03388	Lectin_leg-like	Cimm_RS	XP_001245944.1	lectin family integral membrane protein [Coccidioides immitis RS]
+PF03388	Lectin_leg-like	Scer_S288C	YFL048C	"EMP47 SGDID:S000001846, Chr VI from 40180-38843, Genome Release 64-5-1, reverse complement, Verified ORF, ""Integral membrane component of ER-derived COPII-coate"
+PF03388	Lectin_leg-like	Scer_S288C	YKR044W	"UIP5 SGDID:S000001752, Chr XI from 522015-523346, Genome Release 64-5-1, Verified ORF, ""Protein of unknown function that interacts with Ulp1p; a Ubl (ubiquitin-"
+PF03388	Lectin_leg-like	Scer_S288C	YLR080W	"EMP46 SGDID:S000004070, Chr XII from 287916-289250, Genome Release 64-5-1, Verified ORF, ""Integral membrane component of ER-derived COPII-coated vesicles; funct"
+PF03935	SKN1_KRE6_Sbg1	Afum_Af293_UniProt	tr|Q4X0Y4|Q4X0Y4_ASPFU	Beta-1,6 glucan synthetase (Kre6), putative OS=Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / Af293) OX=330879 GN=AFUA_2G11870 PE=3 SV=
+PF03935	SKN1_KRE6_Sbg1	Calb_SC5314	C3_03500W_A	
+PF03935	SKN1_KRE6_Sbg1	Calb_SC5314	C3_05810C_A	
+PF03935	SKN1_KRE6_Sbg1	Calb_SC5314	C3_05830W_A	
+PF03935	SKN1_KRE6_Sbg1	Calb_SC5314	C5_00470C_A	
+PF03935	SKN1_KRE6_Sbg1	Cimm_RS	XP_001245980.1	beta-glucan synthesis-associated protein KRE6 [Coccidioides immitis RS]
+PF03935	SKN1_KRE6_Sbg1	Scer_S288C	YGR143W	"SKN1 SGDID:S000003375, Chr VII from 775193-777508, Genome Release 64-5-1, Verified ORF, ""Protein involved in sphingolipid biosynthesis; type II membrane protein"
+PF03935	SKN1_KRE6_Sbg1	Scer_S288C	YPR159W	"KRE6 SGDID:S000006363, Chr XVI from 857583-859745, Genome Release 64-5-1, Verified ORF, ""Glucosyl hydrolase required for beta-1,6-glucan biosynthesis; type II i"
+PF09295	ChAPs	Afum_Af293_UniProt	tr|Q4WYF0|Q4WYF0_ASPFU	Clathrin-coated vesiclec protein (Bud7), putative OS=Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / Af293) OX=330879 GN=AFUA_3G12800 PE
+PF09295	ChAPs	Calb_SC5314	C5_03820C_A	
+PF09295	ChAPs	Calb_SC5314	C7_03060C_A	
+PF09295	ChAPs	Cimm_RS	XP_001244012.1	clathrin-coated vesicle protein [Coccidioides immitis RS]
+PF09295	ChAPs	Scer_S288C	YHR166C	"CDC23 SGDID:S000001209, Chr VIII from 439050-437170, Genome Release 64-5-1, reverse complement, Verified ORF, ""Subunit of the Anaphase-Promoting Complex/Cycloso"
+PF09295	ChAPs	Scer_S288C	YJL099W	"CHS6 SGDID:S000003635, Chr X from 239414-241654, Genome Release 64-5-1, Verified ORF, ""Member of the ChAPs (Chs5p-Arf1p-binding proteins) family; part of the ex"
+PF09295	ChAPs	Scer_S288C	YKR027W	"BCH2 SGDID:S000001735, Chr XI from 491364-493661, Genome Release 64-5-1, Verified ORF, ""Member of the ChAPs (Chs5p-Arf1p-binding proteins) family; part of the e"
+PF09295	ChAPs	Scer_S288C	YMR237W	"BCH1 SGDID:S000004850, Chr XIII from 743749-745923, Genome Release 64-5-1, Verified ORF, ""Member of the ChAPs family (Chs5p-Arf1p-binding proteins); members inc"
+PF09295	ChAPs	Scer_S288C	YOR299W	"BUD7 SGDID:S000005825, Chr XV from 878435-880675, Genome Release 64-5-1, Verified ORF, ""Member of the ChAPs family (Chs5p-Arf1p-binding proteins); members inclu"
+PF11765	Hyphal_reg_CWP	Calb_SC5314	C1_13450W_A	
+PF11765	Hyphal_reg_CWP	Calb_SC5314	C2_09130C_A	
+PF11765	Hyphal_reg_CWP	Calb_SC5314	C3_00580W_A	
+PF11765	Hyphal_reg_CWP	Calb_SC5314	C3_00600W_A	
+PF11765	Hyphal_reg_CWP	Calb_SC5314	C4_06550C_A	
+PF11765	Hyphal_reg_CWP	Calb_SC5314	C5_00710W_A	
+PF11765	Hyphal_reg_CWP	Calb_SC5314	C5_00730W_A	
+PF11765	Hyphal_reg_CWP	Calb_SC5314	C7_03290C_A	
+PF11765	Hyphal_reg_CWP	Calb_SC5314	CR_00610W_A	
+PF11765	Hyphal_reg_CWP	Calb_SC5314	CR_00760C_A	
+PF11765	Hyphal_reg_CWP	Calb_SC5314	CR_03630W_A	
+PF11765	Hyphal_reg_CWP	Calb_SC5314	CR_03880W_A	
+PF11765	Hyphal_reg_CWP	Scer_S288C	YIL169C	"CSS1 SGDID:S000001431, Chr IX from 26106-23119, Genome Release 64-5-1, reverse complement, Verified ORF, ""Protein of unknown function, secreted when constitutiv"
+PF11765	Hyphal_reg_CWP	Scer_S288C	YOL155C	"HPF1 SGDID:S000005515, Chr XV from 31606-28703, Genome Release 64-5-1, reverse complement, Verified ORF, ""Haze-protective mannoprotein; reduces particle size of"
+PF12271	Chs7	Afum_Af293_UniProt	sp|Q6MYT0|CHS7_ASPFU	Chitin synthase export chaperone OS=Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / Af293) OX=330879 GN=chs7 PE=3 SV=1
+PF12271	Chs7	Afum_Af293_UniProt	tr|Q4WJ62|Q4WJ62_ASPFU	Export control protein CHS7-like, putative OS=Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / Af293) OX=330879 GN=AFUA_1G07110 PE=4 SV=1
+PF12271	Chs7	Calb_SC5314	C1_06010W_A	
+PF12271	Chs7	Cimm_RS	XP_001239418.1	chitin synthase export chaperone [Coccidioides immitis RS]
+PF12271	Chs7	Cimm_RS	XP_001248692.2	uncharacterized protein CIMG_02463 [Coccidioides immitis RS]
+PF12271	Chs7	Scer_S288C	YHR142W	"CHS7 SGDID:S000001184, Chr VIII from 383538-384488, Genome Release 64-5-1, Verified ORF, ""Protein of unknown function; may be involved in chitin biosynthesis by"
+PF13641	Glyco_tranf_2_3	Afum_Af293_UniProt	sp|P78746|CHSD_ASPFU	Chitin synthase D OS=Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / Af293) OX=330879 GN=chsD PE=3 SV=1
+PF13641	Glyco_tranf_2_3	Afum_Af293_UniProt	sp|Q4X0H6|CHS5_ASPFU	Chitin synthase E OS=Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / Af293) OX=330879 GN=chsE PE=2 SV=1
+PF13641	Glyco_tranf_2_3	Afum_Af293_UniProt	tr|A4DA44|A4DA44_ASPFU	Capsule polysaccharide synthase Cps1, putative OS=Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / Af293) OX=330879 GN=AFUA_8G02320 PE=4 
+PF13641	Glyco_tranf_2_3	Afum_Af293_UniProt	tr|Q4WAU2|Q4WAU2_ASPFU	Polysaccharide synthase Cps1, putative OS=Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / Af293) OX=330879 GN=AFUA_7G02500 PE=4 SV=1
+PF13641	Glyco_tranf_2_3	Afum_Af293_UniProt	tr|Q4WB13|Q4WB13_ASPFU	Glycosyl transferase, putative OS=Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / Af293) OX=330879 GN=AFUA_8G00680 PE=4 SV=1
+PF13641	Glyco_tranf_2_3	Afum_Af293_UniProt	tr|Q4WBE6|Q4WBE6_ASPFU	Glycosyltransferase, putative OS=Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / Af293) OX=330879 GN=AFUA_8G02020 PE=4 SV=1
+PF13641	Glyco_tranf_2_3	Afum_Af293_UniProt	tr|Q4WF33|Q4WF33_ASPFU	Glycosyl transferase, putative OS=Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / Af293) OX=330879 GN=AFUA_3G03620 PE=4 SV=1
+PF13641	Glyco_tranf_2_3	Afum_Af293_UniProt	tr|Q4WXR2|Q4WXR2_ASPFU	Dolichol-phosphate mannosyltransferase subunit 1 OS=Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / Af293) OX=330879 GN=AFUA_3G10400 PE=
+PF13641	Glyco_tranf_2_3	Afum_Af293_UniProt	tr|Q4X0H7|Q4X0H7_ASPFU	Chitin synthase A OS=Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / Af293) OX=330879 GN=AFUA_2G13430 PE=3 SV=1
+PF13641	Glyco_tranf_2_3	Calb_SC5314	C1_08010W_A	
+PF13641	Glyco_tranf_2_3	Calb_SC5314	C1_13110C_A	
+PF13641	Glyco_tranf_2_3	Calb_SC5314	CR_02790C_A	
+PF13641	Glyco_tranf_2_3	Cimm_RS	XP_001240560.2	polysaccharide synthase Cps1 [Coccidioides immitis RS]
+PF13641	Glyco_tranf_2_3	Cimm_RS	XP_001241580.2	polysaccharide synthase Cps1 [Coccidioides immitis RS]
+PF13641	Glyco_tranf_2_3	Cimm_RS	XP_001242966.2	chitin synthase class VI [Coccidioides immitis RS]
+PF13641	Glyco_tranf_2_3	Cimm_RS	XP_001244154.2	dolichol-phosphate mannosyltransferase [Coccidioides immitis RS]
+PF13641	Glyco_tranf_2_3	Cimm_RS	XP_001245580.1	class V chitin synthase [Coccidioides immitis RS]
+PF13641	Glyco_tranf_2_3	Cimm_RS	XP_001245581.1	chitin synthase 5 [Coccidioides immitis RS]
+PF13641	Glyco_tranf_2_3	Cimm_RS	XP_001248967.2	polysaccharide synthase Cps1 [Coccidioides immitis RS]
+PF13641	Glyco_tranf_2_3	Scer_S288C	YBR023C	"CHS3 SGDID:S000000227, Chr II from 287925-284428, Genome Release 64-5-1, reverse complement, Verified ORF, ""Chitin synthase III; catalyzes the transfer of N-ace"
+PF16192	PMT_4TMC	Afum_Af293_UniProt	sp|Q4WCG5|PMT4_ASPFU	Dolichyl-phosphate-mannose--protein mannosyltransferase 4 OS=Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / Af293) OX=330879 GN=pmt4 PE
+PF16192	PMT_4TMC	Afum_Af293_UniProt	tr|Q4WJ05|Q4WJ05_ASPFU	Dolichyl-phosphate-mannose--protein mannosyltransferase OS=Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / Af293) OX=330879 GN=AFUA_1G07
+PF16192	PMT_4TMC	Afum_Af293_UniProt	tr|Q4WWN0|Q4WWN0_ASPFU	Dolichyl-phosphate-mannose--protein mannosyltransferase OS=Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / Af293) OX=330879 GN=AFUA_3G06
+PF16192	PMT_4TMC	Calb_SC5314	C2_06100W_A	
+PF16192	PMT_4TMC	Calb_SC5314	C3_06890W_A	
+PF16192	PMT_4TMC	Calb_SC5314	C4_04780W_A	
+PF16192	PMT_4TMC	Calb_SC5314	C7_02890C_A	
+PF16192	PMT_4TMC	Calb_SC5314	CR_09770C_A	
+PF16192	PMT_4TMC	Cimm_RS	XP_001246667.2	dolichyl-phosphate-mannose-protein mannosyltransferase [Coccidioides immitis RS]
+PF16192	PMT_4TMC	Cimm_RS	XP_001248430.1	mannosyltransferase PMTI [Coccidioides immitis RS]
+PF16192	PMT_4TMC	Cimm_RS	XP_001248779.1	O-mannosyl transferase pmtA [Coccidioides immitis RS]
+PF16192	PMT_4TMC	Scer_S288C	YAL023C	"PMT2 SGDID:S000000021, Chr I from 108551-106272, Genome Release 64-5-1, reverse complement, Verified ORF, ""Protein O-mannosyltransferase of the ER membrane; tra"
+PF16192	PMT_4TMC	Scer_S288C	YDL093W	"PMT5 SGDID:S000002251, Chr IV from 289909-292140, Genome Release 64-5-1, Verified ORF, ""Protein O-mannosyltransferase; transfers mannose residues from dolichyl "
+PF16192	PMT_4TMC	Scer_S288C	YDL095W	"PMT1 SGDID:S000002253, Chr IV from 287059-289512, Genome Release 64-5-1, Verified ORF, ""Protein O-mannosyltransferase of the ER membrane; transfers mannose from"
+PF16192	PMT_4TMC	Scer_S288C	YGR199W	"PMT6 SGDID:S000003431, Chr VII from 897502-899781, Genome Release 64-5-1, Verified ORF, ""Protein O-mannosyltransferase; transfers mannose from dolichyl phosphat"
+PF16192	PMT_4TMC	Scer_S288C	YJR143C	"PMT4 SGDID:S000003904, Chr X from 700614-698326, Genome Release 64-5-1, reverse complement, Verified ORF, ""Protein O-mannosyltransferase; transfers mannose resi"
+PF16192	PMT_4TMC	Scer_S288C	YOR321W	"PMT3 SGDID:S000005848, Chr XV from 916030-918291, Genome Release 64-5-1, Verified ORF, ""Protein O-mannosyltransferase; transfers mannose residues from dolichyl "
+PF16893	fn3_2	Afum_Af293_UniProt	tr|Q4WCU9|Q4WCU9_ASPFU	Chitin biosynthesis protein (Chs5), putative OS=Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / Af293) OX=330879 GN=AFUA_6G02510 PE=4 SV
+PF16893	fn3_2	Calb_SC5314	C2_04140W_A	
+PF16893	fn3_2	Cimm_RS	XP_001241880.1	chitin biosynthesis protein [Coccidioides immitis RS]
+PF16893	fn3_2	Scer_S288C	YLR330W	"CHS5 SGDID:S000004322, Chr XII from 787664-789679, Genome Release 64-5-1, Verified ORF, ""Component of the exomer complex; the exomer which also contains Csh6p, "
+PF16923	Glyco_hydro_63N	Afum_Af293_UniProt	tr|Q4WDB9|Q4WDB9_ASPFU	Mannosyl-oligosaccharide glucosidase OS=Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / Af293) OX=330879 GN=AFUA_6G04210 PE=3 SV=1
+PF16923	Glyco_hydro_63N	Calb_SC5314	C4_06100W_A	
+PF16923	Glyco_hydro_63N	Cimm_RS	XP_001239165.2	mannosyl-oligosaccharide glucosidase [Coccidioides immitis RS]
+PF16923	Glyco_hydro_63N	Scer_S288C	YGL027C	"CWH41 SGDID:S000002995, Chr VII from 446143-443642, Genome Release 64-5-1, reverse complement, Verified ORF, ""Processing alpha glucosidase I; ER type II integra"
+PF17056	KRE1	Calb_SC5314	CR_03790C_A	
+PF17056	KRE1	Calb_SC5314	CR_10480W_A	
+PF17056	KRE1	Cimm_RS	XP_001239902.1	uncharacterized protein CIMG_09523 [Coccidioides immitis RS]
+PF17056	KRE1	Scer_S288C	YNL322C	"KRE1 SGDID:S000005266, Chr XIV from 34235-33294, Genome Release 64-5-1, reverse complement, Verified ORF, ""Cell wall glycoprotein involved in beta-glucan assemb"
+PF18404	Glyco_transf_24	Afum_Af293_UniProt	tr|Q4WIC2|Q4WIC2_ASPFU	UDP-glucose:glycoprotein glucosyltransferase, putative OS=Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / Af293) OX=330879 GN=AFUA_2G023
+PF18404	Glyco_transf_24	Calb_SC5314	C3_02960C_A	
+PF18404	Glyco_transf_24	Cimm_RS	XP_001248084.1	UDP-glucose:glycoprotein glucosyltransferase [Coccidioides immitis RS]
+PF18404	Glyco_transf_24	Scer_S288C	YOR336W	"KRE5 SGDID:S000005863, Chr XV from 949773-953870, Genome Release 64-5-1, Verified ORF, ""Protein required for beta-1,6 glucan biosynthesis; mutations result in a"
+PF19050	PhoD_2	Afum_Af293_UniProt	tr|Q4WNF8|Q4WNF8_ASPFU	WW domain protein OS=Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / Af293) OX=330879 GN=AFUA_6G06520 PE=4 SV=1
+PF19050	PhoD_2	Afum_Af293_UniProt	tr|Q4WQI9|Q4WQI9_ASPFU	PhoD-like phosphatase domain-containing protein OS=Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / Af293) OX=330879 GN=AFUA_4G12980 PE=4
+PF19050	PhoD_2	Afum_Af293_UniProt	tr|Q4WTJ0|Q4WTJ0_ASPFU	PhoD-like phosphatase domain-containing protein OS=Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / Af293) OX=330879 GN=AFUA_1G09130 PE=4
+PF19050	PhoD_2	Calb_SC5314	C5_04950C_A	
+PF19050	PhoD_2	Cimm_RS	XP_001243259.2	uncharacterized protein CIMG_07155 [Coccidioides immitis RS]
+PF19050	PhoD_2	Cimm_RS	XP_001243382.1	WW domain-containing protein [Coccidioides immitis RS]
+PF19050	PhoD_2	Cimm_RS	XP_001246855.1	uncharacterized protein CIMG_00626 [Coccidioides immitis RS]
+PF19050	PhoD_2	Scer_S288C	YGR266W	"YGR266W SGDID:S000003498, Chr VII from 1022656-1024761, Genome Release 64-5-1, Verified ORF, ""Protein of unknown function; predicted to contain a single transme"
+PF26108	GH_Mok13	Afum_Af293_UniProt	tr|Q4WFV3|Q4WFV3_ASPFU	alpha-1,3-glucan synthase OS=Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / Af293) OX=330879 GN=AFUA_3G00910 PE=3 SV=1
+PF26108	GH_Mok13	Afum_Af293_UniProt	tr|Q4WRQ8|Q4WRQ8_ASPFU	alpha-1,3-glucan synthase OS=Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / Af293) OX=330879 GN=AFUA_1G15440 PE=3 SV=1
+PF26108	GH_Mok13	Afum_Af293_UniProt	tr|Q4X143|Q4X143_ASPFU	alpha-1,3-glucan synthase OS=Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / Af293) OX=330879 GN=AFUA_2G11270 PE=3 SV=1
+PF26108	GH_Mok13	Cimm_RS	XP_001241041.2	alpha-1,3-glucan synthase [Coccidioides immitis RS]
+PF26111	Ig_Mok13	Afum_Af293_UniProt	tr|Q4WFV3|Q4WFV3_ASPFU	alpha-1,3-glucan synthase OS=Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / Af293) OX=330879 GN=AFUA_3G00910 PE=3 SV=1
+PF26111	Ig_Mok13	Afum_Af293_UniProt	tr|Q4WRQ8|Q4WRQ8_ASPFU	alpha-1,3-glucan synthase OS=Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / Af293) OX=330879 GN=AFUA_1G15440 PE=3 SV=1
+PF26111	Ig_Mok13	Afum_Af293_UniProt	tr|Q4X143|Q4X143_ASPFU	alpha-1,3-glucan synthase OS=Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / Af293) OX=330879 GN=AFUA_2G11270 PE=3 SV=1
+PF26111	Ig_Mok13	Cimm_RS	XP_001241041.2	alpha-1,3-glucan synthase [Coccidioides immitis RS]
+PF26114	Ig_2_Mok13	Afum_Af293_UniProt	tr|Q4WFV3|Q4WFV3_ASPFU	alpha-1,3-glucan synthase OS=Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / Af293) OX=330879 GN=AFUA_3G00910 PE=3 SV=1
+PF26114	Ig_2_Mok13	Afum_Af293_UniProt	tr|Q4WRQ8|Q4WRQ8_ASPFU	alpha-1,3-glucan synthase OS=Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / Af293) OX=330879 GN=AFUA_1G15440 PE=3 SV=1
+PF26114	Ig_2_Mok13	Afum_Af293_UniProt	tr|Q4X143|Q4X143_ASPFU	alpha-1,3-glucan synthase OS=Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / Af293) OX=330879 GN=AFUA_2G11270 PE=3 SV=1
+PF26114	Ig_2_Mok13	Cimm_RS	XP_001241041.2	alpha-1,3-glucan synthase [Coccidioides immitis RS]
+PF26122	CBM_Mok13	Afum_Af293_UniProt	tr|Q4WFV3|Q4WFV3_ASPFU	alpha-1,3-glucan synthase OS=Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / Af293) OX=330879 GN=AFUA_3G00910 PE=3 SV=1
+PF26122	CBM_Mok13	Afum_Af293_UniProt	tr|Q4WRQ8|Q4WRQ8_ASPFU	alpha-1,3-glucan synthase OS=Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / Af293) OX=330879 GN=AFUA_1G15440 PE=3 SV=1
+PF26122	CBM_Mok13	Afum_Af293_UniProt	tr|Q4X143|Q4X143_ASPFU	alpha-1,3-glucan synthase OS=Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / Af293) OX=330879 GN=AFUA_2G11270 PE=3 SV=1
+PF26122	CBM_Mok13	Cimm_RS	XP_001241041.2	alpha-1,3-glucan synthase [Coccidioides immitis RS]
+PF26127	12TM_Mok13	Afum_Af293_UniProt	tr|Q4WFV3|Q4WFV3_ASPFU	alpha-1,3-glucan synthase OS=Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / Af293) OX=330879 GN=AFUA_3G00910 PE=3 SV=1
+PF26127	12TM_Mok13	Afum_Af293_UniProt	tr|Q4WRQ8|Q4WRQ8_ASPFU	alpha-1,3-glucan synthase OS=Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / Af293) OX=330879 GN=AFUA_1G15440 PE=3 SV=1
+PF26127	12TM_Mok13	Afum_Af293_UniProt	tr|Q4X143|Q4X143_ASPFU	alpha-1,3-glucan synthase OS=Aspergillus fumigatus (strain ATCC MYA-4609 / CBS 101355 / FGSC A1100 / Af293) OX=330879 GN=AFUA_2G11270 PE=3 SV=1
+PF26127	12TM_Mok13	Cimm_RS	XP_001241041.2	alpha-1,3-glucan synthase [Coccidioides immitis RS]
