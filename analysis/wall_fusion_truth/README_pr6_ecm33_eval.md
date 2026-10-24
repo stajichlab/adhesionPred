@@ -110,3 +110,7 @@ Decisions 1 to 5 (unit, cluster30 separation, `-Z` on all three iterative compar
 2. The background of the seed-only searches (negatives plus kept proteomes) and `evalue_db_size` 70198728.
 3. Hit rule E <= 1e-5 for the iterative and phmmer comparators; relaxed Pfam cutoff 15.0 bits from the build record.
 4. The strata (clade, tier, subfamily) as descriptive rows.
+
+## Result of the evaluation (2026-10-24)
+
+The evaluation ran (extract 30336905, search 30343079, code `a8d0876`; the first extract 30324005 failed safely and #133 moved the representatives to a live fetch). Of 187 test clusters, 66 are separated from training; of the 109 at PANTHER E <= 1e-10 only 15 are, and these are the headline set. Verdict: `not testable (u < 3): u = 1`. Headline recall: custom 14/15, seed-only jackhmmer 14/15, seed-only phmmer 5/15, Pfam GA 1/15; over all 187: custom 185/187, jackhmmer seed 185/187, phmmer seed 124/187, Pfam GA 28/187. The custom model shows no recall advantage over seed-only jackhmmer; both fill the Pfam gap. Every cell is headline or descriptive. Record: `docs/reports/data/pr6_ecm33_independent_eval_2026-10-24/`; report: `docs/reports/2026-10-24-pr6-ecm33-independent-eval.md`.
