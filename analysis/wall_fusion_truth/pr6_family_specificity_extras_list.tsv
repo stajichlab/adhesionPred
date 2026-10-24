@@ -1,0 +1,4 @@
+order	pfam_acc	pfam_name	cluster_id	gene	panther_family	scan_ievalue	scan_frac	expected	note	approved_by
+1	PF27678	BIG1_C	KS0087	big1	PTHR28285	8.2e-30	0.170	specific	weak partial-domain Pfam hit (BIG1_C covers 17 percent of the query); the PANTHER family is the fungal Big1 family	owner decision 2026-10-24
+2	PF09346	SMI1_KNR4	KS0006	cot-2/gs-1,smi1	PTHR47432	5.2e-19	0.323	specific	weak partial-domain Pfam hit; KNR4/SMI1 cell wall assembly regulator	owner decision 2026-10-24
+3	PF02544	Steroid_dh	KS0090	dfg10	PTHR14624	7.4e-09	0.419	broad_expected	Steroid_dh is a general steroid-dehydrogenase domain; many non-members are expected to hit and that is a valid finding	owner decision 2026-10-24

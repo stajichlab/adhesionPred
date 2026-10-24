@@ -1,0 +1,4 @@
+slice	cluster_id	group	genes	clades_fine	strata_fine	jgi_accept	n_members	candidate_families	rule
+wall	KS0087	W3_beta16_glucan_kre_family	big1	Saccharomycotina	clade_only	row_verified	1	PF27678	owner_list_2026-10-24
+wall	KS0006	W6_processing_and_other	cot-2/gs-1,smi1	Saccharomycotina,Sordariomycetes	shared	row_verified	2	PF09346	owner_list_2026-10-24
+wall	KS0090	W1_glycosylation_and_glycan_supply	dfg10	Saccharomycotina	clade_only	row_verified	1	PF02544	owner_list_2026-10-24
