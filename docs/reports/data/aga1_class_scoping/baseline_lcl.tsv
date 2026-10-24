@@ -1,0 +1,61 @@
+scheme	fold	featset	pos_set	neg_set	n_pos	n_pos_clusters	n_neg	auc	ci_lo	ci_hi	interval
+leave-cluster-out (seed 0 pooled OOF)	all folds	comp	tierA	hn_all	35	19	172	0.923	0.844	0.974	cluster bootstrap
+leave-cluster-out (seed 0 pooled OOF)	all folds	comp	tierA	hn_st30	35	19	68	0.849	0.707	0.944	cluster bootstrap
+leave-cluster-out (seed 0 pooled OOF)	all folds	comp	tierA	hn_stfrac25	35	19	40	0.787	0.627	0.914	cluster bootstrap
+leave-cluster-out (seed 0 pooled OOF)	all folds	comp	tierA	hn_repeat	35	19	19	0.805	0.556	0.941	cluster bootstrap
+leave-cluster-out (seed 0 pooled OOF)	all folds	comp	tierA	bg	35	19	389	0.927	0.861	0.967	cluster bootstrap
+leave-cluster-out (20 seeds)	all folds	comp	tierA	hn_all	35	19	172	0.918	0.897	0.942	min-max over 20 seeds (split variability only)
+leave-cluster-out (20 seeds)	all folds	comp	tierA	hn_st30	35	19	68	0.857	0.835	0.881	min-max over 20 seeds (split variability only)
+leave-cluster-out (20 seeds)	all folds	comp	tierA	hn_stfrac25	35	19	40	0.799	0.78	0.814	min-max over 20 seeds (split variability only)
+leave-cluster-out (20 seeds)	all folds	comp	tierA	hn_repeat	35	19	19	0.817	0.789	0.838	min-max over 20 seeds (split variability only)
+leave-cluster-out (20 seeds)	all folds	comp	tierA	bg	35	19	389	0.924	0.9	0.943	min-max over 20 seeds (split variability only)
+leave-cluster-out (seed 0 pooled OOF)	all folds	comp	all	hn_all	67	31	172	0.882	0.774	0.955	cluster bootstrap
+leave-cluster-out (seed 0 pooled OOF)	all folds	comp	all	hn_st30	67	31	68	0.817	0.7	0.907	cluster bootstrap
+leave-cluster-out (seed 0 pooled OOF)	all folds	comp	all	hn_stfrac25	67	31	40	0.746	0.613	0.871	cluster bootstrap
+leave-cluster-out (seed 0 pooled OOF)	all folds	comp	all	hn_repeat	67	31	19	0.765	0.547	0.901	cluster bootstrap
+leave-cluster-out (seed 0 pooled OOF)	all folds	comp	all	bg	67	31	389	0.897	0.784	0.959	cluster bootstrap
+leave-cluster-out (20 seeds)	all folds	comp	all	hn_all	67	31	172	0.881	0.856	0.898	min-max over 20 seeds (split variability only)
+leave-cluster-out (20 seeds)	all folds	comp	all	hn_st30	67	31	68	0.813	0.782	0.832	min-max over 20 seeds (split variability only)
+leave-cluster-out (20 seeds)	all folds	comp	all	hn_stfrac25	67	31	40	0.748	0.718	0.771	min-max over 20 seeds (split variability only)
+leave-cluster-out (20 seeds)	all folds	comp	all	hn_repeat	67	31	19	0.772	0.748	0.8	min-max over 20 seeds (split variability only)
+leave-cluster-out (20 seeds)	all folds	comp	all	bg	67	31	389	0.9	0.875	0.919	min-max over 20 seeds (split variability only)
+leave-cluster-out (seed 0 pooled OOF)	all folds	comp_len_struct	tierA	hn_all	35	19	172	0.943	0.884	0.98	cluster bootstrap
+leave-cluster-out (seed 0 pooled OOF)	all folds	comp_len_struct	tierA	hn_st30	35	19	68	0.877	0.766	0.953	cluster bootstrap
+leave-cluster-out (seed 0 pooled OOF)	all folds	comp_len_struct	tierA	hn_stfrac25	35	19	40	0.839	0.717	0.935	cluster bootstrap
+leave-cluster-out (seed 0 pooled OOF)	all folds	comp_len_struct	tierA	hn_repeat	35	19	19	0.809	0.562	0.948	cluster bootstrap
+leave-cluster-out (seed 0 pooled OOF)	all folds	comp_len_struct	tierA	bg	35	19	389	0.952	0.905	0.979	cluster bootstrap
+leave-cluster-out (20 seeds)	all folds	comp_len_struct	tierA	hn_all	35	19	172	0.955	0.92	0.968	min-max over 20 seeds (split variability only)
+leave-cluster-out (20 seeds)	all folds	comp_len_struct	tierA	hn_st30	35	19	68	0.898	0.849	0.922	min-max over 20 seeds (split variability only)
+leave-cluster-out (20 seeds)	all folds	comp_len_struct	tierA	hn_stfrac25	35	19	40	0.857	0.82	0.88	min-max over 20 seeds (split variability only)
+leave-cluster-out (20 seeds)	all folds	comp_len_struct	tierA	hn_repeat	35	19	19	0.813	0.779	0.842	min-max over 20 seeds (split variability only)
+leave-cluster-out (20 seeds)	all folds	comp_len_struct	tierA	bg	35	19	389	0.965	0.944	0.975	min-max over 20 seeds (split variability only)
+leave-cluster-out (seed 0 pooled OOF)	all folds	comp_len_struct	all	hn_all	67	31	172	0.905	0.821	0.962	cluster bootstrap
+leave-cluster-out (seed 0 pooled OOF)	all folds	comp_len_struct	all	hn_st30	67	31	68	0.84	0.727	0.924	cluster bootstrap
+leave-cluster-out (seed 0 pooled OOF)	all folds	comp_len_struct	all	hn_stfrac25	67	31	40	0.809	0.678	0.91	cluster bootstrap
+leave-cluster-out (seed 0 pooled OOF)	all folds	comp_len_struct	all	hn_repeat	67	31	19	0.771	0.54	0.906	cluster bootstrap
+leave-cluster-out (seed 0 pooled OOF)	all folds	comp_len_struct	all	bg	67	31	389	0.934	0.869	0.976	cluster bootstrap
+leave-cluster-out (20 seeds)	all folds	comp_len_struct	all	hn_all	67	31	172	0.907	0.882	0.926	min-max over 20 seeds (split variability only)
+leave-cluster-out (20 seeds)	all folds	comp_len_struct	all	hn_st30	67	31	68	0.838	0.811	0.862	min-max over 20 seeds (split variability only)
+leave-cluster-out (20 seeds)	all folds	comp_len_struct	all	hn_stfrac25	67	31	40	0.797	0.756	0.824	min-max over 20 seeds (split variability only)
+leave-cluster-out (20 seeds)	all folds	comp_len_struct	all	hn_repeat	67	31	19	0.768	0.738	0.797	min-max over 20 seeds (split variability only)
+leave-cluster-out (20 seeds)	all folds	comp_len_struct	all	bg	67	31	389	0.938	0.911	0.955	min-max over 20 seeds (split variability only)
+leave-cluster-out (seed 0 pooled OOF)	all folds	comp_len_struct_repeat	tierA	hn_all	35	19	172	0.944	0.88	0.981	cluster bootstrap
+leave-cluster-out (seed 0 pooled OOF)	all folds	comp_len_struct_repeat	tierA	hn_st30	35	19	68	0.883	0.774	0.956	cluster bootstrap
+leave-cluster-out (seed 0 pooled OOF)	all folds	comp_len_struct_repeat	tierA	hn_stfrac25	35	19	40	0.841	0.712	0.933	cluster bootstrap
+leave-cluster-out (seed 0 pooled OOF)	all folds	comp_len_struct_repeat	tierA	hn_repeat	35	19	19	0.786	0.538	0.922	cluster bootstrap
+leave-cluster-out (seed 0 pooled OOF)	all folds	comp_len_struct_repeat	tierA	bg	35	19	389	0.951	0.893	0.983	cluster bootstrap
+leave-cluster-out (20 seeds)	all folds	comp_len_struct_repeat	tierA	hn_all	35	19	172	0.954	0.922	0.971	min-max over 20 seeds (split variability only)
+leave-cluster-out (20 seeds)	all folds	comp_len_struct_repeat	tierA	hn_st30	35	19	68	0.894	0.852	0.928	min-max over 20 seeds (split variability only)
+leave-cluster-out (20 seeds)	all folds	comp_len_struct_repeat	tierA	hn_stfrac25	35	19	40	0.854	0.814	0.892	min-max over 20 seeds (split variability only)
+leave-cluster-out (20 seeds)	all folds	comp_len_struct_repeat	tierA	hn_repeat	35	19	19	0.791	0.735	0.83	min-max over 20 seeds (split variability only)
+leave-cluster-out (20 seeds)	all folds	comp_len_struct_repeat	tierA	bg	35	19	389	0.963	0.94	0.974	min-max over 20 seeds (split variability only)
+leave-cluster-out (seed 0 pooled OOF)	all folds	comp_len_struct_repeat	all	hn_all	67	31	172	0.893	0.793	0.96	cluster bootstrap
+leave-cluster-out (seed 0 pooled OOF)	all folds	comp_len_struct_repeat	all	hn_st30	67	31	68	0.83	0.714	0.913	cluster bootstrap
+leave-cluster-out (seed 0 pooled OOF)	all folds	comp_len_struct_repeat	all	hn_stfrac25	67	31	40	0.795	0.674	0.894	cluster bootstrap
+leave-cluster-out (seed 0 pooled OOF)	all folds	comp_len_struct_repeat	all	hn_repeat	67	31	19	0.735	0.519	0.872	cluster bootstrap
+leave-cluster-out (seed 0 pooled OOF)	all folds	comp_len_struct_repeat	all	bg	67	31	389	0.917	0.817	0.972	cluster bootstrap
+leave-cluster-out (20 seeds)	all folds	comp_len_struct_repeat	all	hn_all	67	31	172	0.902	0.872	0.932	min-max over 20 seeds (split variability only)
+leave-cluster-out (20 seeds)	all folds	comp_len_struct_repeat	all	hn_st30	67	31	68	0.83	0.788	0.872	min-max over 20 seeds (split variability only)
+leave-cluster-out (20 seeds)	all folds	comp_len_struct_repeat	all	hn_stfrac25	67	31	40	0.784	0.739	0.844	min-max over 20 seeds (split variability only)
+leave-cluster-out (20 seeds)	all folds	comp_len_struct_repeat	all	hn_repeat	67	31	19	0.731	0.676	0.792	min-max over 20 seeds (split variability only)
+leave-cluster-out (20 seeds)	all folds	comp_len_struct_repeat	all	bg	67	31	389	0.931	0.906	0.953	min-max over 20 seeds (split variability only)
