@@ -1,0 +1,4 @@
+model	fpr_target	score_threshold
+logreg	0.035	0.56834
+rf	0.035	0.2544799999999998
+gboost	0.035	0.11413999999999998
