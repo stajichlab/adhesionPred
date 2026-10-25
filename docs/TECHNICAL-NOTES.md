@@ -151,3 +151,6 @@ proteins assessable is flagged `low_assessable` and left out of the group rate s
 `docs/reports/data/aga1_aggregate_2026-10-26/` (limits in its README). Not yet done: orthogroups, diversity and duplication, genome
 context, phylogenetic statistics, a scale-out runner, an interactive page.
 
+Second report with the Pfam, TMHMM and repeat02 modules added (`analysis/sorting_hat_run/aga1_domain_modules.py`):
+`docs/reports/data/aga1_aggregate_domains_2026-10-26/`. Remaining NA calls: those that need the allergen BLAST and antigen lookup.
+
