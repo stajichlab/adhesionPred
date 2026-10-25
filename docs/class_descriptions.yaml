@@ -76,7 +76,10 @@ calls:
     category: cell wall and adhesion
     meaning: PredGPI calls a GPI anchor (estimated false positive rate of 0.01 or less; the confidence class is in the evidence). A protein of 40 residues or fewer is not scored by PredGPI and is not assessable. A GPI anchor is not shown to place the protein in the cell wall.
     reads: [gpi]
-    status: unvalidated
+    status: "smoke in taxa 4932 and 5476: agreement of the PredGPI call with the UniProt GPI-anchor feature on the labelled proteins of the proteome (S. cerevisiae 58 positives, sensitivity 0.966, specificity 0.965; C. albicans 93 positives, 0.903, 0.962); absence of the feature is an assumed negative and leakage is unknown. Unvalidated elsewhere. The status files are valid for the config of 2026-10-26 only."
+    status_files:
+      - docs/reports/data/sorting_hat/call_status/aga1_850/Scer_S288C/gpi.json
+      - docs/reports/data/sorting_hat/call_status/aga1_850/Calb_SC5314/gpi.json
   - call: long_disordered_protein
     kind: evidence
     gated: false
@@ -90,7 +93,11 @@ calls:
     category: cell wall and adhesion
     meaning: A GPI-anchor call and a disordered run of 200 residues or more in the same protein. It is the part of the broad AGA1-class rule that does not need the signal peptide.
     reads: [gpi, disorder]
-    status: unvalidated until a call status file is installed
+    status: "smoke in taxa 4932 (8 tier A against 265 negatives: sensitivity 0.75 [0.33, 1.00], specificity 0.981) and 5476 (10 against 117: 0.90 [0.00, 1.00], 0.940): agreement of the property combination with the AGA1 class labels, not a measure of the property; the 200-residue cut was chosen on these proteins (leakage tuned_on_truth). Unvalidated elsewhere. Valid for the config of 2026-10-26 only."
+    status_files:
+      - docs/reports/data/sorting_hat/call_status/aga1_850/Scer_S288C/calls/gpi_long_disorder_protein.json
+      - docs/reports/data/sorting_hat/call_status/aga1_850/Calb_SC5314/calls/gpi_long_disorder_protein.json
+      - docs/reports/data/aga1_sorting_hat_acceptance_2026-10-26/README.md
   - call: ser_thr_gpi_wall_candidate
     kind: composite
     gated: true

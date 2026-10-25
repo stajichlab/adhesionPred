@@ -1,0 +1,54 @@
+{
+  "call": "gpi_long_disorder_protein",
+  "call_hash": "9720806863e541d92e0f233efa4b9a3094215bfc6d3bc446aef78ba8bcb649c7",
+  "config_sha256": "d12d160697632ff5f92d673205c691a54714d2e6b13eec816ee10b6a515fe50b",
+  "entries": [
+    {
+      "measure": {
+        "calibration_set": "aga1_850_class_Scer_S288C",
+        "n_clusters_neg": 204,
+        "n_clusters_pos": 5,
+        "n_neg": 265,
+        "n_pos": 8,
+        "negative_basis": {
+          "all": {
+            "basis": "assumed",
+            "n": 265
+          }
+        },
+        "notes": "Measures agreement of the property combination (GPI anchor and a disordered run of 200 or more residues) with the AGA1 class labels: tier A positives against hard and background negatives of the 850 labelled proteins. It does not measure that every such protein is in the class. The 200-residue cut was chosen on these proteins (leakage tuned_on_truth). Negatives are assumed. truth rows without a call: 0; not assessable: 0; sensitivity if not assessable positives count as missed: 0.750 call=gpi_long_disorder_protein; variant=; reads=disorder,gpi leakage: tuned_on_truth",
+        "sensitivity": {
+          "hi": 1.0,
+          "lo": 0.3333333333333333,
+          "value": 0.75
+        },
+        "specificity": {
+          "hi": 0.9961689479687637,
+          "lo": 0.9517156583447846,
+          "value": 0.9811320754716981
+        },
+        "truth_source": "docs/reports/data/aga1_sorting_hat_acceptance_2026-10-26/truth_class_Scer_S288C.tsv"
+      },
+      "source": "docs/reports/data/aga1_sorting_hat_acceptance_2026-10-26/truth_class_Scer_S288C.tsv",
+      "status": "smoke",
+      "taxa": [
+        4932
+      ]
+    }
+  ],
+  "reads": [
+    {
+      "artefact_hash": "e401f523dd26981be4afd097bb811c9f7eca03b4b0c2bdfcb3fde106c79d72ac",
+      "name": "disorder",
+      "params_hash": "682285438029e02e9ba8d443752e7235d736e02ecb9e64e211df81ceb25300c1",
+      "version": "1"
+    },
+    {
+      "artefact_hash": "f0910167a5a65d54234fab09b511a2948962d9579741e6c3c0d8096d40467433",
+      "name": "gpi",
+      "params_hash": "c9f583eaa2aaa4a12bffc1eab89f3e6c1f3444d002b57a08efa59d2d50fa654c",
+      "version": "1"
+    }
+  ],
+  "variant": ""
+}

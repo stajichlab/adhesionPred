@@ -1,0 +1,40 @@
+{
+  "artefact_hash": "f0910167a5a65d54234fab09b511a2948962d9579741e6c3c0d8096d40467433",
+  "entries": [
+    {
+      "measure": {
+        "calibration_set": "aga1_850_uniprot_gpi_Calb_SC5314",
+        "n_clusters_neg": 110,
+        "n_clusters_pos": 64,
+        "n_neg": 133,
+        "n_pos": 93,
+        "negative_basis": {
+          "all": {
+            "basis": "assumed",
+            "n": 133
+          }
+        },
+        "notes": "Measures agreement of the PredGPI call with the UniProt GPI-anchor feature on the labelled 850 proteins that are in the proteome (feature present = positive, absent = assumed negative). Whether these proteins were in PredGPI's training data is unknown (leakage unknown); the labelled set is enriched for wall proteins. truth rows without a call: 0; not assessable: 0; sensitivity if not assessable positives count as missed: 0.903 call=gpi_anchored_protein; module=gpi; variant= leakage: unknown",
+        "sensitivity": {
+          "hi": 0.9560439560439561,
+          "lo": 0.8064289192014878,
+          "value": 0.9032258064516129
+        },
+        "specificity": {
+          "hi": 0.991869918699187,
+          "lo": 0.9085358615423447,
+          "value": 0.9624060150375939
+        },
+        "truth_source": "docs/reports/data/aga1_sorting_hat_acceptance_2026-10-26/truth_uniprot_gpi_Calb_SC5314.tsv"
+      },
+      "source": "docs/reports/data/aga1_sorting_hat_acceptance_2026-10-26/truth_uniprot_gpi_Calb_SC5314.tsv",
+      "status": "smoke",
+      "taxa": [
+        5476
+      ]
+    }
+  ],
+  "module": "gpi",
+  "params_hash": "c9f583eaa2aaa4a12bffc1eab89f3e6c1f3444d002b57a08efa59d2d50fa654c",
+  "version": "1"
+}
