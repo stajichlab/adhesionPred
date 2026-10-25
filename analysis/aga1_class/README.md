@@ -52,7 +52,7 @@ The AIUPred job stops on a node without CUDA unless `ALLOW_CPU=yes` is exported 
 
 PredGPI's raw `predgpi_raw.gff3` is read directly by the converter (no adapter file); `--lengths` is required for it. The
 disorder block is explicit: give `--disorder FILE --disorder-tool T`, or `--no-disorder` (the disorder columns are then left out,
-never zero). The SignalP + PredGPI run of 2026-10-24 used `--no-disorder`; see `docs/reports/data/aga1_prediction_step_2026-10-24/`.
+never zero). The SignalP + PredGPI run of 2026-10-24 used `--no-disorder` (`docs/reports/data/aga1_prediction_step_2026-10-24/`); the disorder tables of the same day are in `docs/reports/data/aga1_disorder_2026-10-24/`.
 
 ```
 python3 -I analysis/aga1_class/convert_predictions.py --manifest analysis/aga1_class/manifest_accessions.txt \
@@ -100,7 +100,7 @@ Still to check or unknown:
 2. The name of the GPU partition (given by the owner with `-p`) and whether `short` takes the requested CPUs/memory without waiting.
 3. Whether PredGPI finishes 850 sequences within the 2 h `short` limit (unmeasured).
 
-## 5. Format assumptions (SignalP and PredGPI VERIFIED on the real outputs of 2026-10-24; the disorder formats are still UNVERIFIED)
+## 5. Format assumptions (all four tools VERIFIED on the real outputs of 2026-10-24)
 
 * SignalP 6 (verified) `prediction_results.txt`: two `#` header lines (the first holds `Organism: Eukarya`), then TAB rows
   `ID, Prediction, OTHER, SP(Sec/SPI), CS Position`; `CS Position` looks like `CS pos: 22-23. Pr: 0.9876` (the cleavage
@@ -109,8 +109,8 @@ Still to check or unknown:
 * PredGPI (verified): 9-column gff3, one row per protein; `Chain` (no GPI, start 1, end = length) or `GPI-anchor` (start = end =
   omega site, score = confidence class 1.0 / 0.70 / 0.55, attribute `Ontology_term=GO:0046658`). No false positive rate and no raw
   score are in the file. Sequences of 40 aa or fewer are never scored. The converter reads this file directly.
-* AIUPred: per the README, a `>header` line then `pos<TAB>aa<TAB>score` rows; the exact header echo is unverified.
-* IUPred3: `#` comment lines then `pos aa score` rows (from memory of the release). The job writes its own `>ID` line and drops the `#` lines.
+* AIUPred (verified): a banner of `#` lines, then per record a `#>ID` line, `pos<TAB>aa<TAB>score` rows and a blank line. The converter reads `#>ID` as a record line. Scores overshoot [0, 1] slightly (up to 1.0036).
+* IUPred3 (verified): the job writes its own `>ID` line and drops the tool's `#` lines; rows are `pos aa score`, scores from -0.0123 to 1.0096. The converter allows 0.02 outside [0, 1] and uses values as written.
 * The converter reads `>ID` records followed by `pos aa score` rows, scores in [0, 1], `#` lines ignored. The sbatch jobs only
   warn (not stop) when the record count of the raw disorder or PredGPI output is off, so the raw file is never lost.
 * SignalP 6 and the 74 proteins over 1,022 aa: all 74 got a call (53 SP, 21 OTHER); whether the tool truncated them is still

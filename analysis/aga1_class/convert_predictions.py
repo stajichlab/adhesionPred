@@ -194,10 +194,19 @@ def parse_predgpi(path, lengths):
     return out
 
 
+# The real tools overshoot [0, 1] slightly (AIUPred up to 1.0036, IUPred3 from -0.0123 to 1.0096, 2026-10-24); more than
+# this is still an error. The values are used as written (no clipping).
+SCORE_SLACK = 0.02
+
+
 def parse_disorder(path, threshold):
     out, cur = {}, None
     for n, line in enumerate(_read_lines(path, "disorder"), 1):
         where = f"disorder:{path}:{n}"
+        # AIUPred 2.x echoes each record header as '#>ID' (verified on the real output of 2026-10-24); its other '#' lines are
+        # the banner and the column header
+        if line.startswith("#>"):
+            line = line[1:]
         if line.startswith("#") or not line.strip():
             continue
         if line.startswith(">"):
@@ -217,7 +226,7 @@ def parse_disorder(path, threshold):
         if pos != len(cur) + 1:
             raise ConvertError(f"{where}: position {pos} out of order (expected {len(cur) + 1})")
         s = _num(f[2], where, "score")
-        if not 0.0 <= s <= 1.0:
+        if not -SCORE_SLACK <= s <= 1.0 + SCORE_SLACK:
             raise ConvertError(f"{where}: score {s} outside [0, 1]")
         cur.append(s)
     if not out:
