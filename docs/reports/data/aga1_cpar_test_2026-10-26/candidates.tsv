@@ -1,0 +1,36 @@
+accession	species	gene	entry_name	protein_name	length	sp_yes	gpi_yes	disorder_longest_run	rep_coverage	rep_n_copies	broad_flag	narrow_flag	score_logreg	score_rf	score_gboost	call_logreg	call_rf	call_gboost	n_models_call	mean_rank_pct	why
+G8BJ60	Cpar_CDC317	ALS6	G8BJ60_CANPC	Agglutinin-like protein N-terminal domain-containing protein	2392	1	1	1175	0.286	19	1	1	0.99948	0.97304	0.99084	1	1	1	3	0.99988	narrow rule
+G8B9T8	Cpar_CDC317	CPAR2_303790	G8B9T8_CANPC	Flo11 domain-containing protein	1241	1	1	998	0.437	90	1	1	0.99918	0.6434	0.99726	1	1	1	3	0.9996	narrow rule
+G8BAL8	Cpar_CDC317	CPAR2_806410	G8BAL8_CANPC	Hyphally-regulated cell wall protein N-terminal domain-containing protein	1671	1	1	1114	0.643	25	1	1	0.99181	0.83443	0.96079	1	1	1	3	0.99919	narrow rule
+G8BIQ2	Cpar_CDC317	CPAR2_403190	G8BIQ2_CANPC	Hyphal wall protein 1	727	1	1	286	0	0	1	0	0.99715	0.59716	0.99032	1	1	1	3	0.99919	broad rule
+G8BHR3	Cpar_CDC317	CHT21	G8BHR3_CANPC	GH18 domain-containing protein	913	1	1	310	0.21	32	1	0	0.98155	0.79998	0.91933	1	1	1	3	0.9989	broad rule
+G8BAL6	Cpar_CDC317	CPAR2_806390	G8BAL6_CANPC	Hyphally-regulated cell wall protein N-terminal domain-containing protein	1640	1	1	85	0.624	25	0	0	0.99713	0.53201	0.94047	1	1	1	3	0.99885	2 of 3 models
+G8BIT4	Cpar_CDC317	HWP1	G8BIT4_CANPC	Flo11 domain-containing protein	1234	1	1	393	0.178	22	1	0	0.99864	0.53159	0.9118	1	1	1	3	0.99885	broad rule
+G8BIT3	Cpar_CDC317	RBT1	G8BIT3_CANPC	Flo11 domain-containing protein	812	1	1	543	0.277	32	1	1	0.99431	0.80645	0.67606	1	1	1	3	0.99867	narrow rule
+G8B4T9	Cpar_CDC317	CPAR2_600440	G8B4T9_CANPC	Flo11 domain-containing protein	1158	1	1	1006	0	0	1	0	0.98018	0.53831	0.85336	1	1	1	3	0.99838	broad rule
+G8BGG4	Cpar_CDC317	CPAR2_205900	G8BGG4_CANPC	PGA domain-containing protein	361	1	1	262	0	0	1	0	0.99389	0.33364	0.71022	1	1	1	3	0.99792	broad rule
+G8BHR2	Cpar_CDC317	CHT22	G8BHR2_CANPC	GH18 domain-containing protein	808	1	1	265	0.238	32	1	0	0.92302	0.71834	0.36384	1	1	1	3	0.99792	broad rule
+G8BAL7	Cpar_CDC317	CPAR2_806400	G8BAL7_CANPC	Hyphally-regulated cell wall protein N-terminal domain-containing protein	2273	1	1	1945	0	0	1	0	0.96808	0.36964	0.80213	1	1	1	3	0.99775	broad rule
+G8BAP4	Cpar_CDC317	YWP1	G8BAP4_CANPC	Uncharacterized protein	522	1	1	213	0.297	5	1	1	0.89662	0.55971	0.12976	1	1	1	3	0.99688	narrow rule
+G8B4T8	Cpar_CDC317	HYR31	G8B4T8_CANPC	Hyphally-regulated cell wall protein N-terminal domain-containing protein	1429	1	1	1101	0	0	1	0	0.87868	0.29042	0.24434	1	1	1	3	0.99671	broad rule
+G8B7F1	Cpar_CDC317	CPAR2_104210	G8B7F1_CANPC	WH2 domain-containing protein	722	0	0	686	0	0	0	0	0.74765	0.26078	0.85081	1	1	1	3	0.9966	2 of 3 models
+G8BA77	Cpar_CDC317	CPAR2_804990	G8BA77_CANPC	REJ domain-containing protein	955	0	0	472	0	0	0	0	0.43665	0.27973	0.40647	0	1	1	2	0.99619	2 of 3 models
+G8BJ59	Cpar_CDC317	ALS11	G8BJ59_CANPC	Agglutinin-like protein N-terminal domain-containing protein	1153	1	1	763	0	0	1	0	0.9763	0.32135	0.08068	1	1	0	2	0.99561	broad rule
+G8B5N2	Cpar_CDC317	CPAR2_603420	G8B5N2_CANPC	Hyphally-regulated cell wall protein N-terminal domain-containing protein	889	1	1	541	0	0	1	0	0.82754	0.43513	0.08138	1	1	0	2	0.99544	broad rule
+G8BDN7	Cpar_CDC317	CPAR2_210290	G8BDN7_CANPC	MSB2-like C-terminal domain-containing protein	1276	1	0	950	0	0	0	0	0.68404	0.21578	0.17037	1	0	1	2	0.99498	2 of 3 models
+G8BHB6	Cpar_CDC317	ALS1	G8BHB6_CANPC	Agglutinin-like protein N-terminal domain-containing protein	1023	1	1	629	0	0	1	0	0.95436	0.28444	0.06752	1	1	0	2	0.99486	broad rule
+G8BJ58	Cpar_CDC317	ALS3	G8BJ58_CANPC	Agglutinin-like protein N-terminal domain-containing protein	1000	1	1	579	0	0	1	0	0.84039	0.44749	0.04521	1	1	0	2	0.99435	broad rule
+G8BIQ8	Cpar_CDC317	CPAR2_403260	G8BIQ8_CANPC	Uncharacterized protein	437	1	1	145	0	0	0	0	0.61212	0.28501	0.04764	1	1	0	2	0.99388	2 of 3 models
+G8BHR6	Cpar_CDC317	CPAR2_502160	G8BHR6_CANPC	Glycoside hydrolase family 17 domain-containing protein	463	1	0	146	0	0	0	0	0.20768	0.2268	0.15694	0	0	1	1	0.99383	top 25 by mean rank
+G8BL49	Cpar_CDC317	CPAR2_700420	G8BL49_CANPC	WSC domain-containing protein	620	1	0	496	0	0	0	0	0.26117	0.21379	0.12255	0	0	1	1	0.9936	top 25 by mean rank
+G8BAP3	Cpar_CDC317	CPAR2_806660	G8BAP3_CANPC	Flo11 domain-containing protein	884	1	1	100	0	0	0	0	0.85368	0.27558	0.04292	1	1	0	2	0.99342	2 of 3 models
+G8BFW7	Cpar_CDC317	CPAR2_203940	G8BFW7_CANPC	Uncharacterized protein	261	1	1	241	0.49	10	1	1	0.07749	0.20891	0.0796	0	0	0	0	0.98679	narrow rule
+G8BAL9	Cpar_CDC317	CPAR2_806420	G8BAL9_CANPC	Hyphally-regulated cell wall protein N-terminal domain-containing protein	1714	1	1	1398	0.538	46	1	1	0.95488	0.38599	0.01041	1	1	0	2	0.98549	narrow rule
+G8BIQ1	Cpar_CDC317	PGA62	G8BIQ1_CANPC	Hyphal wall protein 1	257	1	1	221	0	0	1	0	0.7677	0.21463	0.00959	1	0	0	1	0.98275	broad rule
+G8B5F0	Cpar_CDC317	CPAR2_602610	G8B5F0_CANPC	Flo11 domain-containing protein	821	1	1	406	0	0	1	0	0.45991	0.32741	0.00773	0	1	0	1	0.98211	broad rule
+G8B8S3	Cpar_CDC317	CPAR2_300110	G8B8S3_CANPC	CFEM5	918	1	1	230	0.131	12	1	0	0.23467	0.25635	0.00435	0	1	0	1	0.9719	broad rule
+G8BI19	Cpar_CDC317	CRH11	G8BI19_CANPC	Crh-like protein	490	1	1	233	0	0	1	0	0.3107	0.15152	0.00444	0	0	0	0	0.96873	broad rule
+G8BE10	Cpar_CDC317	CPAR2_211510	G8BE10_CANPC	Uncharacterized protein	307	1	1	264	0.186	11	1	0	0.02236	0.22789	0.01794	0	0	0	0	0.95188	broad rule
+G8BII3	Cpar_CDC317	CPAR2_402490	G8BII3_CANPC	Flo11 domain-containing protein	1307	1	1	215	0	0	1	0	0.58133	0.24997	0.00284	1	0	0	1	0.94801	broad rule
+G8BH67	Cpar_CDC317	CPAR2_500170	G8BH67_CANPC	Uncharacterized protein	618	1	1	218	0.482	4	1	1	0.05015	0.08973	0.00224	0	0	0	0	0.90739	narrow rule
+G8BBR3	Cpar_CDC317	PGA23	G8BBR3_CANPC	Uncharacterized protein	247	1	1	218	0	0	1	0	0.00085	0.01222	0.00055	0	0	0	0	0.28613	broad rule

@@ -191,3 +191,36 @@ def test_committed_record_hashes_and_headline_counts():
         int(rows["Scer_S288C"]["broad_flag"]),
     ) == (25, 25, 11)
     assert "87ee2da4a08b3218013d6631beb0ef7997118afc" in text
+
+
+@pytest.mark.parametrize(
+    "folder, n_proteins, broad",
+    [
+        (
+            "aga1_nonyeast_test_2026-10-26",
+            34946,
+            {"Afum_Af293": 7, "Cimm_RS": 8, "Cneo_H99": 2, "Rtor_NP11": 2},
+        ),
+        ("aga1_cpar_test_2026-10-26", 5777, {"Cpar_CDC317": 28}),
+    ],
+)
+def test_later_proteome_records_hashes_and_headline_counts(folder, n_proteins, broad):
+    rec = ROOT / "docs/reports/data" / folder
+    text = (rec / "README.md").read_text()
+    found = {p: s for s, p in re.findall(r"^([0-9a-f]{64})  (\S+)$", text, flags=re.M)}
+    committed = {p.name for p in rec.iterdir() if p.is_file() and p.name != "README.md"}
+    assert committed <= set(found)
+    for p in committed:
+        assert hashlib.sha256((rec / p).read_bytes()).hexdigest() == found[p], p
+    with (rec / "summary_by_species.tsv").open(newline="") as fh:
+        rows = {r["species"]: r for r in csv.DictReader(fh, delimiter="\t")}
+    assert sum(int(r["n_proteins"]) for r in rows.values()) == n_proteins
+    assert {k: int(v["broad_flag"]) for k, v in rows.items()} == broad
+    assert "87ee2da4a08b3218013d6631beb0ef7997118afc" in text
+    with (
+        (rec / "thresholds.tsv").open(newline="") as fh2,
+        (REC / "thresholds.tsv").open(newline="") as fh1,
+    ):
+        assert list(csv.DictReader(fh2, delimiter="\t")) == list(
+            csv.DictReader(fh1, delimiter="\t")
+        )  # nothing retuned

@@ -1,0 +1,64 @@
+accession	species	gene	entry_name	protein_name	length	sp_yes	gpi_yes	disorder_longest_run	rep_coverage	rep_n_copies	broad_flag	narrow_flag	score_logreg	score_rf	score_gboost	call_logreg	call_rf	call_gboost	n_models_call	mean_rank_pct	in_850_role	in_850_tier
+E9RBR0	Afum_Af293	abr2	ABR2_ASPFU	Laccase abr2	587	1	0	27	0	0	0	0	0.08338	0.00312	0.0007	0	0	0	0	0.59477	hard_negative	
+Q4WBS1	Afum_Af293	manF	MANF_ASPFU	Mannan endo-1,4-beta-mannosidase F	438	1	0	46	0	0	0	0	0.05735	0	0.0007	0	0	0	0	0.50161	hard_negative	
+Q4WGL5	Afum_Af293	sun1	SUN1_ASPFU	Secreted beta-glucosidase sun1	414	1	0	52	0	0	0	0	0.07556	0.00313	0.0007	0	0	0	0	0.59523	kiss_row_positive	
+Q4WI46	Afum_Af293	crh2	CRH2_ASPFU	Crh-like protein 2	443	1	1	74	0	0	0	0	0.1448	0	0.0007	0	0	0	0	0.51047	hard_negative	
+Q4WLB9	Afum_Af293	cfmA	CFMA_ASPFU	GPI-anchored hemophore cfmA	305	1	1	219	0	0	1	0	0.08934	0.02804	0.00505	0	0	0	0	0.8969	hard_negative	
+Q4WZB4	Afum_Af293	abr1	ABR1_ASPFU	Multicopper oxidase abr1	664	1	0	157	0	0	0	0	0.15256	0	0.00088	0	0	0	0	0.61349	hard_negative	
+Q4X0H6	Afum_Af293	chsE	CHS5_ASPFU	Chitin synthase E	1848	0	0	100	0	0	0	0	0.00702	0.00884	0.00176	0	0	0	0	0.70861	kiss_row_positive	
+Q8J0P4	Afum_Af293	crh5	CRH5_ASPFU	Crh-like protein 5	395	1	1	138	0	0	0	0	0.15814	0.05594	0.02171	0	0	0	0	0.94866	hard_negative	
+E9QT94	Afum_Af293	rodB	RODB_ASPFU	Class I hydrophobin B	140	1	1	0	0	0	0	0	0.0073	0.00308	0.0007	0	0	0	0	0.4814	adhesin_other_mechanism	
+E9R598	Afum_Af293	fetC	FETC_ASPFU	Iron transport multicopper oxidase fetC	592	1	0	57	0	0	0	0	0.04736	0.00305	0.0007	0	0	0	0	0.58306	hard_negative	
+P0C7S9	Afum_Af293	gel1	GEL1_ASPFU	1,3-beta-glucanosyltransferase gel1	452	1	1	134	0	0	0	0	0.04887	0	0.0007	0	0	0	0	0.49851	hard_negative	
+P0C954	Afum_Af293	gel2	GEL2_ASPFU	1,3-beta-glucanosyltransferase gel2	475	1	1	58	0	0	0	0	0.06453	0	0.0007	0	0	0	0	0.50344	hard_negative	
+P41746	Afum_Af293	rodA	RODA_ASPFU	Class I hydrophobin 1	159	1	1	0	0	0	0	0	0.00666	0.00308	0.0007	0	0	0	0	0.47223	adhesin_other_mechanism	
+P41748	Afum_Af293	pepA	PEPA_ASPFU	Aspergillopepsin-1	395	1	0	0	0	0	0	0	0.05692	0	0.0007	0	0	0	0	0.50144	hard_negative	
+P54267	Afum_Af293	chsG	CHSG_ASPFU	Chitin synthase G	911	0	0	138	0	0	0	0	0.01007	0	0.00085	0	0	0	0	0.52358	kiss_row_positive	
+Q4WBU0	Afum_Af293	AA9C	LP9C_ASPFU	AA9 family lytic polysaccharide monooxygenase C	349	1	0	90	0	0	0	0	0.06846	0.00312	0.0007	0	0	0	0	0.59242	hard_negative	
+Q4WCG5	Afum_Af293	pmt4	PMT4_ASPFU	Dolichyl-phosphate-mannose--protein mannosyltransferase 4	780	0	0	45	0	0	0	0	0.00493	0	0.00075	0	0	0	0	0.42927	kiss_row_positive	
+Q4WD22	Afum_Af293	crh1	CRH1_ASPFU	Crh-like protein 1	357	1	1	17	0	0	0	0	0.1279	0.01611	0.00086	0	0	0	0	0.78665	hard_negative	
+Q4WEP7	Afum_Af293	chiA1	CHIA1_ASPFU	Endochitinase A1	888	1	1	322	0	0	1	0	0.86459	0.2619	0.03412	1	1	0	2	0.99077	kiss_row_positive	
+Q4WMA6	Afum_Af293	cfmB	CFMB_ASPFU	GPI-anchored hemophore cfmB	202	1	1	105	0	0	0	0	0.05132	0.00272	0.00078	0	0	0	0	0.66402	hard_negative	
+Q4WMW2	Afum_Af293	crh4	CRH4_ASPFU	Crh-like protein 4	450	1	1	154	0	0	0	0	0.26231	0	0.0007	0	0	0	0	0.51264	hard_negative	
+Q4WNE1	Afum_Af293	cfmC	CFMC_ASPFU	GPI-anchored hemophore cfmC	198	1	1	101	0	0	0	0	0.03389	0.0158	0.01602	0	0	0	0	0.87783	hard_negative	
+Q4WXE6	Afum_Af293	crh3	CRH3_ASPFU	Crh-like protein 3	363	1	0	30	0	0	0	0	0.0274	0	0.0007	0	0	0	0	0.48233	hard_negative	
+P78746	Afum_Af293	chsD	CHSD_ASPFU	Chitin synthase D	745	0	0	267	0	0	0	0	0.0176	0.00949	0.00598	0	0	0	0	0.81521	kiss_row_positive	
+Q4W9P7	Afum_Af293	AFUA_4G04180	Q4W9P7_ASPFU	chitin synthase	1084	0	0	293	0	0	0	0	0.01672	0.01593	0.0075	0	0	0	0	0.83848	kiss_row_positive	
+Q4WA69	Afum_Af293	bglK	BGLK_ASPFU	Probable beta-glucosidase K	767	0	0	50	0	0	0	0	0.00762	0	0.00075	0	0	0	0	0.47305	hard_negative	
+Q4WBR2	Afum_Af293	neg1	NEG1_ASPFU	Endo-1,6-beta-D-glucanase neg1	488	1	0	0	0	0	0	0	0.05201	0	0.0007	0	0	0	0	0.49973	hard_negative	
+Q4WDB9	Afum_Af293	AFUA_6G04210	Q4WDB9_ASPFU	Mannosyl-oligosaccharide glucosidase	822	1	0	40	0	0	0	0	0.04474	0	0.00088	0	0	0	0	0.59937	kiss_row_positive	
+Q4WL79	Afum_Af293	bglH	BGLH_ASPFU	Probable beta-glucosidase H	829	0	0	0	0	0	0	0	0.00642	0	0.00075	0	0	0	0	0.45606	hard_negative	
+Q4WLT4	Afum_Af293	AFUA_6G12400	Q4WLT4_ASPFU	1,3-beta-glucan synthase	1904	0	0	191	0	0	0	0	0.01088	0.01512	0.00147	0	0	0	0	0.76588	kiss_row_positive	
+Q4WLY1	Afum_Af293	bglJ	BGLJ_ASPFU	Probable beta-glucosidase J	865	0	0	38	0	0	0	0	0.01299	0	0.00085	0	0	0	0	0.54325	hard_negative	
+Q4WNS8	Afum_Af293	ecm33	ECM33_ASPFU	Protein ecm33	398	1	1	32	0	0	0	0	0.06158	0	0.0007	0	0	0	0	0.50289	hard_negative	
+Q4WNV0	Afum_Af293	ctsD	CTSD_ASPFU	Aspartic-type endopeptidase ctsD	474	1	1	17	0	0	0	0	0.20001	0	0.0007	0	0	0	0	0.5119	hard_negative	
+Q4WQI8	Afum_Af293	AFUA_4G12970	Q4WQI8_ASPFU	Subtilisin-like protease	844	1	0	226	0	0	0	0	0.04037	0	0.00085	0	0	0	0	0.593	kiss_row_positive	
+Q4WU49	Afum_Af293	bglI	BGLI_ASPFU	Probable beta-glucosidase I	838	0	0	7	0	0	0	0	0.01499	0	0.00082	0	0	0	0	0.54483	hard_negative	
+Q4WWF5	Afum_Af293	AFUA_3G05650	Q4WWF5_ASPFU	Alpha,alpha-trehalose-phosphate synthase subunit Tps2, putative	949	0	0	100	0	0	0	0	0.00845	0	0.00085	0	0	0	0	0.50777	kiss_row_positive	
+Q4X0H7	Afum_Af293	AFUA_2G13430	Q4X0H7_ASPFU	Chitin synthase A	1756	0	0	140	0	0	0	0	0.01354	0.01201	0.00147	0	0	0	0	0.77255	kiss_row_positive	
+Q92197	Afum_Af293	chsC	CHSC_ASPFU	Chitin synthase C	893	0	0	90	0	0	0	0	0.01025	0	0.00085	0	0	0	0	0.52516	kiss_row_positive	
+E9R5E2	Afum_Af293	AFUA_6G06340	E9R5E2_ASPFU	glutamine--fructose-6-phosphate transaminase (isomerizing)	694	0	0	9	0	0	0	0	0.00346	0	0.00075	0	0	0	0	0.39442	kiss_row_positive	
+Q4WC58	Afum_Af293	AFUA_8G05630	Q4WC58_ASPFU	chitin synthase	1182	0	0	183	0	0	0	0	0.01682	0.00634	0.00249	0	0	0	0	0.77438	kiss_row_positive	
+Q4WFV3	Afum_Af293	AFUA_3G00910	Q4WFV3_ASPFU	alpha-1,3-glucan synthase	2420	1	0	221	0	0	0	0	0.04387	0.01218	0.00147	0	0	0	0	0.82248	kiss_row_positive	
+Q4WG20	Afum_Af293	AFUA_3G00230	Q4WG20_ASPFU	beta-glucosidase	833	0	0	4	0	0	0	0	0.00913	0	0.00075	0	0	0	0	0.48955	adhesin_other_mechanism	
+Q4WIH1	Afum_Af293	AFUA_2G01870	Q4WIH1_ASPFU	Chitin synthase	933	0	0	156	0	0	0	0	0.00637	0.00317	0.00085	0	0	0	0	0.58809	kiss_row_positive	
+Q4WJ05	Afum_Af293	AFUA_1G07690	Q4WJ05_ASPFU	Dolichyl-phosphate-mannose--protein mannosyltransferase	759	0	0	24	0	0	0	0	0.01478	0	0.00126	0	0	0	0	0.60248	kiss_row_positive	
+Q4WLT3	Afum_Af293	AFUA_6G12410	Q4WLT3_ASPFU	1,3-beta-glucanosyltransferase	541	1	1	18	0	0	0	0	0.04863	0	0.0007	0	0	0	0	0.49844	kiss_row_positive	
+Q4WLT6	Afum_Af293	AFUA_6G12380	Q4WLT6_ASPFU	Cell wall glucanase (Scw4), putative	369	1	0	54	0	0	0	0	0.01138	0	0.0007	0	0	0	0	0.43451	kiss_row_positive	
+Q4WLX2	Afum_Af293	AFUA_6G12010	Q4WLX2_ASPFU	beta-glucosidase	409	0	0	2	0	0	0	0	0.01961	0	0.0007	0	0	0	0	0.46786	adhesin_other_mechanism	
+Q4WXC4	Afum_Af293	AFUA_3G08990	Q4WXC4_ASPFU	Cell surface protein, putative	430	1	1	430	0.447	32	1	1	0.99447	0.83355	0.95725	1	1	1	3	0.99997	class_positive	A
+Q4WYE0	Afum_Af293	AFUA_3G12700	Q4WYE0_ASPFU	DUF250 domain membrane protein	398	0	0	39	0	0	0	0	0.00163	0.00656	0.0007	0	0	0	0	0.40149	kiss_row_positive	
+Q4X143	Afum_Af293	AFUA_2G11270	Q4X143_ASPFU	alpha-1,3-glucan synthase	2426	1	0	220	0	0	0	0	0.0343	0.01546	0.00147	0	0	0	0	0.82587	kiss_row_positive	
+Q4WUB6	Afum_Af293	AFUA_5G07880	Q4WUB6_ASPFU	A-pheromone receptor PreA	460	0	0	95	0	0	0	0	0.01376	0	0.0007	0	0	0	0	0.44818	kiss_row_positive	
+Q4WXJ1	Afum_Af293	AFUA_3G09690	Q4WXJ1_ASPFU	Extracellular thaumatin domain protein, putative	177	1	0	0	0	0	0	0	0.01583	0.00946	0.0007	0	0	0	0	0.60964	adhesin_other_mechanism	
+Q1E3R8	Cimm_RS	CTS1	CHI1_COCIM	Endochitinase 1	427	1	0	27	0	0	0	0	0.03527	0	0.0007	0	0	0	0	0.49051	hard_negative	
+A0A0E1RVD3	Cimm_RS	CIMG_09696	A0A0E1RVD3_COCIM	Proline-rich antigen	194	1	1	106	0.196	9	0	0	0.43806	0.24447	0.00679	0	0	0	0	0.9709	adhesin_other_mechanism	
+J9VS02	Cneo_H99	cnap1	ASPR1_CRYN9	Major aspartyl peptidase 1	489	1	1	54	0	0	0	0	0.06701	0	0.0007	0	0	0	0	0.50385	hard_negative	
+P82476	Cneo_H99	CDA3	CDA3_CRYN9	Chitin deacetylase 3	412	1	1	67	0	0	0	0	0.09384	0	0.0007	0	0	0	0	0.5076	adhesin_other_mechanism	
+J9VDC2	Cneo_H99	PQP1	PQP1_CRYN9	ProQSP1 protease 1	951	1	0	69	0	0	0	0	0.08731	0	0.00085	0	0	0	0	0.60581	hard_negative	
+J9VH79	Cneo_H99	CEL1	LP9_CRYN9	AA9 family lytic polysaccharide monooxygenase CEL1	375	1	0	98	0	0	0	0	0.05453	0.00647	0.0007	0	0	0	0	0.6399	hard_negative	
+J9VKM5	Cneo_H99	DNJ1	DNJ1_CRYN9	Tetratricopeptide repeat and J domain-containing co-chaperone DNJ1	522	1	0	100	0	0	0	0	0.00567	0.00892	0.00091	0	0	0	0	0.62561	hard_negative	
+J9VLH0	Cneo_H99	CNE1	CNE1_CRYN9	Calnexin	551	1	0	139	0	0	0	0	0.04022	0.01256	0.0007	0	0	0	0	0.65727	hard_negative	
+J9VQE5	Cneo_H99	CPL1	CPL1V_CRYN9	Protein CPL1	199	1	0	65	0	0	0	0	0.03589	0	0.0007	0	0	0	0	0.49096	hard_negative	
+J9VNY5	Cneo_H99	CNAG_00996	J9VNY5_CRYN9	Dolichyl-phosphate-mannose--protein mannosyltransferase	767	0	0	44	0	0	0	0	0.00622	0	0.00075	0	0	0	0	0.45244	kiss_row_positive	
+J9VHS9	Cneo_H99	CNAG_00795	J9VHS9_CRYN9	Protein CPL1-like domain-containing protein	309	1	0	81	0	0	0	0	0.29893	0.02269	0.0024	0	0	0	0	0.87924	adhesin_other_mechanism	
