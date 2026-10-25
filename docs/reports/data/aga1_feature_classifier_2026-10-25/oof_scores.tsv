@@ -1,0 +1,851 @@
+accession	gene	role	pos_tier	clade_coarse	cluster_id	set	rule_broad	rule_narrow	score_logreg	callrate_logreg_fpr0.01	callrate_logreg_fpr0.035	callrate_logreg_fpr0.05	score_rf	callrate_rf_fpr0.01	callrate_rf_fpr0.035	callrate_rf_fpr0.05	score_gboost	callrate_gboost_fpr0.01	callrate_gboost_fpr0.035	callrate_gboost_fpr0.05
+A0A023I7E1	ENG1	hard_negative		Mucoromycota	HN0001	train_eligible	0	0	0.0634	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000	0.0007	0.0000	0.0000	0.0000
+A0A023PXC2		background_assumed_negative		Saccharomycotina	YEL053W-A	train_eligible	0	0	0.0363	0.0000	0.0000	0.0000	0.0081	0.0000	0.0000	0.0000	0.0007	0.0000	0.0000	0.0000
+A0A023PXD5		background_assumed_negative		Saccharomycotina	YER147C-A	train_eligible	0	0	0.0038	0.0000	0.0000	0.0000	0.0010	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+A0A023PXI4		background_assumed_negative		Saccharomycotina	YDR203W	train_eligible	0	0	0.0128	0.0000	0.0000	0.0000	0.0099	0.0000	0.0000	0.0000	0.0011	0.0000	0.0000	0.0000
+A0A023PYC6		background_assumed_negative		Saccharomycotina	YAL016C-A	train_eligible	0	0	0.0008	0.0000	0.0000	0.0000	0.0037	0.0000	0.0000	0.0000	0.0005	0.0000	0.0000	0.0000
+A0A023PYD9		background_assumed_negative		Saccharomycotina	YEL018C-A	train_eligible	0	0	0.0360	0.0000	0.0000	0.0000	0.0145	0.0000	0.0000	0.0000	0.0011	0.0000	0.0000	0.0000
+A0A023PYE9		background_assumed_negative		Saccharomycotina	YER087C-A	train_eligible	0	0	0.0951	0.0000	0.0000	0.0000	0.0063	0.0000	0.0000	0.0000	0.0010	0.0000	0.0000	0.0000
+A0A023PYF4		background_assumed_negative		Saccharomycotina	YER145C-A	train_eligible	0	0	0.2681	0.0000	0.0000	0.0000	0.0094	0.0000	0.0000	0.0000	0.0008	0.0000	0.0000	0.0000
+A0A023PYH0		background_assumed_negative		Saccharomycotina	YHR070C-A	train_eligible	0	0	0.0008	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+A0A023PZE6		background_assumed_negative		Saccharomycotina	YDR048C	train_eligible	0	0	0.0026	0.0000	0.0000	0.0000	0.0050	0.0000	0.0000	0.0000	0.0011	0.0000	0.0000	0.0000
+A0A023PZG0		background_assumed_negative		Saccharomycotina	YER084W-A	train_eligible	0	0	0.0171	0.0000	0.0000	0.0000	0.0023	0.0000	0.0000	0.0000	0.0009	0.0000	0.0000	0.0000
+A0A023PZG5		background_assumed_negative		Saccharomycotina	YER137W-A	train_eligible	0	0	0.2424	0.0000	0.0000	0.0000	0.0102	0.0000	0.0000	0.0000	0.0010	0.0000	0.0000	0.0000
+A0A023PZL2		background_assumed_negative		Saccharomycotina	YMR119W-A	train_eligible	0	0	0.0001	0.0000	0.0000	0.0000	0.0055	0.0000	0.0000	0.0000	0.0007	0.0000	0.0000	0.0000
+A0A0A2K7M3	HfbA (PEX2_043940)	hard_negative		Pezizomycotina	SINGLETON_A0A0A2K7M3	train_eligible	0	0	0.0063	0.0000	0.0000	0.0000	0.0003	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+A0A0D1BZL3	hum2	kiss_row_positive		Basidiomycota	KS0002	extra_never_fitted	0	0	0.0007	0.0000	0.0000	0.0000	0.0065	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+A0A0D1C5X6	lep1 (UMAG_11940)	adhesin_other_mechanism		Basidiomycota	SINGLETON_A0A0D1C5X6	extra_never_fitted	0	0	0.0065	0.0000	0.0000	0.0000	0.0032	0.0000	0.0000	0.0000	0.0007	0.0000	0.0000	0.0000
+A0A0D1DYI3	rsp3 (UMAG_03274)	hard_negative		Basidiomycota	HN0002	train_eligible	0	0	0.0653	0.0000	0.0000	0.0000	0.1720	0.0000	0.2000	0.5000	0.0311	0.0000	0.2000	0.4000
+A0A0D1E2P6	DNJ1	hard_negative		Basidiomycota	HN0003	train_eligible	0	0	0.0062	0.0000	0.0000	0.0000	0.0044	0.0000	0.0000	0.0000	0.0007	0.0000	0.0000	0.0000
+A0A0D2XVZ5	DNJ1	hard_negative		Pezizomycotina	HN0003	train_eligible	0	0	0.0046	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+A0A0E1RVD3		adhesin_other_mechanism		Pezizomycotina	A0A0E1RVD3	extra_never_fitted	0	0	0.4245	0.0000	0.2200	0.4200	0.2269	0.0000	0.4200	0.6800	0.0129	0.0000	0.0600	0.1000
+A0A1D8PCT0	gsc1	kiss_row_positive		Saccharomycotina	KS0005	extra_never_fitted	0	0	0.0163	0.0000	0.0000	0.0000	0.0117	0.0000	0.0000	0.0000	0.0050	0.0000	0.0200	0.0800
+A0A1D8PCV9	PDE2	excluded_indirect_regulator		Saccharomycotina	C1_02840W_A	extra_never_fitted	0	0	0.0068	0.0000	0.0000	0.0000	0.0038	0.0000	0.0000	0.0000	0.0012	0.0000	0.0000	0.0000
+A0A1D8PCY4	ECM33	excluded_surface_other_adhesion_phenotype		Saccharomycotina	A0A1D8PCY4	extra_never_fitted	0	0	0.0283	0.0000	0.0000	0.0000	0.0025	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+A0A1D8PD52	MSB1	excluded_indirect_regulator		Saccharomycotina	C1_03710C_A	extra_never_fitted	0	0	0.0825	0.0000	0.0000	0.0000	0.0627	0.0000	0.0000	0.0000	0.0325	0.0000	0.1200	0.3400
+A0A1D8PE35	HAP2	excluded_indirect_regulator		Saccharomycotina	C1_07680W_A	extra_never_fitted	0	0	0.0081	0.0000	0.0000	0.0000	0.1353	0.0000	0.0200	0.1000	0.0096	0.0000	0.0200	0.1200
+A0A1D8PE53	SMI1	excluded_indirect_regulator		Saccharomycotina	C1_07870C_A	extra_never_fitted	0	0	0.0100	0.0000	0.0000	0.0000	0.0366	0.0000	0.0000	0.0000	0.0021	0.0000	0.0000	0.0200
+A0A1D8PE87	NOT5	excluded_indirect_regulator		Saccharomycotina	C1_08300W_A	extra_never_fitted	0	0	0.0077	0.0000	0.0000	0.0000	0.0477	0.0000	0.0000	0.0000	0.0017	0.0000	0.0000	0.0200
+A0A1D8PEG3	kex2	kiss_row_positive		Saccharomycotina	KS0007	extra_never_fitted	0	0	0.0731	0.0000	0.0000	0.0000	0.0272	0.0000	0.0000	0.0000	0.0030	0.0000	0.0000	0.0200
+A0A1D8PES5	HNV1	background_assumed_negative		Saccharomycotina	C1_10050W_A	train_eligible	0	0	0.0791	0.0000	0.0000	0.0000	0.0044	0.0000	0.0000	0.0000	0.0009	0.0000	0.0000	0.0000
+A0A1D8PFE5	RAX2	background_assumed_negative		Saccharomycotina	C1_12510W_A	train_eligible	0	0	0.0854	0.0000	0.0000	0.0000	0.0174	0.0000	0.0000	0.0000	0.0104	0.0000	0.1000	0.1000
+A0A1D8PHU1	TPK2	excluded_indirect_regulator		Saccharomycotina	C2_07210C_A	extra_never_fitted	0	0	0.0046	0.0000	0.0000	0.0000	0.0005	0.0000	0.0000	0.0000	0.0008	0.0000	0.0000	0.0000
+A0A1D8PIK2	RAP1	excluded_indirect_regulator		Saccharomycotina	C2_10080W_A	extra_never_fitted	0	0	0.0068	0.0000	0.0000	0.0000	0.0217	0.0000	0.0000	0.0000	0.0028	0.0000	0.0000	0.0000
+A0A1D8PIY8	FLO9	class_positive	B	Saccharomycotina	A0A1D8PIY8	extra_never_fitted	1	0	0.7407	0.0200	0.9800	1.0000	0.3903	0.2600	0.9400	1.0000	0.3704	0.4200	0.9400	1.0000
+A0A1D8PJ29	chs8	kiss_row_positive		Saccharomycotina	KS0008	extra_never_fitted	0	0	0.0097	0.0000	0.0000	0.0000	0.0249	0.0000	0.0000	0.0000	0.0033	0.0000	0.0000	0.0200
+A0A1D8PJ68		adhesin_other_mechanism		Saccharomycotina	A0A1D8PJ68	extra_never_fitted	0	0	0.9961	1.0000	1.0000	1.0000	0.6167	0.9800	1.0000	1.0000	0.9706	1.0000	1.0000	1.0000
+A0A1D8PJA8	TOS1	background_assumed_negative		Saccharomycotina	C2_00100C_A	train_eligible	0	0	0.0938	0.0000	0.0000	0.0000	0.0112	0.0000	0.0000	0.0000	0.0019	0.0000	0.0000	0.0000
+A0A1D8PJB5		adhesin_other_mechanism		Saccharomycotina	Q4WL79	extra_never_fitted	0	0	0.0273	0.0000	0.0000	0.0000	0.0031	0.0000	0.0000	0.0000	0.0012	0.0000	0.0000	0.0000
+A0A1D8PJN6	kre5	kiss_row_positive		Saccharomycotina	KS0009	extra_never_fitted	0	0	0.0591	0.0000	0.0000	0.0000	0.0084	0.0000	0.0000	0.0000	0.0063	0.0000	0.0200	0.0600
+A0A1D8PJZ6	SNF5	excluded_indirect_regulator		Saccharomycotina	C3_04290C_A	extra_never_fitted	0	0	0.0167	0.0000	0.0000	0.0000	0.0216	0.0000	0.0000	0.0000	0.0014	0.0000	0.0000	0.0000
+A0A1D8PK00	CUP5	excluded_indirect_regulator		Saccharomycotina	C3_04390W_A	extra_never_fitted	0	0	0.0005	0.0000	0.0000	0.0000	0.0080	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+A0A1D8PKB6	kre6	kiss_row_positive		Saccharomycotina	KS0010	extra_never_fitted	0	0	0.0865	0.0000	0.0000	0.0000	0.0537	0.0000	0.0000	0.0000	0.0051	0.0000	0.0000	0.0400
+A0A1D8PKY7	HIS4	excluded_indirect_regulator		Saccharomycotina	C4_00140C_A	extra_never_fitted	0	0	0.0049	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000	0.0008	0.0000	0.0000	0.0000
+A0A1D8PMH9	CWH41	excluded_surface_other_adhesion_phenotype		Saccharomycotina	A0A1D8PMH9	extra_never_fitted	0	0	0.0616	0.0000	0.0000	0.0000	0.0008	0.0000	0.0000	0.0000	0.0011	0.0000	0.0000	0.0000
+A0A1D8PMR6	ZRT101	background_assumed_negative		Saccharomycotina	C4_06970C_A	train_eligible	0	0	0.0668	0.0000	0.0000	0.0000	0.0010	0.0000	0.0000	0.0000	0.0011	0.0000	0.0000	0.0000
+A0A1D8PN26	HAP5	excluded_indirect_regulator		Saccharomycotina	C5_00940C_A	extra_never_fitted	0	0	0.0003	0.0000	0.0000	0.0000	0.0203	0.0000	0.0000	0.0000	0.0009	0.0000	0.0000	0.0000
+A0A1D8PP43	ADH1	excluded_indirect_regulator		Saccharomycotina	C5_05050W_A	extra_never_fitted	0	0	0.0019	0.0000	0.0000	0.0000	0.0012	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+A0A1D8PQ86	ALS9	class_positive	A	Saccharomycotina	G8BJ61	train_eligible	1	1	0.9981	1.0000	1.0000	1.0000	0.7687	1.0000	1.0000	1.0000	0.9874	1.0000	1.0000	1.0000
+A0A1D8PQB9	ALS4	class_positive	A	Saccharomycotina	G8BJ61	train_eligible	1	1	0.9996	1.0000	1.0000	1.0000	0.8993	1.0000	1.0000	1.0000	0.9762	1.0000	1.0000	1.0000
+A0A1D8PQU2	FMP28	excluded_indirect_regulator		Saccharomycotina	C7_01360C_A	extra_never_fitted	0	0	0.0232	0.0000	0.0000	0.0000	0.0262	0.0000	0.0000	0.0000	0.0030	0.0000	0.0000	0.0200
+A0A1D8PR83	CYR1	excluded_indirect_regulator		Saccharomycotina	C7_03070C_A	extra_never_fitted	0	0	0.0461	0.0000	0.0000	0.0000	0.0292	0.0000	0.0000	0.0000	0.0173	0.0000	0.1200	0.3200
+A0A1D8PRI0	NPT1	excluded_indirect_regulator		Saccharomycotina	C7_04040C_A	extra_never_fitted	0	0	0.0037	0.0000	0.0000	0.0000	0.0007	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+A0A1D8PT45	SOK1	excluded_indirect_regulator		Saccharomycotina	CR_06000W_A	extra_never_fitted	0	0	0.0144	0.0000	0.0000	0.0000	0.0226	0.0000	0.0000	0.0000	0.0010	0.0000	0.0000	0.0000
+A0A1D8PTB4	STE2	excluded_indirect_regulator		Saccharomycotina	CR_06610W_A	extra_never_fitted	0	0	0.0124	0.0000	0.0000	0.0000	0.0122	0.0000	0.0000	0.0000	0.0010	0.0000	0.0000	0.0000
+A0A1D8PTV3	chs2	kiss_row_positive		Saccharomycotina	KS0008	extra_never_fitted	0	0	0.0155	0.0000	0.0000	0.0000	0.0288	0.0000	0.0000	0.0000	0.0014	0.0000	0.0000	0.0000
+A0A2H0ZI19		class_positive	B	Saccharomycotina	A0A2H0ZI19	extra_never_fitted	0	0	0.6187	0.0000	0.6800	1.0000	0.2572	0.0000	0.5600	0.8800	0.0022	0.0000	0.0000	0.0200
+A0A2H0ZI42	IFF4109	class_positive	A	Saccharomycotina	A0A2H1A5L3	train_eligible	1	1	0.9986	1.0000	1.0000	1.0000	0.8989	1.0000	1.0000	1.0000	0.9955	1.0000	1.0000	1.0000
+A0A2H0ZKA3		class_positive	B	Saccharomycotina	A0A2H0ZI19	extra_never_fitted	0	0	0.2655	0.0000	0.0000	0.0800	0.0691	0.0000	0.0000	0.0000	0.0010	0.0000	0.0000	0.0000
+A0A2H0ZQQ9		class_positive	B	Saccharomycotina	A0A2H0ZI19	extra_never_fitted	1	0	0.9659	0.9000	1.0000	1.0000	0.4253	0.4400	0.9400	1.0000	0.3334	0.4000	0.8200	0.8800
+A0A2H0ZYK9		class_positive	B	Saccharomycotina	A0A2H0ZYK9	extra_never_fitted	1	1	0.9985	1.0000	1.0000	1.0000	0.8532	1.0000	1.0000	1.0000	0.9958	1.0000	1.0000	1.0000
+A0A2H1A127		class_positive	B	Saccharomycotina	A0A2H0ZI19	extra_never_fitted	1	0	0.6384	0.0000	0.6800	0.9400	0.2992	0.0000	0.7000	0.9600	0.3417	0.3800	0.7400	0.8000
+A0A2H1A319	SCF1	adhesin_other_mechanism		Saccharomycotina	A0A2H1A319	extra_never_fitted	1	0	0.9541	0.9200	1.0000	1.0000	0.4280	0.4600	1.0000	1.0000	0.4180	0.4800	1.0000	1.0000
+A0A2H1A5L3		adhesin_other_mechanism		Saccharomycotina	A0A2H1A5L3	extra_never_fitted	1	1	0.9989	1.0000	1.0000	1.0000	0.6348	1.0000	1.0000	1.0000	0.9920	1.0000	1.0000	1.0000
+A0A384J6C4	crh1	hard_negative		Pezizomycotina	HN0004	train_eligible	0	0	0.0608	0.0000	0.0000	0.0000	0.0816	0.0000	0.0000	0.0000	0.1185	0.0000	0.7000	0.8000
+A0A384J9V8	BcLysM1 (BCIN_02g05630)	adhesin_other_mechanism		Pezizomycotina	SINGLETON_A0A384J9V8	extra_never_fitted	0	0	0.1080	0.0000	0.0000	0.0000	0.0845	0.0000	0.0000	0.0000	0.4383	0.4200	0.9800	1.0000
+A0A384JA57	Bhp1 (BCIN_02g07970)	hard_negative		Pezizomycotina	SINGLETON_A0A384JA57	train_eligible	0	0	0.0958	0.0000	0.0000	0.0000	0.0077	0.0000	0.0000	0.0000	0.0007	0.0000	0.0000	0.0000
+A0A384JJM8	Bhp3 (BCIN_06g00510)	hard_negative		Pezizomycotina	SINGLETON_A0A384JJM8	train_eligible	0	0	0.0094	0.0000	0.0000	0.0000	0.0368	0.0000	0.0000	0.0000	0.0131	0.0000	0.0000	0.3000
+A0A384JN58	crh4	hard_negative		Pezizomycotina	HN0004	train_eligible	0	0	0.1716	0.0000	0.0000	0.0000	0.0029	0.0000	0.0000	0.0000	0.0007	0.0000	0.0000	0.0000
+A0A384JW35	Bhp2 (BCIN_11g01450)	hard_negative		Pezizomycotina	SINGLETON_A0A384JW35	train_eligible	0	0	0.0180	0.0000	0.0000	0.0000	0.0054	0.0000	0.0000	0.0000	0.0007	0.0000	0.0000	0.0000
+A0A384K116	crh3	hard_negative		Pezizomycotina	HN0068	train_eligible	0	0	0.1209	0.0000	0.0000	0.0000	0.0080	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+A0A384K4T0	crh2	hard_negative		Pezizomycotina	HN0004	train_eligible	0	0	0.0421	0.0000	0.0000	0.0000	0.0010	0.0000	0.0000	0.0000	0.0007	0.0000	0.0000	0.0000
+A0A385MIS5	Chi	hard_negative		Basidiomycota	HN0005	train_eligible	0	0	0.0194	0.0000	0.0000	0.0000	0.0003	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+A0A9P6LVP5	BGZ70_003642	hard_negative		Mortierellomycota	HN0044	train_eligible	0	0	0.0566	0.0000	0.0000	0.0000	0.2291	0.0000	0.3000	0.9000	0.0212	0.0000	0.2000	0.4000
+A0AAW0V6D7		adhesin_other_mechanism		Saccharomycotina	Q4WL79	extra_never_fitted	0	0	0.0123	0.0000	0.0000	0.0000	0.0015	0.0000	0.0000	0.0000	0.0007	0.0000	0.0000	0.0000
+A0AAW0V956		class_positive	B	Saccharomycotina	A0AAW0V956	extra_never_fitted	1	0	0.5994	0.0000	0.4800	0.9600	0.3105	0.0600	0.8200	0.8200	0.2392	0.1800	0.8200	0.9200
+A0AAW0V9R8	ALS4112	class_positive	A	Saccharomycotina	G8BJ61	train_eligible	1	1	0.9991	1.0000	1.0000	1.0000	0.8347	1.0000	1.0000	1.0000	0.7177	0.8000	1.0000	1.0000
+A0AAW0V9U7	ALS4498	class_positive	A	Saccharomycotina	A0AAW0V9U7	train_eligible	0	0	0.7288	0.0000	1.0000	1.0000	0.4607	0.7000	1.0000	1.0000	0.1154	0.0000	0.6000	0.6000
+A0AAW0VBN8		class_positive	B	Saccharomycotina	A0A2H1A5L3	extra_never_fitted	1	1	0.9965	1.0000	1.0000	1.0000	0.9524	1.0000	1.0000	1.0000	0.9952	1.0000	1.0000	1.0000
+A0AAW0VN33		class_positive	B	Saccharomycotina	A0A2H0ZYK9	extra_never_fitted	0	0	0.9811	1.0000	1.0000	1.0000	0.8578	1.0000	1.0000	1.0000	0.9046	0.9800	1.0000	1.0000
+A0ACE4JU10	bad1	kiss_row_positive		Pezizomycotina	KS0015	extra_never_fitted	0	0	0.0035	0.0000	0.0000	0.0000	0.0024	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+A0ACE4K441	pmt1	kiss_row_positive		Pezizomycotina	KS0016	extra_never_fitted	0	0	0.0105	0.0000	0.0000	0.0000	0.0001	0.0000	0.0000	0.0000	0.0007	0.0000	0.0000	0.0000
+A0ACE4KFX7	hyd1_like	kiss_row_positive		Pezizomycotina	KS0017	extra_never_fitted	0	0	0.1221	0.0000	0.0000	0.0000	0.0108	0.0000	0.0000	0.0000	0.0008	0.0000	0.0000	0.0000
+A0ACF1AQZ4	SOD3	hard_negative		Pezizomycotina	HN0006	train_eligible	0	0	0.1658	0.0000	0.0000	0.0000	0.0199	0.0000	0.0000	0.0000	0.0009	0.0000	0.0000	0.0000
+A0ACF1AYZ2	YPS3 (I7I48_01120)	adhesin_other_mechanism		Pezizomycotina	SINGLETON_A0ACF1AYZ2	extra_never_fitted	0	0	0.1098	0.0000	0.0000	0.0000	0.0098	0.0000	0.0000	0.0000	0.0010	0.0000	0.0000	0.0000
+A4D962		adhesin_other_mechanism		Pezizomycotina	A4D962	extra_never_fitted	0	0	0.6958	0.1600	0.7600	0.8600	0.2879	0.0000	0.7000	0.8400	0.4730	0.5200	0.9600	1.0000
+A6N6J0	chit46	hard_negative		Pezizomycotina	HN0027	train_eligible	0	0	0.0193	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000	0.0007	0.0000	0.0000	0.0000
+A6XGK3	MCPA	hard_negative		Pezizomycotina	HN0007	train_eligible	0	0	0.0376	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+A6XHF7	MCPB	hard_negative		Pezizomycotina	HN0008	train_eligible	0	0	0.0170	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0005	0.0000	0.0000	0.0000
+A8NCG7	AA9-X282	hard_negative		Basidiomycota	HN0009	train_eligible	0	0	0.2078	0.0000	0.0000	0.0000	0.0203	0.0000	0.0000	0.0000	0.0009	0.0000	0.0000	0.0000
+A8P0V4	PDH	hard_negative		Basidiomycota	HN0010	train_eligible	0	0	0.2979	0.0000	0.0000	0.1000	0.0137	0.0000	0.0000	0.0000	0.0009	0.0000	0.0000	0.0000
+A8PZM4	SAP1	hard_negative		Basidiomycota	HN0011	train_eligible	0	0	0.0076	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0007	0.0000	0.0000	0.0000
+ACE80261	LIP1	hard_negative		Pezizomycotina	SINGLETON_ACE80261	train_eligible	0	0	0.0575	0.0000	0.0000	0.0000	0.0021	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+B0BK71	msp1	hard_negative		Basidiomycota	HN0012	train_eligible	0	0	0.0280	0.0000	0.0000	0.0000	0.0003	0.0000	0.0000	0.0000	0.0007	0.0000	0.0000	0.0000
+B2ABX7	CEL6A	hard_negative		Pezizomycotina	HN0025	train_eligible	0	0	0.0433	0.0000	0.0000	0.0000	0.0088	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+B3STP1	SWP7	adhesin_other_mechanism		Microsporidia	B3STP1	extra_never_fitted	0	0	0.0059	0.0000	0.0000	0.0000	0.0002	0.0000	0.0000	0.0000	0.0008	0.0000	0.0000	0.0000
+B4UN42		class_positive	B	Saccharomycotina	B4UN42	extra_never_fitted	1	0	0.8198	0.2800	0.9200	0.9800	0.2392	0.0000	0.3800	0.8400	0.3387	0.3800	0.8200	0.9000
+B6GX22	PCH_Pc12g07500	hard_negative		Pezizomycotina	HN0037	train_eligible	0	0	0.0415	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0007	0.0000	0.0000	0.0000
+B6QIN6	PMAA_098220	hard_negative		Pezizomycotina	SINGLETON_B6QIN6	train_eligible	0	0	0.0023	0.0000	0.0000	0.0000	0.0037	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+B6QPY8	PMAA_039680	adhesin_other_mechanism		Pezizomycotina	SINGLETON_B6QPY8	extra_never_fitted	0	0	0.0039	0.0000	0.0000	0.0000	0.0001	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+B6QUR1		hard_negative		Pezizomycotina	B6QUR1	train_eligible	0	0	0.0347	0.0000	0.0000	0.0000	0.0166	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+C4R2D7	FLO11	adhesin_other_mechanism		Saccharomycotina	C4R2D7	extra_never_fitted	0	0	0.9557	0.8800	1.0000	1.0000	0.5750	0.9000	1.0000	1.0000	0.3473	0.3600	0.9600	1.0000
+C4XZ24	FLO11	adhesin_other_mechanism		Saccharomycotina	C4XZ24	extra_never_fitted	1	0	0.9734	0.9600	1.0000	1.0000	0.6771	1.0000	1.0000	1.0000	0.5850	0.6800	0.9000	0.9400
+C5P3X6	MEP1	hard_negative		Pezizomycotina	HN0014	train_eligible	0	0	0.0445	0.0000	0.0000	0.0000	0.0025	0.0000	0.0000	0.0000	0.0005	0.0000	0.0000	0.0000
+D3W9Z7	aspf2	hard_negative		Pezizomycotina	P87020	train_eligible	0	0	0.0255	0.0000	0.0000	0.0000	0.0046	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+D6VTK4	ste2	kiss_row_positive		Saccharomycotina	KS0030	extra_never_fitted	0	0	0.0174	0.0000	0.0000	0.0000	0.0010	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+E9DFH0	HEX1	hard_negative		Pezizomycotina	HN0015	train_eligible	0	0	0.0244	0.0000	0.0000	0.0000	0.0003	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+E9F648	Mlac1	hard_negative		Pezizomycotina	HN0016	train_eligible	0	0	0.0493	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0008	0.0000	0.0000	0.0000
+E9P9G2	FLO11	adhesin_other_mechanism		Saccharomycotina	E9P9G2	extra_never_fitted	1	0	0.9926	1.0000	1.0000	1.0000	0.5007	0.8000	1.0000	1.0000	0.3479	0.6000	1.0000	1.0000
+E9QT94	rodB	adhesin_other_mechanism		Pezizomycotina	E9QT94	extra_never_fitted	0	0	0.0082	0.0000	0.0000	0.0000	0.0035	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+E9R598	fetC	hard_negative		Pezizomycotina	HN0039	train_eligible	0	0	0.0519	0.0000	0.0000	0.0000	0.0016	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+E9R5E2	gfa1_Afu6g06340	kiss_row_positive		Pezizomycotina	KS0034	extra_never_fitted	0	0	0.0051	0.0000	0.0000	0.0000	0.0004	0.0000	0.0000	0.0000	0.0007	0.0000	0.0000	0.0000
+E9RBR0	abr2	hard_negative		Pezizomycotina	E9RBR0	train_eligible	0	0	0.0818	0.0000	0.0000	0.0000	0.0003	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+F2SL83	vioL	hard_negative		Pezizomycotina	HN0016	train_eligible	0	0	0.0733	0.0000	0.0000	0.0000	0.0010	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+F4P6Q5	BATDEDRAFT_35524	kiss_row_positive		Chytridiomycota	KS0016	extra_never_fitted	0	0	0.0066	0.0000	0.0000	0.0000	0.0005	0.0000	0.0000	0.0000	0.0007	0.0000	0.0000	0.0000
+F4P8T0	BATDEDRAFT_20500	kiss_row_positive		Chytridiomycota	KS0035	extra_never_fitted	0	0	0.0110	0.0000	0.0000	0.0000	0.0003	0.0000	0.0000	0.0000	0.0009	0.0000	0.0000	0.0000
+F9WWD1	GT2 (MYCGRDRAFT_65552)	hard_negative		Pezizomycotina	SINGLETON_F9WWD1	train_eligible	0	0	0.0264	0.0000	0.0000	0.0000	0.0013	0.0000	0.0000	0.0000	0.0011	0.0000	0.0000	0.0000
+G1UB63	CSA1	background_assumed_negative		Saccharomycotina	C7_00090C_A	train_eligible	0	0	0.1693	0.0000	0.0000	0.0000	0.0695	0.0000	0.0000	0.0000	0.0016	0.0000	0.0000	0.0000
+G1UB67	DEF1	excluded_indirect_regulator		Saccharomycotina	CR_09880W_A	extra_never_fitted	0	0	0.0199	0.0000	0.0000	0.0000	0.1521	0.0000	0.0400	0.2200	0.0164	0.0000	0.0600	0.2200
+G1UBC2	EAP1	class_positive	A	Saccharomycotina	G1UBC2	train_eligible	1	0	0.9608	0.9000	1.0000	1.0000	0.3073	0.0000	0.8000	1.0000	0.1070	0.1000	0.5000	0.8000
+G2QFD0	LMCO1	hard_negative		Pezizomycotina	HN0017	train_eligible	0	0	0.0851	0.0000	0.0000	0.0000	0.0018	0.0000	0.0000	0.0000	0.0021	0.0000	0.0000	0.0000
+G2WQW0	GH7-2	hard_negative		Pezizomycotina	HN0062	train_eligible	0	0	0.2132	0.0000	0.0000	0.0000	0.0095	0.0000	0.0000	0.0000	0.0007	0.0000	0.0000	0.0000
+G2WSY1	PR1	hard_negative		Pezizomycotina	HN0018	train_eligible	0	0	0.2207	0.0000	0.0000	0.0000	0.0453	0.0000	0.0000	0.0000	0.0007	0.0000	0.0000	0.0000
+G2WTI6	SCP1	hard_negative		Pezizomycotina	HN0019	train_eligible	0	0	0.1695	0.0000	0.0000	0.0000	0.0150	0.0000	0.0000	0.0000	0.0008	0.0000	0.0000	0.0000
+G2WYA4	SCP41	hard_negative		Pezizomycotina	HN0020	train_eligible	0	0	0.0051	0.0000	0.0000	0.0000	0.0119	0.0000	0.0000	0.0000	0.0010	0.0000	0.0000	0.0000
+G2WYV9	SCP116	hard_negative		Pezizomycotina	HN0028	train_eligible	0	0	0.0061	0.0000	0.0000	0.0000	0.0031	0.0000	0.0000	0.0000	0.0008	0.0000	0.0000	0.0000
+G2X5B6	SCP43	hard_negative		Pezizomycotina	HN0021	train_eligible	0	0	0.0093	0.0000	0.0000	0.0000	0.0025	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+G2X658	SCP77	hard_negative		Pezizomycotina	HN0022	train_eligible	0	0	0.0027	0.0000	0.0000	0.0000	0.0031	0.0000	0.0000	0.0000	0.0005	0.0000	0.0000	0.0000
+G2X659	SCP76	hard_negative		Pezizomycotina	HN0023	train_eligible	0	0	0.0080	0.0000	0.0000	0.0000	0.0782	0.0000	0.0000	0.0000	0.0023	0.0000	0.0000	0.0000
+G2X962	SCP99	hard_negative		Pezizomycotina	HN0024	train_eligible	0	0	0.0953	0.0000	0.0000	0.0000	0.0722	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+G2X9U7	PDA1	hard_negative		Pezizomycotina	HN0074	train_eligible	0	0	0.0084	0.0000	0.0000	0.0000	0.0013	0.0000	0.0000	0.0000	0.0007	0.0000	0.0000	0.0000
+G2XB57	SCP72	hard_negative		Pezizomycotina	HN0029	train_eligible	0	0	0.0170	0.0000	0.0000	0.0000	0.0117	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+G2XF09	ECH	hard_negative		Pezizomycotina	HN0027	train_eligible	0	0	0.2660	0.0000	0.0000	0.0000	0.1122	0.0000	0.0000	0.0000	0.0036	0.0000	0.0000	0.0000
+G4MM92	cel6A	hard_negative		Pezizomycotina	HN0025	train_eligible	0	0	0.0544	0.0000	0.0000	0.0000	0.0084	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+G4MWK2	MHP1	adhesin_other_mechanism		Pezizomycotina	G4MWK2	extra_never_fitted	0	0	0.0026	0.0000	0.0000	0.0000	0.0028	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+G4N4W3	MSB2 (MGG_06033)	hard_negative		Pezizomycotina	SINGLETON_G4N4W3	train_eligible	0	0	0.4855	0.0000	0.1000	0.8000	0.2131	0.0000	0.3000	0.6000	0.1124	0.0000	0.9000	1.0000
+G4NDG4	PEP4	hard_negative		Pezizomycotina	HN0026	train_eligible	0	0	0.0041	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+G5EAZ3	chiB	hard_negative		Pezizomycotina	HN0027	train_eligible	0	0	0.0110	0.0000	0.0000	0.0000	0.0025	0.0000	0.0000	0.0000	0.0007	0.0000	0.0000	0.0000
+G5EB30	chiA	hard_negative		Pezizomycotina	HN0084	train_eligible	1	0	0.9009	0.6000	1.0000	1.0000	0.4450	0.5000	1.0000	1.0000	0.1828	0.1000	0.8000	1.0000
+G8BJ61	ALS7	class_positive	B	Saccharomycotina	G8BJ61	extra_never_fitted	1	1	0.9968	1.0000	1.0000	1.0000	0.8136	1.0000	1.0000	1.0000	0.9815	1.0000	1.0000	1.0000
+I1BJN3	CotH7	adhesin_other_mechanism		Mucoromycota	I1C4E4	extra_never_fitted	0	0	0.0303	0.0000	0.0000	0.0000	0.0001	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+I1C4E4	CotH2	adhesin_other_mechanism		Mucoromycota	I1C4E4	extra_never_fitted	0	0	0.0565	0.0000	0.0000	0.0000	0.0002	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+I1CFE1	CotH3	adhesin_other_mechanism		Mucoromycota	I1C4E4	extra_never_fitted	0	0	0.0412	0.0000	0.0000	0.0000	0.0008	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+I1RAQ3	CFEMN1	hard_negative		Pezizomycotina	HN0028	train_eligible	0	0	0.0273	0.0000	0.0000	0.0000	0.0638	0.0000	0.0000	0.0000	0.0011	0.0000	0.0000	0.0000
+I1RDW3	hyd5	kiss_row_positive		Pezizomycotina	KS0052	extra_never_fitted	0	0	0.0057	0.0000	0.0000	0.0000	0.0026	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+I1REI8	CFEM1	hard_negative		Pezizomycotina	HN0029	train_eligible	0	0	0.0053	0.0000	0.0000	0.0000	0.0062	0.0000	0.0000	0.0000	0.0007	0.0000	0.0000	0.0000
+I1RET0	CFEM5	hard_negative		Pezizomycotina	HN0030	train_eligible	0	0	0.0045	0.0000	0.0000	0.0000	0.0037	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+I1RMG9	FET3	hard_negative		Pezizomycotina	HN0039	train_eligible	0	0	0.0442	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0007	0.0000	0.0000	0.0000
+I1RXJ5	Hyd3 (FG09066)	adhesin_other_mechanism		Pezizomycotina	SINGLETON_I1RXJ5	extra_never_fitted	0	0	0.0163	0.0000	0.0000	0.0000	0.0055	0.0000	0.0000	0.0000	0.0007	0.0000	0.0000	0.0000
+I2HB70		background_assumed_negative		Saccharomycotina	YMR316C-A	train_eligible	0	0	0.0014	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0009	0.0000	0.0000	0.0000
+J9VDC2	PQP1	hard_negative		Basidiomycota	HN0031	train_eligible	0	0	0.0849	0.0000	0.0000	0.0000	0.0022	0.0000	0.0000	0.0000	0.0012	0.0000	0.0000	0.0000
+J9VH79	CEL1	hard_negative		Basidiomycota	HN0032	train_eligible	0	0	0.0688	0.0000	0.0000	0.0000	0.0092	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+J9VHS9	CFL1 (CNAG_00795)	adhesin_other_mechanism		Basidiomycota	KS0056	extra_never_fitted	0	0	0.2515	0.0000	0.0000	0.0200	0.0331	0.0000	0.0000	0.0000	0.0020	0.0000	0.0000	0.0000
+J9VKM5	DNJ1	hard_negative		Basidiomycota	HN0003	train_eligible	0	0	0.0064	0.0000	0.0000	0.0000	0.0145	0.0000	0.0000	0.0000	0.0009	0.0000	0.0000	0.0000
+J9VLH0	CNE1	hard_negative		Basidiomycota	HN0033	train_eligible	0	0	0.0499	0.0000	0.0000	0.0000	0.0165	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+J9VNY5	CND01240	kiss_row_positive		Basidiomycota	KS0035	extra_never_fitted	0	0	0.0083	0.0000	0.0000	0.0000	0.0002	0.0000	0.0000	0.0000	0.0007	0.0000	0.0000	0.0000
+J9VQE5	CPL1 (CNAG_02797)	hard_negative		Basidiomycota	SINGLETON_J9VQE5	train_eligible	0	0	0.0308	0.0000	0.0000	0.0000	0.0019	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+J9VS02	cnap1	hard_negative		Basidiomycota	HN0073	train_eligible	0	0	0.0685	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+K1WG73	CFEM6	hard_negative		Pezizomycotina	HN0034	train_eligible	0	0	0.0743	0.0000	0.0000	0.0000	0.0262	0.0000	0.0000	0.0000	0.0008	0.0000	0.0000	0.0000
+K1XT82	CFEM9	hard_negative		Pezizomycotina	HN0035	train_eligible	0	0	0.1106	0.0000	0.0000	0.0000	0.0026	0.0000	0.0000	0.0000	0.0007	0.0000	0.0000	0.0000
+K1XVG1	CFEM1	hard_negative		Pezizomycotina	HN0020	train_eligible	0	0	0.0148	0.0000	0.0000	0.0000	0.0151	0.0000	0.0000	0.0000	0.0009	0.0000	0.0000	0.0000
+K1XW16	CFEM8	hard_negative		Pezizomycotina	HN0036	train_eligible	0	0	0.0033	0.0000	0.0000	0.0000	0.0100	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+O13318	PHR2	background_assumed_negative		Saccharomycotina	C5_05390C_A	train_eligible	0	0	0.0805	0.0000	0.0000	0.0000	0.0041	0.0000	0.0000	0.0000	0.0007	0.0000	0.0000	0.0000
+O13515		background_assumed_negative		Saccharomycotina	YAL034C-B	train_eligible	0	0	0.0031	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0011	0.0000	0.0000	0.0000
+O13519		background_assumed_negative		Saccharomycotina	YPL136W	train_eligible	0	0	0.0013	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000	0.0008	0.0000	0.0000	0.0000
+O13547	CCW14	background_assumed_negative		Saccharomycotina	YLR390W-A	train_eligible	0	0	0.0477	0.0000	0.0000	0.0000	0.0335	0.0000	0.0000	0.0000	0.0027	0.0000	0.0000	0.0000
+O13716	agn1	hard_negative		Taphrinomycotina	HN0037	train_eligible	0	0	0.0863	0.0000	0.0000	0.0000	0.0024	0.0000	0.0000	0.0000	0.0007	0.0000	0.0000	0.0000
+O14456	chit1	hard_negative		Pezizomycotina	HN0027	train_eligible	0	0	0.0212	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000	0.0007	0.0000	0.0000	0.0000
+O42720	CBP1	hard_negative		Pezizomycotina	O42720	train_eligible	0	0	0.0005	0.0000	0.0000	0.0000	0.0019	0.0000	0.0000	0.0000	0.0007	0.0000	0.0000	0.0000
+O59896	LCC3-1	hard_negative		Basidiomycota	HN0039	train_eligible	0	0	0.0660	0.0000	0.0000	0.0000	0.0003	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+O59923	SIR2	excluded_indirect_regulator		Saccharomycotina	C2_01330C_A	extra_never_fitted	0	0	0.0120	0.0000	0.0000	0.0000	0.0034	0.0000	0.0000	0.0000	0.0008	0.0000	0.0000	0.0000
+O74161	chs5	kiss_row_positive		Saccharomycotina	KS0063	extra_never_fitted	0	0	0.0073	0.0000	0.0000	0.0000	0.0581	0.0000	0.0000	0.0000	0.0050	0.0000	0.0000	0.0000
+O74189	PMT1	excluded_indirect_regulator		Saccharomycotina	C7_02890C_A	extra_never_fitted	0	0	0.0135	0.0000	0.0000	0.0000	0.0015	0.0000	0.0000	0.0000	0.0011	0.0000	0.0000	0.0000
+O74199	chi11	hard_negative		Pezizomycotina	HN0040	train_eligible	0	0	0.0073	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+O74254	GAM1	background_assumed_negative		Saccharomycotina	C1_10290W_A	train_eligible	0	0	0.0883	0.0000	0.0000	0.0000	0.0032	0.0000	0.0000	0.0000	0.0012	0.0000	0.0000	0.0000
+O74346	map4	class_positive	A	Taphrinomycotina	O74346	train_eligible	0	0	0.9526	0.9000	1.0000	1.0000	0.5720	0.9000	1.0000	1.0000	0.6258	0.8000	1.0000	1.0000
+O74475	bgs4	kiss_row_positive		Taphrinomycotina	KS0005	extra_never_fitted	0	0	0.0280	0.0000	0.0000	0.0000	0.0150	0.0000	0.0000	0.0000	0.0064	0.0000	0.0400	0.0800
+O74670	MSG	adhesin_other_mechanism		Taphrinomycotina	O74670	extra_never_fitted	0	0	0.0132	0.0000	0.0000	0.0000	0.0353	0.0000	0.0000	0.0000	0.0047	0.0000	0.0000	0.1000
+O94072	VMA4	excluded_indirect_regulator		Saccharomycotina	CR_01970C_A	extra_never_fitted	0	0	0.0002	0.0000	0.0000	0.0000	0.0026	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+O94091	LIP1	background_assumed_negative		Saccharomycotina	CR_09220C_A	train_eligible	0	0	0.0179	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0005	0.0000	0.0000	0.0000
+O94614	chr4	kiss_row_positive		Taphrinomycotina	KS0065	extra_never_fitted	0	0	0.0087	0.0000	0.0000	0.0000	0.0059	0.0000	0.0000	0.0000	0.0007	0.0000	0.0000	0.0000
+O94753	vpl2	hard_negative		Basidiomycota	HN0041	train_eligible	0	0	0.0111	0.0000	0.0000	0.0000	0.0010	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+P00635	PHO5	background_assumed_negative		Saccharomycotina	YAR071W	train_eligible	0	0	0.0190	0.0000	0.0000	0.0000	0.0015	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+P00724	SUC2	background_assumed_negative		Saccharomycotina	YIL162W	train_eligible	0	0	0.0482	0.0000	0.0000	0.0000	0.0047	0.0000	0.0000	0.0000	0.0008	0.0000	0.0000	0.0000
+P00729	PRC1	background_assumed_negative		Saccharomycotina	YBR139W	train_eligible	0	0	0.0365	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0008	0.0000	0.0000	0.0000
+P01149	MF(ALPHA)1	background_assumed_negative		Saccharomycotina	YGL089C	train_eligible	0	0	0.0080	0.0000	0.0000	0.0000	0.1317	0.0000	0.0000	0.1000	0.0513	0.0000	0.6000	0.7000
+P06783	ste3	kiss_row_positive		Saccharomycotina	KS0067	extra_never_fitted	0	0	0.0121	0.0000	0.0000	0.0000	0.0023	0.0000	0.0000	0.0000	0.0010	0.0000	0.0000	0.0000
+P07267	PEP4	background_assumed_negative		Saccharomycotina	YPL154C	train_eligible	0	0	0.0219	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+P07981	egl1	hard_negative		Pezizomycotina	HN0062	train_eligible	0	0	0.3974	0.0000	0.0000	0.3000	0.0439	0.0000	0.0000	0.0000	0.0017	0.0000	0.0000	0.0000
+P07982	egl2	hard_negative		Pezizomycotina	HN0083	train_eligible	0	0	0.1116	0.0000	0.0000	0.0000	0.0041	0.0000	0.0000	0.0000	0.0007	0.0000	0.0000	0.0000
+P07987	cbh2	hard_negative		Pezizomycotina	HN0025	train_eligible	0	0	0.0425	0.0000	0.0000	0.0000	0.0080	0.0000	0.0000	0.0000	0.0007	0.0000	0.0000	0.0000
+P08459	SPS2	background_assumed_negative		Saccharomycotina	YBR078W	train_eligible	0	0	0.0054	0.0000	0.0000	0.0000	0.0028	0.0000	0.0000	0.0000	0.0010	0.0000	0.0000	0.0000
+P08640	FLO11	class_positive	A	Saccharomycotina	E9P9G2	train_eligible	1	0	0.9947	1.0000	1.0000	1.0000	0.5158	0.9000	1.0000	1.0000	0.3059	0.5000	1.0000	1.0000
+P09232	PRB1	background_assumed_negative		Saccharomycotina	YOR003W	train_eligible	0	0	0.0151	0.0000	0.0000	0.0000	0.0041	0.0000	0.0000	0.0000	0.0007	0.0000	0.0000	0.0000
+P09620	KEX1	background_assumed_negative		Saccharomycotina	YGL203C	train_eligible	0	0	0.0525	0.0000	0.0000	0.0000	0.0212	0.0000	0.0000	0.0000	0.0014	0.0000	0.0000	0.0000
+P0C5L8		background_assumed_negative		Saccharomycotina	YDL240C-A	train_eligible	0	0	0.0005	0.0000	0.0000	0.0000	0.0063	0.0000	0.0000	0.0000	0.0009	0.0000	0.0000	0.0000
+P0C5M6		background_assumed_negative		Saccharomycotina	YEL020C-B	train_eligible	0	0	0.0036	0.0000	0.0000	0.0000	0.0165	0.0000	0.0000	0.0000	0.0021	0.0000	0.0000	0.0000
+P0C7S9	gel1	hard_negative		Pezizomycotina	P0C7S9	train_eligible	0	0	0.0496	0.0000	0.0000	0.0000	0.0016	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+P0C954	gel2	hard_negative		Pezizomycotina	HN0042	train_eligible	0	0	0.0639	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+P0CB51	CTS1	hard_negative		Pezizomycotina	HN0027	train_eligible	0	0	0.0397	0.0000	0.0000	0.0000	0.0009	0.0000	0.0000	0.0000	0.0007	0.0000	0.0000	0.0000
+P0CE85	PAU19	background_assumed_negative		Saccharomycotina	YLR037C	train_eligible	0	0	0.0034	0.0000	0.0000	0.0000	0.0009	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+P0CI66		adhesin_other_mechanism		Saccharomycotina	P0CI66	extra_never_fitted	0	0	0.2244	0.0000	0.0000	0.0200	0.3098	0.0000	0.8200	0.9200	0.5805	0.7200	0.9400	0.9800
+P0CI67		adhesin_other_mechanism		Saccharomycotina	P0CI66	extra_never_fitted	0	0	0.2244	0.0000	0.0000	0.0200	0.3098	0.0000	0.8200	0.9200	0.5805	0.7200	0.9400	0.9800
+P0CS93	GAOA	hard_negative		Pezizomycotina	HN0043	train_eligible	0	0	0.3026	0.0000	0.0000	0.0000	0.0051	0.0000	0.0000	0.0000	0.0007	0.0000	0.0000	0.0000
+P0CU05	pfl6	class_positive	A	Taphrinomycotina	Q92344	train_eligible	0	0	0.2353	0.0000	0.0000	0.2000	0.1362	0.0000	0.1000	0.3000	0.0401	0.0000	0.5000	0.8000
+P0CU38	ALS2	class_positive	A	Saccharomycotina	G8BJ61	train_eligible	1	1	0.9997	1.0000	1.0000	1.0000	0.8815	1.0000	1.0000	1.0000	0.9765	1.0000	1.0000	1.0000
+P0CY22	KRE1	background_assumed_negative		Saccharomycotina	CR_03790C_A	train_eligible	0	0	0.0372	0.0000	0.0000	0.0000	0.0433	0.0000	0.0000	0.0000	0.0015	0.0000	0.0000	0.0000
+P0CY27	SAP1	excluded_surface_other_adhesion_phenotype		Saccharomycotina	P0CY29	extra_never_fitted	0	0	0.0346	0.0000	0.0000	0.0000	0.0017	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+P0CY29	SAP3	excluded_surface_other_adhesion_phenotype		Saccharomycotina	P0CY29	extra_never_fitted	0	0	0.0281	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+P0DJ06	SAP2	excluded_surface_other_adhesion_phenotype		Saccharomycotina	P0CY29	extra_never_fitted	0	0	0.0341	0.0000	0.0000	0.0000	0.0034	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+P0DYC5	BGZ82_000752	hard_negative		Mortierellomycota	HN0044	train_eligible	0	0	0.0789	0.0000	0.0000	0.0000	0.1974	0.0000	0.0000	0.6000	0.1148	0.1000	0.6000	0.6000
+P0DYC6		hard_negative		Mortierellomycota	HN0044	train_eligible	0	0	0.2741	0.0000	0.1000	0.2000	0.3058	0.0000	0.8000	1.0000	0.4644	0.5000	0.9000	1.0000
+P10863	TIR1	hard_negative		Saccharomycotina	Q6FKZ0	train_eligible	0	0	0.0271	0.0000	0.0000	0.0000	0.1578	0.0000	0.0000	0.3000	0.0026	0.0000	0.0000	0.0000
+P12630	BAR1	background_assumed_negative		Saccharomycotina	YPL154C	train_eligible	0	0	0.1549	0.0000	0.0000	0.0000	0.0040	0.0000	0.0000	0.0000	0.0008	0.0000	0.0000	0.0000
+P13130	SPS100	background_assumed_negative		Saccharomycotina	YHR139C	train_eligible	0	0	0.0723	0.0000	0.0000	0.0000	0.0473	0.0000	0.0000	0.0000	0.0009	0.0000	0.0000	0.0000
+P13134	KEX2	background_assumed_negative		Saccharomycotina	YNL238W	train_eligible	0	0	0.1052	0.0000	0.0000	0.0000	0.0047	0.0000	0.0000	0.0000	0.0009	0.0000	0.0000	0.0000
+P13649	URA3	excluded_indirect_regulator		Saccharomycotina	C3_01350C_A	extra_never_fitted	0	0	0.0035	0.0000	0.0000	0.0000	0.0003	0.0000	0.0000	0.0000	0.0009	0.0000	0.0000	0.0000
+P15703	BGL2	background_assumed_negative		Saccharomycotina	YGR282C	train_eligible	0	0	0.0138	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000	0.0007	0.0000	0.0000	0.0000
+P16474	KAR2	background_assumed_negative		Saccharomycotina	YJL034W	train_eligible	0	0	0.0037	0.0000	0.0000	0.0000	0.0022	0.0000	0.0000	0.0000	0.0007	0.0000	0.0000	0.0000
+P17260	KRE1	uncurated_repeat_bearing		Saccharomycotina	YNL322C	extra_never_fitted	0	0	0.6059	0.0000	0.5200	0.9400	0.0955	0.0000	0.0000	0.0200	0.0104	0.0000	0.0000	0.1200
+P17489	yA	hard_negative		Pezizomycotina	HN0016	train_eligible	0	0	0.0435	0.0000	0.0000	0.0000	0.0019	0.0000	0.0000	0.0000	0.0007	0.0000	0.0000	0.0000
+P17967	PDI1	background_assumed_negative		Saccharomycotina	YDR518W	train_eligible	0	0	0.0068	0.0000	0.0000	0.0000	0.0031	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+P20840	SAG1	class_positive	A	Saccharomycotina	P20840	train_eligible	0	0	0.0923	0.0000	0.0000	0.0000	0.0269	0.0000	0.0000	0.0000	0.0008	0.0000	0.0000	0.0000
+P22023	KRE5	background_assumed_negative		Saccharomycotina	YOR336W	train_eligible	0	0	0.0832	0.0000	0.0000	0.0000	0.0053	0.0000	0.0000	0.0000	0.0057	0.0000	0.0000	0.0000
+P22146	GAS1	hard_negative		Saccharomycotina	P0C7S9	train_eligible	0	0	0.0605	0.0000	0.0000	0.0000	0.0032	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+P22943	HSP12	excluded_indirect_regulator		Saccharomycotina	YFL014W	extra_never_fitted	0	0	0.0001	0.0000	0.0000	0.0000	0.0655	0.0000	0.0000	0.0000	0.0020	0.0000	0.0000	0.0000
+P23285	CPR2	background_assumed_negative		Saccharomycotina	YHR057C	train_eligible	0	0	0.0193	0.0000	0.0000	0.0000	0.0003	0.0000	0.0000	0.0000	0.0010	0.0000	0.0000	0.0000
+P23776	EXG1	hard_negative		Saccharomycotina	Q9HDL9	train_eligible	0	0	0.0283	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0007	0.0000	0.0000	0.0000
+P24031	PHO3	background_assumed_negative		Saccharomycotina	YAR071W	train_eligible	0	0	0.0114	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+P25036	YSP3	background_assumed_negative		Saccharomycotina	YOR003W	train_eligible	0	0	0.0133	0.0000	0.0000	0.0000	0.0012	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+P25334	CPR4	background_assumed_negative		Saccharomycotina	YHR057C	train_eligible	0	0	0.0440	0.0000	0.0000	0.0000	0.0003	0.0000	0.0000	0.0000	0.0008	0.0000	0.0000	0.0000
+P25371	ADP1	background_assumed_negative		Saccharomycotina	YCR011C	train_eligible	0	0	0.0500	0.0000	0.0000	0.0000	0.0041	0.0000	0.0000	0.0000	0.0016	0.0000	0.0000	0.0000
+P25381	RRT12	background_assumed_negative		Saccharomycotina	YOR003W	train_eligible	0	0	0.0153	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+P25574	EMC1	background_assumed_negative		Saccharomycotina	YCL045C	train_eligible	0	0	0.0596	0.0000	0.0000	0.0000	0.0035	0.0000	0.0000	0.0000	0.0011	0.0000	0.0000	0.0000
+P25577		background_assumed_negative		Saccharomycotina	YCL049C	train_eligible	0	0	0.0206	0.0000	0.0000	0.0000	0.0003	0.0000	0.0000	0.0000	0.0009	0.0000	0.0000	0.0000
+P25625	PER1	background_assumed_negative		Saccharomycotina	YCR044C	train_eligible	0	0	0.0142	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000	0.0007	0.0000	0.0000	0.0000
+P25639		background_assumed_negative		Saccharomycotina	YCR061W	train_eligible	0	0	0.0465	0.0000	0.0000	0.0000	0.0007	0.0000	0.0000	0.0000	0.0007	0.0000	0.0000	0.0000
+P25653	FIG2	background_assumed_negative		Saccharomycotina	YCR089W	train_eligible	0	0	0.9384	0.9000	1.0000	1.0000	0.4330	0.6000	1.0000	1.0000	0.7983	1.0000	1.0000	1.0000
+P27654	TIP1	background_assumed_negative		Saccharomycotina	YBR067C	train_eligible	0	0	0.0099	0.0000	0.0000	0.0000	0.0090	0.0000	0.0000	0.0000	0.0007	0.0000	0.0000	0.0000
+P27825	CNE1	uncurated_repeat_bearing		Saccharomycotina	YAL058W	extra_never_fitted	0	0	0.0984	0.0000	0.0000	0.0000	0.0034	0.0000	0.0000	0.0000	0.0009	0.0000	0.0000	0.0000
+P28319	CWP1	hard_negative		Saccharomycotina	P28319	train_eligible	0	0	0.0132	0.0000	0.0000	0.0000	0.0052	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+P29029	CTS1	hard_negative		Saccharomycotina	P29029	train_eligible	0	0	0.0977	0.0000	0.0000	0.0000	0.0970	0.0000	0.0000	0.0000	0.1240	0.0000	0.7000	0.9000
+P29465	chs3	kiss_row_positive		Saccharomycotina	KS0078	extra_never_fitted	0	0	0.0276	0.0000	0.0000	0.0000	0.0061	0.0000	0.0000	0.0000	0.0037	0.0000	0.0000	0.0000
+P29717	XOG1	excluded_surface_other_adhesion_phenotype		Saccharomycotina	Q9HDL9	extra_never_fitted	0	0	0.0329	0.0000	0.0000	0.0000	0.0040	0.0000	0.0000	0.0000	0.0010	0.0000	0.0000	0.0000
+P31302	pra1	kiss_row_positive		Basidiomycota	KS0079	extra_never_fitted	0	0	0.0014	0.0000	0.0000	0.0000	0.0001	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+P32323	AGA1	class_positive	A	Saccharomycotina	P32323	train_eligible	1	0	0.9720	1.0000	1.0000	1.0000	0.3426	0.0000	1.0000	1.0000	0.0669	0.1000	0.4000	0.7000
+P32329	YPS1	hard_negative		Saccharomycotina	Q59SU1	train_eligible	0	0	0.1575	0.0000	0.0000	0.0000	0.0128	0.0000	0.0000	0.0000	0.0009	0.0000	0.0000	0.0000
+P32334	MSB2	hard_negative		Saccharomycotina	P32334	train_eligible	0	0	0.7186	0.0000	0.8000	0.9000	0.4128	0.2000	1.0000	1.0000	0.2685	0.3000	0.7000	0.8000
+P32361	IRE1	background_assumed_negative		Saccharomycotina	YHR079C	train_eligible	0	0	0.0867	0.0000	0.0000	0.0000	0.0035	0.0000	0.0000	0.0000	0.0020	0.0000	0.0000	0.0000
+P32435	MF(ALPHA)2	background_assumed_negative		Saccharomycotina	YGL089C	train_eligible	0	0	0.0011	0.0000	0.0000	0.0000	0.0480	0.0000	0.0000	0.0000	0.0008	0.0000	0.0000	0.0000
+P32472	FPR2	background_assumed_negative		Saccharomycotina	YDR519W	train_eligible	0	0	0.0099	0.0000	0.0000	0.0000	0.0047	0.0000	0.0000	0.0000	0.0008	0.0000	0.0000	0.0000
+P32474	EUG1	background_assumed_negative		Saccharomycotina	YDR518W	train_eligible	0	0	0.0291	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0008	0.0000	0.0000	0.0000
+P32478	HSP150	hard_negative		Saccharomycotina	P47001	train_eligible	0	0	0.0226	0.0000	0.0000	0.0000	0.2775	0.0000	0.5000	0.7000	0.0600	0.0000	0.1000	0.6000
+P32603	SPR1	background_assumed_negative		Saccharomycotina	YOR190W	train_eligible	0	0	0.0406	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0008	0.0000	0.0000	0.0000
+P32623	UTR2	hard_negative		Saccharomycotina	P32623	train_eligible	0	0	0.2002	0.0000	0.0000	0.0000	0.0619	0.0000	0.0000	0.0000	0.0022	0.0000	0.0000	0.0000
+P32768	FLO1	class_positive	A	Saccharomycotina	P32768	train_eligible	1	1	0.9997	1.0000	1.0000	1.0000	0.9074	1.0000	1.0000	1.0000	0.9927	1.0000	1.0000	1.0000
+P32781	AGA2	adhesin_other_mechanism		Saccharomycotina	P32781	extra_never_fitted	0	0	0.1629	0.0000	0.0000	0.0000	0.0423	0.0000	0.0000	0.0000	0.0023	0.0000	0.0000	0.0000
+P32791	FRE1	background_assumed_negative		Saccharomycotina	YLR214W	train_eligible	0	0	0.0296	0.0000	0.0000	0.0000	0.0016	0.0000	0.0000	0.0000	0.0009	0.0000	0.0000	0.0000
+P32802	EMP70	background_assumed_negative		Saccharomycotina	YLR083C	train_eligible	0	0	0.0619	0.0000	0.0000	0.0000	0.0035	0.0000	0.0000	0.0000	0.0013	0.0000	0.0000	0.0000
+P32803	EMP24	background_assumed_negative		Saccharomycotina	YGL200C	train_eligible	0	0	0.0130	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0009	0.0000	0.0000	0.0000
+P32857	PTM1	background_assumed_negative		Saccharomycotina	YKL039W	train_eligible	0	0	0.0178	0.0000	0.0000	0.0000	0.0003	0.0000	0.0000	0.0000	0.0008	0.0000	0.0000	0.0000
+P33767	WBP1	background_assumed_negative		Saccharomycotina	YEL002C	train_eligible	0	0	0.0347	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000	0.0009	0.0000	0.0000	0.0000
+P34226	chs4_skt5	kiss_row_positive		Saccharomycotina	KS0084	extra_never_fitted	0	0	0.0059	0.0000	0.0000	0.0000	0.0070	0.0000	0.0000	0.0000	0.0007	0.0000	0.0000	0.0000
+P35176	CPR5	background_assumed_negative		Saccharomycotina	YHR057C	train_eligible	0	0	0.0146	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0010	0.0000	0.0000	0.0000
+P35206	CSG2	background_assumed_negative		Saccharomycotina	YBR036C	train_eligible	0	0	0.0070	0.0000	0.0000	0.0000	0.0022	0.0000	0.0000	0.0000	0.0009	0.0000	0.0000	0.0000
+P35842	PHO11	background_assumed_negative		Saccharomycotina	YAR071W	train_eligible	0	0	0.0261	0.0000	0.0000	0.0000	0.0015	0.0000	0.0000	0.0000	0.0009	0.0000	0.0000	0.0000
+P35994	PAU16	background_assumed_negative		Saccharomycotina	YLR037C	train_eligible	0	0	0.0025	0.0000	0.0000	0.0000	0.0022	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+P36016	LHS1	background_assumed_negative		Saccharomycotina	YKL073W	train_eligible	0	0	0.0117	0.0000	0.0000	0.0000	0.0003	0.0000	0.0000	0.0000	0.0011	0.0000	0.0000	0.0000
+P36027	MID2	hard_negative		Saccharomycotina	P36027	train_eligible	0	0	0.1615	0.0000	0.0000	0.0000	0.0629	0.0000	0.0000	0.0000	0.0022	0.0000	0.0000	0.0000
+P36033	FRE2	background_assumed_negative		Saccharomycotina	YOR384W	train_eligible	0	0	0.0243	0.0000	0.0000	0.0000	0.0011	0.0000	0.0000	0.0000	0.0007	0.0000	0.0000	0.0000
+P36081	PSG1	background_assumed_negative		Saccharomycotina	YKL077W	train_eligible	0	0	0.0811	0.0000	0.0000	0.0000	0.0085	0.0000	0.0000	0.0000	0.0011	0.0000	0.0000	0.0000
+P36091	DCW1	background_assumed_negative		Saccharomycotina	YKL046C	train_eligible	0	0	0.0132	0.0000	0.0000	0.0000	0.0034	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+P36096	TUL1	background_assumed_negative		Saccharomycotina	YKL034W	train_eligible	0	0	0.0889	0.0000	0.0000	0.0000	0.0003	0.0000	0.0000	0.0000	0.0011	0.0000	0.0000	0.0000
+P36110	PRY2	background_assumed_negative		Saccharomycotina	YJL079C	train_eligible	0	0	0.1010	0.0000	0.0000	0.0000	0.0906	0.0000	0.0000	0.0000	0.0113	0.0000	0.0000	0.1000
+P36135	UTH1	background_assumed_negative		Saccharomycotina	YKR042W	train_eligible	0	0	0.0369	0.0000	0.0000	0.0000	0.0102	0.0000	0.0000	0.0000	0.0009	0.0000	0.0000	0.0000
+P36137	UIP5	background_assumed_negative		Saccharomycotina	YKR044W	train_eligible	0	0	0.0066	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000	0.0010	0.0000	0.0000	0.0000
+P36170	FLO10	class_positive	A	Saccharomycotina	P32768	train_eligible	0	0	0.9551	0.8000	1.0000	1.0000	0.5239	0.8000	1.0000	1.0000	0.0482	0.0000	0.3000	0.8000
+P37302	APE3	background_assumed_negative		Saccharomycotina	YBR286W	train_eligible	0	0	0.0043	0.0000	0.0000	0.0000	0.0032	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+P38068	GRX7	background_assumed_negative		Saccharomycotina	YBR014C	train_eligible	0	0	0.0105	0.0000	0.0000	0.0000	0.0019	0.0000	0.0000	0.0000	0.0008	0.0000	0.0000	0.0000
+P38082	NRG2	excluded_indirect_regulator		Saccharomycotina	YBR066C	extra_never_fitted	0	0	0.0523	0.0000	0.0000	0.0000	0.0240	0.0000	0.0000	0.0000	0.0030	0.0000	0.0000	0.0200
+P38109	ATG42	background_assumed_negative		Saccharomycotina	YBR139W	train_eligible	0	0	0.0694	0.0000	0.0000	0.0000	0.0003	0.0000	0.0000	0.0000	0.0008	0.0000	0.0000	0.0000
+P38138	ROT2	background_assumed_negative		Saccharomycotina	YBR229C	train_eligible	0	0	0.0988	0.0000	0.0000	0.0000	0.0035	0.0000	0.0000	0.0000	0.0010	0.0000	0.0000	0.0000
+P38155	PAU24	background_assumed_negative		Saccharomycotina	YLR037C	train_eligible	0	0	0.0032	0.0000	0.0000	0.0000	0.0007	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+P38215		background_assumed_negative		Saccharomycotina	YBR013C	train_eligible	0	0	0.0188	0.0000	0.0000	0.0000	0.0062	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+P38248	ECM33	hard_negative		Saccharomycotina	A0A1D8PCY4	train_eligible	0	0	0.0291	0.0000	0.0000	0.0000	0.0125	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+P38288	TOS1	background_assumed_negative		Saccharomycotina	YJL171C	train_eligible	0	0	0.0401	0.0000	0.0000	0.0000	0.0079	0.0000	0.0000	0.0000	0.0005	0.0000	0.0000	0.0000
+P38320		background_assumed_negative		Saccharomycotina	YBR224W	train_eligible	0	0	0.0069	0.0000	0.0000	0.0000	0.0029	0.0000	0.0000	0.0000	0.0009	0.0000	0.0000	0.0000
+P38616	YGP1	background_assumed_negative		Saccharomycotina	YHR139C	train_eligible	0	0	0.0174	0.0000	0.0000	0.0000	0.0085	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+P38631	fks1	kiss_row_positive		Saccharomycotina	KS0005	extra_never_fitted	0	0	0.0109	0.0000	0.0000	0.0000	0.0105	0.0000	0.0000	0.0000	0.0049	0.0000	0.0200	0.0800
+P38678	cot-2/gs-1	kiss_row_positive		Pezizomycotina	KS0006	extra_never_fitted	0	0	0.0114	0.0000	0.0000	0.0000	0.0176	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+P38693	PHO12	background_assumed_negative		Saccharomycotina	YAR071W	train_eligible	0	0	0.0260	0.0000	0.0000	0.0000	0.0015	0.0000	0.0000	0.0000	0.0009	0.0000	0.0000	0.0000
+P38725	PAU13	background_assumed_negative		Saccharomycotina	YLR037C	train_eligible	0	0	0.0034	0.0000	0.0000	0.0000	0.0007	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+P38729		background_assumed_negative		Saccharomycotina	YHL042W	train_eligible	0	0	0.0010	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000	0.0008	0.0000	0.0000	0.0000
+P38733		background_assumed_negative		Saccharomycotina	YHL037C	train_eligible	0	0	0.0134	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0008	0.0000	0.0000	0.0000
+P38739	WSC4	background_assumed_negative		Saccharomycotina	YHL028W	train_eligible	0	0	0.9585	1.0000	1.0000	1.0000	0.4934	0.6000	1.0000	1.0000	0.3608	0.3000	0.9000	1.0000
+P38742	NPR3	background_assumed_negative		Saccharomycotina	YHL023C	train_eligible	0	0	0.0425	0.0000	0.0000	0.0000	0.0834	0.0000	0.0000	0.0000	0.0185	0.0000	0.2000	0.4000
+P38745		background_assumed_negative		Saccharomycotina	YKL039W	train_eligible	0	0	0.0179	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0008	0.0000	0.0000	0.0000
+P38813	BIG1	background_assumed_negative		Saccharomycotina	YHR101C	train_eligible	0	0	0.0208	0.0000	0.0000	0.0000	0.0025	0.0000	0.0000	0.0000	0.0010	0.0000	0.0000	0.0000
+P38819	ERP5	background_assumed_negative		Saccharomycotina	YHR110W	train_eligible	0	0	0.0036	0.0000	0.0000	0.0000	0.0003	0.0000	0.0000	0.0000	0.0008	0.0000	0.0000	0.0000
+P38836	ECM14	background_assumed_negative		Saccharomycotina	YHR132C	train_eligible	0	0	0.0220	0.0000	0.0000	0.0000	0.0003	0.0000	0.0000	0.0000	0.0007	0.0000	0.0000	0.0000
+P38841		background_assumed_negative		Saccharomycotina	YHR138C	train_eligible	0	0	0.0057	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0008	0.0000	0.0000	0.0000
+P38843	chs7	kiss_row_positive		Saccharomycotina	KS0088	extra_never_fitted	0	0	0.0041	0.0000	0.0000	0.0000	0.0020	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+P38844	DSE2	background_assumed_negative		Saccharomycotina	YHR143W	train_eligible	0	0	0.7116	0.0000	1.0000	1.0000	0.2016	0.0000	0.3000	0.6000	0.0726	0.1000	0.3000	0.4000
+P38849	MTC6	background_assumed_negative		Saccharomycotina	YHR151C	train_eligible	0	0	0.0597	0.0000	0.0000	0.0000	0.0040	0.0000	0.0000	0.0000	0.0010	0.0000	0.0000	0.0000
+P38875	GPI16	background_assumed_negative		Saccharomycotina	YHR188C	train_eligible	0	0	0.0768	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000	0.0008	0.0000	0.0000	0.0000
+P38881	NVJ1	background_assumed_negative		Saccharomycotina	YHR195W	train_eligible	0	0	0.0049	0.0000	0.0000	0.0000	0.0255	0.0000	0.0000	0.0000	0.0032	0.0000	0.0000	0.0000
+P38887	SMN1	background_assumed_negative		Saccharomycotina	YHR202W	train_eligible	0	0	0.0824	0.0000	0.0000	0.0000	0.0003	0.0000	0.0000	0.0000	0.0010	0.0000	0.0000	0.0000
+P38888	MNL1	background_assumed_negative		Saccharomycotina	YHR204W	train_eligible	0	0	0.1782	0.0000	0.0000	0.0000	0.0056	0.0000	0.0000	0.0000	0.0010	0.0000	0.0000	0.0000
+P38894	FLO5	class_positive	A	Saccharomycotina	P32768	train_eligible	1	1	0.9953	1.0000	1.0000	1.0000	0.8578	1.0000	1.0000	1.0000	0.9780	1.0000	1.0000	1.0000
+P38928	AXL2	background_assumed_negative		Saccharomycotina	YIL140W	train_eligible	0	0	0.1204	0.0000	0.0000	0.0000	0.0585	0.0000	0.0000	0.0000	0.0032	0.0000	0.0000	0.0000
+P38993	FET3	hard_negative		Saccharomycotina	P38993	train_eligible	0	0	0.0602	0.0000	0.0000	0.0000	0.0009	0.0000	0.0000	0.0000	0.0010	0.0000	0.0000	0.0000
+P39005	KRE9	hard_negative		Saccharomycotina	P39005	train_eligible	0	0	0.2805	0.0000	0.0000	0.0000	0.1608	0.0000	0.0000	0.1000	0.3022	0.3000	0.9000	1.0000
+P39105	PLB1	background_assumed_negative		Saccharomycotina	YMR006C	train_eligible	0	0	0.0656	0.0000	0.0000	0.0000	0.0103	0.0000	0.0000	0.0000	0.0009	0.0000	0.0000	0.0000
+P39543	SOP4	background_assumed_negative		Saccharomycotina	YJL192C	train_eligible	0	0	0.0084	0.0000	0.0000	0.0000	0.0003	0.0000	0.0000	0.0000	0.0005	0.0000	0.0000	0.0000
+P39545	PAU7	background_assumed_negative		Saccharomycotina	YAR020C	train_eligible	0	0	0.0001	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0007	0.0000	0.0000	0.0000
+P39704	ERP2	background_assumed_negative		Saccharomycotina	YOR016C	train_eligible	0	0	0.0042	0.0000	0.0000	0.0000	0.0013	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+P39712	FLO9	class_positive	A	Saccharomycotina	P32768	train_eligible	1	1	0.9991	1.0000	1.0000	1.0000	0.8134	1.0000	1.0000	1.0000	0.9805	1.0000	1.0000	1.0000
+P39719	FLC2	background_assumed_negative		Saccharomycotina	YOR365C	train_eligible	0	0	0.0205	0.0000	0.0000	0.0000	0.0033	0.0000	0.0000	0.0000	0.0007	0.0000	0.0000	0.0000
+P39827	CDC10	excluded_indirect_regulator		Saccharomycotina	CR_04570C_A	extra_never_fitted	0	0	0.0047	0.0000	0.0000	0.0000	0.0003	0.0000	0.0000	0.0000	0.0009	0.0000	0.0000	0.0000
+P39931	SSP120	background_assumed_negative		Saccharomycotina	YLR250W	train_eligible	0	0	0.0046	0.0000	0.0000	0.0000	0.0043	0.0000	0.0000	0.0000	0.0009	0.0000	0.0000	0.0000
+P39982	HHY1	background_assumed_negative		Saccharomycotina	YEL059W	train_eligible	0	0	0.0074	0.0000	0.0000	0.0000	0.0069	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+P39989		background_assumed_negative		Saccharomycotina	YEL028W	train_eligible	0	0	0.0239	0.0000	0.0000	0.0000	0.0067	0.0000	0.0000	0.0000	0.0010	0.0000	0.0000	0.0000
+P40006	IRC22	background_assumed_negative		Saccharomycotina	YEL001C	train_eligible	0	0	0.0162	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0007	0.0000	0.0000	0.0000
+P40049		background_assumed_negative		Saccharomycotina	YER076C	train_eligible	0	0	0.0276	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0007	0.0000	0.0000	0.0000
+P40071	TMN3	background_assumed_negative		Saccharomycotina	YER113C	train_eligible	0	0	0.0371	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000	0.0011	0.0000	0.0000	0.0000
+P40092	SPI1	background_assumed_negative		Saccharomycotina	YER150W	train_eligible	0	0	0.1817	0.0000	0.0000	0.0000	0.0449	0.0000	0.0000	0.0000	0.0149	0.0000	0.0000	0.3000
+P40358	JEM1	background_assumed_negative		Saccharomycotina	YJL073W	train_eligible	0	0	0.0155	0.0000	0.0000	0.0000	0.0047	0.0000	0.0000	0.0000	0.0010	0.0000	0.0000	0.0000
+P40367	LAS21	background_assumed_negative		Saccharomycotina	YJL062W	train_eligible	0	0	0.0110	0.0000	0.0000	0.0000	0.0029	0.0000	0.0000	0.0000	0.0009	0.0000	0.0000	0.0000
+P40442	CSS1	adhesin_other_mechanism		Saccharomycotina	Q05164	extra_never_fitted	0	0	0.4901	0.0000	0.4000	0.9000	0.2739	0.0000	0.9000	1.0000	0.0229	0.0000	0.2000	0.7000
+P40472	SIM1	background_assumed_negative		Saccharomycotina	YKR042W	train_eligible	0	0	0.1075	0.0000	0.0000	0.0000	0.0528	0.0000	0.0000	0.0000	0.0020	0.0000	0.0000	0.0000
+P40505	SDS3	excluded_indirect_regulator		Saccharomycotina	YIL084C	extra_never_fitted	0	0	0.0021	0.0000	0.0000	0.0000	0.0214	0.0000	0.0000	0.0000	0.0016	0.0000	0.0000	0.0000
+P40520		background_assumed_negative		Saccharomycotina	YIL059C	train_eligible	0	0	0.0178	0.0000	0.0000	0.0000	0.0091	0.0000	0.0000	0.0000	0.0011	0.0000	0.0000	0.0000
+P40526	dfg10	kiss_row_positive		Saccharomycotina	KS0090	extra_never_fitted	0	0	0.0098	0.0000	0.0000	0.0000	0.0007	0.0000	0.0000	0.0000	0.0010	0.0000	0.0000	0.0000
+P40552	TIR3	hard_negative		Saccharomycotina	Q6FKZ0	train_eligible	0	0	0.0028	0.0000	0.0000	0.0000	0.0114	0.0000	0.0000	0.0000	0.0017	0.0000	0.0000	0.0000
+P40557	EPS1	background_assumed_negative		Saccharomycotina	YIL005W	train_eligible	0	0	0.0874	0.0000	0.0000	0.0000	0.0038	0.0000	0.0000	0.0000	0.0014	0.0000	0.0000	0.0000
+P40583	YPS6	background_assumed_negative		Saccharomycotina	YPL154C	train_eligible	0	0	0.0672	0.0000	0.0000	0.0000	0.0047	0.0000	0.0000	0.0000	0.0010	0.0000	0.0000	0.0000
+P40585	PAU15	background_assumed_negative		Saccharomycotina	YLR037C	train_eligible	0	0	0.0031	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+P40953	CHT2	background_assumed_negative		Saccharomycotina	CR_00180C_A	train_eligible	0	0	0.1430	0.0000	0.0000	0.0000	0.0168	0.0000	0.0000	0.0000	0.0009	0.0000	0.0000	0.0000
+P40954	CHT3	background_assumed_negative		Saccharomycotina	CR_00180C_A	train_eligible	0	0	0.4663	0.0000	0.3000	0.7000	0.2680	0.0000	0.7000	0.7000	0.0628	0.1000	0.5000	0.9000
+P40955	chs6	kiss_row_positive		Saccharomycotina	KS0091	extra_never_fitted	0	0	0.0162	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000	0.0011	0.0000	0.0000	0.0000
+P41543	OST1	background_assumed_negative		Saccharomycotina	YJL002C	train_eligible	0	0	0.0555	0.0000	0.0000	0.0000	0.0003	0.0000	0.0000	0.0000	0.0009	0.0000	0.0000	0.0000
+P41746	rodA	adhesin_other_mechanism		Pezizomycotina	E9QT94	extra_never_fitted	0	0	0.0074	0.0000	0.0000	0.0000	0.0033	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+P41748	pepA	hard_negative		Pezizomycotina	HN0052	train_eligible	0	0	0.0549	0.0000	0.0000	0.0000	0.0020	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+P41809	HKR1	hard_negative		Saccharomycotina	P41809	train_eligible	1	0	0.9728	0.9000	1.0000	1.0000	0.5260	0.8000	1.0000	1.0000	0.4707	0.5000	1.0000	1.0000
+P41821	MID1	background_assumed_negative		Saccharomycotina	YNL291C	train_eligible	0	0	0.0746	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000	0.0007	0.0000	0.0000	0.0000
+P42835	EGT2	hard_negative		Saccharomycotina	P42835	train_eligible	0	0	0.6609	0.0000	0.7000	1.0000	0.3311	0.2000	0.6000	0.7000	0.1519	0.1000	0.6000	1.0000
+P43076	PHR1	excluded_surface_other_adhesion_phenotype		Saccharomycotina	P0C7S9	extra_never_fitted	0	0	0.0492	0.0000	0.0000	0.0000	0.0025	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+P43094	SAP5	background_assumed_negative		Saccharomycotina	C3_05230W_A	train_eligible	0	0	0.0438	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000	0.0007	0.0000	0.0000	0.0000
+P43497	CWP2	hard_negative		Saccharomycotina	P43497	train_eligible	0	0	0.0004	0.0000	0.0000	0.0000	0.0107	0.0000	0.0000	0.0000	0.0098	0.0000	0.0000	0.0000
+P43552		background_assumed_negative		Saccharomycotina	YFL051C	train_eligible	0	0	0.2597	0.0000	0.0000	0.0000	0.0748	0.0000	0.0000	0.0000	0.0072	0.0000	0.0000	0.1000
+P43555	EMP47	background_assumed_negative		Saccharomycotina	YLR080W	train_eligible	0	0	0.0141	0.0000	0.0000	0.0000	0.0040	0.0000	0.0000	0.0000	0.0009	0.0000	0.0000	0.0000
+P43561	FET5	background_assumed_negative		Saccharomycotina	YFL041W	train_eligible	0	0	0.0405	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000	0.0009	0.0000	0.0000	0.0000
+P43595	DCV1	background_assumed_negative		Saccharomycotina	YFR012W	train_eligible	0	0	0.0087	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0009	0.0000	0.0000	0.0000
+P43600	CSS2	background_assumed_negative		Saccharomycotina	YFR020W	train_eligible	0	0	0.0377	0.0000	0.0000	0.0000	0.0003	0.0000	0.0000	0.0000	0.0009	0.0000	0.0000	0.0000
+P43611	OSW7	background_assumed_negative		Saccharomycotina	YFR039C	train_eligible	0	0	0.0032	0.0000	0.0000	0.0000	0.0003	0.0000	0.0000	0.0000	0.0010	0.0000	0.0000	0.0000
+P43613	ERJ5	background_assumed_negative		Saccharomycotina	YFR041C	train_eligible	0	0	0.0256	0.0000	0.0000	0.0000	0.0181	0.0000	0.0000	0.0000	0.0010	0.0000	0.0000	0.0000
+P46592	MNT2	excluded_indirect_regulator		Saccharomycotina	C3_01810C_A	extra_never_fitted	0	0	0.0191	0.0000	0.0000	0.0000	0.0313	0.0000	0.0000	0.0000	0.0031	0.0000	0.0000	0.0200
+P46593	HWP1	class_positive	A	Saccharomycotina	P46593	train_eligible	0	0	0.7859	0.1000	1.0000	1.0000	0.4267	0.4000	1.0000	1.0000	0.7270	0.8000	1.0000	1.0000
+P46982	MNN5	background_assumed_negative		Saccharomycotina	YJL186W	train_eligible	0	0	0.0212	0.0000	0.0000	0.0000	0.0003	0.0000	0.0000	0.0000	0.0009	0.0000	0.0000	0.0000
+P46989	ATG27	background_assumed_negative		Saccharomycotina	YJL178C	train_eligible	0	0	0.0271	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000	0.0011	0.0000	0.0000	0.0000
+P46992	TOH1	background_assumed_negative		Saccharomycotina	YJL171C	train_eligible	0	0	0.0453	0.0000	0.0000	0.0000	0.0022	0.0000	0.0000	0.0000	0.0005	0.0000	0.0000	0.0000
+P46999	PIR5	uncurated_repeat_bearing		Saccharomycotina	YKL164C	extra_never_fitted	0	0	0.0488	0.0000	0.0000	0.0000	0.0015	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+P47001	CIS3	hard_negative		Saccharomycotina	P47001	train_eligible	0	0	0.0065	0.0000	0.0000	0.0000	0.0028	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+P47032	PRY1	background_assumed_negative		Saccharomycotina	YJL079C	train_eligible	0	0	0.0461	0.0000	0.0000	0.0000	0.0741	0.0000	0.0000	0.0000	0.0148	0.0000	0.0000	0.3000
+P47033	PRY3	background_assumed_negative		Saccharomycotina	YJL078C	train_eligible	1	0	0.5422	0.0000	0.1000	0.7000	0.1965	0.0000	0.1000	0.7000	0.0331	0.0000	0.4000	0.5000
+P47040	YHC3	background_assumed_negative		Saccharomycotina	YJL059W	train_eligible	0	0	0.0073	0.0000	0.0000	0.0000	0.0010	0.0000	0.0000	0.0000	0.0007	0.0000	0.0000	0.0000
+P47055	LOH1	background_assumed_negative		Saccharomycotina	YJL038C	train_eligible	0	0	0.0006	0.0000	0.0000	0.0000	0.0041	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+P47056	IRC18	background_assumed_negative		Saccharomycotina	YJL038C	train_eligible	0	0	0.0039	0.0000	0.0000	0.0000	0.0034	0.0000	0.0000	0.0000	0.0008	0.0000	0.0000	0.0000
+P47121		background_assumed_negative		Saccharomycotina	YJR071W	train_eligible	0	0	0.0043	0.0000	0.0000	0.0000	0.0016	0.0000	0.0000	0.0000	0.0008	0.0000	0.0000	0.0000
+P47157		background_assumed_negative		Saccharomycotina	YJR120W	train_eligible	0	0	0.0077	0.0000	0.0000	0.0000	0.0013	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+P47178	DAN1	hard_negative		Saccharomycotina	P47178	train_eligible	0	0	0.0364	0.0000	0.0000	0.0000	0.0236	0.0000	0.0000	0.0000	0.0121	0.0000	0.0000	0.0000
+P47179	DAN4	hard_negative		Saccharomycotina	P47179	train_eligible	1	0	0.9921	1.0000	1.0000	1.0000	0.7022	1.0000	1.0000	1.0000	0.8499	0.9000	1.0000	1.0000
+P48439	OST3	background_assumed_negative		Saccharomycotina	YOR085W	train_eligible	0	0	0.0270	0.0000	0.0000	0.0000	0.0003	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+P48560	TOS6	background_assumed_negative		Saccharomycotina	YNL300W	train_eligible	0	0	0.0576	0.0000	0.0000	0.0000	0.0462	0.0000	0.0000	0.0000	0.0084	0.0000	0.0000	0.0000
+P48827	chit42	hard_negative		Pezizomycotina	HN0027	train_eligible	0	0	0.0221	0.0000	0.0000	0.0000	0.0003	0.0000	0.0000	0.0000	0.0007	0.0000	0.0000	0.0000
+P49018	GPI8	background_assumed_negative		Saccharomycotina	YDR331W	train_eligible	0	0	0.0201	0.0000	0.0000	0.0000	0.0019	0.0000	0.0000	0.0000	0.0008	0.0000	0.0000	0.0000
+P50112	KNH1	background_assumed_negative		Saccharomycotina	YDL049C	train_eligible	0	0	0.0565	0.0000	0.0000	0.0000	0.0237	0.0000	0.0000	0.0000	0.0359	0.0000	0.3000	0.8000
+P50142	HSP60	adhesin_other_mechanism		Pezizomycotina	P50142	extra_never_fitted	0	0	0.0024	0.0000	0.0000	0.0000	0.0054	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+P52290	DIA3	background_assumed_negative		Saccharomycotina	YAR071W	train_eligible	0	0	0.0298	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000	0.0007	0.0000	0.0000	0.0000
+P52751	MPG1	adhesin_other_mechanism		Pezizomycotina	P52751	extra_never_fitted	0	0	0.0174	0.0000	0.0000	0.0000	0.0060	0.0000	0.0000	0.0000	0.0007	0.0000	0.0000	0.0000
+P52754	hfb1	kiss_row_positive		Pezizomycotina	KS0099	extra_never_fitted	0	0	0.0022	0.0000	0.0000	0.0000	0.0061	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+P52911	EXG2	background_assumed_negative		Saccharomycotina	YOR190W	train_eligible	0	0	0.0698	0.0000	0.0000	0.0000	0.0083	0.0000	0.0000	0.0000	0.0008	0.0000	0.0000	0.0000
+P53057	YPS5	background_assumed_negative		Saccharomycotina	YGL259W	train_eligible	0	0	0.0689	0.0000	0.0000	0.0000	0.0143	0.0000	0.0000	0.0000	0.0015	0.0000	0.0000	0.0000
+P53058	VEL1	background_assumed_negative		Saccharomycotina	YOR387C	train_eligible	0	0	0.0089	0.0000	0.0000	0.0000	0.0074	0.0000	0.0000	0.0000	0.0010	0.0000	0.0000	0.0000
+P53075	SHE10	background_assumed_negative		Saccharomycotina	YGL228W	train_eligible	0	0	0.0113	0.0000	0.0000	0.0000	0.0013	0.0000	0.0000	0.0000	0.0009	0.0000	0.0000	0.0000
+P53116		background_assumed_negative		Saccharomycotina	YGL149W	train_eligible	0	0	0.0090	0.0000	0.0000	0.0000	0.0105	0.0000	0.0000	0.0000	0.0010	0.0000	0.0000	0.0000
+P53121	FLC3	background_assumed_negative		Saccharomycotina	YOR365C	train_eligible	0	0	0.0219	0.0000	0.0000	0.0000	0.0065	0.0000	0.0000	0.0000	0.0007	0.0000	0.0000	0.0000
+P53189	SCW11	background_assumed_negative		Saccharomycotina	YGR279C	train_eligible	0	0	0.3820	0.0000	0.0000	0.4000	0.3051	0.0000	0.9000	1.0000	0.1137	0.1000	0.6000	1.0000
+P53198	ERP6	background_assumed_negative		Saccharomycotina	YHR110W	train_eligible	0	0	0.0042	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0009	0.0000	0.0000	0.0000
+P53214	MTL1	background_assumed_negative		Saccharomycotina	YLR332W	train_eligible	0	0	0.7260	0.1000	0.9000	1.0000	0.1470	0.0000	0.0000	0.1000	0.0047	0.0000	0.0000	0.0000
+P53249		background_assumed_negative		Saccharomycotina	YGR079W	train_eligible	0	0	0.0233	0.0000	0.0000	0.0000	0.0069	0.0000	0.0000	0.0000	0.0008	0.0000	0.0000	0.0000
+P53262	VOA1	background_assumed_negative		Saccharomycotina	YGR106C	train_eligible	0	0	0.0081	0.0000	0.0000	0.0000	0.0053	0.0000	0.0000	0.0000	0.0009	0.0000	0.0000	0.0000
+P53301	CRH1	hard_negative		Saccharomycotina	P53301	train_eligible	0	0	0.2676	0.0000	0.0000	0.0000	0.0953	0.0000	0.0000	0.0000	0.0037	0.0000	0.0000	0.0000
+P53334	SCW4	background_assumed_negative		Saccharomycotina	YGR279C	train_eligible	0	0	0.0093	0.0000	0.0000	0.0000	0.0012	0.0000	0.0000	0.0000	0.0007	0.0000	0.0000	0.0000
+P53379	MKC7	background_assumed_negative		Saccharomycotina	YPL154C	train_eligible	0	0	0.1256	0.0000	0.0000	0.0000	0.0219	0.0000	0.0000	0.0000	0.0008	0.0000	0.0000	0.0000
+P53541	SPO1	background_assumed_negative		Saccharomycotina	YNL012W	train_eligible	0	0	0.0371	0.0000	0.0000	0.0000	0.0012	0.0000	0.0000	0.0000	0.0011	0.0000	0.0000	0.0000
+P53616	SUN4	hard_negative		Saccharomycotina	Q59NP5	train_eligible	0	0	0.1346	0.0000	0.0000	0.0000	0.0924	0.0000	0.0000	0.1000	0.0017	0.0000	0.0000	0.0000
+P53698	CYC1	excluded_indirect_regulator		Saccharomycotina	C2_10110W_A	extra_never_fitted	0	0	0.0098	0.0000	0.0000	0.0000	0.0416	0.0000	0.0000	0.0000	0.0021	0.0000	0.0000	0.0000
+P53704	gfa1	kiss_row_positive		Saccharomycotina	KS0034	extra_never_fitted	0	0	0.0077	0.0000	0.0000	0.0000	0.0021	0.0000	0.0000	0.0000	0.0009	0.0000	0.0000	0.0000
+P53705	BUD4	excluded_indirect_regulator		Saccharomycotina	C5_02470W_A	extra_never_fitted	0	0	0.0178	0.0000	0.0000	0.0000	0.0648	0.0000	0.0000	0.0000	0.0547	0.0000	0.4000	0.5800
+P53746	FRE4	background_assumed_negative		Saccharomycotina	YOR384W	train_eligible	0	0	0.0114	0.0000	0.0000	0.0000	0.0010	0.0000	0.0000	0.0000	0.0007	0.0000	0.0000	0.0000
+P53753	DSE4	background_assumed_negative		Saccharomycotina	YNR067C	train_eligible	0	0	0.1980	0.0000	0.0000	0.0000	0.0593	0.0000	0.0000	0.0000	0.0015	0.0000	0.0000	0.0000
+P53826		background_assumed_negative		Saccharomycotina	YNL319W	train_eligible	0	0	0.0031	0.0000	0.0000	0.0000	0.0089	0.0000	0.0000	0.0000	0.0009	0.0000	0.0000	0.0000
+P53832	WSC2	hard_negative		Saccharomycotina	P53832	train_eligible	0	0	0.2397	0.0000	0.0000	0.0000	0.1082	0.0000	0.0000	0.1000	0.0201	0.0000	0.0000	0.4000
+P53862		background_assumed_negative		Saccharomycotina	YNL228W	train_eligible	0	0	0.0097	0.0000	0.0000	0.0000	0.0192	0.0000	0.0000	0.0000	0.0011	0.0000	0.0000	0.0000
+P53872		background_assumed_negative		Saccharomycotina	YNL190W	train_eligible	0	0	0.5825	0.0000	0.5000	0.9000	0.3655	0.3000	1.0000	1.0000	0.4734	0.7000	1.0000	1.0000
+P53896	PGA1	background_assumed_negative		Saccharomycotina	YNL158W	train_eligible	0	0	0.0223	0.0000	0.0000	0.0000	0.0003	0.0000	0.0000	0.0000	0.0008	0.0000	0.0000	0.0000
+P53964		background_assumed_negative		Saccharomycotina	YNL019C	train_eligible	0	0	0.0565	0.0000	0.0000	0.0000	0.0012	0.0000	0.0000	0.0000	0.0009	0.0000	0.0000	0.0000
+P53975		background_assumed_negative		Saccharomycotina	YNL019C	train_eligible	0	0	0.0579	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000	0.0009	0.0000	0.0000	0.0000
+P54267	chsG_Afu3g14420	kiss_row_positive		Pezizomycotina	KS0008	extra_never_fitted	0	0	0.0131	0.0000	0.0000	0.0000	0.0016	0.0000	0.0000	0.0000	0.0009	0.0000	0.0000	0.0000
+P54837	ERV25	background_assumed_negative		Saccharomycotina	YML012W	train_eligible	0	0	0.0017	0.0000	0.0000	0.0000	0.0013	0.0000	0.0000	0.0000	0.0007	0.0000	0.0000	0.0000
+P54867	SLG1	hard_negative		Saccharomycotina	P54867	train_eligible	0	0	0.4128	0.0000	0.1000	0.3000	0.1504	0.0000	0.0000	0.1000	0.0014	0.0000	0.0000	0.0000
+P62694	cbh1	hard_negative		Pezizomycotina	HN0062	train_eligible	0	0	0.3147	0.0000	0.0000	0.1000	0.0384	0.0000	0.0000	0.0000	0.0014	0.0000	0.0000	0.0000
+P78746	chsD_Afu1g12600	kiss_row_positive		Pezizomycotina	KS0103	extra_never_fitted	0	0	0.0223	0.0000	0.0000	0.0000	0.0213	0.0000	0.0000	0.0000	0.0015	0.0000	0.0000	0.0000
+P79073	hfb2	kiss_row_positive		Pezizomycotina	KS0099	extra_never_fitted	0	0	0.0014	0.0000	0.0000	0.0000	0.0043	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+P82476	CDA3 (CNAG_01239)	adhesin_other_mechanism		Basidiomycota	SINGLETON_P82476	extra_never_fitted	0	0	0.0908	0.0000	0.0000	0.0000	0.0026	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+P82610	MET6	excluded_indirect_regulator		Saccharomycotina	CR_01620C_A	extra_never_fitted	0	0	0.0043	0.0000	0.0000	0.0000	0.0004	0.0000	0.0000	0.0000	0.0007	0.0000	0.0000	0.0000
+P82612	GPM1	excluded_indirect_regulator		Saccharomycotina	C2_03270W_A	extra_never_fitted	0	0	0.0005	0.0000	0.0000	0.0000	0.0010	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+P87020	PRA1	excluded_surface_other_adhesion_phenotype		Saccharomycotina	P87020	extra_never_fitted	0	0	0.0223	0.0000	0.0000	0.0000	0.0038	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+P87267		background_assumed_negative		Saccharomycotina	YEL053W-A	train_eligible	0	0	0.0260	0.0000	0.0000	0.0000	0.0074	0.0000	0.0000	0.0000	0.0007	0.0000	0.0000	0.0000
+P87287		background_assumed_negative		Saccharomycotina	YDR366C	train_eligible	0	0	0.0017	0.0000	0.0000	0.0000	0.0019	0.0000	0.0000	0.0000	0.0012	0.0000	0.0000	0.0000
+P89113	DDR2	background_assumed_negative		Saccharomycotina	YMR251W-A	train_eligible	0	0	0.0000	0.0000	0.0000	0.0000	0.0077	0.0000	0.0000	0.0000	0.0009	0.0000	0.0000	0.0000
+P9WEJ2		background_assumed_negative		Saccharomycotina	YNL155C-A	train_eligible	0	0	0.0001	0.0000	0.0000	0.0000	0.0492	0.0000	0.0000	0.0000	0.0009	0.0000	0.0000	0.0000
+Q00023	CEL1	hard_negative		Basidiomycota	HN0009	train_eligible	0	0	0.3924	0.0000	0.0000	0.6000	0.0392	0.0000	0.0000	0.0000	0.0016	0.0000	0.0000	0.0000
+Q00310	MNT1	excluded_indirect_regulator		Saccharomycotina	C3_01810C_A	extra_never_fitted	0	0	0.0213	0.0000	0.0000	0.0000	0.0051	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+Q01589	SED1	hard_negative		Saccharomycotina	Q01589	train_eligible	0	0	0.9746	1.0000	1.0000	1.0000	0.4085	0.4000	1.0000	1.0000	0.0137	0.0000	0.0000	0.2000
+Q02203		background_assumed_negative		Saccharomycotina	YKR005C	train_eligible	0	0	0.0461	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0009	0.0000	0.0000	0.0000
+Q02497		hard_negative		Basidiomycota	HN0039	train_eligible	0	0	0.0237	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+Q02786	LCL1	background_assumed_negative		Saccharomycotina	YPL056C	train_eligible	0	0	0.0367	0.0000	0.0000	0.0000	0.0105	0.0000	0.0000	0.0000	0.0008	0.0000	0.0000	0.0000
+Q02795	SWP1	background_assumed_negative		Saccharomycotina	YMR149W	train_eligible	0	0	0.0182	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0007	0.0000	0.0000	0.0000
+Q02933	RNY1	background_assumed_negative		Saccharomycotina	YPL123C	train_eligible	0	0	0.0268	0.0000	0.0000	0.0000	0.0301	0.0000	0.0000	0.0000	0.0034	0.0000	0.0000	0.0000
+Q03029	SPO19	background_assumed_negative		Saccharomycotina	YPL130W	train_eligible	0	0	0.0227	0.0000	0.0000	0.0000	0.0088	0.0000	0.0000	0.0000	0.0007	0.0000	0.0000	0.0000
+Q03050	PAU10	background_assumed_negative		Saccharomycotina	YLR037C	train_eligible	0	0	0.0022	0.0000	0.0000	0.0000	0.0013	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+Q03103	ERO1	background_assumed_negative		Saccharomycotina	YML130C	train_eligible	0	0	0.0227	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000	0.0007	0.0000	0.0000	0.0000
+Q03125	NRG1	excluded_indirect_regulator		Saccharomycotina	YBR066C	extra_never_fitted	0	0	0.0107	0.0000	0.0000	0.0000	0.0337	0.0000	0.0000	0.0000	0.0029	0.0000	0.0000	0.0200
+Q03178	PIR1	hard_negative		Saccharomycotina	P47001	train_eligible	0	0	0.0251	0.0000	0.0000	0.0000	0.2623	0.0000	0.6000	0.7000	0.1109	0.1000	0.4000	0.7000
+Q03180	PIR3	uncurated_repeat_bearing		Saccharomycotina	YKL164C	extra_never_fitted	0	0	0.0087	0.0000	0.0000	0.0000	0.1367	0.0000	0.0000	0.2000	0.0173	0.0000	0.1200	0.1600
+Q03187		background_assumed_negative		Saccharomycotina	YFL013W-A	train_eligible	0	0	0.0422	0.0000	0.0000	0.0000	0.0169	0.0000	0.0000	0.0000	0.0010	0.0000	0.0000	0.0000
+Q03655	GAS3	background_assumed_negative		Saccharomycotina	YOL132W	train_eligible	0	0	0.1127	0.0000	0.0000	0.0000	0.0034	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+Q03674	PLB2	background_assumed_negative		Saccharomycotina	YMR006C	train_eligible	0	0	0.0849	0.0000	0.0000	0.0000	0.0151	0.0000	0.0000	0.0000	0.0012	0.0000	0.0000	0.0000
+Q03691	ROT1	background_assumed_negative		Saccharomycotina	YMR200W	train_eligible	0	0	0.0584	0.0000	0.0000	0.0000	0.0093	0.0000	0.0000	0.0000	0.0012	0.0000	0.0000	0.0000
+Q03723	OST6	background_assumed_negative		Saccharomycotina	YML019W	train_eligible	0	0	0.0271	0.0000	0.0000	0.0000	0.0016	0.0000	0.0000	0.0000	0.0009	0.0000	0.0000	0.0000
+Q03778	FMN1	background_assumed_negative		Saccharomycotina	YDR236C	train_eligible	0	0	0.0098	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000	0.0010	0.0000	0.0000	0.0000
+Q04033		background_assumed_negative		Saccharomycotina	YDR415C	train_eligible	0	0	0.0448	0.0000	0.0000	0.0000	0.0003	0.0000	0.0000	0.0000	0.0008	0.0000	0.0000	0.0000
+Q04100		background_assumed_negative		Saccharomycotina	YDR445C	train_eligible	0	0	0.0043	0.0000	0.0000	0.0000	0.0051	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+Q04121	NHX1	background_assumed_negative		Saccharomycotina	YDR456W	train_eligible	0	0	0.0148	0.0000	0.0000	0.0000	0.0097	0.0000	0.0000	0.0000	0.0011	0.0000	0.0000	0.0000
+Q04433	FIT1	hard_negative		Saccharomycotina	Q04433	train_eligible	1	1	0.3512	0.0000	0.1000	0.2000	0.2084	0.0000	0.0000	0.8000	0.0338	0.0000	0.2000	0.8000
+Q04521		background_assumed_negative		Saccharomycotina	YML084W	train_eligible	0	0	0.0085	0.0000	0.0000	0.0000	0.0028	0.0000	0.0000	0.0000	0.0010	0.0000	0.0000	0.0000
+Q04562	TMN2	background_assumed_negative		Saccharomycotina	YLR083C	train_eligible	0	0	0.0615	0.0000	0.0000	0.0000	0.0016	0.0000	0.0000	0.0000	0.0012	0.0000	0.0000	0.0000
+Q04571	eas	kiss_row_positive		Pezizomycotina	KS0106	extra_never_fitted	0	0	0.0199	0.0000	0.0000	0.0000	0.0022	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+Q04739	GAL83	excluded_indirect_regulator		Saccharomycotina	YER027C	extra_never_fitted	0	0	0.0109	0.0000	0.0000	0.0000	0.0207	0.0000	0.0000	0.0000	0.0012	0.0000	0.0000	0.0000
+Q04746	KAR5	background_assumed_negative		Saccharomycotina	YMR065W	train_eligible	0	0	0.0152	0.0000	0.0000	0.0000	0.0009	0.0000	0.0000	0.0000	0.0010	0.0000	0.0000	0.0000
+Q04924	GTB1	background_assumed_negative		Saccharomycotina	YDR221W	train_eligible	0	0	0.0158	0.0000	0.0000	0.0000	0.0043	0.0000	0.0000	0.0000	0.0014	0.0000	0.0000	0.0000
+Q04951	SCW10	background_assumed_negative		Saccharomycotina	YGR279C	train_eligible	0	0	0.0243	0.0000	0.0000	0.0000	0.0088	0.0000	0.0000	0.0000	0.0008	0.0000	0.0000	0.0000
+Q05031	DFG5	background_assumed_negative		Saccharomycotina	YKL046C	train_eligible	0	0	0.0301	0.0000	0.0000	0.0000	0.0022	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+Q05164	HPF1	class_positive	A	Saccharomycotina	Q05164	train_eligible	1	0	0.7290	0.0000	1.0000	1.0000	0.3021	0.0000	0.9000	1.0000	0.0468	0.0000	0.4000	0.9000
+Q05359	ERP1	background_assumed_negative		Saccharomycotina	YHR110W	train_eligible	0	0	0.0008	0.0000	0.0000	0.0000	0.0016	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+Q05777	NCW2	background_assumed_negative		Saccharomycotina	YLR194C	train_eligible	0	0	0.4245	0.0000	0.0000	0.5000	0.0740	0.0000	0.0000	0.0000	0.0232	0.0000	0.0000	0.5000
+Q05790	CRR1	background_assumed_negative		Saccharomycotina	YLR213C	train_eligible	0	0	0.1290	0.0000	0.0000	0.0000	0.0022	0.0000	0.0000	0.0000	0.0009	0.0000	0.0000	0.0000
+Q05827	HOR7	background_assumed_negative		Saccharomycotina	YMR251W-A	train_eligible	0	0	0.0001	0.0000	0.0000	0.0000	0.0109	0.0000	0.0000	0.0000	0.0009	0.0000	0.0000	0.0000
+Q06135	GAS2	background_assumed_negative		Saccharomycotina	YOL132W	train_eligible	0	0	0.0943	0.0000	0.0000	0.0000	0.0047	0.0000	0.0000	0.0000	0.0009	0.0000	0.0000	0.0000
+Q06325	YPS7	background_assumed_negative		Saccharomycotina	YDR349C	train_eligible	0	0	0.1274	0.0000	0.0000	0.0000	0.0044	0.0000	0.0000	0.0000	0.0008	0.0000	0.0000	0.0000
+Q06350	CTS2	background_assumed_negative		Saccharomycotina	YDR371W	train_eligible	0	0	0.0137	0.0000	0.0000	0.0000	0.0003	0.0000	0.0000	0.0000	0.0009	0.0000	0.0000	0.0000
+Q06490	THI22	background_assumed_negative		Saccharomycotina	YPR121W	train_eligible	0	0	0.0191	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+Q06689		background_assumed_negative		Saccharomycotina	YLR413W	train_eligible	0	0	0.0231	0.0000	0.0000	0.0000	0.0205	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+Q06702	CDA1	background_assumed_negative		Saccharomycotina	YLR307W	train_eligible	0	0	0.0165	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000	0.0009	0.0000	0.0000	0.0000
+Q06703	CDA2	background_assumed_negative		Saccharomycotina	YLR307W	train_eligible	0	0	0.0108	0.0000	0.0000	0.0000	0.0003	0.0000	0.0000	0.0000	0.0010	0.0000	0.0000	0.0000
+Q06815	MRL1	background_assumed_negative		Saccharomycotina	YPR079W	train_eligible	0	0	0.0153	0.0000	0.0000	0.0000	0.0022	0.0000	0.0000	0.0000	0.0009	0.0000	0.0000	0.0000
+Q07716	AIM6	background_assumed_negative		Saccharomycotina	YDL237W	train_eligible	0	0	0.0089	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0007	0.0000	0.0000	0.0000
+Q07730	ECE1	background_assumed_negative		Saccharomycotina	C4_03470C_A	train_eligible	0	0	0.0024	0.0000	0.0000	0.0000	0.0010	0.0000	0.0000	0.0000	0.0007	0.0000	0.0000	0.0000
+Q07790		background_assumed_negative		Saccharomycotina	YDR053W	train_eligible	0	0	0.0037	0.0000	0.0000	0.0000	0.0027	0.0000	0.0000	0.0000	0.0008	0.0000	0.0000	0.0000
+Q07880		background_assumed_negative		Saccharomycotina	YLL044W	train_eligible	0	0	0.0048	0.0000	0.0000	0.0000	0.0126	0.0000	0.0000	0.0000	0.0011	0.0000	0.0000	0.0000
+Q07895		background_assumed_negative		Saccharomycotina	YLR001C	train_eligible	0	0	0.0634	0.0000	0.0000	0.0000	0.0031	0.0000	0.0000	0.0000	0.0014	0.0000	0.0000	0.0000
+Q07987	PAU23	background_assumed_negative		Saccharomycotina	YLR037C	train_eligible	0	0	0.0048	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+Q07988	AFB1	background_assumed_negative		Saccharomycotina	YLR040C	train_eligible	0	0	0.0224	0.0000	0.0000	0.0000	0.0018	0.0000	0.0000	0.0000	0.0007	0.0000	0.0000	0.0000
+Q07990		background_assumed_negative		Saccharomycotina	YLR042C	train_eligible	0	0	0.1426	0.0000	0.0000	0.0000	0.0768	0.0000	0.0000	0.0000	0.0015	0.0000	0.0000	0.0000
+Q07992	BUD28	background_assumed_negative		Saccharomycotina	YLR062C	train_eligible	0	0	0.0079	0.0000	0.0000	0.0000	0.0064	0.0000	0.0000	0.0000	0.0012	0.0000	0.0000	0.0000
+Q08045	LCL2	background_assumed_negative		Saccharomycotina	YLR104W	train_eligible	0	0	0.0122	0.0000	0.0000	0.0000	0.0141	0.0000	0.0000	0.0000	0.0008	0.0000	0.0000	0.0000
+Q08108	PLB3	background_assumed_negative		Saccharomycotina	YMR006C	train_eligible	0	0	0.1063	0.0000	0.0000	0.0000	0.0110	0.0000	0.0000	0.0000	0.0009	0.0000	0.0000	0.0000
+Q08193	GAS5	background_assumed_negative		Saccharomycotina	YOL132W	train_eligible	0	0	0.0710	0.0000	0.0000	0.0000	0.0123	0.0000	0.0000	0.0000	0.0007	0.0000	0.0000	0.0000
+Q08199	SIL1	background_assumed_negative		Saccharomycotina	YOL031C	train_eligible	0	0	0.0208	0.0000	0.0000	0.0000	0.0050	0.0000	0.0000	0.0000	0.0011	0.0000	0.0000	0.0000
+Q08271	GAS4	background_assumed_negative		Saccharomycotina	YOL132W	train_eligible	0	0	0.0572	0.0000	0.0000	0.0000	0.0028	0.0000	0.0000	0.0000	0.0010	0.0000	0.0000	0.0000
+Q08272		background_assumed_negative		Saccharomycotina	YOL134C	train_eligible	0	0	0.0016	0.0000	0.0000	0.0000	0.0037	0.0000	0.0000	0.0000	0.0007	0.0000	0.0000	0.0000
+Q08300	CSS3	background_assumed_negative		Saccharomycotina	YOL159C	train_eligible	0	0	0.0778	0.0000	0.0000	0.0000	0.0103	0.0000	0.0000	0.0000	0.0012	0.0000	0.0000	0.0000
+Q08439		background_assumed_negative		Saccharomycotina	YOR055W	train_eligible	0	0	0.0067	0.0000	0.0000	0.0000	0.0003	0.0000	0.0000	0.0000	0.0008	0.0000	0.0000	0.0000
+Q08498		background_assumed_negative		Saccharomycotina	YOR082C	train_eligible	0	0	0.0013	0.0000	0.0000	0.0000	0.0164	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+Q08532		background_assumed_negative		Saccharomycotina	YOR139C	train_eligible	0	0	0.0382	0.0000	0.0000	0.0000	0.0054	0.0000	0.0000	0.0000	0.0007	0.0000	0.0000	0.0000
+Q08673	SRL1	background_assumed_negative		Saccharomycotina	YOR247W	train_eligible	0	0	0.6828	0.0000	0.8000	0.9000	0.1615	0.0000	0.0000	0.2000	0.0248	0.0000	0.1000	0.5000
+Q08844		background_assumed_negative		Saccharomycotina	YOR365C	train_eligible	0	0	0.0315	0.0000	0.0000	0.0000	0.0022	0.0000	0.0000	0.0000	0.0011	0.0000	0.0000	0.0000
+Q08905	FRE3	background_assumed_negative		Saccharomycotina	YOR384W	train_eligible	0	0	0.0192	0.0000	0.0000	0.0000	0.0024	0.0000	0.0000	0.0000	0.0007	0.0000	0.0000	0.0000
+Q08906	FIT2	background_assumed_negative		Saccharomycotina	YOR382W	train_eligible	0	0	0.2783	0.0000	0.0000	0.0000	0.0522	0.0000	0.0000	0.0000	0.0082	0.0000	0.0000	0.0000
+Q08907	FIT3	background_assumed_negative		Saccharomycotina	YOR383C	train_eligible	0	0	0.0282	0.0000	0.0000	0.0000	0.0187	0.0000	0.0000	0.0000	0.0059	0.0000	0.0000	0.0000
+Q08908	FRE5	background_assumed_negative		Saccharomycotina	YOR384W	train_eligible	0	0	0.0172	0.0000	0.0000	0.0000	0.0033	0.0000	0.0000	0.0000	0.0010	0.0000	0.0000	0.0000
+Q08910		background_assumed_negative		Saccharomycotina	YOR387C	train_eligible	0	0	0.0161	0.0000	0.0000	0.0000	0.0047	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+Q08912		background_assumed_negative		Saccharomycotina	YPL277C	train_eligible	0	0	0.0143	0.0000	0.0000	0.0000	0.0022	0.0000	0.0000	0.0000	0.0007	0.0000	0.0000	0.0000
+Q08929	GUP2	background_assumed_negative		Saccharomycotina	YPL189W	train_eligible	0	0	0.0053	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0008	0.0000	0.0000	0.0000
+Q08967	FLC1	background_assumed_negative		Saccharomycotina	YOR365C	train_eligible	0	0	0.0186	0.0000	0.0000	0.0000	0.0038	0.0000	0.0000	0.0000	0.0008	0.0000	0.0000	0.0000
+Q08976		background_assumed_negative		Saccharomycotina	YPL261C	train_eligible	0	0	0.0031	0.0000	0.0000	0.0000	0.0015	0.0000	0.0000	0.0000	0.0011	0.0000	0.0000	0.0000
+Q08989		background_assumed_negative		Saccharomycotina	YPL277C	train_eligible	0	0	0.0059	0.0000	0.0000	0.0000	0.0010	0.0000	0.0000	0.0000	0.0005	0.0000	0.0000	0.0000
+Q09920	fio1	hard_negative		Taphrinomycotina	HN0039	train_eligible	0	0	0.0914	0.0000	0.0000	0.0000	0.0010	0.0000	0.0000	0.0000	0.0010	0.0000	0.0000	0.0000
+Q10287	bgs1	kiss_row_positive		Taphrinomycotina	KS0005	extra_never_fitted	0	0	0.0080	0.0000	0.0000	0.0000	0.0068	0.0000	0.0000	0.0000	0.0054	0.0000	0.0200	0.0800
+Q12025	EMC10	background_assumed_negative		Saccharomycotina	YDR056C	train_eligible	0	0	0.0030	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000	0.0005	0.0000	0.0000	0.0000
+Q12064	BUD30	background_assumed_negative		Saccharomycotina	YDL151C	train_eligible	0	0	0.0642	0.0000	0.0000	0.0000	0.0055	0.0000	0.0000	0.0000	0.0009	0.0000	0.0000	0.0000
+Q12070		background_assumed_negative		Saccharomycotina	YOR024W	train_eligible	0	0	0.0271	0.0000	0.0000	0.0000	0.0089	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+Q12114	chs5	kiss_row_positive		Saccharomycotina	KS0063	extra_never_fitted	0	0	0.0233	0.0000	0.0000	0.0000	0.1142	0.0000	0.0000	0.0200	0.0038	0.0000	0.0000	0.0000
+Q12127	CCW12	excluded_surface_other_adhesion_phenotype		Saccharomycotina	Q12127	extra_never_fitted	0	0	0.0172	0.0000	0.0000	0.0000	0.0348	0.0000	0.0000	0.0000	0.0085	0.0000	0.0000	0.0400
+Q12140	BSC1	adhesin_other_mechanism		Saccharomycotina	Q12140	extra_never_fitted	0	0	0.5187	0.0000	0.3200	0.6800	0.1391	0.0000	0.0000	0.1000	0.3987	0.5000	0.7600	0.9000
+Q12200	NCR1	background_assumed_negative		Saccharomycotina	YPL006W	train_eligible	0	0	0.0391	0.0000	0.0000	0.0000	0.0015	0.0000	0.0000	0.0000	0.0031	0.0000	0.0000	0.0000
+Q12212	SIA1	background_assumed_negative		Saccharomycotina	YOR137C	train_eligible	0	0	0.0377	0.0000	0.0000	0.0000	0.0003	0.0000	0.0000	0.0000	0.0010	0.0000	0.0000	0.0000
+Q12215	WSC3	background_assumed_negative		Saccharomycotina	YNL283C	train_eligible	0	0	0.4671	0.0000	0.3000	0.7000	0.2516	0.0000	0.4000	0.8000	0.1815	0.0000	0.9000	1.0000
+Q12218	TIR4	hard_negative		Saccharomycotina	Q6FKZ0	train_eligible	1	1	0.4593	0.0000	0.3000	0.5000	0.2413	0.0000	0.5000	0.8000	0.0053	0.0000	0.0000	0.0000
+Q12232	SLP1	background_assumed_negative		Saccharomycotina	YOR154W	train_eligible	0	0	0.0094	0.0000	0.0000	0.0000	0.0003	0.0000	0.0000	0.0000	0.0009	0.0000	0.0000	0.0000
+Q12254	SVS1	background_assumed_negative		Saccharomycotina	YOR247W	train_eligible	0	0	0.5673	0.0000	0.7000	0.7000	0.0951	0.0000	0.0000	0.0000	0.0697	0.0000	0.6000	0.8000
+Q12282	SPR2	background_assumed_negative		Saccharomycotina	YOR214C	train_eligible	0	0	0.1473	0.0000	0.0000	0.0000	0.0041	0.0000	0.0000	0.0000	0.0009	0.0000	0.0000	0.0000
+Q12303	YPS3	background_assumed_negative		Saccharomycotina	YPL154C	train_eligible	0	0	0.0535	0.0000	0.0000	0.0000	0.0012	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+Q12331		background_assumed_negative		Saccharomycotina	YDR262W	train_eligible	0	0	0.0255	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0010	0.0000	0.0000	0.0000
+Q12335	PST2	background_assumed_negative		Saccharomycotina	YDR032C	train_eligible	0	0	0.0020	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+Q12355	PST1	background_assumed_negative		Saccharomycotina	YBR078W	train_eligible	0	0	0.0450	0.0000	0.0000	0.0000	0.0319	0.0000	0.0000	0.0000	0.0008	0.0000	0.0000	0.0000
+Q12370	PAU17	background_assumed_negative		Saccharomycotina	YLR037C	train_eligible	0	0	0.0033	0.0000	0.0000	0.0000	0.0010	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+Q12396	EMP46	background_assumed_negative		Saccharomycotina	YLR080W	train_eligible	0	0	0.0137	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000	0.0009	0.0000	0.0000	0.0000
+Q12403	ERP3	background_assumed_negative		Saccharomycotina	YDL018C	train_eligible	0	0	0.0034	0.0000	0.0000	0.0000	0.0013	0.0000	0.0000	0.0000	0.0008	0.0000	0.0000	0.0000
+Q12404	MPD1	background_assumed_negative		Saccharomycotina	YOR288C	train_eligible	0	0	0.0323	0.0000	0.0000	0.0000	0.0028	0.0000	0.0000	0.0000	0.0008	0.0000	0.0000	0.0000
+Q12408	NPC2	background_assumed_negative		Saccharomycotina	YDL046W	train_eligible	0	0	0.0407	0.0000	0.0000	0.0000	0.0037	0.0000	0.0000	0.0000	0.0007	0.0000	0.0000	0.0000
+Q12424		background_assumed_negative		Saccharomycotina	YDL206W	train_eligible	0	0	0.0271	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000	0.0013	0.0000	0.0000	0.0000
+Q12438	GRX6	background_assumed_negative		Saccharomycotina	YBR014C	train_eligible	0	0	0.0147	0.0000	0.0000	0.0000	0.0034	0.0000	0.0000	0.0000	0.0011	0.0000	0.0000	0.0000
+Q12450	ERP4	background_assumed_negative		Saccharomycotina	YOR016C	train_eligible	0	0	0.0186	0.0000	0.0000	0.0000	0.0024	0.0000	0.0000	0.0000	0.0010	0.0000	0.0000	0.0000
+Q12465	RAX2	background_assumed_negative		Saccharomycotina	YLR084C	train_eligible	0	0	0.1352	0.0000	0.0000	0.0000	0.0078	0.0000	0.0000	0.0000	0.0041	0.0000	0.0000	0.0000
+Q12473	FRE6	background_assumed_negative		Saccharomycotina	YOR384W	train_eligible	0	0	0.0222	0.0000	0.0000	0.0000	0.0028	0.0000	0.0000	0.0000	0.0010	0.0000	0.0000	0.0000
+Q12507	SFG1	excluded_indirect_regulator		Saccharomycotina	YOR315W	extra_never_fitted	0	0	0.0324	0.0000	0.0000	0.0000	0.0299	0.0000	0.0000	0.0000	0.0012	0.0000	0.0000	0.0000
+Q12512	ZPS1	background_assumed_negative		Saccharomycotina	YOL154W	train_eligible	0	0	0.0117	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+Q12713	chit33	hard_negative		Pezizomycotina	HN0065	train_eligible	0	0	0.0175	0.0000	0.0000	0.0000	0.0044	0.0000	0.0000	0.0000	0.0007	0.0000	0.0000	0.0000
+Q1E3R8	CTS1	hard_negative		Pezizomycotina	Q1E3R8	train_eligible	0	0	0.0342	0.0000	0.0000	0.0000	0.0003	0.0000	0.0000	0.0000	0.0007	0.0000	0.0000	0.0000
+Q1K4Z4	NCU01648	kiss_row_positive		Pezizomycotina	KS0035	extra_never_fitted	0	0	0.0119	0.0000	0.0000	0.0000	0.0003	0.0000	0.0000	0.0000	0.0007	0.0000	0.0000	0.0000
+Q1K7A8	dfg5	kiss_row_positive		Pezizomycotina	KS0109	extra_never_fitted	0	0	0.0208	0.0000	0.0000	0.0000	0.0008	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+Q2LC47	MAD2	class_positive	A	Pezizomycotina	Q2LC47	train_eligible	0	0	0.3405	0.0000	0.0000	0.1000	0.1470	0.0000	0.0000	0.1000	0.0573	0.0000	0.3000	0.6000
+Q2LC49	MAD1	class_positive	A	Pezizomycotina	Q2LC49	train_eligible	1	0	0.9880	1.0000	1.0000	1.0000	0.6175	1.0000	1.0000	1.0000	0.9117	0.9000	1.0000	1.0000
+Q2V2Q2		background_assumed_negative		Saccharomycotina	YCL048W-A	train_eligible	0	0	0.0016	0.0000	0.0000	0.0000	0.0330	0.0000	0.0000	0.0000	0.0148	0.0000	0.1000	0.1000
+Q3E6R4		background_assumed_negative		Saccharomycotina	YDR524C-B	train_eligible	0	0	0.0000	0.0000	0.0000	0.0000	0.0124	0.0000	0.0000	0.0000	0.0007	0.0000	0.0000	0.0000
+Q3E755		background_assumed_negative		Saccharomycotina	YBR200W-A	train_eligible	0	0	0.0009	0.0000	0.0000	0.0000	0.0022	0.0000	0.0000	0.0000	0.0009	0.0000	0.0000	0.0000
+Q3E763		background_assumed_negative		Saccharomycotina	YDR246W-A	train_eligible	0	0	0.0298	0.0000	0.0000	0.0000	0.0074	0.0000	0.0000	0.0000	0.0009	0.0000	0.0000	0.0000
+Q3E782		background_assumed_negative		Saccharomycotina	YMR247W-A	train_eligible	0	0	0.0019	0.0000	0.0000	0.0000	0.0016	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+Q3E7A7		background_assumed_negative		Saccharomycotina	YKL018C-A	train_eligible	0	0	0.0009	0.0000	0.0000	0.0000	0.0039	0.0000	0.0000	0.0000	0.0010	0.0000	0.0000	0.0000
+Q3E7B9		background_assumed_negative		Saccharomycotina	YOR008C-A	train_eligible	0	0	0.0040	0.0000	0.0000	0.0000	0.0022	0.0000	0.0000	0.0000	0.0009	0.0000	0.0000	0.0000
+Q3E821		background_assumed_negative		Saccharomycotina	YBL008W-A	train_eligible	0	0	0.0022	0.0000	0.0000	0.0000	0.0029	0.0000	0.0000	0.0000	0.0009	0.0000	0.0000	0.0000
+Q3E837		background_assumed_negative		Saccharomycotina	YJL052C-A	train_eligible	0	0	0.0021	0.0000	0.0000	0.0000	0.0050	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+Q4PIF8	fer1	hard_negative		Basidiomycota	HN0039	train_eligible	0	0	0.0440	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0007	0.0000	0.0000	0.0000
+Q4U4T0	chi2	hard_negative		Pezizomycotina	HN0065	train_eligible	0	0	0.0851	0.0000	0.0000	0.0000	0.0062	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+Q4W9P7	chsB_Afu4g04180	kiss_row_positive		Pezizomycotina	KS0008	extra_never_fitted	0	0	0.0193	0.0000	0.0000	0.0000	0.0194	0.0000	0.0000	0.0000	0.0037	0.0000	0.0200	0.0200
+Q4WA69	bglK	hard_negative		Pezizomycotina	Q4WL79	train_eligible	0	0	0.0104	0.0000	0.0000	0.0000	0.0033	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+Q4WBR2	neg1	hard_negative		Pezizomycotina	HN0066	train_eligible	0	0	0.0467	0.0000	0.0000	0.0000	0.0013	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+Q4WBS1	manF	hard_negative		Pezizomycotina	HN0067	train_eligible	0	0	0.0563	0.0000	0.0000	0.0000	0.0019	0.0000	0.0000	0.0000	0.0007	0.0000	0.0000	0.0000
+Q4WBU0	AA9C	hard_negative		Pezizomycotina	HN0009	train_eligible	0	0	0.0634	0.0000	0.0000	0.0000	0.0080	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+Q4WC58	chsF_Afu8g05630	kiss_row_positive		Pezizomycotina	KS0078	extra_never_fitted	0	0	0.0210	0.0000	0.0000	0.0000	0.0101	0.0000	0.0000	0.0000	0.0025	0.0000	0.0000	0.0000
+Q4WCG5	pmt4_Afu8g04500	kiss_row_positive		Pezizomycotina	KS0016	extra_never_fitted	0	0	0.0069	0.0000	0.0000	0.0000	0.0004	0.0000	0.0000	0.0000	0.0007	0.0000	0.0000	0.0000
+Q4WD22	crh1	hard_negative		Pezizomycotina	HN0004	train_eligible	0	0	0.1472	0.0000	0.0000	0.0000	0.0596	0.0000	0.0000	0.0000	0.0013	0.0000	0.0000	0.0000
+Q4WDB9	cwh41_Afu6g04210	kiss_row_positive		Pezizomycotina	KS0114	extra_never_fitted	0	0	0.0458	0.0000	0.0000	0.0000	0.0014	0.0000	0.0000	0.0000	0.0007	0.0000	0.0000	0.0000
+Q4WEP7	chiA1_Afu5g03760	kiss_row_positive		Pezizomycotina	KS0051	extra_never_fitted	1	0	0.8413	0.2000	1.0000	1.0000	0.3243	0.0200	0.8200	0.9400	0.0353	0.0200	0.1800	0.2800
+Q4WFV3	ags1_Afu3g00910	kiss_row_positive		Pezizomycotina	KS0115	extra_never_fitted	0	0	0.0443	0.0000	0.0000	0.0000	0.0173	0.0000	0.0000	0.0000	0.0048	0.0000	0.0200	0.0800
+Q4WG20		adhesin_other_mechanism		Pezizomycotina	Q4WL79	extra_never_fitted	0	0	0.0121	0.0000	0.0000	0.0000	0.0009	0.0000	0.0000	0.0000	0.0007	0.0000	0.0000	0.0000
+Q4WGL5	sun1_Afu7g05450	kiss_row_positive		Pezizomycotina	KS0100	extra_never_fitted	0	0	0.0813	0.0000	0.0000	0.0000	0.0125	0.0000	0.0000	0.0000	0.0008	0.0000	0.0000	0.0000
+Q4WI46	crh2	hard_negative		Pezizomycotina	HN0068	train_eligible	0	0	0.1503	0.0000	0.0000	0.0000	0.0115	0.0000	0.0000	0.0000	0.0007	0.0000	0.0000	0.0000
+Q4WIH1	chsA_Afu2g01870	kiss_row_positive		Pezizomycotina	KS0008	extra_never_fitted	0	0	0.0080	0.0000	0.0000	0.0000	0.0043	0.0000	0.0000	0.0000	0.0009	0.0000	0.0000	0.0000
+Q4WJ05	pmt2_Afu1g07690	kiss_row_positive		Pezizomycotina	KS0035	extra_never_fitted	0	0	0.0165	0.0000	0.0000	0.0000	0.0004	0.0000	0.0000	0.0000	0.0009	0.0000	0.0000	0.0000
+Q4WL79	bglH	hard_negative		Pezizomycotina	Q4WL79	train_eligible	0	0	0.0083	0.0000	0.0000	0.0000	0.0012	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+Q4WLB9	cfmA	hard_negative		Pezizomycotina	Q4WLB9	train_eligible	1	0	0.1577	0.0000	0.0000	0.0000	0.1300	0.0000	0.0000	0.1000	0.0064	0.0000	0.0000	0.0000
+Q4WLT3	gel7_Afu6g12410	kiss_row_positive		Pezizomycotina	KS0070	extra_never_fitted	0	0	0.0503	0.0000	0.0000	0.0000	0.0019	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+Q4WLT4	fks1_Afu6g12400	kiss_row_positive		Pezizomycotina	KS0005	extra_never_fitted	0	0	0.0131	0.0000	0.0000	0.0000	0.0125	0.0000	0.0000	0.0000	0.0049	0.0000	0.0200	0.0800
+Q4WLT6	scw4_Afu6g12380	kiss_row_positive		Pezizomycotina	KS0117	extra_never_fitted	0	0	0.0124	0.0000	0.0000	0.0000	0.0031	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+Q4WLX2		adhesin_other_mechanism		Pezizomycotina	Q4WLX2	extra_never_fitted	0	0	0.0221	0.0000	0.0000	0.0000	0.0003	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+Q4WLY1	bglJ	hard_negative		Pezizomycotina	Q4WL79	train_eligible	0	0	0.0168	0.0000	0.0000	0.0000	0.0025	0.0000	0.0000	0.0000	0.0007	0.0000	0.0000	0.0000
+Q4WMA6	cfmB	hard_negative		Pezizomycotina	HN0071	train_eligible	0	0	0.0642	0.0000	0.0000	0.0000	0.0286	0.0000	0.0000	0.0000	0.0010	0.0000	0.0000	0.0000
+Q4WMW2	crh4	hard_negative		Pezizomycotina	HN0004	train_eligible	0	0	0.2725	0.0000	0.0000	0.0000	0.0157	0.0000	0.0000	0.0000	0.0007	0.0000	0.0000	0.0000
+Q4WNE1	cfmC	hard_negative		Pezizomycotina	Q4WNE1	train_eligible	0	0	0.0462	0.0000	0.0000	0.0000	0.0373	0.0000	0.0000	0.0000	0.0175	0.0000	0.0000	0.2000
+Q4WNS8	ecm33	hard_negative		Pezizomycotina	Q4WNS8	train_eligible	0	0	0.0727	0.0000	0.0000	0.0000	0.0061	0.0000	0.0000	0.0000	0.0007	0.0000	0.0000	0.0000
+Q4WNV0	ctsD	hard_negative		Pezizomycotina	HN0073	train_eligible	0	0	0.1761	0.0000	0.0000	0.0000	0.0071	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+Q4WQI8	kexB_Afu4g12970	kiss_row_positive		Pezizomycotina	KS0007	extra_never_fitted	0	0	0.0429	0.0000	0.0000	0.0000	0.0089	0.0000	0.0000	0.0000	0.0012	0.0000	0.0000	0.0000
+Q4WU49	bglI	hard_negative		Pezizomycotina	Q4WL79	train_eligible	0	0	0.0171	0.0000	0.0000	0.0000	0.0025	0.0000	0.0000	0.0000	0.0008	0.0000	0.0000	0.0000
+Q4WUB6	preA_Afu5g07880	kiss_row_positive		Pezizomycotina	KS0067	extra_never_fitted	0	0	0.0173	0.0000	0.0000	0.0000	0.0016	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+Q4WWF5	orlA_Afu3g05650	kiss_row_positive		Pezizomycotina	KS0119	extra_never_fitted	0	0	0.0116	0.0000	0.0000	0.0000	0.0012	0.0000	0.0000	0.0000	0.0009	0.0000	0.0000	0.0000
+Q4WXC4		class_positive	A	Pezizomycotina	Q4WXC4	train_eligible	1	1	0.9914	1.0000	1.0000	1.0000	0.4449	0.6000	0.7000	1.0000	0.6738	0.8000	1.0000	1.0000
+Q4WXE6	crh3	hard_negative		Pezizomycotina	HN0004	train_eligible	0	0	0.0344	0.0000	0.0000	0.0000	0.0025	0.0000	0.0000	0.0000	0.0007	0.0000	0.0000	0.0000
+Q4WXJ1		adhesin_other_mechanism		Pezizomycotina	Q4WXJ1	extra_never_fitted	0	0	0.0183	0.0000	0.0000	0.0000	0.0015	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+Q4WYE0	glfB_Afu3g12700	kiss_row_positive		Pezizomycotina	KS0120	extra_never_fitted	0	0	0.0026	0.0000	0.0000	0.0000	0.0038	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+Q4WZB4	abr1	hard_negative		Pezizomycotina	P38993	train_eligible	0	0	0.1234	0.0000	0.0000	0.0000	0.0025	0.0000	0.0000	0.0000	0.0007	0.0000	0.0000	0.0000
+Q4X0H6	chsE_Afu2g13440	kiss_row_positive		Pezizomycotina	KS0121	extra_never_fitted	0	0	0.0093	0.0000	0.0000	0.0000	0.0078	0.0000	0.0000	0.0000	0.0052	0.0000	0.0200	0.0800
+Q4X0H7	csmB_Afu2g13430	kiss_row_positive		Pezizomycotina	KS0121	extra_never_fitted	0	0	0.0157	0.0000	0.0000	0.0000	0.0093	0.0000	0.0000	0.0000	0.0053	0.0000	0.0200	0.0800
+Q4X143	ags2_Afu2g11270	kiss_row_positive		Pezizomycotina	KS0115	extra_never_fitted	0	0	0.0355	0.0000	0.0000	0.0000	0.0164	0.0000	0.0000	0.0000	0.0048	0.0000	0.0200	0.0800
+Q55P57	LAC1	hard_negative		Basidiomycota	HN0039	train_eligible	0	0	0.1493	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0007	0.0000	0.0000	0.0000
+Q59KZ1	APE2	background_assumed_negative		Saccharomycotina	C1_04400C_A	train_eligible	0	0	0.0097	0.0000	0.0000	0.0000	0.0015	0.0000	0.0000	0.0000	0.0010	0.0000	0.0000	0.0000
+Q59L12	ALS3	class_positive	A	Saccharomycotina	G8BJ61	train_eligible	1	1	0.9962	1.0000	1.0000	1.0000	0.7568	1.0000	1.0000	1.0000	0.9781	1.0000	1.0000	1.0000
+Q59L72	PGA52	background_assumed_negative		Saccharomycotina	C2_00100C_A	train_eligible	0	0	0.1060	0.0000	0.0000	0.0000	0.0075	0.0000	0.0000	0.0000	0.0008	0.0000	0.0000	0.0000
+Q59L86	PGA25	background_assumed_negative		Saccharomycotina	C6_00070C_A	train_eligible	1	0	0.7766	0.0000	1.0000	1.0000	0.6234	1.0000	1.0000	1.0000	0.2465	0.1000	1.0000	1.0000
+Q59L96	PGA48	background_assumed_negative		Saccharomycotina	C6_00160W_A	train_eligible	0	0	0.0448	0.0000	0.0000	0.0000	0.0520	0.0000	0.0000	0.0000	0.0202	0.0000	0.2000	0.3000
+Q59LX9	BTN1	background_assumed_negative		Saccharomycotina	C1_05120W_A	train_eligible	0	0	0.0124	0.0000	0.0000	0.0000	0.0025	0.0000	0.0000	0.0000	0.0009	0.0000	0.0000	0.0000
+Q59MD0	PGA50	background_assumed_negative		Saccharomycotina	C1_06260W_A	train_eligible	0	0	0.1295	0.0000	0.0000	0.0000	0.0305	0.0000	0.0000	0.0000	0.0028	0.0000	0.0000	0.0000
+Q59N10	PGA39	background_assumed_negative		Saccharomycotina	CR_04900C_A	train_eligible	1	0	0.0985	0.0000	0.0000	0.0000	0.0473	0.0000	0.0000	0.0000	0.0066	0.0000	0.0000	0.0000
+Q59NP5	SUN41	excluded_surface_other_adhesion_phenotype		Saccharomycotina	Q59NP5	extra_never_fitted	0	0	0.1438	0.0000	0.0000	0.0000	0.0177	0.0000	0.0000	0.0000	0.0016	0.0000	0.0000	0.0000
+Q59PF9	HWP2	adhesin_other_mechanism		Saccharomycotina	Q59PF9	extra_never_fitted	1	0	0.9419	0.9200	1.0000	1.0000	0.5500	0.9200	1.0000	1.0000	0.2062	0.1400	0.7000	0.9200
+Q59PT4	LCL2	background_assumed_negative		Saccharomycotina	CR_05800C_A	train_eligible	0	0	0.0276	0.0000	0.0000	0.0000	0.0046	0.0000	0.0000	0.0000	0.0008	0.0000	0.0000	0.0000
+Q59PV6	PRY1	background_assumed_negative		Saccharomycotina	C1_07030C_A	train_eligible	0	0	0.0405	0.0000	0.0000	0.0000	0.0605	0.0000	0.0000	0.0000	0.0005	0.0000	0.0000	0.0000
+Q59PW0	PIR32	background_assumed_negative		Saccharomycotina	C1_07620C_A	train_eligible	0	0	0.0273	0.0000	0.0000	0.0000	0.0576	0.0000	0.0000	0.0000	0.0025	0.0000	0.0000	0.0000
+Q59Q34	SPF1	excluded_indirect_regulator		Saccharomycotina	C2_06540C_A	extra_never_fitted	0	0	0.0125	0.0000	0.0000	0.0000	0.0020	0.0000	0.0000	0.0000	0.0025	0.0000	0.0000	0.0000
+Q59QA5	PGA49	background_assumed_negative		Saccharomycotina	C4_05920C_A	train_eligible	0	0	0.1764	0.0000	0.1000	0.1000	0.0995	0.0000	0.0000	0.0000	0.0024	0.0000	0.0000	0.1000
+Q59QH2	CSH1	excluded_indirect_regulator		Saccharomycotina	C1_04020C_A	extra_never_fitted	0	0	0.0021	0.0000	0.0000	0.0000	0.0001	0.0000	0.0000	0.0000	0.0008	0.0000	0.0000	0.0000
+Q59RR0	ACE2	excluded_surface_other_adhesion_phenotype		Saccharomycotina	Q59RR0	extra_never_fitted	0	0	0.0353	0.0000	0.0000	0.0000	0.0646	0.0000	0.0000	0.0000	0.0111	0.0000	0.0200	0.1200
+Q59RW5	HXK1	excluded_surface_other_adhesion_phenotype		Saccharomycotina	Q59RW5	extra_never_fitted	0	0	0.0064	0.0000	0.0000	0.0000	0.0003	0.0000	0.0000	0.0000	0.0010	0.0000	0.0000	0.0000
+Q59SF7	PIR1	uncurated_repeat_bearing		Saccharomycotina	C2_08870C_A	extra_never_fitted	0	0	0.0167	0.0000	0.0000	0.0000	0.1182	0.0000	0.0200	0.1200	0.0014	0.0000	0.0000	0.0200
+Q59SG9	PGA55	uncurated_repeat_bearing		Saccharomycotina	C2_08980C_A	extra_never_fitted	0	0	0.6599	0.0800	0.6200	0.9000	0.3100	0.0800	0.6800	0.9400	0.5166	0.6400	0.8800	0.9200
+Q59SR6	IRS4	excluded_indirect_regulator		Saccharomycotina	C3_03660W_A	extra_never_fitted	0	0	0.0112	0.0000	0.0000	0.0000	0.0383	0.0000	0.0000	0.0000	0.0017	0.0000	0.0000	0.0200
+Q59SU1	SAP9	excluded_surface_other_adhesion_phenotype		Saccharomycotina	Q59SU1	extra_never_fitted	0	0	0.1312	0.0000	0.0000	0.0000	0.0067	0.0000	0.0000	0.0000	0.0009	0.0000	0.0000	0.0000
+Q59TP1	RBT1	adhesin_other_mechanism		Saccharomycotina	P46593	extra_never_fitted	0	0	0.7486	0.0000	1.0000	1.0000	0.3416	0.1000	0.9000	1.0000	0.0254	0.0000	0.3000	0.5000
+Q59U10	BCR1	excluded_indirect_regulator		Saccharomycotina	CR_06440C_A	extra_never_fitted	0	0	0.1700	0.0000	0.0000	0.0000	0.2071	0.0000	0.1800	0.6400	0.1083	0.0000	0.6000	0.7200
+Q59UP6	PGA10	background_assumed_negative		Saccharomycotina	C4_06920C_A	train_eligible	0	0	0.0117	0.0000	0.0000	0.0000	0.0120	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+Q59UQ8	PEP7	excluded_indirect_regulator		Saccharomycotina	C4_00350W_A	extra_never_fitted	0	0	0.0075	0.0000	0.0000	0.0000	0.0039	0.0000	0.0000	0.0000	0.0012	0.0000	0.0000	0.0000
+Q59UR3	SWI1	excluded_indirect_regulator		Saccharomycotina	C4_00300C_A	extra_never_fitted	0	0	0.0091	0.0000	0.0000	0.0000	0.0090	0.0000	0.0000	0.0000	0.0013	0.0000	0.0000	0.0000
+Q59UT4	RBT5	excluded_surface_other_adhesion_phenotype		Saccharomycotina	Q59UT4	extra_never_fitted	0	0	0.0066	0.0000	0.0000	0.0000	0.0020	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+Q59UT5	PGA7	background_assumed_negative		Saccharomycotina	C4_06920C_A	train_eligible	0	0	0.0856	0.0000	0.0000	0.0000	0.0112	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+Q59V01	PGA23	background_assumed_negative		Saccharomycotina	CR_02280W_A	train_eligible	1	0	0.0037	0.0000	0.0000	0.0000	0.0332	0.0000	0.0000	0.0000	0.0005	0.0000	0.0000	0.0000
+Q59V02	PGA22	background_assumed_negative		Saccharomycotina	CR_02290W_A	train_eligible	0	0	0.7574	0.1000	0.8000	1.0000	0.1924	0.0000	0.0000	0.5000	0.0139	0.0000	0.0000	0.1000
+Q59VH7	SAP7	background_assumed_negative		Saccharomycotina	C3_05230W_A	train_eligible	0	0	0.0424	0.0000	0.0000	0.0000	0.0025	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+Q59VW6	PGA5	background_assumed_negative		Saccharomycotina	C5_05390C_A	train_eligible	0	0	0.1249	0.0000	0.0000	0.0000	0.0258	0.0000	0.0000	0.0000	0.0011	0.0000	0.0000	0.0000
+Q59WG5		background_assumed_negative		Saccharomycotina	C1_10810W_A	train_eligible	0	0	0.0574	0.0000	0.0000	0.0000	0.0016	0.0000	0.0000	0.0000	0.0010	0.0000	0.0000	0.0000
+Q59WG7	BIG1	excluded_surface_other_adhesion_phenotype		Saccharomycotina	Q59WG7	extra_never_fitted	0	0	0.0259	0.0000	0.0000	0.0000	0.0008	0.0000	0.0000	0.0000	0.0010	0.0000	0.0000	0.0000
+Q59WH0	ADA2	excluded_surface_other_adhesion_phenotype		Saccharomycotina	Q59WH0	extra_never_fitted	0	0	0.0058	0.0000	0.0000	0.0000	0.0019	0.0000	0.0000	0.0000	0.0008	0.0000	0.0000	0.0000
+Q59X23	pmt4	kiss_row_positive		Saccharomycotina	KS0016	extra_never_fitted	0	0	0.0101	0.0000	0.0000	0.0000	0.0002	0.0000	0.0000	0.0000	0.0007	0.0000	0.0000	0.0000
+Q59X67	EFG1	excluded_indirect_regulator		Saccharomycotina	CR_07890W_A	extra_never_fitted	0	0	0.0029	0.0000	0.0000	0.0000	0.0666	0.0000	0.0000	0.0000	0.0010	0.0000	0.0000	0.0000
+Q59XA7	HYR3	class_positive	B	Saccharomycotina	Q59XA7	extra_never_fitted	1	0	0.4214	0.0000	0.1000	0.3800	0.1794	0.0000	0.0800	0.4200	0.2260	0.2000	0.7800	0.8400
+Q59XB0	IFF8	class_positive	B	Saccharomycotina	Q59XA7	extra_never_fitted	1	0	0.5892	0.0000	0.6000	0.9000	0.3205	0.1000	0.7600	0.9800	0.0170	0.0000	0.0600	0.2200
+Q59XL0	IFF6	class_positive	B	Saccharomycotina	Q59XA7	extra_never_fitted	1	0	0.7489	0.0400	0.9200	1.0000	0.2929	0.0200	0.6800	0.9800	0.2587	0.2800	0.9400	1.0000
+Q59XU5	RAS1	excluded_indirect_regulator		Saccharomycotina	C2_10210C_A	extra_never_fitted	0	0	0.0004	0.0000	0.0000	0.0000	0.0293	0.0000	0.0000	0.0000	0.0023	0.0000	0.0000	0.0000
+Q59XU9	GPD1	excluded_indirect_regulator		Saccharomycotina	C2_10240W_A	extra_never_fitted	0	0	0.0040	0.0000	0.0000	0.0000	0.0001	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+Q59XW9	IRC22-2	background_assumed_negative		Saccharomycotina	C2_09780C_A	train_eligible	0	0	0.0182	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0005	0.0000	0.0000	0.0000
+Q59XX2	MP65	excluded_surface_other_adhesion_phenotype		Saccharomycotina	Q59XX2	extra_never_fitted	0	0	0.0162	0.0000	0.0000	0.0000	0.0004	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+Q59Y11	PGA46	background_assumed_negative		Saccharomycotina	C2_08430C_A	train_eligible	0	0	0.0439	0.0000	0.0000	0.0000	0.0302	0.0000	0.0000	0.0000	0.0015	0.0000	0.0000	0.0000
+Q59Y20	DSE1	excluded_surface_other_adhesion_phenotype		Saccharomycotina	Q59Y20	extra_never_fitted	0	0	0.0707	0.0000	0.0000	0.0000	0.0235	0.0000	0.0000	0.0000	0.0028	0.0000	0.0000	0.0000
+Q59Y31	YWP1	excluded_surface_other_adhesion_phenotype		Saccharomycotina	Q59Y31	extra_never_fitted	0	0	0.2357	0.0000	0.0000	0.0200	0.1484	0.0000	0.0000	0.1800	0.0149	0.0000	0.0000	0.2200
+Q59YF4	IRC22-1	background_assumed_negative		Saccharomycotina	C2_09780C_A	train_eligible	0	0	0.0173	0.0000	0.0000	0.0000	0.0003	0.0000	0.0000	0.0000	0.0005	0.0000	0.0000	0.0000
+Q59Z29	AFT2	excluded_indirect_regulator		Saccharomycotina	C2_07170C_A	extra_never_fitted	0	0	0.0481	0.0000	0.0000	0.0000	0.1079	0.0000	0.0000	0.0600	0.0063	0.0000	0.0000	0.0800
+Q59ZB1	AAH1	excluded_indirect_regulator		Saccharomycotina	C2_06970W_A	extra_never_fitted	0	0	0.0055	0.0000	0.0000	0.0000	0.0001	0.0000	0.0000	0.0000	0.0010	0.0000	0.0000	0.0000
+Q59ZX3	RBE1	background_assumed_negative		Saccharomycotina	C1_07030C_A	train_eligible	0	0	0.0923	0.0000	0.0000	0.0000	0.0702	0.0000	0.0000	0.0000	0.2056	0.2000	0.8000	0.9000
+Q5A029	IFF3	class_positive	B	Saccharomycotina	Q59XA7	extra_never_fitted	0	0	0.7045	0.0200	0.8600	0.9800	0.3673	0.2000	0.8200	0.8600	0.2172	0.1600	0.8000	0.9000
+Q5A0X8	CSA2	background_assumed_negative		Saccharomycotina	C4_06920C_A	train_eligible	0	0	0.0129	0.0000	0.0000	0.0000	0.0068	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+Q5A1A9	PGA43	background_assumed_negative		Saccharomycotina	C4_06260W_A	train_eligible	0	0	0.0270	0.0000	0.0000	0.0000	0.0034	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+Q5A1B2	PGA42	background_assumed_negative		Saccharomycotina	C4_06560W_A	train_eligible	0	0	0.0866	0.0000	0.0000	0.0000	0.0306	0.0000	0.0000	0.0000	0.0010	0.0000	0.0000	0.0000
+Q5A1B3	PGA41	background_assumed_negative		Saccharomycotina	C4_06560W_A	train_eligible	0	0	0.3741	0.0000	0.0000	0.2000	0.0926	0.0000	0.0000	0.0000	0.0014	0.0000	0.0000	0.0000
+Q5A1E0	IFF5	class_positive	B	Saccharomycotina	Q59XA7	extra_never_fitted	0	0	0.8605	0.3000	1.0000	1.0000	0.4350	0.4800	0.9600	1.0000	0.6248	0.7000	1.0000	1.0000
+Q5A1E1	PGA15	background_assumed_negative		Saccharomycotina	C4_06560W_A	train_eligible	0	0	0.0557	0.0000	0.0000	0.0000	0.0101	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+Q5A210	PGA34	background_assumed_negative		Saccharomycotina	CR_02750C_A	train_eligible	0	0	0.0153	0.0000	0.0000	0.0000	0.0290	0.0000	0.0000	0.0000	0.0010	0.0000	0.0000	0.0000
+Q5A287	SFL1	excluded_indirect_regulator		Saccharomycotina	CR_05990C_A	extra_never_fitted	0	0	0.0842	0.0000	0.0000	0.0000	0.1094	0.0000	0.0000	0.0400	0.0130	0.0000	0.0200	0.0600
+Q5A2J7	YVC1	excluded_indirect_regulator		Saccharomycotina	C2_07730W_A	extra_never_fitted	0	0	0.0069	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000	0.0009	0.0000	0.0000	0.0000
+Q5A2Z7	ALS6	class_positive	A	Saccharomycotina	G8BJ61	train_eligible	1	0	0.9062	0.5000	1.0000	1.0000	0.5860	1.0000	1.0000	1.0000	0.3099	0.2000	1.0000	1.0000
+Q5A302	ERV25	background_assumed_negative		Saccharomycotina	C3_06250W_A	train_eligible	0	0	0.0024	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000	0.0008	0.0000	0.0000	0.0000
+Q5A312	ALS7	class_positive	A	Saccharomycotina	G8BJ61	train_eligible	1	0	0.7359	0.0000	0.9000	1.0000	0.2364	0.0000	0.3000	0.8000	0.0114	0.0000	0.1000	0.1000
+Q5A319	NPR3	background_assumed_negative		Saccharomycotina	CR_08680C_A	train_eligible	0	0	0.0353	0.0000	0.0000	0.0000	0.0087	0.0000	0.0000	0.0000	0.0011	0.0000	0.0000	0.0000
+Q5A343	PGA13	background_assumed_negative		Saccharomycotina	CR_08510W_A	train_eligible	0	0	0.9895	1.0000	1.0000	1.0000	0.4105	0.3000	1.0000	1.0000	0.0274	0.0000	0.1000	0.8000
+Q5A360	SIL1	background_assumed_negative		Saccharomycotina	CR_08350W_A	train_eligible	0	0	0.0159	0.0000	0.0000	0.0000	0.0013	0.0000	0.0000	0.0000	0.0010	0.0000	0.0000	0.0000
+Q5A446	CFL1	background_assumed_negative		Saccharomycotina	C4_05770C_A	train_eligible	0	0	0.0442	0.0000	0.0000	0.0000	0.0048	0.0000	0.0000	0.0000	0.0013	0.0000	0.0000	0.0000
+Q5A4F3	AHR1	excluded_indirect_regulator		Saccharomycotina	C3_06000W_A	extra_never_fitted	0	0	0.0535	0.0000	0.0000	0.0000	0.0032	0.0000	0.0000	0.0000	0.0010	0.0000	0.0000	0.0000
+Q5A4M8	SUR7	background_assumed_negative		Saccharomycotina	C6_01720C_A	train_eligible	0	0	0.0022	0.0000	0.0000	0.0000	0.0032	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+Q5A4X3	ROT2	excluded_surface_other_adhesion_phenotype		Saccharomycotina	Q5A4X3	extra_never_fitted	0	0	0.1321	0.0000	0.0000	0.0000	0.0029	0.0000	0.0000	0.0000	0.0014	0.0000	0.0000	0.0000
+Q5A4X8	PGA14	background_assumed_negative		Saccharomycotina	C5_00270W_A	train_eligible	0	0	0.0125	0.0000	0.0000	0.0000	0.0383	0.0000	0.0000	0.0000	0.0066	0.0000	0.0000	0.0000
+Q5A5K7	PGA28	background_assumed_negative		Saccharomycotina	C7_03110W_A	train_eligible	0	0	0.0872	0.0000	0.0000	0.0000	0.0209	0.0000	0.0000	0.0000	0.0009	0.0000	0.0000	0.0000
+Q5A5M7	RBR3	class_positive	B	Saccharomycotina	Q59XA7	extra_never_fitted	1	0	0.9850	1.0000	1.0000	1.0000	0.7636	1.0000	1.0000	1.0000	0.9111	0.9800	1.0000	1.0000
+Q5A5S7	ATG27	background_assumed_negative		Saccharomycotina	C2_10470C_A	train_eligible	0	0	0.0132	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0008	0.0000	0.0000	0.0000
+Q5A5U4	RHD3	background_assumed_negative		Saccharomycotina	C4_04050C_A	train_eligible	0	0	0.0024	0.0000	0.0000	0.0000	0.0031	0.0000	0.0000	0.0000	0.0008	0.0000	0.0000	0.0000
+Q5A5U6	PGA30	background_assumed_negative		Saccharomycotina	C4_04050C_A	train_eligible	0	0	0.0510	0.0000	0.0000	0.0000	0.0041	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+Q5A651	SAP10	excluded_surface_other_adhesion_phenotype		Saccharomycotina	Q59SU1	extra_never_fitted	0	0	0.0860	0.0000	0.0000	0.0000	0.0054	0.0000	0.0000	0.0000	0.0010	0.0000	0.0000	0.0000
+Q5A6M0	RBR1	background_assumed_negative		Saccharomycotina	CR_04440C_A	train_eligible	0	0	0.0001	0.0000	0.0000	0.0000	0.0446	0.0000	0.0000	0.0000	0.0018	0.0000	0.0000	0.0000
+Q5A6M2	RBR2	background_assumed_negative		Saccharomycotina	CR_04420C_A	train_eligible	0	0	0.0087	0.0000	0.0000	0.0000	0.0051	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+Q5A6N7	HAP31	excluded_indirect_regulator		Saccharomycotina	CR_04290W_A	extra_never_fitted	0	0	0.0006	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+Q5A6U1	IFF9	class_positive	B	Saccharomycotina	Q59XA7	extra_never_fitted	0	0	0.7132	0.0200	0.8600	0.9400	0.3641	0.2000	0.8200	0.8400	0.2012	0.1200	0.7800	0.9000
+Q5A753	opy2	kiss_row_positive		Saccharomycotina	KS0126	extra_never_fitted	0	0	0.0133	0.0000	0.0000	0.0000	0.0261	0.0000	0.0000	0.0000	0.0011	0.0000	0.0000	0.0000
+Q5A7M9	RHR2	excluded_indirect_regulator		Saccharomycotina	C3_00320W_A	extra_never_fitted	0	0	0.0027	0.0000	0.0000	0.0000	0.0003	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+Q5A7R7	IFF11	class_positive	B	Saccharomycotina	Q5A7R7	extra_never_fitted	0	0	0.0606	0.0000	0.0000	0.0000	0.0325	0.0000	0.0000	0.0000	0.0011	0.0000	0.0000	0.0000
+Q5A849	HYR4	class_positive	B	Saccharomycotina	Q59XA7	extra_never_fitted	0	0	0.2455	0.0000	0.0000	0.0000	0.0537	0.0000	0.0000	0.0000	0.0044	0.0000	0.0000	0.0200
+Q5A8A2	NPC2	background_assumed_negative		Saccharomycotina	CR_01280C_A	train_eligible	0	0	0.0428	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0009	0.0000	0.0000	0.0000
+Q5A8I6	PGA61	background_assumed_negative		Saccharomycotina	C6_03860C_A	train_eligible	0	0	0.0527	0.0000	0.0000	0.0000	0.0161	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+Q5A8I8	IHD1	background_assumed_negative		Saccharomycotina	C6_03850C_A	train_eligible	1	0	0.0549	0.0000	0.0000	0.0000	0.1111	0.0000	0.0000	0.1000	0.0142	0.0000	0.1000	0.4000
+Q5A8N2	SAP4	background_assumed_negative		Saccharomycotina	C3_05230W_A	train_eligible	0	0	0.0514	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000	0.0007	0.0000	0.0000	0.0000
+Q5A8T4	ALS1	class_positive	A	Saccharomycotina	G8BJ61	train_eligible	1	1	0.9949	1.0000	1.0000	1.0000	0.8012	1.0000	1.0000	1.0000	0.9813	1.0000	1.0000	1.0000
+Q5A8T7	ALS5	class_positive	A	Saccharomycotina	G8BJ61	train_eligible	1	0	0.8790	0.3000	1.0000	1.0000	0.5521	1.0000	1.0000	1.0000	0.4438	0.3000	1.0000	1.0000
+Q5AA09	PGA26	background_assumed_negative		Saccharomycotina	C1_05760C_A	train_eligible	0	0	0.2346	0.0000	0.0000	0.0000	0.0338	0.0000	0.0000	0.0000	0.0068	0.0000	0.0000	0.0000
+Q5AA33	PGA45	background_assumed_negative		Saccharomycotina	C1_05960W_A	train_eligible	0	0	0.0267	0.0000	0.0000	0.0000	0.0060	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+Q5AA40	CHS7	excluded_surface_other_adhesion_phenotype		Saccharomycotina	Q5AA40	extra_never_fitted	0	0	0.0020	0.0000	0.0000	0.0000	0.0017	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+Q5AAH2	CHT1	background_assumed_negative		Saccharomycotina	CR_00180C_A	train_eligible	0	0	0.0903	0.0000	0.0000	0.0000	0.0025	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+Q5AAL9	IFF4	class_positive	B	Saccharomycotina	Q59XA7	extra_never_fitted	0	0	0.7663	0.0600	1.0000	1.0000	0.2103	0.0000	0.2600	0.6000	0.0490	0.0400	0.2800	0.3800
+Q5AAN7	PBR1	excluded_surface_other_adhesion_phenotype		Saccharomycotina	Q5AAN7	extra_never_fitted	0	0	0.0142	0.0000	0.0000	0.0000	0.0001	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+Q5AAU5	ATC1	background_assumed_negative		Saccharomycotina	C1_06940C_A	train_eligible	0	0	0.0159	0.0000	0.0000	0.0000	0.0007	0.0000	0.0000	0.0000	0.0011	0.0000	0.0000	0.0000
+Q5AB48	RBT4	background_assumed_negative		Saccharomycotina	C1_07030C_A	train_eligible	0	0	0.0072	0.0000	0.0000	0.0000	0.0055	0.0000	0.0000	0.0000	0.0007	0.0000	0.0000	0.0000
+Q5AB49		background_assumed_negative		Saccharomycotina	C1_07030C_A	train_eligible	0	0	0.2224	0.0000	0.0000	0.0000	0.0179	0.0000	0.0000	0.0000	0.0008	0.0000	0.0000	0.0000
+Q5ABP8	ROT1	background_assumed_negative		Saccharomycotina	C1_00770C_A	train_eligible	0	0	0.1104	0.0000	0.0000	0.0000	0.0016	0.0000	0.0000	0.0000	0.0011	0.0000	0.0000	0.0000
+Q5ABW2	PGA60	background_assumed_negative		Saccharomycotina	C6_03060W_A	train_eligible	0	0	0.5150	0.0000	0.0000	0.7000	0.4755	0.5000	1.0000	1.0000	0.7292	0.8000	1.0000	1.0000
+Q5AC08	SAP6	background_assumed_negative		Saccharomycotina	C3_05230W_A	train_eligible	0	0	0.0366	0.0000	0.0000	0.0000	0.0009	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+Q5ACL7	PGA1	adhesin_other_mechanism		Saccharomycotina	Q5ACL7	extra_never_fitted	0	0	0.0711	0.0000	0.0000	0.0000	0.0094	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+Q5ACN3	PGA11	background_assumed_negative		Saccharomycotina	CR_10330W_A	train_eligible	0	0	0.0016	0.0000	0.0000	0.0000	0.0085	0.0000	0.0000	0.0000	0.0005	0.0000	0.0000	0.0000
+Q5ACP5	PGA12	background_assumed_negative		Saccharomycotina	CR_10210W_A	train_eligible	0	0	0.0298	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0007	0.0000	0.0000	0.0000
+Q5ACR4	YOS9	background_assumed_negative		Saccharomycotina	CR_10020C_A	train_eligible	0	0	0.0508	0.0000	0.0000	0.0000	0.0003	0.0000	0.0000	0.0000	0.0009	0.0000	0.0000	0.0000
+Q5ACV9	SOD6	background_assumed_negative		Saccharomycotina	C2_00240C_A	train_eligible	0	0	0.0245	0.0000	0.0000	0.0000	0.0019	0.0000	0.0000	0.0000	0.0009	0.0000	0.0000	0.0000
+Q5ACZ2	DFG5	background_assumed_negative		Saccharomycotina	C2_00520W_A	train_eligible	0	0	0.0113	0.0000	0.0000	0.0000	0.0016	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+Q5AD05	SOD4	background_assumed_negative		Saccharomycotina	C2_00680C_A	train_eligible	0	0	0.0396	0.0000	0.0000	0.0000	0.0121	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+Q5AD07	SOD5	background_assumed_negative		Saccharomycotina	C2_00680C_A	train_eligible	0	0	0.0244	0.0000	0.0000	0.0000	0.0075	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+Q5AD23	PGA27	background_assumed_negative		Saccharomycotina	C2_00800C_A	train_eligible	0	0	0.3304	0.0000	0.0000	0.0000	0.0143	0.0000	0.0000	0.0000	0.0011	0.0000	0.0000	0.0000
+Q5AD34	PGA19	background_assumed_negative		Saccharomycotina	C2_00910W_A	train_eligible	0	0	0.0214	0.0000	0.0000	0.0000	0.0025	0.0000	0.0000	0.0000	0.0011	0.0000	0.0000	0.0000
+Q5AD78	DCW1	background_assumed_negative		Saccharomycotina	C2_00520W_A	train_eligible	0	0	0.0097	0.0000	0.0000	0.0000	0.0018	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+Q5ADM7	TDH3	excluded_indirect_regulator		Saccharomycotina	C3_06870W_A	extra_never_fitted	0	0	0.0044	0.0000	0.0000	0.0000	0.0002	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+Q5ADM9	pmt2	kiss_row_positive		Saccharomycotina	KS0035	extra_never_fitted	0	0	0.0209	0.0000	0.0000	0.0000	0.0002	0.0000	0.0000	0.0000	0.0011	0.0000	0.0000	0.0000
+Q5ADQ7	PGA32	background_assumed_negative		Saccharomycotina	C3_07160W_A	train_eligible	1	0	0.5874	0.0000	0.5000	1.0000	0.2588	0.0000	0.5000	0.7000	0.0844	0.0000	0.6000	0.9000
+Q5AEG7	PGA18	uncurated_repeat_bearing		Saccharomycotina	C3_03050C_A	extra_never_fitted	1	0	0.9795	1.0000	1.0000	1.0000	0.5884	0.9400	1.0000	1.0000	0.0567	0.0600	0.2800	0.4600
+Q5AEM6	SAP8	background_assumed_negative		Saccharomycotina	C3_05230W_A	train_eligible	0	0	0.0299	0.0000	0.0000	0.0000	0.0053	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+Q5AF39	PGA59	background_assumed_negative		Saccharomycotina	C4_02370C_A	train_eligible	0	0	0.0578	0.0000	0.0000	0.0000	0.0325	0.0000	0.0000	0.0000	0.0077	0.0000	0.0000	0.0000
+Q5AF41	PGA62	background_assumed_negative		Saccharomycotina	C4_02370C_A	train_eligible	0	0	0.5699	0.0000	0.6000	0.8000	0.1635	0.0000	0.0000	0.3000	0.0380	0.0000	0.4000	0.6000
+Q5AFA2	CRH11	background_assumed_negative		Saccharomycotina	C4_02900C_A	train_eligible	0	0	0.1699	0.0000	0.0000	0.0000	0.0700	0.0000	0.0000	0.0000	0.0007	0.0000	0.0000	0.0000
+Q5AFC2	PGA54	background_assumed_negative		Saccharomycotina	C4_03070W_A	train_eligible	0	0	0.5488	0.0000	0.6000	0.7000	0.1780	0.0000	0.0000	0.4000	0.0205	0.0000	0.0000	0.3000
+Q5AFI4	DFI1	excluded_surface_other_adhesion_phenotype		Saccharomycotina	Q5AFI4	extra_never_fitted	0	0	0.1858	0.0000	0.0000	0.0000	0.1807	0.0000	0.1200	0.4800	0.2083	0.1400	0.7800	0.9200
+Q5AFN8	SSR1	background_assumed_negative		Saccharomycotina	C7_00860W_A	train_eligible	0	0	0.0197	0.0000	0.0000	0.0000	0.0155	0.0000	0.0000	0.0000	0.0010	0.0000	0.0000	0.0000
+Q5AFP8	KEX1	background_assumed_negative		Saccharomycotina	C7_00940W_A	train_eligible	0	0	0.0461	0.0000	0.0000	0.0000	0.0133	0.0000	0.0000	0.0000	0.0013	0.0000	0.0000	0.0000
+Q5AG46	PGA58	background_assumed_negative		Saccharomycotina	C5_03050C_A	train_eligible	0	0	0.2042	0.0000	0.1000	0.1000	0.1110	0.0000	0.0000	0.0000	0.4589	0.6000	1.0000	1.0000
+Q5AGC4	ECM331	background_assumed_negative		Saccharomycotina	C5_02460C_A	train_eligible	0	0	0.0676	0.0000	0.0000	0.0000	0.0134	0.0000	0.0000	0.0000	0.0008	0.0000	0.0000	0.0000
+Q5AGW8	NUP	background_assumed_negative		Saccharomycotina	C7_01560C_A	train_eligible	0	0	0.0312	0.0000	0.0000	0.0000	0.0009	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+Q5AH00	VMA11	excluded_indirect_regulator		Saccharomycotina	C3_04390W_A	extra_never_fitted	0	0	0.0009	0.0000	0.0000	0.0000	0.0067	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+Q5AHA4	PGA17	background_assumed_negative		Saccharomycotina	C2_03350W_A	train_eligible	0	0	0.0415	0.0000	0.0000	0.0000	0.0044	0.0000	0.0000	0.0000	0.0007	0.0000	0.0000	0.0000
+Q5AHC0	PGA33	background_assumed_negative		Saccharomycotina	C2_03440W_A	train_eligible	0	0	0.0136	0.0000	0.0000	0.0000	0.0278	0.0000	0.0000	0.0000	0.0076	0.0000	0.0000	0.0000
+Q5AHE8	PGA16	background_assumed_negative		Saccharomycotina	C2_03720W_A	train_eligible	0	0	0.0342	0.0000	0.0000	0.0000	0.0316	0.0000	0.0000	0.0000	0.0005	0.0000	0.0000	0.0000
+Q5AHZ2		background_assumed_negative		Saccharomycotina	C1_03600W_A	train_eligible	0	0	0.0164	0.0000	0.0000	0.0000	0.0010	0.0000	0.0000	0.0000	0.0010	0.0000	0.0000	0.0000
+Q5AI14	tps2	kiss_row_positive		Saccharomycotina	KS0119	extra_never_fitted	0	0	0.0107	0.0000	0.0000	0.0000	0.0023	0.0000	0.0000	0.0000	0.0011	0.0000	0.0000	0.0000
+Q5AI48		background_assumed_negative		Saccharomycotina	C1_03120W_A	train_eligible	0	0	0.0057	0.0000	0.0000	0.0000	0.0091	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+Q5AIA1	EXG2	background_assumed_negative		Saccharomycotina	C1_02990C_A	train_eligible	0	0	0.0276	0.0000	0.0000	0.0000	0.0047	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+Q5AIR7	ENG1	excluded_surface_other_adhesion_phenotype		Saccharomycotina	Q5AIR7	extra_never_fitted	0	0	0.1675	0.0000	0.0000	0.0000	0.0083	0.0000	0.0000	0.0000	0.0011	0.0000	0.0000	0.0000
+Q5AJC0	UTR2	excluded_surface_other_adhesion_phenotype		Saccharomycotina	P32623	extra_never_fitted	0	0	0.1059	0.0000	0.0000	0.0000	0.0136	0.0000	0.0000	0.0000	0.0024	0.0000	0.0000	0.0000
+Q5AJK6	PGA44	background_assumed_negative		Saccharomycotina	C3_01370C_A	train_eligible	0	0	0.5152	0.0000	0.2000	0.8000	0.1143	0.0000	0.0000	0.1000	0.0040	0.0000	0.0000	0.0000
+Q5AJV5	FGR23	background_assumed_negative		Saccharomycotina	C3_02300W_A	train_eligible	1	0	0.9678	1.0000	1.0000	1.0000	0.4894	0.8000	1.0000	1.0000	0.4142	0.6000	1.0000	1.0000
+Q5AJY5	PGA4	background_assumed_negative		Saccharomycotina	C5_05390C_A	train_eligible	0	0	0.0617	0.0000	0.0000	0.0000	0.0053	0.0000	0.0000	0.0000	0.0007	0.0000	0.0000	0.0000
+Q5AK51	SFL2	excluded_indirect_regulator		Saccharomycotina	C5_04830W_A	extra_never_fitted	0	0	0.3516	0.0000	0.0400	0.2200	0.1655	0.0000	0.0800	0.2600	0.0761	0.0000	0.4800	0.6200
+Q5AK54	CRH12	background_assumed_negative		Saccharomycotina	C4_02900C_A	train_eligible	0	0	0.1065	0.0000	0.0000	0.0000	0.0251	0.0000	0.0000	0.0000	0.0013	0.0000	0.0000	0.0000
+Q5AK94	RNY1-A	background_assumed_negative		Saccharomycotina	C5_04400W_A	train_eligible	0	0	0.4722	0.0000	0.0000	0.5000	0.0693	0.0000	0.0000	0.0000	0.0019	0.0000	0.0000	0.0000
+Q5AK97	PGA37	background_assumed_negative		Saccharomycotina	C5_04370C_A	train_eligible	0	0	0.4517	0.0000	0.2000	0.5000	0.1269	0.0000	0.0000	0.0000	0.0061	0.0000	0.0000	0.1000
+Q5AKB1	RNY1-B	background_assumed_negative		Saccharomycotina	C5_04400W_A	train_eligible	0	0	0.3583	0.0000	0.0000	0.1000	0.0109	0.0000	0.0000	0.0000	0.0012	0.0000	0.0000	0.0000
+Q5AKU5	SIM1	background_assumed_negative		Saccharomycotina	C1_13940W_A	train_eligible	0	0	0.1480	0.0000	0.0000	0.0000	0.0120	0.0000	0.0000	0.0000	0.0020	0.0000	0.0000	0.0000
+Q5AL03	HYR1	class_positive	B	Saccharomycotina	Q59XA7	extra_never_fitted	1	0	0.5410	0.0000	0.3000	0.8400	0.1832	0.0000	0.0800	0.4400	0.0119	0.0000	0.0800	0.2800
+Q5AMF7	PGA57	background_assumed_negative		Saccharomycotina	C5_04370C_A	train_eligible	0	0	0.3851	0.0000	0.0000	0.4000	0.1309	0.0000	0.0000	0.0000	0.0051	0.0000	0.0000	0.1000
+Q5AMJ5	PGA53	background_assumed_negative		Saccharomycotina	C4_01360W_A	train_eligible	0	0	0.0134	0.0000	0.0000	0.0000	0.0158	0.0000	0.0000	0.0000	0.0089	0.0000	0.0000	0.0000
+Q5AMQ6	RFX2	excluded_indirect_regulator		Saccharomycotina	C4_02030W_A	extra_never_fitted	0	0	0.0715	0.0000	0.0000	0.0000	0.0749	0.0000	0.0000	0.0000	0.0064	0.0000	0.0200	0.0200
+Q5AMT2	BGL2	excluded_surface_other_adhesion_phenotype		Saccharomycotina	Q5AMT2	extra_never_fitted	0	0	0.0069	0.0000	0.0000	0.0000	0.0043	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+Q5AND1	MTC6	background_assumed_negative		Saccharomycotina	C3_05020W_A	train_eligible	0	0	0.0364	0.0000	0.0000	0.0000	0.0028	0.0000	0.0000	0.0000	0.0011	0.0000	0.0000	0.0000
+Q5ANF0	SFP1	excluded_indirect_regulator		Saccharomycotina	C3_04860W_A	extra_never_fitted	0	0	0.0187	0.0000	0.0000	0.0000	0.0587	0.0000	0.0000	0.0000	0.0017	0.0000	0.0000	0.0000
+Q5ANJ4	TEC1	excluded_indirect_regulator		Saccharomycotina	C3_04530C_A	extra_never_fitted	0	0	0.0166	0.0000	0.0000	0.0000	0.0191	0.0000	0.0000	0.0000	0.0042	0.0000	0.0200	0.0200
+Q5ANN9	kre9	kiss_row_positive		Saccharomycotina	KS0089	extra_never_fitted	0	0	0.2172	0.0000	0.0000	0.0000	0.0537	0.0000	0.0000	0.0000	0.0412	0.0200	0.2200	0.3200
+Q5AP52	FGR41	background_assumed_negative		Saccharomycotina	C1_10400C_A	train_eligible	0	0	0.6504	0.0000	0.8000	0.9000	0.2364	0.0000	0.4000	0.7000	0.0676	0.0000	0.4000	1.0000
+Q5AP80	WOR1	excluded_indirect_regulator		Saccharomycotina	C1_10150W_A	extra_never_fitted	0	0	0.0574	0.0000	0.0000	0.0000	0.1411	0.0000	0.0200	0.2000	0.0486	0.0000	0.2800	0.6000
+Q5APJ9	PGA6	background_assumed_negative		Saccharomycotina	C1_09080C_A	train_eligible	0	0	0.1722	0.0000	0.0000	0.0000	0.0538	0.0000	0.0000	0.0000	0.0134	0.0000	0.0000	0.3000
+Q5AQ36	SHO1	excluded_indirect_regulator		Saccharomycotina	C1_09140C_A	extra_never_fitted	0	0	0.0208	0.0000	0.0000	0.0000	0.0194	0.0000	0.0000	0.0000	0.0005	0.0000	0.0000	0.0000
+Q5AQQ0	cda	hard_negative		Pezizomycotina	HN0074	train_eligible	0	0	0.0187	0.0000	0.0000	0.0000	0.0790	0.0000	0.0000	0.0000	0.0024	0.0000	0.0000	0.0000
+Q5AUT0	eglC	hard_negative		Pezizomycotina	HN0075	train_eligible	0	0	0.0406	0.0000	0.0000	0.0000	0.0084	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+Q5AXD9		excluded_surface_other_adhesion_phenotype		Pezizomycotina	Q5AXD9	extra_never_fitted	0	0	0.4961	0.0000	0.2000	0.6200	0.3237	0.0400	0.8800	0.9800	0.0776	0.0000	0.6800	0.9200
+Q5B2E8	cbhC	hard_negative		Pezizomycotina	HN0025	train_eligible	0	0	0.0176	0.0000	0.0000	0.0000	0.0057	0.0000	0.0000	0.0000	0.0010	0.0000	0.0000	0.0000
+Q5B508	pgaB	hard_negative		Pezizomycotina	HN0076	train_eligible	0	0	0.0683	0.0000	0.0000	0.0000	0.0038	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+Q5B6Q3	exgB	hard_negative		Pezizomycotina	HN0077	train_eligible	0	0	0.0138	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+Q5BAP5	xgeA	hard_negative		Pezizomycotina	HN0078	train_eligible	1	0	0.2200	0.0000	0.0000	0.0000	0.0862	0.0000	0.0000	0.0000	0.0011	0.0000	0.0000	0.0000
+Q5J6J1	SCPA	hard_negative		Pezizomycotina	HN0079	train_eligible	0	0	0.1388	0.0000	0.0000	0.0000	0.0135	0.0000	0.0000	0.0000	0.0017	0.0000	0.0000	0.0000
+Q5J6J2	SCPB	hard_negative		Pezizomycotina	HN0079	train_eligible	0	0	0.1361	0.0000	0.0000	0.0000	0.0095	0.0000	0.0000	0.0000	0.0009	0.0000	0.0000	0.0000
+Q5J6J3	DPP4	hard_negative		Pezizomycotina	HN0080	train_eligible	0	0	0.0670	0.0000	0.0000	0.0000	0.0035	0.0000	0.0000	0.0000	0.0008	0.0000	0.0000	0.0000
+Q5QHG5	LAP1	hard_negative		Pezizomycotina	HN0081	train_eligible	0	0	0.0043	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0007	0.0000	0.0000	0.0000
+Q5QHG6	LAP2	hard_negative		Pezizomycotina	HN0082	train_eligible	0	0	0.0152	0.0000	0.0000	0.0000	0.0003	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+Q66NB7	Eg5A	hard_negative		Basidiomycota	HN0083	train_eligible	0	0	0.0385	0.0000	0.0000	0.0000	0.0024	0.0000	0.0000	0.0000	0.0007	0.0000	0.0000	0.0000
+Q6B0X2		background_assumed_negative		Saccharomycotina	YMR158W-B	train_eligible	0	0	0.0147	0.0000	0.0000	0.0000	0.0080	0.0000	0.0000	0.0000	0.0008	0.0000	0.0000	0.0000
+Q6B2U8	TDA8	adhesin_other_mechanism		Saccharomycotina	P0CI66	extra_never_fitted	0	0	0.0152	0.0000	0.0000	0.0000	0.0001	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+Q6DTM6	EPA7	adhesin_other_mechanism		Saccharomycotina	Q6DTM6	extra_never_fitted	0	0	0.6453	0.0000	0.8000	1.0000	0.2748	0.0000	0.6000	0.9000	0.0146	0.0000	0.0400	0.2000
+Q6DWK3	CDA	hard_negative		Pezizomycotina	HN0074	train_eligible	0	0	0.0168	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0007	0.0000	0.0000	0.0000
+Q6FKZ0	TIR6	excluded_surface_other_adhesion_phenotype		Saccharomycotina	Q6FKZ0	extra_never_fitted	0	0	0.0046	0.0000	0.0000	0.0000	0.0046	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+Q6FNG1	AWP2	adhesin_other_mechanism		Saccharomycotina	Q6FNG1	extra_never_fitted	0	0	0.5813	0.0000	0.6200	0.8200	0.2153	0.0000	0.3400	0.6800	0.3522	0.4000	0.8400	0.8800
+Q6FPM8		class_positive	B	Saccharomycotina	Q6FPM9	extra_never_fitted	1	0	0.7251	0.1400	0.8200	0.9200	0.3007	0.0400	0.7000	0.9400	0.1952	0.1800	0.7200	0.8600
+Q6FPM9		class_positive	B	Saccharomycotina	Q6FPM9	extra_never_fitted	1	0	0.7365	0.1200	0.8400	0.9600	0.3922	0.3200	0.9800	1.0000	0.3937	0.3600	0.9400	0.9600
+Q6FPR1		class_positive	B	Saccharomycotina	Q6FPM9	extra_never_fitted	1	0	0.9646	0.9800	1.0000	1.0000	0.4869	0.6600	1.0000	1.0000	0.6671	0.8200	0.9000	0.9400
+Q6FQC7		class_positive	B	Saccharomycotina	Q6FUW7	extra_never_fitted	0	0	0.9965	1.0000	1.0000	1.0000	0.4626	0.6400	1.0000	1.0000	0.9912	1.0000	1.0000	1.0000
+Q6FR82	EPA23	class_positive	B	Saccharomycotina	Q6DTM6	extra_never_fitted	0	0	0.9862	1.0000	1.0000	1.0000	0.6875	1.0000	1.0000	1.0000	0.9692	1.0000	1.0000	1.0000
+Q6FRC8	TIR4	excluded_surface_other_adhesion_phenotype		Saccharomycotina	Q6FKZ0	extra_never_fitted	0	0	0.0037	0.0000	0.0000	0.0000	0.0067	0.0000	0.0000	0.0000	0.0007	0.0000	0.0000	0.0000
+Q6FRC9	TIR5	excluded_surface_other_adhesion_phenotype		Saccharomycotina	Q6FKZ0	extra_never_fitted	0	0	0.0037	0.0000	0.0000	0.0000	0.0064	0.0000	0.0000	0.0000	0.0007	0.0000	0.0000	0.0000
+Q6FRS0	SSR1	excluded_surface_other_adhesion_phenotype		Saccharomycotina	Q6FRS0	extra_never_fitted	0	0	0.1119	0.0000	0.0000	0.0000	0.0180	0.0000	0.0000	0.0000	0.0015	0.0000	0.0000	0.0000
+Q6FTA2		adhesin_other_mechanism		Saccharomycotina	P20840	extra_never_fitted	0	0	0.5638	0.0000	0.9000	1.0000	0.2100	0.0000	0.2000	0.8000	0.0193	0.0000	0.1000	0.4000
+Q6FUQ8	TIR2	excluded_surface_other_adhesion_phenotype		Saccharomycotina	Q6FKZ0	extra_never_fitted	0	0	0.0976	0.0000	0.0000	0.0000	0.1012	0.0000	0.0000	0.0000	0.0012	0.0000	0.0000	0.0000
+Q6FUQ9	TIR1	excluded_surface_other_adhesion_phenotype		Saccharomycotina	Q6FKZ0	extra_never_fitted	0	0	0.0092	0.0000	0.0000	0.0000	0.0089	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+Q6FUW3	EPA3	class_positive	B	Saccharomycotina	Q6DTM6	extra_never_fitted	1	0	0.9855	1.0000	1.0000	1.0000	0.4207	0.4600	0.9600	1.0000	0.8090	0.9000	1.0000	1.0000
+Q6FUW5	EPA1	adhesin_other_mechanism		Saccharomycotina	Q6DTM6	extra_never_fitted	0	0	0.8409	0.2200	1.0000	1.0000	0.4531	0.5600	1.0000	1.0000	0.6511	0.8200	0.9200	0.9400
+Q6FUW7		class_positive	B	Saccharomycotina	Q6FUW7	extra_never_fitted	0	0	0.6359	0.0000	0.7600	0.9800	0.3156	0.0400	0.7600	0.8800	0.7087	0.8400	1.0000	1.0000
+Q6FWQ0	TIR3	excluded_surface_other_adhesion_phenotype		Saccharomycotina	Q6FKZ0	extra_never_fitted	0	0	0.0025	0.0000	0.0000	0.0000	0.0117	0.0000	0.0000	0.0000	0.0020	0.0000	0.0000	0.0000
+Q6FX55	EPA6	adhesin_other_mechanism		Saccharomycotina	Q6DTM6	extra_never_fitted	0	0	0.6400	0.0000	0.7600	1.0000	0.2401	0.0000	0.4000	0.8200	0.0098	0.0000	0.0200	0.1000
+Q6FY32	YPS7	excluded_surface_other_adhesion_phenotype		Saccharomycotina	Q6FY32	extra_never_fitted	0	0	0.1165	0.0000	0.0000	0.0000	0.0040	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+Q6TGC5	INT1 (PCINT1)	adhesin_other_mechanism		Taphrinomycotina	SINGLETON_Q6TGC5	extra_never_fitted	0	0	0.0158	0.0000	0.0000	0.0000	0.0264	0.0000	0.0000	0.0000	0.0041	0.0000	0.0000	0.0000
+Q70KY3	LAC1	hard_negative		Pezizomycotina	HN0039	train_eligible	0	0	0.1127	0.0000	0.0000	0.0000	0.0018	0.0000	0.0000	0.0000	0.0007	0.0000	0.0000	0.0000
+Q759J8	AGOS_ADR279C	kiss_row_positive		Saccharomycotina	KS0016	extra_never_fitted	0	0	0.0140	0.0000	0.0000	0.0000	0.0002	0.0000	0.0000	0.0000	0.0007	0.0000	0.0000	0.0000
+Q75DV8	AGOS_ABL085W	kiss_row_positive		Saccharomycotina	KS0016	extra_never_fitted	0	0	0.0068	0.0000	0.0000	0.0000	0.0004	0.0000	0.0000	0.0000	0.0007	0.0000	0.0000	0.0000
+Q75EX8	AGOS_AAL050W	kiss_row_positive		Saccharomycotina	KS0137	extra_never_fitted	0	0	0.0032	0.0000	0.0000	0.0000	0.0024	0.0000	0.0000	0.0000	0.0009	0.0000	0.0000	0.0000
+Q7S3P5	NCU08192	kiss_row_positive		Pezizomycotina	KS0052	extra_never_fitted	0	0	0.0034	0.0000	0.0000	0.0000	0.0062	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+Q7SB92	chs7	kiss_row_positive		Pezizomycotina	KS0088	extra_never_fitted	0	0	0.0128	0.0000	0.0000	0.0000	0.0050	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+Q7SD53	NCU09332	kiss_row_positive		Pezizomycotina	KS0016	extra_never_fitted	0	0	0.0117	0.0000	0.0000	0.0000	0.0054	0.0000	0.0000	0.0000	0.0007	0.0000	0.0000	0.0000
+Q7SDK1	so_soft	kiss_row_positive		Pezizomycotina	KS0138	extra_never_fitted	0	0	0.0344	0.0000	0.0000	0.0000	0.0562	0.0000	0.0000	0.0000	0.0144	0.0000	0.0200	0.2000
+Q7SDR1	gh5-1	hard_negative		Pezizomycotina	HN0083	train_eligible	0	0	0.0549	0.0000	0.0000	0.0000	0.0018	0.0000	0.0000	0.0000	0.0007	0.0000	0.0000	0.0000
+Q7Z9I1	pfl4	class_positive	A	Taphrinomycotina	Q92344	train_eligible	0	0	0.8309	0.4000	1.0000	1.0000	0.2415	0.0000	0.5000	0.7000	0.2342	0.5000	0.9000	0.9000
+Q873Y0	chiA1	hard_negative		Pezizomycotina	HN0084	train_eligible	1	0	0.7455	0.1000	0.9000	1.0000	0.2789	0.0000	0.9000	1.0000	0.0382	0.0000	0.3000	0.5000
+Q874R4	pfl3	class_positive	A	Taphrinomycotina	Q874R4	train_eligible	0	0	0.9853	1.0000	1.0000	1.0000	0.5295	0.7000	1.0000	1.0000	0.9430	1.0000	1.0000	1.0000
+Q8J0D5	MEP1	hard_negative		Pezizomycotina	HN0085	train_eligible	0	0	0.0573	0.0000	0.0000	0.0000	0.0028	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+Q8J0I9		hard_negative		Pezizomycotina	HN0066	train_eligible	0	0	0.0491	0.0000	0.0000	0.0000	0.0016	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+Q8J0M4		background_assumed_negative		Saccharomycotina	YCL012C	train_eligible	0	0	0.0007	0.0000	0.0000	0.0000	0.0016	0.0000	0.0000	0.0000	0.0007	0.0000	0.0000	0.0000
+Q8J0P4	crh5	hard_negative		Pezizomycotina	HN0004	train_eligible	0	0	0.1847	0.0000	0.0000	0.0000	0.1410	0.0000	0.0000	0.1000	0.0850	0.0000	0.7000	0.8000
+Q8NJP6	axeA	hard_negative		Pezizomycotina	HN0086	train_eligible	0	0	0.1602	0.0000	0.0000	0.0000	0.0672	0.0000	0.0000	0.0000	0.0127	0.0000	0.0000	0.1000
+Q8NJQ5	chit37	hard_negative		Pezizomycotina	HN0087	train_eligible	0	0	0.0226	0.0000	0.0000	0.0000	0.0019	0.0000	0.0000	0.0000	0.0005	0.0000	0.0000	0.0000
+Q8NK02	cbhB	hard_negative		Pezizomycotina	HN0062	train_eligible	0	0	0.2423	0.0000	0.0000	0.0000	0.0416	0.0000	0.0000	0.0000	0.0021	0.0000	0.0000	0.0000
+Q8NK60	SOWgp58	class_positive	A	Pezizomycotina	Q8NK60	train_eligible	1	1	0.7456	0.1000	0.9000	1.0000	0.2361	0.0000	0.4000	0.8000	0.6481	0.7000	1.0000	1.0000
+Q8NK61	SOWgp66	class_positive	A	Pezizomycotina	Q8NK60	train_eligible	1	1	0.8344	0.3000	1.0000	1.0000	0.2603	0.0000	0.6000	0.9000	0.6870	0.8000	1.0000	1.0000
+Q8TFG9	pfl2	class_positive	B	Taphrinomycotina	Q8TFG9	extra_never_fitted	1	1	0.9819	1.0000	1.0000	1.0000	0.5229	0.8200	1.0000	1.0000	0.7154	0.9000	1.0000	1.0000
+Q8TGJ3	KSH1	background_assumed_negative		Saccharomycotina	YNL024C-A	train_eligible	0	0	0.0009	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+Q8TGQ2		background_assumed_negative		Saccharomycotina	YCR045W-A	train_eligible	0	0	0.2849	0.0000	0.0000	0.0000	0.0489	0.0000	0.0000	0.0000	0.1149	0.0000	0.7000	0.9000
+Q8TGR2		background_assumed_negative		Saccharomycotina	YFR034W-A	train_eligible	0	0	0.0059	0.0000	0.0000	0.0000	0.0530	0.0000	0.0000	0.0000	0.0143	0.0000	0.0000	0.5000
+Q8TGS4		background_assumed_negative		Saccharomycotina	YMR315W-A	train_eligible	0	0	0.0004	0.0000	0.0000	0.0000	0.0034	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+Q8TGS5		background_assumed_negative		Saccharomycotina	YMR272W-B	train_eligible	0	0	0.0003	0.0000	0.0000	0.0000	0.0060	0.0000	0.0000	0.0000	0.0011	0.0000	0.0000	0.0000
+Q8TGT1		background_assumed_negative		Saccharomycotina	YLR406C-A	train_eligible	0	0	0.0076	0.0000	0.0000	0.0000	0.0032	0.0000	0.0000	0.0000	0.0011	0.0000	0.0000	0.0000
+Q92197	chsC_Afu5g00760	kiss_row_positive		Pezizomycotina	KS0008	extra_never_fitted	0	0	0.0135	0.0000	0.0000	0.0000	0.0029	0.0000	0.0000	0.0000	0.0009	0.0000	0.0000	0.0000
+Q92344	pfl8	class_positive	B	Taphrinomycotina	Q92344	extra_never_fitted	0	0	0.2387	0.0000	0.0000	0.1000	0.1153	0.0000	0.0000	0.2000	0.0023	0.0000	0.0000	0.0000
+Q96V71	SOWgp82	class_positive	A	Pezizomycotina	Q8NK60	train_eligible	1	1	0.8704	0.5000	1.0000	1.0000	0.2704	0.0000	0.7000	0.9000	0.7248	1.0000	1.0000	1.0000
+Q96WV6		class_positive	A	Taphrinomycotina	Q96WV6	train_eligible	1	0	0.9967	1.0000	1.0000	1.0000	0.4312	0.4000	1.0000	1.0000	0.9898	1.0000	1.0000	1.0000
+Q99034	axe1	hard_negative		Pezizomycotina	HN0088	train_eligible	0	0	0.0337	0.0000	0.0000	0.0000	0.0112	0.0000	0.0000	0.0000	0.0007	0.0000	0.0000	0.0000
+Q99036	man1	hard_negative		Pezizomycotina	HN0067	train_eligible	0	0	0.1150	0.0000	0.0000	0.0000	0.0048	0.0000	0.0000	0.0000	0.0007	0.0000	0.0000	0.0000
+Q99109	rep1	adhesin_other_mechanism		Basidiomycota	Q99109	extra_never_fitted	0	0	0.5805	0.0000	0.4600	0.9200	0.2348	0.0000	0.4200	0.7600	0.0891	0.0600	0.4400	0.7200
+Q99220	YOS9	background_assumed_negative		Saccharomycotina	YDR057W	train_eligible	0	0	0.0224	0.0000	0.0000	0.0000	0.0012	0.0000	0.0000	0.0000	0.0011	0.0000	0.0000	0.0000
+Q99316	MPD2	background_assumed_negative		Saccharomycotina	YOL088C	train_eligible	0	0	0.0162	0.0000	0.0000	0.0000	0.0024	0.0000	0.0000	0.0000	0.0009	0.0000	0.0000	0.0000
+Q9C1S9	cel6A	hard_negative		Pezizomycotina	HN0025	train_eligible	0	0	0.0326	0.0000	0.0000	0.0000	0.0069	0.0000	0.0000	0.0000	0.0007	0.0000	0.0000	0.0000
+Q9HDL9	gp43	adhesin_other_mechanism		Pezizomycotina	Q9HDL9	extra_never_fitted	0	0	0.0145	0.0000	0.0000	0.0000	0.0009	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+Q9HEZ1	xynA	hard_negative		Basidiomycota	HN0083	train_eligible	0	0	0.0238	0.0000	0.0000	0.0000	0.0012	0.0000	0.0000	0.0000	0.0007	0.0000	0.0000	0.0000
+Q9P4E5	LIP10	background_assumed_negative		Saccharomycotina	CR_09220C_A	train_eligible	0	0	0.0231	0.0000	0.0000	0.0000	0.0003	0.0000	0.0000	0.0000	0.0005	0.0000	0.0000	0.0000
+Q9P4E6	LIP9	background_assumed_negative		Saccharomycotina	CR_09220C_A	train_eligible	0	0	0.0258	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0005	0.0000	0.0000	0.0000
+Q9P4E7	LIP7	background_assumed_negative		Saccharomycotina	CR_09220C_A	train_eligible	0	0	0.0389	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+Q9P4E8	LIP6	background_assumed_negative		Saccharomycotina	CR_09220C_A	train_eligible	0	0	0.0311	0.0000	0.0000	0.0000	0.0003	0.0000	0.0000	0.0000	0.0005	0.0000	0.0000	0.0000
+Q9P4W4	pgaA	hard_negative		Pezizomycotina	HN0076	train_eligible	0	0	0.1287	0.0000	0.0000	0.0000	0.0432	0.0000	0.0000	0.0000	0.0023	0.0000	0.0000	0.0000
+Q9P5N1	pfl7	class_positive	A	Taphrinomycotina	Q9P7Q2	train_eligible	0	0	0.2149	0.0000	0.0000	0.1000	0.1572	0.0000	0.1000	0.2000	0.0276	0.0000	0.3000	0.7000
+Q9P6J6		adhesin_other_mechanism		Taphrinomycotina	Q4WL79	extra_never_fitted	0	0	0.0168	0.0000	0.0000	0.0000	0.0016	0.0000	0.0000	0.0000	0.0010	0.0000	0.0000	0.0000
+Q9P6S0	gsf2	adhesin_other_mechanism		Taphrinomycotina	Q9P6S0	extra_never_fitted	1	1	0.9970	1.0000	1.0000	1.0000	0.7608	1.0000	1.0000	1.0000	0.8376	0.9000	1.0000	1.0000
+Q9P7Q2	pfl9	class_positive	A	Taphrinomycotina	Q9P7Q2	train_eligible	0	0	0.0896	0.0000	0.0000	0.0000	0.0577	0.0000	0.0000	0.0000	0.1324	0.2000	0.5000	0.7000
+Q9P8V9	LIP8	background_assumed_negative		Saccharomycotina	CR_09220C_A	train_eligible	0	0	0.0077	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0005	0.0000	0.0000	0.0000
+Q9P8W0	LIP5	background_assumed_negative		Saccharomycotina	CR_09220C_A	train_eligible	0	0	0.0190	0.0000	0.0000	0.0000	0.0003	0.0000	0.0000	0.0000	0.0005	0.0000	0.0000	0.0000
+Q9P8W1	LIP4	background_assumed_negative		Saccharomycotina	CR_09220C_A	train_eligible	0	0	0.0225	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0005	0.0000	0.0000	0.0000
+Q9P8W2	LIP3	background_assumed_negative		Saccharomycotina	CR_09220C_A	train_eligible	0	0	0.0122	0.0000	0.0000	0.0000	0.0003	0.0000	0.0000	0.0000	0.0005	0.0000	0.0000	0.0000
+Q9P8W5	LIP2	background_assumed_negative		Saccharomycotina	CR_09220C_A	train_eligible	0	0	0.0145	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0005	0.0000	0.0000	0.0000
+Q9URU4	pfl5	class_positive	A	Taphrinomycotina	Q874R4	train_eligible	0	0	0.9958	1.0000	1.0000	1.0000	0.5593	0.9000	1.0000	1.0000	0.9862	1.0000	1.0000	1.0000
+Q9URU6	exg1	hard_negative		Taphrinomycotina	HN0089	train_eligible	0	0	0.0169	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0000	0.0008	0.0000	0.0000	0.0000
+Q9UT45	eng1	hard_negative		Taphrinomycotina	HN0001	train_eligible	0	0	0.2340	0.0000	0.0000	0.0000	0.0229	0.0000	0.0000	0.0000	0.0009	0.0000	0.0000	0.0000
+Q9UW98	DPPV	hard_negative		Pezizomycotina	HN0090	train_eligible	0	0	0.0436	0.0000	0.0000	0.0000	0.0003	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+Q9UWF6	PLB1	background_assumed_negative		Saccharomycotina	C6_01990W_A	train_eligible	0	0	0.0915	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000	0.0007	0.0000	0.0000	0.0000
+Q9Y7W4	CRK1	excluded_indirect_regulator		Saccharomycotina	C2_04930C_A	extra_never_fitted	0	0	0.0238	0.0000	0.0000	0.0000	0.0573	0.0000	0.0000	0.0000	0.0031	0.0000	0.0000	0.0000
+Q9Y7Y7	gas4	hard_negative		Taphrinomycotina	HN0042	train_eligible	0	0	0.0903	0.0000	0.0000	0.0000	0.0041	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+S8FIE4	LCC1	hard_negative		Basidiomycota	HN0039	train_eligible	0	0	0.0521	0.0000	0.0000	0.0000	0.0019	0.0000	0.0000	0.0000	0.0006	0.0000	0.0000	0.0000
+W0TYL6		class_positive	B	Saccharomycotina	W0TYL6	extra_never_fitted	0	0	0.0038	0.0000	0.0000	0.0000	0.0044	0.0000	0.0000	0.0000	0.0009	0.0000	0.0000	0.0000
+XP_045276491.1	ENG2	hard_negative		Pezizomycotina	HN0091	train_eligible	0	0	0.1170	0.0000	0.0000	0.0000	0.0176	0.0000	0.0000	0.0000	0.0010	0.0000	0.0000	0.0000

@@ -1,0 +1,7 @@
+rule	rule_fpr	model	model_recall_at_that_fpr_pooled_oof	rule_recall
+rule_broad	0.027	logreg	0.857	0.657
+rule_broad	0.027	rf	0.714	0.657
+rule_broad	0.027	gboost	0.686	0.657
+rule_narrow	0.004	logreg	0.457	0.400
+rule_narrow	0.004	rf	0.457	0.400
+rule_narrow	0.004	gboost	0.371	0.400
