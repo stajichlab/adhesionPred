@@ -89,7 +89,8 @@ All optimizations maintain full backward compatibility with the existing API. No
 **Task:** Implement `docs/superpowers/plans/2026-10-26-aga1-sorting-hat-modules-and-aggregator.md` (PRs 158 to 161).
 
 - Added: modules `gpi`, `disorder`, `aga1_model` and the thresholds table; six calls (`gpi_anchored_protein`, `long_disordered_protein`, `gpi_long_disorder_protein`, `ser_thr_gpi_wall_candidate`, `flocculin_like_candidate`, `model_surface_candidate`); acceptance on 10 proteomes with smoke status files for two calls in two taxa; `cellsurface_sorting_hat_aggregate` and a first report (`docs/reports/data/aga1_aggregate_2026-10-26/`).
-- Not done: the hand-check verdicts (owner), per-clade threshold recalibration, orthogroup/diversity statistics, conversion of the finished Pfam and TMHMM scans to module tables.
+- Later (PR after 161): `analysis/sorting_hat_run/aga1_domain_modules.py` converts the finished Pfam and TMHMM scans and runs repeat02, and a second aggregate report (`docs/reports/data/aga1_aggregate_domains_2026-10-26/`) leaves only the allergen and antigen calls NA.
+- Not done: the hand-check verdicts (owner), per-clade threshold recalibration, orthogroup/diversity statistics, allergen BLAST and antigen lookup on the ten proteomes.
 
 ---
 
