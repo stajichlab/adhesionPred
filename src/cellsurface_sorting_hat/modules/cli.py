@@ -8,8 +8,12 @@ from pathlib import Path
 from cellsurface_sorting_hat.cli import InputError, RunError, assign_taxa, read_taxon_map
 from cellsurface_sorting_hat.fasta import FastaError, read_fasta
 from cellsurface_sorting_hat.modules import (
+    aga1_model,
+    aga1_thresholds,
     allergen,
     cys8,
+    disorder,
+    gpi,
     hydrophobin_relaxed,
     lookups,
     pfam,
@@ -87,6 +91,38 @@ def build_parser():
         "--sp-module", help="step1_rule@R0 table in --workdir, for second_condition=signal_peptide"
     )
     p.add_argument("--tm-module", help="tm table in --workdir, for second_condition=no_tm")
+
+    p = sub.add_parser("gpi", help="PredGPI gff3 -> gpi (GPI-anchor call and confidence class)")
+    _common(p)
+    p.add_argument("--gff3", required=True, help="predgpi_raw.gff3, one row per protein")
+    p.add_argument("--predgpi-version", required=True, help="for example 202001 (recorded)")
+
+    p = sub.add_parser(
+        "disorder",
+        help="per-residue AIUPred/IUPred3 text -> disorder (longest run, fraction, mean)",
+    )
+    _common(p)
+    p.add_argument("--raw", required=True, help="per-residue file (read as a stream, not copied)")
+    p.add_argument("--tool", choices=["aiupred", "iupred3"], required=True)
+    p.add_argument("--tool-version", required=True, help="for example 2.x (recorded)")
+
+    p = sub.add_parser(
+        "aga1_model",
+        help="classifier score tables -> aga1_model (at least 2 of 3 models at their clade threshold)",
+    )
+    _common(p)
+    _taxa_args(p)
+    p.add_argument(
+        "--scores",
+        nargs=3,
+        required=True,
+        metavar="MODEL=FILE",
+        help="logreg=F rf=F gboost=F (feature_classifier.py apply)",
+    )
+    p.add_argument("--thresholds", required=True, help="data/sorting_hat/aga1_model_thresholds.tsv")
+    p.add_argument(
+        "--taxdump", required=True, help="nodes.dmp of the NCBI taxonomy (lineage of each taxon)"
+    )
 
     for name in ("repeat02", "repeat14"):
         p = sub.add_parser(name, help="repeat detector table -> " + name)
@@ -262,6 +298,59 @@ def run(args):
         _check_ids(args.results, parsed, ids)
         rows = signalp.signalp_rows(proteins, parsed)
         return _write(w, spec, signalp.COLUMNS, rows)
+    if args.cmd == "gpi":
+        spec = ModuleSpec(
+            gpi.MODULE,
+            "1",
+            {"mode": "gff3", "omega": "default", "min_length": gpi.MIN_LEN},
+            (),
+            {"predgpi": args.predgpi_version},
+            artefact_digest=_tool_digest("predgpi", args.predgpi_version),
+        )
+        parsed = gpi.parse_gpi(args.gff3, {p.id: len(p.sequence) for p in proteins})
+        _check_ids(args.gff3, parsed, ids)
+        return _write(w, spec, gpi.COLUMNS, gpi.gpi_rows(proteins, parsed))
+    if args.cmd == "disorder":
+        spec = ModuleSpec(
+            disorder.MODULE,
+            "1",
+            {"tool": args.tool, "residue_threshold": disorder.RESIDUE_THRESHOLD},
+            (),
+            {args.tool: args.tool_version},
+            artefact_digest=_tool_digest(args.tool, args.tool_version),
+        )
+        expected = {p.id: p.sequence for p in proteins if p.state == "ok"}
+        parsed = disorder.parse_disorder(args.raw, expected)
+        _check_ids(args.raw, parsed, ids)
+        return _write(w, spec, disorder.COLUMNS, disorder.disorder_rows(proteins, parsed))
+    if args.cmd == "aga1_model":
+        from cellsurface_sorting_hat.taxonomy import Lineage, TaxonError
+
+        files = dict(item.split("=", 1) for item in args.scores if "=" in item)
+        if sorted(files) != sorted(aga1_thresholds.MODELS) or len(files) != 3:
+            raise RunError("--scores needs exactly logreg=FILE rf=FILE gboost=FILE")
+        scores = {m: aga1_model.parse_scores(files[m], m) for m in aga1_thresholds.MODELS}
+        for m in scores:
+            _check_ids(files[m], scores[m], ids)
+        threshold_rows = aga1_thresholds.load_thresholds(args.thresholds)
+        taxa, taxa_note = _taxa(args, proteins)
+        try:
+            lineage = Lineage.from_nodes_dmp(args.taxdump)
+            rows, used = aga1_model.model_rows(proteins, taxa, scores, threshold_rows, lineage)
+        except (TaxonError, aga1_thresholds.ThresholdError) as err:
+            raise RunError(str(err)) from err
+        spec = ModuleSpec(
+            aga1_model.MODULE,
+            "1",
+            {
+                "models": list(aga1_thresholds.MODELS),
+                "rule": f"at least {aga1_model.MIN_MODELS} of 3 models at or above their clade threshold",
+            },
+            (),
+            {},
+            artefact_digest=aga1_model.identity_digest(used, files),
+        )
+        return _write(w, spec, aga1_model.COLUMNS, rows, extra_note=taxa_note)
     if args.cmd == "pfam":
         families = pfam.load_family_table(args.family_table)
         hits = pfam.parse_domtblout(args.domtbl)
