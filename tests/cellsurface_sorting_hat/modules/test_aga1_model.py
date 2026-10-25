@@ -16,8 +16,8 @@ ROOT = Path(__file__).resolve().parents[3]
 TABLE = ROOT / "data/sorting_hat/aga1_model_thresholds.tsv"
 RECORD = ROOT / "docs/reports/data/aga1_proteome_test_2026-10-25/thresholds.tsv"
 
-# a tiny taxonomy: 1 root > 4751 fungi > 4891 Saccharomycotina > 4932 S. cerevisiae > 559292 strain; 4751 > 5052 Aspergillus > 746128 A. fumigatus
-NODES = {1: 1, 4751: 1, 4891: 4751, 4932: 4891, 559292: 4932, 5052: 4751, 746128: 5052}
+# a tiny taxonomy: 1 root > 4751 fungi > 147537 Saccharomycotina (the real NCBI id) > 4932 S. cerevisiae > 559292 strain; 4751 > 5052 Aspergillus > 746128 A. fumigatus
+NODES = {1: 1, 4751: 1, 147537: 4751, 4932: 147537, 559292: 4932, 5052: 4751, 746128: 5052}
 FASTA = ">P_all x\nMKSTA\n>P_two y\nMKSTA\n>P_one z\nMKSTA\n>P_none w\nMKSTA\n>P_missing v\nMKSTA\n>BAD\nMK*T\n"
 HEADER = aga1_thresholds.HEADER
 
@@ -29,7 +29,7 @@ def table_text(rows):
 def good_rows(extra=()):
     rows = []
     for taxon, name, cal, vals in (
-        (4891, "Saccharomycotina", "yes", (0.6, 0.3, 0.1)),
+        (147537, "Saccharomycotina", "yes", (0.6, 0.3, 0.1)),
         (1, "all other taxa", "no", (0.6, 0.3, 0.1)),
         *extra,
     ):
@@ -54,7 +54,7 @@ def write_table(tmp_path, rows):
 # ---- thresholds table
 def test_committed_table_loads_and_matches_the_yeast_record():
     rows = aga1_thresholds.load_thresholds(TABLE)
-    assert {r.clade_taxon for r in rows} == {1, 4891}
+    assert {r.clade_taxon for r in rows} == {1, 147537}
     with RECORD.open(newline="") as fh:
         rec = {r["model"]: float(r["score_threshold"]) for r in csv.DictReader(fh, delimiter="\t")}
     for r in rows:
@@ -62,7 +62,7 @@ def test_committed_table_loads_and_matches_the_yeast_record():
             rec[r.model], abs=1e-12
         )  # copied verbatim from the committed record
         assert (r.calibrated == "yes") == (
-            r.clade_taxon == 4891
+            r.clade_taxon == 147537
         )  # only the yeast row claims a calibration
 
 
@@ -124,8 +124,8 @@ def test_selection_by_lineage_deepest_clade_and_fallback(tmp_path, nodes):
         rows, lin.ancestors(559292)
     )  # strain -> species row, deeper than Saccharomycotina
     assert {r.clade_taxon for r in deep.values()} == {4932} and deep["rf"].threshold == 0.4
-    mid = aga1_thresholds.select_thresholds(rows, lin.ancestors(4891))
-    assert {r.clade_taxon for r in mid.values()} == {4891}
+    mid = aga1_thresholds.select_thresholds(rows, lin.ancestors(147537))
+    assert {r.clade_taxon for r in mid.values()} == {147537}
     other = aga1_thresholds.select_thresholds(rows, lin.ancestors(746128))
     assert {r.clade_taxon for r in other.values()} == {1} and {
         r.calibrated for r in other.values()
@@ -198,7 +198,7 @@ def test_two_of_three_rule_and_module_fields(tmp_path, nodes):
         "0",
     ]
     assert (
-        m["P_all"]["threshold_clade"] == "4891"
+        m["P_all"]["threshold_clade"] == "147537"
         and m["P_all"]["calibrated"] == "yes"
         and m["P_all"]["thr_rf"] == "0.3"
     )
