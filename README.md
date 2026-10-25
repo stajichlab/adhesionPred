@@ -31,8 +31,8 @@ pip install -e ".[dev]"      # Python 3.11 or newer; installs torch, scikit-lear
 
 The external tools are **not** installed by the package, and some have academic licences. Install them yourself where you need them:
 SignalP 6, PredGPI, AIUPred (a GPU is much faster), HMMER 3 with Pfam-A, TMHMM, BLAST+, and NCBI `nodes.dmp` (from the taxonomy
-`taxdump`) for the sorting hat. The SLURM scripts in `scripts/sorting_hat/` and `analysis/aga1_class/*.sbatch` use module names and
-partitions of the UCR HPCC (`signalp/6`, `predgpi/202001`, `aiupred/2.x`); change them for your cluster.
+`taxdump`) for the sorting hat. The SLURM scripts use cluster-specific module names and partitions that you will need to change
+(`docs/TECHNICAL-NOTES.md`).
 
 ## 1. `cellsurface_sorting_hat`: sort a proteome into surface categories
 
@@ -87,16 +87,16 @@ format notes for every script.
 **The two flags** (rules, no training; `broad_flag.py`, and `rule_flags` in `feature_classifier.py`):
 
 * **Broad**: SignalP signal peptide, **and** PredGPI GPI call, **and** an AIUPred disordered run of at least 200 residues
-  (`--min-disordered-run` sets the cut; 100 is the sensitivity value). This finds Ser/Thr-rich GPI wall mannoproteins in general
+  (the length cut is a parameter). This finds Ser/Thr-rich GPI wall mannoproteins in general
   (SED1/DAN4-like proteins and the ALS/FLO/EPA adhesins).
 * **Narrow**: the broad flag **and** the project repeat call (detector 14: coverage at least 0.25 and at least 2.5 copies). Stricter;
   it misses adhesins whose repeats are not periodic.
-* The Ser/Thr "stalk" rule is available (`stalk_features.py`) but is **not** used as a gate: it removed real positives and no negatives.
+* An optional Ser/Thr "stalk" rule is available (`stalk_features.py`).
 
 **The classifier** (`feature_classifier.py`): logistic regression, random forest and gradient boosting on per-protein features
 (composition, disorder, repeat score, signal peptide and GPI calls, tail hydrophobicity, length). It is evaluated with whole sequence
 clusters held out, and `apply` scores a new feature table with a model fit on the labelled set. Thresholds do not carry across
-clades, so recalibrate one for each new clade. Results and limits: `docs/reports/2026-10-25-aga1-feature-classifier.md`.
+clades, so recalibrate one for each new clade (performance: `docs/TECHNICAL-NOTES.md`).
 
 **Run it on a proteome** (all proteins are keyed by UniProt accession):
 
@@ -105,7 +105,7 @@ clades, so recalibrate one for each new clade. Results and limits: `docs/reports
 python3 -I analysis/aga1_class/stage_proteomes.py --out /path/NEW_DIR Scer=Scer.faa Calb=Calb.faa
 
 # 2. run the tools, one SLURM array task per chunk (TOOL = signalp | predgpi | aiupred; the header of the script has the
-#    exact sbatch lines, the pinned code commit and the GPU options for AIUPred)
+#    sbatch options, including those for AIUPred on a GPU)
 sbatch --array=1-<N>%4 --export=ALL,PROJ_ROOT=...,CODE_COMMIT=...,IN=...,OUT=...,TOOL=signalp \
   analysis/aga1_class/proteome_array.sbatch
 python analysis/cocci_repeats/14_repeat_detect_general.py NEW_DIR/chunks/*.faa --out rep14.tsv   # local, minutes
@@ -128,21 +128,18 @@ python3 -I analysis/aga1_class/proteome_summary.py --features features.tsv --sco
 (`stalk.tsv` comes from `stalk_features.py --raw ... --manifest ... --out stalk.tsv`; `lengths.tsv` and `proteins.tsv` come from the
 staging step. The `...` marks arguments you will find in each script's `--help`.)
 
-Every script refuses to overwrite an existing output and stops with a `FATAL:` message (exit 1) on a missing accession, a count
-mismatch or a malformed row; nothing is written as a silent 0. Per-residue AIUPred files carry residue letters, so they and FASTA
-files are kept out of the repository (hashes are recorded instead).
+The scripts refuse to overwrite existing outputs and stop with a clear error instead of writing silent zeros. FASTA files and per-residue tool
+output are kept out of the repository (conventions: `docs/TECHNICAL-NOTES.md`).
 
-**Results and limits** are written up in `docs/reports/` (`*-aga1-*.md`): the class scoping and labels, the predictor results, the flag
-definitions, the classifier study and the proteome tests. The flags target flocculin-like proteins; other GPI wall families, such as
-the CFEM proteins, are not seen by them and are covered by Pfam families in the family table.
+The flags target flocculin-like proteins; other GPI wall families, such as the CFEM proteins, are not seen by them and are covered by
+Pfam families in the family table. Measured performance and its limits: `docs/TECHNICAL-NOTES.md` and the reports in `docs/reports/`.
 
 ## 3. `surface_glyco`: the older ESM-2 surface-glycoprotein scorer
 
-This was the first tool in the project and it still works: the commands below train and run it. It is kept for comparison and for
-surface-glycoprotein scoring, and none of the sorting-hat or AGA1-class tools depend on it. An ESM-2 embedding plus logistic regression that scores secreted cell-surface glycoproteins (FLO/ALS-like). It is **not** an adhesin
-predictor and no trained model ships with the package (the models of version 0.1.0 were removed after review, issue #25). The
-packaged training data (`data/positive`, `data/negative`) are FLO/ALS-related proteins from *Saccharomyces* and *Candida* against
-random proteins, so the model learns "surface glycoprotein", mostly through repeats.
+This was the first tool in the project and it still works: the commands below train and run it. No trained model ships with the package, so
+train one first. It scores "secreted cell-surface glycoprotein", not adhesion, and none of the sorting-hat or AGA1-class tools depend on it
+(background: `docs/TECHNICAL-NOTES.md`). The packaged training data (`data/positive`, `data/negative`) are FLO/ALS-related proteins from
+*Saccharomyces* and *Candida* against random proteins.
 
 ```bash
 surface_glyco_train --positive data/positive --negative data/negative      # writes ./models/*.pkl and a JSON model card
@@ -152,11 +149,8 @@ surface_glyco_predict --model models/surface_glyco_model_esm2_t6_8M_UR50D.pkl --
 ```
 
 `--input` may be one FASTA or a folder (`.fasta`, `.fa`, `.pep`, `.aa`, with or without `.gz`). The output column is
-`surface_glycoprotein_score` and the labels are `surface_glycoprotein` and `other`; the default 0.5 threshold is not calibrated.
-The model card records the ESM model, layer, pooling and training data; `predict` and `evaluate` read them from the card and stop
-with an error naming the field if it is missing or `--model-name` disagrees. Sequences are truncated at 1,022 residues and `predict`
-prints how many. It runs on CPU and much faster on a GPU with CUDA. FungiDB raw downloads need a login; get proteomes from NCBI
-Datasets or UniProt.
+`surface_glycoprotein_score`; the 0.5 threshold is not calibrated. It runs on CPU and much faster on a GPU with CUDA. FungiDB raw
+downloads need a login; get proteomes from NCBI Datasets or UniProt.
 
 ## Repository layout
 
@@ -172,17 +166,10 @@ Datasets or UniProt.
 | `docs/` | `TOOL-ARCHITECTURE.md`, `CLASSES.md`, `reports/` (dated results with data folders and hashes), `model-review/`, `superpowers/` (specs and plans) |
 | `tests/` | One folder per component |
 
-## Development
+## Development and technical notes
 
-```bash
-pre-commit install
-ruff format . && ruff check .      # CI pins ruff 0.3.5; use that version, newer ruff formats differently
-pytest tests/cellsurface_sorting_hat tests/aga1_class     # CI runs one pytest process per folder
-```
-
-Every analysis result is committed with the command that made it, the code commit, and sha256 hashes of inputs that stay outside
-the repository. Proteins are keyed by NCBI or UniProt accession, never by JGI or internal ids. `CHANGELOG.md` lists breaking changes;
-`AGENTS.md` records AI-assisted contributions.
+Setup, CI, conventions, cluster notes and measured performance are in [`docs/TECHNICAL-NOTES.md`](docs/TECHNICAL-NOTES.md).
+`CHANGELOG.md` lists breaking changes and `AGENTS.md` records AI-assisted contributions.
 
 ## Author
 
