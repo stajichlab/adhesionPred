@@ -29,6 +29,9 @@ def base_modules(step1="not_called", **over):
         "pfam_allergen": table("pfam_allergen", {"P": ok(hit="0")}),
         "antigen_lookup": table("antigen_lookup", {"P": ok(percentile="50")}),
         "allergen_homology": table("allergen_homology", {"P": ok(identity="0", coverage="0")}),
+        "gpi": table("gpi", {"P": ok(call="not_called")}),
+        "disorder": table("disorder", {"P": ok(longest_run="0")}),
+        "aga1_model": table("aga1_model", {"P": ok(call="not_called")}),
     }
     mods.update(over)
     return mods
