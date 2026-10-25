@@ -1,0 +1,6 @@
+species	n_proteins	signal_peptide	gpi	broad_flag	narrow_flag	call_logreg	call_rf	call_gboost	calls_2of3_models	in_850	tierA_in_proteome	tierA_broad	tierA_narrow	tierA_2of3_models	novel_broad	novel_narrow	novel_2of3_models
+Calb_SC5314	6041	365	135	25	6	38	35	57	35	239	10	9	5	10	2	1	10
+Caur_UniProt	5433	269	108	14	5	20	19	31	19	14	3	2	2	3	5	0	8
+Cgla_CBS138	5200	245	117	25	4	51	44	53	48	21	0	0	0	0	20	4	37
+Kmar_FIM1	5070	212	80	10	2	22	27	35	28	0	0	0	0	0	10	2	28
+Scer_S288C	6067	297	82	11	5	21	20	27	17	298	8	6	3	8	0	0	4

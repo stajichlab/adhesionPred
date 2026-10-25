@@ -1,0 +1,5 @@
+commit: 87ee2da4a08b3218013d6631beb0ef7997118afc
+chunks: 32
+signalp: 32 chunks, sha256 3c5909d57334d2aeab0094b211c4ebc4c483f325b5b06595bc79e88a5fafc458  signalp/prediction_results.txt
+predgpi: 32 chunks, sha256 a9f4479c77199155012e754706d8ffb468fa3e6bcbdf33d5106369152a0e92b4  predgpi/predgpi_raw.gff3
+aiupred: 32 chunks, sha256 75fab7fc4000b05d3ade81d08e98bfcd17ef54ef5faa88580429d177371a5b29  aiupred/disorder_raw.txt

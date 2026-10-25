@@ -194,9 +194,9 @@ def parse_predgpi(path, lengths):
     return out
 
 
-# The real tools overshoot [0, 1] slightly (AIUPred up to 1.0036, IUPred3 from -0.0123 to 1.0096, 2026-10-24); more than
-# this is still an error. The values are used as written (no clipping).
-SCORE_SLACK = 0.02
+# The real tools overshoot [0, 1] slightly (850 proteins: AIUPred up to 1.0036, IUPred3 from -0.0123 to 1.0096; 27,811 proteins:
+# AIUPred 273 of 13.76 million rows up to 1.023, 2026-10-24/25); more than this is still an error. Values are used as written.
+SCORE_SLACK = 0.05
 
 
 def parse_disorder(path, threshold):

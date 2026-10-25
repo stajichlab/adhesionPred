@@ -38,7 +38,7 @@ Disorder columns: `disorder_tool`, `disorder_threshold` (0.5), `disorder_n_res`,
 residues at or above 0.5), `disorder_longest_run` (longest run of residues at or above 0.5). Real layouts found on 2026-10-24:
 AIUPred writes a banner of `#` lines, then per record a `#>ID` line, `pos<TAB>aa<TAB>score` rows and a blank line; the converter
 now reads `#>ID` as a record line. IUPred3 rows are written by the job under its own `>ID` line. Both tools overshoot [0, 1]
-slightly (AIUPred 12 rows up to 1.0036; IUPred3 142 rows from -0.0123 to 1.0096); the converter accepts up to 0.02 outside and uses
+slightly (AIUPred 12 rows up to 1.0036; IUPred3 142 rows from -0.0123 to 1.0096); the converter accepted up to 0.02 outside at that time (widened to 0.05 for the proteome run) and uses
 the values as written. The IUPred3 provenance file shows a `torch_version` traceback only because IUPred3 does not use torch.
 
 ## sha256 (a test checks every line that names a committed file)

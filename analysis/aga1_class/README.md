@@ -117,7 +117,7 @@ optional and off). Report: `docs/reports/2026-10-24-aga1-broad-flag-candidate.md
   omega site, score = confidence class 1.0 / 0.70 / 0.55, attribute `Ontology_term=GO:0046658`). No false positive rate and no raw
   score are in the file. Sequences of 40 aa or fewer are never scored. The converter reads this file directly.
 * AIUPred (verified): a banner of `#` lines, then per record a `#>ID` line, `pos<TAB>aa<TAB>score` rows and a blank line. The converter reads `#>ID` as a record line. Scores overshoot [0, 1] slightly (up to 1.0036).
-* IUPred3 (verified): the job writes its own `>ID` line and drops the tool's `#` lines; rows are `pos aa score`, scores from -0.0123 to 1.0096. The converter allows 0.02 outside [0, 1] and uses values as written.
+* IUPred3 (verified): the job writes its own `>ID` line and drops the tool's `#` lines; rows are `pos aa score`, scores from -0.0123 to 1.0096. The converter allows 0.05 outside [0, 1] (AIUPred reached 1.023 on the 27,811-protein proteome run) and uses values as written.
 * The converter reads `>ID` records followed by `pos aa score` rows, scores in [0, 1], `#` lines ignored. The sbatch jobs only
   warn (not stop) when the record count of the raw disorder or PredGPI output is off, so the raw file is never lost.
 * SignalP 6 and the 74 proteins over 1,022 aa: all 74 got a call (53 SP, 21 OTHER); whether the tool truncated them is still

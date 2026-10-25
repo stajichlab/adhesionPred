@@ -1,0 +1,11 @@
+species	scope	n_proteins	broad	narrow	2of3_models_and_SP	broad_or_2of3_and_SP
+Calb_SC5314	adhesin_named	24	14	5	16	17
+Calb_SC5314	other	6017	11	1	14	20
+Caur_UniProt	adhesin_named	16	11	5	12	13
+Caur_UniProt	other	5417	3	0	3	6
+Cgla_CBS138	adhesin_named	37	17	2	31	32
+Cgla_CBS138	other	5163	8	2	14	15
+Kmar_FIM1	adhesin_named	14	4	1	11	11
+Kmar_FIM1	other	5056	6	1	11	12
+Scer_S288C	adhesin_named	11	6	3	8	8
+Scer_S288C	other	6056	5	2	4	7
