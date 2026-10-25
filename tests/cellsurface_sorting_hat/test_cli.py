@@ -72,6 +72,9 @@ def build(tmp_path, write_module):
     write_module(wd, "pfam_hydrophobin", [{"id": i, "state": "ok", "hit": "0"} for i in VALID])
     write_module(wd, "pfam_hsba", [{"id": i, "state": "ok", "hit": "0"} for i in VALID])
     write_module(wd, "pfam_allergen", [{"id": i, "state": "ok", "hit": "0"} for i in VALID])
+    write_module(wd, "gpi", call(["not_called"] * 4))
+    write_module(wd, "disorder", [{"id": i, "state": "ok", "longest_run": "0"} for i in VALID])
+    write_module(wd, "aga1_model", call(["not_called"] * 4))
     write_module(
         wd,
         "antigen_lookup",

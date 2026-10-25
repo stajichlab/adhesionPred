@@ -29,6 +29,7 @@ thresholds:
   antigen_percentile_max: 15
   allergen_hit_identity_min: 35
   allergen_hit_length_min: 80
+  disorder_run_min: 200
   allergen_identity_min: 70
   allergen_coverage_min: 80
 
@@ -53,6 +54,10 @@ evidence:
   - pfam_adhesion.families
   - pfam_hydrophobin.families
   - pfam_hsba.families
+  - gpi.confidence_class
+  - disorder.longest_run
+  - aga1_model.threshold_clade
+  - aga1_model.calibrated
 
 calls:
   - name: signal_peptide_protein
@@ -88,6 +93,30 @@ calls:
       and:
         - or: [{ref: tandem_repeat_protein}, {ref: wall_family_domain}, {ref: hydrophobin_domain}, {ref: hsba_domain}]
         - {ref: signal_peptide_protein}
+  # AGA1 class (Ser/Thr-rich, GPI-anchored wall proteins). The wrappers are gpi, disorder and aga1_model (modules/). The engine reads them like any
+  # module; the model thresholds come from data/sorting_hat/aga1_model_thresholds.tsv through the aga1_model wrapper, not from here.
+  - name: gpi_anchored_protein
+    expr: {call: gpi}
+  - name: long_disordered_protein
+    expr:
+      test: {module: disorder, field: longest_run, op: ">=", value: "$disorder_run_min"}
+  - name: gpi_long_disorder_protein
+    expr:
+      and:
+        - {call: gpi}
+        - test: {module: disorder, field: longest_run, op: ">=", value: "$disorder_run_min"}
+  - name: ser_thr_gpi_wall_candidate
+    per_variant: true
+    expr:
+      and: [{ref: signal_peptide_protein}, {ref: gpi_long_disorder_protein}]
+  - name: flocculin_like_candidate
+    per_variant: true
+    expr:
+      and: [{ref: ser_thr_gpi_wall_candidate}, {call: repeat14}]
+  - name: model_surface_candidate
+    per_variant: true
+    expr:
+      and: [{call: aga1_model}, {ref: signal_peptide_protein}]
   - name: cocci_specificity_rank_top15
     expr:
       test: {module: antigen_lookup, field: percentile, op: "<=", value: "$antigen_percentile_max"}

@@ -70,6 +70,48 @@ calls:
     meaning: Signal peptide and any of repeat, wall-family domain, hydrophobin or HsbA. The basis column names the evidence that held.
     reads: [step1_rule@R0, repeat02, repeat14, pfam_adhesion, pfam_hydrophobin, pfam_hsba]
     status: derived from the leaf calls that decided each record
+  - call: gpi_anchored_protein
+    kind: evidence
+    gated: false
+    category: cell wall and adhesion
+    meaning: PredGPI calls a GPI anchor (estimated false positive rate of 0.01 or less; the confidence class is in the evidence). A protein of 40 residues or fewer is not scored by PredGPI and is not assessable. A GPI anchor is not shown to place the protein in the cell wall.
+    reads: [gpi]
+    status: unvalidated
+  - call: long_disordered_protein
+    kind: evidence
+    gated: false
+    category: cell wall and adhesion
+    meaning: "AIUPred finds a run of at least 200 consecutive residues with a score of 0.5 or more (`thresholds.disorder_run_min`). Disorder is not shown to be a Ser/Thr-rich stalk, and long disordered proteins are common inside the cell."
+    reads: [disorder]
+    status: unvalidated (no truth set for the property)
+  - call: gpi_long_disorder_protein
+    kind: evidence
+    gated: false
+    category: cell wall and adhesion
+    meaning: A GPI-anchor call and a disordered run of 200 residues or more in the same protein. It is the part of the broad AGA1-class rule that does not need the signal peptide.
+    reads: [gpi, disorder]
+    status: unvalidated until a call status file is installed
+  - call: ser_thr_gpi_wall_candidate
+    kind: composite
+    gated: true
+    category: cell wall and adhesion
+    meaning: "The broad AGA1-class flag: signal peptide and a GPI-anchor call and a disordered run of 200 residues or more. It finds Ser/Thr-rich GPI wall proteins in general (flocculin and ALS type adhesins, but also wall mannoproteins). It misses short GPI wall proteins such as CFEM proteins, and it flags enzymes with a Ser/Thr-rich linker (for example chitinases)."
+    reads: [step1_rule@R0, gpi, disorder]
+    status: derived from the leaf calls that decided each record
+  - call: flocculin_like_candidate
+    kind: composite
+    gated: true
+    category: cell wall and adhesion
+    meaning: "The narrow AGA1-class flag: the broad flag and a repeat call of detector 14 (coverage 0.25 or more, 2.5 copies or more). It is stricter than the broad flag and misses adhesins whose repeats are not periodic. Detector 02 is not read."
+    reads: [step1_rule@R0, gpi, disorder, repeat14]
+    status: derived from the leaf calls that decided each record
+  - call: model_surface_candidate
+    kind: composite
+    gated: true
+    category: cell wall and adhesion
+    meaning: "At least 2 of 3 feature models (logistic regression, random forest, gradient boosting; trained on the labelled AGA1 proteins) score the protein at or above their threshold, and the protein has a signal peptide. The thresholds belong to a clade (data/sorting_hat/aga1_model_thresholds.tsv); outside Saccharomycotina the row is marked not calibrated, and the gradient boosting model over-called in non-yeast proteomes. The models were trained on the labelled proteins, so no measurement on them is independent."
+    reads: [step1_rule@R0, aga1_model]
+    status: unvalidated (the classifier was trained on the labelled proteins)
   - call: cocci_specificity_rank_top15
     kind: evidence
     gated: false
