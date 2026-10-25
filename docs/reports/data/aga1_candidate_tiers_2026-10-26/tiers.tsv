@@ -1,0 +1,468 @@
+accession	species	gene	entry_name	protein_name	length	sp_yes	gpi_yes	disorder_longest_run	rep_coverage	rep_n_copies	broad_flag	narrow_flag	n_models_call	score_logreg	score_rf	score_gboost	mean_rank_species	in_850_role	in_850_tier	tier	tier_reason	review_eligible	sample
+Q4WXC4	Afum_Af293	AFUA_3G08990	Q4WXC4_ASPFU	Cell surface protein, putative	430	1	1	430	0.447	32	1	1	3	0.99447	0.83355	0.95725	0.99997	class_positive	A	1	narrow rule, or broad rule with 2 of 3 models	0	
+Q4WHJ8	Afum_Af293	AFUA_2G05150	Q4WHJ8_ASPFU	Cell wall mannoprotein 1	591	1	1	416	0.433	19	1	1	3	0.99956	0.76008	0.48389	0.99945			1	narrow rule, or broad rule with 2 of 3 models	1	all tier 1
+Q4WPK6	Afum_Af293	AFUA_4G09600	Q4WPK6_ASPFU	GPI anchored protein, putative	980	1	1	929	0.444	7	1	1	3	0.83204	0.55725	0.18598	0.99765			1	narrow rule, or broad rule with 2 of 3 models	1	all tier 1
+Q4WEP7	Afum_Af293	chiA1	CHIA1_ASPFU	Endochitinase A1	888	1	1	322	0	0	1	0	2	0.86459	0.2619	0.03412	0.99326	kiss_row_positive		1	narrow rule, or broad rule with 2 of 3 models	0	
+Q4W973	Afum_Af293	AFUA_4G00500	Q4W973_ASPFU	Agglutinin-like protein middle domain-containing protein	1036	1	1	204	0	0	1	0	2	0.94141	0.48934	0.017	0.99029			1	narrow rule, or broad rule with 2 of 3 models	1	all tier 1
+A0A1D8PQB9	Calb_SC5314	ALS4	ALS4_CANAL	Agglutinin-like protein 4	2100	1	1	1342	0.617	36	1	1	3	0.99968	0.99152	0.97857	0.99975	class_positive	A	1	narrow rule, or broad rule with 2 of 3 models	0	
+P0CU38	Calb_SC5314	ALS2	ALS2_CANAL	Agglutinin-like protein 2	2530	1	1	1782	0.683	48	1	1	3	0.99973	0.97694	0.97857	0.99975	class_positive	A	1	narrow rule, or broad rule with 2 of 3 models	0	
+A0A1D8PQ86	Calb_SC5314	ALS9	ALS9_CANAL	Agglutinin-like protein 9	1890	1	1	457	0.362	19	1	1	3	0.99877	0.96515	0.9941	0.99967	class_positive	A	1	narrow rule, or broad rule with 2 of 3 models	0	
+Q5A8T4	Calb_SC5314	ALS1	ALS1_CANAL	Agglutinin-like protein 1	1260	1	1	414	0.286	10	1	1	3	0.9964	0.96652	0.98869	0.9995	class_positive	A	1	narrow rule, or broad rule with 2 of 3 models	0	
+Q59L12	Calb_SC5314	ALS3	ALS3_CANAL	Agglutinin-like protein 3	1155	1	1	430	0.374	12	1	1	3	0.99678	0.96278	0.97485	0.99928	class_positive	A	1	narrow rule, or broad rule with 2 of 3 models	0	
+Q5A5M7	Calb_SC5314	RBR3	RBR3_CANAL	Cell wall protein RBR3	1562	1	1	580	0.179	6	1	0	3	0.98826	0.78271	0.96969	0.99884	class_positive	B	1	narrow rule, or broad rule with 2 of 3 models	0	
+Q5A8T7	Calb_SC5314	ALS5	ALS5_CANAL	Agglutinin-like protein 5	1347	1	1	299	0	0	1	0	3	0.92049	0.91018	0.97368	0.99857	class_positive	A	1	narrow rule, or broad rule with 2 of 3 models	0	
+G1UBC2	Calb_SC5314	EAP1	PGA47_CANAL	Cell wall adhesin EAP1	653	1	1	280	0	0	1	0	3	0.9802	0.7142	0.93859	0.99851	class_positive	A	1	narrow rule, or broad rule with 2 of 3 models	0	
+Q5A2Z7	Calb_SC5314	ALS6	ALS6_CANAL	Agglutinin-like protein 6	1366	1	1	235	0	0	1	0	3	0.9407	0.93317	0.91438	0.99846	class_positive	A	1	narrow rule, or broad rule with 2 of 3 models	0	
+Q5A312	Calb_SC5314	ALS7	ALS7_CANAL	Agglutinin-like protein 7	1568	1	1	460	0	0	1	0	3	0.81681	0.69027	0.86449	0.99779	class_positive	A	1	narrow rule, or broad rule with 2 of 3 models	0	
+A0A1D8PID2	Calb_SC5314	CAALFM_C208990CA	A0A1D8PID2_CANAL	Uncharacterized protein	1048	1	1	414	0.271	4	1	1	3	0.88162	0.47788	0.86197	0.99757			1	narrow rule, or broad rule with 2 of 3 models	1	all tier 1
+Q59PF9	Calb_SC5314	HWP2	HWP2_CANAL	Hyphal wall protein 2	908	1	1	404	0	0	1	0	3	0.9506	0.55897	0.21821	0.99697	adhesin_other_mechanism		1	narrow rule, or broad rule with 2 of 3 models	0	
+Q5AJV5	Calb_SC5314	FGR23	FGR23_CANAL	Filamentous growth regulator 23	1114	1	1	220	0	0	1	0	2	0.96898	0.38339	0.09281	0.99448	background_assumed_negative		1	narrow rule, or broad rule with 2 of 3 models	0	
+Q59L86	Calb_SC5314	PGA25	PGA25_CANAL	Probable GPI-anchored adhesin-like protein PGA25	872	1	1	529	0	0	1	0	2	0.80721	0.40574	0.09663	0.99437	background_assumed_negative		1	narrow rule, or broad rule with 2 of 3 models	0	
+A0A1D8PIY8	Calb_SC5314	FLO9	A0A1D8PIY8_CANAL	FLO9p	1244	1	1	571	0	0	1	0	2	0.76808	0.40357	0.10373	0.99404	class_positive	B	1	narrow rule, or broad rule with 2 of 3 models	0	
+Q59XL0	Calb_SC5314	IFF6	IFF6_CANAL	Cell wall protein IFF6	1085	1	1	744	0	0	1	0	2	0.79028	0.27758	0.08586	0.9931	class_positive	B	1	narrow rule, or broad rule with 2 of 3 models	0	
+Q5AEG7	Calb_SC5314	PGA18	PGA18_CANAL	Probable GPI-anchored adhesin-like protein PGA18	753	1	1	213	0	0	1	0	2	0.9864	0.58894	0.01943	0.99051	uncurated_repeat_bearing		1	narrow rule, or broad rule with 2 of 3 models	0	
+Q59XB0	Calb_SC5314	IFF8	IFF8_CANAL	Cell wall protein IFF7	714	1	1	391	0	0	1	0	2	0.63249	0.36944	0.00464	0.97313	class_positive	B	1	narrow rule, or broad rule with 2 of 3 models	0	
+A0A2H0ZI42	Caur_UniProt	IFF4109	IFF09_CANAR	Adhesin IFF4109	2946	1	1	354	0.448	30	1	1	3	0.99915	0.97192	0.99213	0.99969	class_positive	A	1	narrow rule, or broad rule with 2 of 3 models	0	
+A0AAW0VBN8	Caur_UniProt	B9J08_04852	A0AAW0VBN8_CANAR	Hyphally-regulated cell wall protein N-terminal domain-containing protein	1720	1	1	415	0.337	13	1	1	3	0.99757	0.97992	0.99102	0.99957	class_positive	B	1	narrow rule, or broad rule with 2 of 3 models	0	
+A0AAW0V9R8	Caur_UniProt	ALS4112	ALS12_CANAR	Adhesin ALS4112	1795	1	1	498	0.45	23	1	1	3	0.99917	0.96478	0.9803	0.99951	class_positive	A	1	narrow rule, or broad rule with 2 of 3 models	0	
+A0A2H0ZYK9	Caur_UniProt	B9J08_00002	A0A2H0ZYK9_CANAR	Hyphally-regulated cell wall protein N-terminal domain-containing protein	1375	1	1	838	0.628	17	1	1	3	0.99892	0.85851	0.99817	0.99951	class_positive	B	1	narrow rule, or broad rule with 2 of 3 models	0	
+A0A2H1A5L3	Caur_UniProt	B9J08_02633	A0A2H1A5L3_CANAR	PA14 domain-containing protein	2608	1	1	348	0.773	48	1	1	3	0.9992	0.71962	0.99079	0.99939	adhesin_other_mechanism		1	narrow rule, or broad rule with 2 of 3 models	0	
+A0AAW0VMW1	Caur_UniProt	B9J08_01409	A0AAW0VMW1_CANAR	Flo11 domain-containing protein	775	1	1	701	0.084	13	1	0	3	0.99926	0.68732	0.96244	0.99926			1	narrow rule, or broad rule with 2 of 3 models	1	all tier 1
+A0A2H1A319	Caur_UniProt	SCF1	SCF1_CANAR	Adhesin SCF1	765	1	1	514	0	0	1	0	3	0.96715	0.40983	0.39348	0.9981	adhesin_other_mechanism		1	narrow rule, or broad rule with 2 of 3 models	0	
+A0A2H0ZQQ9	Caur_UniProt	B9J08_01957	A0A2H0ZQQ9_CANAR	Hyphally-regulated cell wall protein N-terminal domain-containing protein	760	1	1	458	0.099	13	1	0	3	0.98314	0.41906	0.16659	0.99761	class_positive	B	1	narrow rule, or broad rule with 2 of 3 models	0	
+A0AAW0V956	Caur_UniProt	B9J08_05592	A0AAW0V956_CANAR	Agglutinin-like protein N-terminal domain-containing protein	861	1	1	211	0	0	1	0	3	0.63692	0.37064	0.26304	0.99718	class_positive	B	1	narrow rule, or broad rule with 2 of 3 models	0	
+A0A2H1A127	Caur_UniProt	B9J08_03405	A0A2H1A127_CANAR	Hyphally-regulated cell wall protein N-terminal domain-containing protein	858	1	1	562	0	0	1	0	3	0.68616	0.30255	0.11423	0.99638	class_positive	B	1	narrow rule, or broad rule with 2 of 3 models	0	
+B4UN28	Cgla_CBS138	CAGL0J05159g	B4UN28_CANGA	Uncharacterized protein	1529	1	1	490	0.235	8	1	0	3	0.98454	0.73169	0.98189	0.99904			1	narrow rule, or broad rule with 2 of 3 models	1	all tier 1
+B4UN41	Cgla_CBS138	CAGL0L00157g	B4UN41_CANGA	Uncharacterized protein	1731	1	1	495	0.326	12	1	1	3	0.97687	0.65378	0.99821	0.99901			1	narrow rule, or broad rule with 2 of 3 models	1	all tier 1
+B4UN33	Cgla_CBS138	CAGL0K00170g	B4UN33_CANGA	PA14 domain-containing protein	1423	1	1	1085	0.236	6	1	0	3	0.99942	0.56694	0.95227	0.99865			1	narrow rule, or broad rule with 2 of 3 models	1	all tier 1
+Q6FQ10	Cgla_CBS138	CAGL0I10098g	Q6FQ10_CANGA	PA14 domain-containing protein	1618	1	1	817	0.088	13	1	0	3	0.99488	0.61505	0.93163	0.99865			1	narrow rule, or broad rule with 2 of 3 models	1	all tier 1
+Q6FSI9	Cgla_CBS138	CAGL0G10219g	Q6FSI9_CANGA	Uncharacterized protein	992	1	1	273	0.278	6	1	1	3	0.95634	0.64184	0.99925	0.99859			1	narrow rule, or broad rule with 2 of 3 models	1	all tier 1
+Q6FK94	Cgla_CBS138	CAGL0M00132g	Q6FK94_CANGA	PA14 domain-containing protein	922	1	1	330	0	0	1	0	3	0.99045	0.49007	0.96216	0.99808			1	narrow rule, or broad rule with 2 of 3 models	1	all tier 1
+Q6FUW3	Cgla_CBS138	EPA3	Q6FUW3_CANGA	PA14 domain-containing protein	975	1	1	669	0	0	1	0	3	0.99506	0.43213	0.82473	0.99737	class_positive	B	1	narrow rule, or broad rule with 2 of 3 models	0	
+Q6FPR1	Cgla_CBS138	CAGL0J01727g	Q6FPR1_CANGA	Hyphally-regulated cell wall protein N-terminal domain-containing protein	979	1	1	640	0	0	1	0	3	0.98338	0.48746	0.65098	0.99673	class_positive	B	1	narrow rule, or broad rule with 2 of 3 models	0	
+Q6FPN0	Cgla_CBS138	AWP1	AWP1_CANGA	Adhesin AWP1	870	1	1	522	0.159	23	1	0	3	0.96049	0.42405	0.92361	0.99667			1	narrow rule, or broad rule with 2 of 3 models	1	all tier 1
+B4UN20	Cgla_CBS138	CAGL0I10147g	B4UN20_CANGA	PA14 domain-containing protein	4336	1	1	263	0.04	4	1	0	3	0.98119	0.34861	0.83484	0.99635			1	narrow rule, or broad rule with 2 of 3 models	1	all tier 1
+W0TYL5	Cgla_CBS138	CAGL0E00231g	W0TYL5_CANGA	Hyphally-regulated cell wall protein N-terminal domain-containing protein	1864	1	1	483	0	0	1	0	3	0.88596	0.45464	0.89677	0.99603			1	narrow rule, or broad rule with 2 of 3 models	1	all tier 1
+B4UN24	Cgla_CBS138	CAGL0J01774g	B4UN24_CANGA	Hyphally-regulated cell wall protein N-terminal domain-containing protein	2421	1	1	2106	0	0	1	0	3	0.94723	0.32972	0.78301	0.99513			1	narrow rule, or broad rule with 2 of 3 models	1	all tier 1
+Q6FX23	Cgla_CBS138	CAGL0C00968g	Q6FX23_CANGA	Uncharacterized protein	1034	1	1	288	0.176	45	1	0	3	0.96854	0.56567	0.16152	0.99513			1	narrow rule, or broad rule with 2 of 3 models	1	all tier 1
+Q6FX25	Cgla_CBS138	EPA8	Q6FX25_CANGA	PA14 domain-containing protein	790	1	1	250	0	0	1	0	3	0.98457	0.27194	0.37966	0.99455			1	narrow rule, or broad rule with 2 of 3 models	1	all tier 1
+B4UMX0	Cgla_CBS138	EPA10	B4UMX0_CANGA	PA14 domain-containing protein	1401	1	1	562	0.297	25	1	1	3	0.89805	0.38954	0.52089	0.99442			1	narrow rule, or broad rule with 2 of 3 models	1	all tier 1
+B4UN54	Cgla_CBS138	CAGL0L10092g	B4UN54_CANGA	Uncharacterized protein	1416	1	1	224	0	0	1	0	3	0.79248	0.30672	0.84049	0.99442			1	narrow rule, or broad rule with 2 of 3 models	1	all tier 1
+B4UMX2	Cgla_CBS138	EPA9	B4UMX2_CANGA	PA14 domain-containing protein	1462	1	1	467	0.421	37	1	1	3	0.90381	0.38944	0.353	0.99429			1	narrow rule, or broad rule with 2 of 3 models	1	all tier 1
+Q6FPM9	Cgla_CBS138	CAGL0J02530g	Q6FPM9_CANGA	Hyphally-regulated cell wall protein N-terminal domain-containing protein	754	1	1	423	0.215	27	1	0	3	0.73503	0.38907	0.80067	0.99429	class_positive	B	1	narrow rule, or broad rule with 2 of 3 models	0	
+Q6FX21	Cgla_CBS138	CAGL0C01133g	Q6FX21_CANGA	Hyphally-regulated cell wall protein N-terminal domain-containing protein	1036	1	1	276	0.181	47	1	0	2	0.97553	0.56815	0.03623	0.99423			1	narrow rule, or broad rule with 2 of 3 models	1	all tier 1
+Q6FPM8	Cgla_CBS138	CAGL0J02552g	Q6FPM8_CANGA	Hyphally-regulated cell wall protein N-terminal domain-containing protein	895	1	1	567	0.08	12	1	0	3	0.74941	0.28543	0.2232	0.99224	class_positive	B	1	narrow rule, or broad rule with 2 of 3 models	0	
+Q6FVI3	Cgla_CBS138	CAGL0E01661g	Q6FVI3_CANGA	Uncharacterized protein	1415	1	1	201	0	0	1	0	2	0.76681	0.19425	0.60121	0.99199			1	narrow rule, or broad rule with 2 of 3 models	1	all tier 1
+B4UN42	Cgla_CBS138	CAGL0L00227g	B4UN42_CANGA	Hyphally-regulated cell wall protein N-terminal domain-containing protein	3241	1	1	2797	0	0	1	0	2	0.87341	0.26609	0.04911	0.99122	class_positive	B	1	narrow rule, or broad rule with 2 of 3 models	0	
+Q6FSJ1	Cgla_CBS138	AWP6	Q6FSJ1_CANGA	Uncharacterized protein	577	1	1	217	0	0	1	0	2	0.91823	0.27596	0.00327	0.95997			1	narrow rule, or broad rule with 2 of 3 models	1	all tier 1
+J3KGH2	Cimm_RS	CIMG_00195	J3KGH2_COCIM	Uncharacterized protein	501	1	1	375	0.611	9	1	1	3	0.9993	0.75763	0.96722	1			1	narrow rule, or broad rule with 2 of 3 models	1	all tier 1
+J3KDV1	Cimm_RS	CIMG_04613	J3KDV1_COCIM	Spherule outer wall glycoprotein	324	1	1	271	0.58	4	1	1	3	0.94203	0.69527	0.92202	0.99979			1	narrow rule, or broad rule with 2 of 3 models	1	all tier 1
+A0A0E1RWM3	Cimm_RS	CIMG_03231	A0A0E1RWM3_COCIM	Uncharacterized protein	372	1	1	358	0	0	1	0	3	0.98703	0.44848	0.89604	0.99959			1	narrow rule, or broad rule with 2 of 3 models	1	all tier 1
+Q1EAR5	Cimm_RS	CTS2	CHI2_COCIM	Endochitinase 2	895	1	1	405	0	0	1	0	3	0.88638	0.58444	0.58631	0.99894			1	narrow rule, or broad rule with 2 of 3 models	1	all tier 1
+G8BJ60	Cpar_CDC317	ALS6	G8BJ60_CANPC	Agglutinin-like protein N-terminal domain-containing protein	2392	1	1	1175	0.286	19	1	1	3	0.99948	0.97304	0.99084	0.99988			1	narrow rule, or broad rule with 2 of 3 models	1	all tier 1
+G8BJ61	Cpar_CDC317	ALS7	G8BJ61_CANPC	Agglutinin-like protein N-terminal domain-containing protein	1383	1	1	977	0.39	15	1	1	3	0.99783	0.93698	0.99174	0.99971	class_positive	B	1	narrow rule, or broad rule with 2 of 3 models	0	
+G8B9T8	Cpar_CDC317	CPAR2_303790	G8B9T8_CANPC	Flo11 domain-containing protein	1241	1	1	998	0.437	90	1	1	3	0.99918	0.6434	0.99726	0.9996			1	narrow rule, or broad rule with 2 of 3 models	1	all tier 1
+G8BAL8	Cpar_CDC317	CPAR2_806410	G8BAL8_CANPC	Hyphally-regulated cell wall protein N-terminal domain-containing protein	1671	1	1	1114	0.643	25	1	1	3	0.99181	0.83443	0.96079	0.99919			1	narrow rule, or broad rule with 2 of 3 models	1	all tier 1
+G8BIQ2	Cpar_CDC317	CPAR2_403190	G8BIQ2_CANPC	Hyphal wall protein 1	727	1	1	286	0	0	1	0	3	0.99715	0.59716	0.99032	0.99919			1	narrow rule, or broad rule with 2 of 3 models	1	all tier 1
+G8BHR3	Cpar_CDC317	CHT21	G8BHR3_CANPC	GH18 domain-containing protein	913	1	1	310	0.21	32	1	0	3	0.98155	0.79998	0.91933	0.9989			1	narrow rule, or broad rule with 2 of 3 models	1	all tier 1
+G8BIT4	Cpar_CDC317	HWP1	G8BIT4_CANPC	Flo11 domain-containing protein	1234	1	1	393	0.178	22	1	0	3	0.99864	0.53159	0.9118	0.99885			1	narrow rule, or broad rule with 2 of 3 models	1	all tier 1
+G8BIT3	Cpar_CDC317	RBT1	G8BIT3_CANPC	Flo11 domain-containing protein	812	1	1	543	0.277	32	1	1	3	0.99431	0.80645	0.67606	0.99867			1	narrow rule, or broad rule with 2 of 3 models	1	all tier 1
+G8B4T9	Cpar_CDC317	CPAR2_600440	G8B4T9_CANPC	Flo11 domain-containing protein	1158	1	1	1006	0	0	1	0	3	0.98018	0.53831	0.85336	0.99838			1	narrow rule, or broad rule with 2 of 3 models	1	all tier 1
+G8BGG4	Cpar_CDC317	CPAR2_205900	G8BGG4_CANPC	PGA domain-containing protein	361	1	1	262	0	0	1	0	3	0.99389	0.33364	0.71022	0.99792			1	narrow rule, or broad rule with 2 of 3 models	1	all tier 1
+G8BHR2	Cpar_CDC317	CHT22	G8BHR2_CANPC	GH18 domain-containing protein	808	1	1	265	0.238	32	1	0	3	0.92302	0.71834	0.36384	0.99792			1	narrow rule, or broad rule with 2 of 3 models	1	all tier 1
+G8BAL7	Cpar_CDC317	CPAR2_806400	G8BAL7_CANPC	Hyphally-regulated cell wall protein N-terminal domain-containing protein	2273	1	1	1945	0	0	1	0	3	0.96808	0.36964	0.80213	0.99775			1	narrow rule, or broad rule with 2 of 3 models	1	all tier 1
+G8BAP4	Cpar_CDC317	YWP1	G8BAP4_CANPC	Uncharacterized protein	522	1	1	213	0.297	5	1	1	3	0.89662	0.55971	0.12976	0.99688			1	narrow rule, or broad rule with 2 of 3 models	1	all tier 1
+G8B4T8	Cpar_CDC317	HYR31	G8B4T8_CANPC	Hyphally-regulated cell wall protein N-terminal domain-containing protein	1429	1	1	1101	0	0	1	0	3	0.87868	0.29042	0.24434	0.99671			1	narrow rule, or broad rule with 2 of 3 models	1	all tier 1
+G8BJ59	Cpar_CDC317	ALS11	G8BJ59_CANPC	Agglutinin-like protein N-terminal domain-containing protein	1153	1	1	763	0	0	1	0	2	0.9763	0.32135	0.08068	0.99561			1	narrow rule, or broad rule with 2 of 3 models	1	all tier 1
+G8B5N2	Cpar_CDC317	CPAR2_603420	G8B5N2_CANPC	Hyphally-regulated cell wall protein N-terminal domain-containing protein	889	1	1	541	0	0	1	0	2	0.82754	0.43513	0.08138	0.99544			1	narrow rule, or broad rule with 2 of 3 models	1	all tier 1
+G8BHB6	Cpar_CDC317	ALS1	G8BHB6_CANPC	Agglutinin-like protein N-terminal domain-containing protein	1023	1	1	629	0	0	1	0	2	0.95436	0.28444	0.06752	0.99486			1	narrow rule, or broad rule with 2 of 3 models	1	all tier 1
+G8BJ58	Cpar_CDC317	ALS3	G8BJ58_CANPC	Agglutinin-like protein N-terminal domain-containing protein	1000	1	1	579	0	0	1	0	2	0.84039	0.44749	0.04521	0.99435			1	narrow rule, or broad rule with 2 of 3 models	1	all tier 1
+G8BFW7	Cpar_CDC317	CPAR2_203940	G8BFW7_CANPC	Uncharacterized protein	261	1	1	241	0.49	10	1	1	0	0.07749	0.20891	0.0796	0.98679			1	narrow rule, or broad rule with 2 of 3 models	1	all tier 1
+G8BAL9	Cpar_CDC317	CPAR2_806420	G8BAL9_CANPC	Hyphally-regulated cell wall protein N-terminal domain-containing protein	1714	1	1	1398	0.538	46	1	1	2	0.95488	0.38599	0.01041	0.98549			1	narrow rule, or broad rule with 2 of 3 models	1	all tier 1
+G8BH67	Cpar_CDC317	CPAR2_500170	G8BH67_CANPC	Uncharacterized protein	618	1	1	218	0.482	4	1	1	0	0.05015	0.08973	0.00224	0.90739			1	narrow rule, or broad rule with 2 of 3 models	1	all tier 1
+A0ABX6F355	Kmar_FIM1	FLO1	A0ABX6F355_KLUMA	Flocculation protein FLO9	1143	1	1	222	0.512	13	1	1	3	0.99797	0.81067	0.97705	0.99954			1	narrow rule, or broad rule with 2 of 3 models	1	all tier 1
+A0ABX6ESV1	Kmar_FIM1	FIM1_2080	A0ABX6ESV1_KLUMA	Uncharacterized protein	624	1	1	527	0	0	1	0	3	0.99931	0.56597	0.93258	0.99908			1	narrow rule, or broad rule with 2 of 3 models	1	all tier 1
+A0ABX6F2H4	Kmar_FIM1	MUC1	A0ABX6F2H4_KLUMA	Flocculation protein FLO11	1196	1	1	940	0	0	1	0	3	0.99757	0.6561	0.91151	0.99901			1	narrow rule, or broad rule with 2 of 3 models	1	all tier 1
+A0ABX6ETN4	Kmar_FIM1	FIM1_1682	A0ABX6ETN4_KLUMA	Uncharacterized protein	1194	1	1	204	0	0	1	0	3	0.9833	0.53654	0.8933	0.99809			1	narrow rule, or broad rule with 2 of 3 models	1	all tier 1
+A0ABX6EWM1	Kmar_FIM1	FIM1_3170	A0ABX6EWM1_KLUMA	Uncharacterized protein	541	1	1	320	0.521	4	1	1	3	0.98138	0.63077	0.39601	0.9977			1	narrow rule, or broad rule with 2 of 3 models	1	all tier 1
+A0ABX6ET07	Kmar_FIM1	MUC1	A0ABX6ET07_KLUMA	Flocculation protein FLO11	872	1	1	663	0	0	1	0	3	0.9764	0.6484	0.31815	0.9975			1	narrow rule, or broad rule with 2 of 3 models	1	all tier 1
+A0ABX6F0R6	Kmar_FIM1	SAG1	A0ABX6F0R6_KLUMA	Protein SAG1	799	1	1	417	0	0	1	0	3	0.97551	0.61655	0.31042	0.99717			1	narrow rule, or broad rule with 2 of 3 models	1	all tier 1
+A0ABX6EY79	Kmar_FIM1	AGP19	A0ABX6EY79_KLUMA	Lysine-rich arabinogalactan protein 19	253	1	1	253	0	0	1	0	2	0.98707	0.20865	0.72091	0.99658			1	narrow rule, or broad rule with 2 of 3 models	1	all tier 1
+A0ABX6EYX9	Kmar_FIM1	MUC1	A0ABX6EYX9_KLUMA	Flo11 super family	843	1	1	364	0.128	9	1	0	2	0.98393	0.49505	0.0903	0.99586			1	narrow rule, or broad rule with 2 of 3 models	1	all tier 1
+M7X543	Rtor_NP11	RHTO_05694	M7X543_RHOT1	Proteophosphoglycan ppg4	244	1	1	238	0.676	8	1	1	1	0.28707	0.3605	0.00721	0.96875			1	narrow rule, or broad rule with 2 of 3 models	1	all tier 1
+P32768	Scer_S288C	FLO1	FLO1_YEAST	Flocculation protein FLO1	1537	1	1	680	0.527	18	1	1	3	0.9997	0.99319	0.99174	1	class_positive	A	1	narrow rule, or broad rule with 2 of 3 models	0	
+P38894	Scer_S288C	FLO5	FLO5_YEAST	Flocculation protein FLO5	1075	1	1	350	0.335	8	1	1	3	0.99578	0.97056	0.983	0.99973	class_positive	A	1	narrow rule, or broad rule with 2 of 3 models	0	
+P39712	Scer_S288C	FLO9	FLO9_YEAST	Flocculation protein FLO9	1322	1	1	223	0.477	14	1	1	3	0.99913	0.96222	0.98133	0.99973	class_positive	A	1	narrow rule, or broad rule with 2 of 3 models	0	
+P08640	Scer_S288C	FLO11	FLO11_YEAST	Flocculation protein FLO11	1367	1	1	865	0	0	1	0	3	0.9972	0.75554	0.93567	0.99951	class_positive	A	1	narrow rule, or broad rule with 2 of 3 models	0	
+P32323	Scer_S288C	AGA1	AGA1_YEAST	A-agglutinin anchorage subunit	725	1	1	207	0	0	1	0	3	0.97939	0.7069	0.89426	0.99918	class_positive	A	1	narrow rule, or broad rule with 2 of 3 models	0	
+Q05164	Scer_S288C	HPF1	HPF1_YEAST	Haze protective factor 1	967	1	1	288	0	0	1	0	3	0.81627	0.72954	0.77909	0.99874	class_positive	A	1	narrow rule, or broad rule with 2 of 3 models	0	
+P47179	Scer_S288C	DAN4	DAN4_YEAST	Cell wall protein DAN4	1161	1	1	444	0.165	8	1	0	3	0.99164	0.49915	0.13356	0.99797	hard_negative		1	narrow rule, or broad rule with 2 of 3 models	0	
+P41809	Scer_S288C	HKR1	HKR1_YEAST	Signaling mucin HKR1	1802	1	1	278	0.194	25	1	0	2	0.96311	0.39586	0.0886	0.99731	hard_negative		1	narrow rule, or broad rule with 2 of 3 models	0	
+Q04433	Scer_S288C	FIT1	FIT1_YEAST	Facilitator of iron transport 1	528	1	1	448	0.521	4	1	1	0	0.26771	0.09954	0.02405	0.98615	hard_negative		1	narrow rule, or broad rule with 2 of 3 models	0	
+Q12218	Scer_S288C	TIR4	TIR4_YEAST	Cell wall protein TIR4	487	1	1	216	0.271	11	1	1	0	0.41281	0.16473	0.00247	0.93712	hard_negative		1	narrow rule, or broad rule with 2 of 3 models	0	
+Q4WE35	Afum_Af293	AFUA_5G01620	Q4WE35_ASPFU	Extracellular proline-rich protein	282	1	0	282	0	0	0	0	3	0.98857	0.31569	0.4466	0.99896			2	broad rule alone, or 2 of 3 models with a signal peptide	1	sampled tier 2 (seed 20261026)
+Q4WI05	Afum_Af293	AFUA_2G03540	Q4WI05_ASPFU	Extracellular threonine rich protein, putative	666	1	0	606	0	0	0	0	2	0.75166	0.21536	0.92287	0.99838			2	broad rule alone, or 2 of 3 models with a signal peptide	1	sampled tier 2 (seed 20261026)
+Q4WBU6	Afum_Af293	AFUA_8G06780	Q4WBU6_ASPFU	Extracellular proline rich protein	359	1	0	334	0	0	0	0	2	0.65767	0.2347	0.39854	0.9976			2	broad rule alone, or 2 of 3 models with a signal peptide	1	
+Q4WXD9	Afum_Af293	AFUA_3G09160	Q4WXD9_ASPFU	Extracellular proline-rich protein	191	1	0	191	0.084	4	0	0	3	0.97522	0.25984	0.14358	0.99713			2	broad rule alone, or 2 of 3 models with a signal peptide	1	
+Q4WIW7	Afum_Af293	AFUA_2G00400	Q4WIW7_ASPFU	Cell wall cysteine-rich protein	705	1	0	208	0.081	3	0	0	2	0.98396	0.2033	0.34339	0.99675			2	broad rule alone, or 2 of 3 models with a signal peptide	1	
+Q4WUE6	Afum_Af293	AFUA_5G08180	Q4WUE6_ASPFU	Cell wall protein, putative	300	1	0	269	0	0	0	0	2	0.62974	0.20937	0.34604	0.99672			2	broad rule alone, or 2 of 3 models with a signal peptide	1	
+Q4WYI0	Afum_Af293	AFUA_3G13110	Q4WYI0_ASPFU	Extracellular serine-threonine rich protein	764	1	1	115	0	0	0	0	2	0.95427	0.43852	0.02847	0.99312			2	broad rule alone, or 2 of 3 models with a signal peptide	1	
+Q4WUX0	Afum_Af293	AFUA_5G09960	Q4WUX0_ASPFU	GPI anchored protein, putative	301	1	1	76	0	0	0	0	2	0.67868	0.12873	0.19518	0.98908			2	broad rule alone, or 2 of 3 models with a signal peptide	1	
+Q4WLB9	Afum_Af293	cfmA	CFMA_ASPFU	GPI-anchored hemophore cfmA	305	1	1	219	0	0	1	0	0	0.08934	0.02804	0.00505	0.91769	hard_negative		2	broad rule alone, or 2 of 3 models with a signal peptide	0	
+Q4X084	Afum_Af293	AFUA_2G14360	EGLX_ASPFU	Probable endo-1,3(4)-beta-glucanase AFUA_2G14360	652	1	1	263	0	0	1	0	0	0.07338	0.01559	0.00065	0.61713			2	broad rule alone, or 2 of 3 models with a signal peptide	1	sampled tier 2 (seed 20261026)
+A0A1D8PJ68	Calb_SC5314	CAALFM_C301260CA	A0A1D8PJ68_CANAL	Uncharacterized protein	725	1	0	660	0.39	5	0	0	3	0.99923	0.61777	0.98938	0.99923	adhesin_other_mechanism		2	broad rule alone, or 2 of 3 models with a signal peptide	0	
+P46593	Calb_SC5314	HWP1	HWP1_CANAL	Hyphal wall protein 1	634	1	0	310	0.194	6	0	0	3	0.90996	0.72574	0.96871	0.99829	class_positive	A	2	broad rule alone, or 2 of 3 models with a signal peptide	0	
+A0A1D8PDQ8	Calb_SC5314	CAALFM_C105970WA	A0A1D8PDQ8_CANAL	Uncharacterized protein	590	1	0	313	0	0	0	0	3	0.97655	0.40436	0.27819	0.99691			2	broad rule alone, or 2 of 3 models with a signal peptide	1	sampled tier 2 (seed 20261026)
+Q5A1E0	Calb_SC5314	IFF5	IFF5_CANAL	Cell wall protein IFF5	1308	1	1	104	0	0	0	0	3	0.88924	0.43279	0.33353	0.99691	class_positive	B	2	broad rule alone, or 2 of 3 models with a signal peptide	0	
+A0A1D8PGF8	Calb_SC5314	MSB2	A0A1D8PGF8_CANAL	Msb2p	1409	1	0	1095	0	0	0	0	3	0.79845	0.33123	0.67269	0.99663			2	broad rule alone, or 2 of 3 models with a signal peptide	1	
+A0A1D8PP37	Calb_SC5314	CAALFM_C504980WA	A0A1D8PP37_CANAL	Uncharacterized protein	575	1	0	144	0	0	0	0	3	0.79541	0.27829	0.43093	0.99597			2	broad rule alone, or 2 of 3 models with a signal peptide	1	sampled tier 2 (seed 20261026)
+Q5A029	Calb_SC5314	IFF3	IFF3_CANAL	Cell wall protein IFF3	941	1	1	36	0	0	0	0	3	0.76672	0.42872	0.17186	0.99564	class_positive	B	2	broad rule alone, or 2 of 3 models with a signal peptide	0	
+Q5A6U1	Calb_SC5314	IFF9	IFF9_CANAL	Cell wall protein IFF9	941	1	1	30	0	0	0	0	3	0.78171	0.42479	0.13299	0.9952	class_positive	B	2	broad rule alone, or 2 of 3 models with a signal peptide	0	
+Q5ABW2	Calb_SC5314	PGA60	PGA60_CANAL	Putative uncharacterized protein	741	1	1	167	0	0	0	0	2	0.47797	0.29235	0.16766	0.9941	background_assumed_negative		2	broad rule alone, or 2 of 3 models with a signal peptide	0	
+Q59TP1	Calb_SC5314	RBT1	RBT1_CANAL	Cell wall protein RBT1	721	1	1	177	0	0	0	0	2	0.78698	0.28376	0.02904	0.99112	adhesin_other_mechanism		2	broad rule alone, or 2 of 3 models with a signal peptide	0	
+Q59XA7	Calb_SC5314	HYR3	HYR3_CANAL	Hyphally regulated cell wall protein 3	1249	1	1	490	0	0	1	0	0	0.41979	0.21669	0.06566	0.99051	class_positive	B	2	broad rule alone, or 2 of 3 models with a signal peptide	0	
+A0A1D8PQI2	Calb_SC5314	CAALFM_C700190WA	A0A1D8PQI2_CANAL	Uncharacterized protein	324	1	1	270	0	0	1	0	0	0.22323	0.23875	0.09513	0.99045			2	broad rule alone, or 2 of 3 models with a signal peptide	1	
+A0A1D8PNW1	Calb_SC5314	SCW11	A0A1D8PNW1_CANAL	Glucan endo-1\3-beta-D-glucosidase	506	1	0	182	0	0	0	0	2	0.14675	0.3265	0.14306	0.9904			2	broad rule alone, or 2 of 3 models with a signal peptide	1	sampled tier 2 (seed 20261026)
+A0A1D8PRI8	Calb_SC5314	CAALFM_C704070CA	A0A1D8PRI8_CANAL	Uncharacterized protein	129	1	0	129	0	0	0	0	2	0.74144	0.14459	0.11808	0.98874			2	broad rule alone, or 2 of 3 models with a signal peptide	1	
+Q5ADQ7	Calb_SC5314	PGA32	PGA32_CANAL	Probable GPI-anchored adhesin-like protein PGA32	430	1	1	343	0	0	1	0	1	0.60831	0.16278	0.02899	0.98698	background_assumed_negative		2	broad rule alone, or 2 of 3 models with a signal peptide	0	
+Q5AL03	Calb_SC5314	HYR1	HYR1_CANAL	Hyphally regulated cell wall protein 1	919	1	1	337	0	0	1	0	1	0.58192	0.20591	0.00806	0.98107	class_positive	B	2	broad rule alone, or 2 of 3 models with a signal peptide	0	
+Q5A8I8	Calb_SC5314	IHD1	IHD1_CANAL	Induced during hyphae development protein 1	392	1	1	300	0	0	1	0	0	0.05184	0.04958	0.00663	0.92865	background_assumed_negative		2	broad rule alone, or 2 of 3 models with a signal peptide	0	
+Q59N10	Calb_SC5314	PGA39	PGA39_CANAL	Predicted GPI-anchored protein 39	281	1	1	213	0	0	1	0	0	0.0692	0.01792	0.00598	0.89149	background_assumed_negative		2	broad rule alone, or 2 of 3 models with a signal peptide	0	
+Q59V01	Calb_SC5314	PGA23	PGA23_CANAL	Predicted GPI-anchored protein 23	282	1	1	218	0	0	1	0	0	0.0014	0.0121	0.0006	0.28985	background_assumed_negative		2	broad rule alone, or 2 of 3 models with a signal peptide	0	
+A0AAW0V9U7	Caur_UniProt	ALS4498	ALS98_CANAR	Adhesin ALS4498	839	1	1	178	0	0	0	0	3	0.80286	0.81281	0.79586	0.99853	class_positive	A	2	broad rule alone, or 2 of 3 models with a signal peptide	0	
+A0AAW0VL76	Caur_UniProt	B9J08_01408	A0AAW0VL76_CANAR	Flo11 domain-containing protein	440	1	1	191	0.355	3	0	0	3	0.89275	0.3683	0.26394	0.99767			2	broad rule alone, or 2 of 3 models with a signal peptide	1	
+A0AAW0VFM0	Caur_UniProt	B9J08_02118	A0AAW0VFM0_CANAR	MSB2-like C-terminal domain-containing protein	1095	1	0	864	0	0	0	0	3	0.91124	0.27776	0.16131	0.99681			2	broad rule alone, or 2 of 3 models with a signal peptide	1	
+A0A2H0ZKH7	Caur_UniProt	B9J08_00594	A0A2H0ZKH7_CANAR	Flo11 domain-containing protein	797	1	1	448	0	0	1	0	1	0.33466	0.28531	0.07244	0.99509			2	broad rule alone, or 2 of 3 models with a signal peptide	1	
+A0A2H1A6Z6	Caur_UniProt	B9J08_02817	A0A2H1A6Z6_CANAR	Uncharacterized protein	499	1	1	323	0	0	1	0	1	0.7896	0.2269	0.02366	0.99221			2	broad rule alone, or 2 of 3 models with a signal peptide	1	
+A0AAW0VF88	Caur_UniProt	B9J08_03659	A0AAW0VF88_CANAR	Uncharacterized protein	332	1	1	6	0	0	0	0	2	0.71326	0.27128	0.01974	0.99123			2	broad rule alone, or 2 of 3 models with a signal peptide	1	sampled tier 2 (seed 20261026)
+A0AAW0VGE6	Caur_UniProt	B9J08_02075	A0AAW0VGE6_CANAR	PGA domain-containing protein	284	1	1	150	0	0	0	0	2	0.57032	0.10664	0.13606	0.98724			2	broad rule alone, or 2 of 3 models with a signal peptide	1	
+A0A2H0ZIH9	Caur_UniProt	B9J08_05030	A0A2H0ZIH9_CANAR	Uncharacterized protein	299	1	1	287	0	0	1	0	0	0.3183	0.10737	0.02534	0.9838			2	broad rule alone, or 2 of 3 models with a signal peptide	1	sampled tier 2 (seed 20261026)
+A0A2H0ZVY5	Caur_UniProt	B9J08_05584	A0A2H0ZVY5_CANAR	Uncharacterized protein	237	1	1	209	0	0	1	0	0	0.07024	0.03123	0.00462	0.93398			2	broad rule alone, or 2 of 3 models with a signal peptide	1	sampled tier 2 (seed 20261026)
+Q6FR82	Cgla_CBS138	EPA23	Q6FR82_CANGA	PA14 domain-containing protein	864	1	1	185	0.341	5	0	0	3	0.99029	0.77359	0.99273	0.99936	class_positive	B	2	broad rule alone, or 2 of 3 models with a signal peptide	0	
+Q6FQC7	Cgla_CBS138	CAGL0I07293g	Q6FQC7_CANGA	Hyphally-regulated cell wall protein N-terminal domain-containing protein	1771	1	1	117	0.483	19	0	0	3	0.99741	0.52736	0.99821	0.99907	class_positive	B	2	broad rule alone, or 2 of 3 models with a signal peptide	0	
+B4UN55	Cgla_CBS138	CAGL0L13299g	B4UN55_CANGA	PA14 domain-containing protein	1630	1	0	571	0.317	11	0	0	3	0.96658	0.59709	0.99413	0.99833			2	broad rule alone, or 2 of 3 models with a signal peptide	1	
+Q6FNG2	Cgla_CBS138	EPA15	Q6FNG2_CANGA	PA14 domain-containing protein	958	1	0	300	0	0	0	0	3	0.99205	0.41079	0.99206	0.99814			2	broad rule alone, or 2 of 3 models with a signal peptide	1	
+Q6FQ04	Cgla_CBS138	CAGL0I10362g	Q6FQ04_CANGA	PA14 domain-containing protein	1772	1	1	120	0.127	5	0	0	3	0.9843	0.5243	0.97706	0.99814			2	broad rule alone, or 2 of 3 models with a signal peptide	1	
+Q6FII8	Cgla_CBS138	PWP6	Q6FII8_CANGA	PA14 domain-containing protein	866	1	1	108	0.283	5	0	0	3	0.95628	0.6055	0.97528	0.99776			2	broad rule alone, or 2 of 3 models with a signal peptide	1	
+Q6FLW1	Cgla_CBS138	CAGL0K13024g	Q6FLW1_CANGA	Hyphally-regulated cell wall protein N-terminal domain-containing protein	1075	1	1	166	0.287	7	0	0	3	0.94918	0.60687	0.9757	0.99776			2	broad rule alone, or 2 of 3 models with a signal peptide	1	sampled tier 2 (seed 20261026)
+Q6FKP1	Cgla_CBS138	CAGL0L09911g	Q6FKP1_CANGA	Uncharacterized protein	1451	1	1	150	0	0	0	0	3	0.95045	0.39731	0.96729	0.9966			2	broad rule alone, or 2 of 3 models with a signal peptide	1	
+Q6FUW5	Cgla_CBS138	EPA1	Q6FUW5_CANGA	PA14 domain-containing protein	1034	1	1	130	0	0	0	0	3	0.88347	0.52835	0.85446	0.99622	adhesin_other_mechanism		2	broad rule alone, or 2 of 3 models with a signal peptide	0	
+Q6FWR2	Cgla_CBS138	CAGL0C03575g	Q6FWR2_CANGA	Uncharacterized protein	668	1	1	102	0	0	0	0	3	0.96052	0.45102	0.12474	0.99449			2	broad rule alone, or 2 of 3 models with a signal peptide	1	
+Q6FX52	Cgla_CBS138	CAGL0C00253g	Q6FX52_CANGA	Uncharacterized protein	1608	1	1	116	0	0	0	0	3	0.90339	0.32775	0.55484	0.99429			2	broad rule alone, or 2 of 3 models with a signal peptide	1	
+Q6FUW7	Cgla_CBS138	CAGL0E06600g	Q6FUW7_CANGA	Hyphally-regulated cell wall protein N-terminal domain-containing protein	965	1	1	78	0	0	0	0	3	0.67207	0.34834	0.83284	0.99397	class_positive	B	2	broad rule alone, or 2 of 3 models with a signal peptide	0	
+Q6FQ05	Cgla_CBS138	PWP5	Q6FQ05_CANGA	PA14 domain-containing protein	1012	1	1	94	0	0	0	0	3	0.87488	0.37872	0.48552	0.99391			2	broad rule alone, or 2 of 3 models with a signal peptide	1	sampled tier 2 (seed 20261026)
+B4UN21	Cgla_CBS138	CAGL0I10200g	B4UN21_CANGA	PA14 domain-containing protein	1373	1	0	52	0	0	0	0	3	0.90222	0.25919	0.63109	0.99372			2	broad rule alone, or 2 of 3 models with a signal peptide	1	sampled tier 2 (seed 20261026)
+Q6FNI3	Cgla_CBS138	CAGL0J11462g	Q6FNI3_CANGA	Hydrophilin	208	1	1	194	0.74	7	0	0	3	0.68434	0.28621	0.69484	0.99327			2	broad rule alone, or 2 of 3 models with a signal peptide	1	
+Q6FTU1	Cgla_CBS138	CAGL0F08833g	Q6FTU1_CANGA	MSB2-like C-terminal domain-containing protein	936	1	0	452	0	0	0	0	3	0.68436	0.29636	0.33011	0.99237			2	broad rule alone, or 2 of 3 models with a signal peptide	1	
+Q6FNG1	Cgla_CBS138	AWP2	AWP2_CANGA	Adhesin AWP2	832	1	1	64	0	0	0	0	2	0.67135	0.22748	0.32401	0.99115	adhesin_other_mechanism		2	broad rule alone, or 2 of 3 models with a signal peptide	0	
+Q6FX55	Cgla_CBS138	EPA6	Q6FX55_CANGA	PA14 domain-containing protein	715	1	1	157	0	0	0	0	2	0.69095	0.27224	0.01034	0.98513	adhesin_other_mechanism		2	broad rule alone, or 2 of 3 models with a signal peptide	0	
+A0A0E1RXR9	Cimm_RS	CIMG_05576	A0A0E1RXR9_COCIM	Uncharacterized protein	481	1	0	413	0.312	15	0	0	3	0.98786	0.55358	0.65861	0.99952			2	broad rule alone, or 2 of 3 models with a signal peptide	1	
+A0A0E1RUJ3	Cimm_RS	CIMG_10280	A0A0E1RUJ3_COCIM	Uncharacterized protein	608	1	0	561	0.11	11	0	0	3	0.89221	0.38912	0.80458	0.99914			2	broad rule alone, or 2 of 3 models with a signal peptide	1	
+J3KCJ3	Cimm_RS	CIMG_03982	J3KCJ3_COCIM	Uncharacterized protein	298	1	0	167	0	0	0	0	3	0.92264	0.2958	0.8924	0.99911			2	broad rule alone, or 2 of 3 models with a signal peptide	1	
+J3KAD3	Cimm_RS	CIMG_02991	J3KAD3_COCIM	Agglutinin-like protein middle domain-containing protein	568	1	1	94	0	0	0	0	3	0.94125	0.27586	0.80881	0.999			2	broad rule alone, or 2 of 3 models with a signal peptide	1	
+J3KJE1	Cimm_RS	CIMG_01531	J3KJE1_COCIM	Uncharacterized protein	1447	1	0	906	0	0	0	0	2	0.85479	0.25178	0.91821	0.99863			2	broad rule alone, or 2 of 3 models with a signal peptide	1	sampled tier 2 (seed 20261026)
+A0A0E1RYT1	Cimm_RS	CIMG_10851	A0A0E1RYT1_COCIM	Uncharacterized protein	305	1	0	11	0.702	5	0	0	3	0.89528	0.29567	0.3159	0.99756			2	broad rule alone, or 2 of 3 models with a signal peptide	1	
+J3KBF9	Cimm_RS	CIMG_03472	J3KBF9_COCIM	Extracellular serine-threonine rich protein	682	1	1	130	0	0	0	0	3	0.9265	0.34385	0.16082	0.99722			2	broad rule alone, or 2 of 3 models with a signal peptide	1	
+A0A0E1S306	Cimm_RS	CIMG_03870	A0A0E1S306_COCIM	GPI anchored serine-rich protein	212	1	1	178	0	0	0	0	2	0.88628	0.19232	0.73242	0.99667			2	broad rule alone, or 2 of 3 models with a signal peptide	1	sampled tier 2 (seed 20261026)
+J3K486	Cimm_RS	CIMG_07839	J3K486_COCIM	Uncharacterized protein	477	1	0	394	0.115	11	0	0	2	0.25071	0.29614	0.20741	0.9953			2	broad rule alone, or 2 of 3 models with a signal peptide	1	
+J3KM60	Cimm_RS	CIMG_02811	J3KM60_COCIM	LysM domain-containing protein	325	1	0	187	0.197	4	0	0	2	0.85184	0.19791	0.17479	0.99516			2	broad rule alone, or 2 of 3 models with a signal peptide	1	
+J3KCY6	Cimm_RS	CIMG_04178	J3KCY6_COCIM	Serine-threonine rich protein	424	1	0	422	0.085	6	0	0	2	0.21795	0.41867	0.15476	0.99499			2	broad rule alone, or 2 of 3 models with a signal peptide	1	sampled tier 2 (seed 20261026)
+J0HFL7	Cimm_RS	CIMG_08665	J0HFL7_COCIM	MSB2-like C-terminal domain-containing protein	751	1	0	430	0	0	0	0	2	0.85922	0.37264	0.06496	0.9942			2	broad rule alone, or 2 of 3 models with a signal peptide	1	
+J3K729	Cimm_RS	CIMG_05926	J3K729_COCIM	Uncharacterized protein	222	1	1	222	0	0	1	0	0	0.33509	0.19492	0.04583	0.99001			2	broad rule alone, or 2 of 3 models with a signal peptide	1	
+J3KCQ3	Cimm_RS	CIMG_04070	J3KCQ3_COCIM	Uncharacterized protein	151	1	0	151	0	0	0	0	2	0.7724	0.12621	0.61913	0.98938			2	broad rule alone, or 2 of 3 models with a signal peptide	1	
+A0A0E1RYP5	Cimm_RS	CIMG_04097	A0A0E1RYP5_COCIM	Riboflavin aldehyde-forming enzyme	280	1	0	158	0	0	0	0	2	0.89518	0.09964	0.15605	0.98198			2	broad rule alone, or 2 of 3 models with a signal peptide	1	
+A0A0E1RXP4	Cimm_RS	CIMG_06897	A0A0E1RXP4_COCIM	SCP domain-containing protein	307	1	0	122	0	0	0	0	2	0.63536	0.06133	0.14475	0.96719			2	broad rule alone, or 2 of 3 models with a signal peptide	1	
+J3K0W1	Cimm_RS	CIMG_10135	J3K0W1_COCIM	Uncharacterized protein	444	1	1	349	0	0	1	0	0	0.30125	0.10572	0.00418	0.95312			2	broad rule alone, or 2 of 3 models with a signal peptide	1	
+J3KHS1	Cimm_RS	CIMG_00795	J3KHS1_COCIM	CFEM domain-containing protein	331	1	1	202	0	0	1	0	0	0.54457	0.0421	0.00161	0.90227			2	broad rule alone, or 2 of 3 models with a signal peptide	1	
+J3KGV0	Cimm_RS	CIMG_00364	J3KGV0_COCIM	Uncharacterized protein	524	1	1	231	0	0	1	0	0	0.05375	0.02571	0.00055	0.60386			2	broad rule alone, or 2 of 3 models with a signal peptide	1	
+J9VFS7	Cneo_H99	CNAG_03716	J9VFS7_CRYN9	B2-aldehyde-forming enzyme	305	1	1	94	0.184	8	0	0	2	0.74578	0.40691	0.07687	0.99506			2	broad rule alone, or 2 of 3 models with a signal peptide	1	sampled tier 2 (seed 20261026)
+J9VWY5	Cneo_H99	CNAG_05915	J9VWY5_CRYN9	Uncharacterized protein	631	1	1	501	0	0	1	0	0	0.56184	0.15224	0.06595	0.98642			2	broad rule alone, or 2 of 3 models with a signal peptide	1	sampled tier 2 (seed 20261026)
+T2BQH2	Cneo_H99	CNAG_00759	T2BQH2_CRYN9	Uncharacterized protein	428	1	1	200	0	0	1	0	0	0.32315	0.13891	0.10427	0.98523			2	broad rule alone, or 2 of 3 models with a signal peptide	1	sampled tier 2 (seed 20261026)
+G8BAL6	Cpar_CDC317	CPAR2_806390	G8BAL6_CANPC	Hyphally-regulated cell wall protein N-terminal domain-containing protein	1640	1	1	85	0.624	25	0	0	3	0.99713	0.53201	0.94047	0.99885			2	broad rule alone, or 2 of 3 models with a signal peptide	1	
+G8BDN7	Cpar_CDC317	CPAR2_210290	G8BDN7_CANPC	MSB2-like C-terminal domain-containing protein	1276	1	0	950	0	0	0	0	2	0.68404	0.21578	0.17037	0.99498			2	broad rule alone, or 2 of 3 models with a signal peptide	1	
+G8BIQ8	Cpar_CDC317	CPAR2_403260	G8BIQ8_CANPC	Uncharacterized protein	437	1	1	145	0	0	0	0	2	0.61212	0.28501	0.04764	0.99388			2	broad rule alone, or 2 of 3 models with a signal peptide	1	
+G8BAP3	Cpar_CDC317	CPAR2_806660	G8BAP3_CANPC	Flo11 domain-containing protein	884	1	1	100	0	0	0	0	2	0.85368	0.27558	0.04292	0.99342			2	broad rule alone, or 2 of 3 models with a signal peptide	1	
+G8BIQ1	Cpar_CDC317	PGA62	G8BIQ1_CANPC	Hyphal wall protein 1	257	1	1	221	0	0	1	0	1	0.7677	0.21463	0.00959	0.98275			2	broad rule alone, or 2 of 3 models with a signal peptide	1	sampled tier 2 (seed 20261026)
+G8B5F0	Cpar_CDC317	CPAR2_602610	G8B5F0_CANPC	Flo11 domain-containing protein	821	1	1	406	0	0	1	0	1	0.45991	0.32741	0.00773	0.98211			2	broad rule alone, or 2 of 3 models with a signal peptide	1	
+G8B8S3	Cpar_CDC317	CPAR2_300110	G8B8S3_CANPC	CFEM5	918	1	1	230	0.131	12	1	0	1	0.23467	0.25635	0.00435	0.9719			2	broad rule alone, or 2 of 3 models with a signal peptide	1	sampled tier 2 (seed 20261026)
+G8BI19	Cpar_CDC317	CRH11	G8BI19_CANPC	Crh-like protein	490	1	1	233	0	0	1	0	0	0.3107	0.15152	0.00444	0.96873			2	broad rule alone, or 2 of 3 models with a signal peptide	1	
+G8BE10	Cpar_CDC317	CPAR2_211510	G8BE10_CANPC	Uncharacterized protein	307	1	1	264	0.186	11	1	0	0	0.02236	0.22789	0.01794	0.95188			2	broad rule alone, or 2 of 3 models with a signal peptide	1	
+G8BII3	Cpar_CDC317	CPAR2_402490	G8BII3_CANPC	Flo11 domain-containing protein	1307	1	1	215	0	0	1	0	1	0.58133	0.24997	0.00284	0.94801			2	broad rule alone, or 2 of 3 models with a signal peptide	1	sampled tier 2 (seed 20261026)
+A0ABX6F2J9	Kmar_FIM1	FLO9	A0ABX6F2J9_KLUMA	Flocculation protein FLO9	685	1	1	55	0.394	6	0	0	3	0.99145	0.82391	0.998	0.99967			2	broad rule alone, or 2 of 3 models with a signal peptide	1	
+A0ABX6ETD4	Kmar_FIM1	FLO1	A0ABX6ETD4_KLUMA	Flocculation protein FLO9	1983	1	1	161	0.658	29	0	0	3	0.99865	0.71307	0.99115	0.99947			2	broad rule alone, or 2 of 3 models with a signal peptide	1	
+A0ABX6F0N6	Kmar_FIM1	FLO9	A0ABX6F0N6_KLUMA	Flocculation protein FLO9	1215	1	1	160	0.444	12	0	0	3	0.99222	0.73192	0.99785	0.99947			2	broad rule alone, or 2 of 3 models with a signal peptide	1	
+A0ABX6EPY5	Kmar_FIM1	FLO5	A0ABX6EPY5_KLUMA	Flocculation protein FLO5	679	1	0	24	0.588	9	0	0	3	0.98615	0.7403	0.99665	0.99928			2	broad rule alone, or 2 of 3 models with a signal peptide	1	
+A0ABX6F6Q2	Kmar_FIM1	FLO5	A0ABX6F6Q2_KLUMA	Flocculation protein FLO5	864	1	1	138	0.26	5	0	0	3	0.9616	0.54356	0.918	0.99796			2	broad rule alone, or 2 of 3 models with a signal peptide	1	
+A0ABX6EMM2	Kmar_FIM1	FLO9	A0ABX6EMM2_KLUMA	YKL222C	840	1	1	165	0.214	4	0	0	3	0.96731	0.53321	0.78698	0.99763			2	broad rule alone, or 2 of 3 models with a signal peptide	1	
+A0ABX6ETN1	Kmar_FIM1	HKR1	A0ABX6ETN1_KLUMA	Herpes gp2	1396	1	0	623	0	0	0	0	3	0.89073	0.50609	0.64419	0.99704			2	broad rule alone, or 2 of 3 models with a signal peptide	1	
+A0ABX6F1H9	Kmar_FIM1	FLO9	A0ABX6F1H9_KLUMA	Flocculation protein FLO9	560	1	0	0	0.321	4	0	0	3	0.91649	0.26536	0.89855	0.99684			2	broad rule alone, or 2 of 3 models with a signal peptide	1	
+A0ABX6EWF1	Kmar_FIM1	FLO9	A0ABX6EWF1_KLUMA	Flocculation protein FLO9	601	1	1	44	0	0	0	0	3	0.83994	0.46326	0.59703	0.99678			2	broad rule alone, or 2 of 3 models with a signal peptide	1	
+A0ABX6ETY8	Kmar_FIM1	MSB2	A0ABX6ETY8_KLUMA	Hansenula MRAKII killer toxin-resistant protein	861	1	0	446	0	0	0	0	2	0.56178	0.27423	0.15945	0.99527			2	broad rule alone, or 2 of 3 models with a signal peptide	1	
+A0ABX6ESA5	Kmar_FIM1	SED1	A0ABX6ESA5_KLUMA	Protein SED1	229	1	1	70	0.786	3	0	0	2	0.97603	0.20955	0.13147	0.995			2	broad rule alone, or 2 of 3 models with a signal peptide	1	
+A0ABX6EPR0	Kmar_FIM1	FIM1_912	A0ABX6EPR0_KLUMA	Uncharacterized protein	428	1	1	3	0	0	0	0	2	0.8958	0.26861	0.03556	0.99336			2	broad rule alone, or 2 of 3 models with a signal peptide	1	sampled tier 2 (seed 20261026)
+A0ABX6EZV0	Kmar_FIM1	PIR1	A0ABX6EZV0_KLUMA	Cell wall mannoprotein HSP150	391	1	0	248	0.463	8	0	0	2	0.05886	0.25858	0.18527	0.98784			2	broad rule alone, or 2 of 3 models with a signal peptide	1	sampled tier 2 (seed 20261026)
+A0ABX6EZ63	Kmar_FIM1	RPB1	A0ABX6EZ63_KLUMA	DNA-directed RNA polymerase II subunit RPB1	401	1	1	206	0	0	1	0	0	0.33352	0.10801	0.01167	0.98225			2	broad rule alone, or 2 of 3 models with a signal peptide	1	
+M7X4C0	Rtor_NP11	RHTO_02686	M7X4C0_RHOT1	Protein CPL1-like domain-containing protein	553	1	0	287	0	0	0	0	2	0.65023	0.32329	0.00925	0.97337			2	broad rule alone, or 2 of 3 models with a signal peptide	1	sampled tier 2 (seed 20261026)
+M7XDZ7	Rtor_NP11	RHTO_01259	M7XDZ7_RHOT1	Proteophosphoglycan 5	501	1	1	332	0	0	1	0	0	0.45597	0.1185	0.00473	0.93781			2	broad rule alone, or 2 of 3 models with a signal peptide	1	sampled tier 2 (seed 20261026)
+P36170	Scer_S288C	FLO10	FLO10_YEAST	Flocculation protein FLO10	1169	1	1	175	0.269	5	0	0	3	0.96292	0.82652	0.83039	0.99912	class_positive	A	2	broad rule alone, or 2 of 3 models with a signal peptide	0	
+P20840	Scer_S288C	SAG1	SAG1_YEAST	Alpha-agglutinin	650	1	1	11	0	0	0	0	2	0.50124	0.60084	0.67588	0.99775	class_positive	A	2	broad rule alone, or 2 of 3 models with a signal peptide	0	
+P38739	Scer_S288C	WSC4	WSC4_YEAST	Cell wall integrity and stress response component 4	605	1	0	193	0.081	13	0	0	2	0.93982	0.30866	0.08177	0.99676	background_assumed_negative		2	broad rule alone, or 2 of 3 models with a signal peptide	0	
+P25653	Scer_S288C	FIG2	FIG2_YEAST	Factor-induced gene 2 protein	1609	1	1	197	0	0	0	0	2	0.94587	0.26264	0.07308	0.99632	background_assumed_negative		2	broad rule alone, or 2 of 3 models with a signal peptide	0	
+P47033	Scer_S288C	PRY3	PRY3_YEAST	Cell wall protein PRY3	881	1	1	210	0	0	1	0	0	0.52122	0.11441	0.01665	0.98747	background_assumed_negative		2	broad rule alone, or 2 of 3 models with a signal peptide	0	
+Q4WBC1	Afum_Af293	AFUA_8G01770	Q4WBC1_ASPFU	GPI anchored protein	281	1	1	120	0	0	0	0	1	0.52092	0.21784	0.33339	0.99675			3	top 25 by mean model rank with a signal peptide, no flag	1	
+Q4W9Q8	Afum_Af293	AFUA_4G04070	Q4W9Q8_ASPFU	Mucin family signaling protein Msb2, putative	901	1	0	559	0	0	0	0	1	0.55151	0.21175	0.20627	0.9962			3	top 25 by mean model rank with a signal peptide, no flag	1	
+Q4X180	Afum_Af293	atg15	ATG15_ASPFU	Putative lipase atg15	650	1	0	138	0	0	0	0	1	0.36469	0.19394	0.21555	0.99454			3	top 25 by mean model rank with a signal peptide, no flag	1	sampled tier 3 (seed 20261026)
+Q4WNX6	Afum_Af293	AFUA_4G07300	Q4WNX6_ASPFU	GPI anchored protein	287	1	0	251	0	0	0	0	0	0.39426	0.24392	0.03974	0.9925			3	top 25 by mean model rank with a signal peptide, no flag	1	
+Q4WWX2	Afum_Af293	AFUA_3G07400	Q4WWX2_ASPFU	Dickkopf N-terminal cysteine-rich domain-containing protein	475	1	0	0	0.364	5	0	0	0	0.50663	0.20901	0.03833	0.99191			3	top 25 by mean model rank with a signal peptide, no flag	1	
+Q4WB96	Afum_Af293	AFUA_8G01520	Q4WB96_ASPFU	Probable pectinesterase A	1764	1	0	66	0	0	0	0	1	0.39901	0.15719	0.17997	0.99129			3	top 25 by mean model rank with a signal peptide, no flag	1	
+Q4WM72	Afum_Af293	AFUA_6G10930	Q4WM72_ASPFU	Extracellular protein, putative	704	1	0	516	0	0	0	0	0	0.23999	0.2343	0.03916	0.99112			3	top 25 by mean model rank with a signal peptide, no flag	1	
+Q4WXW8	Afum_Af293	AFUA_3G10960	Q4WXW8_ASPFU	Cell wall protein, putative	267	1	0	267	0	0	0	0	0	0.32037	0.1606	0.06052	0.98846			3	top 25 by mean model rank with a signal peptide, no flag	1	
+Q4W922	Afum_Af293	AFUA_6G00690	Q4W922_ASPFU	Cell wall protein	213	1	0	213	0	0	0	0	1	0.55694	0.1314	0.11662	0.98836			3	top 25 by mean model rank with a signal peptide, no flag	1	
+Q4WA77	Afum_Af293	AFUA_7G00320	Q4WA77_ASPFU	Extracelular proline-glycine rich protein	308	1	0	308	0.081	5	0	0	1	0.16792	0.28895	0.0216	0.98836			3	top 25 by mean model rank with a signal peptide, no flag	1	
+Q4WER9	Afum_Af293	ldpA	LYSMA_ASPFU	Secreted LysM effector ldpA	378	1	0	30	0	0	0	0	1	0.29817	0.12571	0.18954	0.98728			3	top 25 by mean model rank with a signal peptide, no flag	1	
+Q4WG94	Afum_Af293	AFUA_7G04240	Q4WG94_ASPFU	Vacoular membrane protein SCY-4732-like transmembrane segment domain-containing protein	360	1	0	188	0	0	0	0	0	0.13688	0.15702	0.09066	0.98635			3	top 25 by mean model rank with a signal peptide, no flag	1	
+Q4WK08	Afum_Af293	AFUA_1G04130	Q4WK08_ASPFU	FG-GAP repeat protein, putative	307	1	0	38	0.73	4	0	0	0	0.45322	0.12967	0.06551	0.98621			3	top 25 by mean model rank with a signal peptide, no flag	1	
+Q4WC60	Afum_Af293	btgE	BTGE_ASPFU	Probable beta-glucosidase btgE	565	1	0	105	0	0	0	0	0	0.26099	0.12338	0.07579	0.98476			3	top 25 by mean model rank with a signal peptide, no flag	1	
+Q4WUX4	Afum_Af293	AFUA_5G10010	Q4WUX4_ASPFU	Extracellular serine-threonine rich protein	266	1	1	144	0	0	0	0	1	0.66871	0.14655	0.01483	0.98252			3	top 25 by mean model rank with a signal peptide, no flag	1	sampled tier 3 (seed 20261026)
+Q4WAE1	Afum_Af293	AFUA_7G00970	Q4WAE1_ASPFU	GPI anchored serine-threonine rich protein	198	1	1	112	0	0	0	0	1	0.84661	0.15277	0.01328	0.98224			3	top 25 by mean model rank with a signal peptide, no flag	1	
+Q4WDP2	Afum_Af293	AFUA_5G00170	Q4WDP2_ASPFU	Extracellular serine threonine rich protein, putative	200	1	1	50	0	0	0	0	0	0.33958	0.08911	0.11372	0.97764			3	top 25 by mean model rank with a signal peptide, no flag	1	
+Q4WYA4	Afum_Af293	AFUA_3G12340	Q4WYA4_ASPFU	Extracellular membrane protein CFEM domain-containing protein	692	1	0	563	0	0	0	0	0	0.16892	0.09663	0.03452	0.97497			3	top 25 by mean model rank with a signal peptide, no flag	1	
+Q4WLV4	Afum_Af293	AFUA_6G12190	Q4WLV4_ASPFU	Cell wall protein	348	1	0	301	0.092	7	0	0	0	0.07395	0.18331	0.01222	0.97481			3	top 25 by mean model rank with a signal peptide, no flag	1	
+Q4WJK4	Afum_Af293	AFUA_1G05670	Q4WJK4_ASPFU	Uncharacterized protein	678	1	0	173	0.28	5	0	0	0	0.15139	0.20331	0.00571	0.96932			3	top 25 by mean model rank with a signal peptide, no flag	1	
+Q4WIP3	Afum_Af293	AFUA_2G01140	Q4WIP3_ASPFU	GPI anchored cell wall protein (Dan4), putative	278	1	1	175	0	0	0	0	1	0.71338	0.09347	0.01023	0.96897			3	top 25 by mean model rank with a signal peptide, no flag	1	
+Q4WWY3	Afum_Af293	AFUA_3G07530	Q4WWY3_ASPFU	PH signal transduction protein PalI, putative	677	1	0	498	0	0	0	0	0	0.3218	0.08162	0.01432	0.96804			3	top 25 by mean model rank with a signal peptide, no flag	1	
+Q4WA45	Afum_Af293	AFUA_4G02700	NPIIC_ASPFU	Neutral protease 2 homolog AFUB_070680	450	1	0	101	0.227	6	0	0	0	0.20686	0.1849	0.00494	0.96673			3	top 25 by mean model rank with a signal peptide, no flag	1	
+Q4WXQ9	Afum_Af293	AFUA_3G10370	Q4WXQ9_ASPFU	Uncharacterized protein	189	1	0	109	0	0	0	0	0	0.21035	0.0679	0.0298	0.96621			3	top 25 by mean model rank with a signal peptide, no flag	1	
+Q4WF08	Afum_Af293	AFUA_3G03870	Q4WF08_ASPFU	AA9 family lytic polysaccharide monooxygenase	342	1	0	65	0	0	0	0	0	0.18093	0.06741	0.02067	0.96387			3	top 25 by mean model rank with a signal peptide, no flag	1	
+A0A1D8PFX5	Calb_SC5314	WSC4	A0A1D8PFX5_CANAL	Wsc4p	491	1	0	266	0	0	0	0	1	0.35633	0.19128	0.81154	0.99327			3	top 25 by mean model rank with a signal peptide, no flag	1	sampled tier 3 (seed 20261026)
+A0A1D8PRJ4	Calb_SC5314	CAALFM_C704080CA	A0A1D8PRJ4_CANAL	Uncharacterized protein	266	1	0	266	0	0	0	0	0	0.29334	0.1522	0.10695	0.98775			3	top 25 by mean model rank with a signal peptide, no flag	1	sampled tier 3 (seed 20261026)
+Q5A3K3	Calb_SC5314	CWP419	Q5A3K3_CANAL	Uncharacterized protein	161	1	0	63	0	0	0	0	0	0.23632	0.12775	0.00892	0.9744			3	top 25 by mean model rank with a signal peptide, no flag	1	
+Q5AMF9	Calb_SC5314	DAG7	Q5AMF9_CANAL	Dag7p	251	1	0	94	0	0	0	0	0	0.14596	0.07635	0.11372	0.96904			3	top 25 by mean model rank with a signal peptide, no flag	1	
+A0A1D8PKA7	Calb_SC5314	CAALFM_C305750CA	A0A1D8PKA7_CANAL	Uncharacterized protein	110	1	0	0	0	0	0	0	0	0.08111	0.05076	0.05463	0.95006			3	top 25 by mean model rank with a signal peptide, no flag	1	
+A0A1D8PQ47	Calb_SC5314	CAALFM_C603280WA	A0A1D8PQ47_CANAL	Uncharacterized protein	269	1	0	1	0	0	0	0	1	0.27572	0.03499	0.12691	0.94863			3	top 25 by mean model rank with a signal peptide, no flag	1	
+A0A1D8PN71	Calb_SC5314	SPO1	A0A1D8PN71_CANAL	Lysophospholipase	743	1	0	64	0	0	0	0	0	0.22659	0.05175	0.00689	0.94791			3	top 25 by mean model rank with a signal peptide, no flag	1	
+A0A1D8PL90	Calb_SC5314	CAALFM_C401340WA	A0A1D8PL90_CANAL	Uncharacterized protein	109	1	1	1	0	0	0	0	1	0.05581	0.05303	0.14772	0.94714			3	top 25 by mean model rank with a signal peptide, no flag	1	
+Q59QG8	Calb_SC5314	MFALPHA	Q59QG8_CANAL	Mating pheromone alpha	143	1	0	0	0.441	3	0	0	0	0.03044	0.08541	0.01266	0.93213			3	top 25 by mean model rank with a signal peptide, no flag	1	
+A0A1D8PJZ5	Calb_SC5314	WSC1	A0A1D8PJZ5_CANAL	Wsc1p	358	1	0	242	0	0	0	0	0	0.16496	0.13969	0.00189	0.91009			3	top 25 by mean model rank with a signal peptide, no flag	1	
+A0A1D8PDR3	Calb_SC5314	CAALFM_C105890WA	A0A1D8PDR3_CANAL	Opaque-phase-specific protein OP4	351	1	0	76	0.131	16	0	0	0	0.02289	0.09791	0.00421	0.90644			3	top 25 by mean model rank with a signal peptide, no flag	1	
+Q5AC37	Calb_SC5314	PRP45	PRP45_CANAL	Pre-mRNA-processing protein 45	286	1	0	109	0	0	0	0	0	0.05179	0.03045	0.00324	0.88429			3	top 25 by mean model rank with a signal peptide, no flag	1	
+A0A1D8PRS1	Calb_SC5314	CAALFM_CR00690CA	A0A1D8PRS1_CANAL	Uncharacterized protein	427	1	0	13	0	0	0	0	0	0.02112	0.01278	0.00632	0.8351			3	top 25 by mean model rank with a signal peptide, no flag	1	
+A0A1D8PSZ6	Calb_SC5314	CSP1	A0A1D8PSZ6_CANAL	Csp1p	354	1	0	16	0	0	0	0	0	0.00984	0.09726	0.00327	0.81783			3	top 25 by mean model rank with a signal peptide, no flag	1	
+A0A1D8PEB1	Calb_SC5314	PLB5	A0A1D8PEB1_CANAL	Lysophospholipase	754	1	1	86	0	0	0	0	0	0.10286	0.01626	0.00146	0.80759			3	top 25 by mean model rank with a signal peptide, no flag	1	
+Q59Q33	Calb_SC5314	CIS302	Q59Q33_CANAL	Cell wall mannoprotein PIR1-like C-terminal domain-containing protein	251	1	0	55	0	0	0	0	0	0.01526	0.01615	0.00363	0.80608			3	top 25 by mean model rank with a signal peptide, no flag	1	
+A0A1D8PNM4	Calb_SC5314	CAALFM_C503030WA	A0A1D8PNM4_CANAL	Uncharacterized protein	690	1	0	544	0	0	0	0	0	0.00532	0.19363	0.02345	0.79954			3	top 25 by mean model rank with a signal peptide, no flag	1	
+A0A1D8PFN3	Calb_SC5314	CAALFM_C113490CA	A0A1D8PFN3_CANAL	Sodium/calcium exchanger membrane region domain-containing protein	704	1	0	39	0	0	0	0	0	0.09307	0.01289	0.00146	0.7949			3	top 25 by mean model rank with a signal peptide, no flag	1	
+A0A1D8PFN9	Calb_SC5314	CAALFM_C113290WA	A0A1D8PFN9_CANAL	Uncharacterized protein	508	1	1	100	0	0	0	0	0	0.1949	0.01275	0.00141	0.78748			3	top 25 by mean model rank with a signal peptide, no flag	1	
+A0A1D8PPM1	Calb_SC5314	CAALFM_C601460CA	A0A1D8PPM1_CANAL	DnaJ-related protein SCJ1	384	1	0	105	0	0	0	0	0	0.01326	0.01572	0.0033	0.78169			3	top 25 by mean model rank with a signal peptide, no flag	1	
+A0A1D8PTE6	Calb_SC5314	CAALFM_CR07110CA	A0A1D8PTE6_CANAL	Uncharacterized protein	735	1	0	79	0	0	0	0	0	0.0969	0.00909	0.00146	0.77369			3	top 25 by mean model rank with a signal peptide, no flag	1	
+A0A1D8PL45	Calb_SC5314	CSP2	A0A1D8PL45_CANAL	Csp2p	274	1	0	25	0	0	0	0	0	0.00879	0.03315	0.00327	0.77239			3	top 25 by mean model rank with a signal peptide, no flag	1	
+Q5ABD3	Calb_SC5314	ASM3	Q5ABD3_CANAL	Asm3p	707	1	0	1	0	0	0	0	0	0.07987	0.00649	0.00146	0.76397			3	top 25 by mean model rank with a signal peptide, no flag	1	
+A0A1D8PKK4	Calb_SC5314	CAALFM_C306710WA	A0A1D8PKK4_CANAL	Uncharacterized protein	663	1	0	277	0	0	0	0	0	0.01828	0.0251	0.00143	0.75926			3	top 25 by mean model rank with a signal peptide, no flag	1	
+A0A1D8PEW1	Calb_SC5314	GCA2	A0A1D8PEW1_CANAL	Glucan 1,4-alpha-glucosidase	946	1	0	64	0	0	0	0	0	0.09504	0.00653	0.00142	0.75699			3	top 25 by mean model rank with a signal peptide, no flag	1	
+A0A2H0ZSR9	Caur_UniProt	B9J08_01175	A0A2H0ZSR9_CANAR	SCP domain-containing protein	286	1	0	111	0	0	0	0	1	0.24231	0.18007	0.18697	0.99399			3	top 25 by mean model rank with a signal peptide, no flag	1	
+A0AAW0VCN6	Caur_UniProt	B9J08_04425	A0AAW0VCN6_CANAR	Uncharacterized protein	537	1	0	537	0	0	0	0	0	0.21479	0.16407	0.0633	0.99159			3	top 25 by mean model rank with a signal peptide, no flag	1	
+A0A2H1A628	Caur_UniProt	B9J08_02782	A0A2H1A628_CANAR	Uncharacterized protein	208	1	0	130	0	0	0	0	0	0.49286	0.1243	0.02443	0.98644			3	top 25 by mean model rank with a signal peptide, no flag	1	
+A0A2H1A1Y9	Caur_UniProt	B9J08_03676	A0A2H1A1Y9_CANAR	Uncharacterized protein	229	1	0	0	0	0	0	0	0	0.35746	0.12398	0.02367	0.98583			3	top 25 by mean model rank with a signal peptide, no flag	1	
+A0A2H0ZZD4	Caur_UniProt	B9J08_03616	A0A2H0ZZD4_CANAR	Uncharacterized protein	258	1	1	167	0	0	0	0	1	0.09318	0.09986	0.26388	0.98399			3	top 25 by mean model rank with a signal peptide, no flag	1	
+A0AAW0VEA3	Caur_UniProt	B9J08_03329	A0AAW0VEA3_CANAR	WSC domain-containing protein	393	1	0	280	0	0	0	0	0	0.07955	0.11686	0.01046	0.97405			3	top 25 by mean model rank with a signal peptide, no flag	1	
+A0A2H0ZR33	Caur_UniProt	B9J08_00588	A0A2H0ZR33_CANAR	Uncharacterized protein	170	1	1	63	0	0	0	0	0	0.48584	0.10023	0.00881	0.97337			3	top 25 by mean model rank with a signal peptide, no flag	1	
+A0AAW0VMJ7	Caur_UniProt	B9J08_01281	A0AAW0VMJ7_CANAR	Vacoular membrane protein SCY-4732-like transmembrane segment domain-containing protein	364	1	0	183	0	0	0	0	0	0.09567	0.1826	0.00386	0.96902			3	top 25 by mean model rank with a signal peptide, no flag	1	
+A0A2H1A0D6	Caur_UniProt	B9J08_03232	A0A2H1A0D6_CANAR	PGA domain-containing protein	145	1	1	80	0	0	0	0	0	0.18894	0.05616	0.014	0.96423			3	top 25 by mean model rank with a signal peptide, no flag	1	
+A0AAW0VEX4	Caur_UniProt	B9J08_03770	A0AAW0VEX4_CANAR	Cell wall protein	293	1	1	133	0	0	0	0	0	0.05411	0.06452	0.01029	0.95834			3	top 25 by mean model rank with a signal peptide, no flag	1	
+A0A2H0ZFR7	Caur_UniProt	B9J08_04489	A0A2H0ZFR7_CANAR	Hydrophilin	159	1	1	159	0.377	3	0	0	0	0.0516	0.06126	0.01239	0.95816			3	top 25 by mean model rank with a signal peptide, no flag	1	
+A0A2H0ZDR6	Caur_UniProt	B9J08_04355	A0A2H0ZDR6_CANAR	Protein KRE1	133	1	1	42	0	0	0	0	0	0.06489	0.04441	0.01888	0.95742			3	top 25 by mean model rank with a signal peptide, no flag	1	
+A0A2H1A275	Caur_UniProt	B9J08_03492	A0A2H1A275_CANAR	Uncharacterized protein	119	1	1	4	0	0	0	0	0	0.1107	0.02885	0.07023	0.95441			3	top 25 by mean model rank with a signal peptide, no flag	1	sampled tier 3 (seed 20261026)
+A0A2H0ZLH1	Caur_UniProt	B9J08_00925	A0A2H0ZLH1_CANAR	WSC domain-containing protein	464	1	0	189	0	0	0	0	0	0.51612	0.17812	0.00251	0.95282			3	top 25 by mean model rank with a signal peptide, no flag	1	
+A0AAW0V6E7	Caur_UniProt	B9J08_05257	A0AAW0V6E7_CANAR	Uncharacterized protein	230	1	0	206	0	0	0	0	0	0.04315	0.11331	0.00257	0.93877			3	top 25 by mean model rank with a signal peptide, no flag	1	
+A0A2H0ZCV0	Caur_UniProt	B9J08_05241	A0A2H0ZCV0_CANAR	Uncharacterized protein	173	1	1	126	0	0	0	0	0	0.21443	0.02647	0.00598	0.93763			3	top 25 by mean model rank with a signal peptide, no flag	1	
+A0A2H0ZBY3	Caur_UniProt	B9J08_05239	A0A2H0ZBY3_CANAR	Uncharacterized protein	166	1	1	102	0	0	0	0	0	0.11219	0.02633	0.00598	0.93653			3	top 25 by mean model rank with a signal peptide, no flag	1	
+A0AAW0V842	Caur_UniProt	B9J08_05454	A0AAW0V842_CANAR	Gliding motility-associated protein GldE	716	1	0	300	0	0	0	0	0	0.08569	0.02227	0.00905	0.93245			3	top 25 by mean model rank with a signal peptide, no flag	1	
+A0A2H0ZGV8	Caur_UniProt	B9J08_04536	A0A2H0ZGV8_CANAR	PGA domain-containing protein	143	1	1	3	0	0	0	0	0	0.10166	0.02218	0.0075	0.93156			3	top 25 by mean model rank with a signal peptide, no flag	1	
+A0AAW0VK10	Caur_UniProt	B9J08_00597	A0AAW0VK10_CANAR	WSC domain-containing protein	338	1	0	215	0	0	0	0	0	0.1475	0.10197	0.00154	0.92769			3	top 25 by mean model rank with a signal peptide, no flag	1	sampled tier 3 (seed 20261026)
+A0A2H0ZJZ9	Caur_UniProt	B9J08_05240	A0A2H0ZJZ9_CANAR	Uncharacterized protein	176	1	1	143	0	0	0	0	0	0.08795	0.01972	0.00598	0.92512			3	top 25 by mean model rank with a signal peptide, no flag	1	
+A0A2H0ZDD0	Caur_UniProt	B9J08_04218	A0A2H0ZDD0_CANAR	Pepsin A	703	1	1	91	0	0	0	0	0	0.19172	0.03226	0.00228	0.91598			3	top 25 by mean model rank with a signal peptide, no flag	1	
+A0A2H0ZBY6	Caur_UniProt	B9J08_05237	A0A2H0ZBY6_CANAR	Uncharacterized protein	184	1	1	77	0	0	0	0	0	0.04152	0.01878	0.00644	0.91404			3	top 25 by mean model rank with a signal peptide, no flag	1	
+A0A2H0ZBY4	Caur_UniProt	B9J08_05238	A0A2H0ZBY4_CANAR	Uncharacterized protein	177	1	1	66	0	0	0	0	0	0.05748	0.01573	0.00693	0.91315			3	top 25 by mean model rank with a signal peptide, no flag	1	
+A0AAW0VLS0	Caur_UniProt	B9J08_01332	A0AAW0VLS0_CANAR	VPS10 domain-containing protein	1532	1	0	81	0	0	0	0	0	0.10721	0.01187	0.00426	0.89806			3	top 25 by mean model rank with a signal peptide, no flag	1	
+B4UN32	Cgla_CBS138	AWP3b	AWP3B_CANGA	Adhesin AWP3b	1386	1	1	171	0	0	0	0	2	0.93547	0.31538	0.03273	0.99192			3	tier 2 overflow (cap 30 per species)	1	
+Q6FK96	Cgla_CBS138	CAGL0L13332g	Q6FK96_CANGA	PA14 domain-containing protein	1035	1	1	14	0	0	0	0	2	0.75344	0.20478	0.52925	0.99192			3	tier 2 overflow (cap 30 per species)	1	sampled tier 3 (seed 20261026)
+Q6FVR7	Cgla_CBS138	CAGL0D06226g	Q6FVR7_CANGA	Zonadhesin	776	1	1	165	0	0	0	0	2	0.84741	0.27889	0.06197	0.9916			3	tier 2 overflow (cap 30 per species)	1	
+Q6FM83	Cgla_CBS138	CAGL0K10164g	Q6FM83_CANGA	Cell wall protein SED1	217	1	1	102	0	0	0	0	2	0.78763	0.14058	0.58949	0.98949			3	tier 2 overflow (cap 30 per species)	1	
+Q6FQH4	Cgla_CBS138	PIR1	Q6FQH4_CANGA	Cell wall mannoprotein PIR1-like C-terminal domain-containing protein	349	1	0	198	0.45	8	0	0	1	0.09136	0.24671	0.17903	0.98724			3	top 25 by mean model rank with a signal peptide, no flag	1	
+B4UN25	Cgla_CBS138	CAGL0J01800g	B4UN25_CANGA	Hyphally-regulated cell wall protein N-terminal domain-containing protein	1083	1	1	693	0	0	1	0	1	0.70167	0.12992	0.01325	0.98186			3	tier 2 overflow (cap 30 per species)	1	
+Q6FW69	Cgla_CBS138	EGT2	Q6FW69_CANGA	Protein EGT2	676	1	1	79	0	0	0	0	0	0.4061	0.23257	0.00623	0.98058			3	top 25 by mean model rank with a signal peptide, no flag	1	
+Q6FJR6	Cgla_CBS138	KRE1	Q6FJR6_CANGA	Protein KRE1	373	1	1	155	0	0	0	0	1	0.67062	0.15338	0.00622	0.97872			3	top 25 by mean model rank with a signal peptide, no flag	1	
+Q6FPX2	Cgla_CBS138	CAGL0J00253g	Q6FPX2_CANGA	Mid2 domain-containing protein	497	1	0	82	0	0	0	0	1	0.60332	0.15772	0.00537	0.9759			3	top 25 by mean model rank with a signal peptide, no flag	1	
+Q6FQF6	Cgla_CBS138	CAGL0I06644g	Q6FQF6_CANGA	Uncharacterized protein	224	1	1	112	0	0	0	0	0	0.19758	0.07206	0.01912	0.97327			3	top 25 by mean model rank with a signal peptide, no flag	1	
+Q6FL40	Cgla_CBS138	CAGL0L06424g	Q6FL40_CANGA	Covalently bound cell wall protein 22	222	1	1	119	0	0	0	0	1	0.1254	0.05761	0.63704	0.97077			3	top 25 by mean model rank with a signal peptide, no flag	1	
+Q6FY91	Cgla_CBS138	CAGL0A04081g	Q6FY91_CANGA	Cell wall protein	374	1	1	345	0	0	1	0	0	0.08295	0.10296	0.0063	0.97058			3	tier 2 overflow (cap 30 per species)	1	
+Q6FTP5	Cgla_CBS138	CAGL0G00858g	Q6FTP5_CANGA	Mid2 domain-containing protein	353	1	0	89	0	0	0	0	0	0.42121	0.0959	0.00516	0.96962			3	top 25 by mean model rank with a signal peptide, no flag	1	
+B4UN22	Cgla_CBS138	CAGL0I10246g	B4UN22_CANGA	PA14 domain-containing protein	1240	1	1	70	0	0	0	0	1	0.80207	0.06461	0.00722	0.96776			3	top 25 by mean model rank with a signal peptide, no flag	1	
+Q6FMC6	Cgla_CBS138	CAGL0K09130g	Q6FMC6_CANGA	Uncharacterized protein	271	1	0	24	0	0	0	0	0	0.09277	0.0437	0.01336	0.95593			3	top 25 by mean model rank with a signal peptide, no flag	1	
+Q6FT26	Cgla_CBS138	DSE2	DSE2_CANGA	Protein DSE2	294	1	1	152	0	0	0	0	0	0.3492	0.04199	0.00571	0.95186			3	top 25 by mean model rank with a signal peptide, no flag	1	sampled tier 3 (seed 20261026)
+Q6FQH5	Cgla_CBS138	PIR2	Q6FQH5_CANGA	Cell wall mannoprotein PIR1-like C-terminal domain-containing protein	340	1	0	177	0.506	9	0	0	0	0.02036	0.21847	0.01356	0.95144			3	top 25 by mean model rank with a signal peptide, no flag	1	
+Q6FJ80	Cgla_CBS138	PIR3	Q6FJ80_CANGA	Cell wall mannoprotein PIR1-like C-terminal domain-containing protein	335	1	0	166	0.507	9	0	0	1	0.01709	0.23146	0.18228	0.94734			3	top 25 by mean model rank with a signal peptide, no flag	1	
+Q6FUJ4	Cgla_CBS138	CAGL0F03003g	Q6FUJ4_CANGA	MSB2-like C-terminal domain-containing protein	1185	1	0	297	0	0	0	0	0	0.37808	0.08005	0.00259	0.92936			3	top 25 by mean model rank with a signal peptide, no flag	1	
+Q6FXZ1	Cgla_CBS138	CAGL0A01474g	Q6FXZ1_CANGA	Glycoside hydrolase family 17 domain-containing protein	592	1	0	267	0	0	0	0	0	0.18828	0.14707	0.00229	0.92936			3	top 25 by mean model rank with a signal peptide, no flag	1	
+Q6FVF0	Cgla_CBS138	CAGL0E02409g	Q6FVF0_CANGA	Vacoular membrane protein SCY-4732-like transmembrane segment domain-containing protein	357	1	0	142	0	0	0	0	0	0.21117	0.11796	0.00231	0.92798			3	top 25 by mean model rank with a signal peptide, no flag	1	
+Q6FUQ7	Cgla_CBS138	SLG1	Q6FUQ7_CANGA	WSC domain-containing protein	423	1	0	146	0	0	0	0	0	0.39242	0.11236	0.00226	0.92696			3	top 25 by mean model rank with a signal peptide, no flag	1	
+Q6FIU3	Cgla_CBS138	CAGL0M11726g	Q6FIU3_CANGA	Covalently bound cell wall protein 22	146	1	1	45	0	0	0	0	0	0.01654	0.03537	0.00786	0.9075			3	top 25 by mean model rank with a signal peptide, no flag	1	
+Q6FPF1	Cgla_CBS138	VPS10	VPS10_CANGA	Vacuolar protein sorting/targeting protein 10	1514	1	0	62	0	0	0	0	0	0.1294	0.01504	0.00494	0.9074			3	top 25 by mean model rank with a signal peptide, no flag	1	
+Q6FSM3	Cgla_CBS138	CRH1	Q6FSM3_CANGA	Crh-like protein	452	1	1	150	0	0	0	0	0	0.06702	0.0527	0.00196	0.90218			3	top 25 by mean model rank with a signal peptide, no flag	1	
+Q6FNQ3	Cgla_CBS138	CAGL0J09922g	Q6FNQ3_CANGA	Secreted beta-glucosidase SUN1-like domian domain-containing protein	427	1	0	127	0	0	0	0	0	0.11803	0.03271	0.00234	0.89885			3	top 25 by mean model rank with a signal peptide, no flag	1	
+Q6FTY7	Cgla_CBS138	CAGL0F07799g	Q6FTY7_CANGA	B30.2/SPRY domain-containing protein	580	1	0	188	0	0	0	0	0	0.07833	0.02469	0.00243	0.88833			3	top 25 by mean model rank with a signal peptide, no flag	1	
+Q6FW57	Cgla_CBS138	CAGL0D02794g	Q6FW57_CANGA	WSC domain-containing protein	463	1	0	165	0	0	0	0	0	0.20389	0.1111	0.00136	0.87981			3	top 25 by mean model rank with a signal peptide, no flag	1	
+Q6FVP4	Cgla_CBS138	EPA20	Q6FVP4_CANGA	PA14 domain-containing protein	880	1	1	29	0	0	0	0	0	0.48064	0.02526	0.00164	0.8775			3	top 25 by mean model rank with a signal peptide, no flag	1	
+Q6FV20	Cgla_CBS138	KRE5	Q6FV20_CANGA	Killer toxin-resistance protein 5	1326	1	0	27	0	0	0	0	0	0.07565	0.006	0.00344	0.85163			3	top 25 by mean model rank with a signal peptide, no flag	1	
+Q6FUG2	Cgla_CBS138	CAGL0F03729g	Q6FUG2_CANGA	DnaJ-related protein SCJ1	361	1	0	103	0	0	0	0	0	0.01127	0.02932	0.0033	0.84747			3	top 25 by mean model rank with a signal peptide, no flag	1	
+J3K4E0	Cimm_RS	CIMG_07912	J3K4E0_COCIM	Uncharacterized protein	105	1	0	74	0.467	7	0	0	1	0.84631	0.22608	0.10398	0.99489			3	top 25 by mean model rank with a signal peptide, no flag	1	
+A0A0E1S4T6	Cimm_RS	CIMG_01182	A0A0E1S4T6_COCIM	Uncharacterized protein	216	1	0	138	0.722	4	0	0	1	0.09966	0.18348	0.11745	0.98833			3	top 25 by mean model rank with a signal peptide, no flag	1	
+J3KK26	Cimm_RS	CIMG_01846	J3KK26_COCIM	CLU5d N-terminal domain-containing protein	379	1	0	379	0.161	15	0	0	1	0.49033	0.35724	0.01636	0.98734			3	top 25 by mean model rank with a signal peptide, no flag	1	
+J3KG15	Cimm_RS	CIMG_05652	J3KG15_COCIM	Regulator of ime2	615	1	0	445	0	0	0	0	1	0.37417	0.12359	0.36028	0.9867			3	top 25 by mean model rank with a signal peptide, no flag	1	
+J3KFV1	Cimm_RS	CIMG_05560	J3KFV1_COCIM	Prp 5 CRoW domain-containing protein	220	1	1	113	0	0	0	0	1	0.47165	0.10534	0.14099	0.98263			3	top 25 by mean model rank with a signal peptide, no flag	1	
+J3KFI7	Cimm_RS	CIMG_05420	J3KFI7_COCIM	Uncharacterized protein	429	1	0	238	0	0	0	0	0	0.42328	0.08245	0.1105	0.97508			3	top 25 by mean model rank with a signal peptide, no flag	1	
+J3KGP0	Cimm_RS	CIMG_00284	J3KGP0_COCIM	Uncharacterized protein	118	1	0	0	0	0	0	0	1	0.62074	0.081	0.10426	0.97457			3	top 25 by mean model rank with a signal peptide, no flag	1	
+J3K3L1	Cimm_RS	CIMG_07529	J3K3L1_COCIM	Vacoular membrane protein SCY-4732-like transmembrane segment domain-containing protein	361	1	0	355	0	0	0	0	1	0.2855	0.25879	0.00711	0.97345			3	top 25 by mean model rank with a signal peptide, no flag	1	
+J3KKS6	Cimm_RS	CIMG_02158	J3KKS6_COCIM	Uncharacterized protein	316	1	0	277	0	0	0	0	0	0.37726	0.12681	0.01064	0.97319			3	top 25 by mean model rank with a signal peptide, no flag	1	
+J3KL11	Cimm_RS	CIMG_02279	J3KL11_COCIM	Uncharacterized protein	341	1	0	323	0.196	16	0	0	1	0.07285	0.2774	0.00616	0.96492			3	top 25 by mean model rank with a signal peptide, no flag	1	
+J3K490	Cimm_RS	CIMG_07843	J3K490_COCIM	Prp 6 CRoW domain-containing protein	214	1	1	104	0	0	0	0	0	0.41577	0.06028	0.05877	0.96297			3	top 25 by mean model rank with a signal peptide, no flag	1	sampled tier 3 (seed 20261026)
+A0A0E1S2Z1	Cimm_RS	CIMG_03786	A0A0E1S2Z1_COCIM	Mid2 domain-containing protein	255	1	0	253	0	0	0	0	1	0.62892	0.23249	0.00286	0.95909			3	top 25 by mean model rank with a signal peptide, no flag	1	
+A0A0D8JTH5	Cimm_RS	CIMG_12399	A0A0D8JTH5_COCIM	Chaperonin GroES	152	1	0	134	0	0	0	0	0	0.12173	0.05768	0.06488	0.95905			3	top 25 by mean model rank with a signal peptide, no flag	1	
+A0A0E1RZE7	Cimm_RS	CIMG_02860	A0A0E1RZE7_COCIM	Chitinase 3	260	1	1	173	0	0	0	0	0	0.20631	0.10942	0.00467	0.95514			3	top 25 by mean model rank with a signal peptide, no flag	1	sampled tier 3 (seed 20261026)
+J3K1F0	Cimm_RS	CIMG_09000	J3K1F0_COCIM	Uncharacterized protein	199	1	0	12	0.221	10	0	0	0	0.07473	0.13158	0.00489	0.95421			3	top 25 by mean model rank with a signal peptide, no flag	1	
+J3KC63	Cimm_RS	CIMG_03816	J3KC63_COCIM	GPI anchored protein	198	1	1	48	0	0	0	0	0	0.31425	0.05197	0.01191	0.94962			3	top 25 by mean model rank with a signal peptide, no flag	1	
+A0A0E1RYZ3	Cimm_RS	CIMG_04665	A0A0E1RYZ3_COCIM	WD40 repeat-containing protein	293	1	0	22	0.87	5	0	0	0	0.0516	0.15632	0.00375	0.94927			3	top 25 by mean model rank with a signal peptide, no flag	1	
+A0A0E1RW36	Cimm_RS	CIMG_09611	A0A0E1RW36_COCIM	Extracellular membrane protein CFEM domain-containing protein	668	1	0	405	0	0	0	0	0	0.20422	0.08525	0.00469	0.94848			3	top 25 by mean model rank with a signal peptide, no flag	1	
+J3KA20	Cimm_RS	CIMG_07303	J3KA20_COCIM	Prp 4 CRoW domain-containing protein	231	1	1	131	0.074	5	0	0	0	0.5619	0.15728	0.00205	0.944			3	top 25 by mean model rank with a signal peptide, no flag	1	
+A0A0E1RWM9	Cimm_RS	CIMG_07881	A0A0E1RWM9_COCIM	DUF7137 domain-containing protein	278	1	0	117	0	0	0	0	0	0.10948	0.03509	0.08475	0.94345			3	top 25 by mean model rank with a signal peptide, no flag	1	
+J3KKW5	Cimm_RS	CIMG_02211	J3KKW5_COCIM	Cell wall synthesis protein KRE9/Knh1-like N-terminal domain-containing protein	222	1	1	99	0	0	0	0	0	0.21449	0.04178	0.01311	0.94337			3	top 25 by mean model rank with a signal peptide, no flag	1	
+A0A0D8JSL3	Cimm_RS	CIMG_12888	A0A0D8JSL3_COCIM	Uncharacterized protein	116	1	0	0	0	0	0	0	0	0.47053	0.03582	0.01366	0.9399			3	top 25 by mean model rank with a signal peptide, no flag	1	
+A0A0E1RVK7	Cimm_RS	CIMG_07708	A0A0E1RVK7_COCIM	NIMA-interacting protein TinC	979	1	0	458	0	0	0	0	0	0.02071	0.10047	0.02797	0.93822			3	top 25 by mean model rank with a signal peptide, no flag	1	
+J3KD87	Cimm_RS	CIMG_04317	J3KD87_COCIM	Extracellular matrix protein	222	1	1	58	0	0	0	0	0	0.13059	0.03219	0.01531	0.93393			3	top 25 by mean model rank with a signal peptide, no flag	1	
+J3KI23	Cimm_RS	CIMG_00925	J3KI23_COCIM	Clock-controlled protein 6	157	1	1	77	0	0	0	0	0	0.56632	0.04743	0.00501	0.9334			3	top 25 by mean model rank with a signal peptide, no flag	1	
+J9VYY3	Cneo_H99	CNAG_04183	J9VYY3_CRYN9	Uncharacterized protein	1063	1	0	359	0	0	0	0	0	0.16121	0.19978	0.04792	0.98797			3	top 25 by mean model rank with a signal peptide, no flag	1	
+J9VGT4	Cneo_H99	CNAG_03857	J9VGT4_CRYN9	Uncharacterized protein	253	1	1	194	0.332	17	0	0	0	0.27503	0.14973	0.03215	0.98128			3	top 25 by mean model rank with a signal peptide, no flag	1	
+J9VTQ1	Cneo_H99	CNAG_07176	J9VTQ1_CRYN9	Uncharacterized protein	290	1	1	60	0	0	0	0	0	0.48142	0.1183	0.08012	0.97891			3	top 25 by mean model rank with a signal peptide, no flag	1	
+J9VJY7	Cneo_H99	CNAG_00759	J9VJY7_CRYN9	Uncharacterized protein	529	1	1	132	0	0	0	0	1	0.33431	0.09522	0.11491	0.97172			3	top 25 by mean model rank with a signal peptide, no flag	1	
+J9VJR1	Cneo_H99	CNAG_01441	J9VJR1_CRYN9	Uncharacterized protein	794	1	0	509	0	0	0	0	0	0.14365	0.09996	0.0221	0.96073			3	top 25 by mean model rank with a signal peptide, no flag	1	
+J9W2A0	Cneo_H99	CNAG_06011	J9W2A0_CRYN9	Transmembrane protein	691	1	0	516	0	0	0	0	0	0.09651	0.09335	0.04328	0.9588			3	top 25 by mean model rank with a signal peptide, no flag	1	
+J9VQJ8	Cneo_H99	CNAG_02729	J9VQJ8_CRYN9	DUF1766-domain-containing protein	646	1	0	386	0	0	0	0	0	0.21701	0.09707	0.01637	0.95822			3	top 25 by mean model rank with a signal peptide, no flag	1	
+J9W3K3	Cneo_H99	CNAG_05358	J9W3K3_CRYN9	Uncharacterized protein	361	1	0	352	0	0	0	0	0	0.06066	0.15653	0.01191	0.95669			3	top 25 by mean model rank with a signal peptide, no flag	1	
+J9VPD7	Cneo_H99	CDA1	CDA1_CRYN9	Chitin deacetylase 1	470	1	1	92	0	0	0	0	0	0.14681	0.06083	0.09672	0.95112			3	top 25 by mean model rank with a signal peptide, no flag	1	
+J9VVA7	Cneo_H99	CNAG_03308	J9VVA7_CRYN9	Dystroglycan-type cadherin-like domain-containing protein	1073	1	0	642	0	0	0	0	0	0.2169	0.06255	0.02834	0.94884			3	top 25 by mean model rank with a signal peptide, no flag	1	
+J9VRA4	Cneo_H99	CNAG_04245	J9VRA4_CRYN9	Chitinase	829	1	0	362	0	0	0	0	0	0.10096	0.12034	0.00867	0.94861			3	top 25 by mean model rank with a signal peptide, no flag	1	
+T2BPA4	Cneo_H99	CNAG_03234	T2BPA4_CRYN9	Cell wall surface anchor protein, variant	1043	1	0	436	0	0	0	0	0	0.09664	0.08393	0.01751	0.94776			3	top 25 by mean model rank with a signal peptide, no flag	1	
+J9VHK0	Cneo_H99	CNAG_07505	J9VHK0_CRYN9	Uncharacterized protein	639	1	0	290	0	0	0	0	0	0.29274	0.06408	0.00776	0.93032			3	top 25 by mean model rank with a signal peptide, no flag	1	
+J9VKB7	Cneo_H99	CNAG_01451	J9VKB7_CRYN9	NADH-ubiquinone oxidoreductase 9.5 kDa subunit	70	1	0	36			0	0	0	0.03981	0.06062	0.10682	0.92684			3	top 25 by mean model rank with a signal peptide, no flag	1	
+J9VEQ4	Cneo_H99	CNAG_00698	J9VEQ4_CRYN9	Uncharacterized protein	737	1	0	405	0	0	0	0	0	0.15404	0.11841	0.00272	0.92478			3	top 25 by mean model rank with a signal peptide, no flag	1	
+J9VHV9	Cneo_H99	CNAG_00066	J9VHV9_CRYN9	Membrane protein	1284	1	0	559	0	0	0	0	0	0.09972	0.05276	0.01078	0.92242			3	top 25 by mean model rank with a signal peptide, no flag	1	
+T2BN61	Cneo_H99	CNAG_07505	T2BN61_CRYN9	Uncharacterized protein	622	1	0	287	0	0	0	0	0	0.30672	0.05101	0.00741	0.91989			3	top 25 by mean model rank with a signal peptide, no flag	1	
+J9VY58	Cneo_H99	CNAG_04658	J9VY58_CRYN9	Uncharacterized protein	654	1	0	346	0	0	0	0	0	0.25276	0.07031	0.00442	0.91809			3	top 25 by mean model rank with a signal peptide, no flag	1	
+J9VEK9	Cneo_H99	CNAG_00323	J9VEK9_CRYN9	Cell wall synthesis protein KRE9/Knh1-like N-terminal domain-containing protein	167	1	0	50	0	0	0	0	0	0.03458	0.07722	0.01513	0.91697			3	top 25 by mean model rank with a signal peptide, no flag	1	
+J9VFF9	Cneo_H99	CNAG_00699	J9VFF9_CRYN9	Transmembrane receptor	1372	1	0	66	0	0	0	0	0	0.38291	0.04153	0.00483	0.90041			3	top 25 by mean model rank with a signal peptide, no flag	1	
+J9W236	Cneo_H99	CNAG_01986	J9W236_CRYN9	Extracellular membrane protein CFEM domain-containing protein	254	1	1	77	0	0	0	0	0	0.07099	0.03388	0.01191	0.90034			3	top 25 by mean model rank with a signal peptide, no flag	1	
+J9VK03	Cneo_H99	CNAG_02921	J9VK03_CRYN9	Uncharacterized protein	198	1	1	93	0	0	0	0	0	0.24786	0.0292	0.00763	0.89738			3	top 25 by mean model rank with a signal peptide, no flag	1	
+J9VZL5	Cneo_H99	CNAG_07772	J9VZL5_CRYN9	EGF-like domain-containing protein	923	1	0	213	0	0	0	0	0	0.52835	0.05789	0.00191	0.89107			3	top 25 by mean model rank with a signal peptide, no flag	1	sampled tier 3 (seed 20261026)
+J9VM29	Cneo_H99	CNAG_02300	J9VM29_CRYN9	Galactose oxidase	835	1	0	389	0	0	0	0	0	0.04662	0.05205	0.00476	0.88726			3	top 25 by mean model rank with a signal peptide, no flag	1	
+J9VKC5	Cneo_H99	CNAG_00017	J9VKC5_CRYN9	Fork-head domain-containing protein	786	1	0	250	0	0	0	0	0	0.11263	0.10019	0.00133	0.88129			3	top 25 by mean model rank with a signal peptide, no flag	1	
+G8BHR6	Cpar_CDC317	CPAR2_502160	G8BHR6_CANPC	Glycoside hydrolase family 17 domain-containing protein	463	1	0	146	0	0	0	0	1	0.20768	0.2268	0.15694	0.99383			3	top 25 by mean model rank with a signal peptide, no flag	1	
+G8BL49	Cpar_CDC317	CPAR2_700420	G8BL49_CANPC	WSC domain-containing protein	620	1	0	496	0	0	0	0	1	0.26117	0.21379	0.12255	0.9936			3	top 25 by mean model rank with a signal peptide, no flag	1	
+G8BIY8	Cpar_CDC317	CPAR2_404060	G8BIY8_CANPC	Uncharacterized protein	269	1	0	25	0	0	0	0	1	0.24181	0.16064	0.28559	0.99186			3	top 25 by mean model rank with a signal peptide, no flag	1	
+G8BEW5	Cpar_CDC317	CPAR2_200660	G8BEW5_CANPC	Chitinase	487	1	0	142	0	0	0	0	1	0.14361	0.20091	0.11449	0.99163			3	top 25 by mean model rank with a signal peptide, no flag	1	sampled tier 3 (seed 20261026)
+G8BL72	Cpar_CDC317	CPAR2_700650	G8BL72_CANPC	SCP domain-containing protein	328	1	0	132	0	0	0	0	0	0.53582	0.21071	0.0312	0.99065			3	top 25 by mean model rank with a signal peptide, no flag	1	
+G8B5N1	Cpar_CDC317	CPAR2_603410	G8B5N1_CANPC	Uncharacterized protein	459	1	0	204	0.044	5	0	0	0	0.14869	0.17831	0.02344	0.98563			3	top 25 by mean model rank with a signal peptide, no flag	1	
+G8BIY9	Cpar_CDC317	CPAR2_404070	G8BIY9_CANPC	Uncharacterized protein	268	1	0	32	0	0	0	0	1	0.23744	0.08399	0.15201	0.97871			3	top 25 by mean model rank with a signal peptide, no flag	1	
+G8BL94	Cpar_CDC317	PGA6	G8BL94_CANPC	Uncharacterized protein	258	1	1	150	0.167	7	0	0	0	0.17052	0.15565	0.00535	0.97193			3	top 25 by mean model rank with a signal peptide, no flag	1	
+G8BA94	Cpar_CDC317	CPAR2_805160	G8BA94_CANPC	Uncharacterized protein	245	1	1	117	0	0	0	0	0	0.44451	0.09608	0.01033	0.97161			3	top 25 by mean model rank with a signal peptide, no flag	1	
+G8BCU5	Cpar_CDC317	CPAR2_207330	G8BCU5_CANPC	Flo11 domain-containing protein	265	1	0	114	0	0	0	0	0	0.17266	0.08066	0.01304	0.96723			3	top 25 by mean model rank with a signal peptide, no flag	1	
+G8B580	Cpar_CDC317	CPAR2_601920	G8B580_CANPC	WSC domain-containing protein	523	1	0	415	0	0	0	0	0	0.13494	0.16542	0.00426	0.96682			3	top 25 by mean model rank with a signal peptide, no flag	1	
+G8BJ66	Cpar_CDC317	CPAR2_404850	G8BJ66_CANPC	Uncharacterized protein	370	1	0	83	0	0	0	0	0	0.0904	0.06508	0.09672	0.96578			3	top 25 by mean model rank with a signal peptide, no flag	1	
+G8BI89	Cpar_CDC317	CPAR2_401560	G8BI89_CANPC	Uncharacterized protein	376	1	0	137	0	0	0	0	0	0.10713	0.08136	0.00618	0.95909			3	top 25 by mean model rank with a signal peptide, no flag	1	
+G8B6I8	Cpar_CDC317	CPAR2_101080	G8B6I8_CANPC	GH16 domain-containing protein	611	1	1	161	0	0	0	0	0	0.35523	0.06779	0.00664	0.95759			3	top 25 by mean model rank with a signal peptide, no flag	1	
+G8BBR2	Cpar_CDC317	CPAR2_801290	G8BBR2_CANPC	Uncharacterized protein	182	1	1	138	0	0	0	0	0	0.13386	0.06017	0.01148	0.95586			3	top 25 by mean model rank with a signal peptide, no flag	1	
+G8BFB5	Cpar_CDC317	CPAR2_201910	G8BFB5_CANPC	Cell wall mannoprotein PIR1-like C-terminal domain-containing protein	267	1	0	53	0	0	0	0	0	0.34556	0.0453	0.00363	0.93373			3	top 25 by mean model rank with a signal peptide, no flag	1	
+G8BFC0	Cpar_CDC317	CPAR2_201960	G8BFC0_CANPC	Cell wall mannoprotein PIR1-like C-terminal domain-containing protein	267	1	0	53	0	0	0	0	0	0.37214	0.04196	0.00363	0.93142			3	top 25 by mean model rank with a signal peptide, no flag	1	
+G8BFH5	Cpar_CDC317	KRE1	G8BFH5_CANPC	Protein KRE1	137	1	1	26	0	0	0	0	0	0.04102	0.03348	0.01513	0.92811			3	top 25 by mean model rank with a signal peptide, no flag	1	
+G8B6I3	Cpar_CDC317	CPAR2_101030	G8B6I3_CANPC	Ribonuclease T(2)	402	1	0	47	0	0	0	0	0	0.17515	0.03153	0.00363	0.92138			3	top 25 by mean model rank with a signal peptide, no flag	1	
+G8BAG0	Cpar_CDC317	WSC1	G8BAG0_CANPC	WSC domain-containing protein	484	1	0	191	0.064	8	0	0	0	0.26622	0.0996	0.00196	0.91688			3	top 25 by mean model rank with a signal peptide, no flag	1	
+G8B9M1	Cpar_CDC317	CPAR2_303110	G8B9M1_CANPC	Uncharacterized protein	1620	1	0	654	0	0	0	0	0	0.01011	0.23312	0.06449	0.90289			3	top 25 by mean model rank with a signal peptide, no flag	1	
+G8BFA1	Cpar_CDC317	CPAR2_201770	G8BFA1_CANPC	Bud site selection protein RAX2	1370	1	0	20	0	0	0	0	0	0.09289	0.01558	0.00578	0.90125			3	top 25 by mean model rank with a signal peptide, no flag	1	
+G8BEG5	Cpar_CDC317	CPAR2_213050	G8BEG5_CANPC	Uncharacterized protein	79	1	0	6			0	0	0	0.02034	0.04066	0.00363	0.88913			3	top 25 by mean model rank with a signal peptide, no flag	1	
+G8B8D0	Cpar_CDC317	CPAR2_107500	G8B8D0_CANPC	PGA domain-containing protein	217	1	1	67	0	0	0	0	0	0.02017	0.01915	0.01233	0.88212			3	top 25 by mean model rank with a signal peptide, no flag	1	
+G8B5M3	Cpar_CDC317	PGA59	G8B5M3_CANPC	Uncharacterized protein	138	1	1	51	0	0	0	0	0	0.02183	0.01309	0.01531	0.87202			3	top 25 by mean model rank with a signal peptide, no flag	1	
+G8BBR3	Cpar_CDC317	PGA23	G8BBR3_CANPC	Uncharacterized protein	247	1	1	218	0	0	1	0	0	0.00085	0.01222	0.00055	0.28613			3	tier 2 overflow (cap 30 per species)	1	
+A0ABX6ERF7	Kmar_FIM1	FIM1_1587	A0ABX6ERF7_KLUMA	Protein YNL190W	164	1	1	137	0.732	6	0	0	1	0.18393	0.21699	0.37813	0.99415			3	top 25 by mean model rank with a signal peptide, no flag	1	
+A0ABX6F323	Kmar_FIM1	FIM1_4760	A0ABX6F323_KLUMA	Uncharacterized protein	682	1	1	103	0	0	0	0	1	0.67165	0.20519	0.07676	0.99303			3	top 25 by mean model rank with a signal peptide, no flag	1	
+A0ABX6EMI7	Kmar_FIM1	FLO5	A0ABX6EMI7_KLUMA	Flocculation protein FLO5	340	1	0	0	0	0	0	0	1	0.50546	0.12972	0.30051	0.99145			3	top 25 by mean model rank with a signal peptide, no flag	1	
+A0ABX6F1W9	Kmar_FIM1	EGT2	A0ABX6F1W9_KLUMA	Protein EGT2	537	1	1	6	0	0	0	0	0	0.32772	0.16065	0.01985	0.98863			3	top 25 by mean model rank with a signal peptide, no flag	1	
+A0ABX6EQL2	Kmar_FIM1	AGA2	A0ABX6EQL2_KLUMA	Protein AGA2	90	1	0	15	0	0	0	0	0	0.30257	0.1055	0.07839	0.98639			3	top 25 by mean model rank with a signal peptide, no flag	1	
+A0ABX6EV52	Kmar_FIM1	PRY2	A0ABX6EV52_KLUMA	SCP super family	387	1	0	198	0	0	0	0	0	0.14664	0.11407	0.01743	0.98389			3	top 25 by mean model rank with a signal peptide, no flag	1	
+A0ABX6EUA2	Kmar_FIM1	WSC4	A0ABX6EUA2_KLUMA	Cell wall integrity and stress response component 4	505	1	0	176	0	0	0	0	1	0.42792	0.29839	0.00628	0.98294			3	top 25 by mean model rank with a signal peptide, no flag	1	
+A0ABX6EX86	Kmar_FIM1	NCW2	A0ABX6EX86_KLUMA	Solute binding protein	196	1	1	176	0	0	0	0	0	0.5488	0.14818	0.0081	0.98225			3	top 25 by mean model rank with a signal peptide, no flag	1	
+A0ABX6F0A9	Kmar_FIM1	CCW14	A0ABX6F0A9_KLUMA	Covalently-linked cell wall protein 14	228	1	1	136	0.421	17	0	0	0	0.07867	0.1778	0.00917	0.9812			3	top 25 by mean model rank with a signal peptide, no flag	1	
+A0ABX6ETG5	Kmar_FIM1	MID2	A0ABX6ETG5_KLUMA	Cell wall integrity sensor MID2	363	1	0	145	0	0	0	0	0	0.31327	0.15289	0.00508	0.97673			3	top 25 by mean model rank with a signal peptide, no flag	1	
+A0ABX6EQT1	Kmar_FIM1	CTS1	A0ABX6EQT1_KLUMA	Chitinase	552	1	0	199	0	0	0	0	0	0.09182	0.07872	0.0198	0.97449			3	top 25 by mean model rank with a signal peptide, no flag	1	
+A0ABX6ESH4	Kmar_FIM1	EGT2	A0ABX6ESH4_KLUMA	Protein EGT2	575	1	1	31	0	0	0	0	0	0.24736	0.12043	0.00368	0.96713			3	top 25 by mean model rank with a signal peptide, no flag	1	
+A0ABX6F1D2	Kmar_FIM1	WSC3	A0ABX6F1D2_KLUMA	Cell wall integrity and stress response component 2	431	1	0	166	0	0	0	0	0	0.30104	0.18105	0.00354	0.96601			3	top 25 by mean model rank with a signal peptide, no flag	1	
+A0ABX6ERK5	Kmar_FIM1	DSE2	A0ABX6ERK5_KLUMA	Protein DSE2	216	1	0	93	0	0	0	0	0	0.30606	0.04953	0.01304	0.96384			3	top 25 by mean model rank with a signal peptide, no flag	1	
+A0ABX6F2B5	Kmar_FIM1	KRE1	A0ABX6F2B5_KLUMA	Protein KRE1	294	1	1	183	0	0	0	0	0	0.51003	0.06449	0.00598	0.96345			3	top 25 by mean model rank with a signal peptide, no flag	1	
+A0ABX6EXS9	Kmar_FIM1	PIR1	A0ABX6EXS9_KLUMA	Cell wall mannoprotein HSP150	321	1	0	165	0.324	4	0	0	0	0.03644	0.12665	0.00519	0.96259			3	top 25 by mean model rank with a signal peptide, no flag	1	
+A0ABX6EN86	Kmar_FIM1	PRY3	A0ABX6EN86_KLUMA	SCP_PRY1_like	213	1	0	0	0	0	0	0	0	0.0647	0.04233	0.09672	0.95871			3	top 25 by mean model rank with a signal peptide, no flag	1	
+A0ABX6ET01	Kmar_FIM1	FIM1_2146	A0ABX6ET01_KLUMA	Uncharacterized protein	219	1	0	32	0	0	0	0	0	0.10237	0.04486	0.00904	0.95677			3	top 25 by mean model rank with a signal peptide, no flag	1	
+A0ABX6ES04	Kmar_FIM1	TOS6	A0ABX6ES04_KLUMA	Protein TOS6	106	1	1	2	0	0	0	0	0	0.04615	0.02999	0.00881	0.93813			3	top 25 by mean model rank with a signal peptide, no flag	1	
+A0ABX6EYB6	Kmar_FIM1	FIM1_2551	A0ABX6EYB6_KLUMA	Superoxide dismutase copper/zinc binding domain-containing protein	315	1	1	156	0	0	0	0	0	0.07944	0.08442	0.00231	0.92679			3	top 25 by mean model rank with a signal peptide, no flag	1	
+A0ABX6EPP2	Kmar_FIM1	VPS10	A0ABX6EPP2_KLUMA	Vacuolar protein sorting/targeting protein PEP1	1567	1	0	46	0	0	0	0	0	0.08917	0.01787	0.00494	0.91923			3	top 25 by mean model rank with a signal peptide, no flag	1	
+A0ABX6EUZ3	Kmar_FIM1	YKE4	A0ABX6EUZ3_KLUMA	Zinc transporter YKE4	354	1	0	69	0.062	8	0	0	0	0.03775	0.08931	0.00186	0.91364			3	top 25 by mean model rank with a signal peptide, no flag	1	
+A0ABX6ESR0	Kmar_FIM1	TOS1	A0ABX6ESR0_KLUMA	glucan endo-1,3-beta-D-glucosidase	462	1	0	127	0	0	0	0	0	0.10387	0.0182	0.00234	0.88508			3	top 25 by mean model rank with a signal peptide, no flag	1	
+A0ABX6ETC4	Kmar_FIM1	RNY1	A0ABX6ETC4_KLUMA	Ribonuclease T(2)	421	1	0	60	0	0	0	0	0	0.08596	0.02223	0.00157	0.87344			3	top 25 by mean model rank with a signal peptide, no flag	1	
+A0ABX6F270	Kmar_FIM1	FIM1_4203	A0ABX6F270_KLUMA	Uncharacterized protein	169	1	0	3	0	0	0	0	0	0.01275	0.04672	0.0026	0.85855			3	top 25 by mean model rank with a signal peptide, no flag	1	sampled tier 3 (seed 20261026)
+M7WWK1	Rtor_NP11	RHTO_02713	M7WWK1_RHOT1	Proteophosphoglycan ppg4	358	1	0	358	0	0	0	0	1	0.39931	0.21706	0.48587	0.99616			3	top 25 by mean model rank with a signal peptide, no flag	1	
+M7WX48	Rtor_NP11	RHTO_02920	M7WX48_RHOT1	Expansin family protein	368	1	0	147	0	0	0	0	0	0.09191	0.16496	0.06757	0.97872			3	top 25 by mean model rank with a signal peptide, no flag	1	
+M7WFQ5	Rtor_NP11	RHTO_05179	M7WFQ5_RHOT1	Proteophosphoglycan ppg4	668	1	0	126	0	0	0	0	0	0.28601	0.16478	0.01423	0.97145			3	top 25 by mean model rank with a signal peptide, no flag	1	
+M7X8G4	Rtor_NP11	RHTO_04003	M7X8G4_RHOT1	MSB2-like C-terminal domain-containing protein	1045	1	0	672	0	0	0	0	0	0.14853	0.13079	0.04772	0.97141			3	top 25 by mean model rank with a signal peptide, no flag	1	
+M7XGS8	Rtor_NP11	RHTO_07421	M7XGS8_RHOT1	Proteophosphoglycan ppg4	459	1	0	356	0	0	0	0	1	0.06856	0.11615	0.32065	0.96989			3	top 25 by mean model rank with a signal peptide, no flag	1	
+M7X5E0	Rtor_NP11	RHTO_03023	M7X5E0_RHOT1	Expansin family protein	326	1	1	118	0	0	0	0	0	0.19778	0.11856	0.04713	0.96932			3	top 25 by mean model rank with a signal peptide, no flag	1	
+M7WXR9	Rtor_NP11	RHTO_03140	M7WXR9_RHOT1	Proteophosphoglycan ppg4	679	1	0	472	0	0	0	0	0	0.12665	0.12291	0.0221	0.96371			3	top 25 by mean model rank with a signal peptide, no flag	1	
+M7WUX1	Rtor_NP11	RHTO_01720	M7WUX1_RHOT1	Proteophosphoglycan ppg4	420	1	0	211	0	0	0	0	0	0.07979	0.07944	0.07525	0.95349			3	top 25 by mean model rank with a signal peptide, no flag	1	
+M7WUA1	Rtor_NP11	RHTO_01711	M7WUA1_RHOT1	Proteophosphoglycan ppg4	380	1	0	70	0	0	0	0	0	0.26013	0.10005	0.00681	0.94261			3	top 25 by mean model rank with a signal peptide, no flag	1	
+M7WNF2	Rtor_NP11	RHTO_01287	M7WNF2_RHOT1	Calcium ion binding membrane protein	1288	1	0	679	0	0	0	0	0	0.12983	0.04942	0.06099	0.93464			3	top 25 by mean model rank with a signal peptide, no flag	1	
+M7WT22	Rtor_NP11	RHTO_02170	M7WT22_RHOT1	Long chronological lifespan protein 2	113	1	0	22	0.15	4	0	0	0	0.05648	0.09309	0.00766	0.93395			3	top 25 by mean model rank with a signal peptide, no flag	1	
+M7WUV9	Rtor_NP11	RHTO_01710	M7WUV9_RHOT1	Kelch-type beta propeller domain containing protein	1160	1	0	463	0	0	0	0	0	0.09242	0.05529	0.02636	0.93386			3	top 25 by mean model rank with a signal peptide, no flag	1	
+M7XP17	Rtor_NP11	RHTO_00082	M7XP17_RHOT1	Thaumatin, pathogenesis-related protein	565	1	0	311	0	0	0	0	0	0.07993	0.07928	0.00828	0.93278			3	top 25 by mean model rank with a signal peptide, no flag	1	
+M7XWS2	Rtor_NP11	RHTO_04883	M7XWS2_RHOT1	Proteophosphoglycan ppg4	991	1	0	566	0	0	0	0	0	0.08294	0.07222	0.00658	0.92486			3	top 25 by mean model rank with a signal peptide, no flag	1	
+M7X222	Rtor_NP11	RHTO_06159	M7X222_RHOT1	Fungal cellulose binding domain containing protein	257	1	0	36	0	0	0	0	1	0.61576	0.09453	0.00326	0.91836			3	top 25 by mean model rank with a signal peptide, no flag	1	sampled tier 3 (seed 20261026)
+M7WTV2	Rtor_NP11	RHTO_01571	M7WTV2_RHOT1	Allergen V5/Tpx-1-related family pprotein	302	1	0	111	0	0	0	0	0	0.03805	0.04167	0.11168	0.91581			3	top 25 by mean model rank with a signal peptide, no flag	1	
+M7XGX9	Rtor_NP11	RHTO_07471	M7XGX9_RHOT1	Proteophosphoglycan ppg4	608	1	0	425	0	0	0	0	0	0.03033	0.08139	0.00775	0.91567			3	top 25 by mean model rank with a signal peptide, no flag	1	
+M7WHI7	Rtor_NP11	RHTO_03986	M7WHI7_RHOT1	Outer membrane protein, beta-barrel domain containing protein	214	1	0	26	0	0	0	0	0	0.12998	0.03181	0.05903	0.91511			3	top 25 by mean model rank with a signal peptide, no flag	1	
+M7XPA5	Rtor_NP11	RHTO_01253	M7XPA5_RHOT1	Proteophosphoglycan 5	652	1	0	293	0	0	0	0	0	0.2012	0.06086	0.0042	0.90799			3	top 25 by mean model rank with a signal peptide, no flag	1	
+M7X1G3	Rtor_NP11	RHTO_06160	M7X1G3_RHOT1	Diphenol oxidase	817	1	0	171	0	0	0	0	0	0.39798	0.06046	0.00382	0.90566			3	top 25 by mean model rank with a signal peptide, no flag	1	
+M7XGW8	Rtor_NP11	RHTO_07461	M7XGW8_RHOT1	Cellobiohydrolase II	543	1	0	68	0	0	0	0	0	0.38941	0.12019	0.00127	0.90504			3	top 25 by mean model rank with a signal peptide, no flag	1	
+M7XPG8	Rtor_NP11	RHTO_00212	M7XPG8_RHOT1	Tenascin XB	769	1	0	35	0	0	0	0	1	0.58275	0.07275	0.00175	0.89861			3	top 25 by mean model rank with a signal peptide, no flag	1	
+M7WX67	Rtor_NP11	RHTO_02940	M7WX67_RHOT1	Uncharacterized protein	208	1	1	27	0.37	7	0	0	0	0.03036	0.14153	0.00163	0.89718			3	top 25 by mean model rank with a signal peptide, no flag	1	
+M7X1J6	Rtor_NP11	RHTO_06185	M7X1J6_RHOT1	Galactose-binding domain-like protein	886	1	0	189	0	0	0	0	0	0.2784	0.09284	0.00129	0.89661			3	top 25 by mean model rank with a signal peptide, no flag	1	
+M7X5B4	Rtor_NP11	RHTO_05601	M7X5B4_RHOT1	Integral membrane protein	1221	1	0	497	0	0	0	0	0	0.03147	0.04536	0.01102	0.89618			3	top 25 by mean model rank with a signal peptide, no flag	1	
+P32319	Scer_S288C	PEP1	VPS10_YEAST	Vacuolar protein sorting/targeting protein VPS10	1579	1	0	76	0	0	0	0	0	0.11254	0.01787	0.00444	0.91544			3	top 25 by mean model rank with a signal peptide, no flag	1	
+P40438	Scer_S288C	VTH1	VTH1_YEAST	VPS10 homolog 1	1549	1	0	95	0	0	0	0	0	0.07993	0.01528	0.00494	0.90649			3	top 25 by mean model rank with a signal peptide, no flag	1	
+P40890	Scer_S288C	VTH2	VTH2_YEAST	VPS10 homolog 2	1549	1	0	95	0	0	0	0	0	0.07825	0.01528	0.00494	0.90621			3	top 25 by mean model rank with a signal peptide, no flag	1	
+Q12296	Scer_S288C	MAM3	MAM3_YEAST	Protein MAM3	706	1	0	302	0	0	0	0	0	0.15393	0.03885	0.00232	0.90553			3	top 25 by mean model rank with a signal peptide, no flag	1	
+Q99234	Scer_S288C	DFG16	DFG16_YEAST	Protein DFG16	619	1	0	142	0	0	0	0	0	0.07227	0.01246	0.00182	0.84814			3	top 25 by mean model rank with a signal peptide, no flag	1	
+P47180	Scer_S288C	PGU1	PGLR_YEAST	Polygalacturonase	361	1	0	0	0	0	0	0	0	0.15364	0.02587	0.00135	0.82059			3	top 25 by mean model rank with a signal peptide, no flag	1	
+P03881	Scer_S288C	Q0255	YMRF1_YEAST	Uncharacterized mitochondrial protein RF1	472	1	0	8	0	0	0	0	0	0.08447	0.01263	0.00133	0.74578			3	top 25 by mean model rank with a signal peptide, no flag	1	
+Q03212	Scer_S288C	EAR1	EAR1_YEAST	Protein EAR1	550	1	0	159	0	0	0	0	0	0.06766	0.02179	0.00123	0.74089			3	top 25 by mean model rank with a signal peptide, no flag	1	
+P0CX91	Scer_S288C	YHR212W-A	YH21A_YEAST	Uncharacterized protein YHR212W-A	67	1	0	5			0	0	0	0.2719	0.02782	0.00117	0.73787			3	top 25 by mean model rank with a signal peptide, no flag	1	sampled tier 3 (seed 20261026)
+Q08054	Scer_S288C	CSI2	CSI2_YEAST	Chitin synthase 3 complex protein CSI2	341	1	0	87	0	0	0	0	0	0.04698	0.08523	0.00097	0.72359			3	top 25 by mean model rank with a signal peptide, no flag	1	
+Q04018	Scer_S288C	YMR244W	YM79_YEAST	Uncharacterized protein YMR244W	355	1	0	50	0	0	0	0	0	0.19847	0.02547	0.00106	0.70639			3	top 25 by mean model rank with a signal peptide, no flag	1	
+P38224	Scer_S288C	FIG1	FIG1_YEAST	Factor-induced gene 1 protein	298	1	0	36	0	0	0	0	0	0.02335	0.0088	0.00132	0.6779			3	top 25 by mean model rank with a signal peptide, no flag	1	
+Q02863	Scer_S288C	UBP16	UBP16_YEAST	Ubiquitin carboxyl-terminal hydrolase 16	499	1	0	14	0	0	0	0	0	0.03533	0.00318	0.00133	0.67741			3	top 25 by mean model rank with a signal peptide, no flag	1	
+P46955	Scer_S288C	NCA3	NCA3_YEAST	Beta-glucosidase-like protein NCA3, mitochondrial	337	1	0	68	0	0	0	0	0	0.0531	0.01273	0.00106	0.66774			3	top 25 by mean model rank with a signal peptide, no flag	1	
+Q04399	Scer_S288C	GMC1	GMC1_YEAST	Putative multicopper oxidase GMC1	608	1	1	24	0	0	0	0	0	0.09874	0	0.0015	0.66755			3	top 25 by mean model rank with a signal peptide, no flag	1	
+Q2V2P4	Scer_S288C	ATG44	ATG44_YEAST	Mitofissin	73	1	0	0			0	0	0	0.01512	0.00312	0.00135	0.66169			3	top 25 by mean model rank with a signal peptide, no flag	1	
+P53122	Scer_S288C	YGL138C	YGN8_YEAST	Uncharacterized protein YGL138C	345	1	0	9	0	0	0	0	0	0.04565	0.00286	0.00133	0.66161			3	top 25 by mean model rank with a signal peptide, no flag	1	
+P38868	Scer_S288C	YHR180W	YHY0_YEAST	Uncharacterized protein YHR180W	163	1	0	0	0	0	0	0	0	0.03412	0.00598	0.00117	0.64733			3	top 25 by mean model rank with a signal peptide, no flag	1	
+P53008	Scer_S288C	CWH41	CWH41_YEAST	Mannosyl-oligosaccharide glucosidase	833	1	0	0	0	0	0	0	0	0.02689	0	0.00146	0.63367			3	top 25 by mean model rank with a signal peptide, no flag	1	
+P53752	Scer_S288C	YNR066C	YN95_YEAST	Uncharacterized membrane glycoprotein YNR066C	436	1	0	3	0	0	0	0	0	0.12476	0	0.00135	0.62027			3	top 25 by mean model rank with a signal peptide, no flag	1	
+P25380	Scer_S288C	SPS22	SPS22_YEAST	Sporulation-specific protein 22	463	1	1	9	0	0	0	0	0	0.06897	0	0.00135	0.61505			3	top 25 by mean model rank with a signal peptide, no flag	1	
+P43604	Scer_S288C	ULI1	ULI1_YEAST	Unfolded protein response-inducible protein 1	169	1	0	12	0	0	0	0	0	0.0362	0.00286	0.00117	0.61216			3	top 25 by mean model rank with a signal peptide, no flag	1	
+Q06466	Scer_S288C	TDA6	TDA6_YEAST	Putative vacuolar protein sorting-associated protein TDA6	467	1	0	35	0	0	0	0	0	0.05166	0	0.00135	0.6112			3	top 25 by mean model rank with a signal peptide, no flag	1	
+P0CX18	Scer_S288C	YAR066W	YA066_YEAST	Putative GPI-anchored protein YAR066W	203	1	1	0	0	0	0	0	0	0.03347	0.00644	0.00077	0.61016			3	top 25 by mean model rank with a signal peptide, no flag	1	
+P0CX19	Scer_S288C	YHR214W	YH214_YEAST	Putative GPI-anchored protein YHR214W	203	1	1	0	0	0	0	0	0	0.03347	0.00644	0.00077	0.61016			3	top 25 by mean model rank with a signal peptide, no flag	1	

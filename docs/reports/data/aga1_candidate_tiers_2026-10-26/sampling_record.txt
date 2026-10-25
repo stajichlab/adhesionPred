@@ -1,0 +1,33 @@
+seed 20261026; cap 30 novel proteins per species for tiers 1 and 2; tier 3 = top 25 per species; sample sizes {'2': 25, '3': 15}
+tier 1: 101 proteins, 57 novel, 57 in the hand-check sample
+  Afum_Af293: 5 proteins, 3 novel, 3 sampled
+  Calb_SC5314: 18 proteins, 1 novel, 1 sampled
+  Caur_UniProt: 10 proteins, 1 novel, 1 sampled
+  Cgla_CBS138: 23 proteins, 18 novel, 18 sampled
+  Cimm_RS: 4 proteins, 4 novel, 4 sampled
+  Cpar_CDC317: 21 proteins, 20 novel, 20 sampled
+  Kmar_FIM1: 9 proteins, 9 novel, 9 sampled
+  Rtor_NP11: 1 proteins, 1 novel, 1 sampled
+  Scer_S288C: 10 proteins, 0 novel, 0 sampled
+tier 2: 109 proteins, 83 novel, 25 in the hand-check sample
+  Afum_Af293: 10 proteins, 9 novel, 3 sampled
+  Calb_SC5314: 19 proteins, 6 novel, 3 sampled
+  Caur_UniProt: 9 proteins, 8 novel, 3 sampled
+  Cgla_CBS138: 18 proteins, 12 novel, 3 sampled
+  Cimm_RS: 19 proteins, 19 novel, 3 sampled
+  Cneo_H99: 3 proteins, 3 novel, 3 sampled
+  Cpar_CDC317: 10 proteins, 10 novel, 3 sampled
+  Kmar_FIM1: 14 proteins, 14 novel, 2 sampled
+  Rtor_NP11: 2 proteins, 2 novel, 2 sampled
+  Scer_S288C: 5 proteins, 0 novel, 0 sampled
+tier 3: 257 proteins, 257 novel, 15 in the hand-check sample
+  Afum_Af293: 25 proteins, 25 novel, 2 sampled
+  Calb_SC5314: 25 proteins, 25 novel, 2 sampled
+  Caur_UniProt: 25 proteins, 25 novel, 2 sampled
+  Cgla_CBS138: 31 proteins, 31 novel, 2 sampled
+  Cimm_RS: 25 proteins, 25 novel, 2 sampled
+  Cneo_H99: 25 proteins, 25 novel, 1 sampled
+  Cpar_CDC317: 26 proteins, 26 novel, 1 sampled
+  Kmar_FIM1: 25 proteins, 25 novel, 1 sampled
+  Rtor_NP11: 25 proteins, 25 novel, 1 sampled
+  Scer_S288C: 25 proteins, 25 novel, 1 sampled
