@@ -1,0 +1,2 @@
+accession	species	gene	entry_name	protein_name	length	sp_yes	gpi_yes	disorder_longest_run	rep_coverage	rep_n_copies	broad_flag	narrow_flag	score_logreg	score_rf	score_gboost	call_logreg	call_rf	call_gboost	n_models_call	mean_rank_pct	in_850_role	in_850_tier
+G8BJ61	Cpar_CDC317	ALS7	G8BJ61_CANPC	Agglutinin-like protein N-terminal domain-containing protein	1383	1	1	977	0.39	15	1	1	0.99783	0.93698	0.99174	1	1	1	3	0.99971	class_positive	B

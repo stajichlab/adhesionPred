@@ -1,0 +1,2 @@
+species	n_proteins	signal_peptide	gpi	broad_flag	narrow_flag	call_logreg	call_rf	call_gboost	calls_2of3_models	in_850	tierA_in_proteome	tierA_broad	tierA_narrow	tierA_2of3_models	novel_broad	novel_narrow	novel_2of3_models
+Cpar_CDC317	5777	337	127	28	9	26	29	35	25	1	0	0	0	0	27	8	24

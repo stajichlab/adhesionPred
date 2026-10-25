@@ -1,0 +1,124 @@
+accession	species	gene	entry_name	protein_name	length	sp_yes	gpi_yes	disorder_longest_run	rep_coverage	rep_n_copies	broad_flag	narrow_flag	score_logreg	score_rf	score_gboost	call_logreg	call_rf	call_gboost	n_models_call	mean_rank_pct	why
+Q4WHJ8	Afum_Af293	AFUA_2G05150	Q4WHJ8_ASPFU	Cell wall mannoprotein 1	591	1	1	416	0.433	19	1	1	0.99956	0.76008	0.48389	1	1	1	3	0.99912	narrow rule
+Q4WE35	Afum_Af293	AFUA_5G01620	Q4WE35_ASPFU	Extracellular proline-rich protein	282	1	0	282	0	0	0	0	0.98857	0.31569	0.4466	1	1	1	3	0.99865	2 of 3 models
+Q4WI05	Afum_Af293	AFUA_2G03540	Q4WI05_ASPFU	Extracellular threonine rich protein, putative	666	1	0	606	0	0	0	0	0.75166	0.21536	0.92287	1	0	1	2	0.9981	2 of 3 models
+Q4WCP0	Afum_Af293	AFUA_6G01910	Q4WCP0_ASPFU	C2H2 finger domain protein, putative	419	0	0	419	0	0	0	0	0.41488	0.26193	0.54095	0	1	1	2	0.99805	2 of 3 models
+Q4WST6	Afum_Af293	AFUA_1G11690	Q4WST6_ASPFU	Proline-rich, actin-associated protein Vrp1, putative	455	0	0	455	0	0	0	0	0.8533	0.26965	0.3759	1	1	1	3	0.99782	2 of 3 models
+Q4WBU6	Afum_Af293	AFUA_8G06780	Q4WBU6_ASPFU	Extracellular proline rich protein	359	1	0	334	0	0	0	0	0.65767	0.2347	0.39854	1	0	1	2	0.9973	2 of 3 models
+Q4WPK6	Afum_Af293	AFUA_4G09600	Q4WPK6_ASPFU	GPI anchored protein, putative	980	1	1	929	0.444	7	1	1	0.83204	0.55725	0.18598	1	1	1	3	0.99723	narrow rule
+A4DA62	Afum_Af293	AFUA_4G03322	A4DA62_ASPFU	WW domain protein	257	0	0	257	0.078	4	0	0	0.34313	0.30613	0.29749	0	1	1	2	0.99662	2 of 3 models
+Q4WXD9	Afum_Af293	AFUA_3G09160	Q4WXD9_ASPFU	Extracellular proline-rich protein	191	1	0	191	0.084	4	0	0	0.97522	0.25984	0.14358	1	1	1	3	0.99651	2 of 3 models
+Q4WBC1	Afum_Af293	AFUA_8G01770	Q4WBC1_ASPFU	GPI anchored protein	281	1	1	120	0	0	0	0	0.52092	0.21784	0.33339	0	0	1	1	0.99622	top 25 by mean rank
+Q4WIW7	Afum_Af293	AFUA_2G00400	Q4WIW7_ASPFU	Cell wall cysteine-rich protein	705	1	0	208	0.081	3	0	0	0.98396	0.2033	0.34339	1	0	1	2	0.99599	2 of 3 models
+Q4WUE6	Afum_Af293	AFUA_5G08180	Q4WUE6_ASPFU	Cell wall protein, putative	300	1	0	269	0	0	0	0	0.62974	0.20937	0.34604	1	0	1	2	0.99597	2 of 3 models
+Q4WZ75	Afum_Af293	AFUA_2G17910	Q4WZ75_ASPFU	Uncharacterized protein	149	0	0	135	0	0	0	0	0.5981	0.1958	0.38299	1	0	1	2	0.9954	2 of 3 models
+Q4W9Q8	Afum_Af293	AFUA_4G04070	Q4W9Q8_ASPFU	Mucin family signaling protein Msb2, putative	901	1	0	559	0	0	0	0	0.55151	0.21175	0.20627	0	0	1	1	0.99536	top 25 by mean rank
+Q4WC06	Afum_Af293	AFUA_8G06150	Q4WC06_ASPFU	Serine-threonine rich protein, putative	351	0	1	128	0	0	0	0	0.3299	0.2164	0.21741	0	0	1	1	0.99496	top 25 by mean rank
+Q4WIQ7	Afum_Af293	AFUA_2G01000	Q4WIQ7_ASPFU	LIM domain protein	801	0	0	606	0	0	0	0	0.20783	0.19385	0.75845	0	0	1	1	0.99483	top 25 by mean rank
+Q4WCV2	Afum_Af293	AFUA_6G02540	Q4WCV2_ASPFU	Actin associated protein Wsp1, putative	643	0	0	534	0	0	0	0	0.51713	0.17755	0.45522	0	0	1	1	0.99442	top 25 by mean rank
+E9RB40	Afum_Af293	AFUA_1G13610	E9RB40_ASPFU	SH3 domain protein	700	0	0	700	0	0	0	0	0.1886	0.19314	0.64225	0	0	1	1	0.99431	top 25 by mean rank
+Q4WKD3	Afum_Af293	AFUA_1G02870	Q4WKD3_ASPFU	Uncharacterized protein	400	0	0	400	0	0	0	0	0.13884	0.27608	0.40061	0	1	1	2	0.99416	2 of 3 models
+Q4WMY7	Afum_Af293	AFUA_6G08260	Q4WMY7_ASPFU	Uncharacterized protein	356	0	0	356	0	0	0	0	0.19361	0.18854	0.5682	0	0	1	1	0.99392	top 25 by mean rank
+Q4X180	Afum_Af293	atg15	ATG15_ASPFU	Putative lipase atg15	650	1	0	138	0	0	0	0	0.36469	0.19394	0.21555	0	0	1	1	0.99388	top 25 by mean rank
+Q4WWI4	Afum_Af293	AFUA_3G05990	Q4WWI4_ASPFU	Uncharacterized protein	483	0	0	483	0	0	0	0	0.15196	0.20437	0.52486	0	0	1	1	0.99372	top 25 by mean rank
+Q4WH43	Afum_Af293	AFUA_7G08290	Q4WH43_ASPFU	Mitochondrial division protein 1	553	0	0	1	0.684	9	0	0	0.46264	0.18621	0.11629	0	0	1	1	0.99267	top 25 by mean rank
+Q4WX78	Afum_Af293	rlmA	RLMA_ASPFU	Transcription factor rlmA	600	0	0	538	0	0	0	0	0.17934	0.17806	0.45167	0	0	1	1	0.99227	top 25 by mean rank
+Q4WNA9	Afum_Af293	AFUA_6G07000	Q4WNA9_ASPFU	Uncharacterized protein	205	0	0	205	0	0	0	0	0.26203	0.18768	0.11661	0	0	1	1	0.99185	top 25 by mean rank
+Q4WYI0	Afum_Af293	AFUA_3G13110	Q4WYI0_ASPFU	Extracellular serine-threonine rich protein	764	1	1	115	0	0	0	0	0.95427	0.43852	0.02847	1	1	0	2	0.99071	2 of 3 models
+Q4W973	Afum_Af293	AFUA_4G00500	Q4W973_ASPFU	Agglutinin-like protein middle domain-containing protein	1036	1	1	204	0	0	1	0	0.94141	0.48934	0.017	1	1	0	2	0.98671	broad rule
+Q4WH38	Afum_Af293	AFUA_7G08240	Q4WH38_ASPFU	Uncharacterized protein	457	0	0	457	0.374	3	0	0	0.0598	0.25826	0.43457	0	1	1	2	0.98628	2 of 3 models
+Q4WUX0	Afum_Af293	AFUA_5G09960	Q4WUX0_ASPFU	GPI anchored protein, putative	301	1	1	76	0	0	0	0	0.67868	0.12873	0.19518	1	0	1	2	0.98595	2 of 3 models
+Q4WZG6	Afum_Af293	AFUA_2G17000	Q4WZG6_ASPFU	PT repeat family protein	2170	0	0	2154	0.183	97	0	0	0.03059	0.34381	0.50834	0	1	1	2	0.97093	2 of 3 models
+Q4X084	Afum_Af293	AFUA_2G14360	EGLX_ASPFU	Probable endo-1,3(4)-beta-glucanase AFUA_2G14360	652	1	1	263	0	0	1	0	0.07338	0.01559	0.00065	0	0	0	0	0.60472	broad rule
+J3KGH2	Cimm_RS	CIMG_00195	J3KGH2_COCIM	Uncharacterized protein	501	1	1	375	0.611	9	1	1	0.9993	0.75763	0.96722	1	1	1	3	0.99997	narrow rule
+J3KDV1	Cimm_RS	CIMG_04613	J3KDV1_COCIM	Spherule outer wall glycoprotein	324	1	1	271	0.58	4	1	1	0.94203	0.69527	0.92202	1	1	1	3	0.99984	narrow rule
+A0A0E1RWM3	Cimm_RS	CIMG_03231	A0A0E1RWM3_COCIM	Uncharacterized protein	372	1	1	358	0	0	1	0	0.98703	0.44848	0.89604	1	1	1	3	0.99978	broad rule
+A0A0E1RXR9	Cimm_RS	CIMG_05576	A0A0E1RXR9_COCIM	Uncharacterized protein	481	1	0	413	0.312	15	0	0	0.98786	0.55358	0.65861	1	1	1	3	0.99965	2 of 3 models
+A0A0E1RUJ3	Cimm_RS	CIMG_10280	A0A0E1RUJ3_COCIM	Uncharacterized protein	608	1	0	561	0.11	11	0	0	0.89221	0.38912	0.80458	1	1	1	3	0.99957	2 of 3 models
+J3KCJ3	Cimm_RS	CIMG_03982	J3KCJ3_COCIM	Uncharacterized protein	298	1	0	167	0	0	0	0	0.92264	0.2958	0.8924	1	1	1	3	0.99951	2 of 3 models
+J3KAD3	Cimm_RS	CIMG_02991	J3KAD3_COCIM	Agglutinin-like protein middle domain-containing protein	568	1	1	94	0	0	0	0	0.94125	0.27586	0.80881	1	1	1	3	0.99942	2 of 3 models
+Q1EAR5	Cimm_RS	CTS2	CHI2_COCIM	Endochitinase 2	895	1	1	405	0	0	1	0	0.88638	0.58444	0.58631	1	1	1	3	0.99931	broad rule
+J3KJE1	Cimm_RS	CIMG_01531	J3KJE1_COCIM	Uncharacterized protein	1447	1	0	906	0	0	0	0	0.85479	0.25178	0.91821	1	0	1	2	0.99907	2 of 3 models
+J3KKF3	Cimm_RS	CIMG_02004	J3KKF3_COCIM	Uncharacterized protein	245	0	0	243	0.759	31	0	0	0.94918	0.49209	0.41281	1	1	1	3	0.99856	2 of 3 models
+J3KD23	Cimm_RS	CIMG_04223	J3KD23_COCIM	Uncharacterized protein	401	0	0	401	0	0	0	0	0.70367	0.24453	0.52477	1	0	1	2	0.99826	2 of 3 models
+J3K0G7	Cimm_RS	CIMG_13521	J3K0G7_COCIM	Variable surface lipoprotein	393	0	0	250	0.55	36	0	0	0.71422	0.49136	0.33901	1	1	1	3	0.99783	2 of 3 models
+A0A0E1RYT1	Cimm_RS	CIMG_10851	A0A0E1RYT1_COCIM	Uncharacterized protein	305	1	0	11	0.702	5	0	0	0.89528	0.29567	0.3159	1	1	1	3	0.99766	2 of 3 models
+J3K9F2	Cimm_RS	CIMG_07003	J3K9F2_COCIM	WH2 domain-containing protein	484	0	0	479	0	0	0	0	0.51078	0.27573	0.3759	0	1	1	2	0.99747	2 of 3 models
+J3KB96	Cimm_RS	CIMG_03399	J3KB96_COCIM	SH3 domain-containing protein	715	0	0	431	0	0	0	0	0.30852	0.23245	0.58356	0	0	1	1	0.99715	top 25 by mean rank
+J3KBF9	Cimm_RS	CIMG_03472	J3KBF9_COCIM	Extracellular serine-threonine rich protein	682	1	1	130	0	0	0	0	0.9265	0.34385	0.16082	1	1	1	3	0.99701	2 of 3 models
+A0A0E1S3S4	Cimm_RS	CIMG_05199	A0A0E1S3S4_COCIM	Extensin	1108	0	0	857	0	0	0	0	0.23834	0.22846	0.78082	0	0	1	1	0.99687	top 25 by mean rank
+A0A0E1S306	Cimm_RS	CIMG_03870	A0A0E1S306_COCIM	GPI anchored serine-rich protein	212	1	1	178	0	0	0	0	0.88628	0.19232	0.73242	1	0	1	2	0.99667	2 of 3 models
+J3K486	Cimm_RS	CIMG_07839	J3K486_COCIM	Uncharacterized protein	477	1	0	394	0.115	11	0	0	0.25071	0.29614	0.20741	0	1	1	2	0.99557	2 of 3 models
+J3KCY6	Cimm_RS	CIMG_04178	J3KCY6_COCIM	Serine-threonine rich protein	424	1	0	422	0.085	6	0	0	0.21795	0.41867	0.15476	0	1	1	2	0.99512	2 of 3 models
+J3KAI7	Cimm_RS	CIMG_03061	J3KAI7_COCIM	Uncharacterized protein	298	0	0	298	0.53	2	0	0	0.14311	0.26568	0.52466	0	1	1	2	0.99494	2 of 3 models
+J3K7Y4	Cimm_RS	CIMG_06337	J3K7Y4_COCIM	Serine/arginine repetitive matrix protein 1	567	0	0	567	0	0	0	0	0.1499	0.28199	0.43093	0	1	1	2	0.99491	2 of 3 models
+J3K4E0	Cimm_RS	CIMG_07912	J3K4E0_COCIM	Uncharacterized protein	105	1	0	74	0.467	7	0	0	0.84631	0.22608	0.10398	1	0	0	1	0.9948	top 25 by mean rank
+J3KM60	Cimm_RS	CIMG_02811	J3KM60_COCIM	LysM domain-containing protein	325	1	0	187	0.197	4	0	0	0.85184	0.19791	0.17479	1	0	1	2	0.99466	2 of 3 models
+A0A0D8JT87	Cimm_RS	CIMG_00345	A0A0D8JT87_COCIM	Carbohydrate-binding protein	355	0	0	0	0.955	7	0	0	0.43458	0.18687	0.27511	0	0	1	1	0.9939	top 25 by mean rank
+J3KJ59	Cimm_RS	CIMG_01415	J3KJ59_COCIM	Cysteine-rich transmembrane domain-containing protein	86	0	0	84	0.419	7	0	0	0.14974	0.36328	0.1844	0	1	1	2	0.99379	2 of 3 models
+J0HFL7	Cimm_RS	CIMG_08665	J0HFL7_COCIM	MSB2-like C-terminal domain-containing protein	751	1	0	430	0	0	0	0	0.85922	0.37264	0.06496	1	1	0	2	0.99375	2 of 3 models
+J3K729	Cimm_RS	CIMG_05926	J3K729_COCIM	Uncharacterized protein	222	1	1	222	0	0	1	0	0.33509	0.19492	0.04583	0	0	0	0	0.98893	broad rule
+J3KCQ3	Cimm_RS	CIMG_04070	J3KCQ3_COCIM	Uncharacterized protein	151	1	0	151	0	0	0	0	0.7724	0.12621	0.61913	1	0	1	2	0.98756	2 of 3 models
+J3K7T0	Cimm_RS	CIMG_06267	J3K7T0_COCIM	WW domain-containing protein	474	0	0	474	0	0	0	0	0.04935	0.26866	0.49067	0	1	1	2	0.98322	2 of 3 models
+A0A0E1RYP5	Cimm_RS	CIMG_04097	A0A0E1RYP5_COCIM	Riboflavin aldehyde-forming enzyme	280	1	0	158	0	0	0	0	0.89518	0.09964	0.15605	1	0	1	2	0.97849	2 of 3 models
+A0A0E1RXP4	Cimm_RS	CIMG_06897	A0A0E1RXP4_COCIM	SCP domain-containing protein	307	1	0	122	0	0	0	0	0.63536	0.06133	0.14475	1	0	1	2	0.96235	2 of 3 models
+J3K0W1	Cimm_RS	CIMG_10135	J3K0W1_COCIM	Uncharacterized protein	444	1	1	349	0	0	1	0	0.30125	0.10572	0.00418	0	0	0	0	0.94377	broad rule
+J3KHS1	Cimm_RS	CIMG_00795	J3KHS1_COCIM	CFEM domain-containing protein	331	1	1	202	0	0	1	0	0.54457	0.0421	0.00161	0	0	0	0	0.89248	broad rule
+J3KGV0	Cimm_RS	CIMG_00364	J3KGV0_COCIM	Uncharacterized protein	524	1	1	231	0	0	1	0	0.05375	0.02571	0.00055	0	0	0	0	0.59548	broad rule
+J9VSM1	Cneo_H99	CNAG_02201	J9VSM1_CRYN9	WH2 domain-containing protein	556	0	0	556	0	0	0	0	0.75624	0.24998	0.3759	1	0	1	2	0.99748	2 of 3 models
+J9VHQ5	Cneo_H99	CNAG_00765	J9VHQ5_CRYN9	Uncharacterized protein	290	0	0	290	0	0	0	0	0.35224	0.22743	0.64027	0	0	1	1	0.99742	top 25 by mean rank
+J9VJK9	Cneo_H99	CNAG_00670	J9VJK9_CRYN9	Zn(2)-C6 fungal-type domain-containing protein	466	0	0	466	0	0	0	0	0.30579	0.19493	0.60019	0	0	1	1	0.99547	top 25 by mean rank
+J9VFS7	Cneo_H99	CNAG_03716	J9VFS7_CRYN9	B2-aldehyde-forming enzyme	305	1	1	94	0.184	8	0	0	0.74578	0.40691	0.07687	1	1	0	2	0.99441	2 of 3 models
+J9VK88	Cneo_H99	CNAG_07517	J9VK88_CRYN9	Uncharacterized protein	486	0	0	486	0	0	0	0	0.14597	0.22054	0.54205	0	0	1	1	0.99431	top 25 by mean rank
+J9VNN0	Cneo_H99	CNAG_07124	J9VNN0_CRYN9	Uncharacterized protein	175	0	0	97	0	0	0	0	0.127	0.23385	0.59842	0	0	1	1	0.99403	top 25 by mean rank
+J9VTA2	Cneo_H99	CNAG_03422	J9VTA2_CRYN9	Calcineurin temperature suppressor Cts1	813	0	0	634	0	0	0	0	0.15531	0.21262	0.47073	0	0	1	1	0.99403	top 25 by mean rank
+J9VSL2	Cneo_H99	CNAG_02211	J9VSL2_CRYN9	HUA1 probable zinc finger domain-containing protein	359	0	0	324	0	0	0	0	0.41548	0.16244	0.52945	0	0	1	1	0.99287	top 25 by mean rank
+J9VH68	Cneo_H99	CNAG_04008	J9VH68_CRYN9	Uncharacterized protein	451	0	0	451	0	0	0	0	0.09106	0.25423	0.58789	0	0	1	1	0.99194	top 25 by mean rank
+J9W353	Cneo_H99	CNAG_06372	J9W353_CRYN9	Uncharacterized protein	142	0	0	142	0	0	0	0	0.16005	0.20803	0.13691	0	0	1	1	0.99192	top 25 by mean rank
+J9VRJ4	Cneo_H99	CNAG_05071	J9VRJ4_CRYN9	Sulfite reductase (NADPH) hemoprotein beta-component	602	0	0	471	0	0	0	0	0.21394	0.16172	0.59121	0	0	1	1	0.99165	top 25 by mean rank
+J9VME4	Cneo_H99	CNAG_02168	J9VME4_CRYN9	Glucoamylase	1466	0	0	1466	0	0	0	0	0.12235	0.20952	0.2789	0	0	1	1	0.9912	top 25 by mean rank
+T2BPV5	Cneo_H99	CNAG_06124	T2BPV5_CRYN9	Uncharacterized protein	63	0	0	63			0	0	0.28241	0.1655	0.15481	0	0	1	1	0.99049	top 25 by mean rank
+J9VFT9	Cneo_H99	CNAG_00807	J9VFT9_CRYN9	RING-type domain-containing protein	1718	0	0	1131	0	0	0	0	0.10334	0.26064	0.13351	0	1	1	2	0.99047	2 of 3 models
+T2BMW7	Cneo_H99	LIV3	LIV3_CRYN9	Transcription factor LIV3	548	0	0	474	0	0	0	0	0.18311	0.15922	0.49067	0	0	1	1	0.99041	top 25 by mean rank
+J9VMF0	Cneo_H99	CNAG_02163	J9VMF0_CRYN9	Uncharacterized protein	376	0	0	344	0	0	0	0	0.15414	0.164	0.43451	0	0	1	1	0.98996	top 25 by mean rank
+J9VPW3	Cneo_H99	CNAG_06823	J9VPW3_CRYN9	Uncharacterized protein	261	0	0	261	0	0	0	0	0.11552	0.19316	0.28279	0	0	1	1	0.98992	top 25 by mean rank
+J9VRA1	Cneo_H99	CNAG_00998	J9VRA1_CRYN9	C2H2-type domain-containing protein	1557	0	0	1126	0	0	0	0	0.2159	0.14957	0.66865	0	0	1	1	0.98992	top 25 by mean rank
+J9VFS6	Cneo_H99	CNAG_00068	J9VFS6_CRYN9	Specific RNA polymerase II transcription factor	602	0	0	265	0	0	0	0	0.20239	0.16695	0.14976	0	0	1	1	0.98986	top 25 by mean rank
+T2BMG8	Cneo_H99	CNAG_00998	T2BMG8_CRYN9	C2H2-type domain-containing protein	1537	0	0	1106	0	0	0	0	0.17367	0.15224	0.74306	0	0	1	1	0.98952	top 25 by mean rank
+J9VHT0	Cneo_H99	CNAG_00035	J9VHT0_CRYN9	GATA-type domain-containing protein	526	0	0	526	0	0	0	0	0.19918	0.22999	0.0444	0	0	0	0	0.98932	top 25 by mean rank
+J9VVN6	Cneo_H99	CNAG_02044	J9VVN6_CRYN9	Uncharacterized protein	110	0	0	110	0	0	0	0	0.36848	0.13843	0.72834	0	0	1	1	0.98918	top 25 by mean rank
+J9VIW4	Cneo_H99	CNAG_06897	J9VIW4_CRYN9	Uncharacterized protein	637	0	0	637	0	0	0	0	0.13573	0.26036	0.04749	0	1	0	1	0.98826	top 25 by mean rank
+J9W0P9	Cneo_H99	CNAG_04585	J9W0P9_CRYN9	Uncharacterized protein	82	0	0	82	0.146	3	0	0	0.10585	0.19324	0.12495	0	0	1	1	0.98817	top 25 by mean rank
+J9VSD6	Cneo_H99	CNAG_03097	J9VSD6_CRYN9	Uncharacterized protein	499	0	0	420	0	0	0	0	0.08563	0.19384	0.3207	0	0	1	1	0.98778	top 25 by mean rank
+J9VWY5	Cneo_H99	CNAG_05915	J9VWY5_CRYN9	Uncharacterized protein	631	1	1	501	0	0	1	0	0.56184	0.15224	0.06595	0	0	0	0	0.98624	broad rule
+T2BQH2	Cneo_H99	CNAG_00759	T2BQH2_CRYN9	Uncharacterized protein	428	1	1	200	0	0	1	0	0.32315	0.13891	0.10427	0	0	0	0	0.98551	broad rule
+M7WI91	Rtor_NP11	RHTO_03741	M7WI91_RHOT1	Uncharacterized protein	276	0	0	181	0.489	9	0	0	0.6775	0.36716	0.93492	1	1	1	3	0.99943	2 of 3 models
+M7WQH9	Rtor_NP11	RHTO_08120	M7WQH9_RHOT1	Uncharacterized protein	841	0	0	666	0.329	6	0	0	0.91415	0.53295	0.35877	1	1	1	3	0.99815	2 of 3 models
+M7X5V1	Rtor_NP11	RHTO_05426	M7X5V1_RHOT1	Uncharacterized protein	465	0	0	465	0	0	0	0	0.36317	0.27872	0.50299	0	1	1	2	0.99785	2 of 3 models
+M7X255	Rtor_NP11	RHTO_06189	M7X255_RHOT1	Uncharacterized protein	928	0	0	928	0	0	0	0	0.2354	0.27129	0.75687	0	1	1	2	0.99749	2 of 3 models
+M7WHQ1	Rtor_NP11	RHTO_03805	M7WHQ1_RHOT1	Proteophosphoglycan ppg4	618	0	0	358	0	0	0	0	0.26577	0.25972	0.49115	0	1	1	2	0.99703	2 of 3 models
+M7WWK1	Rtor_NP11	RHTO_02713	M7WWK1_RHOT1	Proteophosphoglycan ppg4	358	1	0	358	0	0	0	0	0.39931	0.21706	0.48587	0	0	1	1	0.99677	top 25 by mean rank
+M7WMF7	Rtor_NP11	RHTO_01339	M7WMF7_RHOT1	Tetratricopeptide repeat containing protein	1667	0	0	1248	0	0	0	0	0.27046	0.21615	0.88198	0	0	1	1	0.99676	top 25 by mean rank
+M7X1S8	Rtor_NP11	RHTO_06250	M7X1S8_RHOT1	Proteophosphoglycan ppg4	591	0	0	591	0	0	0	0	0.15073	0.25915	0.78132	0	1	1	2	0.99578	2 of 3 models
+M7WH29	Rtor_NP11	RHTO_04029	M7WH29_RHOT1	Uncharacterized protein	413	0	0	413	0	0	0	0	0.1865	0.27231	0.39405	0	1	1	2	0.99563	2 of 3 models
+M7WTP2	Rtor_NP11	RHTO_07016	M7WTP2_RHOT1	Zinc finger, C2H2-type domain containing protein	566	0	0	566	0	0	0	0	0.15999	0.24726	0.50299	0	0	1	1	0.99536	top 25 by mean rank
+M7XT41	Rtor_NP11	RHTO_07132	M7XT41_RHOT1	Uncharacterized protein	675	0	0	583	0	0	0	0	0.17222	0.21722	0.44983	0	0	1	1	0.99459	top 25 by mean rank
+M7XDR4	Rtor_NP11	RHTO_01174	M7XDR4_RHOT1	Uncharacterized protein	970	0	0	970	0	0	0	0	0.17185	0.23071	0.38101	0	0	1	1	0.99458	top 25 by mean rank
+M7X7N2	Rtor_NP11	RHTO_04199	M7X7N2_RHOT1	Minichromosome maintenance protein 1	536	0	0	318	0	0	0	0	0.23441	0.19925	0.39405	0	0	1	1	0.99422	top 25 by mean rank
+M7XRS5	Rtor_NP11	RHTO_07798	M7XRS5_RHOT1	Uncharacterized protein	755	0	0	755	0	0	0	0	0.12211	0.22551	0.79415	0	0	1	1	0.9937	top 25 by mean rank
+M7X6P3	Rtor_NP11	RHTO_04531	M7X6P3_RHOT1	Uncharacterized protein	395	0	0	317	0	0	0	0	0.39727	0.17043	0.48858	0	0	1	1	0.99355	top 25 by mean rank
+M7XKD1	Rtor_NP11	RHTO_02576	M7XKD1_RHOT1	Developmental regulatory protein wetA	567	0	0	567	0	0	0	0	0.13245	0.21268	0.50299	0	0	1	1	0.99327	top 25 by mean rank
+M7WNT6	Rtor_NP11	RHTO_04236	M7WNT6_RHOT1	Regulator of cell polarity	1088	0	0	737	0	0	0	0	0.10466	0.23564	0.7599	0	0	1	1	0.99305	top 25 by mean rank
+M7WLF4	Rtor_NP11	RHTO_01783	M7WLF4_RHOT1	Proteophosphoglycan ppg4	433	0	0	433	0	0	0	0	0.09421	0.28457	0.65727	0	1	1	2	0.99274	2 of 3 models
+M7WZ74	Rtor_NP11	RHTO_07115	M7WZ74_RHOT1	R3H domain containing protein	989	0	0	752	0	0	0	0	0.1522	0.19928	0.39399	0	0	1	1	0.99266	top 25 by mean rank
+M7WMM2	Rtor_NP11	RHTO_04483	M7WMM2_RHOT1	Zinc finger, C2H2-type protein, transcription factor	373	0	0	325	0	0	0	0	0.22552	0.1641	0.58654	0	0	1	1	0.99207	top 25 by mean rank
+M7WWW1	Rtor_NP11	RHTO_02834	M7WWW1_RHOT1	ESCRT-I complex subunit TSG101	983	0	0	661	0	0	0	0	0.14844	0.17051	0.56173	0	0	1	1	0.99122	top 25 by mean rank
+M7X259	Rtor_NP11	RHTO_04584	M7X259_RHOT1	Calcineurin temperature suppressor Cts1	638	0	0	444	0	0	0	0	0.12615	0.17964	0.53332	0	0	1	1	0.99095	top 25 by mean rank
+M7X2A4	Rtor_NP11	RHTO_06229	M7X2A4_RHOT1	Homeobox domain containing protein, transcription factor	637	0	0	637	0	0	0	0	0.08003	0.23899	0.75614	0	0	1	1	0.99067	top 25 by mean rank
+M7WM81	Rtor_NP11	RHTO_05314	M7WM81_RHOT1	Serine-arginine protein 55, RNA binding protein	529	0	0	326	0	0	0	0	0.13323	0.17825	0.38386	0	0	1	1	0.99031	top 25 by mean rank
+M7WK39	Rtor_NP11	RHTO_05952	M7WK39_RHOT1	Uncharacterized protein	497	0	0	453	0	0	0	0	0.12545	0.31028	0.07114	0	1	0	1	0.98967	top 25 by mean rank
+M7XF68	Rtor_NP11	RHTO_00763	M7XF68_RHOT1	Proline-rich protein	318	0	0	202	0	0	0	0	0.79512	0.11622	0.21328	1	0	1	2	0.98336	2 of 3 models
+M7XXA4	Rtor_NP11	RHTO_05068	M7XXA4_RHOT1	Uncharacterized protein	103	0	0	103	0.282	3	0	0	0.04726	0.26412	0.32803	0	1	1	2	0.98132	2 of 3 models
+M7X4C0	Rtor_NP11	RHTO_02686	M7X4C0_RHOT1	Protein CPL1-like domain-containing protein	553	1	0	287	0	0	0	0	0.65023	0.32329	0.00925	1	1	0	2	0.97821	2 of 3 models
+M7X543	Rtor_NP11	RHTO_05694	M7X543_RHOT1	Proteophosphoglycan ppg4	244	1	1	238	0.676	8	1	1	0.28707	0.3605	0.00721	0	1	0	1	0.97295	narrow rule
+M7XDZ7	Rtor_NP11	RHTO_01259	M7XDZ7_RHOT1	Proteophosphoglycan 5	501	1	1	332	0	0	1	0	0.45597	0.1185	0.00473	0	0	0	0	0.95057	broad rule

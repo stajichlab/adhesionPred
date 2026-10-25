@@ -1,0 +1,9 @@
+species	scope	n_proteins	broad	narrow	2of3_models_and_SP	broad_or_2of3_and_SP
+Afum_Af293	adhesin_named	8	1	0	1	1
+Afum_Af293	other	9639	6	3	12	14
+Cimm_RS	adhesin_named	4	0	0	1	1
+Cimm_RS	other	9708	8	2	18	22
+Cneo_H99	adhesin_named	2	0	0	0	0
+Cneo_H99	other	7425	2	0	1	3
+Rtor_NP11	adhesin_named	3	0	0	0	0
+Rtor_NP11	other	8157	2	1	1	3
