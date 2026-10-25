@@ -8,11 +8,14 @@ The verdict column takes: supported, plausible, not_wall_protein, enzyme, unknow
 
   python3 -I analysis/aga1_class/build_hand_check_sheet.py build --sample S --features F1 F2 ... --out-dir NEW_DIR
   python3 -I analysis/aga1_class/build_hand_check_sheet.py leads --evidence evidence_auto.tsv --leads L1 L2 ... --out-dir NEW_DIR
+  python3 -I analysis/aga1_class/build_hand_check_sheet.py review --reviews R1 R2 ... --sample S --out expert_review.tsv
   python3 -I analysis/aga1_class/build_hand_check_sheet.py check --verdicts verdicts.tsv --sample S
 
 `leads` merges the agent-drafted lead files (public UniProt and PubMed evidence per protein; never verdicts) into `evidence_leads.tsv` and writes
 `evidence_sheets.md`, one section per protein with the automatic numbers and the leads; it stops if a protein has no lead row, a lead row is
-for an unknown or repeated accession, a column is missing, or a PMID is not a number. `build` refuses an existing --out-dir and stops (FATAL:, exit 1) if a sample protein has no feature row. `check` stops on an accession that
+for an unknown or repeated accession, a column is missing, or a PMID is not a number. `review` merges blind second-opinion files (one per batch; a suggested verdict, confidence, evidence tags, rationale and PMIDs per protein; they are
+NOT the owner's verdicts) into one table, in sample order, and stops on a missing or repeated protein, a verdict or confidence outside the vocabulary,
+a tag outside the tag list, or a PMID that is not a number. `build` refuses an existing --out-dir and stops (FATAL:, exit 1) if a sample protein has no feature row. `check` stops on an accession that
 is not in the sample, a duplicate, a missing sample protein or a verdict outside the vocabulary; empty verdicts are reported, not an error.
 """
 
@@ -159,6 +162,51 @@ def render_sheets(merged):
     return "\n".join(out) + "\n"
 
 
+REVIEW_COLS = [
+    "accession", "gene", "suggested_verdict", "confidence", "evidence_tags", "rationale", "pmids_supporting",
+    "pmids_checked_not_supporting", "open_questions",
+]  # fmt: skip
+TAGS = (
+    "direct_paper", "family_paper", "ortholog_paper", "uniprot_reviewed", "uniprot_transferred", "domain_architecture",
+    "gpi_signal_ok", "tm_anchored", "enzyme_domain", "name_conflict", "no_evidence",
+)  # fmt: skip
+
+
+def merge_reviews(reviews_list, sample):
+    rev = pd.concat(reviews_list, ignore_index=True)
+    miss = [c for c in REVIEW_COLS if c not in rev.columns]
+    if miss:
+        raise SheetError(f"review files lack columns: {miss}")
+    if rev["accession"].duplicated().any():
+        raise SheetError("duplicate accession in the review files")
+    unknown = sorted(set(rev["accession"]) - set(sample["accession"]))
+    if unknown:
+        raise SheetError(f"review rows for proteins that are not in the sample: {unknown[:5]}")
+    absent = sorted(set(sample["accession"]) - set(rev["accession"]))
+    if absent:
+        raise SheetError(f"{len(absent)} sample proteins have no review row, first: {absent[:5]}")
+    bad = sorted(set(rev["suggested_verdict"].fillna("")) - set(VERDICTS))
+    if bad:
+        raise SheetError(f"suggested_verdict outside {VERDICTS}: {bad}")
+    bad = sorted(set(rev["confidence"].fillna("")) - set(CONFIDENCE))
+    if bad:
+        raise SheetError(f"confidence outside {CONFIDENCE}: {bad}")
+    for acc, tags in zip(rev["accession"], rev["evidence_tags"].fillna(""), strict=True):
+        bad = [t for t in tags.split(";") if t and t not in TAGS]
+        if bad:
+            raise SheetError(f"{acc}: evidence tags outside the list: {bad}")
+    for col in ("pmids_supporting", "pmids_checked_not_supporting"):
+        for acc, text in zip(rev["accession"], rev[col].fillna("none"), strict=True):
+            if text != "none" and not all(x.strip().isdigit() for x in text.split(";")):
+                raise SheetError(
+                    f"{acc}: {col} must be numbers separated by ';' or 'none', got {text!r}"
+                )
+    order = {a: i for i, a in enumerate(sample["accession"])}
+    return rev.sort_values("accession", key=lambda c: c.map(order)).reset_index(drop=True)[
+        REVIEW_COLS
+    ]
+
+
 def _write(df, path):
     df.to_csv(path, sep="\t", index=False)
 
@@ -174,6 +222,10 @@ def main(argv=None):
     m.add_argument("--evidence", required=True)
     m.add_argument("--leads", nargs="+", required=True)
     m.add_argument("--out-dir", required=True)
+    w = sub.add_parser("review")
+    w.add_argument("--reviews", nargs="+", required=True)
+    w.add_argument("--sample", required=True)
+    w.add_argument("--out", required=True)
     c = sub.add_parser("check")
     c.add_argument("--verdicts", required=True)
     c.add_argument("--sample", required=True)
@@ -188,6 +240,12 @@ def main(argv=None):
             _write(sheet, out / "evidence_auto.tsv")
             _write(verdict_template(sheet), out / "verdicts.tsv")
             print(f"wrote {out}: {len(sheet)} proteins")
+        elif a.cmd == "review":
+            if Path(a.out).exists():
+                raise SheetError(f"{a.out} exists; nothing is overwritten")
+            merged = merge_reviews([rd(f) for f in a.reviews], rd(a.sample))
+            _write(merged, a.out)
+            print(f"wrote {a.out}: {len(merged)} proteins")
         elif a.cmd == "leads":
             out = Path(a.out_dir)
             if out.exists():

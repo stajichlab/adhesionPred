@@ -41,6 +41,21 @@ recalibrating the thresholds per clade; the `enzyme` verdicts are the starting p
   protein that matters to your decision. Seven rows have gene-specific lead confidence "high" (for example *C. parapsilosis* ALS3, ALS11 and ALS6 through locus-based
   papers; *C. glabrata* AWP1; *C. albicans* SCW11).
 
+## Blind expert second opinion (`fable_expert_review.tsv`)
+
+Four reviewers (the Fable model, one batch per species group, asked to act as a fungal cell-wall biochemist) each gave an **independent, blind** opinion on every
+protein: they did not see `verdicts.tsv`, and the owner's verdicts do not depend on theirs. Each row has a suggested verdict (same five terms), a confidence, evidence tags
+(`direct_paper`, `family_paper`, `ortholog_paper`, `uniprot_reviewed`, `uniprot_transferred`, `domain_architecture`, `gpi_signal_ok`, `tm_anchored`, `enzyme_domain`,
+`name_conflict`, `no_evidence`), a short rationale, the PMIDs they read that support it, the PMIDs checked that did not, and open questions. Counts: supported 11, plausible 58,
+unknown 16, enzyme 7, not_wall_protein 5 (high confidence 26, medium 36, low 35). It is a second opinion to compare with, not a verdict.
+
+* Where it disagrees with the pipeline or the first leads it says so: for example reading the UniProt "transmembrane helix" of several GPI candidates as the C-terminal GPI
+  signal, calling a "Chitinase 3" a CFEM protein because it has no GH18 domain, and noting that three *A. fumigatus* proteins with 2 or 3 of 3 model calls have a negative
+  C-terminal tail hydrophobicity and so cannot be GPI wall proteins.
+* **PMIDs:** all 82 distinct PMIDs cited in the leads and in the reviews exist in PubMed (checked by retrieving each record). That checks the identifier, author, year and
+  topic only; whether a paper supports the specific claim about a protein was not independently verified.
+* Compare with your own verdicts once you have recorded them (the `check` command does not read this file).
+
 ## Inputs not in the repository (sha256)
 
 ```
@@ -59,4 +74,5 @@ bbb9affaa4d9a676952b32c0d3120a0ea01adf07ffe11aff5139334b67b0194b  leads_B_Cgla.t
 dbf591d1b7c9fe65c211bbd2b4a202e7362744cdfe934de8ee172f9755ea0f9c  evidence_auto.tsv
 142c35993ed06d4a759377b15e05911dc98d9164092eb454295d72b5aee64909  evidence_leads.tsv
 8752f260c03d1772187fd16fa449213c0bd82be767eafa653e328edbfa9b7252  evidence_sheets.md
+3d408df5f17b492fcd2c9f6f5d571280c1382b3b38f3861026f063f0f0bb2d85  fable_expert_review.tsv
 ```

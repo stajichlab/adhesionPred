@@ -156,3 +156,28 @@ def test_committed_record():
         assert [r["accession"] for r in csv.DictReader(fh, delimiter="\t")] == list(
             sample_df["accession"]
         )
+
+
+def test_expert_review_file_matches_the_sample_and_the_vocabulary():
+    sample_df = bh.rd(SAMPLE_REC)
+    rev = bh.rd(REC / "fable_expert_review.tsv")
+    merged = bh.merge_reviews(
+        [rev], sample_df
+    )  # raises if a protein is missing, a verdict, confidence or tag is outside the lists
+    assert list(merged["accession"]) == list(sample_df["accession"])
+
+
+def test_merge_reviews_rejects_bad_rows():
+    s = sample()
+    good = {"accession": "A", "gene": "g", "suggested_verdict": "plausible", "confidence": "low", "evidence_tags": "no_evidence", "rationale": "r",
+            "pmids_supporting": "none", "pmids_checked_not_supporting": "none", "open_questions": "none"}  # fmt: skip
+    ok = pd.DataFrame([good, {**good, "accession": "B"}])
+    assert len(bh.merge_reviews([ok], s)) == 2
+    for col, val, msg in (("suggested_verdict", "adhesin", "suggested_verdict"), ("confidence", "sure", "confidence"),
+                          ("evidence_tags", "magic", "evidence tags"), ("pmids_supporting", "PMID1", "numbers")):  # fmt: skip
+        bad = ok.copy()
+        bad.loc[0, col] = val
+        with pytest.raises(bh.SheetError, match=msg):
+            bh.merge_reviews([bad], s)
+    with pytest.raises(bh.SheetError, match="no review row"):
+        bh.merge_reviews([ok.iloc[:1]], s)
