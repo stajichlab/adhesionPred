@@ -1,101 +1,176 @@
-# Adhesion Protein Predictor
+# adhesionPred: tools for fungal cell-surface and cell-wall proteins
 
-A bioinformatics tool that scores proteins from FASTA files as **secreted cell-surface glycoproteins**
-(FLO/ALS-like). Despite the project name, this is step 1 of a multi-step pipeline and not an adhesin
-predictor. The removed 0.1.0 model made calls on *S. cerevisiae* S288C of which about 12% were known adhesins. Mechanism-specific
-adhesin classes are separate tools; see `docs/TOOL-ARCHITECTURE.md` section 2.0 for the steps and names.
+This repository holds a set of tools and analyses for finding and sorting fungal cell-surface proteins: signal-peptide proteins,
+GPI-anchored cell-wall proteins, tandem-repeat adhesins (flocculin/ALS/EPA-like), wall-family domain proteins and a few others.
 
-# Requirements
+There is **no single "adhesin predictor"**. "Adhesin", "antigen" and "biofilm factor" are outcomes, not sequence features, and the
+evidence in this repository showed that one model for all of them is the wrong target (`docs/TOOL-ARCHITECTURE.md`). The
+original ESM-2 classifier turned out to be a surface-glycoprotein detector rather than an adhesin predictor, and no
+trained model ships with the package. What you can use today are the components below. Each states what it measures and what it
+does not.
 
-This will run with pytorch on CPUs but will be much faster if on a GPU system with torchvision installed having CUDA bindings.
+## What is usable now
 
-# Usage
+| Component | What it does | Status |
+|---|---|---|
+| [`cellsurface_sorting_hat`](#1-cellsurface_sorting_hat-sort-a-proteome-into-surface-categories) | Reads tool results for a proteome (SignalP, Pfam, repeat detectors, TMHMM, allergen BLAST) and writes per-protein calls with explicit evidence and a three-valued logic (called / not called / not assessable) | Engine, module wrappers, calibration commands and HPCC job scripts exist. Each call has a measured status per species where truth data allowed it (`docs/CLASSES.md`) |
+| [AGA1-class tools](#2-aga1-class-tools-flocculin-like-sertthr-rich-gpi-wall-proteins) (`analysis/aga1_class/`) | Rule-based flags and a features-only classifier for Ser/Thr-rich, repeat-bearing, GPI-anchored wall proteins; scripts to run SignalP, PredGPI and AIUPred on whole proteomes and summarise them | Research tools with measured performance on labelled sets (see `docs/reports/`); not a validated predictor |
+| Repeat detectors (`analysis/cocci_repeats/02_repeat_profile.py`, `14_repeat_detect_general.py`) | Tandem-repeat arrays per protein (period, copies, coverage); script 14 is the project's general detector | Used by the sorting hat and the AGA1 tools |
+| Pfam family table (`data/sorting_hat/family_table.tsv`) | Which Pfam families count as wall, hydrophobin, allergen or HsbA evidence, with the specificity tier and owner sign-off for each | Curated; every row says what was measured |
+| [`surface_glyco_*`](#3-surface_glyco-the-older-esm-2-surface-glycoprotein-scorer) (older) | ESM-2 embeddings plus logistic regression that scores a protein as a secreted cell-surface glycoprotein | Still works, but no trained model ships; train your own. Not an adhesin predictor and not used by the newer tools |
 
-### Training
+Reports with the measurements behind these are in `docs/reports/` and the model review is in `docs/model-review/`.
 
-No trained model ships with this package. Train one before you predict. The training data in `data/` are FLO, ALS1 related proteins from Saccharomyces and Candida. The model that this data produces scores surface glycoproteins, not adhesins. A model trained on a surface-glycoprotein label is planned (see `docs/PLAN-2026-09-30-pipeline-and-decisions.md`).
+## Install
 
-```
-surface_glyco_train --positive data/positive --negative data/negative
-```
-
-Training writes the model to `./models` by default. It also writes a JSON model card next to the model. `surface_glyco_predict` and `surface_glyco_evaluate` do not look in `./models`. They look in the packaged model directory, or in the directory in `SURFACE_GLYCO_MODELS_DIR`. After training, pass the model with `--model`, as in the examples below, or run `export SURFACE_GLYCO_MODELS_DIR=$PWD/models`.
-
-### Application 
-
-You can run on a single file at a time and produce a report for each query file.
-Note: FungiDB raw-file downloads now require a login (HTTP 401 as of 2026-09); fetch
-proteomes from NCBI Datasets or UniProt, or download from FungiDB while logged in.
-```
-mkdir -p query
-pushd query
-curl -O https://fungidb.org/a/service/raw-files/release-68/CalbicansSC5314/fasta/data/FungiDB-68_CalbicansSC5314_AnnotatedProteins.fasta
-curl -O https://fungidb.org/a/service/raw-files/release-68/CneoformansJEC21/fasta/data/FungiDB-68_CneoformansJEC21_AnnotatedProteins.fasta
-curl -O https://fungidb.org/a/service/raw-files/release-68/Spombe972h/fasta/data/FungiDB-68_Spombe972h_AnnotatedProteins.fasta
-popd
-for qorg in $(ls query/*.fasta)
-do
-   surface_glyco_predict --model models/surface_glyco_model_esm2_t6_8M_UR50D.pkl --input $qorg --output $(basename $qorg .fasta).surface_glyco.csv
-done
+```bash
+git clone https://github.com/stajichlab/adhesionPred.git
+cd adhesionPred
+pip install -e ".[dev]"      # Python 3.11 or newer; installs torch, scikit-learn, biopython, pandas ...
 ```
 
-You can run on a single folder and all results will be combined in a single file. It will look for all .fasta, .fa, .pep, .aa with or without .gz extensions.
+The external tools are **not** installed by the package, and some have academic licences. Install them yourself where you need them:
+SignalP 6, PredGPI, AIUPred (a GPU is much faster), HMMER 3 with Pfam-A, TMHMM, BLAST+, and NCBI `nodes.dmp` (from the taxonomy
+`taxdump`) for the sorting hat. The SLURM scripts use cluster-specific module names and partitions that you will need to change
+(`docs/TECHNICAL-NOTES.md`).
 
+## 1. `cellsurface_sorting_hat`: sort a proteome into surface categories
+
+Three commands:
+
+| Command | Purpose |
+|---|---|
+| `cellsurface_sorting_hat_module <tool> ...` | Convert one tool's output into a module table in a work directory. Tools: `signalp`, `pfam`, `repeat02`, `repeat14`, `allergen`, `antigen`, `cys`, `expression`, `hydrophobin_relaxed`, `cys8`, `tm` |
+| `cellsurface_sorting_hat --fasta ... --workdir ... --out ...` | The engine. It does **not** run the tools; it reads `<workdir>/modules/<module>.tsv.gz` (plus optional run records and status files), evaluates the rules in `src/cellsurface_sorting_hat/categories.yaml` and writes the calls |
+| `cellsurface_sorting_hat_calibrate <task> ...` | Measure a call against a truth table (`truth`), check a Pfam family's specificity (`pfam-specificity`), leave-species-out for the allergen set (`allergen-lso`), validate control sets (`controls`), check against a panel (`panel`), and convert the Phase C metrics (`phasec`) |
+
+Typical run for one proteome:
+
+```bash
+# 1. run the tools (on a cluster, scripts/sorting_hat/submit_modules.sh submits SignalP, Pfam, repeats, allergen BLAST, TMHMM)
+PROJ_ROOT=$PWD FASTA=proteome.faa WORKDIR=work FAMILY_TABLE=data/sorting_hat/family_table.tsv \
+  PFAM_RELEASE=38.2 ALLERGEN_FASTA=iuis_allergens.faa bash scripts/sorting_hat/submit_modules.sh
+
+# 2. convert each tool output to a module table (one command per tool; the arguments differ, see --help)
+cellsurface_sorting_hat_module signalp --fasta proteome.faa --workdir work --results signalp_out \
+  --signalp-version 6.0h-gpu
+cellsurface_sorting_hat_module repeat14 --fasta proteome.faa --workdir work --table repeat14.tsv \
+  --script analysis/cocci_repeats/14_repeat_detect_general.py
+# ... pfam, tm, allergen, as needed
+
+# 3. sort (TAXON_ID is the NCBI taxon of the proteome)
+cellsurface_sorting_hat --fasta proteome.faa --taxon TAXON_ID --taxdump nodes.dmp --workdir work --out out
 ```
-surface_glyco_predict --model models/surface_glyco_model_esm2_t6_8M_UR50D.pkl --input query --output Combinedquery.surface_glyco.csv
+
+Outputs in `out/`: `calls.long.tsv.gz`, `calls.wide.tsv.gz`, `evidence.tsv.gz`, `proteins.tsv.gz`, `report.md`, `run.json`.
+
+How to read the calls (full list with definitions: `docs/CLASSES.md`, generated from the rules):
+
+* **Evidence calls** say what a tool found (`signal_peptide_protein`, `tandem_repeat_protein`, `wall_family_domain`,
+  `hydrophobin_domain`, `iuis_allergen_similarity` ...). **Composites** (`cell_wall_adhesion_candidate`, `surface_attachment_candidate`)
+  say what a rule combined. `other_*` calls are the residual categories.
+* A call can be **called**, **not called** or **not assessable** (an input is missing or does not apply). Nothing is silently counted as 0.
+* Each call carries a **status for one species and taxon**: `unvalidated` (no measurement), `smoke` (too little truth for a number) or
+  `estimated` (enough truth). A status only counts where its status file is installed and current. The status of a Pfam family
+  (`data/sorting_hat/family_table.tsv`) is separate from the status of a call.
+* `narrow_ok` in the family table is signed by the owner per family. A wall family reaches the narrow call only with a specificity tier of
+  `smoke` or better and that sign-off.
+
+Design notes: `docs/superpowers/specs/2026-10-04-orchestrator-design.md`; the plans that built it are in `docs/superpowers/plans/`.
+
+## 2. AGA1-class tools: flocculin-like, Ser/Thr-rich, GPI wall proteins
+
+Target class: cell-wall proteins that are Ser/Thr-rich, carry repeats and are held by a GPI anchor (AGA1, FLO1/5/9/11, ALS, HWP1,
+EPA ...). The class and its labels are in `docs/reports/2026-10-24-aga1-class-scoping.md`; `analysis/aga1_class/README.md` has the
+format notes for every script.
+
+**The two flags** (rules, no training; `broad_flag.py`, and `rule_flags` in `feature_classifier.py`):
+
+* **Broad**: SignalP signal peptide, **and** PredGPI GPI call, **and** an AIUPred disordered run of at least 200 residues
+  (the length cut is a parameter). This finds Ser/Thr-rich GPI wall mannoproteins in general
+  (SED1/DAN4-like proteins and the ALS/FLO/EPA adhesins).
+* **Narrow**: the broad flag **and** the project repeat call (detector 14: coverage at least 0.25 and at least 2.5 copies). Stricter;
+  it misses adhesins whose repeats are not periodic.
+* An optional Ser/Thr "stalk" rule is available (`stalk_features.py`).
+
+**The classifier** (`feature_classifier.py`): logistic regression, random forest and gradient boosting on per-protein features
+(composition, disorder, repeat score, signal peptide and GPI calls, tail hydrophobicity, length). It is evaluated with whole sequence
+clusters held out, and `apply` scores a new feature table with a model fit on the labelled set. Thresholds do not carry across
+clades, so recalibrate one for each new clade (performance: `docs/TECHNICAL-NOTES.md`).
+
+**Run it on a proteome** (all proteins are keyed by UniProt accession):
+
+```bash
+# 1. stage chunks of at most 1,000 proteins (writes outside the repo; refuses an existing --out)
+python3 -I analysis/aga1_class/stage_proteomes.py --out /path/NEW_DIR Scer=Scer.faa Calb=Calb.faa
+
+# 2. run the tools, one SLURM array task per chunk (TOOL = signalp | predgpi | aiupred; the header of the script has the
+#    sbatch options, including those for AIUPred on a GPU)
+sbatch --array=1-<N>%4 --export=ALL,PROJ_ROOT=...,CODE_COMMIT=...,IN=...,OUT=...,TOOL=signalp \
+  analysis/aga1_class/proteome_array.sbatch
+python analysis/cocci_repeats/14_repeat_detect_general.py NEW_DIR/chunks/*.faa --out rep14.tsv   # local, minutes
+
+# 3. merge the chunks and convert to one table per protein
+python3 -I analysis/aga1_class/merge_proteome_chunks.py --chunks NEW_DIR/chunks.tsv --results RESULTS --out MERGED
+python3 -I analysis/aga1_class/convert_predictions.py --manifest NEW_DIR/manifest.txt \
+  --signalp MERGED/signalp/prediction_results.txt --predgpi MERGED/predgpi/predgpi_raw.gff3 \
+  --lengths lengths.tsv --disorder MERGED/aiupred/disorder_raw.txt --disorder-tool aiupred --out predictions.tsv
+
+# 4. features, frozen classifier scores, per-species summary and candidate list
+python analysis/aga1_class/feature_classifier.py features --proteins proteins.tsv --predictions predictions.tsv \
+  --stalk stalk.tsv --rep14 rep14.tsv --raw MERGED/aiupred/disorder_raw.txt --out features.tsv
+python analysis/aga1_class/feature_classifier.py apply --train-features \
+  docs/reports/data/aga1_feature_classifier_2026-10-25/features.tsv --new-features features.tsv --model rf --out scores_rf.tsv
+python3 -I analysis/aga1_class/proteome_summary.py --features features.tsv --scores rf=scores_rf.tsv ... \
+  --oof docs/reports/data/aga1_feature_classifier_2026-10-25/oof_scores.tsv ... --out-dir SUMMARY
 ```
 
-## Development Setup
+(`stalk.tsv` comes from `stalk_features.py --raw ... --manifest ... --out stalk.tsv`; `lengths.tsv` and `proteins.tsv` come from the
+staging step. The `...` marks arguments you will find in each script's `--help`.)
 
-1. **Install Dependencies:**
-   ```bash
-   pip install -r requirements.txt
-   ```
+The scripts refuse to overwrite existing outputs and stop with a clear error instead of writing silent zeros. FASTA files and per-residue tool
+output are kept out of the repository (conventions: `docs/TECHNICAL-NOTES.md`).
 
-2. **Setup Pre-commit Hooks:**
-   ```bash
-   pre-commit install
-   ```
+The flags target flocculin-like proteins; other GPI wall families, such as the CFEM proteins, are not seen by them and are covered by
+Pfam families in the family table. Measured performance and its limits: `docs/TECHNICAL-NOTES.md` and the reports in `docs/reports/`.
 
-Training writes a JSON model card next to the model (`surface_glyco_model_<esm>.json`) that records the
-ESM model, layer, pooling and training data. `surface_glyco_predict` and `surface_glyco_evaluate` read
-the ESM model, layer and pooling from the card. They stop with an error that names the field if the card is
-missing, the pooling is not supported, or `--model-name` differs from the card. `surface_glyco_predict`
-prints how many sequences it truncates at 1022 residues. The output column is `surface_glycoprotein_score`
-and the labels are `surface_glycoprotein` and `other`. The default 0.5 threshold is not calibrated. See `docs/model-review/` for the current model review and validation plan.
+## 3. `surface_glyco`: the older ESM-2 surface-glycoprotein scorer
 
-## cellsurface_sorting_hat (in development)
+This was the first tool in the project and it still works: the commands below train and run it. No trained model ships with the package, so
+train one first. It scores "secreted cell-surface glycoprotein", not adhesion, and none of the sorting-hat or AGA1-class tools depend on it
+(background: `docs/TECHNICAL-NOTES.md`). The packaged training data (`data/positive`, `data/negative`) are FLO/ALS-related proteins from
+*Saccharomyces* and *Candida* against random proteins.
 
-`cellsurface_sorting_hat` sorts the proteins of a proteome into cell surface categories. The
-current calls are `signal_peptide_protein`, `tandem_repeat_protein`, `wall_family_domain`,
-`cocci_specificity_rank_top15`, `serodiagnostic_marker_candidate`, `iuis_allergen_similarity`,
-`iuis_allergen_homolog` and `cell_wall_adhesion_candidate`. Design: `docs/superpowers/specs/2026-10-04-orchestrator-design.md`.
+```bash
+surface_glyco_train --positive data/positive --negative data/negative      # writes ./models/*.pkl and a JSON model card
+export SURFACE_GLYCO_MODELS_DIR=$PWD/models                                 # predict and evaluate look here, not in ./models
+surface_glyco_predict --model models/surface_glyco_model_esm2_t6_8M_UR50D.pkl --input proteome.fasta --output scores.csv
+surface_glyco_predict --model models/surface_glyco_model_esm2_t6_8M_UR50D.pkl --input query_dir --output combined.csv
+```
 
-The core engine reads module result tables from a work directory:
+`--input` may be one FASTA or a folder (`.fasta`, `.fa`, `.pep`, `.aa`, with or without `.gz`). The output column is
+`surface_glycoprotein_score`; the 0.5 threshold is not calibrated. It runs on CPU and much faster on a GPU with CUDA. FungiDB raw
+downloads need a login; get proteomes from NCBI Datasets or UniProt.
 
-    cellsurface_sorting_hat --fasta proteome.faa --taxon TAXON_ID --taxdump nodes.dmp \
-        --workdir work --out out
+## Repository layout
 
-`TAXON_ID` is the NCBI taxon ID of the proteome. Look it up in the NCBI taxonomy.
+| Path | Content |
+|---|---|
+| `src/cellsurface_sorting_hat/`, `src/surface_glyco/` | The two Python packages |
+| `analysis/aga1_class/` | AGA1-class scripts (staging, tool arrays, converters, flags, classifier, summaries) |
+| `analysis/cocci_repeats/` | Repeat detectors and the *Coccidioides* work they came from |
+| `analysis/` (other folders) | Truth sets, calibration, scans and scoping studies, each with a README or report |
+| `data/sorting_hat/` | Family table, Cys spacing sets, hydrophobin model, Phase C species |
+| `data/controls/`, `data/curated/`, `data/positive`, `data/negative` | Control and truth sets, curated adhesin tables, training sequences |
+| `scripts/sorting_hat/` | SLURM job scripts for the module tools |
+| `docs/` | `TOOL-ARCHITECTURE.md`, `CLASSES.md`, `reports/` (dated results with data folders and hashes), `model-review/`, `superpowers/` (specs and plans) |
+| `tests/` | One folder per component |
 
-It writes `calls.long.tsv.gz`, `calls.wide.tsv.gz`, `evidence.tsv.gz`, `proteins.tsv.gz`,
-`report.md` and `run.json`.
+## Development and technical notes
 
-The module wrappers and the calibration commands now exist:
+Setup, CI, conventions, cluster notes and measured performance are in [`docs/TECHNICAL-NOTES.md`](docs/TECHNICAL-NOTES.md).
+`CHANGELOG.md` lists breaking changes and `AGENTS.md` records AI-assisted contributions.
 
-- `cellsurface_sorting_hat_module` turns the output of one tool (SignalP, Pfam `hmmsearch`, the
-  repeat detectors, BLASTP against the IUIS allergens, TMHMM) or one lookup table (antigen ranking,
-  Cys-rich tiers, spherule expression) into a module table in the work directory.
-- `cellsurface_sorting_hat_calibrate` writes status sources from a truth set (`truth`), from the
-  Phase C metrics (`phasec`) and runs the Pfam specificity, allergen leave-species-out and panel
-  checks.
+## Author
 
-No calibration has been run on HPCC data yet (Tasks 11 to 15 of the plan are not run). Every module
-status is therefore `unvalidated`. The Phase C numbers for rule R0 exist, and `calibrate phasec` can turn them into status entries (it needs the Phase C cluster files and the SignalP module and mode that Phase C used), but no status file has been written from them in a real work directory. A status counts only for the call named by `call=` in its notes, and `truth` accepts only a call that reads one module, and only when the identity of `--module` in the `run.json` next to `--calls-long` matches the module record in the work directory.
-
-# Author
-
-Jason Stajich, jason.stajich<at>ucr.edu 
-
-Code was developed with support from opencode.ai, co-pilot and various code models for setting up classifier framework
-
+Jason Stajich, jason.stajich at ucr.edu. Code was developed with support from opencode.ai, Copilot and Claude models.
