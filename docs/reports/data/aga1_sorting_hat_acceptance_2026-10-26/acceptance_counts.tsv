@@ -1,0 +1,11 @@
+species	taxon	proteins	broad_engine	broad_flags	narrow_engine	narrow_flags	model_engine	model_flags	differences
+Calb_SC5314	237561	6041	25	25	6	6	30	30	0
+Caur_UniProt	498019	5433	14	14	5	5	15	15	0
+Cgla_CBS138	284593	5200	25	25	4	4	45	45	0
+Kmar_FIM1	4911	5070	10	10	2	2	22	22	0
+Scer_S288C	559292	6067	11	11	5	5	12	12	0
+Afum_Af293	330879	9647	7	7	3	3	13	13	0
+Cimm_RS	246410	9712	8	8	2	2	19	19	0
+Cneo_H99	235443	7427	2	2	0	0	1	1	0
+Rtor_NP11	1130832	8160	2	2	1	1	1	1	0
+Cpar_CDC317	578454	5777	28	28	9	9	23	23	0
