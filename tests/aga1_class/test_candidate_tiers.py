@@ -105,9 +105,7 @@ def test_sample_is_seeded_spread_over_species_and_all_when_small():
     again = ct.assign(pd.DataFrame(rows))
     pd.testing.assert_frame_equal(one, again)  # deterministic
     s = one[(one.tier == "2") & (one["sample"] != "")]
-    assert (
-        len(s) == 25 and s.species.value_counts().to_dict() == {"S1": 13, "S2": 12} or len(s) == 25
-    )
+    assert len(s) == 25
     assert abs(int((s.species == "S1").sum()) - int((s.species == "S2").sum())) <= 1
     other = ct.assign(pd.DataFrame(rows), seed=1)
     assert set(other[other["sample"] != ""].accession) != set(s.accession)  # the seed matters
