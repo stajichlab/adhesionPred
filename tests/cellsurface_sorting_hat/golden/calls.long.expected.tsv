@@ -7,6 +7,12 @@ SOW1	hydrophobin_domain		not_called	unvalidated	pfam_hydrophobin:no status_sourc
 SOW1	hsba_domain		not_called	unvalidated	pfam_hsba:no status_source		
 SOW1	cell_wall_adhesion_candidate	R0	called	unvalidated	repeat02:no status_source;step1_rule@R0:taxon not tested		signal_peptide_protein,tandem_repeat_protein
 SOW1	surface_attachment_candidate	R0	called	unvalidated	repeat02:no status_source;step1_rule@R0:taxon not tested	tandem_repeat_protein	signal_peptide_protein,tandem_repeat_protein
+SOW1	gpi_anchored_protein		not_called	unvalidated	gpi:no status_source		
+SOW1	long_disordered_protein		not_called	unvalidated	disorder:no status_source		
+SOW1	gpi_long_disorder_protein		not_called	unvalidated	disorder:no status_source;gpi:no status_source		
+SOW1	ser_thr_gpi_wall_candidate	R0	not_called	unvalidated	disorder:no status_source;gpi:no status_source		gpi_long_disorder_protein
+SOW1	flocculin_like_candidate	R0	not_called	unvalidated	disorder:no status_source;gpi:no status_source;repeat14:no status_source		flocculin_like_candidate,gpi_long_disorder_protein
+SOW1	model_surface_candidate	R0	not_called	unvalidated	aga1_model:no status_source		model_surface_candidate
 SOW1	cocci_specificity_rank_top15		called	unvalidated	antigen_lookup:no status_source		
 SOW1	serodiagnostic_marker_candidate	R0	called	unvalidated	antigen_lookup:no status_source;step1_rule@R0:taxon not tested		cocci_specificity_rank_top15,signal_peptide_protein
 SOW1	iuis_allergen_similarity		not_called	unvalidated	allergen_homology:no status_source		
@@ -21,6 +27,12 @@ ENZ1	hydrophobin_domain		not_called	unvalidated	pfam_hydrophobin:no status_sourc
 ENZ1	hsba_domain		not_called	unvalidated	pfam_hsba:no status_source		
 ENZ1	cell_wall_adhesion_candidate	R0	not_called	unvalidated	pfam_adhesion:no status_source;repeat02:no status_source;repeat14:no status_source;step1_rule@R0:taxon:40		signal_peptide_protein,tandem_repeat_protein,wall_family_narrow_domain
 ENZ1	surface_attachment_candidate	R0	not_called	unvalidated	pfam_adhesion:no status_source;pfam_hsba:no status_source;pfam_hydrophobin:no status_source;repeat02:no status_source;repeat14:no status_source;step1_rule@R0:taxon:40		hsba_domain,hydrophobin_domain,signal_peptide_protein,tandem_repeat_protein,wall_family_domain
+ENZ1	gpi_anchored_protein		not_called	unvalidated	gpi:no status_source		
+ENZ1	long_disordered_protein		not_called	unvalidated	disorder:no status_source		
+ENZ1	gpi_long_disorder_protein		not_called	unvalidated	disorder:no status_source;gpi:no status_source		
+ENZ1	ser_thr_gpi_wall_candidate	R0	not_called	unvalidated	disorder:no status_source;gpi:no status_source;step1_rule@R0:taxon:40		gpi_long_disorder_protein,signal_peptide_protein
+ENZ1	flocculin_like_candidate	R0	not_called	unvalidated	disorder:no status_source;gpi:no status_source;repeat14:no status_source;step1_rule@R0:taxon:40		flocculin_like_candidate,gpi_long_disorder_protein,signal_peptide_protein
+ENZ1	model_surface_candidate	R0	not_called	unvalidated	aga1_model:no status_source;step1_rule@R0:taxon:40		model_surface_candidate,signal_peptide_protein
 ENZ1	cocci_specificity_rank_top15		not_applicable	unvalidated	not_applicable: antigen_lookup		
 ENZ1	serodiagnostic_marker_candidate	R0	not_called	estimated	step1_rule@R0:taxon:40;not_applicable: antigen_lookup		signal_peptide_protein
 ENZ1	iuis_allergen_similarity		called	unvalidated	allergen_homology:no status_source		
@@ -35,6 +47,12 @@ DUP1	hydrophobin_domain		not_called	unvalidated	pfam_hydrophobin:no status_sourc
 DUP1	hsba_domain		not_called	unvalidated	pfam_hsba:no status_source		
 DUP1	cell_wall_adhesion_candidate	R0	called	unvalidated	repeat02:no status_source;step1_rule@R0:taxon not tested		signal_peptide_protein,tandem_repeat_protein
 DUP1	surface_attachment_candidate	R0	called	unvalidated	repeat02:no status_source;step1_rule@R0:taxon not tested	tandem_repeat_protein	signal_peptide_protein,tandem_repeat_protein
+DUP1	gpi_anchored_protein		not_called	unvalidated	gpi:no status_source		
+DUP1	long_disordered_protein		not_called	unvalidated	disorder:no status_source		
+DUP1	gpi_long_disorder_protein		not_called	unvalidated	disorder:no status_source;gpi:no status_source		
+DUP1	ser_thr_gpi_wall_candidate	R0	not_called	unvalidated	disorder:no status_source;gpi:no status_source		gpi_long_disorder_protein
+DUP1	flocculin_like_candidate	R0	not_called	unvalidated	disorder:no status_source;gpi:no status_source;repeat14:no status_source		flocculin_like_candidate,gpi_long_disorder_protein
+DUP1	model_surface_candidate	R0	not_called	unvalidated	aga1_model:no status_source		model_surface_candidate
 DUP1	cocci_specificity_rank_top15		called	unvalidated	antigen_lookup:no status_source		
 DUP1	serodiagnostic_marker_candidate	R0	called	unvalidated	antigen_lookup:no status_source;step1_rule@R0:taxon not tested		cocci_specificity_rank_top15,signal_peptide_protein
 DUP1	iuis_allergen_similarity		not_called	unvalidated	allergen_homology:no status_source		
@@ -49,6 +67,12 @@ BAD1	hydrophobin_domain		not_assessable	unvalidated
 BAD1	hsba_domain		not_assessable	unvalidated			
 BAD1	cell_wall_adhesion_candidate	R0	not_assessable	unvalidated			
 BAD1	surface_attachment_candidate	R0	not_assessable	unvalidated			
+BAD1	gpi_anchored_protein		not_assessable	unvalidated			
+BAD1	long_disordered_protein		not_assessable	unvalidated			
+BAD1	gpi_long_disorder_protein		not_assessable	unvalidated			
+BAD1	ser_thr_gpi_wall_candidate	R0	not_assessable	unvalidated			
+BAD1	flocculin_like_candidate	R0	not_assessable	unvalidated			
+BAD1	model_surface_candidate	R0	not_assessable	unvalidated			
 BAD1	cocci_specificity_rank_top15		not_assessable	unvalidated			
 BAD1	serodiagnostic_marker_candidate	R0	not_assessable	unvalidated			
 BAD1	iuis_allergen_similarity		not_assessable	unvalidated			
@@ -63,6 +87,12 @@ STAR1	hydrophobin_domain		not_called	unvalidated	pfam_hydrophobin:no status_sour
 STAR1	hsba_domain		not_called	unvalidated	pfam_hsba:no status_source		
 STAR1	cell_wall_adhesion_candidate	R0	not_called	unvalidated	pfam_adhesion:no status_source;repeat02:no status_source;repeat14:no status_source		tandem_repeat_protein,wall_family_narrow_domain
 STAR1	surface_attachment_candidate	R0	not_called	unvalidated	pfam_adhesion:no status_source;pfam_hsba:no status_source;pfam_hydrophobin:no status_source;repeat02:no status_source;repeat14:no status_source		hsba_domain,hydrophobin_domain,tandem_repeat_protein,wall_family_domain
+STAR1	gpi_anchored_protein		not_called	unvalidated	gpi:no status_source		
+STAR1	long_disordered_protein		not_called	unvalidated	disorder:no status_source		
+STAR1	gpi_long_disorder_protein		not_called	unvalidated	disorder:no status_source;gpi:no status_source		
+STAR1	ser_thr_gpi_wall_candidate	R0	not_called	unvalidated	disorder:no status_source;gpi:no status_source		gpi_long_disorder_protein
+STAR1	flocculin_like_candidate	R0	not_called	unvalidated	disorder:no status_source;gpi:no status_source;repeat14:no status_source		flocculin_like_candidate,gpi_long_disorder_protein
+STAR1	model_surface_candidate	R0	not_called	unvalidated	aga1_model:no status_source		model_surface_candidate
 STAR1	cocci_specificity_rank_top15		not_applicable	unvalidated	not_applicable: antigen_lookup		
 STAR1	serodiagnostic_marker_candidate	R0	not_called	unvalidated	not_applicable: antigen_lookup		
 STAR1	iuis_allergen_similarity		called	unvalidated	allergen_homology:no status_source		

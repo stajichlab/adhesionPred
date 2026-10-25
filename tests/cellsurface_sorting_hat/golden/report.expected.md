@@ -3,9 +3,9 @@
 - proteins: 5 (1 invalid, excluded from all modules; 1 had a trailing `*`, removed)
 - taxa (taxon ID: proteins): 40: 3, 41: 2
 - taxonomy file sha256: 492f746e8af7ed537fe0bcf4920a583e583410d1ebf5b12cd6c1284e44d474df
-- categories.yaml sha256: f50e16844ab62bd590f10cdbe70ddb5217c67ff8dd702e7afbf17ba1b538da37
+- categories.yaml sha256: d12d160697632ff5f92d673205c691a54714d2e6b13eec816ee10b6a515fe50b
 - default gate: step1_rule@R0
-- thresholds: allergen_coverage_min = 80, allergen_hit_identity_min = 35, allergen_hit_length_min = 80, allergen_identity_min = 70, antigen_percentile_max = 15
+- thresholds: allergen_coverage_min = 80, allergen_hit_identity_min = 35, allergen_hit_length_min = 80, allergen_identity_min = 70, antigen_percentile_max = 15, disorder_run_min = 200
 
 ## What the statuses mean
 
@@ -23,8 +23,11 @@
 
 | module | run state |
 |---|---|
+| aga1_model | ok |
 | allergen_homology | ok |
 | antigen_lookup | ok |
+| disorder | ok |
+| gpi | ok |
 | pfam_adhesion | ok |
 | pfam_allergen | ok |
 | pfam_hsba | ok |
@@ -39,9 +42,12 @@ Unavailable step 1 variants: step1_rule@R1, step1_rule@R2, step1_ml@card
 
 | module | state | proteins |
 |---|---|---|
+| aga1_model | na_invalid | 1 |
 | allergen_homology | na_invalid | 1 |
 | antigen_lookup | na_invalid | 1 |
 | antigen_lookup | not_applicable | 2 |
+| disorder | na_invalid | 1 |
+| gpi | na_invalid | 1 |
 | pfam_adhesion | na_invalid | 1 |
 | pfam_allergen | na_invalid | 1 |
 | pfam_hsba | na_invalid | 1 |
@@ -54,10 +60,16 @@ Unavailable step 1 variants: step1_rule@R1, step1_rule@R2, step1_ml@card
 
 | module | taxon | status | measured on call | calibration set | positives | negatives | sensitivity [95% CI] | specificity [95% CI] |
 |---|---|---|---|---|---|---|---|---|
+| aga1_model | 40 | unvalidated | - | - | - | - | not measured | not measured |
+| aga1_model | 41 | unvalidated | - | - | - | - | not measured | not measured |
 | allergen_homology | 40 | unvalidated | - | - | - | - | not measured | not measured |
 | allergen_homology | 41 | unvalidated | - | - | - | - | not measured | not measured |
 | antigen_lookup | 40 | unvalidated | - | - | - | - | not measured | not measured |
 | antigen_lookup | 41 | unvalidated | - | - | - | - | not measured | not measured |
+| disorder | 40 | unvalidated | - | - | - | - | not measured | not measured |
+| disorder | 41 | unvalidated | - | - | - | - | not measured | not measured |
+| gpi | 40 | unvalidated | - | - | - | - | not measured | not measured |
+| gpi | 41 | unvalidated | - | - | - | - | not measured | not measured |
 | pfam_adhesion | 40 | unvalidated | - | - | - | - | not measured | not measured |
 | pfam_adhesion | 41 | unvalidated | - | - | - | - | not measured | not measured |
 | pfam_allergen | 40 | unvalidated | - | - | - | - | not measured | not measured |
@@ -79,12 +91,18 @@ Unavailable step 1 variants: step1_rule@R1, step1_rule@R2, step1_ml@card
 |---|---|---|---|---|---|
 | cell_wall_adhesion_candidate | R0 | 2 | 2 | 1 | 0 |
 | cocci_specificity_rank_top15 | - | 2 | 0 | 1 | 2 |
+| flocculin_like_candidate | R0 | 0 | 4 | 1 | 0 |
+| gpi_anchored_protein | - | 0 | 4 | 1 | 0 |
+| gpi_long_disorder_protein | - | 0 | 4 | 1 | 0 |
 | hsba_domain | - | 0 | 4 | 1 | 0 |
 | hydrophobin_domain | - | 0 | 4 | 1 | 0 |
 | iuis_allergen_homolog | - | 1 | 3 | 1 | 0 |
 | iuis_allergen_similarity | - | 2 | 2 | 1 | 0 |
+| long_disordered_protein | - | 0 | 4 | 1 | 0 |
+| model_surface_candidate | R0 | 0 | 4 | 1 | 0 |
 | other_not_surface | R0 | 1 | 3 | 1 | 0 |
 | other_surface_no_mechanism | R0 | 1 | 3 | 1 | 0 |
+| ser_thr_gpi_wall_candidate | R0 | 0 | 4 | 1 | 0 |
 | serodiagnostic_marker_candidate | R0 | 2 | 2 | 1 | 0 |
 | signal_peptide_protein | R0 | 3 | 1 | 1 | 0 |
 | surface_attachment_candidate | R0 | 2 | 2 | 1 | 0 |
