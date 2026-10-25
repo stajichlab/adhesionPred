@@ -1,0 +1,98 @@
+accession	tier	species	gene	protein_name	verdict	confidence	notes	reviewer	date
+Q4WHJ8	1	Afum_Af293	AFUA_2G05150	Cell wall mannoprotein 1					
+Q4WPK6	1	Afum_Af293	AFUA_4G09600	GPI anchored protein, putative					
+Q4W973	1	Afum_Af293	AFUA_4G00500	Agglutinin-like protein middle domain-containing protein					
+A0A1D8PID2	1	Calb_SC5314	CAALFM_C208990CA	Uncharacterized protein					
+A0AAW0VMW1	1	Caur_UniProt	B9J08_01409	Flo11 domain-containing protein					
+B4UN28	1	Cgla_CBS138	CAGL0J05159g	Uncharacterized protein					
+B4UN41	1	Cgla_CBS138	CAGL0L00157g	Uncharacterized protein					
+B4UN33	1	Cgla_CBS138	CAGL0K00170g	PA14 domain-containing protein					
+Q6FQ10	1	Cgla_CBS138	CAGL0I10098g	PA14 domain-containing protein					
+Q6FSI9	1	Cgla_CBS138	CAGL0G10219g	Uncharacterized protein					
+Q6FK94	1	Cgla_CBS138	CAGL0M00132g	PA14 domain-containing protein					
+Q6FPN0	1	Cgla_CBS138	AWP1	Adhesin AWP1					
+B4UN20	1	Cgla_CBS138	CAGL0I10147g	PA14 domain-containing protein					
+W0TYL5	1	Cgla_CBS138	CAGL0E00231g	Hyphally-regulated cell wall protein N-terminal domain-containing protein					
+B4UN24	1	Cgla_CBS138	CAGL0J01774g	Hyphally-regulated cell wall protein N-terminal domain-containing protein					
+Q6FX23	1	Cgla_CBS138	CAGL0C00968g	Uncharacterized protein					
+Q6FX25	1	Cgla_CBS138	EPA8	PA14 domain-containing protein					
+B4UMX0	1	Cgla_CBS138	EPA10	PA14 domain-containing protein					
+B4UN54	1	Cgla_CBS138	CAGL0L10092g	Uncharacterized protein					
+B4UMX2	1	Cgla_CBS138	EPA9	PA14 domain-containing protein					
+Q6FX21	1	Cgla_CBS138	CAGL0C01133g	Hyphally-regulated cell wall protein N-terminal domain-containing protein					
+Q6FVI3	1	Cgla_CBS138	CAGL0E01661g	Uncharacterized protein					
+Q6FSJ1	1	Cgla_CBS138	AWP6	Uncharacterized protein					
+J3KGH2	1	Cimm_RS	CIMG_00195	Uncharacterized protein					
+J3KDV1	1	Cimm_RS	CIMG_04613	Spherule outer wall glycoprotein					
+A0A0E1RWM3	1	Cimm_RS	CIMG_03231	Uncharacterized protein					
+Q1EAR5	1	Cimm_RS	CTS2	Endochitinase 2					
+G8BJ60	1	Cpar_CDC317	ALS6	Agglutinin-like protein N-terminal domain-containing protein					
+G8B9T8	1	Cpar_CDC317	CPAR2_303790	Flo11 domain-containing protein					
+G8BAL8	1	Cpar_CDC317	CPAR2_806410	Hyphally-regulated cell wall protein N-terminal domain-containing protein					
+G8BIQ2	1	Cpar_CDC317	CPAR2_403190	Hyphal wall protein 1					
+G8BHR3	1	Cpar_CDC317	CHT21	GH18 domain-containing protein					
+G8BIT4	1	Cpar_CDC317	HWP1	Flo11 domain-containing protein					
+G8BIT3	1	Cpar_CDC317	RBT1	Flo11 domain-containing protein					
+G8B4T9	1	Cpar_CDC317	CPAR2_600440	Flo11 domain-containing protein					
+G8BGG4	1	Cpar_CDC317	CPAR2_205900	PGA domain-containing protein					
+G8BHR2	1	Cpar_CDC317	CHT22	GH18 domain-containing protein					
+G8BAL7	1	Cpar_CDC317	CPAR2_806400	Hyphally-regulated cell wall protein N-terminal domain-containing protein					
+G8BAP4	1	Cpar_CDC317	YWP1	Uncharacterized protein					
+G8B4T8	1	Cpar_CDC317	HYR31	Hyphally-regulated cell wall protein N-terminal domain-containing protein					
+G8BJ59	1	Cpar_CDC317	ALS11	Agglutinin-like protein N-terminal domain-containing protein					
+G8B5N2	1	Cpar_CDC317	CPAR2_603420	Hyphally-regulated cell wall protein N-terminal domain-containing protein					
+G8BHB6	1	Cpar_CDC317	ALS1	Agglutinin-like protein N-terminal domain-containing protein					
+G8BJ58	1	Cpar_CDC317	ALS3	Agglutinin-like protein N-terminal domain-containing protein					
+G8BFW7	1	Cpar_CDC317	CPAR2_203940	Uncharacterized protein					
+G8BAL9	1	Cpar_CDC317	CPAR2_806420	Hyphally-regulated cell wall protein N-terminal domain-containing protein					
+G8BH67	1	Cpar_CDC317	CPAR2_500170	Uncharacterized protein					
+A0ABX6F355	1	Kmar_FIM1	FLO1	Flocculation protein FLO9					
+A0ABX6ESV1	1	Kmar_FIM1	FIM1_2080	Uncharacterized protein					
+A0ABX6F2H4	1	Kmar_FIM1	MUC1	Flocculation protein FLO11					
+A0ABX6ETN4	1	Kmar_FIM1	FIM1_1682	Uncharacterized protein					
+A0ABX6EWM1	1	Kmar_FIM1	FIM1_3170	Uncharacterized protein					
+A0ABX6ET07	1	Kmar_FIM1	MUC1	Flocculation protein FLO11					
+A0ABX6F0R6	1	Kmar_FIM1	SAG1	Protein SAG1					
+A0ABX6EY79	1	Kmar_FIM1	AGP19	Lysine-rich arabinogalactan protein 19					
+A0ABX6EYX9	1	Kmar_FIM1	MUC1	Flo11 super family					
+M7X543	1	Rtor_NP11	RHTO_05694	Proteophosphoglycan ppg4					
+Q4WE35	2	Afum_Af293	AFUA_5G01620	Extracellular proline-rich protein					
+Q4WI05	2	Afum_Af293	AFUA_2G03540	Extracellular threonine rich protein, putative					
+Q4X084	2	Afum_Af293	AFUA_2G14360	Probable endo-1,3(4)-beta-glucanase AFUA_2G14360					
+A0A1D8PDQ8	2	Calb_SC5314	CAALFM_C105970WA	Uncharacterized protein					
+A0A1D8PP37	2	Calb_SC5314	CAALFM_C504980WA	Uncharacterized protein					
+A0A1D8PNW1	2	Calb_SC5314	SCW11	Glucan endo-1\3-beta-D-glucosidase					
+A0AAW0VF88	2	Caur_UniProt	B9J08_03659	Uncharacterized protein					
+A0A2H0ZIH9	2	Caur_UniProt	B9J08_05030	Uncharacterized protein					
+A0A2H0ZVY5	2	Caur_UniProt	B9J08_05584	Uncharacterized protein					
+Q6FLW1	2	Cgla_CBS138	CAGL0K13024g	Hyphally-regulated cell wall protein N-terminal domain-containing protein					
+Q6FQ05	2	Cgla_CBS138	PWP5	PA14 domain-containing protein					
+B4UN21	2	Cgla_CBS138	CAGL0I10200g	PA14 domain-containing protein					
+J3KJE1	2	Cimm_RS	CIMG_01531	Uncharacterized protein					
+A0A0E1S306	2	Cimm_RS	CIMG_03870	GPI anchored serine-rich protein					
+J3KCY6	2	Cimm_RS	CIMG_04178	Serine-threonine rich protein					
+J9VFS7	2	Cneo_H99	CNAG_03716	B2-aldehyde-forming enzyme					
+J9VWY5	2	Cneo_H99	CNAG_05915	Uncharacterized protein					
+T2BQH2	2	Cneo_H99	CNAG_00759	Uncharacterized protein					
+G8BIQ1	2	Cpar_CDC317	PGA62	Hyphal wall protein 1					
+G8B8S3	2	Cpar_CDC317	CPAR2_300110	CFEM5					
+G8BII3	2	Cpar_CDC317	CPAR2_402490	Flo11 domain-containing protein					
+A0ABX6EPR0	2	Kmar_FIM1	FIM1_912	Uncharacterized protein					
+A0ABX6EZV0	2	Kmar_FIM1	PIR1	Cell wall mannoprotein HSP150					
+M7X4C0	2	Rtor_NP11	RHTO_02686	Protein CPL1-like domain-containing protein					
+M7XDZ7	2	Rtor_NP11	RHTO_01259	Proteophosphoglycan 5					
+Q4X180	3	Afum_Af293	atg15	Putative lipase atg15					
+Q4WUX4	3	Afum_Af293	AFUA_5G10010	Extracellular serine-threonine rich protein					
+A0A1D8PFX5	3	Calb_SC5314	WSC4	Wsc4p					
+A0A1D8PRJ4	3	Calb_SC5314	CAALFM_C704080CA	Uncharacterized protein					
+A0A2H1A275	3	Caur_UniProt	B9J08_03492	Uncharacterized protein					
+A0AAW0VK10	3	Caur_UniProt	B9J08_00597	WSC domain-containing protein					
+Q6FK96	3	Cgla_CBS138	CAGL0L13332g	PA14 domain-containing protein					
+Q6FT26	3	Cgla_CBS138	DSE2	Protein DSE2					
+J3K490	3	Cimm_RS	CIMG_07843	Prp 6 CRoW domain-containing protein					
+A0A0E1RZE7	3	Cimm_RS	CIMG_02860	Chitinase 3					
+J9VZL5	3	Cneo_H99	CNAG_07772	EGF-like domain-containing protein					
+G8BEW5	3	Cpar_CDC317	CPAR2_200660	Chitinase					
+A0ABX6F270	3	Kmar_FIM1	FIM1_4203	Uncharacterized protein					
+M7X222	3	Rtor_NP11	RHTO_06159	Fungal cellulose binding domain containing protein					
+P0CX91	3	Scer_S288C	YHR212W-A	Uncharacterized protein YHR212W-A					
