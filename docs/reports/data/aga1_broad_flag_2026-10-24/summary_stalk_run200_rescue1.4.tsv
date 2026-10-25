@@ -1,0 +1,10 @@
+role_group	n	yes	no	NA
+adhesin_other_mechanism	49	8	41	0
+background_assumed_negative	389	7	382	0
+class_positive_A	35	19	16	0
+class_positive_B	32	18	14	0
+excluded_indirect_regulator	60	0	60	0
+excluded_surface_other_adhesion_phenotype	36	0	36	0
+hard_negative	172	8	164	0
+kiss_row_positive	70	1	69	0
+uncurated_repeat_bearing	7	1	6	0

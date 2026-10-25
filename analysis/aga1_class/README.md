@@ -100,6 +100,13 @@ Still to check or unknown:
 2. The name of the GPU partition (given by the owner with `-p`) and whether `short` takes the requested CPUs/memory without waiting.
 3. Whether PredGPI finishes 850 sequences within the 2 h `short` limit (unmeasured).
 
+## 4b. Broad flag (candidate)
+
+`stalk_features.py` (per-protein Ser/Thr stalk run and C-terminal tail numbers from the raw AIUPred file; writes no residues),
+`stalk_grid.py` (sensitivity grid) and `broad_flag.py` (signal peptide AND GPI AND a stalk-holding disordered run of at least
+`--min-disordered-run` residues, default 200; `--stalk-table` or `--no-stalk-rule` must be named; `--tail-rescue-min-hydro` is
+optional and off). Report: `docs/reports/2026-10-24-aga1-broad-flag-candidate.md`.
+
 ## 5. Format assumptions (all four tools VERIFIED on the real outputs of 2026-10-24)
 
 * SignalP 6 (verified) `prediction_results.txt`: two `#` header lines (the first holds `Organism: Eukarya`), then TAB rows
