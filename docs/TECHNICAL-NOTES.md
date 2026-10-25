@@ -118,5 +118,26 @@ names (a rough, partly homology-derived reference) the broad rule or two of thre
 *C. glabrata* and 11 of 14 in *K. marxianus*. A model score without a signal-peptide condition is not specific: high-scoring proteins
 without one are cytoplasmic disordered proteins. All five are Saccharomycotina yeasts.
 
-**CFEM proteins.** The 15 UniProt-annotated CFEM (PF05730) proteins in those five proteomes all have a signal peptide and 14 have a GPI call;
-none is flagged by the rules or the models, as expected for short GPI proteins without a long disordered run. The Pfam family covers them.
+**Four non-yeast proteomes and *C. parapsilosis*** (frozen models and thresholds, nothing retuned; report
+`docs/reports/2026-10-26-aga1-nonyeast-and-cpar-test.md`):
+
+| Species | Proteins | Broad rule | Narrow rule | logreg / rf / gboost calls | 2 of 3 models |
+|---|---|---|---|---|---|
+| *A. fumigatus* | 9,647 | 7 | 3 | 19 / 15 / 85 | 20 |
+| *C. immitis* | 9,712 | 8 | 2 | 28 / 23 / 87 | 27 |
+| *C. neoformans* | 7,427 | 2 | 0 | 2 / 5 / 70 | 3 |
+| *R. toruloides* | 8,160 | 2 | 1 | 6 / 19 / 117 | 11 |
+| *C. parapsilosis* | 5,777 | 28 | 9 | 26 / 29 / 35 | 25 |
+
+The *C. immitis* spherule outer wall glycoprotein (CIMG_04613) passes both rules and all three models; related SOWgp proteins are training positives.
+In *C. parapsilosis* the broad rule finds 16 of 37 adhesin-named proteins and the broad rule or 2 of 3 models with a signal peptide finds 18 (ALS1, 3, 6,
+7, 11, HYR31, Hyr-like and Flo11-domain proteins). Thresholds are not equally calibrated outside yeast: gradient boosting calls 70 to 117 proteins in the
+four non-yeast proteomes against 2 to 28 for logistic regression and 5 to 23 for the random forest, so a single-model call needs recalibration on a new clade;
+the "2 of 3 models with a signal peptide" call absorbs most of it. Enzymes with a Ser/Thr-rich linker (chitinases, an endoglucanase) are still flagged by the
+broad rule, and secreted Ser/Thr/Pro-rich proteins without a GPI call are scored high by the models but excluded by the broad rule.
+
+**CFEM proteins.** Of the 15 UniProt-annotated CFEM (PF05730) proteins in the five yeast proteomes, all have a signal peptide, 14 have a GPI call and none
+is flagged by the rules or the models, as expected for short GPI proteins without a long disordered run. In the non-yeast proteomes 4 of 20 are flagged
+(*A. fumigatus* cfmA and an extracellular Ser/Thr-rich protein; *C. immitis* CIMG_00795 and CIMG_03472), and in *C. parapsilosis* 1 of 8 (CFEM5, 918 aa,
+a disordered run of 230). The flags miss the short CFEM proteins and catch some long CFEM-domain proteins that carry a long disordered region; the Pfam CFEM
+family covers the family.
