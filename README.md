@@ -5,7 +5,7 @@ GPI-anchored cell-wall proteins, tandem-repeat adhesins (flocculin/ALS/EPA-like)
 
 There is **no single "adhesin predictor"**. "Adhesin", "antigen" and "biofilm factor" are outcomes, not sequence features, and the
 evidence in this repository showed that one model for all of them is the wrong target (`docs/TOOL-ARCHITECTURE.md`). The
-original ESM-2 classifier turned out to be a surface-glycoprotein detector with about 12% adhesin precision on *S. cerevisiae*, and no
+original ESM-2 classifier turned out to be a surface-glycoprotein detector rather than an adhesin predictor, and no
 trained model ships with the package. What you can use today are the components below. Each states what it measures and what it
 does not.
 
@@ -14,7 +14,7 @@ does not.
 | Component | What it does | Status |
 |---|---|---|
 | [`cellsurface_sorting_hat`](#1-cellsurface_sorting_hat-sort-a-proteome-into-surface-categories) | Reads tool results for a proteome (SignalP, Pfam, repeat detectors, TMHMM, allergen BLAST) and writes per-protein calls with explicit evidence and a three-valued logic (called / not called / not assessable) | Engine, module wrappers, calibration commands and HPCC job scripts exist. Each call has a measured status per species where truth data allowed it (`docs/CLASSES.md`) |
-| [AGA1-class tools](#2-aga1-class-tools-flocculin-like-sertthr-rich-gpi-wall-proteins) (`analysis/aga1_class/`) | Rule-based flags and a features-only classifier for Ser/Thr-rich, repeat-bearing, GPI-anchored wall proteins; scripts to run SignalP, PredGPI and AIUPred on whole proteomes and summarise them | Tested on 850 labelled proteins and on five yeast proteomes (reports below). Research tools, not a validated predictor |
+| [AGA1-class tools](#2-aga1-class-tools-flocculin-like-sertthr-rich-gpi-wall-proteins) (`analysis/aga1_class/`) | Rule-based flags and a features-only classifier for Ser/Thr-rich, repeat-bearing, GPI-anchored wall proteins; scripts to run SignalP, PredGPI and AIUPred on whole proteomes and summarise them | Research tools with measured performance on labelled sets (see `docs/reports/`); not a validated predictor |
 | Repeat detectors (`analysis/cocci_repeats/02_repeat_profile.py`, `14_repeat_detect_general.py`) | Tandem-repeat arrays per protein (period, copies, coverage); script 14 is the project's general detector | Used by the sorting hat and the AGA1 tools |
 | Pfam family table (`data/sorting_hat/family_table.tsv`) | Which Pfam families count as wall, hydrophobin, allergen or HsbA evidence, with the specificity tier and owner sign-off for each | Curated; every row says what was measured |
 | [`surface_glyco_*`](#3-surface_glyco-the-older-esm-2-surface-glycoprotein-scorer) (older) | ESM-2 embeddings plus logistic regression that scores a protein as a secreted cell-surface glycoprotein | Still works, but no trained model ships; train your own. Not an adhesin predictor and not used by the newer tools |
@@ -90,17 +90,15 @@ format notes for every script.
   (`--min-disordered-run` sets the cut; 100 is the sensitivity value). This finds Ser/Thr-rich GPI wall mannoproteins in general
   (SED1/DAN4-like proteins and the ALS/FLO/EPA adhesins).
 * **Narrow**: the broad flag **and** the project repeat call (detector 14: coverage at least 0.25 and at least 2.5 copies). Stricter;
-  it misses adhesins whose repeats are not periodic (AGA1 and FLO11 have no repeat call).
+  it misses adhesins whose repeats are not periodic.
 * The Ser/Thr "stalk" rule is available (`stalk_features.py`) but is **not** used as a gate: it removed real positives and no negatives.
 
-**The classifier** (`feature_classifier.py`): logistic regression, random forest and gradient boosting on 30 features (composition,
-disorder, repeat score, signal peptide and GPI calls, tail hydrophobicity, length). With whole clusters held out, AUC is about 0.97 on
-the labelled tier A positives against hard negatives and background, and at a 3.5% false-positive rate it recovers more positives
-than the broad rule (about 0.77 to 0.85 against 0.66), but the confidence intervals overlap, so no improvement is claimed. Composition
-carries nearly all the signal. Fixed thresholds do **not** carry across clades (the realised false-positive rate was 12 to 36% with
-Saccharomycotina held out), so recalibrate a threshold for each new clade. Report: `docs/reports/2026-10-25-aga1-feature-classifier.md`.
+**The classifier** (`feature_classifier.py`): logistic regression, random forest and gradient boosting on per-protein features
+(composition, disorder, repeat score, signal peptide and GPI calls, tail hydrophobicity, length). It is evaluated with whole sequence
+clusters held out, and `apply` scores a new feature table with a model fit on the labelled set. Thresholds do not carry across
+clades, so recalibrate one for each new clade. Results and limits: `docs/reports/2026-10-25-aga1-feature-classifier.md`.
 
-**Run it on a proteome** (the pipeline used for the five-yeast test; all inputs are UniProt accessions):
+**Run it on a proteome** (all proteins are keyed by UniProt accession):
 
 ```bash
 # 1. stage chunks of at most 1,000 proteins (writes outside the repo; refuses an existing --out)
@@ -134,18 +132,9 @@ Every script refuses to overwrite an existing output and stops with a `FATAL:` m
 mismatch or a malformed row; nothing is written as a silent 0. Per-residue AIUPred files carry residue letters, so they and FASTA
 files are kept out of the repository (hashes are recorded instead).
 
-**What has been measured** (`docs/reports/`):
-
-* `2026-10-24-aga1-signalp-predgpi-results.md`, `2026-10-24-aga1-disorder-results.md`, `2026-10-24-aga1-broad-flag-candidate.md`: the predictor
-  results on 850 labelled proteins and the first flag.
-* `2026-10-25-aga1-feature-classifier.md`: the features-only study (above).
-* `2026-10-25-aga1-proteome-test.md`: five yeast proteomes (*S. cerevisiae*, *C. albicans*, *C. glabrata*, *K. marxianus*, *C. auris*).
-  In *C. glabrata* the broad rule, or two of three models with a signal peptide, finds 32 of 37 proteins with an adhesin-like UniProt
-  name (most of the EPA family, AWP, PWP); in *K. marxianus* 11 of 14. The name reference is only a rough guide. All five are
-  Saccharomycotina yeasts, so that test says little about other clades. A test on *A. fumigatus*, *Coccidioides*, *Cryptococcus*
-  and *Rhodotorula* is under way and will have its own report.
-* The flags do not see **CFEM** proteins (RBT5, PGA7, PGA10, CSA1, CSA2 and relatives): they are short GPI proteins without a long
-  disordered run. They are a different class (heme acquisition) and are covered by the Pfam CFEM family (PF05730) in the family table.
+**Results and limits** are written up in `docs/reports/` (`*-aga1-*.md`): the class scoping and labels, the predictor results, the flag
+definitions, the classifier study and the proteome tests. The flags target flocculin-like proteins; other GPI wall families, such as
+the CFEM proteins, are not seen by them and are covered by Pfam families in the family table.
 
 ## 3. `surface_glyco`: the older ESM-2 surface-glycoprotein scorer
 
