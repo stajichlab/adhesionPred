@@ -1,6 +1,6 @@
 # AGA1-class modules for the sorting hat, and a cross-proteome aggregator: design
 
-Date: 2026-10-26. Status: revision 2 after an adversarial review (2026-10-26; findings verified against the engine code). Decisions: the owner's answers of 2026-10-26 (memory note `aga1-sorting-hat-integration-decisions-2026-10-26`),
+Date: 2026-10-26. Status: revision 2 after an adversarial review (2026-10-26; findings verified against the engine code); the owner accepted the status plan of 2.4 on 2026-10-26. The plan is `docs/superpowers/plans/2026-10-26-aga1-sorting-hat-modules-and-aggregator.md`. Decisions: the owner's answers of 2026-10-26 (memory note `aga1-sorting-hat-integration-decisions-2026-10-26`),
 recorded here with the reasons. Related: `docs/superpowers/specs/2026-10-04-orchestrator-design.md` (the engine), `docs/CLASSES.md` (current calls),
 `analysis/aga1_class/` (the tools this spec turns into modules), `docs/reports/2026-10-24-aga1-broad-flag-candidate.md`,
 `docs/reports/2026-10-25-aga1-feature-classifier.md`, `docs/reports/2026-10-26-aga1-nonyeast-and-cpar-test.md`.
@@ -119,16 +119,16 @@ Counts are counts of calls. They are not gene numbers per family and not false-p
 * Identity and status: a changed threshold row or score table changes the `aga1_model` identity; a call-status file for a composite is refused; `gpi_long_disorder_protein` accepts `--call-status`; a stale status file is not used.
 * Thresholds table: schema checks, one signed row per clade and model, `calibrated` values, the Saccharomycotina values equal the committed record.
 * Aggregator tests: synthetic runs, rank grouping, group-table override, denominators, status columns, `--measured-only`, mixed-config stop, figure files exist and are non-empty.
-* End-to-end test on committed small fixtures (a few proteins), plus a real local run on the 14 proteomes as the acceptance check (module tables from the existing SignalP, PredGPI, AIUPred, repeat and classifier outputs; modules without a table are `not_assessable`).
+* End-to-end test on committed small fixtures (a few proteins), plus a real local run on the 10 proteomes as the acceptance check (module tables from the existing SignalP, PredGPI, AIUPred, repeat and classifier outputs; modules without a table are `not_assessable`).
 
 ## 5. Work packages (each a PR)
 
 1. This spec and a review; the plan.
 2. Module wrappers `gpi`, `disorder`, `aga1_model` + thresholds table + tests.
 3. Calls in `categories.yaml`, `class_descriptions.yaml`, regenerated `CLASSES.md`, engine and label tests. This changes the config hash, the golden run and `report.expected.md` (new absent modules appear in the warnings), so the golden files are regenerated in their own commit.
-4. Local run on the 14 proteomes (acceptance), status files as in 2.4.
+4. Local run on the 10 proteomes (acceptance), status files as in 2.4.
 5. The aggregator and its tests.
-6. First aggregate report on the 14 proteomes; README and `docs/TECHNICAL-NOTES.md` updated.
+6. First aggregate report on the 10 proteomes; README and `docs/TECHNICAL-NOTES.md` updated.
 
 Cluster work (the Pfam and TMHMM arrays) runs in parallel and each submission needs the owner's go-ahead.
 
