@@ -1,0 +1,13 @@
+protein_set	detection	n_in_set	detected_in_set	rate_in_set	n_outside	detected_outside	rate_outside	odds_ratio	fisher_p
+signal peptide	detected_any	753	123	0.163	8894	257	0.0289	6.56	2.470552948289178e-46
+signal peptide	detected_2plus_runs	753	109	0.145	8894	179	0.0201	8.24	1.5307886512797153e-48
+signal peptide and GPI	detected_any	114	15	0.132	9533	365	0.0383	3.81	3.829535074513656e-05
+signal peptide and GPI	detected_2plus_runs	114	13	0.114	9533	275	0.0288	4.33	3.321397418638902e-05
+broad rule	detected_any	7	2	0.286	9640	378	0.0392	9.8	0.028496854576939557
+broad rule	detected_2plus_runs	7	2	0.286	9640	286	0.0297	13.08	0.01688933358722847
+narrow rule	detected_any	3	1	0.333	9644	379	0.0393	12.22	0.1135890456836091
+narrow rule	detected_2plus_runs	3	1	0.333	9644	287	0.0298	16.3	0.08692311293483843
+2 of 3 models and signal peptide	detected_any	13	1	0.077	9634	379	0.0393	2.03	0.4071219363883852
+2 of 3 models and signal peptide	detected_2plus_runs	13	1	0.077	9634	287	0.0298	2.71	0.32582127608619815
+broad rule or 2 of 3 models with signal peptide	detected_any	15	2	0.133	9632	378	0.0392	3.77	0.11599441661028317
+broad rule or 2 of 3 models with signal peptide	detected_2plus_runs	15	2	0.133	9632	286	0.0297	5.03	0.07222588142728403
