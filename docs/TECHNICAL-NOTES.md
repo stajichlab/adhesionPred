@@ -141,3 +141,13 @@ is flagged by the rules or the models, as expected for short GPI proteins withou
 (*A. fumigatus* cfmA and an extracellular Ser/Thr-rich protein; *C. immitis* CIMG_00795 and CIMG_03472), and in *C. parapsilosis* 1 of 8 (CFEM5, 918 aa,
 a disordered run of 230). The flags miss the short CFEM proteins and catch some long CFEM-domain proteins that carry a long disordered region; the Pfam CFEM
 family covers the family.
+
+### Cross-proteome aggregator
+`cellsurface_sorting_hat_aggregate` (`src/cellsurface_sorting_hat/aggregate/`) reads `calls.long.tsv.gz`, `proteins.tsv.gz` and `run.json` of
+each run at the default gate variant (`R0`), one taxon per run, and refuses mixed `categories.yaml` hashes unless `--allow-mixed-config`.
+Status of a (proteome, call) cell is the weakest status among the called records, else `not_called`. A cell with fewer than half of its
+proteins assessable is flagged `low_assessable` and left out of the group rate summaries (an OR with an unassessable input makes the rate
+1,000 per 1,000 by construction). Figures are deterministic PNGs. First report on 10 proteomes:
+`docs/reports/data/aga1_aggregate_2026-10-26/` (limits in its README). Not yet done: orthogroups, diversity and duplication, genome
+context, phylogenetic statistics, a scale-out runner, an interactive page.
+

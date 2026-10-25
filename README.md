@@ -134,6 +134,19 @@ output are kept out of the repository (conventions: `docs/TECHNICAL-NOTES.md`).
 The flags target flocculin-like proteins; other GPI wall families, such as the CFEM proteins, are not seen by them and are covered by
 Pfam families in the family table. Measured performance and its limits: `docs/TECHNICAL-NOTES.md` and the reports in `docs/reports/`.
 
+### Aggregating across proteomes
+
+`cellsurface_sorting_hat_aggregate` reads the output folders of several engine runs and writes tables, a Markdown report and static
+figures. Proteomes are grouped by an NCBI lineage rank (default `class`) or by a group table you supply. Calls are counted per 1,000
+assessable proteins, the status of each call is always shown, and an empty denominator is reported as NA, never as 0.
+
+```bash
+cellsurface_sorting_hat_aggregate --manifest manifest.tsv --taxdump nodes.dmp --names names.dmp --rank class --out report_dir
+```
+
+`manifest.tsv` has the columns `run_dir` and `label`. Use `--measured-only` to summarise only proteomes in which a call has a measured
+status, and `--help` for the other options.
+
 ## 3. `surface_glyco`: the older ESM-2 surface-glycoprotein scorer
 
 This was the first tool in the project and it still works: the commands below train and run it. No trained model ships with the package, so

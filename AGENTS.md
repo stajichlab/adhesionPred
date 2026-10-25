@@ -83,6 +83,14 @@ All optimizations maintain full backward compatibility with the existing API. No
 - Tests first (strict xfail, flipped task by task), then: loader re-validation and `negative_basis` per stratum, `not_applicable` and the `other_*` rule, `family_tier` derivation and `family_measure.tsv`, family table columns with the `wall_family_narrow_domain` call, `derived_from` and `leakage_exception`, the condition-table digest, `primary_label`. Golden files are regenerated in their own commit.
 - Not done: Task 3.10 (HPCC re-runs of `calibrate phasec` and the call status files; nothing was run on HPCC or submitted to SLURM). The owner signs `narrow_ok` per family (all rows are `no`; the D12 draft is in `narrow_ok_draft`). Conflicts between the decisions and the code are listed in the PR description.
 
+## AGA1-class sorting-hat modules, calls and aggregator (October 2026)
+
+### Agent: Claude Code (claude-sonnet-5-5)
+**Task:** Implement `docs/superpowers/plans/2026-10-26-aga1-sorting-hat-modules-and-aggregator.md` (PRs 158 to 161).
+
+- Added: modules `gpi`, `disorder`, `aga1_model` and the thresholds table; six calls (`gpi_anchored_protein`, `long_disordered_protein`, `gpi_long_disorder_protein`, `ser_thr_gpi_wall_candidate`, `flocculin_like_candidate`, `model_surface_candidate`); acceptance on 10 proteomes with smoke status files for two calls in two taxa; `cellsurface_sorting_hat_aggregate` and a first report (`docs/reports/data/aga1_aggregate_2026-10-26/`).
+- Not done: the hand-check verdicts (owner), per-clade threshold recalibration, orthogroup/diversity statistics, conversion of the finished Pfam and TMHMM scans to module tables.
+
 ---
 
 *This file tracks AI agent contributions to maintain transparency about automated code improvements.*
