@@ -112,3 +112,21 @@ def test_array_sbatch_guards():
     assert "aiupred.py" in t and "-g 0" in t
     for needle in ("PLACEHOLDER", "CMD_CONFIRMED", "DRAFT, NOT SUBMITTED"):
         assert needle not in t
+
+
+def test_array_sbatch_pfam_and_tmhmm_tools():
+    t = (D / "proteome_array.sbatch").read_text()
+    assert "signalp|predgpi|aiupred|pfam_family|pfam_full|tmhmm" in t
+    assert (
+        'hmmsearch --cut_ga --cpu "${SLURM_CPUS_PER_TASK:-2}" --noali -o /dev/null --domtblout "$TMP/domtbl.txt" "$MODELS" "$FA"'
+        in t
+    )
+    assert (
+        "# \\[ok\\]" in t
+    )  # the domain table must end with the HMMER trailer, as the sorting-hat module requires
+    assert (
+        "hmmfetch -f" in t and "diff -q" in t
+    )  # the family-table models must be the ones fetched (names equal the table)
+    assert '*"Pfam${PFAM_RELEASE}/"*' in t  # the Pfam release is checked against the resolved path
+    assert "tmhmm -short" in t and '[ "$N_ROWS" -eq "$N_EXP" ] || fail "tmhmm.tsv has' in t
+    assert "FAMILY_TABLE:?" in t and "PFAM_RELEASE:?" in t

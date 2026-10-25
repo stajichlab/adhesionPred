@@ -1,7 +1,10 @@
 #!/bin/bash -l
 # AGA1-class proteome test: one SLURM array task = one chunk (at most 1000 proteins) of the staged UniProt proteomes, one tool.
-# TOOL is signalp, predgpi or aiupred (same settings as the 850-protein run of 2026-10-24: SignalP 6 eukarya fast mode, PredGPI
-# `-m gff3`, AIUPred 2.x defaults on a GPU). Heavy work is a SLURM job, never on the login node.
+# TOOL is signalp, predgpi, aiupred, pfam_family, pfam_full or tmhmm (the first three with the settings of the 850-protein run of
+# 2026-10-24: SignalP 6 eukarya fast mode, PredGPI `-m gff3`, AIUPred 2.x defaults on a GPU). pfam_family searches only the models of
+# data/sorting_hat/family_table.tsv (hmmsearch --cut_ga, what the sorting-hat `pfam` module reads), pfam_full searches all of Pfam-A
+# (--cut_ga) for domain architecture with coordinates, tmhmm runs TMHMM 2.0c (-short). The two Pfam tools need FAMILY_TABLE (pfam_family only),
+# PFAM_RELEASE and optionally PFAM_HMM exported. Heavy work is a SLURM job, never on the login node.
 #
 # Inputs:  $IN/chunks.tsv, $IN/chunks/<chunk>.faa, staged by analysis/aga1_class/stage_proteomes.py and copied by the owner.
 # Output:  $OUT/<chunk>/{prediction_results.txt | predgpi_raw.gff3 | disorder_raw.txt} and provenance.txt. $OUT may already exist
@@ -11,6 +14,8 @@
 #   SignalP : sbatch --array=1-32%4 --export=ALL,PROJ_ROOT=..,CODE_COMMIT=..,IN=..,OUT=..,TOOL=signalp proteome_array.sbatch
 #   PredGPI : sbatch -c 2 --mem=8G --time=2:00:00 --array=1-32%4 --export=...,TOOL=predgpi ...
 #   AIUPred : sbatch -p <gpu-partition> --gres=gpu:1 -c 4 --mem=8G --time=1:30:00 --array=1-32%2 --export=...,TOOL=aiupred ...
+#   Pfam    : sbatch -c 8 --mem=8G --time=2:00:00 --array=1-32%4 --export=...,TOOL=pfam_full,PFAM_RELEASE=38.2 ...   (pfam_family: add FAMILY_TABLE=...)
+#   TMHMM   : sbatch -c 2 --mem=4G --time=2:00:00 --array=1-32%6 --export=...,TOOL=tmhmm ...
 #   (add -o $LOGS/%x.%A_%a.log -e $LOGS/%x.%A_%a.log; the log directory must exist)
 #SBATCH -p short
 #SBATCH -c 8
@@ -39,7 +44,7 @@ check_pin() {
 }
 
 check_pin
-case "$TOOL" in signalp|predgpi|aiupred) ;; *) fail "TOOL must be signalp, predgpi or aiupred, not $TOOL" ;; esac
+case "$TOOL" in signalp|predgpi|aiupred|pfam_family|pfam_full|tmhmm) ;; *) fail "TOOL must be signalp, predgpi, aiupred, pfam_family, pfam_full or tmhmm, not $TOOL" ;; esac
 [ -f "$IN/chunks.tsv" ] || fail "$IN/chunks.tsv is missing"
 ROW=$(awk -F'\t' -v n="$SLURM_ARRAY_TASK_ID" 'NR == n + 1 { print }' "$IN/chunks.tsv")
 [ -n "$ROW" ] || fail "array task $SLURM_ARRAY_TASK_ID is beyond the $(($(wc -l < "$IN/chunks.tsv") - 1)) chunks"
@@ -99,6 +104,51 @@ settings: -m gff3 (default omega site, no -c)"
 tool_script_sha256: $(sha256sum < "$AIUPRED_PY" | cut -d' ' -f1)
 torch_version: $(python3 -c 'import torch; print(torch.__version__)' 2>&1 || true)
 settings: defaults of aiupred.py, -g 0"
+    ;;
+  pfam_family|pfam_full)
+    : "${PFAM_RELEASE:?export PFAM_RELEASE (for example 38.2) for the Pfam tools}"
+    PFAM_HMM="${PFAM_HMM:-/bigdata/operations/pkgadmin/srv/projects/db/pfam/current/Pfam-A.hmm}"
+    TOOL_MODULE="hmmer/3.4"
+    module load "$TOOL_MODULE"
+    RESOLVED="$(readlink -f "$PFAM_HMM")"
+    case "$RESOLVED" in *"Pfam${PFAM_RELEASE}/"*) ;; *) fail "$RESOLVED is not in a directory named *Pfam${PFAM_RELEASE}" ;; esac
+    if [ "$TOOL" = pfam_family ]; then
+      : "${FAMILY_TABLE:?export FAMILY_TABLE (data/sorting_hat/family_table.tsv) for pfam_family}"
+      tail -n +2 "$FAMILY_TABLE" | cut -f2 | sort -u > "$TMP/keys.txt"
+      hmmfetch -f "$PFAM_HMM" "$TMP/keys.txt" > "$TMP/models.hmm"
+      N_MODELS=$(grep -c '^NAME' "$TMP/models.hmm" || true)
+      [ "$N_MODELS" -eq "$(wc -l < "$TMP/keys.txt")" ] || fail "hmmfetch found $N_MODELS of $(wc -l < "$TMP/keys.txt") models"
+      awk '/^NAME/{n=$2} /^ACC/{split($2,a,"."); print a[1]"\t"n}' "$TMP/models.hmm" | sort > "$TMP/fetched.txt"
+      tail -n +2 "$FAMILY_TABLE" | cut -f1,2 | sort > "$TMP/table.txt"
+      diff -q "$TMP/fetched.txt" "$TMP/table.txt" > /dev/null || fail "model names in the database differ from the family table"
+      MODELS="$TMP/models.hmm"
+      SETTINGS="hmmsearch --cut_ga with the $N_MODELS models of the family table (sha256 of the table: $(sha256sum < "$FAMILY_TABLE" | cut -d' ' -f1))"
+    else
+      MODELS="$PFAM_HMM"
+      SETTINGS="hmmsearch --cut_ga with all of Pfam-A"
+    fi
+    hmmsearch --cut_ga --cpu "${SLURM_CPUS_PER_TASK:-2}" --noali -o /dev/null --domtblout "$TMP/domtbl.txt" "$MODELS" "$FA"
+    tail -n 3 "$TMP/domtbl.txt" | grep -qx '# \[ok\]' || fail "domain table has no '# [ok]' trailer"
+    RAW="$TMP/domtbl.txt"; RAWNAME=domtbl.txt
+    N_ROWS=$(grep -vc '^#' "$RAW" || true)
+    TOOL_INFO="pfam_hmm: $PFAM_HMM
+pfam_resolved: $RESOLVED
+pfam_release: $PFAM_RELEASE
+pfam_sha256: $(sha256sum < "$RESOLVED" | cut -d' ' -f1)
+hmmer: $(hmmsearch -h | sed -n 2p)
+settings: $SETTINGS"
+    ;;
+  tmhmm)
+    TOOL_MODULE="tmhmm/2.0c"
+    module load "$TOOL_MODULE"
+    command -v tmhmm >/dev/null || fail "tmhmm not on PATH after module load $TOOL_MODULE"
+    ( cd "$TMP" && tmhmm -short "$FA" > "$TMP/tmhmm.out" )   # TMHMM writes a TMHMM_<pid> directory into the current directory
+    awk 'BEGIN{OFS="\t"; print "protein_id","len","exp_aa","first60","pred_hel","topology"}
+      {for(i=2;i<=NF;i++){sub(/^[^=]*=/,"",$i)} print $1,$2,$3,$4,$5,$6}' "$TMP/tmhmm.out" > "$TMP/tmhmm.tsv"
+    RAW="$TMP/tmhmm.tsv"; RAWNAME=tmhmm.tsv
+    N_ROWS=$(($(wc -l < "$RAW") - 1))
+    [ "$N_ROWS" -eq "$N_EXP" ] || fail "tmhmm.tsv has $N_ROWS rows, not $N_EXP"
+    TOOL_INFO="settings: tmhmm -short (TMHMM 2.0c)"
     ;;
 esac
 
