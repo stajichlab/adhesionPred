@@ -1,0 +1,11 @@
+job: aga1_disorder (AGA1-class prediction step)
+commit: 424f5e8861dfd4c0cb56fd7533c5e69610120086 (pinned: 424f5e8861dfd4c0cb56fd7533c5e69610120086)
+tool: aiupred
+module: aiupred/2.x
+tool_path: /opt/linux/rocky/8.x/x86_64/pkgs/aiupred/2.x/AIUPred/aiupred.py
+tool_script_sha256: 585ec7a3b1cf40dc9ad7ef7a49209da50baf955bf12721b8e683741f4df8bbdc
+device: gpu
+torch_version: 2.6.0+cu124
+settings: defaults of aiupred.py
+input sha256 708384fbdbe4a2b24714c8547a12ef23671faff7e1bd75fd5c9cf8475ac63a0e
+records: 0 of 850

@@ -368,3 +368,24 @@ def test_disorder_commands_and_guards():
 def test_signalp_records_versions():
     t = (D / "signalp.sbatch").read_text()
     assert "signalp6 --version" in t and "--organism eukarya" in t and "module -t list" in t
+
+
+def test_aiupred_hash_header_layout_is_read(files):
+    """AIUPred 2.x writes a banner, then per record '#>ID', score rows and a blank line (real layout of 2026-10-24)."""
+    plain = run(files)
+    banner = "#  AIUPred (synthetic banner)\n# Position\tResidue\tDisorder\n"
+    lines = Path(files["disorder"]).read_text().splitlines()
+    body = "".join(
+        ("#" + ln + "\n") if ln.startswith(">") else (ln + "\n")
+        for ln in lines
+        if not ln.startswith("# SYNTH")
+    )
+    Path(files["disorder"]).write_text(banner + body.replace("\n#>", "\n\n#>"))
+    assert "#>P1" in Path(files["disorder"]).read_text()
+    assert run(files) == plain
+
+
+def test_small_overshoot_of_the_score_range_is_accepted(files):
+    p = Path(files["disorder"])
+    p.write_text(p.read_text().replace("2 S 0.6", "2 S 1.0096").replace("3 T 0.7", "3 T -0.0123"))
+    assert run(files)[0]["disorder_n_res"] == 100

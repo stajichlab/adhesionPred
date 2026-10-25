@@ -1,0 +1,13 @@
+job: aga1_disorder (AGA1-class prediction step)
+commit: 424f5e8861dfd4c0cb56fd7533c5e69610120086 (pinned: 424f5e8861dfd4c0cb56fd7533c5e69610120086)
+tool: iupred3
+module: iupred/3
+tool_path: /opt/linux/rocky/8.x/x86_64/pkgs/iupred/3/iupred3.py
+tool_script_sha256: e227a15df69bad2d8ed2a84225f1aebb844184a4da07088e475e2bf2091c8aba
+device: cpu
+torch_version: Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+ModuleNotFoundError: No module named 'torch'
+settings: long mode
+input sha256 708384fbdbe4a2b24714c8547a12ef23671faff7e1bd75fd5c9cf8475ac63a0e
+records: 850 of 850
