@@ -92,6 +92,7 @@ All optimizations maintain full backward compatibility with the existing API. No
 - Later (PR after 161): `analysis/sorting_hat_run/aga1_domain_modules.py` converts the finished Pfam and TMHMM scans and runs repeat02, and a second aggregate report (`docs/reports/data/aga1_aggregate_domains_2026-10-26/`) leaves only the allergen and antigen calls NA.
 - Internal-TM rule (PR after 164): the `tm` module (version 2) writes `n_tm_internal`; new call `gpi_no_internal_tm_protein`; `gpi_long_disorder_protein` and the flags use it; record `docs/reports/data/aga1_internal_tm_2026-10-26/`.
 - Not done: the hand-check verdicts (owner), per-clade threshold recalibration, orthogroup/diversity statistics, allergen BLAST and antigen lookup on the ten proteomes.
+- Not done: the hand-check verdicts (owner), per-clade threshold recalibration, orthogroup/diversity statistics, allergen BLAST and antigen lookup on the ten proteomes (done afterwards: `analysis/sorting_hat_run/aga1_allergen_antigen_modules.py` and `docs/reports/data/aga1_aggregate_allergen_antigen_2026-10-26/`).
 
 ---
 

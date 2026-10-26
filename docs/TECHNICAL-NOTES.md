@@ -154,3 +154,6 @@ context, phylogenetic statistics, a scale-out runner, an interactive page.
 Second report with the Pfam, TMHMM and repeat02 modules added (`analysis/sorting_hat_run/aga1_domain_modules.py`):
 `docs/reports/data/aga1_aggregate_domains_2026-10-26/`. Remaining NA calls: those that need the allergen BLAST and antigen lookup.
 
+Third report with the allergen and antigen modules (`analysis/sorting_hat_run/aga1_allergen_antigen_modules.py`, local BLASTP, no HPCC):
+`docs/reports/data/aga1_aggregate_allergen_antigen_2026-10-26/`. `iuis_allergen_homolog` stays not assessable (no active allergen Pfam family).
+

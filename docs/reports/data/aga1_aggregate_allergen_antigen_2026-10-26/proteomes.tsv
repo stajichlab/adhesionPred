@@ -1,0 +1,11 @@
+proteome	run_dir	taxon	group	group_source	proteins	invalid	config_sha256	engine_version	absent_modules
+Afum_Af293	/Users/jstajich/projects/adhesionPred-sorting-hat-runs/Afum_Af293/out_allergen_antigen	330879	Eurotiomycetes	lineage	9647	0	d12d160697632ff5f92d673205c691a54714d2e6b13eec816ee10b6a515fe50b	0+unknown	
+Cimm_RS	/Users/jstajich/projects/adhesionPred-sorting-hat-runs/Cimm_RS/out_allergen_antigen	246410	Eurotiomycetes	lineage	9712	0	d12d160697632ff5f92d673205c691a54714d2e6b13eec816ee10b6a515fe50b	0+unknown	
+Rtor_NP11	/Users/jstajich/projects/adhesionPred-sorting-hat-runs/Rtor_NP11/out_allergen_antigen	1130832	Microbotryomycetes	lineage	8160	0	d12d160697632ff5f92d673205c691a54714d2e6b13eec816ee10b6a515fe50b	0+unknown	
+Calb_SC5314	/Users/jstajich/projects/adhesionPred-sorting-hat-runs/Calb_SC5314/out_allergen_antigen	237561	Pichiomycetes	lineage	6041	0	d12d160697632ff5f92d673205c691a54714d2e6b13eec816ee10b6a515fe50b	0+unknown	
+Caur_UniProt	/Users/jstajich/projects/adhesionPred-sorting-hat-runs/Caur_UniProt/out_allergen_antigen	498019	Pichiomycetes	lineage	5433	0	d12d160697632ff5f92d673205c691a54714d2e6b13eec816ee10b6a515fe50b	0+unknown	
+Cpar_CDC317	/Users/jstajich/projects/adhesionPred-sorting-hat-runs/Cpar_CDC317/out_allergen_antigen	578454	Pichiomycetes	lineage	5777	0	d12d160697632ff5f92d673205c691a54714d2e6b13eec816ee10b6a515fe50b	0+unknown	
+Cgla_CBS138	/Users/jstajich/projects/adhesionPred-sorting-hat-runs/Cgla_CBS138/out_allergen_antigen	284593	Saccharomycetes	lineage	5200	0	d12d160697632ff5f92d673205c691a54714d2e6b13eec816ee10b6a515fe50b	0+unknown	
+Kmar_FIM1	/Users/jstajich/projects/adhesionPred-sorting-hat-runs/Kmar_FIM1/out_allergen_antigen	4911	Saccharomycetes	lineage	5070	0	d12d160697632ff5f92d673205c691a54714d2e6b13eec816ee10b6a515fe50b	0+unknown	
+Scer_S288C	/Users/jstajich/projects/adhesionPred-sorting-hat-runs/Scer_S288C/out_allergen_antigen	559292	Saccharomycetes	lineage	6067	0	d12d160697632ff5f92d673205c691a54714d2e6b13eec816ee10b6a515fe50b	0+unknown	
+Cneo_H99	/Users/jstajich/projects/adhesionPred-sorting-hat-runs/Cneo_H99/out_allergen_antigen	235443	Tremellomycetes	lineage	7427	0	d12d160697632ff5f92d673205c691a54714d2e6b13eec816ee10b6a515fe50b	0+unknown	

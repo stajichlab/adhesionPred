@@ -55,3 +55,24 @@ def test_merge_domtbl_needs_the_trailer_in_every_chunk(tmp_path):
     bad = chunk(tmp_path, "bad", **{"domtbl.txt": "P3  -  1 F  PF1\n"})
     with pytest.raises(dm.DomainError):
         dm.merge_domtbl([a, bad], out)
+
+
+aa = importlib.util.module_from_spec(
+    importlib.util.spec_from_file_location(
+        "aga1_allergen_antigen_modules",
+        ROOT / "analysis/sorting_hat_run/aga1_allergen_antigen_modules.py",
+    )
+)
+aa.__spec__.loader.exec_module(aa)
+
+
+def test_uniprot_protein_map_uses_the_cimg_gene_field_only(tmp_path):
+    fa = tmp_path / "u.faa"
+    fa.write_text(
+        ">tr|J3K365|J3K365_COCIM name OS=x OX=246410 GN=CIMG_09796 PE=3 SV=2\nMKV\n"
+        ">tr|A0A0D8JT44|A0A0D8JT44_COCIM name OS=x OX=246410 GN=COQ3 PE=3 SV=1\nMKV\n"
+        ">tr|X1|X1_COCIM name OS=x OX=246410 PE=3 SV=1\nMKV\n"
+    )
+    out = tmp_path / "map.tsv"
+    assert aa.uniprot_protein_map(fa, out) == (1, 3)
+    assert out.read_text() == "protein_id\tgene_id\nJ3K365\tCIMG_09796\n"
