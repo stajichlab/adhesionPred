@@ -6,11 +6,12 @@ Per species folder `<runs-root>/<species>/` (with `p.faa` and `wd/`): BLASTP of 
 (applicable taxon 246410 only; every other proteome gets `not_applicable`), then the engine into `<species>/out_allergen_antigen`.
 
 The antigen ranking is keyed on C. immitis RS gene IDs (CIMG_nnnnn). The UniProt proteome of C. immitis RS is keyed on UniProt accessions, so a
-protein map (accession -> gene) is made from the `GN=CIMG_...` field of the UniProt FASTA header (`--cimm-uniprot-fasta`); accessions without
-such a field are `not_in_reference`. Run it with `python3 -I`; blastp and makeblastdb must be on PATH. Nothing is overwritten.
+protein map (accession -> gene) is made from the UniProt locus names (`Gene Names (ORF)`) of the proteome table (`--cimm-uniprot-table`, the UniProt REST
+table with `fields=accession,gene_orf,gene_names,xref_refseq`); an accession without a CIMG locus name or a gene that is not in the ranking is `not_in_reference`. Run it with `python3 -I`; blastp and makeblastdb must be on PATH. Nothing is overwritten.
 """
 
 import argparse
+import csv
 import hashlib
 import re
 import subprocess
@@ -27,7 +28,7 @@ ISOALLERGEN = ROOT / "analysis/allergen_scoping/iuis_fungal_isoallergens.tsv"
 ALLERGEN = ROOT / "analysis/allergen_scoping/iuis_fungal_allergens.tsv"
 CAP, EVALUE, SEG = 200, "1", "no"
 BLAST_COLUMNS = "6 qseqid sseqid pident length qlen slen bitscore evalue"
-GN = re.compile(r"\bGN=(CIMG_\d+)\b")
+GENE = re.compile(r"CIMG_\d+")
 
 
 class StepError(Exception):
@@ -38,20 +39,21 @@ def sha256(path):
     return hashlib.sha256(Path(path).read_bytes()).hexdigest()
 
 
-def uniprot_protein_map(fasta, out):
-    """accession -> CIMG gene from the UniProt header (`>tr|ACC|NAME ... GN=CIMG_nnnnn ...`); returns (n_mapped, n_proteins)."""
+def uniprot_protein_map(table, out):
+    """accession -> CIMG gene from the UniProt locus names (``Gene Names (ORF)``, first ``CIMG_`` name); returns (n_mapped, n_proteins).
+
+    ``table`` is the UniProt REST table of the proteome (``fields=accession,gene_orf,gene_names,xref_refseq``, TSV with the columns ``Entry`` and
+    ``Gene Names (ORF)``). The locus name is used and not the gene symbol of the FASTA header (``GN=COQ3`` has none), so every accession of the
+    proteome that has a CIMG locus name is mapped. A protein with several ORF names takes the first.
+    """
     n = m = 0
-    with open(fasta) as fh, open(out, "w") as o:
+    with open(table, newline="") as fh, open(out, "w") as o:
         o.write("protein_id\tgene_id\n")
-        for line in fh:
-            if not line.startswith(">"):
-                continue
+        for r in csv.DictReader(fh, delimiter="\t"):
             n += 1
-            parts = line[1:].split()[0].split("|")
-            acc = parts[1] if len(parts) == 3 else parts[0]
-            g = GN.search(line)
-            if g:
-                o.write(f"{acc}\t{g.group(1)}\n")
+            orf = [x for x in re.split(r"[ ;]+", r["Gene Names (ORF)"]) if GENE.fullmatch(x)]
+            if orf:
+                o.write(f"{r['Entry']}\t{orf[0]}\n")
                 m += 1
     return m, n
 
@@ -112,9 +114,9 @@ def main(argv=None):
     ap.add_argument("--taxdump", required=True, help="nodes.dmp")
     ap.add_argument("--taxa", required=True, help="TSV with columns species, taxon_id")
     ap.add_argument(
-        "--cimm-uniprot-fasta",
+        "--cimm-uniprot-table",
         required=True,
-        help="UniProt FASTA of C. immitis RS (UP000001261) for the accession-to-gene map",
+        help="UniProt REST table of C. immitis RS (UP000001261): Entry and Gene Names (ORF)",
     )
     ap.add_argument("--threads", type=int, default=4)
     a = ap.parse_args(argv)
@@ -150,9 +152,9 @@ def main(argv=None):
             check=True,
         )
         pmap = tmp / "protein_map.tsv"
-        m, total = uniprot_protein_map(a.cimm_uniprot_fasta, pmap)
+        m, total = uniprot_protein_map(a.cimm_uniprot_table, pmap)
         print(
-            f"protein map: {m} of {total} UniProt accessions have GN=CIMG_; sha256 {sha256(pmap)}; ranking sha256 {sha256(RANKING)}"
+            f"protein map: {m} of {total} UniProt accessions have a CIMG locus name; sha256 {sha256(pmap)}; ranking sha256 {sha256(RANKING)}"
         )
         for species, taxon in taxa.items():
             run_species(species, taxon, a.runs_root, a.taxdump, allergen_fa, pmap, tmp, a.threads)
