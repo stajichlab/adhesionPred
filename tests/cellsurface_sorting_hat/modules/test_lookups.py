@@ -453,3 +453,20 @@ def test_read_table_expression_blanks_accepted_only_by_or_blank_modes(tmp_path):
 def test_tm_refuses_non_ascii_digit_helix_count():
     with pytest.raises(ValueError, match="pred_hel"):
         tm_rows([prot("A")], {"A": {"pred_hel": "²", "topology": "o"}})
+
+
+def test_tm_rows_separate_the_c_terminal_helix_from_internal_ones():
+    from cellsurface_sorting_hat.modules.lookups import tm_rows
+
+    def long_prot(pid, n):
+        return Protein(pid, "M" * n, "x" * 64, "ok", "", 0.0)
+
+    tmhmm = {
+        "GPI_LIKE": {"pred_hel": "1", "topology": "o572-594i"},  # ends 6 residues before the end
+        "RECEPTOR": {"pred_hel": "2", "topology": "i100-122o300-322i"},
+        "SP_AND_TAIL": {"pred_hel": "2", "topology": "o7-25i572-594o"},
+        "NEAR": {"pred_hel": "1", "topology": "o540-562i"},  # ends 38 residues before the end
+    }
+    rows = tm_rows([long_prot(k, 600) for k in tmhmm], tmhmm)
+    got = {r["id"]: (r["n_tm_mature"], r["n_tm_internal"]) for r in rows}
+    assert got == {"GPI_LIKE": (1, 0), "RECEPTOR": (2, 2), "SP_AND_TAIL": (1, 0), "NEAR": (1, 1)}

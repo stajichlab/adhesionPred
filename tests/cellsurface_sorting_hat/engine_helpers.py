@@ -30,6 +30,7 @@ def base_modules(step1="not_called", **over):
         "antigen_lookup": table("antigen_lookup", {"P": ok(percentile="50")}),
         "allergen_homology": table("allergen_homology", {"P": ok(identity="0", coverage="0")}),
         "gpi": table("gpi", {"P": ok(call="not_called")}),
+        "tm": table("tm", {"P": ok(n_tm="0", n_tm_mature="0", n_tm_internal="0", topology="o")}),
         "disorder": table("disorder", {"P": ok(longest_run="0")}),
         "aga1_model": table("aga1_model", {"P": ok(call="not_called")}),
     }
