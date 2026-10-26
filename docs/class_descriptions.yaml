@@ -52,8 +52,8 @@ calls:
   - call: hsba_domain
     kind: evidence
     gated: false
-    category: cell wall and adhesion (surface-active)
-    meaning: A hit to HsbA (PF12296), grouped with hydrophobin for now.
+    category: cell wall and adhesion
+    meaning: "A hit to the HsbA family (PF12296). The family holds the A. fumigatus wall galactomannoproteins Afmp1 and Afmp2 (Mp1p type, GPI-anchored), so read it as a wall-family hit and not as a surface-active (hydrophobin-like) call. It is still evaluated and combined as it was (the config and the frozen family table are not changed); see docs/reports/data/aga1_hsba_note_2026-10-26/README.md."
     reads: [pfam_hsba]
     status: unvalidated (no truth set)
   - call: cell_wall_adhesion_candidate
