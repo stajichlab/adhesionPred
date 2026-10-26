@@ -90,8 +90,8 @@ All optimizations maintain full backward compatibility with the existing API. No
 
 - Added: modules `gpi`, `disorder`, `aga1_model` and the thresholds table; six calls (`gpi_anchored_protein`, `long_disordered_protein`, `gpi_long_disorder_protein`, `ser_thr_gpi_wall_candidate`, `flocculin_like_candidate`, `model_surface_candidate`); acceptance on 10 proteomes with smoke status files for two calls in two taxa; `cellsurface_sorting_hat_aggregate` and a first report (`docs/reports/data/aga1_aggregate_2026-10-26/`).
 - Later (PR after 161): `analysis/sorting_hat_run/aga1_domain_modules.py` converts the finished Pfam and TMHMM scans and runs repeat02, and a second aggregate report (`docs/reports/data/aga1_aggregate_domains_2026-10-26/`) leaves only the allergen and antigen calls NA.
+- C. immitis antigen map: UniProt locus names instead of the FASTA gene symbol (`docs/reports/data/aga1_cimm_antigen_map_2026-10-26/`): unassessable 1,033 to 765.
 - Internal-TM rule (PR after 164): the `tm` module (version 2) writes `n_tm_internal`; new call `gpi_no_internal_tm_protein`; `gpi_long_disorder_protein` and the flags use it; record `docs/reports/data/aga1_internal_tm_2026-10-26/`.
-- Not done: the hand-check verdicts (owner), per-clade threshold recalibration, orthogroup/diversity statistics, allergen BLAST and antigen lookup on the ten proteomes.
 - Not done: the hand-check verdicts (owner), per-clade threshold recalibration, orthogroup/diversity statistics, allergen BLAST and antigen lookup on the ten proteomes (done afterwards: `analysis/sorting_hat_run/aga1_allergen_antigen_modules.py` and `docs/reports/data/aga1_aggregate_allergen_antigen_2026-10-26/`).
 
 ---

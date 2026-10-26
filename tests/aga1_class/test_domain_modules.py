@@ -66,13 +66,17 @@ aa = importlib.util.module_from_spec(
 aa.__spec__.loader.exec_module(aa)
 
 
-def test_uniprot_protein_map_uses_the_cimg_gene_field_only(tmp_path):
-    fa = tmp_path / "u.faa"
-    fa.write_text(
-        ">tr|J3K365|J3K365_COCIM name OS=x OX=246410 GN=CIMG_09796 PE=3 SV=2\nMKV\n"
-        ">tr|A0A0D8JT44|A0A0D8JT44_COCIM name OS=x OX=246410 GN=COQ3 PE=3 SV=1\nMKV\n"
-        ">tr|X1|X1_COCIM name OS=x OX=246410 PE=3 SV=1\nMKV\n"
+def test_uniprot_protein_map_uses_the_cimg_locus_name(tmp_path):
+    table = tmp_path / "u.tsv"
+    table.write_text(
+        "Entry\tGene Names (ORF)\tGene Names\tRefSeq\n"
+        "J3K365\tCIMG_09796\tCIMG_09796\tXP_1;\n"
+        "A0A0D8JT44\tCIMG_00001\tCOQ3\tXP_2;\n"  # gene symbol in the names, locus name is still used
+        "I7MN50\tCIMG_13598 CIMG_13775\tCIMG_13598 CIMG_13775\tXP_3;\n"  # several: the first
+        "X1\t\tFOO\t\n"  # no locus name
     )
     out = tmp_path / "map.tsv"
-    assert aa.uniprot_protein_map(fa, out) == (1, 3)
-    assert out.read_text() == "protein_id\tgene_id\nJ3K365\tCIMG_09796\n"
+    assert aa.uniprot_protein_map(table, out) == (3, 4)
+    assert out.read_text() == (
+        "protein_id\tgene_id\nJ3K365\tCIMG_09796\nA0A0D8JT44\tCIMG_00001\nI7MN50\tCIMG_13598\n"
+    )
