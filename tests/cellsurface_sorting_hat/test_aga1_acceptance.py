@@ -228,6 +228,7 @@ def test_committed_status_files_load_and_match_their_truth_tables(species, taxon
     call = load_call_source(STATUS / species / "calls" / "gpi_long_disorder_protein.json", cfg)
     assert call.call == "gpi_long_disorder_protein" and {r.name for r in call.reads} == {
         "gpi",
+        "tm",
         "disorder",
     }
     (entry,) = call.entries

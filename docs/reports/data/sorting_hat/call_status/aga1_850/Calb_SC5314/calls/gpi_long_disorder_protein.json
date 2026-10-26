@@ -1,7 +1,7 @@
 {
   "call": "gpi_long_disorder_protein",
-  "call_hash": "9720806863e541d92e0f233efa4b9a3094215bfc6d3bc446aef78ba8bcb649c7",
-  "config_sha256": "d12d160697632ff5f92d673205c691a54714d2e6b13eec816ee10b6a515fe50b",
+  "call_hash": "052516fbefe503bdb784bbc0ec023dc5d3b5e55d5030670c1f3ace74989a72be",
+  "config_sha256": "a9dc86ce51fec8d5b68e6ea4e98da0718d9177be4c3fd4ff5e100c63c47f8239",
   "entries": [
     {
       "measure": {
@@ -16,7 +16,7 @@
             "n": 117
           }
         },
-        "notes": "Measures agreement of the property combination (GPI anchor and a disordered run of 200 or more residues) with the AGA1 class labels: tier A positives against hard and background negatives of the 850 labelled proteins. It does not measure that every such protein is in the class. The 200-residue cut was chosen on these proteins (leakage tuned_on_truth). Negatives are assumed. truth rows without a call: 0; not assessable: 0; sensitivity if not assessable positives count as missed: 0.900 call=gpi_long_disorder_protein; variant=; reads=disorder,gpi leakage: tuned_on_truth",
+        "notes": "Measures agreement of the property combination (GPI anchor, no transmembrane helix other than the C-terminal one, and a disordered run of 200 or more residues) with the AGA1 class labels: tier A positives against hard and background negatives of the 850 labelled proteins. It does not measure that every such protein is in the class. The 200-residue cut was chosen on these proteins (leakage tuned_on_truth). Negatives are assumed. truth rows without a call: 0; not assessable: 0; sensitivity if not assessable positives count as missed: 0.900 call=gpi_long_disorder_protein; variant=; reads=disorder,gpi,tm leakage: tuned_on_truth",
         "sensitivity": {
           "hi": 1.0,
           "lo": 0.0,
@@ -48,6 +48,12 @@
       "name": "gpi",
       "params_hash": "c9f583eaa2aaa4a12bffc1eab89f3e6c1f3444d002b57a08efa59d2d50fa654c",
       "version": "1"
+    },
+    {
+      "artefact_hash": "8a44d1c3f0a69e7e7c54721a9c244976f55ac5515088d068faa9793b0fa2fa0d",
+      "name": "tm",
+      "params_hash": "3da178fad52b4ebb4722f97054f8517bd9f27fa0e873d21f51bdca8a175bfe19",
+      "version": "2"
     }
   ],
   "variant": ""

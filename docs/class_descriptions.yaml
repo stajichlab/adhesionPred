@@ -87,13 +87,20 @@ calls:
     meaning: "AIUPred finds a run of at least 200 consecutive residues with a score of 0.5 or more (`thresholds.disorder_run_min`). Disorder is not shown to be a Ser/Thr-rich stalk, and long disordered proteins are common inside the cell."
     reads: [disorder]
     status: unvalidated (no truth set for the property)
+  - call: gpi_no_internal_tm_protein
+    kind: evidence
+    gated: false
+    category: cell wall and adhesion
+    meaning: A GPI-anchor call and no transmembrane helix other than the C-terminal one. PredGPI can take the last helix of a membrane protein for a GPI signal; a GPI wall protein has no mature helix except its own C-terminal signal, so a helix that ends more than 30 residues before the C-terminus rules the GPI call out.
+    reads: [gpi, tm]
+    status: unvalidated (no truth set for the combination)
   - call: gpi_long_disorder_protein
     kind: evidence
     gated: false
     category: cell wall and adhesion
-    meaning: A GPI-anchor call and a disordered run of 200 residues or more in the same protein. It is the part of the broad AGA1-class rule that does not need the signal peptide.
-    reads: [gpi, disorder]
-    status: "smoke in taxa 4932 (8 tier A against 265 negatives: sensitivity 0.75 [0.33, 1.00], specificity 0.981) and 5476 (10 against 117: 0.90 [0.00, 1.00], 0.940): agreement of the property combination with the AGA1 class labels, not a measure of the property; the 200-residue cut was chosen on these proteins (leakage tuned_on_truth). Unvalidated elsewhere. Valid for the config of 2026-10-26 only."
+    meaning: A GPI-anchor call with no internal transmembrane helix (as `gpi_no_internal_tm_protein`) and a disordered run of 200 residues or more in the same protein. It is the part of the broad AGA1-class rule that does not need the signal peptide.
+    reads: [gpi, tm, disorder]
+    status: "smoke in taxa 4932 (8 tier A against 265 negatives: sensitivity 0.75 [0.33, 1.00], specificity 0.985) and 5476 (10 against 117: 0.90 [0.00, 1.00], 0.940): agreement of the property combination with the AGA1 class labels, not a measure of the property; the 200-residue cut was chosen on these proteins (leakage tuned_on_truth). Unvalidated elsewhere. Valid for the config of the status files only (re-measured 2026-10-26 after the internal-TM rule)."
     status_files:
       - docs/reports/data/sorting_hat/call_status/aga1_850/Scer_S288C/calls/gpi_long_disorder_protein.json
       - docs/reports/data/sorting_hat/call_status/aga1_850/Calb_SC5314/calls/gpi_long_disorder_protein.json
@@ -103,14 +110,14 @@ calls:
     gated: true
     category: cell wall and adhesion
     meaning: "The broad AGA1-class flag: signal peptide and a GPI-anchor call and a disordered run of 200 residues or more. It finds Ser/Thr-rich GPI wall proteins in general (flocculin and ALS type adhesins, but also wall mannoproteins). It misses short GPI wall proteins such as CFEM proteins, and it flags enzymes with a Ser/Thr-rich linker (for example chitinases)."
-    reads: [step1_rule@R0, gpi, disorder]
+    reads: [step1_rule@R0, gpi, tm, disorder]
     status: derived from the leaf calls that decided each record
   - call: flocculin_like_candidate
     kind: composite
     gated: true
     category: cell wall and adhesion
     meaning: "The narrow AGA1-class flag: the broad flag and a repeat call of detector 14 (coverage 0.25 or more, 2.5 copies or more). It is stricter than the broad flag and misses adhesins whose repeats are not periodic. Detector 02 is not read."
-    reads: [step1_rule@R0, gpi, disorder, repeat14]
+    reads: [step1_rule@R0, gpi, tm, disorder, repeat14]
     status: derived from the leaf calls that decided each record
   - call: model_surface_candidate
     kind: composite

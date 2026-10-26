@@ -49,7 +49,7 @@ RUNS = {
     list(itertools.product([CALLED, NOT, UNK], [250, 199, None], [CALLED, NOT], [CALLED, NOT])),
 )
 def test_the_calls_follow_kleene_logic(gpi, run, sp, rep):
-    got = values(modules(gpi, run, sp, rep))
+    got = values(modules(gpi, run, sp, rep))  # the tm table of base_modules has no internal helix
     long_run = RUNS[run]
     assert got["gpi_anchored_protein"] == gpi
     assert got["long_disordered_protein"] == long_run
@@ -76,11 +76,12 @@ def test_the_model_call_needs_the_model_and_a_signal_peptide(model, sp, expected
 
 def test_an_absent_aga1_module_makes_its_calls_not_assessable_not_zero():
     mods = modules(CALLED, 250, CALLED, CALLED)
-    for name in ("gpi", "disorder", "aga1_model"):
+    for name in ("gpi", "disorder", "aga1_model", "tm"):
         del mods[name]
     got = values(mods)
     for call in (
         "gpi_anchored_protein",
+        "gpi_no_internal_tm_protein",
         "long_disordered_protein",
         "gpi_long_disorder_protein",
         "model_surface_candidate",
@@ -96,7 +97,8 @@ def test_call_structure_matches_what_the_engine_can_measure():
     assert (
         call_eligible(cfg, "gpi_long_disorder_protein")[0] is True
     )  # reads two modules: a call status file can be measured
-    assert sorted(reads_of_call(cfg, "gpi_long_disorder_protein")) == ["disorder", "gpi"]
+    assert sorted(reads_of_call(cfg, "gpi_long_disorder_protein")) == ["disorder", "gpi", "tm"]
+    assert sorted(reads_of_call(cfg, "gpi_no_internal_tm_protein")) == ["gpi", "tm"]
     for name in ("gpi_anchored_protein", "long_disordered_protein"):
         assert (
             call_eligible(cfg, name)[0] is False
@@ -124,3 +126,37 @@ def test_the_aga1_calls_leave_the_existing_labels_and_calls_unchanged():
         got["other_surface_no_mechanism"] == CALLED
     )  # no existing mechanism evidence: the existing label rule is not changed here
     assert R0 == "step1_rule@R0"
+
+
+@pytest.mark.parametrize(
+    "n_internal, gpi, expected",
+    [
+        ("0", CALLED, CALLED),
+        ("1", CALLED, NOT),
+        ("3", CALLED, NOT),
+        ("1", NOT, NOT),
+        ("0", NOT, NOT),
+    ],
+)
+def test_an_internal_transmembrane_helix_rules_the_gpi_composites_out(n_internal, gpi, expected):
+    mods = modules(gpi, 250, CALLED, CALLED)
+    mods["tm"] = table(
+        "tm", {"P": ok(n_tm="2", n_tm_mature="2", n_tm_internal=n_internal, topology="o40-62i")}
+    )
+    got = values(mods)
+    assert got["gpi_anchored_protein"] == gpi  # the raw predictor call is not changed
+    assert got["gpi_no_internal_tm_protein"] == expected
+    assert got["gpi_long_disorder_protein"] == expected
+    assert got["ser_thr_gpi_wall_candidate"] == expected
+    assert got["flocculin_like_candidate"] == expected
+
+
+def test_an_unusable_tm_row_makes_the_gpi_composites_not_assessable_when_gpi_is_called():
+    mods = modules(CALLED, 250, CALLED, CALLED)
+    mods["tm"] = table("tm", {"P": {"state": "error"}})
+    got = values(mods)
+    assert got["gpi_no_internal_tm_protein"] == UNK and got["gpi_long_disorder_protein"] == UNK
+    mods["gpi"] = table("gpi", {"P": ok(call=NOT)})
+    assert (
+        values(mods)["gpi_no_internal_tm_protein"] == NOT
+    )  # a protein with no GPI call stays not called

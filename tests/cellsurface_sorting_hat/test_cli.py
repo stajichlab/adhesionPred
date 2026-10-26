@@ -73,6 +73,21 @@ def build(tmp_path, write_module):
     write_module(wd, "pfam_hsba", [{"id": i, "state": "ok", "hit": "0"} for i in VALID])
     write_module(wd, "pfam_allergen", [{"id": i, "state": "ok", "hit": "0"} for i in VALID])
     write_module(wd, "gpi", call(["not_called"] * 4))
+    write_module(
+        wd,
+        "tm",
+        [
+            {
+                "id": i,
+                "state": "ok",
+                "n_tm": "0",
+                "n_tm_mature": "0",
+                "n_tm_internal": "0",
+                "topology": "o",
+            }
+            for i in VALID
+        ],
+    )
     write_module(wd, "disorder", [{"id": i, "state": "ok", "longest_run": "0"} for i in VALID])
     write_module(wd, "aga1_model", call(["not_called"] * 4))
     write_module(

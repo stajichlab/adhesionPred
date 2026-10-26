@@ -51,6 +51,7 @@ evidence:
   - expression.log2fc
   - tm.n_tm
   - tm.n_tm_mature
+  - tm.n_tm_internal
   - pfam_adhesion.families
   - pfam_hydrophobin.families
   - pfam_hsba.families
@@ -97,6 +98,13 @@ calls:
   # module; the model thresholds come from data/sorting_hat/aga1_model_thresholds.tsv through the aga1_model wrapper, not from here.
   - name: gpi_anchored_protein
     expr: {call: gpi}
+  # PredGPI can take the last transmembrane helix of a membrane protein for a GPI signal. A GPI protein has no mature helix other than its
+  # C-terminal signal, so a helix that ends more than tm.terminal_helix_window (30) residues before the C-terminus rules the GPI call out.
+  - name: gpi_no_internal_tm_protein
+    expr:
+      and:
+        - {call: gpi}
+        - test: {module: tm, field: n_tm_internal, op: "==", value: 0}
   - name: long_disordered_protein
     expr:
       test: {module: disorder, field: longest_run, op: ">=", value: "$disorder_run_min"}
@@ -104,6 +112,7 @@ calls:
     expr:
       and:
         - {call: gpi}
+        - test: {module: tm, field: n_tm_internal, op: "==", value: 0}
         - test: {module: disorder, field: longest_run, op: ">=", value: "$disorder_run_min"}
   - name: ser_thr_gpi_wall_candidate
     per_variant: true
