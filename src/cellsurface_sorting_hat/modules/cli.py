@@ -495,8 +495,11 @@ def run(args):
         _check_ids(args.table, table, ids)
         spec = ModuleSpec(
             "tm",
-            "1",
-            {"signal_peptide_window": lookups.SIGNAL_PEPTIDE_WINDOW},
+            "2",
+            {
+                "signal_peptide_window": lookups.SIGNAL_PEPTIDE_WINDOW,
+                "terminal_helix_window": lookups.TERMINAL_HELIX_WINDOW,
+            },
             (),
             {"tmhmm": args.tmhmm_version},
             artefact_digest=_tool_digest("tmhmm", args.tmhmm_version),

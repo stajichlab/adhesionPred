@@ -39,10 +39,10 @@ cellsurface_sorting_hat_calibrate truth --workdir OUT/<species>/wd --module gpi 
 
 ## Status files (`docs/reports/data/sorting_hat/call_status/aga1_850/<species>/`)
 
-Both are `smoke` (few positives; negatives assumed; leakage caps the status). They are valid for `categories.yaml` sha256 `d12d160697632ff5f92d673205c691a54714d2e6b13eec816ee10b6a515fe50b` only
+Both are `smoke` (few positives; negatives assumed; leakage caps the status). They are valid for `categories.yaml` sha256 `a9dc86ce51fec8d5b68e6ea4e98da0718d9177be4c3fd4ff5e100c63c47f8239` only
 (a test fails when the packaged config changes, because the files are then stale and must be re-measured).
 
-* `calls/gpi_long_disorder_protein.json` (a call status): *S. cerevisiae* (taxon 4932) 8 tier A against 265 negatives, sensitivity 0.75 [0.33, 1.00], specificity 0.981 [0.952, 0.996];
+* `calls/gpi_long_disorder_protein.json` (a call status): *S. cerevisiae* (taxon 4932) 8 tier A against 265 negatives, sensitivity 0.75 [0.33, 1.00], specificity 0.985 [0.956, 0.996];
   *C. albicans* (5476) 10 against 117, sensitivity 0.90 [0.00, 1.00], specificity 0.940 [0.868, 0.981]. **It measures agreement of the property combination (GPI anchor and a disordered run of 200 or more residues)
   with the AGA1 class labels, not that every such protein is in the class.** The 200-residue cut was chosen on these proteins (leakage `tuned_on_truth`); the confidence intervals are wide.
 * `gpi.json` (a module status, read by `gpi_anchored_protein`): agreement of the PredGPI call with the UniProt GPI-anchor feature on the labelled 850 proteins that are in the proteome:
@@ -67,3 +67,8 @@ Taxon of each proteome: `analysis/sorting_hat_run/aga1_acceptance_taxa.tsv` (the
 61d2ec1de32b6475536dc225c649f2fe9a4a3d22092c77e12947cd2d4a186e8d  truth_uniprot_gpi_Calb_SC5314.tsv
 1a05aeb3e43994f1e701932bdcd7332cc3fa89728074f36c009502b8bdb344de  truth_uniprot_gpi_Scer_S288C.tsv
 ```
+
+**Update 2026-10-26 (internal-TM rule):** the call `gpi_long_disorder_protein` now also requires no transmembrane helix other than the C-terminal one
+(`docs/reports/data/aga1_internal_tm_2026-10-26/README.md`). Its two status files were re-measured for the new config (sha256 above): sensitivity is unchanged
+(Scer 0.75, Calb 0.90), Scer specificity is 0.985 (one false positive, P41809, is removed), Calb is unchanged. The acceptance equality test above (engine calls equal the analysis flags for 68,534 proteins)
+holds for the config of that day; with the new rule the engine's broad flag differs from the analysis flag for the proteins listed in the new record.

@@ -27,9 +27,12 @@ ANTIGEN_COLUMNS = [
 ]
 CYS_COLUMNS = ["tier", "cys_frac"]
 EXPRESSION_COLUMNS = ["log2fc", "padj", "log2fc_8d"]
-TM_COLUMNS = ["n_tm", "n_tm_mature", "topology"]
+TM_COLUMNS = ["n_tm", "n_tm_mature", "n_tm_internal", "topology"]
 SIGNAL_PEPTIDE_WINDOW = (
     35  # a helix that starts at or before this residue may be the signal peptide
+)
+TERMINAL_HELIX_WINDOW = (
+    30  # a helix that ends within this many residues of the C-terminus may be the GPI signal
 )
 
 
@@ -242,14 +245,21 @@ def tm_rows(proteins, tmhmm):
                 raise ValueError(
                     f"tm: pred_hel {n_tm!r} for {p.id!r} is not a non-negative integer"
                 )
-            starts = [int(a) for a, _ in re.findall(r"(\d+)-(\d+)", r["topology"])]
-            mature = sum(1 for a in starts if a > SIGNAL_PEPTIDE_WINDOW)
+            helices = [(int(a), int(b)) for a, b in re.findall(r"(\d+)-(\d+)", r["topology"])]
+            mature = sum(1 for a, _ in helices if a > SIGNAL_PEPTIDE_WINDOW)
+            # a mature helix that is not the C-terminal one: the C-terminal GPI signal is read as a helix by TMHMM
+            internal = sum(
+                1
+                for a, b in helices
+                if a > SIGNAL_PEPTIDE_WINDOW and len(p.sequence) - b > TERMINAL_HELIX_WINDOW
+            )
             rows.append(
                 {
                     "id": p.id,
                     "state": "ok",
                     "n_tm": n_tm,
                     "n_tm_mature": mature,
+                    "n_tm_internal": internal,
                     "topology": r["topology"],
                 }
             )

@@ -70,6 +70,7 @@ def test_packaged_config_loads_and_has_the_spec_calls():
         "cell_wall_adhesion_candidate",
         "surface_attachment_candidate",
         "gpi_anchored_protein",
+        "gpi_no_internal_tm_protein",
         "long_disordered_protein",
         "gpi_long_disorder_protein",
         "ser_thr_gpi_wall_candidate",

@@ -87,52 +87,52 @@ def merge_domtbl(files, out):
     Path(out).write_text("\n".join(head + hits + ["# [ok]"]) + "\n")
 
 
-def run_species(species, results, runs_root, nodes, taxon, tmp):
+def run_species(
+    species, results, runs_root, nodes, taxon, tmp, out_name="out_domains", tm_only=False
+):
     from cellsurface_sorting_hat.cli import main as engine
     from cellsurface_sorting_hat.modules.cli import main as module
 
     base = Path(runs_root) / species
-    if (base / "out_domains").exists():
-        raise DomainError(f"{species}: {base / 'out_domains'} exists; nothing is overwritten")
+    if (base / out_name).exists():
+        raise DomainError(f"{species}: {base / out_name} exists; nothing is overwritten")
     fa, wd = base / "p.faa", base / "wd"
     common = ["--fasta", str(fa), "--workdir", str(wd)]
-    tm_chunks, pf_chunks = (
-        chunks(results, "tmhmm", species),
-        chunks(results, "pfam_family", species),
-    )
-    prov = provenance(pf_chunks[0] / "provenance.txt")
-    for c in pf_chunks[1:]:
-        if provenance(c / "provenance.txt").get("pfam_sha256") != prov.get("pfam_sha256"):
-            raise DomainError(f"{c}: Pfam release differs between chunks")
-    hmmer = re.search(
-        r"HMMER (\S+)", provenance(pf_chunks[0] / "provenance.txt").get("hmmer", "")
-    ) or re.search(r"hmmer/(\S+)", prov.get("module", ""))
     tm_file, dom_file, rep_file = (
         tmp / f"{species}.tmhmm.tsv",
         tmp / f"{species}.domtbl",
         tmp / f"{species}.rep02.tsv",
     )
-    merge_tmhmm(tm_chunks, tm_file)
-    merge_domtbl(pf_chunks, dom_file)
-    subprocess.run(
-        [
-            sys.executable,
-            "-I",
-            str(ROOT / "analysis/cocci_repeats/02_repeat_profile.py"),
-            str(fa),
-            "--out",
-            str(rep_file),
-        ],
-        check=True,
-        stdout=subprocess.DEVNULL,
-    )
-    steps = [
-        ["tm", *common, "--table", str(tm_file), "--tmhmm-version", "2.0c"],
-        ["repeat02", *common, "--table", str(rep_file), "--script", str(ROOT / "analysis/cocci_repeats/02_repeat_profile.py")],
-        ["pfam", *common, "--domtbl", str(dom_file), "--family-table", str(ROOT / "data/sorting_hat/family_table.tsv"),
-         "--pfam-release", prov["pfam_release"], "--pfam-sha256", prov["pfam_sha256"], "--hmmer-version", hmmer.group(1) if hmmer else "3.4",
-         "--sp-module", "step1_rule@R0", "--tm-module", "tm"],
-    ]  # fmt: skip
+    merge_tmhmm(chunks(results, "tmhmm", species), tm_file)
+    steps = [["tm", *common, "--table", str(tm_file), "--tmhmm-version", "2.0c"]]
+    if not tm_only:  # tm_only: the tm module is rebuilt (for example after a change of its columns) and nothing else
+        pf_chunks = chunks(results, "pfam_family", species)
+        prov = provenance(pf_chunks[0] / "provenance.txt")
+        for c in pf_chunks[1:]:
+            if provenance(c / "provenance.txt").get("pfam_sha256") != prov.get("pfam_sha256"):
+                raise DomainError(f"{c}: Pfam release differs between chunks")
+        hmmer = re.search(r"HMMER (\S+)", prov.get("hmmer", "")) or re.search(
+            r"hmmer/(\S+)", prov.get("module", "")
+        )
+        merge_domtbl(pf_chunks, dom_file)
+        subprocess.run(
+            [
+                sys.executable,
+                "-I",
+                str(ROOT / "analysis/cocci_repeats/02_repeat_profile.py"),
+                str(fa),
+                "--out",
+                str(rep_file),
+            ],
+            check=True,
+            stdout=subprocess.DEVNULL,
+        )
+        steps += [
+            ["repeat02", *common, "--table", str(rep_file), "--script", str(ROOT / "analysis/cocci_repeats/02_repeat_profile.py")],
+            ["pfam", *common, "--domtbl", str(dom_file), "--family-table", str(ROOT / "data/sorting_hat/family_table.tsv"),
+             "--pfam-release", prov["pfam_release"], "--pfam-sha256", prov["pfam_sha256"], "--hmmer-version", hmmer.group(1) if hmmer else "3.4",
+             "--sp-module", "step1_rule@R0", "--tm-module", "tm"],
+        ]  # fmt: skip
     for argv in steps:
         if module(argv) != 0:
             raise DomainError(f"{species}: module {argv[0]} failed")
@@ -147,7 +147,7 @@ def run_species(species, results, runs_root, nodes, taxon, tmp):
             "--workdir",
             str(wd),
             "--out",
-            str(base / "out_domains"),
+            str(base / out_name),
         ]
     )
     if rc != 0:
@@ -165,6 +165,14 @@ def main(argv=None):
         help="folder with pfam_family/ and tmhmm/ chunk folders",
     )
     ap.add_argument(
+        "--out-name",
+        default="out_domains",
+        help="engine output folder name inside each species folder",
+    )
+    ap.add_argument(
+        "--tm-only", action="store_true", help="rebuild only the tm module, then run the engine"
+    )
+    ap.add_argument(
         "--taxa", required=True, help="TSV with columns species, taxon (the acceptance taxa table)"
     )
     a = ap.parse_args(argv)
@@ -174,7 +182,9 @@ def main(argv=None):
         taxa[f[0]] = f[1]  # species, taxon_id
     with tempfile.TemporaryDirectory() as t:
         for species, taxon in taxa.items():
-            run_species(species, a.results, a.runs_root, a.taxdump, taxon, Path(t))
+            run_species(
+                species, a.results, a.runs_root, a.taxdump, taxon, Path(t), a.out_name, a.tm_only
+            )
             print(f"{species}: done")
     return 0
 
