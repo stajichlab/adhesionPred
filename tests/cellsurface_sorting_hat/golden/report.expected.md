@@ -3,7 +3,7 @@
 - proteins: 5 (1 invalid, excluded from all modules; 1 had a trailing `*`, removed)
 - taxa (taxon ID: proteins): 40: 3, 41: 2
 - taxonomy file sha256: 492f746e8af7ed537fe0bcf4920a583e583410d1ebf5b12cd6c1284e44d474df
-- categories.yaml sha256: d12d160697632ff5f92d673205c691a54714d2e6b13eec816ee10b6a515fe50b
+- categories.yaml sha256: a9dc86ce51fec8d5b68e6ea4e98da0718d9177be4c3fd4ff5e100c63c47f8239
 - default gate: step1_rule@R0
 - thresholds: allergen_coverage_min = 80, allergen_hit_identity_min = 35, allergen_hit_length_min = 80, allergen_identity_min = 70, antigen_percentile_max = 15, disorder_run_min = 200
 
@@ -35,6 +35,7 @@
 | repeat02 | ok |
 | repeat14 | ok |
 | step1_rule@R0 | ok |
+| tm | ok |
 
 Unavailable step 1 variants: step1_rule@R1, step1_rule@R2, step1_ml@card
 
@@ -55,6 +56,7 @@ Unavailable step 1 variants: step1_rule@R1, step1_rule@R2, step1_ml@card
 | repeat02 | na_invalid | 1 |
 | repeat14 | na_invalid | 1 |
 | step1_rule@R0 | na_invalid | 1 |
+| tm | na_invalid | 1 |
 
 ## Module calibration
 
@@ -84,6 +86,8 @@ Unavailable step 1 variants: step1_rule@R1, step1_rule@R2, step1_ml@card
 | repeat14 | 41 | unvalidated | - | - | - | - | not measured | not measured |
 | step1_rule@R0 | 40 | estimated | - | S1:all | 30 | 30 | 0.600 [0.550, 0.650] | 0.960 [0.950, 0.970] |
 | step1_rule@R0 | 41 | unvalidated | - | - | - | - | not measured | not measured |
+| tm | 40 | unvalidated | - | - | - | - | not measured | not measured |
+| tm | 41 | unvalidated | - | - | - | - | not measured | not measured |
 
 ## Calls
 
@@ -94,6 +98,7 @@ Unavailable step 1 variants: step1_rule@R1, step1_rule@R2, step1_ml@card
 | flocculin_like_candidate | R0 | 0 | 4 | 1 | 0 |
 | gpi_anchored_protein | - | 0 | 4 | 1 | 0 |
 | gpi_long_disorder_protein | - | 0 | 4 | 1 | 0 |
+| gpi_no_internal_tm_protein | - | 0 | 4 | 1 | 0 |
 | hsba_domain | - | 0 | 4 | 1 | 0 |
 | hydrophobin_domain | - | 0 | 4 | 1 | 0 |
 | iuis_allergen_homolog | - | 1 | 3 | 1 | 0 |
