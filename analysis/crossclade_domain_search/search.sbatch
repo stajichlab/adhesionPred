@@ -4,8 +4,11 @@
 #
 # Two methods on the same queries, decoys and targets:
 #   1. Foldseek 3Di+AA search, with 3Di predicted from sequence by ProstT5 on the GPU (no structures needed);
-#   2. MMseqs2 sequence search (-s 7.5), the sequence baseline the structure alphabet must beat.
-# The reversed decoys (decoys.faa) are searched exactly like the queries; their hits give the empirical false-hit rate.
+#   2. MMseqs2 sequence search with the prefilter off (--prefilter-mode 2, all-vs-all Smith-Waterman), the sequence baseline.
+#      (--exhaustive-search is NOT used for MMseqs2: in MMseqs2 it is the profile-swap mode and changes E-values.)
+# Low-complexity masking is off in both (--mask 0; Foldseek's default), so masking does not differ between the methods.
+# The decoys (decoys.faa: one reversal and N window shuffles per query) are searched exactly like the queries; their hits give the
+# empirical false-hit rate.
 # Searches are exhaustive (small target set) and kept to E <= 10 so the summary can apply the declared cut-offs afterwards.
 #
 # Inputs:  $IN from build_inputs.py (queries.faa, decoys.faa, targets.faa, SHA256SUMS);
@@ -62,7 +65,7 @@ for s in queries decoys targets; do
   foldseek createdb "$IN/$s.faa" "$TMP/$s" --prostt5-model "$WEIGHTS" --gpu 1 --threads "$T" -v 1
 done
 for s in queries decoys; do
-  foldseek search "$TMP/$s" "$TMP/targets" "$TMP/aln_$s" "$TMP/fs_tmp_$s" -e 10 --exhaustive-search 1 --threads "$T" -v 1
+  foldseek search "$TMP/$s" "$TMP/targets" "$TMP/aln_$s" "$TMP/fs_tmp_$s" -e 10 --exhaustive-search 1 --mask 0 --threads "$T" -v 1
   foldseek convertalis "$TMP/$s" "$TMP/targets" "$TMP/aln_$s" "$TMP/foldseek_$s.tsv" --format-output "$FS_FMT" -v 1
 done
 foldseek lndb "$TMP/targets_h" "$TMP/targets_ss_h"
@@ -72,7 +75,7 @@ foldseek convert2fasta "$TMP/targets_ss" "$TMP/targets_3di.faa" -v 1
 # 2. MMseqs2 sequence baseline.
 for s in queries decoys; do
   mmseqs easy-search "$IN/$s.faa" "$IN/targets.faa" "$TMP/mmseqs_$s.tsv" "$TMP/mm_tmp_$s" \
-    -s 7.5 -e 10 --exhaustive-search 1 --threads "$T" --format-output "$MM_FMT" -v 1
+    --prefilter-mode 2 --mask 0 -e 10 --threads "$T" --format-output "$MM_FMT" -v 1
 done
 
 {
@@ -83,8 +86,8 @@ done
   echo "foldseek_version: $(foldseek version)"
   echo "mmseqs_version: $(mmseqs version)"
   echo "prostt5_weights: $WEIGHTS ($(du -sh "$WEIGHTS" | cut -f1); files sha256 $(cd "$WEIGHTS" && find . -type f | sort | xargs sha256sum | sha256sum | cut -d' ' -f1))"
-  echo "foldseek: createdb --prostt5-model --gpu 1; search -e 10 --exhaustive-search 1; format $FS_FMT"
-  echo "mmseqs: easy-search -s 7.5 -e 10 --exhaustive-search 1; format $MM_FMT"
+  echo "foldseek: createdb --prostt5-model --gpu 1; search -e 10 --exhaustive-search 1 --mask 0; format $FS_FMT"
+  echo "mmseqs: easy-search --prefilter-mode 2 --mask 0 -e 10; format $MM_FMT"
   echo "input SHA256SUMS sha256 $(sha256sum < "$IN/SHA256SUMS" | cut -d' ' -f1)"
   for f in foldseek_queries foldseek_decoys mmseqs_queries mmseqs_decoys; do echo "rows $f: $(wc -l < "$TMP/$f.tsv")"; done
 } > "$TMP/provenance.txt"

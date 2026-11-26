@@ -3,7 +3,8 @@
 Runs once on the HPCC login node (a few dozen small HTTPS requests, no heavy work) and writes into a NEW directory outside the repo:
 
   queries.faa         the Pfam domain of each query in queries.tsv, cut at the InterPro envelope +- --pad residues
-  decoys.faa          the same crops reversed (ids prefixed `rev_`); searched exactly like the queries, they give the empirical false-hit rate
+  decoys.faa          per query: the crop reversed (`dec00_<id>`) and --n-shuffles local-window shuffles (`decNN_<id>`, seeded by the id);
+                      searched exactly like the queries, they give the empirical false-hit rate (shuffles keep local composition and length)
   query_domains.tsv   query id, panel, accession, gene, pfam, domain start/end, crop start/end, number of Pfam locations, protein length
   targets.faa         the target proteomes, taken from an existing staged proteome directory (proteins.tsv + chunks/), never re-downloaded
   target_proteins.tsv accession, species, length
@@ -21,6 +22,7 @@ import argparse
 import csv
 import hashlib
 import json
+import random
 import sys
 import urllib.parse
 import urllib.request
@@ -68,7 +70,11 @@ def pick_location(locations):
     for loc in locations:
         fs = loc["fragments"]
         frags.append(
-            (float(loc.get("score") or 0.0), min(f["start"] for f in fs), max(f["end"] for f in fs))
+            (
+                float(loc["score"]) if loc.get("score") is not None else float("inf"),
+                min(f["start"] for f in fs),
+                max(f["end"] for f in fs),
+            )
         )
     score, start, end = sorted(frags, key=lambda t: (t[0], t[1]))[0]
     return start, end, len(frags)
@@ -80,6 +86,27 @@ def crop(seq, start, end, pad):
         raise BuildError(f"domain {start}-{end} outside a sequence of {len(seq)}")
     cs, ce = max(1, start - pad), min(len(seq), end + pad)
     return seq[cs - 1 : ce], cs, ce
+
+
+def window_shuffle(seq, window, seed):
+    """Shuffle residues inside consecutive windows of `window` residues (keeps local composition, destroys order). Deterministic."""
+    rng = random.Random(seed)
+    out = []
+    for i in range(0, len(seq), window):
+        w = list(seq[i : i + window])
+        rng.shuffle(w)
+        out.extend(w)
+    return "".join(out)
+
+
+def decoys_for(qid, sub, n_shuffles, window):
+    """[(decoy_id, seq)]: dec00 = reversed, dec01..decNN = window shuffles."""
+    out = [(f"dec00_{qid}", sub[::-1])]
+    out += [
+        (f"dec{k:02d}_{qid}", window_shuffle(sub, window, f"{qid}:{k}"))
+        for k in range(1, n_shuffles + 1)
+    ]
+    return out
 
 
 def query_id(acc, pfam, cs, ce):
@@ -147,9 +174,18 @@ def main(argv=None):
     )
     ap.add_argument("--out", required=True)
     ap.add_argument("--pad", type=int, default=10)
+    ap.add_argument(
+        "--n-shuffles",
+        type=int,
+        default=50,
+        help="window-shuffled decoys per query (plus one reversal); at most 99",
+    )
+    ap.add_argument("--window", type=int, default=10, help="shuffle window in residues")
     a = ap.parse_args(argv)
     out = Path(a.out).resolve()
     try:
+        if not 0 <= a.n_shuffles <= 99 or a.window < 2:
+            raise BuildError("--n-shuffles must be 0..99 and --window at least 2")
         if out.exists():
             raise BuildError(f"{out} exists; nothing is overwritten")
         if out == REPO or REPO in out.parents:
@@ -176,7 +212,10 @@ def main(argv=None):
             sub, cs, ce = crop(seq, start, end, a.pad)
             qid = query_id(acc, pfam, cs, ce)
             qfa.append(f">{qid} {r['gene']} {r['domain']}\n{wrap(sub)}")
-            dfa.append(f">rev_{qid} reversed decoy\n{wrap(sub[::-1])}")
+            dfa.extend(
+                f">{did} decoy\n{wrap(dseq)}"
+                for did, dseq in decoys_for(qid, sub, a.n_shuffles, a.window)
+            )
             dom_rows.append(
                 [
                     qid,
@@ -255,7 +294,7 @@ def main(argv=None):
             f"script: analysis/crossclade_domain_search/build_inputs.py\n"
             f"queries: {a.queries} sha256 {hashlib.sha256(Path(a.queries).read_bytes()).hexdigest()}\n"
             f"uniprot_release: {','.join(sorted(releases))}\n"
-            f"pad: {a.pad}\nstaged: {Path(a.staged).resolve()} (SHA256SUMS sha256 "
+            f"pad: {a.pad}\ndecoys: 1 reversal + {a.n_shuffles} window shuffles (window {a.window}) per query\nstaged: {Path(a.staged).resolve()} (SHA256SUMS sha256 "
             f"{hashlib.sha256(staged_sha.read_bytes()).hexdigest() if staged_sha.exists() else 'absent'})\n"
             f"species: {', '.join(f'{k}={v}' for k, v in sorted(species.items()))}\n"
             f"n_queries: {len(qfa)}\nn_targets: {len(targets)}\nn_truth_pf21671: {len(truth)}\n"

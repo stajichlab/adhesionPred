@@ -24,27 +24,33 @@ search and the current sorting-hat rules miss?
 Why two panels: the Cfl1 family is not homologous to Als, Flo or Epa. A check "ascomycete queries recover Cfl1" would score 0 by design, so the
 known-positive check is done within the basidiomycetes (panel `basidio`), and the cross-phylum question (panel `asco`) is reported as discovery.
 
-**Methods:** (1) Foldseek 3Di+AA with ProstT5 3Di on GPU; (2) MMseqs2 `-s 7.5` sequence baseline. Reseek (needs 3D models) and TEA (needs
+**Methods:** (1) Foldseek 3Di+AA with ProstT5 3Di on GPU, exhaustive; (2) MMseqs2 sequence baseline with the prefilter off
+(`--prefilter-mode 2`, all-vs-all). Masking is off in both (`--mask 0`) so the comparison is not a masking difference. Reseek (needs 3D models) and TEA (needs
 installation) are round 2; the "2 of 3 methods agree" rule of the plan applies only once all three have run.
 
-**Null:** every query is also searched reversed (`decoys.faa`); decoy hits per cut-off are the empirical false-hit count.
+**Null:** 51 decoys per query (one reversal and 50 shuffles within 10-residue windows, which keep length and local composition, so
+S/T-rich and repeat-rich domains keep their bias). All decoy hits count, including a decoy hitting its own forward protein. Reported:
+decoy hits and decoys with a hit per cut-off, and the best decoy E-value per query (`per_query.tsv`). With 357 decoys per panel, an
+empirical false-hit rate near 1 in 300 is resolvable; 7 reversals alone would not have been.
 
-**Cut-offs:** E ≤ 1e-3 primary; 1e-2 and 0.1 reported beside it. Self-hits dropped.
+**Cut-offs:** E ≤ 1e-3 primary; 1e-2 and 0.1 reported beside it. Query hits to any query accession are dropped (self and paralog
+queries), and PF21671 recovery counts only non-query members: all 7 H99 members are queries, so H99 recovery is 0/0 by design and only
+the 12 NP11 members are scored.
 
 **Surface context:** hits are joined with the committed per-protein flags (signal peptide, GPI, longest disordered run, broad/narrow flags).
 For basidiomycetes the relevant context is a **signal peptide, not a GPI anchor**: all 19 CPL1-like proteins of H99 and NP11 have a signal
 peptide and none has a GPI call, which is why the sorting hat flags none of them.
 
 **What would count as a result:** panel `basidio`: Foldseek recovers more of the 12 NP11 PF21671 members than MMseqs2 at the same decoy rate, or
-finds secreted non-Pfam proteins that a later check (Reseek, domain alignment) confirms. Panel `asco`: any secreted NP11 or H99 target hit at
-E ≤ 1e-3 with zero decoy hits at that cut-off goes to round 2 and to the hand-check list.
+finds secreted non-Pfam proteins that a later check (Reseek, domain alignment) confirms. Panel `asco`: a secreted NP11 or H99 target hit at
+E ≤ 1e-3 whose E-value is also below the best decoy E-value of that query goes to round 2 and to the hand-check list.
 
 ## Files
 
 | File | Where it runs | Role |
 |---|---|---|
 | `queries.tsv` | committed | the 14 queries, panel, Pfam domain |
-| `build_inputs.py` | HPCC login node (about 30 small HTTPS requests) | crops the query domains, writes reversed decoys, extracts the target proteomes, fetches the PF21671 reference; output outside the repo |
+| `build_inputs.py` | HPCC login node (about 30 small HTTPS requests) | crops the query domains, writes 51 decoys per query (reversal + window shuffles), extracts the target proteomes, fetches the PF21671 reference; output outside the repo |
 | `search.sbatch` | SLURM, `exfab` (1 Ada 6000) | ProstT5 3Di, Foldseek and MMseqs2 searches, provenance |
 | `summarize.py` | HPCC (seconds) | `hits.tsv`, `summary.tsv`, `per_query.tsv` (no sequences); copied to `docs/reports/data/` afterwards |
 | `tests/crossclade_domain_search/` | anywhere | fixture tests (offline) |

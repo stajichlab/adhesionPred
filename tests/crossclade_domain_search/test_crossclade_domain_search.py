@@ -67,7 +67,35 @@ def test_query_id_round_trips_to_accession():
     qid = bi.query_id("A0A2H0ZI42", "PF11765", 1, 350)
     assert qid == "A0A2H0ZI42_PF11765_1_350"
     assert sm.query_accession(qid) == "A0A2H0ZI42"
-    assert sm.query_accession("rev_" + qid) == "A0A2H0ZI42"
+    assert sm.query_accession("dec07_" + qid) == "A0A2H0ZI42"
+    assert sm.decoy_query("dec00_" + qid) == qid
+    assert not sm.is_decoy(qid) and sm.is_decoy("dec42_" + qid)
+
+
+def test_decoys_reverse_then_deterministic_window_shuffles():
+    sub = "STSTSTAAAAGGGGPPPPNNNQ"
+    dec = bi.decoys_for("Q1_PF1_1_22", sub, 3, 5)
+    assert [d for d, _ in dec] == [
+        "dec00_Q1_PF1_1_22",
+        "dec01_Q1_PF1_1_22",
+        "dec02_Q1_PF1_1_22",
+        "dec03_Q1_PF1_1_22",
+    ]
+    assert dec[0][1] == sub[::-1]
+    for _, seq in dec[1:]:
+        assert len(seq) == len(sub)
+        # each 5-residue window keeps its composition
+        assert all(sorted(seq[i : i + 5]) == sorted(sub[i : i + 5]) for i in range(0, len(sub), 5))
+    assert dec == bi.decoys_for("Q1_PF1_1_22", sub, 3, 5)  # deterministic
+    assert len({seq for _, seq in dec[1:]}) > 1
+
+
+def test_pick_location_missing_score_ranks_last():
+    locs = [
+        {"fragments": [{"start": 5, "end": 9}]},
+        {"fragments": [{"start": 50, "end": 90}], "score": 1e-3},
+    ]
+    assert bi.pick_location(locs) == (50, 90, 2)
 
 
 def test_parse_fasta_reduces_uniprot_headers():
@@ -127,9 +155,26 @@ def test_main_refuses_output_inside_repo_or_existing(tmp_path, capsys):
 
 # --- summarize -------------------------------------------------------------------------------------------------------------
 
+QA, QB, QC = "Q59L12_PF11766_43_308", "J9VQE5_PF21671_20_199", "H2_PF21671_1_100"
+
 
 def _hit(q, t, e, qs=1, qe=50, ql=100):
     return [q, t, "0.3", "50", str(qs), str(qe), "1", "50", str(e), "40", str(ql), "300"]
+
+
+def _tables(inp):
+    return [
+        sm.read_tsv(inp / f)
+        for f in ("query_domains.tsv", "target_proteins.tsv", "truth_pf21671.tsv")
+    ]
+
+
+def _decoy_ids(inp):
+    return {
+        ln[1:].split()[0]
+        for ln in (inp / "decoys.faa").read_text().splitlines()
+        if ln.startswith(">")
+    }
 
 
 @pytest.fixture
@@ -137,22 +182,20 @@ def fixture_dirs(tmp_path):
     inp, res = tmp_path / "in", tmp_path / "res"
     inp.mkdir()
     res.mkdir()
-    qa, qb = "Q59L12_PF11766_43_308", "J9VQE5_PF21671_20_199"
     _write_tsv(
         inp / "query_domains.tsv",
         ["query_id", "panel", "accession", "gene"],
-        [[qa, "asco", "Q59L12", "ALS3"], [qb, "basidio", "J9VQE5", "CPL1"]],
+        [
+            [QA, "asco", "Q59L12", "ALS3"],
+            [QB, "basidio", "J9VQE5", "CPL1"],
+            [QC, "basidio", "H2", "PARALOG"],
+        ],
     )
     _write_tsv(
         inp / "target_proteins.tsv",
         ["accession", "species", "length"],
-        [
-            ["M1", "Rtor_NP11", "300"],
-            ["M2", "Rtor_NP11", "300"],
-            ["M3", "Rtor_NP11", "300"],
-            ["J9VQE5", "Cneo_H99", "199"],
-            ["H2", "Cneo_H99", "300"],
-        ],
+        [[a, "Rtor_NP11", "300"] for a in ("M1", "M2", "M3")]
+        + [[a, "Cneo_H99", "300"] for a in ("J9VQE5", "H2", "H3")],
     )
     _write_tsv(
         inp / "truth_pf21671.tsv",
@@ -161,18 +204,27 @@ def fixture_dirs(tmp_path):
             ["M1", "Rtor_NP11", "PF21671", "yes"],
             ["M2", "Rtor_NP11", "PF21671", "yes"],
             ["J9VQE5", "Cneo_H99", "PF21671", "yes"],
+            ["H2", "Cneo_H99", "PF21671", "yes"],
             ["Z9", "Rtor_NP11", "PF21671", "not_in_staged_proteome"],
         ],
     )
+    (inp / "decoys.faa").write_text(
+        "".join(f">dec0{k}_{q} decoy\nAAA\n" for q in (QA, QB, QC) for k in (0, 1))
+    )
     rows = {
         "foldseek_queries": [
-            _hit(qb, "M1", 1e-10),
-            _hit(qb, "M3", 5e-3),
-            _hit(qb, "J9VQE5", 1e-50),
-            _hit(qa, "H2", 0.05),
+            _hit(QB, "M1", 1e-10),
+            _hit(QB, "M3", 5e-3),
+            _hit(QB, "J9VQE5", 1e-50),  # self: dropped
+            _hit(QB, "H2", 1e-20),  # paralog that is itself a query: dropped
+            _hit(QA, "H3", 0.05),
         ],
-        "foldseek_decoys": [_hit("rev_" + qa, "M2", 1e-4), _hit("rev_" + qb, "J9VQE5", 1e-4)],
-        "mmseqs_queries": [_hit(qb, "M1", 1e-4)],
+        "foldseek_decoys": [
+            _hit("dec00_" + QA, "M2", 1e-4),
+            _hit("dec01_" + QB, "J9VQE5", 1e-4),  # decoy hitting its own forward protein: kept
+            _hit("dec00_" + QB, "M1", 0.05),
+        ],
+        "mmseqs_queries": [_hit(QB, "M1", 1e-4)],
         "mmseqs_decoys": [],
     }
     for name, rr in rows.items():
@@ -181,24 +233,20 @@ def fixture_dirs(tmp_path):
     flags = {
         a: {
             "accession": a,
-            "sp_yes": "1" if a != "H2" else "0",
+            "sp_yes": "0" if a == "H3" else "1",
             "gpi_yes": "0",
             "disorder_longest_run": "0",
             "broad_flag": "0",
             "narrow_flag": "0",
         }
-        for a in ("M1", "M2", "M3", "J9VQE5", "H2")
+        for a in ("M1", "M2", "M3", "J9VQE5", "H2", "H3")
     }
     return inp, res, flags
 
 
-def test_summarize_counts_cutoffs_decoys_and_drops_self_hits(fixture_dirs):
+def test_summarize_cutoffs_decoys_and_query_filter(fixture_dirs):
     inp, res, flags = fixture_dirs
-    domains, targets, truth = (
-        sm.read_tsv(inp / f)
-        for f in ("query_domains.tsv", "target_proteins.tsv", "truth_pf21671.tsv")
-    )
-    hits, summary, per_query = sm.summarize(domains, targets, truth, flags, res)
+    hits, decoys, summary, per_query = sm.summarize(*_tables(inp), flags, res, _decoy_ids(inp))
     s = {(r["method"], r["panel"], r["evalue_max"]): r for r in summary}
     b3 = s[("foldseek", "basidio", 1e-3)]
     assert (
@@ -206,34 +254,48 @@ def test_summarize_counts_cutoffs_decoys_and_drops_self_hits(fixture_dirs):
         and b3["pf21671_recovered_Rtor_NP11"] == "1/2"
         and b3["non_pf21671_hits_Rtor_NP11"] == 0
     )
-    assert b3["pf21671_recovered_Cneo_H99"] == "0/1"  # the self-hit J9VQE5 -> J9VQE5 is dropped
-    assert b3["decoy_targets_hit"] == 0  # the decoy self-hit is dropped too
+    assert b3["pf21671_recovered_Cneo_H99"] == "0/0"  # every H99 member is a query: not scored
+    assert b3["non_pf21671_hits_Cneo_H99"] == 0  # self and paralog-query hits dropped
+    assert b3["decoy_hits"] == 1 and b3["decoys_with_hit"] == "1/4" and b3["decoy_targets_hit"] == 1
     b2 = s[("foldseek", "basidio", 1e-2)]
     assert (
         b2["targets_hit"] == 2
         and b2["non_pf21671_hits_Rtor_NP11"] == 1
         and b2["targets_hit_with_sp"] == 2
     )
+    b1 = s[("foldseek", "basidio", 0.1)]
+    assert b1["decoy_hits"] == 2 and b1["decoys_with_hit"] == "2/4" and b1["decoy_targets_hit"] == 2
     a3 = s[("foldseek", "asco", 1e-3)]
-    assert a3["targets_hit"] == 0 and a3["decoy_targets_hit"] == 1
-    assert s[("foldseek", "asco", 0.1)]["targets_hit_with_sp"] == 0
+    assert a3["targets_hit"] == 0 and a3["decoy_hits"] == 1 and a3["decoys_with_hit"] == "1/2"
+    assert (
+        s[("foldseek", "asco", 0.1)]["targets_hit"] == 1
+        and s[("foldseek", "asco", 0.1)]["targets_hit_with_sp"] == 0
+    )
     assert s[("mmseqs", "basidio", 1e-3)]["pf21671_recovered_Rtor_NP11"] == "1/2"
-    assert {h[4] for h in hits if h[0] == "foldseek"} == {"M1", "M3", "H2"}
+    assert s[("mmseqs", "basidio", 1e-3)]["decoys_with_hit"] == "0/4"
+    assert {h[4] for h in hits if h[0] == "foldseek"} == {"M1", "M3", "H3"}
     assert all(h[-1] == ("yes" if h[4] == "M1" else "no") for h in hits)
+    assert len([d for d in decoys if d[0] == "foldseek"]) == 3
     pq = {(r[0], r[1], r[4]): r[5:] for r in per_query}
-    assert pq[("foldseek", "J9VQE5_PF21671_20_199", 1e-2)] == [0, 2]  # columns: Cneo_H99, Rtor_NP11
+    assert pq[("foldseek", QB, 1e-2)] == [
+        0,
+        2,
+        2,
+        "0.0001",
+    ]  # Cneo_H99, Rtor_NP11, n_decoys, best decoy E
+    assert pq[("foldseek", QC, 1e-2)] == [0, 0, 2, "NA"]
 
 
-def test_summarize_fails_on_unknown_target(fixture_dirs):
+def test_summarize_fails_on_unknown_target_or_decoy(fixture_dirs):
     inp, res, flags = fixture_dirs
     with open(res / "mmseqs_decoys.tsv", "w") as fh:
-        fh.write("\t".join(_hit("rev_Q59L12_PF11766_43_308", "NOPE", 1)) + "\n")
-    domains, targets, truth = (
-        sm.read_tsv(inp / f)
-        for f in ("query_domains.tsv", "target_proteins.tsv", "truth_pf21671.tsv")
-    )
+        fh.write("\t".join(_hit("dec00_" + QA, "NOPE", 1)) + "\n")
     with pytest.raises(sm.SummaryError, match="NOPE"):
-        sm.summarize(domains, targets, truth, flags, res)
+        sm.summarize(*_tables(inp), flags, res, _decoy_ids(inp))
+    with open(res / "mmseqs_decoys.tsv", "w") as fh:
+        fh.write("\t".join(_hit("dec09_" + QA, "M1", 1)) + "\n")
+    with pytest.raises(sm.SummaryError, match="not in decoys.faa"):
+        sm.summarize(*_tables(inp), flags, res, _decoy_ids(inp))
 
 
 def test_summarize_main_writes_tables(fixture_dirs, tmp_path):
@@ -242,16 +304,15 @@ def test_summarize_main_writes_tables(fixture_dirs, tmp_path):
     cols = ["accession", *sm.FLAG_COLS]
     _write_tsv(fl, cols, [[f[c] for c in cols] for f in flags.values()])
     out = tmp_path / "summary_out"
-    assert (
-        sm.main(
-            ["--inputs", str(inp), "--results", str(res), "--flags", str(fl), "--out", str(out)]
-        )
-        == 0
-    )
-    assert {p.name for p in out.iterdir()} == {"hits.tsv", "summary.tsv", "per_query.tsv"}
-    assert (
-        sm.main(
-            ["--inputs", str(inp), "--results", str(res), "--flags", str(fl), "--out", str(out)]
-        )
-        == 1
-    )
+    args = ["--inputs", str(inp), "--results", str(res), "--flags", str(fl), "--out", str(out)]
+    assert sm.main(args) == 0
+    assert {p.name for p in out.iterdir()} == {
+        "hits.tsv",
+        "decoy_hits.tsv",
+        "summary.tsv",
+        "per_query.tsv",
+    }
+    header = (out / "hits.tsv").read_text().splitlines()[0].split("\t")
+    assert header[header.index("alnlen") + 1 :][:4] == ["tstart", "tend", "qcov", "tcov"]
+    assert len((out / "per_query.tsv").read_text().splitlines()[1].split("\t")) == 9
+    assert sm.main(args) == 1
