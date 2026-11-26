@@ -81,9 +81,61 @@ sbatch --export=ALL,PROJ_ROOT=$P,CODE_COMMIT=$(git -C $P rev-parse HEAD),IN=$W/i
   --flags docs/reports/data/aga1_nonyeast_test_2026-10-26/all_proteins_flags.tsv --out $W/round1_summary
 ```
 
+## Round 2: real AlphaFold models, three structure methods (built 2026-11-26)
+
+Design, declared before the run (revised after an independent review, before any round 2 run):
+
+- **Structures:** AlphaFold DB models (`round2_inputs.py`), used only if the model sequence equals the round 1 sequence. Queries
+  are cut to the round 1 crop (the crop's sequence must equal `queries.faa`). Target models lose residues with pLDDT < 50 (long
+  low-confidence disordered regions give spurious structure similarity); fewer than 40 residues left = not used. Targets:
+  (a) every round 1 target hit at E <= 0.1 by either method (`candidate`), (b) the PF21671 reference (`pf21671`), and
+  (c) background: per species, proteins drawn in seeded random order from the **whole proteome** (minus queries and PF21671
+  members; candidates can be drawn) until 500 models are usable, alternating into half A (null) and half B (held out).
+- **Methods:** `prostt5` = round 1 Foldseek with predicted 3Di (not re-run); `af_fs` = Foldseek on the AFDB models;
+  `reseek` = Reseek v3.01 `-verysensitive -stats superfamily`. TEA is left out (not installed); MMseqs2 is context only.
+- **One scale:** every score is put on the round 1 E-value scale (expected chance hits among the 15,587 round 1 targets):
+  `af_fs` E x 15,587 / number of target models searched; `reseek` P x 15,587; `prostt5` as is.
+- **Null:** for `af_fs` and `reseek`, the best scaled score of the query against half A, leaving out the target itself; for
+  `prostt5`, the best of its 51 sequence decoys. `nulls.tsv` gives how many half-A proteins each null rests on.
+- **Support:** scaled score <= 1e-3 and better than the query's null. A target is **confirmed** when one query pair has support
+  from 2 of the 3 methods. Background proteins are never scored as hits; `background_hits.tsv` lists those at <= 1e-3 for a look.
+- **False-pass rate:** half B is scored by the same rule (null from half A); `summary.tsv` `half_B_passing` per method and for
+  the 2-of-3 rule is the rate at which randomly drawn proteins pass.
+- **Caveats, stated before the run:** `af_fs` and `reseek` read the same model and `af_fs` shares Foldseek scoring with
+  `prostt5`, so the votes are not independent (half B measures the rule as a whole); every scored target was selected by a round 1
+  hit; Reseek keeps a k-mer prefilter even in `-verysensitive` mode, so some pairs have no score (= no hit). AFDB has no model for
+  proteins over 2,700 residues, so *C. auris* IFF4109 (2,946 aa) is expected to be unscorable by `af_fs`/`reseek`;
+  unscorable queries and PF21671 members are counted in `summary.tsv`.
+- **Gene models:** `gene_model_check.py` lists, for targets without a signal peptide (M7WU28, M7WQR1) and M7X8Q7, the UniProt
+  record and the other Rhodotorula members of the same UniRef50 cluster (length, signal peptide, N terminus).
+
+```
+P=/bigdata/stajichlab/jstajich/projects/adhesionPred
+W=$P/_workdir/crossclade_domain_search
+C=$W/code   # detached worktree at the reviewed commit (git -C $P worktree add --detach $C <commit>, or checkout there)
+
+# 5. AFDB models (login node, about 1,200 small downloads)
+/usr/bin/python3.12 -I $C/analysis/crossclade_domain_search/round2_inputs.py --round1-inputs $W/in \
+  --round1-hits $W/round1_summary/hits.tsv --background-per-species 250 --out $W/in2
+
+# 6. Reseek binary, once (login node)
+mkdir -p $W/tools && curl -fsSL -o $W/tools/reseek-v3.01 \
+  https://github.com/rcedgar/reseek/releases/download/v3.01/reseek-v3.01-linux-x86 && chmod +x $W/tools/reseek-v3.01
+
+# 7. search (exfab, CPU)
+sbatch --export=ALL,PROJ_ROOT=$C,CODE_COMMIT=$(git -C $C rev-parse HEAD),IN2=$W/in2,RESEEK=$W/tools/reseek-v3.01,OUT=$W/round2 \
+  -o $W/logs/%x.%j.log -e $W/logs/%x.%j.log $C/analysis/crossclade_domain_search/round2_search.sbatch
+
+# 8. summary and gene-model check (seconds)
+/usr/bin/python3.12 -I $C/analysis/crossclade_domain_search/round2_summarize.py --round1-inputs $W/in \
+  --round1-summary $W/round1_summary --inputs2 $W/in2 --results2 $W/round2 --out $W/round2_summary
+/usr/bin/python3.12 -I $C/analysis/crossclade_domain_search/gene_model_check.py --acc M7WU28 --acc M7WQR1 --acc M7X8Q7 \
+  --out $W/gene_model_check.tsv
+```
+
 ## Later rounds (not built)
 
-- Round 2: Reseek on AFDB models of the hits (NP11 is in AFDB, UP000016926) and TEA; apply the 2-of-3 rule; add the reversed-decoy rate per method.
+- TEA as a fourth method; a repeat-aware null for the β-helix and Flo11 queries (HYR1, IFF4109, FLO11).
 - More targets: other Microbotryomycetes, *Ustilago maydis* (Rep1/Hum3), *Trichosporon asahii*.
 - Strategy C link: the Rhodotorula biofilm assay (`config/site.yaml` `rhodotorula_biofilm`, 23 strains) could test whether candidate-family
   copy number follows biofilm OD across strains with genomes.
