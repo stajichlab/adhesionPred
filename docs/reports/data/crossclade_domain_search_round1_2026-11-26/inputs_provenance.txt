@@ -1,0 +1,10 @@
+script: analysis/crossclade_domain_search/build_inputs.py
+queries: analysis/crossclade_domain_search/queries.tsv sha256 b3d4aa78fea83aeba6a06169ed8031cc55e3f502c5cc4276523dd2c604117200
+uniprot_release: 2026_04
+pad: 10
+decoys: 1 reversal + 50 window shuffles (window 10) per query
+staged: /bigdata/stajichlab/jstajich/projects/adhesionPred/_workdir/nonyeast_test/in (SHA256SUMS sha256 be64816c8eba748433f23e34835aeedab1e71daf2f9f8992211a1fe884adb5dd)
+species: Cneo_H99=235443, Rtor_NP11=1130832
+n_queries: 14
+n_targets: 15587
+n_truth_pf21671: 19

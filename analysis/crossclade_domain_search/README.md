@@ -1,6 +1,6 @@
 # Cross-clade domain search, round 1 (strategy A)
 
-Plan and background: `docs/reports/2026-11-25-plm-survey-rhodotorula-adhesion.md` (section 2A). Nothing here has run yet; every HPCC step
+Plan and background: `docs/reports/2026-11-25-plm-survey-rhodotorula-adhesion.md` (section 2A). Round 1 ran on 2026-11-26 (results: `docs/reports/data/crossclade_domain_search_round1_2026-11-26/`); every HPCC step
 needs the owner's go-ahead.
 
 ## Question
@@ -76,8 +76,8 @@ module load foldseek/10-941cd33 && foldseek databases ProstT5 $W/prostt5_weights
 sbatch --export=ALL,PROJ_ROOT=$P,CODE_COMMIT=$(git -C $P rev-parse HEAD),IN=$W/in,WEIGHTS=$W/prostt5_weights,OUT=$W/round1 \
   -o $W/logs/%x.%j.log -e $W/logs/%x.%j.log analysis/crossclade_domain_search/search.sbatch
 
-# 4. summary (seconds)
-python3 -I analysis/crossclade_domain_search/summarize.py --inputs $W/in --results $W/round1 \
+# 4. summary (seconds; needs Python >= 3.10, the HPCC default python3 is 3.9)
+/usr/bin/python3.12 -I analysis/crossclade_domain_search/summarize.py --inputs $W/in --results $W/round1 \
   --flags docs/reports/data/aga1_nonyeast_test_2026-10-26/all_proteins_flags.tsv --out $W/round1_summary
 ```
 
