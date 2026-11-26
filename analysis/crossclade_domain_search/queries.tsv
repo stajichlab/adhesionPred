@@ -1,0 +1,15 @@
+panel	accession	species	gene	pfam	domain	why
+asco	Q59L12	Calb_SC5314	ALS3	PF11766	Als N-terminal (agglutinin-like)	Als adhesin binding domain
+asco	P20840	Scer_S288C	SAG1	PF11766	Als N-terminal (agglutinin-like)	S. cerevisiae alpha-agglutinin, same fold as Als NT
+asco	P38894	Scer_S288C	FLO5	PF07691	PA14	flocculin sugar-binding domain
+asco	P08640	Scer_S288C	FLO11	PF10182	Flo11 domain	Flo11 homophilic adhesion domain
+asco	Q6VBJ0	Cgla_CBS138	EPA1	PF10528	GLEYA (PA14-like)	Epa adhesin lectin domain
+asco	Q5AL03	Calb_SC5314	HYR1	PF11765	Hyr N-terminal (beta-helix)	Hyr/Iff/Hil family binding domain
+asco	A0A2H0ZI42	Caur_B8441	IFF4109	PF11765	Hyr N-terminal (beta-helix)	C. auris Hil-family adhesin
+basidio	J9VQE5	Cneo_H99	CPL1	PF21671	CPL1-like	C. neoformans Cfl1/Cpl1 family (PMID 28039134)
+basidio	J9VHS9	Cneo_H99	CNAG_00795	PF21671	CPL1-like	H99 CPL1-like paralog
+basidio	J9VSS0	Cneo_H99	CNAG_07422	PF21671	CPL1-like	H99 CPL1-like paralog
+basidio	J9VVN7	Cneo_H99	CNAG_03454	PF21671	CPL1-like	H99 CPL1-like paralog
+basidio	J9VY16	Cneo_H99	CNAG_06082	PF21671	CPL1-like	H99 CPL1-like paralog
+basidio	J9VKU2	Cneo_H99	CNAG_07428	PF21671	CPL1-like	H99 CPL1-like paralog
+basidio	J9VLJ7	Cneo_H99	CNAG_05057	PF21671	CPL1-like	H99 CPL1-like paralog
