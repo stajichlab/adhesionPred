@@ -1,0 +1,9 @@
+{
+  "min_seq_id": 0.3,
+  "coverage": 0.5,
+  "cov_mode": 0,
+  "n_sequences": 166,
+  "n_clusters": 113,
+  "unclustered": [],
+  "mmseqs_version": "b804fbe384e6f6c9fe96322ec0e92d48bccd0a42"
+}

@@ -3,11 +3,10 @@
 Built by `analysis/curation/build_benchmark.py` (owner decisions D3 and D4 of 2026-11-26; plan
 `docs/superpowers/plans/2026-11-26-adhesion-round2-benchmark-cruft-and-layout-study.md`).
 
-**Status: NOT YET FROZEN.** The fold list below is provisional because it counts proteins, and the
-real unit is a 30%-identity MMseqs2 cluster. Cluster counts are computed on the HPCC, which was
-unreachable when this was built. `VERSION` and `SHA256SUMS` are written so the inputs are pinned, but
-the set should not be used to decide anything until the fold list is recomputed on clusters and the
-owner signs it off.
+**Status: awaiting the owner's sign-off, then frozen.** The fold list below is computed on
+**clusters**, not proteins: MMseqs2 17-b804f, `--min-seq-id 0.3 -c 0.5 --cov-mode 0`, 166 sequences
+to 113 clusters (`clustering.json`, `clusters.tsv`). Every scored protein has a sequence; none was
+left unclustered. `VERSION` and `SHA256SUMS` pin the inputs.
 
 ## Why this exists
 
@@ -28,6 +27,9 @@ composition, with whole clades held out.
 | `sources/*.tsv` | the literature-curation passes, one per clade group |
 | `sources/*.unresolved.md` | candidates that failed verification, and why |
 | `sources/owner_excluded.md` | rows removed by owner decision, kept in full so it is reversible |
+| `sequences.faa` | one sequence per scored protein, as fetched from UniProt/NCBI |
+| `clusters.tsv` | accession to cluster representative (MMseqs2, 30% identity) |
+| `clustering.json` | clustering parameters, counts and MMseqs2 version |
 
 ## Tiers
 
@@ -59,25 +61,32 @@ them would only add a fixed error to every component alike.
 - **C2, positives vs all other secreted or GPI proteins of the same proteomes** — descriptive;
   assembled at scoring time, not here.
 
-## Folds (provisional — protein counts, not clusters)
+## Folds (cluster counts, MMseqs2 30% identity)
 
-A class is its own fold when it has at least 5 positives and 5 hard negatives; otherwise it is pooled
-into its subphylum, and a group that is still too thin is reported rather than quietly merged.
+A class is its own fold when it has at least 5 positive and 5 hard-negative **clusters**; otherwise
+it is pooled into its subphylum, and a group that is still too thin is reported rather than quietly
+merged. Counts are clusters, so a family of paralogues counts once.
 
-| Fold | Level | Positives | Hard negatives | Scored |
-|---|---|---|---|---|
-| Saccharomycetes | class | 32 | 57 | yes |
-| Pezizomycotina | group | 13 | 7 | yes |
-| Eurotiomycetes | class | 5 | 11 | yes |
-| Taphrinomycotina | group | 11 | 0 | no |
-| Microsporidia | group | 9 | 3 | no |
-| Mucoromycota | group | 3 | 2 | no |
-| Agaricomycotina | group | 2 | 6 | no |
-| Ustilaginomycotina | group | 1 | 3 | no |
-| Chytridiomycota | group | 0 | 1 | no |
+| Fold | Level | Positives | Hard negatives | Scored | Proteins before clustering |
+|---|---|---|---|---|---|
+| Saccharomycetes | class | 17 | 38 | yes | 32 / 57 |
+| Pezizomycotina | group | 11 | 7 | yes | 13 / 7 |
+| Eurotiomycetes | class | 5 | 11 | yes | 5 / 11 |
+| Microsporidia | group | 7 | 3 | no | 9 / 3 |
+| Taphrinomycotina | group | 7 | 0 | no | 11 / 0 |
+| Agaricomycotina | group | 2 | 5 | no | 2 / 6 |
+| Mucoromycota | group | 1 | 2 | no | 3 / 2 |
+| Ustilaginomycotina | group | 1 | 3 | no | 1 / 3 |
+| Chytridiomycota | group | 0 | 1 | no | 0 / 1 |
 
 Three folds can be scored. That is the honest state of the field, and it is the main limit on any
 claim this project makes about cross-clade transfer.
+
+**What clustering changed.** Saccharomycetes lost 47% of its positives (32 to 17) and a third of its
+negatives: those were FLO/ALS/EPA paralogues, not independent observations. Mucoromycota collapsed
+from 3 positives to 1 — the *Rhizopus* CotH proteins are one family. Eurotiomycetes did not move at
+all, so its small set is genuinely non-redundant. The three scorable folds survived, which was not
+guaranteed.
 
 ## What the curation found, and did not
 
@@ -108,9 +117,10 @@ cleanest negatives in the set: both had adhesion measured and unchanged.
 
 ## Known weaknesses
 
-1. Three scorable folds, and Saccharomycetes holds 42% of the positives and 63% of the negatives.
-2. Protein counts, not cluster counts. The Saccharomycetes positives are largely FLO/ALS families and
-   will collapse substantially on clustering.
+1. Three scorable folds, and Saccharomycetes still holds 47% of the positive clusters after
+   clustering.
+2. 113 clusters in total. Any claim about cross-clade transfer rests on three folds, one of which
+   (Eurotiomycetes) has 5 positive clusters — the minimum the rule allows.
 3. Hard negatives come overwhelmingly from *S. cerevisiae* and *C. albicans*, so C1 outside
    Saccharomycotina rests on very few proteins.
 4. Several rows are one experimental unit rather than independent observations (both EnP1
@@ -122,7 +132,14 @@ cleanest negatives in the set: both had adhesion measured and unchanged.
 ## Rebuilding
 
 ```bash
+# 1. membership and tiers (laptop or HPCC)
 python3 -I analysis/curation/build_benchmark.py --version adhesion_v1 --out data/benchmark/adhesion_v1 --force
+# 2. sequences and cluster-based folds (HPCC: needs the network, then MMseqs2)
+python3 -I analysis/curation/cluster_benchmark.py fetch   --benchmark data/benchmark/adhesion_v1
+module load MMseqs2/17-b804f
+python3 -I analysis/curation/cluster_benchmark.py cluster --benchmark data/benchmark/adhesion_v1 --tmpdir "$SCRATCH/mmseqs_benchmark"
 ```
+
+Step 1 rewrites `folds.tsv` with protein counts, so step 2 must be re-run after it.
 
 A change to the rules or the sources is a **new version directory**, not an edit to this one.
