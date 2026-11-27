@@ -48,7 +48,7 @@ lint with **ruff 0.3.5**; never write to `/bigdata/stajichlab/shared/...`.
 
 ## Branches and PRs
 
-All merged on 2026-11-27 except #173. `origin/main` is at 7904a9b.
+**All merged on 2026-11-27.** `origin/main` is at 4c9fd98.
 
 | PR | Branch | State |
 |---|---|---|
@@ -57,10 +57,11 @@ All merged on 2026-11-27 except #173. `origin/main` is at 7904a9b.
 | #170 | `crossclade-round1-results` | merged — round 1 results + round 2 code |
 | #171 | `remove-legacy-cruft` | merged — legacy removal |
 | #172 | `adhesion-round2-plan` | merged — the round 2 plan |
-| **#173** | `adhesion-benchmark-v1` (through 3e8e6ae) | **OPEN, awaiting owner review** — benchmark builder, adhesion_v1, clustering. Merges cleanly onto `main`. |
+| #173 | `adhesion-benchmark-v1` | merged — benchmark builder, adhesion_v1, clustering |
 
-Tag `legacy-2026-11-26` is pushed and holds everything removed in #171. The merged branches can be
-deleted at the owner's discretion; `adhesion-benchmark-v1` must stay until #173 is merged.
+Tag `legacy-2026-11-26` is pushed and holds everything removed in #171. Merged branches are
+auto-deleted on this repo: a local branch that was merged will be recreated by a later `git push`,
+so start new work from `origin/main` rather than from an old local branch.
 
 ## HPCC state — nothing is running
 
@@ -176,8 +177,8 @@ Removed by owner decision, recorded in full in `sources/owner_excluded.md`: **Mp
 1. **Round 2a `sbatch`** — the line was shown to the owner on 2026-11-27 and is **awaiting
    go-ahead**; it has NOT been submitted. Preconditions all pass (pinned dir clean, `round2/` absent,
    inputs match SHA256SUMS). `CODE_COMMIT=9c18ff408add62825f6e13096c4b874dabc95a87`.
-2. **Owner reviews and merges PR #173, and signs off `adhesion_v1`** as frozen. Folds are already
-   on clusters.
+2. **Owner signs off `adhesion_v1`** as frozen (PR #173 is merged; the content is final and the
+   folds are already on clusters). Sign-off is a statement in the README, not a code change.
 3. **2b proper**: the curated domain library (PA14, Flo11, Als N-terminal Ig, CFEM, CPL1/PF21671,
    LysM, fasciclin, Hyr/Iff, Bys1, hydrophobin, BAD1 — each cropped, each with its own empirical
    null) and the ablation harness. The rule: a held-out component returns only if it beats
