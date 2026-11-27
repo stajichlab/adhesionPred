@@ -23,7 +23,7 @@ jobs:
       - run: ruff format --check .
 
   test-sorting-hat:
-    name: Unit tests (tests/cellsurface_sorting_hat and tests/class_table, no torch)
+    name: Unit tests (no torch)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
@@ -33,11 +33,18 @@ jobs:
           cache: pip
       # These suites import only the standard library, numpy and pyyaml (checked: no torch, esm or sklearn),
       # so the package is not installed; src/ is put on the path instead.
+      #
+      # crossclade_domain_search (30 tests) and curation (61 tests) run in 0.14 s between them and need
+      # nothing but the standard library, so they belong here rather than in the torch matrix below.
+      # They were being run by hand after each merge, which is coverage that depends on somebody
+      # remembering; this is the same check, permanently.
       - run: pip install pytest pyyaml numpy
       - name: Run tests
         env:
           PYTHONPATH: src
-        run: pytest tests/cellsurface_sorting_hat tests/class_table
+        run: >
+          pytest tests/cellsurface_sorting_hat tests/class_table
+          tests/crossclade_domain_search tests/curation
 
   analysis-tests:
     name: Analysis tests (${{ matrix.suite }}, informational)
