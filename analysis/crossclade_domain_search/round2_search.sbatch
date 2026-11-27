@@ -45,9 +45,45 @@ module load "$FOLDSEEK_MODULE"
 command -v foldseek >/dev/null || fail "foldseek not on PATH after module load $FOLDSEEK_MODULE"
 
 # 1. Reseek.
+#
+# Job 32502912 (2026-11-27) died here in 36 s: -convert took the targets DIRECTORY happily (1,138
+# chains) but -search on the queries directory failed with
+#   "ReadStdioFile failed, attempted 4 bytes, read 0 bytes, errno=21"   (errno 21 = EISDIR)
+# The Reseek docs say a directory is a valid STRUCTS argument for both -search and -db, so this
+# looks like a v3.01 bug rather than a usage error. The binary needs CPU features the login node
+# lacks ("Illegal instruction" there), so the query form cannot be probed outside a job.
+#
+# Therefore: try the documented query forms in order and use the first that produces hits, and
+# record which one worked in the provenance. The failing mode costs ~30 s, so the fallback is cheap.
+#   .files  - documented list convention: "a text file containing filenames, one per line"
+#   .bcb    - allowed by the STRUCTS grammar; the form -db already requires
+#   dir     - what the docs say should work; kept last so a fixed Reseek is still used as intended
 "$RESEEK" -convert "$IN2/targets" -bcb "$TMP/targets.bcb" -log "$TMP/reseek_convert.log"
-"$RESEEK" -search "$IN2/queries" -db "$TMP/targets.bcb" -verysensitive -stats superfamily -pvalue 1 \
-  -columns "$RS_COLS" -output "$TMP/reseek.tsv" -threads "$T" -log "$TMP/reseek_search.log"
+find "$IN2/queries" -name '*.pdb' | sort > "$TMP/queries.files"
+[ -s "$TMP/queries.files" ] || fail "no .pdb files in $IN2/queries"
+"$RESEEK" -convert "$IN2/queries" -bcb "$TMP/queries.bcb" -log "$TMP/reseek_convert_queries.log" \
+  || echo "note: -convert of the queries failed; the .bcb query form will be skipped" >&2
+
+RESEEK_QUERY_FORM=""
+for form in files bcb dir; do
+  case "$form" in
+    files) q="$TMP/queries.files" ;;
+    bcb)   q="$TMP/queries.bcb" ;;
+    dir)   q="$IN2/queries" ;;
+  esac
+  [ -e "$q" ] || continue
+  rm -f "$TMP/reseek.tsv"
+  if "$RESEEK" -search "$q" -db "$TMP/targets.bcb" -verysensitive -stats superfamily -pvalue 1 \
+       -columns "$RS_COLS" -output "$TMP/reseek.tsv" -threads "$T" \
+       -log "$TMP/reseek_search_$form.log" && [ -s "$TMP/reseek.tsv" ]; then
+    RESEEK_QUERY_FORM="$form"
+    cp "$TMP/reseek_search_$form.log" "$TMP/reseek_search.log"
+    echo "reseek query form that worked: $form"
+    break
+  fi
+  echo "reseek query form '$form' produced no hits; trying the next" >&2
+done
+[ -n "$RESEEK_QUERY_FORM" ] || fail "every reseek query form failed; see $TMP/reseek_search_*.log"
 
 # 2. Foldseek on the AFDB models.
 foldseek easy-search "$IN2/queries" "$IN2/targets" "$TMP/foldseek_af.tsv" "$TMP/fs_tmp" \
@@ -59,6 +95,7 @@ foldseek easy-search "$IN2/queries" "$IN2/targets" "$TMP/foldseek_af.tsv" "$TMP/
   echo "node: $(hostname)"
   echo "reseek: $RESEEK sha256 $(sha256sum < "$RESEEK" | cut -d' ' -f1); $("$RESEEK" -version 2>&1 | head -1 || true)"
   echo "reseek: -verysensitive -stats superfamily -pvalue 1 -columns $RS_COLS"
+  echo "reseek query form: $RESEEK_QUERY_FORM (queries given as a .files list, a .bcb, or a directory)"
   echo "foldseek_version: $(foldseek version) ($FOLDSEEK_MODULE)"
   echo "foldseek: easy-search -e 10 --exhaustive-search 1 --mask 0; format $FS_FMT"
   echo "input SHA256SUMS sha256 $(sha256sum < "$IN2/SHA256SUMS" | cut -d' ' -f1)"

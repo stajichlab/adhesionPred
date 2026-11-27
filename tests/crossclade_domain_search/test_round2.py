@@ -406,3 +406,53 @@ def test_gene_model_check():
     )
     with pytest.raises(gm.CheckError):
         gm.entry_summary({"primaryAccession": "X"})
+
+
+# --- round2_search.sbatch: the Reseek query-form fallback -------------------------------------
+#
+# Job 32502912 failed because Reseek v3.01 rejected a directory as the -search query (errno 21,
+# EISDIR) although its own docs allow one, and the binary cannot be probed on the login node
+# (illegal instruction). The script now tries several documented query forms. These tests pin the
+# parts of that logic that would silently produce a wrong result if they regressed.
+
+SBATCH = (
+    Path(__file__).resolve().parents[2] / "analysis/crossclade_domain_search/round2_search.sbatch"
+)
+
+
+def test_sbatch_tries_every_documented_query_form():
+    text = SBATCH.read_text()
+    assert "for form in files bcb dir" in text, "the fallback loop is gone"
+    for form in ("queries.files", "queries.bcb", '"$IN2/queries"'):
+        assert form in text, form
+
+
+def test_sbatch_requires_a_nonempty_result_before_accepting_a_query_form():
+    # Reseek exits 0 on some failures, so a zero-exit alone must not count as success.
+    text = SBATCH.read_text()
+    assert '[ -s "$TMP/reseek.tsv" ]' in text
+
+
+def test_sbatch_clears_the_output_between_query_form_attempts():
+    # Without this, a stale file from an earlier attempt would be read as the later one's hits.
+    text = SBATCH.read_text()
+    loop = text[text.index("for form in files bcb dir") :]
+    assert 'rm -f "$TMP/reseek.tsv"' in loop[: loop.index("done")]
+
+
+def test_sbatch_fails_when_no_query_form_works():
+    text = SBATCH.read_text()
+    assert '[ -n "$RESEEK_QUERY_FORM" ] || fail' in text
+
+
+def test_sbatch_records_which_query_form_was_used():
+    # The provenance must say how the search was actually run, not how it was meant to be run.
+    text = SBATCH.read_text()
+    assert "reseek query form: $RESEEK_QUERY_FORM" in text
+
+
+def test_sbatch_still_pins_the_commit_and_refuses_an_existing_output():
+    text = SBATCH.read_text()
+    assert 'diff --quiet "$CODE_COMMIT" HEAD' in text
+    assert '[ ! -e "$OUT" ] || fail' in text
+    assert "sha256sum -c --quiet SHA256SUMS" in text
