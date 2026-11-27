@@ -3,10 +3,14 @@
 Built by `analysis/curation/build_benchmark.py` (owner decisions D3 and D4 of 2026-11-26; plan
 `docs/superpowers/plans/2026-11-26-adhesion-round2-benchmark-cruft-and-layout-study.md`).
 
-**Status: awaiting the owner's sign-off, then frozen.** The fold list below is computed on
-**clusters**, not proteins: MMseqs2 17-b804f, `--min-seq-id 0.3 -c 0.5 --cov-mode 0`, 166 sequences
-to 113 clusters (`clustering.json`, `clusters.tsv`). Every scored protein has a sequence; none was
-left unclustered. `VERSION` and `SHA256SUMS` pin the inputs.
+**Status: FROZEN 2026-11-27 by Jason Stajich.** Membership, tiers and folds are fixed. A change to
+the rules, the sources or the clustering is a new version directory (`adhesion_v2`), never an edit
+to this one.
+
+The fold list below is computed on **clusters**, not proteins: MMseqs2 17-b804f,
+`--min-seq-id 0.3 -c 0.5 --cov-mode 0`, 166 sequences to 113 clusters (`clustering.json`,
+`clusters.tsv`). Every scored protein has a sequence; none was left unclustered. `VERSION` and
+`SHA256SUMS` pin the inputs.
 
 ## Why this exists
 
