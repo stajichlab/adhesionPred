@@ -1,0 +1,9 @@
+panel	method	targets_supported	pf21671_supported_Cneo_H99	pf21671_no_model_Cneo_H99	non_pf21671_supported_Cneo_H99	pf21671_supported_Rtor_NP11	pf21671_no_model_Rtor_NP11	non_pf21671_supported_Rtor_NP11	half_B_passing	queries_without_model
+asco	prostt5	13	0/0	0	8	0/12	0	5	0/500	NA
+asco	af_fs	0	0/0	0	0	0/12	0	0	0/500	1/7
+asco	reseek	0	0/0	0	0	0/12	0	0	0/500	1/7
+asco	2of3	0	0/0	0	0	0/12	0	0	0/500	1/7
+basidio	prostt5	13	0/0	0	0	12/12	0	1	0/500	NA
+basidio	af_fs	12	0/0	0	0	12/12	0	0	0/500	0/7
+basidio	reseek	1	0/0	0	0	1/12	0	0	0/500	0/7
+basidio	2of3	12	0/0	0	0	12/12	0	0	0/500	0/7
