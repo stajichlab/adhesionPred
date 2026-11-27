@@ -1,0 +1,4 @@
+N1 (round 1 targets): 15587
+N_db (target models searched): 1138
+af_fs scale: 13.7
+reseek scale: 15587

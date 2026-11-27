@@ -1,0 +1,12 @@
+job: xclade_round2 (cross-clade domain search, round 2)
+commit: 3f4c5a48ed2874971bfa94daa520cce41e5a17cf (pinned: 3f4c5a48ed2874971bfa94daa520cce41e5a17cf)
+node: gpu12
+reseek: /bigdata/stajichlab/jstajich/projects/adhesionPred/_workdir/crossclade_domain_search/tools/reseek-v3.01 sha256 b801d9fe0682d4bc8879759e67a66a3ebb86ff6c7e24551cdf433862e885faad; 
+reseek: -verysensitive -stats superfamily -pvalue 1 -columns query+target+qlo+qhi+ql+tlo+thi+tl+pctid+pvalue
+reseek query form: bcb (queries given as a .files list, a .bcb, or a directory)
+foldseek_version: 941cd33ff0771cd2e3f144e3293e22a2b87e9fda (foldseek/10-941cd33)
+foldseek: easy-search -e 10 --exhaustive-search 1 --mask 0; format query,target,fident,alnlen,qstart,qend,tstart,tend,evalue,bits,qlen,tlen
+input SHA256SUMS sha256 aa7b16c2604ec33e9e2bf09e04fd7346577f8d37816dcff2e35abe0115485cfb
+queries: 13; targets: 1138
+rows reseek: 179; queries with rows: 12
+rows foldseek_af: 1138; queries with rows: 13
