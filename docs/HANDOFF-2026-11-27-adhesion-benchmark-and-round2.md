@@ -92,7 +92,7 @@ Reseek v3.01 is already downloaded and verified at `_workdir/crossclade_domain_s
 P=/bigdata/stajichlab/jstajich/projects/adhesionPred
 W=$P/_workdir/crossclade_domain_search; C=$W/code; B=$P/_workdir/benchmark_v1
 
-# A3. when in2/ exists — SHOW THIS LINE TO THE OWNER AND GET GO-AHEAD BEFORE SUBMITTING
+# A3. THE ONLY STEP LEFT. in2/ exists. SHOW THIS LINE TO THE OWNER AND GET GO-AHEAD BEFORE SUBMITTING.
 sbatch --export=ALL,PROJ_ROOT=$C,CODE_COMMIT=$(git -C $C rev-parse HEAD),IN2=$W/in2,\
 RESEEK=$W/tools/reseek-v3.01,OUT=$W/round2 \
   -o $W/logs/%x.%j.log -e $W/logs/%x.%j.log $C/analysis/crossclade_domain_search/round2_search.sbatch
@@ -104,7 +104,7 @@ RESEEK=$W/tools/reseek-v3.01,OUT=$W/round2 \
 /usr/bin/python3.12 -I $C/analysis/crossclade_domain_search/gene_model_check.py \
   --acc M7WU28 --acc M7WQR1 --acc M7X8Q7 --out $W/gene_model_check.tsv
 
-# B2. after the fetch finishes
+# B. DONE on 2026-11-27 — kept only for re-running the benchmark from scratch.
 module load MMseqs2/17-b804f    # same version as the Kiss clustering, so counts are comparable
 /usr/bin/python3.12 -I $B/code/analysis/curation/cluster_benchmark.py cluster \
   --benchmark $B/code/data/benchmark/adhesion_v1 --tmpdir $B/mmseqs_tmp
@@ -119,8 +119,9 @@ option or copy the outputs back into the repo and `git checkout` the worktree.
 
 ## adhesion_v1, the benchmark
 
-`data/benchmark/adhesion_v1/`. Built by `analysis/curation/build_benchmark.py`. **NOT FROZEN**: the
-fold list below counts proteins, and clusters are the real unit (that is what B2 fixes).
+`data/benchmark/adhesion_v1/`. Built by `analysis/curation/build_benchmark.py`, folds recomputed by
+`cluster_benchmark.py`. **Awaiting the owner's sign-off before it counts as frozen**; the content is
+final and the folds are already on clusters.
 
 76 positive, 90 hard_negative, 8 positive_moonlighting, 143 excluded (each with a reason — nothing
 is dropped silently).
