@@ -1,0 +1,29 @@
+# Taxon ID -> taxonomic class, for the leave-one-clade-out splits of the adhesion benchmark.
+# Explicit and reviewable: the benchmark holds a few dozen taxa, so this replaces an NCBI taxdump
+# download. A taxon that is not listed makes build_benchmark.py exclude the row, so a new organism
+# has to be classified here on purpose rather than landing in a wrong split by default.
+# Microsporidia is used as the class-level group (its internal classes are not settled).
+taxon_id	clade_class	organism
+4932	Saccharomycetes	Saccharomyces cerevisiae
+559292	Saccharomycetes	Saccharomyces cerevisiae S288c
+237561	Saccharomycetes	Candida albicans SC5314
+284593	Saccharomycetes	Nakaseomyces glabratus (Candida glabrata) CBS 138
+5478	Saccharomycetes	Nakaseomyces glabratus (Candida glabrata)
+498019	Saccharomycetes	Candidozyma auris (Candida auris)
+578454	Saccharomycetes	Candida parapsilosis CDC 317
+306902	Saccharomycetes	Clavispora lusitaniae ATCC 42720
+644223	Saccharomycetes	Komagataella phaffii GS115
+284812	Schizosaccharomycetes	Schizosaccharomyces pombe 972
+330879	Eurotiomycetes	Aspergillus fumigatus Af293
+746128	Eurotiomycetes	Aspergillus fumigatus
+227321	Eurotiomycetes	Aspergillus nidulans FGSC A4
+441960	Eurotiomycetes	Talaromyces marneffei ATCC 18224
+5037	Eurotiomycetes	Histoplasma capsulatum
+447093	Eurotiomycetes	Histoplasma capsulatum G186AR
+5039	Eurotiomycetes	Blastomyces dermatitidis
+5501	Eurotiomycetes	Coccidioides immitis
+246410	Eurotiomycetes	Coccidioides immitis RS
+5530	Sordariomycetes	Metarhizium anisopliae
+5270	Ustilaginomycetes	Mycosarcoma maydis (Ustilago maydis)
+246409	Mucoromycetes	Rhizopus delemar RA 99-880
+578461	Microsporidia	Nosema bombycis CQ1

@@ -1,0 +1,11 @@
+adhesion_v1
+input /Users/jstajich/projects/adhesionPred/data/curated/adhesins/adhesins.tsv	sha256 a8b5bdff711bf00c41aca21d04587bc27e74e5f778413e525e1a1a2f4d52d2ef
+input /Users/jstajich/projects/adhesionPred/data/benchmark/clade_map.tsv	sha256 dfbb99b77faf28350a964b2684c3ba196f7532a1f68105f4440a551cc0ceabf7
+input /Users/jstajich/projects/adhesionPred/data/benchmark/clade_groups.tsv	sha256 6c72d40cb6be5ec0c17a2e03200ca44c57ec09cbb3db9dbbb2fcce58ebede65b
+input data/benchmark/adhesion_v1/sources/basidiomycota.tsv	sha256 0b7cdf2094c5f5aa76f7dc45ca159627c513bcb7a23eb0399d9695ad01a13375
+input data/benchmark/adhesion_v1/sources/early_diverging.tsv	sha256 7f808485cf5f6f46c219059557d98a7841d0aa1ef075212cf0a1d47d6ff0ce09
+input data/benchmark/adhesion_v1/sources/filamentous_asco.tsv	sha256 d25b45a4eaf9d3c0e41de37519acd9af7ef310da911952ede2173dbdce487bee
+tier positive	76
+tier positive_moonlighting	8
+tier hard_negative	90
+tier excluded	143
