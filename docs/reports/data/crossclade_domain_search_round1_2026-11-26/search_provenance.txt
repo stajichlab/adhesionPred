@@ -1,0 +1,14 @@
+job: xclade_search (cross-clade domain search, round 1)
+commit: 828c3b4f7a69679c256685b4306d4d84737cc647 (pinned: 828c3b4f7a69679c256685b4306d4d84737cc647)
+node: gpu12; gpu: NVIDIA RTX 6000 Ada Generation
+module_list: Currently Loaded Modulefiles: slurm/24.11.1 openmpi/4.1.2_slurm-24.11.1_mpi1-compat hpcc_user_utils/current java/21.0.7 texlive/20220403 pandoc/2.17.1.1 workspace/scratch R/4.5.2 miniconda3/py39_4.12.0 cuda/11.4 foldseek/10-941cd33-gpu mmseqs2/17-b804f 
+foldseek_version: 941cd33ff0771cd2e3f144e3293e22a2b87e9fda
+mmseqs_version: b804fbe384e6f6c9fe96322ec0e92d48bccd0a42
+prostt5_weights: /bigdata/stajichlab/jstajich/projects/adhesionPred/_workdir/crossclade_domain_search/prostt5_weights (2.3G; files sha256 08abc8162fa3dc87ec94cf9a7a9954a960206bc55f86c55a8c92927e38f22f0d)
+foldseek: createdb --prostt5-model --gpu 1; search -e 10 --exhaustive-search 1 --mask 0; format query,target,fident,alnlen,qstart,qend,tstart,tend,evalue,bits,qlen,tlen
+mmseqs: easy-search --prefilter-mode 2 --mask 0 -e 10; format query,target,fident,alnlen,qstart,qend,tstart,tend,evalue,bits,qlen,tlen
+input SHA256SUMS sha256 2b6389df115e6fbd4b37803023cc394b887109fdace074994c56671e774a4bab
+rows foldseek_queries: 4755
+rows foldseek_decoys: 129721
+rows mmseqs_queries: 219
+rows mmseqs_decoys: 4104

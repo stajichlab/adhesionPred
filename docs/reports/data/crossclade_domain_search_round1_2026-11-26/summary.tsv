@@ -1,0 +1,13 @@
+method	panel	evalue_max	targets_hit	decoy_hits	decoy_targets_hit	decoys_with_hit	targets_hit_with_sp	targets_hit_with_gpi	pf21671_recovered_Cneo_H99	non_pf21671_hits_Cneo_H99	pf21671_recovered_Rtor_NP11	non_pf21671_hits_Rtor_NP11
+foldseek	asco	0.001	13	42	42	4/357	1	0	0/0	8	0/12	5
+foldseek	asco	0.01	39	230	213	33/357	4	2	0/0	19	0/12	20
+foldseek	asco	0.1	140	1203	764	134/357	21	3	0/0	67	0/12	73
+foldseek	basidio	0.001	13	0	0	0/357	12	0	0/0	0	12/12	1
+foldseek	basidio	0.01	17	0	0	0/357	16	0	0/0	0	12/12	5
+foldseek	basidio	0.1	20	2	2	1/357	19	0	0/0	0	12/12	8
+mmseqs	asco	0.001	0	0	0	0/357	0	0	0/0	0	0/12	0
+mmseqs	asco	0.01	0	3	3	3/357	0	0	0/0	0	0/12	0
+mmseqs	asco	0.1	1	20	20	19/357	1	0	0/0	1	0/12	0
+mmseqs	basidio	0.001	13	12	5	10/357	12	0	0/0	0	12/12	1
+mmseqs	basidio	0.01	14	27	8	23/357	13	0	0/0	0	12/12	2
+mmseqs	basidio	0.1	15	94	34	79/357	14	0	0/0	0	12/12	3
