@@ -2,12 +2,9 @@
 requires = ["setuptools>=82.0.1", "wheel", "setuptools-scm"]
 build-backend = "setuptools.build_meta"
 
-# Configuration for CLI scripts
-# Script names carry the "surface_glyco_" prefix; see the [project.scripts] section entries
-
 [project]
-name = "surface_glyco"
-description = "ESM-2 based scorer for fungal cell-surface glycoproteins"
+name = "adhesionpred"
+description = "Fungal cell-surface and adhesion protein annotation (cellsurface_sorting_hat and analyses)"
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
@@ -32,9 +29,6 @@ license = { file = "LICENSE" }
 dynamic = ["version"]
 
 [project.scripts]
-surface_glyco_predict = "surface_glyco.scripts.predict:cli"
-surface_glyco_train = "surface_glyco.scripts.train:cli"
-surface_glyco_evaluate = "surface_glyco.scripts.evaluate:cli"
 cellsurface_sorting_hat = "cellsurface_sorting_hat.cli:main"
 cellsurface_sorting_hat_module = "cellsurface_sorting_hat.modules.cli:main"
 cellsurface_sorting_hat_calibrate = "cellsurface_sorting_hat.calibration.cli:main"
@@ -62,7 +56,7 @@ select = ["E", "F", "W", "I", "N", "UP", "B", "C4"]
 ignore = ["E501", "N803", "N806", "N999"]
 
 [tool.ruff.lint.isort]
-known-first-party = ["surface_glyco", "cellsurface_sorting_hat"]
+known-first-party = ["cellsurface_sorting_hat"]
 
 [tool.setuptools_scm]
 # Use git tags for versioning
@@ -74,6 +68,4 @@ local_scheme = "dirty-tag"
 where = ["src"]
 
 [tool.setuptools.package-data]
-# Include models directory and all files within it
-"surface_glyco" = ["models/*"]
 "cellsurface_sorting_hat" = ["categories.yaml"]

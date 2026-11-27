@@ -3,7 +3,7 @@
 
 Samples --n unique sequences (by seq_sha256) from truth_sequences.tsv.gz with a fixed seed,
 cuts the N-terminal window (first 1,022 residues), and times
-surface_glyco.embeddings.get_esm_embeddings for every model and batch size. Writes one JSON
+esm_embed.get_esm_embeddings for every model and batch size. Writes one JSON
 file (schema SCHEMA) with proteins/s, residues/s, peak GPU memory, the GPU model and, per
 model, the fastest batch size (`best`). 06_plan_embedding.py reads `best` and `model_load_s`.
 
@@ -32,7 +32,7 @@ import seqwindow
 import truth_table
 
 SCHEMA = "step1-phaseb-j0-throughput/2"
-BATCH_FAILED = "Warning: batch failed"  # printed by surface_glyco.embeddings.get_esm_embeddings
+BATCH_FAILED = "Warning: batch failed"  # printed by esm_embed.get_esm_embeddings
 MODELS = ("esm2_t6_8M_UR50D", "esm2_t12_35M_UR50D")
 
 
@@ -56,9 +56,8 @@ def _sync(torch, device) -> None:
 
 
 def time_model(model: str, sample, batch_sizes, device) -> tuple[list[dict], float]:
+    import esm_embed as embeddings
     import torch
-
-    from surface_glyco import embeddings
 
     start = time.time()
     embeddings.get_cached_model(model, device)

@@ -4,7 +4,7 @@
 Run with the adhesionPred conda env and
 PYTHONPATH=$PROJ_ROOT/src:$PROJ_ROOT/analysis/step1_compare:$PROJ_ROOT/analysis/step1_compare/jobs.
 Pooling is done by
-surface_glyco.embeddings.get_esm_embeddings; this script only cuts windows, groups chunks,
+esm_embed.get_esm_embeddings; this script only cuts windows, groups chunks,
 checks the result and stores it. Reads $STEP1_WORKDIR/phaseb/unique_sequences.tsv.gz,
 chunk_plan.tsv, chunk_members.tsv.gz and job_plan.json (batch size per model).
 
@@ -40,7 +40,7 @@ import seqwindow
 import truth_table
 from embed_constants import MODELS, REPR_LAYER
 
-BATCH_FAILED = "Warning: batch failed"  # printed by surface_glyco.embeddings.get_esm_embeddings
+BATCH_FAILED = "Warning: batch failed"  # printed by esm_embed.get_esm_embeddings
 
 
 class EmbedError(RuntimeError):
@@ -54,7 +54,7 @@ def embed_window_sequences(seqs: list[str], model: str, batch_size: int, device,
 
 def embed_window_counted(seqs: list[str], model: str, batch_size: int, device, layer: int):
     """(array, batch_failures). batch_failures counts "Warning: batch failed" lines."""
-    from surface_glyco.embeddings import get_esm_embeddings
+    from esm_embed import get_esm_embeddings
 
     records = [{"id": str(i), "sequence": s} for i, s in enumerate(seqs)]
     captured = io.StringIO()

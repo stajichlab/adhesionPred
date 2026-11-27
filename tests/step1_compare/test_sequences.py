@@ -77,12 +77,6 @@ def test_clean_and_hash_ignore_case_whitespace_and_stop():
     assert seqhash.seq_sha256("MKLA") == seqhash.seq_sha256("mkja*")
 
 
-def test_clean_matches_package_clean_sequence():
-    io_mod = pytest.importorskip("surface_glyco.io")
-    for seq in ("MKJA*", "MSTQKA", "JJ*"):
-        assert seqhash.clean(seq) == io_mod.clean_sequence(seq)
-
-
 def test_attach_script_reports_unmatched_by_label(tmp_path):
     attach = load_script("02_attach_sequences")
     input_dir = tmp_path / "in"

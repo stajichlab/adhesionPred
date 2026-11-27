@@ -55,5 +55,4 @@ Interim (2026-10-17): PR 3 changed the engine rules and `categories.yaml`. A cal
 - `tm`: TMHMM; a condition for CFEM (no mature TM helix) and an evidence field.
 - `cys_rich`: Cysteine-rich tiers (Coccidioides RS only); evidence field.
 - `expression`: Spherule expression lookup (Coccidioides only); evidence field.
-- `cys8_pattern`: Eight-cysteine spacing plus R0; experimental, read by no call.
 - `hydrophobin_relaxed`: Relaxed hydrophobin level; experimental, read by no call (owner decision 2026-10-08, strict call only).

@@ -89,7 +89,7 @@ def test_chunk_rows_do_not_depend_on_batch_size(tmp_path):
 
 
 def test_cterm_chunk_row_is_the_embedding_of_the_last_1022_residues(tmp_path):
-    from surface_glyco.embeddings import get_esm_embeddings
+    from esm_embed import get_esm_embeddings
 
     work = tmp_path / "w"
     out, unique = make_plan(work, chunk_residues=5000)
@@ -104,7 +104,7 @@ def test_cterm_chunk_row_is_the_embedding_of_the_last_1022_residues(tmp_path):
 
 
 def test_a_skipped_sequence_stops_the_chunk(monkeypatch):
-    import surface_glyco.embeddings as emb
+    import esm_embed as emb
 
     def drop_last(records, **kw):
         n = len(records) - 1
@@ -195,7 +195,7 @@ def test_j2_script_never_passes_the_assumed_plan_flag():
 
 
 def _fail_multi_sequence_batches(monkeypatch):
-    import surface_glyco.embeddings as emb
+    import esm_embed as emb
 
     real = emb._embed_batch
 
@@ -279,8 +279,7 @@ def test_chunk_is_done_checks_the_width_of_the_model(tmp_path):
 
 def test_model_dim_matches_the_real_model_configuration():
     import embed_constants
-
-    from surface_glyco.embeddings import get_cached_model
+    from esm_embed import get_cached_model
 
     checked = 0
     for model, dim in embed_constants.MODEL_DIM.items():

@@ -21,7 +21,8 @@ tail -n +2 "$RUN_LIST" | while IFS=$'\t' read -r name fasta taxon kind workdir; 
   fi
   $M pfam --fasta "$fasta" --workdir "$workdir" --domtbl "$workdir/raw/pfam/domtbl.txt" --family-table "$PROJ_ROOT/data/sorting_hat/family_table.tsv" \
     --pfam-release 38.2 --pfam-sha256 "$SHA" --hmmer-version "$HMMER" --sp-module step1_rule@R0 --tm-module tm
-  $M cys8 --fasta "$fasta" --workdir "$workdir" --spacing "$PROJ_ROOT/data/sorting_hat/cys8_spacing.yaml" --sp-module step1_rule@R0
+  # cys8 subcommand removed 2026-11-26; to reproduce this step check out tag legacy-2026-11-26.
+  # $M cys8 --fasta "$fasta" --workdir "$workdir" --spacing "$PROJ_ROOT/data/sorting_hat/cys8_spacing.yaml" --sp-module step1_rule@R0
   rm -rf "$workdir/out_hyd"
   cellsurface_sorting_hat --fasta "$fasta" --taxon "$taxon" --taxdump "$T/nodes.dmp" --workdir "$workdir" --out "$workdir/out_hyd"
 done

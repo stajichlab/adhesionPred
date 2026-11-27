@@ -1,16 +1,19 @@
 """ESM-2 input windows for Phase B (spec 5, decision Q10). Standard library only.
 
 ESM-2 takes at most MAX_RESIDUES residues (1,024 tokens with BOS and EOS). The N-terminal
-window is the first MAX_RESIDUES residues; `surface_glyco.embeddings.get_esm_embeddings` cuts
+window is the first MAX_RESIDUES residues; `esm_embed.get_esm_embeddings` cuts
 there too. The C-terminal window is the last MAX_RESIDUES residues. It exists only for proteins
 longer than MAX_RESIDUES; for shorter proteins both windows are the whole sequence.
 
-Every sequence must hold only ESM_RESIDUES. Then `sanitize_sequence` in the package changes
+Every sequence must hold only ESM_RESIDUES. Then `esm_embed.sanitize_sequence` changes
 nothing, and a window cut here is exactly the input the model sees.
 """
 
-MAX_RESIDUES = 1022  # same value as surface_glyco.card.MAX_RESIDUES
-ESM_RESIDUES = frozenset("ACDEFGHIKLMNPQRSTVWYXBUZO")  # surface_glyco.embeddings.ESM_RESIDUES
+# ESM-2 context is 1,024 tokens including BOS and EOS; esm_embed imports these three.
+MAX_RESIDUES = 1022
+ESM_RESIDUES = frozenset("ACDEFGHIKLMNPQRSTVWYXBUZO")  # residues the ESM-2 alphabet accepts
+# Layer pooled by Phase B: the final layer of the 8M model, the middle layer of the 35M model.
+DEFAULT_REPR_LAYER = 6
 WINDOWS = ("nterm", "cterm")
 
 

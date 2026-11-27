@@ -22,28 +22,6 @@ jobs:
       - run: ruff check .
       - run: ruff format --check .
 
-  changes:
-    name: Which unit-test suites does this change touch?
-    runs-on: ubuntu-latest
-    outputs:
-      torch: ${{ steps.filter.outputs.torch }}
-    steps:
-      - uses: actions/checkout@v7
-        with:
-          fetch-depth: 0
-      - id: filter
-        # The torch suite (tests/surface_glyco) runs on every push to main and on workflow_call, and on a pull request
-        # only when the change touches the surface_glyco package, its tests, pyproject.toml or this workflow.
-        run: |
-          if [ "${{ github.event_name }}" != "pull_request" ]; then
-            echo "torch=true" >> "$GITHUB_OUTPUT"
-          elif git diff --name-only "${{ github.event.pull_request.base.sha }}" "${{ github.sha }}" \
-              | grep -qE '^(src/surface_glyco/|tests/surface_glyco/|pyproject\.toml$|\.github/workflows/build_and_test\.yml$)'; then
-            echo "torch=true" >> "$GITHUB_OUTPUT"
-          else
-            echo "torch=false" >> "$GITHUB_OUTPUT"
-          fi
-
   test-sorting-hat:
     name: Unit tests (tests/cellsurface_sorting_hat and tests/class_table, no torch)
     runs-on: ubuntu-latest
@@ -61,31 +39,6 @@ jobs:
           PYTHONPATH: src
         run: pytest tests/cellsurface_sorting_hat tests/class_table
 
-  test-torch:
-    name: Unit tests (tests/surface_glyco, CPU torch)
-    needs: changes
-    if: needs.changes.outputs.torch == 'true'
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v7
-        with:
-          fetch-depth: 0 # setuptools-scm needs tags to compute the version
-      - uses: actions/setup-python@v7
-        with:
-          python-version: "3.12"
-          cache: pip
-      - name: Install CPU torch first so pip does not pull the CUDA wheels
-        run: pip install torch torchvision --index-url https://download.pytorch.org/whl/cpu
-      - name: Install package
-        run: pip install -e ".[dev]"
-      - name: Cache ESM-2 8M weights
-        uses: actions/cache@v6
-        with:
-          path: ~/.cache/torch/hub/checkpoints
-          key: esm2-t6-8M-UR50D-v1
-      - name: Run tests
-        run: pytest tests/surface_glyco
-
   analysis-tests:
     name: Analysis tests (${{ matrix.suite }}, informational)
     runs-on: ubuntu-latest
@@ -95,7 +48,7 @@ jobs:
       matrix:
         # One pytest process per folder: each conftest.py puts its own analysis/ directory on
         # sys.path, and module names such as figures_ext exist in more than one of them.
-        suite: [adhesion_properties, embedding_clustering, kingdom_survey, step1_compare, hydrophobin_truth, fungi_scan, calibration_truth, cys_candidates, lectin_class_report, lectin_validation, secretome_discovery, wall_fusion_report, wall_fusion_truth]
+        suite: [step1_compare, hydrophobin_truth, fungi_scan, calibration_truth, cys_candidates, lectin_class_report, lectin_validation, secretome_discovery, wall_fusion_report, wall_fusion_truth]
     steps:
       - uses: actions/checkout@v7
         with:
@@ -106,4 +59,10 @@ jobs:
           cache: pip
       - run: pip install torch torchvision --index-url https://download.pytorch.org/whl/cpu
       - run: pip install -e ".[dev]"
+      - name: Cache ESM-2 8M weights (tests/step1_compare/test_esm_embed.py)
+        if: matrix.suite == 'step1_compare'
+        uses: actions/cache@v6
+        with:
+          path: ~/.cache/torch/hub/checkpoints
+          key: esm2-t6-8M-UR50D-v1
       - run: pytest tests/${{ matrix.suite }}

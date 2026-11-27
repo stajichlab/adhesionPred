@@ -94,6 +94,19 @@ All optimizations maintain full backward compatibility with the existing API. No
 - Internal-TM rule (PR after 164): the `tm` module (version 2) writes `n_tm_internal`; new call `gpi_no_internal_tm_protein`; `gpi_long_disorder_protein` and the flags use it; record `docs/reports/data/aga1_internal_tm_2026-10-26/`.
 - Not done: the hand-check verdicts (owner), per-clade threshold recalibration, orthogroup/diversity statistics, allergen BLAST and antigen lookup on the ten proteomes (done afterwards: `analysis/sorting_hat_run/aga1_allergen_antigen_modules.py` and `docs/reports/data/aga1_aggregate_allergen_antigen_2026-10-26/`).
 
+## Legacy removal (November 2026)
+
+### Agent: Claude Code (claude-opus-5-5)
+**Task:** Remove components whose measured evidence shows they add nothing (owner decision D2 of 2026-11-26, plan
+`docs/superpowers/plans/2026-11-26-adhesion-round2-benchmark-cruft-and-layout-study.md`). Everything is at tag `legacy-2026-11-26`.
+
+- Removed: the `surface_glyco` package and entry points (distribution renamed `adhesionpred`), `analysis/adhesion_properties`,
+  `kingdom_survey`, `embedding_clustering`, `model_review/01–03`, the `cys8` module subcommand.
+- Moved: ESM-2 embedding helper to `analysis/step1_compare/jobs/esm_embed.py` (Phase B stays reproducible); `cys8.py` and its spacing
+  sets to `analysis/hydrophobin_truth/`.
+- Kept, contrary to the plan's first list: the PR 6 ecm33 custom HMM (`data/custom_models/ecm33_all_2026-10-23`). No code in `src/`
+  reads it, and three test files and the PR 6 evaluation record pin it by checksum. It stays as report data.
+
 ---
 
 *This file tracks AI agent contributions to maintain transparency about automated code improvements.*

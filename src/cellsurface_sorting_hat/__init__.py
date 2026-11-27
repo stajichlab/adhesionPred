@@ -3,6 +3,6 @@
 from importlib.metadata import PackageNotFoundError, version
 
 try:
-    __version__ = version("surface_glyco")
+    __version__ = version("adhesionpred")
 except PackageNotFoundError:  # a checkout that was not pip-installed under this name
     __version__ = "0+unknown"
