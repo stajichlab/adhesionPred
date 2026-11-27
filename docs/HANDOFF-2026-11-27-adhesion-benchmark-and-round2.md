@@ -48,16 +48,24 @@ lint with **ruff 0.3.5**; never write to `/bigdata/stajichlab/shared/...`.
 
 ## Branches and PRs
 
-| Branch | Commits | State |
+All merged on 2026-11-27 except #173. `origin/main` is at 7904a9b.
+
+| PR | Branch | State |
 |---|---|---|
-| `crossclade-round1-results` | c870c47, 9c18ff4 | **PR #170**, base `main`, open — round 1 results + round 2 code |
-| `remove-legacy-cruft` | f6e4486 | **PR #171**, base `main`, open — legacy removal |
-| `adhesion-round2-plan` | 04e5560, 188784d | **PR #172**, base `crossclade-round1-results` — retarget to `main` after #170 merges |
-| `adhesion-benchmark-v1` | 6501cfa, 295c0cf, 74c56b9, dce1c27 | pushed, **no PR yet** — benchmark builder + adhesion_v1 + clustering |
+| #168 | `rhodotorula-plm-survey` | merged — PLM survey |
+| #169 | `crossclade-domain-search` | merged — round 1 code |
+| #170 | `crossclade-round1-results` | merged — round 1 results + round 2 code |
+| #171 | `remove-legacy-cruft` | merged — legacy removal |
+| #172 | `adhesion-round2-plan` | merged — the round 2 plan |
+| **#173** | `adhesion-benchmark-v1` (through 3e8e6ae) | **OPEN, awaiting owner review** — benchmark builder, adhesion_v1, clustering. Merges cleanly onto `main`. |
 
-Tag `legacy-2026-11-26` is pushed and holds everything removed in #171.
+Tag `legacy-2026-11-26` is pushed and holds everything removed in #171. The merged branches can be
+deleted at the owner's discretion; `adhesion-benchmark-v1` must stay until #173 is merged.
 
-## What is running on the HPCC right now
+## HPCC state — nothing is running
+
+Both background jobs finished on 2026-11-27 and no SLURM job from this project has been submitted
+(`squeue -u $USER` shows only unrelated `nf-ANNOTATE_GENOME` jobs on `epyc`).
 
 Host `hpcc2`. Nothing is in the shared folder. Both are **detached worktrees** of the main clone, so
 the owner's `allergen-predictor-wip` checkout at `$P` is untouched.
@@ -167,24 +175,26 @@ Removed by owner decision, recorded in full in `sources/owner_excluded.md`: **Mp
 1. **Round 2a `sbatch`** — the line was shown to the owner on 2026-11-27 and is **awaiting
    go-ahead**; it has NOT been submitted. Preconditions all pass (pinned dir clean, `round2/` absent,
    inputs match SHA256SUMS). `CODE_COMMIT=9c18ff408add62825f6e13096c4b874dabc95a87`.
-2. **Owner signs off `adhesion_v1`**, then it is frozen. Folds are already on clusters.
-3. **Open the PR for `adhesion-benchmark-v1`.**
-4. **2b proper**: the curated domain library (PA14, Flo11, Als N-terminal Ig, CFEM, CPL1/PF21671,
+2. **Owner reviews and merges PR #173, and signs off `adhesion_v1`** as frozen. Folds are already
+   on clusters.
+3. **2b proper**: the curated domain library (PA14, Flo11, Als N-terminal Ig, CFEM, CPL1/PF21671,
    LysM, fasciclin, Hyr/Iff, Bys1, hydrophobin, BAD1 — each cropped, each with its own empirical
    null) and the ablation harness. The rule: a held-out component returns only if it beats
    composition + length on **C1** in pooled leave-clade-out, with a 95% bootstrap CI (by cluster)
    excluding zero. Metrics: PR-AUC and recall at 1% FPR.
-5. **2c layout study** (see the plan): layout tokens, stalk profiles (hydrophobicity, charge,
+4. **2c layout study** (see the plan): layout tokens, stalk profiles (hydrophobicity, charge,
    β-aggregation, glycosylation density, repeat period and copy divergence) and label-free
    evolutionary signals (family expansion, telomere distance, repeat CNV between strains). Tests
    pre-listed before results are read; Benjamini–Hochberg across them.
-6. **Held-out components** awaiting the harness: `disorder`, `repeats` (repeat02/repeat14), the AGA1
+5. **Held-out components** awaiting the harness: `disorder`, `repeats` (repeat02/repeat14), the AGA1
    feature classifier and `model_surface_candidate`, `hydrophobin_relaxed`, lectin models, the
    `cys_rich` and `expression` lookups.
 
 ## Open questions for the owner
 
-- The worktree-dirtying output path (above).
+- The worktree-dirtying output path (above). The HPCC worktree
+  `_workdir/benchmark_v1/code` is currently dirty with the clustering outputs; they are already
+  copied into the repo (138d18a), so it can be reset with `git -C <that worktree> checkout .`.
 - Whether to keep `positive_moonlighting` out of C2 as well as C1 (currently out of both).
 - Whether Microsporidia's HBM panel should count as one observation rather than nine.
 
