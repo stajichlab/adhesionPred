@@ -68,13 +68,13 @@ $P/_workdir/crossclade_domain_search/   # round 2a; code/ worktree at 9c18ff4
 $P/_workdir/benchmark_v1/               # benchmark; code/ worktree at dce1c27
 ```
 
-**1. Round 2a inputs — AlphaFold model downloads.** Detached via `nohup`, log
-`_workdir/crossclade_domain_search/logs/round2_inputs.log`. At last check: 199 targets, 13 queries,
-writing to `in2.partial/`, renamed to `in2/` only on success. Resume by re-running step 5 from the
-README if it dies.
+**1. Round 2a inputs — DONE** (24 min). `$W/in2/` holds 13 query models, 12 PF21671, 126 candidates,
+497 background A and 498 background B. The only query with no AFDB model is **IFF4109**
+(A0A2H0ZI42, 2,946 aa) — exactly the caveat written into the README before the run, so it is
+unscorable by the structure methods rather than a negative result. Inputs match their SHA256SUMS.
 
-**2. Benchmark sequence fetch.** `nohup`, log `_workdir/benchmark_v1/fetch.log`. 127 of 166
-sequences. **Resumable** — re-running skips accessions already in `sequences.faa`.
+**2. Benchmark sequences and clustering — DONE.** 166/166 sequences, none missing; MMseqs2 17-b804f
+at 30% identity gives **113 clusters**. Results copied into the repo (commit 138d18a).
 
 Reseek v3.01 is already downloaded and verified at `_workdir/crossclade_domain_search/tools/`.
 
@@ -117,20 +117,23 @@ fold list below counts proteins, and clusters are the real unit (that is what B2
 76 positive, 90 hard_negative, 8 positive_moonlighting, 143 excluded (each with a reason — nothing
 is dropped silently).
 
-| Fold | Level | Pos | Neg | Scored |
-|---|---|---|---|---|
-| Saccharomycetes | class | 32 | 57 | yes |
-| Pezizomycotina | group | 13 | 7 | yes |
-| Eurotiomycetes | class | 5 | 11 | yes |
-| Taphrinomycotina | group | 11 | 0 | no |
-| Microsporidia | group | 9 | 3 | no |
-| Mucoromycota | group | 3 | 2 | no |
-| Agaricomycotina | group | 2 | 6 | no |
-| Ustilaginomycotina | group | 1 | 3 | no |
-| Chytridiomycota | group | 0 | 1 | no |
+Folds are now on **cluster** counts (MMseqs2 30% identity):
 
-Three scorable folds, and Saccharomycetes holds 42% of positives. **Expect these to shrink after
-clustering** — the Saccharomycetes positives are largely FLO/ALS paralogues.
+| Fold | Level | Pos | Neg | Scored | Proteins before |
+|---|---|---|---|---|---|
+| Saccharomycetes | class | 17 | 38 | yes | 32 / 57 |
+| Pezizomycotina | group | 11 | 7 | yes | 13 / 7 |
+| Eurotiomycetes | class | 5 | 11 | yes | 5 / 11 |
+| Microsporidia | group | 7 | 3 | no | 9 / 3 |
+| Taphrinomycotina | group | 7 | 0 | no | 11 / 0 |
+| Agaricomycotina | group | 2 | 5 | no | 2 / 6 |
+| Mucoromycota | group | 1 | 2 | no | 3 / 2 |
+| Ustilaginomycotina | group | 1 | 3 | no | 1 / 3 |
+| Chytridiomycota | group | 0 | 1 | no | 0 / 1 |
+
+The three scorable folds survived, which was not guaranteed. Saccharomycetes lost 47% of its
+positives to paralogy; Mucoromycota collapsed 3 to 1 (the *Rhizopus* CotH proteins are one family);
+Eurotiomycetes did not move, so its small set is genuinely non-redundant.
 
 ### What the curation established (three verified literature passes, 54 new rows)
 
@@ -161,8 +164,10 @@ Removed by owner decision, recorded in full in `sources/owner_excluded.md`: **Mp
 
 ## Still to do
 
-1. **Finish the two HPCC runs**, then the round 2a `sbatch` (owner go-ahead, show the line first).
-2. **Re-run the fold list on clusters**, then ask the owner to sign off and freeze `adhesion_v1`.
+1. **Round 2a `sbatch`** — the line was shown to the owner on 2026-11-27 and is **awaiting
+   go-ahead**; it has NOT been submitted. Preconditions all pass (pinned dir clean, `round2/` absent,
+   inputs match SHA256SUMS). `CODE_COMMIT=9c18ff408add62825f6e13096c4b874dabc95a87`.
+2. **Owner signs off `adhesion_v1`**, then it is frozen. Folds are already on clusters.
 3. **Open the PR for `adhesion-benchmark-v1`.**
 4. **2b proper**: the curated domain library (PA14, Flo11, Als N-terminal Ig, CFEM, CPL1/PF21671,
    LysM, fasciclin, Hyr/Iff, Bys1, hydrophobin, BAD1 — each cropped, each with its own empirical
