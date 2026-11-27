@@ -68,7 +68,7 @@ Not read: Wessels 1994, Linder 2005, Sunde 2008 (the sources for class I and II 
 
 Rules for this section. No truth protein, no sequence analysis and no regex were used. No spacing is from memory.
 Every quote below was copied from text that I read in this task. Unit of every spacing number: residues between
-two cysteines. The numbers are also in `data/sorting_hat/cys8_spacing.yaml`. Sources that disagree are listed
+two cysteines. The numbers are also in `analysis/hydrophobin_truth/cys8_spacing.yaml` (moved from `data/sorting_hat/` on 2026-11-26). Sources that disagree are listed
 side by side. They are not merged.
 
 ### 6.1 Read status of each source

@@ -116,12 +116,12 @@ def main():
     cut_rel = fz["relaxed_pfam"]["full_sequence_cutoff_bits"]
     fold_cut = fz["custom_hmm"]["per_fold_cutoffs"]
     spec = importlib.util.spec_from_file_location(
-        "cys8", ROOT / "src/cellsurface_sorting_hat/modules/cys8.py"
+        "cys8", ROOT / "analysis/hydrophobin_truth/cys8.py"
     )
     cys8 = importlib.util.module_from_spec(spec)
     sys.path.insert(0, str(ROOT / "src"))
     spec.loader.exec_module(cys8)
-    spacing = cys8.load_sets(ROOT / "data/sorting_hat/cys8_spacing.yaml")
+    spacing = cys8.load_sets(ROOT / "analysis/hydrophobin_truth/cys8_spacing.yaml")
 
     truth = {r["accession"]: r for r in read_tsv(d / "truth_all.tsv")}
     seqs = {i: r["sequence"] for i, r in truth.items()}

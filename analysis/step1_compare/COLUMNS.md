@@ -512,7 +512,7 @@ Script 07 reads `sequence_run.json`, `d8_run.json` and `phaseb/prepare_run.json`
 ## emb/<model>/<chunk_id>.npy (jobs/embed_chunks.py, J2)
 
 float32 array, one row per chunk member in `chunk_members.tsv.gz` order, ESM-2 layer 6,
-mean over residue tokens (`surface_glyco.embeddings.get_esm_embeddings`). The sidecar
+mean over residue tokens (`esm_embed.get_esm_embeddings`). The sidecar
 `<chunk_id>.json` is the done marker.
 
 **Keys of the sidecar:**

@@ -5,8 +5,8 @@ GPI-anchored cell-wall proteins, tandem-repeat adhesins (flocculin/ALS/EPA-like)
 
 There is **no single "adhesin predictor"**. "Adhesin", "antigen" and "biofilm factor" are outcomes, not sequence features, and the
 evidence in this repository showed that one model for all of them is the wrong target (`docs/TOOL-ARCHITECTURE.md`). The
-original ESM-2 classifier turned out to be a surface-glycoprotein detector rather than an adhesin predictor, and no
-trained model ships with the package. What you can use today are the components below. Each states what it measures and what it
+original ESM-2 classifier turned out to be a surface-glycoprotein detector rather than an adhesin predictor (it matched a
+model of amino-acid composition plus length) and was removed on 2026-11-26; it is recoverable at tag `legacy-2026-11-26`. What you can use today are the components below. Each states what it measures and what it
 does not.
 
 ## What is usable now
@@ -17,7 +17,6 @@ does not.
 | [AGA1-class tools](#2-aga1-class-tools-flocculin-like-sertthr-rich-gpi-wall-proteins) (`analysis/aga1_class/`) | Rule-based flags and a features-only classifier for Ser/Thr-rich, repeat-bearing, GPI-anchored wall proteins; scripts to run SignalP, PredGPI and AIUPred on whole proteomes and summarise them | Research tools with measured performance on labelled sets (see `docs/reports/`); not a validated predictor |
 | Repeat detectors (`analysis/cocci_repeats/02_repeat_profile.py`, `14_repeat_detect_general.py`) | Tandem-repeat arrays per protein (period, copies, coverage); script 14 is the project's general detector | Used by the sorting hat and the AGA1 tools |
 | Pfam family table (`data/sorting_hat/family_table.tsv`) | Which Pfam families count as wall, hydrophobin, allergen or HsbA evidence, with the specificity tier and owner sign-off for each | Curated; every row says what was measured |
-| [`surface_glyco_*`](#3-surface_glyco-the-older-esm-2-surface-glycoprotein-scorer) (older) | ESM-2 embeddings plus logistic regression that scores a protein as a secreted cell-surface glycoprotein | Still works, but no trained model ships; train your own. Not an adhesin predictor and not used by the newer tools |
 
 Reports with the measurements behind these are in `docs/reports/` and the model review is in `docs/model-review/`.
 
@@ -147,34 +146,30 @@ cellsurface_sorting_hat_aggregate --manifest manifest.tsv --taxdump nodes.dmp --
 `manifest.tsv` has the columns `run_dir` and `label`. Use `--measured-only` to summarise only proteomes in which a call has a measured
 status, and `--help` for the other options.
 
-## 3. `surface_glyco`: the older ESM-2 surface-glycoprotein scorer
+## Removed components
 
-This was the first tool in the project and it still works: the commands below train and run it. No trained model ships with the package, so
-train one first. It scores "secreted cell-surface glycoprotein", not adhesion, and none of the sorting-hat or AGA1-class tools depend on it
-(background: `docs/TECHNICAL-NOTES.md`). The packaged training data (`data/positive`, `data/negative`) are FLO/ALS-related proteins from
-*Saccharomyces* and *Candida* against random proteins.
+On 2026-11-26 the following were removed from `main` because their measured evidence showed they add nothing (plan:
+`docs/superpowers/plans/2026-11-26-adhesion-round2-benchmark-cruft-and-layout-study.md`). All are recoverable at tag
+`legacy-2026-11-26`.
 
-```bash
-surface_glyco_train --positive data/positive --negative data/negative      # writes ./models/*.pkl and a JSON model card
-export SURFACE_GLYCO_MODELS_DIR=$PWD/models                                 # predict and evaluate look here, not in ./models
-surface_glyco_predict --model models/surface_glyco_model_esm2_t6_8M_UR50D.pkl --input proteome.fasta --output scores.csv
-surface_glyco_predict --model models/surface_glyco_model_esm2_t6_8M_UR50D.pkl --input query_dir --output combined.csv
-```
-
-`--input` may be one FASTA or a folder (`.fasta`, `.fa`, `.pep`, `.aa`, with or without `.gz`). The output column is
-`surface_glycoprotein_score`; the 0.5 threshold is not calibrated. It runs on CPU and much faster on a GPU with CUDA. FungiDB raw
-downloads need a login; get proteomes from NCBI Datasets or UniProt.
+- The `surface_glyco` package (ESM-2 embeddings plus logistic regression, `surface_glyco_train` / `_predict` / `_evaluate`). It
+  scored "secreted cell-surface glycoprotein" and a composition-plus-length model matched it. The ESM-2 embedding helper that the
+  step 1 Phase B jobs use moved to `analysis/step1_compare/jobs/esm_embed.py`. The installable distribution is now named `adhesionpred`.
+- Analyses built on it: `analysis/adhesion_properties`, `analysis/kingdom_survey`, `analysis/embedding_clustering`,
+  `analysis/model_review/01–03` (their results stay in `docs/`).
+- The `cys8_pattern` sorting-hat module (no call read it; it found one extra hydrophobin). The code and spacing sets moved to
+  `analysis/hydrophobin_truth/` so the hydrophobin validation still reproduces.
 
 ## Repository layout
 
 | Path | Content |
 |---|---|
-| `src/cellsurface_sorting_hat/`, `src/surface_glyco/` | The two Python packages |
+| `src/cellsurface_sorting_hat/` | The Python package |
 | `analysis/aga1_class/` | AGA1-class scripts (staging, tool arrays, converters, flags, classifier, summaries) |
 | `analysis/cocci_repeats/` | Repeat detectors and the *Coccidioides* work they came from |
 | `analysis/` (other folders) | Truth sets, calibration, scans and scoping studies, each with a README or report |
-| `data/sorting_hat/` | Family table, Cys spacing sets, hydrophobin model, Phase C species |
-| `data/controls/`, `data/curated/`, `data/positive`, `data/negative` | Control and truth sets, curated adhesin tables, training sequences |
+| `data/sorting_hat/` | Family table, hydrophobin model, AGA1 thresholds, Phase C species |
+| `data/controls/`, `data/curated/`, `data/positive`, `data/negative` | Control and truth sets, curated adhesin tables, the old classifier's training sequences (kept for the model review) |
 | `scripts/sorting_hat/` | SLURM job scripts for the module tools |
 | `docs/` | `TOOL-ARCHITECTURE.md`, `CLASSES.md`, `reports/` (dated results with data folders and hashes), `model-review/`, `superpowers/` (specs and plans) |
 | `tests/` | One folder per component |

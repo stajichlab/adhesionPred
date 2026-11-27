@@ -175,7 +175,5 @@ modules_not_calls:
     note: Cysteine-rich tiers (Coccidioides RS only); evidence field.
   - module: expression
     note: Spherule expression lookup (Coccidioides only); evidence field.
-  - module: cys8_pattern
-    note: Eight-cysteine spacing plus R0; experimental, read by no call.
   - module: hydrophobin_relaxed
     note: Relaxed hydrophobin level; experimental, read by no call (owner decision 2026-10-08, strict call only).

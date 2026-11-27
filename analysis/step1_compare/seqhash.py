@@ -1,6 +1,6 @@
 """Sequence cleaning and hashing shared by D1 step 2 and D10. Standard library only.
 
-`clean` matches surface_glyco.io.clean_sequence (J -> L, '*' removed) and also upper-cases
+`clean` matches the old surface_glyco.io.clean_sequence (J -> L, '*' removed; package removed 2026-11-26) and also upper-cases
 and removes whitespace, so the same protein gives the same hash from any FASTA source.
 """
 

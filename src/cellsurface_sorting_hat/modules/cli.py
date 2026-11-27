@@ -11,7 +11,6 @@ from cellsurface_sorting_hat.modules import (
     aga1_model,
     aga1_thresholds,
     allergen,
-    cys8,
     disorder,
     gpi,
     hydrophobin_relaxed,
@@ -185,15 +184,6 @@ def build_parser():
     )
     p.add_argument("--search-option", required=True, choices=["default", "nobias"])
     p.add_argument("--hmmer-version", required=True)
-    p.add_argument(
-        "--sp-module",
-        default="step1_rule@R0",
-        help="step 1 module table in --workdir (column call)",
-    )
-
-    p = sub.add_parser("cys8", help="eight-cysteine spacing plus R0 signal peptide -> cys8_pattern")
-    _common(p)
-    p.add_argument("--spacing", required=True, help="cys8_spacing.yaml (published spacing sets)")
     p.add_argument(
         "--sp-module",
         default="step1_rule@R0",
@@ -477,19 +467,6 @@ def run(args):
             hydrophobin_relaxed.COLUMNS,
             hydrophobin_relaxed.relaxed_rows(proteins, hits, sp_calls, info),
         )
-    if args.cmd == "cys8":
-        spacing = cys8.load_sets(args.spacing)
-        sp_calls, condition, snapshot = _condition_table(
-            w, args.sp_module, "call", ids, "--sp-module"
-        )
-        spec = ModuleSpec(
-            "cys8_pattern",
-            "1",
-            cys8.module_params(spacing, condition),
-            (),
-            snapshots={"sp_module": snapshot},
-        )
-        return _write(w, spec, cys8.COLUMNS, cys8.cys8_rows(proteins, spacing, sp_calls))
     if args.cmd == "tm":
         table, _ = lookups.read_table(args.table, "protein_id", unique=True)
         _check_ids(args.table, table, ids)

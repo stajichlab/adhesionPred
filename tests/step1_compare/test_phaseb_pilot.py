@@ -120,7 +120,7 @@ def test_gpu_cpu_diff_stops_without_a_gpu(tmp_path, capsys):
 
 
 def test_batch_failures_are_counted_and_never_best(tmp_path, monkeypatch):
-    import surface_glyco.embeddings as emb
+    import esm_embed as emb
 
     real = emb._embed_batch
 
@@ -189,7 +189,7 @@ def test_repeat_identical_is_false_when_the_repeat_differs(tmp_path, monkeypatch
 
 
 def test_pilot_stops_with_code_2_when_the_model_cannot_load(tmp_path, monkeypatch, capsys):
-    import surface_glyco.embeddings as emb
+    import esm_embed as emb
 
     def broken(*args, **kwargs):
         raise RuntimeError("cannot load weights (simulated)")

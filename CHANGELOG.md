@@ -5,6 +5,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+### Removed (2026-11-26; recoverable at tag `legacy-2026-11-26`)
+- **BREAKING:** the `surface_glyco` package and its entry points `surface_glyco_predict`, `surface_glyco_train`, `surface_glyco_evaluate`. A composition-plus-length model matched it; no trained model shipped. The distribution is renamed `adhesionpred`; `cellsurface_sorting_hat` is unchanged.
+- Analyses built on that package: `analysis/adhesion_properties`, `analysis/kingdom_survey`, `analysis/embedding_clustering`, `analysis/model_review/01–03` with `run.sh` and `step1_pooling_scaler.sbatch`.
+- The `cys8` subcommand of `cellsurface_sorting_hat_module` (module `cys8_pattern`; read by no call). Code and spacing moved to `analysis/hydrophobin_truth/`.
+
+### Changed (2026-11-26)
+- The ESM-2 embedding helper moved to `analysis/step1_compare/jobs/esm_embed.py`; the Phase B constants (`MAX_RESIDUES`, `ESM_RESIDUES`, `DEFAULT_REPR_LAYER`) live in `analysis/step1_compare/seqwindow.py`.
+- CI: the torch job for `tests/surface_glyco` is gone; the embedding tests run in the `step1_compare` analysis suite.
+
 ### Added
 - `cellsurface_sorting_hat` core engine: reads module result tables, applies three-valued category rules and writes calls, evidence, a report and run records.
 - `cellsurface_sorting_hat_module`: wrappers that turn tool output (SignalP, Pfam `hmmsearch`, repeat detectors, BLASTP against the IUIS allergens, TMHMM) and lookup tables (antigen ranking, Cys-rich tiers, spherule expression) into module tables. Each input is checked against the FASTA before any output is written. A run that ends with no usable result is refused, and some `error` rows make the run `partial`.

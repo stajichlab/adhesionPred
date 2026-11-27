@@ -1,6 +1,6 @@
 """Dedupe and precedence for the Phase C table (Phase C spec 3.4 item 2, ruling C-6).
 
-This module does not import the surface_glyco dedupe function; it has its own rules and tests.
+This module does not use the old surface_glyco dedupe function (package removed 2026-11-26); it has its own rules and tests.
 
 GO members (truth genes) are grouped by seq_sha256:
 - one class in the group: one table row; the members' values are merged (see merge_group).

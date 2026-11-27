@@ -3,7 +3,7 @@
 
 Samples --n unique truth sequences (fixed seed, the J0 sampler), adds the C-terminal window of
 the first --n-long sequences longer than 1,022 aa, and embeds all windows with
-surface_glyco.embeddings.get_esm_embeddings on --device-a and --device-b (default cuda and
+esm_embed.get_esm_embeddings on --device-a and --device-b (default cuda and
 cpu). It also embeds the windows twice on --device-a to check run-to-run repeatability.
 Writes one JSON file per call: per model the maximum and mean absolute difference, the largest
 difference relative to the largest absolute value, the lowest cosine similarity, and whether
@@ -38,7 +38,7 @@ def windows_for(truth_rows, n: int, n_long: int, seed: int) -> list[str]:
 
 
 def embed(seqs, model, device, batch_size) -> np.ndarray:
-    from surface_glyco.embeddings import get_esm_embeddings
+    from esm_embed import get_esm_embeddings
 
     records = [{"id": str(i), "sequence": s} for i, s in enumerate(seqs)]
     arr, _, kept = get_esm_embeddings(records, model, batch_size, device, return_indices=True)

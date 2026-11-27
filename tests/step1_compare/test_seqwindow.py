@@ -47,11 +47,12 @@ def test_bad_characters_lists_what_esm_would_change():
     assert seqwindow.bad_characters("MK-J.*") == {"-", "J", ".", "*"}
 
 
-def test_constants_match_the_package():
-    # The package imports torch; skip where it is not installed (py3.12 stdlib runs).
+def test_esm_embed_uses_these_constants():
+    # esm_embed imports torch; skip where it is not installed (py3.12 stdlib runs).
     pytest.importorskip("torch")
     pytest.importorskip("esm")
-    from surface_glyco import card, embeddings
+    import esm_embed
 
-    assert seqwindow.MAX_RESIDUES == card.MAX_RESIDUES
-    assert set(embeddings.ESM_RESIDUES) == set(seqwindow.ESM_RESIDUES)
+    assert esm_embed.MAX_RESIDUES == seqwindow.MAX_RESIDUES
+    assert esm_embed.ESM_RESIDUES is seqwindow.ESM_RESIDUES
+    assert esm_embed.DEFAULT_REPR_LAYER == seqwindow.DEFAULT_REPR_LAYER

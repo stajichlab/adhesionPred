@@ -1,6 +1,6 @@
 [path]
 source =
-    src/surface_glyco
+    src/cellsurface_sorting_hat
 
 [run]
 omit =

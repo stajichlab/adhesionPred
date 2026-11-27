@@ -2,7 +2,7 @@
 # Visit https://bit.ly/cffinit to generate yours today!
 
 cff-version: 1.2.0
-title: surface_glyco
+title: adhesionPred
 message: >-
   If you use this software, please cite it using the
   metadata from this file.
@@ -16,7 +16,7 @@ authors:
     orcid: 'https://orcid.org/0000-0002-7591-0020'
 repository-code: 'https://github.com/stajichlab/adhesionPred'
 abstract: >-
-  ESM-2 based scorer for fungal cell-surface glycoproteins
+  Tools and analyses for annotating fungal cell-surface and adhesion proteins
 keywords:
   - bioinformatics
   - fungi
