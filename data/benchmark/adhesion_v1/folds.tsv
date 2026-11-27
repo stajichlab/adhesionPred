@@ -1,0 +1,10 @@
+fold	level	members	n_positive	n_hard_negative	scored
+Saccharomycetes	class	Saccharomycetes	32	57	yes
+Pezizomycotina	group	Dothideomycetes,Leotiomycetes,Sordariomycetes	13	7	yes
+Taphrinomycotina	group	Schizosaccharomycetes	11	0	no
+Microsporidia	group	Microsporidia	9	3	no
+Eurotiomycetes	class	Eurotiomycetes	5	11	yes
+Mucoromycota	group	Mucoromycetes	3	2	no
+Agaricomycotina	group	Agaricomycetes,Tremellomycetes	2	6	no
+Ustilaginomycotina	group	Ustilaginomycetes	1	3	no
+Chytridiomycota	group	Chytridiomycetes	0	1	no

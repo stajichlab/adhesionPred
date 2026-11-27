@@ -238,8 +238,7 @@ def test_build_writes_the_frozen_outputs_and_counts(tmp_path):
         columns=bb.REQUIRED_SOURCE_COLUMNS,
     )
     out = tmp_path / "adhesion_vtest"
-    clade_map = tmp_path / "clade_map.tsv"
-    _write_clade_map(clade_map, "999999\tTestomycetes\tTestomyces fictus\n")
+    clade_map, groups = _fixture_maps(tmp_path)
 
     rc = bb.main(
         [
@@ -253,6 +252,8 @@ def test_build_writes_the_frozen_outputs_and_counts(tmp_path):
             str(sources),
             "--clade-map",
             str(clade_map),
+            "--clade-groups",
+            str(groups),
         ]
     )
     assert rc == 0
@@ -276,8 +277,11 @@ def test_build_writes_the_frozen_outputs_and_counts(tmp_path):
     # C1 and S1 are the positives, C2 and S3 the hard negatives; all four share the fixture taxon.
     assert "Testomycetes\t2\t2" in counts
 
+    folds = (out / "folds.tsv").read_text()
+    assert "Testomycetes" in folds or "Testomycotina" in folds
+
     sums = (out / "SHA256SUMS").read_text()
-    for name in ("proteins.tsv", "VERSION", "counts.tsv"):
+    for name in ("proteins.tsv", "VERSION", "counts.tsv", "folds.tsv"):
         assert name in sums
 
 
@@ -288,8 +292,7 @@ def test_build_refuses_to_overwrite_a_frozen_directory(tmp_path, capsys):
     _write_tsv(sources / "c.tsv", [_source_row()], columns=bb.REQUIRED_SOURCE_COLUMNS)
     out = tmp_path / "frozen"
     out.mkdir()
-    clade_map = tmp_path / "clade_map.tsv"
-    _write_clade_map(clade_map, "999999\tTestomycetes\tTestomyces fictus\n")
+    clade_map, groups = _fixture_maps(tmp_path)
 
     assert (
         bb.main(
@@ -304,6 +307,8 @@ def test_build_refuses_to_overwrite_a_frozen_directory(tmp_path, capsys):
                 str(sources),
                 "--clade-map",
                 str(clade_map),
+                "--clade-groups",
+                str(groups),
             ]
         )
         == 1
@@ -320,8 +325,7 @@ def test_build_refuses_a_set_with_no_positives(tmp_path, capsys):
         [_source_row(label="hard_negative", evidence_code="function_shown")],
         columns=bb.REQUIRED_SOURCE_COLUMNS,
     )
-    clade_map = tmp_path / "clade_map.tsv"
-    _write_clade_map(clade_map, "999999\tTestomycetes\tTestomyces fictus\n")
+    clade_map, groups = _fixture_maps(tmp_path)
     assert (
         bb.main(
             [
@@ -335,6 +339,8 @@ def test_build_refuses_a_set_with_no_positives(tmp_path, capsys):
                 str(sources),
                 "--clade-map",
                 str(clade_map),
+                "--clade-groups",
+                str(groups),
             ]
         )
         == 1
@@ -348,8 +354,7 @@ def test_dry_run_writes_nothing(tmp_path):
     sources = tmp_path / "sources"
     _write_tsv(sources / "c.tsv", [_source_row()], columns=bb.REQUIRED_SOURCE_COLUMNS)
     out = tmp_path / "o"
-    clade_map = tmp_path / "clade_map.tsv"
-    _write_clade_map(clade_map, "999999\tTestomycetes\tTestomyces fictus\n")
+    clade_map, groups = _fixture_maps(tmp_path)
     assert (
         bb.main(
             [
@@ -363,6 +368,8 @@ def test_dry_run_writes_nothing(tmp_path):
                 str(sources),
                 "--clade-map",
                 str(clade_map),
+                "--clade-groups",
+                str(groups),
                 "--dry-run",
             ]
         )
@@ -383,6 +390,15 @@ def test_looks_secreted_accepts_either_route():
 
 def _write_clade_map(path, body):
     path.write_text("# comment line is ignored\ntaxon_id\tclade_class\torganism\n" + body)
+
+
+def _fixture_maps(tmp_path):
+    """(clade_map, clade_groups) covering the fixture taxon, so main() never reads the real ones."""
+    clade_map = tmp_path / "clade_map.tsv"
+    _write_clade_map(clade_map, "999999\tTestomycetes\tTestomyces fictus\n")
+    groups = tmp_path / "clade_groups.tsv"
+    groups.write_text("# comment\nclade_class\tgroup\nTestomycetes\tTestomycotina\n")
+    return clade_map, groups
 
 
 def test_clade_map_reads_rows_and_ignores_comments(tmp_path):
@@ -439,3 +455,79 @@ def test_the_committed_clade_map_is_valid_and_covers_the_curated_table():
     unmapped = sorted(real - set(clade_map))
     # A taxon that carries a scored protein must be classified on purpose, not dropped by default.
     assert unmapped == [], unmapped
+
+
+# --- fold planning ----------------------------------------------------------------------------
+
+GROUPS = {
+    "Saccharomycetes": "Saccharomycotina",
+    "Sordariomycetes": "Pezizomycotina",
+    "Leotiomycetes": "Pezizomycotina",
+    "Tremellomycetes": "Agaricomycotina",
+    "Agaricomycetes": "Agaricomycotina",
+}
+
+
+def _scored(clade, n_pos, n_neg):
+    return [{"clade_class": clade, "tier": "positive"} for _ in range(n_pos)] + [
+        {"clade_class": clade, "tier": "hard_negative"} for _ in range(n_neg)
+    ]
+
+
+def test_a_class_with_enough_of_both_sides_is_its_own_fold():
+    (fold,) = bb.plan_folds(_scored("Saccharomycetes", 6, 6), GROUPS)
+    assert (fold["fold"], fold["level"], fold["scored"]) == ("Saccharomycetes", "class", "yes")
+
+
+def test_a_thin_class_is_merged_into_its_group_rather_than_dropped():
+    rows = _scored("Sordariomycetes", 4, 3) + _scored("Leotiomycetes", 2, 3)
+    (fold,) = bb.plan_folds(rows, GROUPS)
+    assert fold["fold"] == "Pezizomycotina"
+    assert fold["level"] == "group"
+    assert fold["n_positive"] == 6 and fold["n_hard_negative"] == 6
+    assert fold["scored"] == "yes"
+    assert fold["members"] == "Leotiomycetes,Sordariomycetes"
+
+
+def test_a_group_that_is_still_too_thin_is_reported_not_scored_with_its_counts():
+    # Visible rather than assumed: the fold list must say which clades could not be measured.
+    (fold,) = bb.plan_folds(_scored("Agaricomycetes", 2, 1), GROUPS)
+    assert fold["scored"] == "no"
+    assert (fold["n_positive"], fold["n_hard_negative"]) == (2, 1)
+
+
+def test_positives_without_negatives_cannot_be_a_fold():
+    # 11 positives and no hard negatives gives no contrast at all.
+    (fold,) = bb.plan_folds(_scored("Tremellomycetes", 11, 0), GROUPS)
+    assert fold["scored"] == "no"
+
+
+def test_negatives_without_positives_cannot_be_a_fold():
+    (fold,) = bb.plan_folds(_scored("Tremellomycetes", 0, 9), GROUPS)
+    assert fold["scored"] == "no"
+
+
+def test_a_class_with_no_group_is_an_error_not_a_silent_drop():
+    with pytest.raises(bb.BuildError, match="no group"):
+        bb.plan_folds(_scored("Unknownomycetes", 6, 6), GROUPS)
+
+
+def test_folds_are_ordered_by_size():
+    rows = _scored("Saccharomycetes", 9, 9) + _scored("Sordariomycetes", 6, 6)
+    folds = bb.plan_folds(rows, GROUPS)
+    assert [f["n_positive"] for f in folds] == [9, 6]
+
+
+def test_excluded_and_moonlighting_rows_do_not_count_towards_a_fold():
+    rows = _scored("Saccharomycetes", 6, 6) + [
+        {"clade_class": "Saccharomycetes", "tier": "excluded"},
+        {"clade_class": "Saccharomycetes", "tier": "positive_moonlighting"},
+    ]
+    (fold,) = bb.plan_folds(rows, GROUPS)
+    assert fold["n_positive"] == 6
+
+
+def test_the_committed_clade_groups_cover_every_mapped_class():
+    groups = bb.read_clade_groups(bb.ROOT / "data/benchmark/clade_groups.tsv")
+    classes = set(bb.read_clade_map(bb.ROOT / "data/benchmark/clade_map.tsv").values())
+    assert classes <= set(groups), sorted(classes - set(groups))

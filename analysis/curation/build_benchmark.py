@@ -91,6 +91,12 @@ CURATED_POSITIVE_LEVELS = frozenset({"E1"})  # E2/E3 are family or weak evidence
 CURATED_NEGATIVE_CLASSES = frozenset({"hard_negative", "surface_other_adhesion_phenotype"})
 INDIRECT_CLASS = "surface_other_adhesion_phenotype"
 
+# A fold must hold enough of both sides to give a usable number. Below either threshold the class is
+# scored inside its higher group; a group that is still too thin is reported as "not scored" with its
+# counts, never silently folded into another clade.
+MIN_FOLD_POSITIVES = 5
+MIN_FOLD_NEGATIVES = 5
+
 
 class BuildError(Exception):
     pass
@@ -117,6 +123,80 @@ def read_clade_map(path):
     if not out:
         raise BuildError(f"{path}: no clade rows")
     return out
+
+
+def read_clade_groups(path):
+    """{clade_class: group} from the reviewed map. Comment lines start with '#'."""
+    out = {}
+    with open(path, newline="") as fh:
+        lines = [ln for ln in fh.read().splitlines() if not ln.startswith("#")]
+    for row in csv.DictReader(lines, delimiter="\t"):
+        clade = (row.get("clade_class") or "").strip()
+        group = (row.get("group") or "").strip()
+        if not clade or not group:
+            raise BuildError(f"{path}: a row has no clade_class or no group")
+        out[clade] = group
+    if not out:
+        raise BuildError(f"{path}: no group rows")
+    return out
+
+
+def plan_folds(rows, groups, min_pos=MIN_FOLD_POSITIVES, min_neg=MIN_FOLD_NEGATIVES):
+    """Decide what each clade is scored as. Returns a list of fold rows, most positives first.
+
+    A class that reaches both thresholds is its own fold. Otherwise its proteins count towards its
+    group, and the group is a fold if the pooled counts reach the thresholds. Anything left is
+    reported with ``scored = no`` and its counts, so a thin clade is visible rather than assumed.
+
+    ``n_positive`` counts proteins here. Clusters (MMseqs2, 30% identity) are the real unit and are
+    filled in before the set is frozen; until then a fold list built on proteins is provisional.
+    """
+    scored = [r for r in rows if r["tier"] in ("positive", "hard_negative")]
+    by_class = {}
+    for r in scored:
+        c = r["clade_class"]
+        key = by_class.setdefault(c, {"positive": 0, "hard_negative": 0})
+        key[r["tier"]] += 1
+
+    unmapped = sorted(c for c in by_class if c not in groups)
+    if unmapped:
+        raise BuildError(
+            f"classes with no group: {unmapped}; add them to data/benchmark/clade_groups.tsv"
+        )
+
+    folds, pooled = [], {}
+    for clade, n in sorted(by_class.items()):
+        if n["positive"] >= min_pos and n["hard_negative"] >= min_neg:
+            folds.append(
+                {
+                    "fold": clade,
+                    "level": "class",
+                    "members": clade,
+                    "n_positive": n["positive"],
+                    "n_hard_negative": n["hard_negative"],
+                    "scored": "yes",
+                }
+            )
+        else:
+            g = pooled.setdefault(groups[clade], {"positive": 0, "hard_negative": 0, "members": []})
+            g["positive"] += n["positive"]
+            g["hard_negative"] += n["hard_negative"]
+            g["members"].append(clade)
+
+    for group, n in sorted(pooled.items()):
+        ok = n["positive"] >= min_pos and n["hard_negative"] >= min_neg
+        folds.append(
+            {
+                "fold": group,
+                "level": "group",
+                "members": ",".join(sorted(n["members"])),
+                "n_positive": n["positive"],
+                "n_hard_negative": n["hard_negative"],
+                "scored": "yes" if ok else "no",
+            }
+        )
+    folds.sort(key=lambda f: (-f["n_positive"], f["fold"]))
+    return folds
 
 
 def apply_clades(rows, clade_map):
@@ -321,7 +401,7 @@ def summarize(rows):
     return counts, per_clade
 
 
-def write_outputs(out_dir, version, rows, counts, per_clade, inputs):
+def write_outputs(out_dir, version, rows, counts, per_clade, inputs, folds):
     out_dir.mkdir(parents=True, exist_ok=True)
     proteins = out_dir / "proteins.tsv"
     with open(proteins, "w", newline="") as fh:
@@ -344,6 +424,12 @@ def write_outputs(out_dir, version, rows, counts, per_clade, inputs):
         )
     (out_dir / "counts.tsv").write_text("\n".join(lines) + "\n")
 
+    fold_cols = ("fold", "level", "members", "n_positive", "n_hard_negative", "scored")
+    with open(out_dir / "folds.tsv", "w", newline="") as fh:
+        w = csv.DictWriter(fh, fieldnames=list(fold_cols), delimiter="\t", lineterminator="\n")
+        w.writeheader()
+        w.writerows(folds)
+
     sums = []
     for path in sorted(out_dir.iterdir()):
         if path.name != "SHA256SUMS" and path.is_file():
@@ -361,6 +447,7 @@ def main(argv=None):
         "--sources", default=None, help="directory of curation *.tsv (default <out>/sources)"
     )
     ap.add_argument("--clade-map", default=str(ROOT / "data/benchmark/clade_map.tsv"))
+    ap.add_argument("--clade-groups", default=str(ROOT / "data/benchmark/clade_groups.tsv"))
     ap.add_argument("--dry-run", action="store_true", help="print the summary, write nothing")
     ap.add_argument("--force", action="store_true", help="overwrite an existing output directory")
     a = ap.parse_args(argv)
@@ -372,7 +459,9 @@ def main(argv=None):
             raise BuildError(f"{out_dir} exists; pass --force to overwrite or use a new version")
 
         clade_map = read_clade_map(a.clade_map)
+        groups = read_clade_groups(a.clade_groups)
         rows = apply_clades(merge(from_curated(a.curated) + from_sources(sources)), clade_map)
+        folds = plan_folds(rows, groups)
         counts, per_clade = summarize(rows)
 
         if not counts.get("positive"):
@@ -380,9 +469,11 @@ def main(argv=None):
                 "no positives survived the rules; refusing to write an empty benchmark"
             )
 
-        inputs = [(a.curated, sha256_file(a.curated)), (a.clade_map, sha256_file(a.clade_map))] + [
-            (str(p), sha256_file(p)) for p in sorted(sources.glob("*.tsv"))
-        ]
+        inputs = [
+            (a.curated, sha256_file(a.curated)),
+            (a.clade_map, sha256_file(a.clade_map)),
+            (a.clade_groups, sha256_file(a.clade_groups)),
+        ] + [(str(p), sha256_file(p)) for p in sorted(sources.glob("*.tsv"))]
 
         for tier in TIERS:
             print(f"{tier}: {counts.get(tier, 0)}")
@@ -393,12 +484,21 @@ def main(argv=None):
                 f"\t{per_clade.get((clade, 'hard_negative'), 0)}"
             )
 
+        print("\nfold\tlevel\tpositive\thard_negative\tscored")
+        for f in folds:
+            print(
+                f"{f['fold']}\t{f['level']}\t{f['n_positive']}"
+                f"\t{f['n_hard_negative']}\t{f['scored']}"
+            )
+
         if a.dry_run:
             print("\ndry run: nothing written")
             return 0
 
-        proteins = write_outputs(out_dir, a.version, rows, counts, per_clade, inputs)
-        print(f"\nwrote {proteins} ({len(rows)} rows) and VERSION, counts.tsv, SHA256SUMS")
+        proteins = write_outputs(out_dir, a.version, rows, counts, per_clade, inputs, folds)
+        print(
+            f"\nwrote {proteins} ({len(rows)} rows) and VERSION, counts.tsv, folds.tsv, SHA256SUMS"
+        )
     except (BuildError, OSError) as e:
         print(f"FATAL: {e}", file=sys.stderr)
         return 1

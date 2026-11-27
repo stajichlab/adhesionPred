@@ -1,0 +1,17 @@
+# Class -> higher group, for leave-one-clade-out folds. A class with too few positive clusters or
+# too few hard negatives to stand alone is scored inside its group instead, so a thin clade is
+# merged on purpose rather than silently dropped or left as a fold of two proteins.
+# Thresholds and the per-fold decision are in build_benchmark.py (MIN_FOLD_POSITIVES / MIN_FOLD_NEGATIVES).
+clade_class	group
+Saccharomycetes	Saccharomycotina
+Schizosaccharomycetes	Taphrinomycotina
+Eurotiomycetes	Pezizomycotina
+Sordariomycetes	Pezizomycotina
+Leotiomycetes	Pezizomycotina
+Dothideomycetes	Pezizomycotina
+Agaricomycetes	Agaricomycotina
+Tremellomycetes	Agaricomycotina
+Ustilaginomycetes	Ustilaginomycotina
+Mucoromycetes	Mucoromycota
+Chytridiomycetes	Chytridiomycota
+Microsporidia	Microsporidia
