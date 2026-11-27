@@ -91,8 +91,10 @@ Tag the current `main` commit `legacy-2026-11-26` (owner pushes the tag), then o
 - `src/surface_glyco/` (ESM-2 classifier; no shipped model; equals the composition baseline) and its entry points and tests;
 - analyses built on it: `analysis/adhesion_properties`, `analysis/kingdom_survey`, `analysis/embedding_clustering`,
   `analysis/model_review/01–03`;
-- the `cys8` module and `data/sorting_hat/cys8_spacing.yaml` (finds 1 extra hydrophobin; no call reads it);
-- PR 6 ecm33 custom HMMs (`data/custom_models/ecm33_all_2026-10-23`; tie a seed-only jackhmmer search; reports keep their numbers).
+- the `cys8` module subcommand (finds 1 extra hydrophobin; no call reads it); its code and spacing move to
+  `analysis/hydrophobin_truth/` so the hydrophobin validation still reproduces;
+- ~~PR 6 ecm33 custom HMMs~~: kept as report data after all. No code in `src/` reads them, and three test files and the PR 6
+  evaluation record pin them by checksum, so removing them would break the record of why they don't help.
 
 **Held out** (kept in the repo, off in every call and aggregate until they pass the 2b rule): `hydrophobin_relaxed`, lectin models,
 `cys_rich` and `expression` lookups, the AGA1 feature classifier and `model_surface_candidate`, `disorder`, `repeats` (repeat02,
@@ -104,8 +106,9 @@ calibration and status tooling, the allergen and antigen modules (not adhesion c
 
 Two catches the removal PR must handle: the distribution in `pyproject.toml` is itself named `surface_glyco` (with the three
 `surface_glyco_*` scripts and `package-data`), so the project needs renaming (proposal: `adhesionpred`, keeping
-`cellsurface_sorting_hat` as the package); and `analysis/step1_compare/` (the source of R0, kept) and `analysis/model_review/stage2_*`
-import `surface_glyco.results`, so that module moves (for example to `analysis/_common/`) rather than disappearing.
+`cellsurface_sorting_hat` as the package); and the Phase B jobs of `analysis/step1_compare/` (the folder that produced R0, kept)
+import the ESM-2 embedding helper `surface_glyco.embeddings`, so that helper moves to `analysis/step1_compare/jobs/esm_embed.py`
+rather than disappearing (owner choice 2026-11-26).
 
 The removal PR lists every dependent file it touches; the sorting-hat acceptance harness must still give 0 differences for kept calls.
 
