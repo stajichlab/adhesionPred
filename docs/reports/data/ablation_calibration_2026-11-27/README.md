@@ -18,8 +18,13 @@ This ran **before** the 2b ablation harness was built, to answer one question fi
 
 A domain call must reach **66% sensitivity** on positives, at 5% false-positive rate on hard
 negatives, before this benchmark detects it at 80% power — and that is the *optimistic* training
-pool. PF21671, the project's one real domain component, recovers **12 of 50 positives = 24%
-sensitivity**, where measured power is **0.159**.
+pool. No candidate component has a measured sensitivity on this benchmark, so that threshold is
+the standard every one of them has to clear sight-unseen.
+
+PF21671, the only domain family the cross-clade structural search confirmed, **cannot be evaluated
+here at all**, for a reason more basic than power: it is a Pucciniomycotina (*Rhodotorula*) family,
+the three scorable folds are entirely Ascomycota, and there is no *Rhodotorula* row anywhere in the
+benchmark. Its sensitivity on these 50 positives is 0, not low.
 
 Had PR 1 been built first, it would have produced six null results, not one of them informative.
 
@@ -37,7 +42,8 @@ Had PR 1 been built first, it would have produced six null results, not one of t
 |---|---|---|---|---|---|---|---|
 | power | 0.013 | 0.073 | **0.159** | 0.297 | 0.434 | 0.730 | 0.956 |
 
-PF21671 sits at the bolded column.
+The bolded column is the level at which a component contributes almost nothing detectable: a call
+that finds a quarter of the positives is seen one time in six.
 
 ---
 
@@ -110,9 +116,10 @@ a large gap.
 
 A genuinely non-transferring signal is `attenuation = 0`: present in one clade, absent elsewhere.
 The flag already exists (`--attenuation`), so this needs a rerun, not a code change. It matters
-because PF21671 *is* clade-restricted, and the expected result — power collapsing to the type-I rate
-at every effect size — would mean a narrow-clade family is undetectable by leave-one-clade-out at
-**any** effect size, which is a sharper constraint than "needs d = 1.62".
+because clade-restricted families are the normal case in this project — PF21671 is one, and the
+expected result, power collapsing to the type-I rate at every effect size, would mean a
+narrow-clade family is undetectable by leave-one-clade-out at **any** effect size. That is a
+sharper and more general constraint than "needs d = 1.62".
 
 **Until that rerun, treat the heterogeneous row as a second optimistic bound, not as the realistic
 case.** The binary row is unaffected and remains the actionable one.
@@ -136,9 +143,9 @@ components on the strength of six uninformative nulls.
 
 ## What follows
 
-1. **Curating more truth outranks building the ablation harness.** This is not a judgement call: at
-   16.4 effective positives, the benchmark needs more independent families, not more statistics
-   applied to these ones.
+1. **Curating more truth outranks building the ablation harness** — but see
+   `docs/reports/data/ablation_calibration_2026-11-27/curation_requirement.md` for how much growth
+   the ablation design would actually need, because the answer is not "somewhat more".
 2. **Rerun the heterogeneous shape at `--attenuation 0`** before the heterogeneous row is cited.
 3. **Decide the null-centring question before any component is tested**, so the choice cannot be
    made after seeing a result.
