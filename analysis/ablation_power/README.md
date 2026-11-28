@@ -62,11 +62,17 @@ Fixed in this README, in the code, and in the plan, so that reading the result c
 ## Running
 
 ```bash
-python3 -I analysis/ablation_power/run_power.py \
+python3 analysis/ablation_power/run_power.py \
     --benchmark data/benchmark/adhesion_v1 --out /path/to/NEW_DIR
 ```
 
-A few minutes. The output directory must not exist. Writes `baseline.json` (the bar, the splits,
+**Not `python3 -I`**, unlike the stdlib-only scripts elsewhere in this repo. Isolated mode implies
+`-s`, which drops user site-packages, and on the HPCC numpy, scipy and scikit-learn live in
+`~/.local/lib/python3.12/site-packages` -- with `-I` this dies on `import numpy`. Checking that the
+imports work is not enough; they must be checked *with the flag the run will use*. Because the
+result depends on packages outside the repo, their versions are recorded in `baseline.json`.
+
+A few minutes on a login node, one core. The output directory must not exist. Writes `baseline.json` (the bar, the splits,
 the per-fold report, the effective sample sizes, every setting), `type_i.tsv`, `power.tsv` and
 `summary.md`.
 

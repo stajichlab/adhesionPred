@@ -10,9 +10,15 @@ curating more truth outranks building the harness. That decision is the point of
 It deliberately tests NO real component. It plants synthetic signals of known strength, runs them
 through the real decision rule, and reports the rejection rate.
 
-Run (a few minutes; HPCC):
-    python3 -I analysis/ablation_power/run_power.py --benchmark data/benchmark/adhesion_v1 \
+Run (a few minutes; HPCC login node is fine -- one core, no SLURM needed):
+    python3 analysis/ablation_power/run_power.py --benchmark data/benchmark/adhesion_v1 \
         --out /path/to/NEW_DIR
+
+NOT `python3 -I`, unlike the stdlib-only scripts elsewhere in this repo. Isolated mode implies -s,
+which drops the user site-packages -- and on the HPCC numpy, scipy and scikit-learn live in
+~/.local/lib/python3.12/site-packages. With -I this script dies on `import numpy`. Because the
+result therefore depends on packages outside the repo, their versions are recorded in
+baseline.json alongside the benchmark digest.
 
 Writes baseline.json, type_i.tsv, power.tsv, summary.md. The output directory must not exist.
 """
@@ -120,6 +126,7 @@ def main(argv=None):
             "binary_fpr": args.binary_fpr,
             "seed": args.seed,
             "python": platform.python_version(),
+            "packages": _package_versions(),
         },
     }
 
@@ -209,6 +216,19 @@ def main(argv=None):
     (out / "summary.md").write_text(_summary(baseline, type_i, mde, strong, args))
     print(f"wrote {out}")
     return 0
+
+
+def _package_versions():
+    """Record the versions this result depends on: they are outside the repo and outside the digest."""
+    import numpy
+    import scipy
+    import sklearn
+
+    return {
+        "numpy": numpy.__version__,
+        "scipy": scipy.__version__,
+        "scikit-learn": sklearn.__version__,
+    }
 
 
 def _effective_sample_size(bench, mask):
