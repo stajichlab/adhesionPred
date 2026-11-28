@@ -1,0 +1,4 @@
+dims	replicates	alpha	rejection_rate	mean_delta_under_null	fraction_delta_positive
+1	1000	0.05	0.0	-0.14467512690355336	0.014
+5	1000	0.05	0.0	-0.2829736040609137	0.0
+20	1000	0.05	0.0	-0.33797817258883256	0.0
