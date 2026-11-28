@@ -38,13 +38,14 @@ jobs:
       # nothing but the standard library, so they belong here rather than in the torch matrix below.
       # They were being run by hand after each merge, which is coverage that depends on somebody
       # remembering; this is the same check, permanently.
-      - run: pip install pytest pyyaml numpy
+      # scikit-learn is for tests/ablation_power (the power calibration's logistic baseline).
+      - run: pip install pytest pyyaml numpy scipy scikit-learn
       - name: Run tests
         env:
           PYTHONPATH: src
         run: >
           pytest tests/cellsurface_sorting_hat tests/class_table
-          tests/crossclade_domain_search tests/curation
+          tests/crossclade_domain_search tests/curation tests/ablation_power
 
   # Nine of the ten analysis suites do not need torch. Measured on a real run of main, the matrix
   # that installed torch ten times cost 881 runner-seconds while the tests themselves took about
