@@ -236,3 +236,66 @@ def test_a_zero_component_barely_moves_the_score_when_c_is_pinned(toy):
         toy, name, scores, np.zeros((len(toy), 1)), c=c_per_fold, n_perm=100, seed=0
     )
     assert abs(delta) < 0.02, f"a constant component moved the score by {delta}"
+
+
+# --------------------------------------------------------------- parallelism
+def test_components_are_reproducible_from_the_task_seed_alone(toy):
+    """Per-task seeding is what makes a run independent of execution order and worker count."""
+    task = {"shape": "homogeneous", "effect": 1.5, "replicate": 3, "seed": 42}
+    first = simulate.build_component(toy, task)
+    second = simulate.build_component(toy, task)
+    np.testing.assert_array_equal(first, second)
+
+
+def test_different_replicates_get_different_components(toy):
+    a = simulate.build_component(toy, {"shape": "homogeneous", "effect": 1.0, "seed": 1})
+    b = simulate.build_component(toy, {"shape": "homogeneous", "effect": 1.0, "seed": 2})
+    assert not np.array_equal(a, b)
+
+
+def test_task_builders_cover_the_whole_grid():
+    noise = simulate.noise_tasks([1, 5], replicates=3, seed=0)
+    assert len(noise) == 6
+    assert {t["dims"] for t in noise} == {1, 5}
+    assert len({t["seed"] for t in noise}) == 6, "every task needs its own seed"
+
+    signal = simulate.signal_tasks("binary", [0.1, 0.2], replicates=4, seed=0, fpr=0.05)
+    assert len(signal) == 8
+    assert len({t["seed"] for t in signal}) == 8
+
+
+def test_build_component_refuses_an_unknown_shape(toy):
+    with pytest.raises(simulate.SimulationError, match="unknown shape"):
+        simulate.build_component(toy, {"shape": "spiral", "effect": 1.0, "seed": 0})
+
+
+def test_build_component_refuses_heterogeneous_without_a_strong_fold(toy):
+    with pytest.raises(simulate.SimulationError, match="strong_fold"):
+        simulate.build_component(toy, {"shape": "heterogeneous", "effect": 1.0, "seed": 0})
+
+
+def test_serial_and_parallel_give_identical_results(toy):
+    """The whole point: parallelism must change the runtime and nothing else."""
+    name, scores, _t, c = model.choose_bar(toy, tune=False)
+    tasks = simulate.signal_tasks("homogeneous", [0.5, 2.0], replicates=3, seed=0)
+    serial = simulate.run_tasks(toy, name, scores, tasks, bar_c=c, n_perm=100, workers=1)
+    parallel = simulate.run_tasks(toy, name, scores, tasks, bar_c=c, n_perm=100, workers=2)
+    assert [r["delta"] for r in serial] == [r["delta"] for r in parallel]
+    assert [r["rejected"] for r in serial] == [r["rejected"] for r in parallel]
+
+
+def test_power_curve_is_identical_serial_and_parallel(toy):
+    name, scores, _t, c = model.choose_bar(toy, tune=False)
+    kw = {"replicates": 3, "c": c, "n_perm": 100, "seed": 0}
+    serial = simulate.power_curve(toy, name, scores, "homogeneous", [1.0, 3.0], workers=1, **kw)
+    parallel = simulate.power_curve(toy, name, scores, "homogeneous", [1.0, 3.0], workers=2, **kw)
+    assert serial == parallel
+
+
+def test_power_curve_returns_one_row_per_grid_point_in_order(toy):
+    name, scores, _t, c = model.choose_bar(toy, tune=False)
+    rows = simulate.power_curve(
+        toy, name, scores, "homogeneous", [2.0, 0.5], replicates=2, c=c, n_perm=100
+    )
+    assert [r["effect"] for r in rows] == [0.5, 2.0]
+    assert all(r["replicates"] == 2 for r in rows)

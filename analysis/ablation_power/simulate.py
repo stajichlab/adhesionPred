@@ -86,29 +86,169 @@ def one_replicate(bench, bar_name, bar_scores, component, c=1.0, n_perm=1000, se
     return float(delta), float(p), bool(p <= alpha)
 
 
+# --------------------------------------------------------------------------- parallel execution
+#
+# The work is embarrassingly parallel: every (shape, effect, replicate) is independent. Measured
+# serially on the HPCC login node, one training pool took over 15 minutes; the whole grid at the
+# replicate count the result deserves is not practical in one process.
+#
+# Each task carries its OWN seed and builds its own component from it. That is not only for
+# parallelism: the serial version shared one generator across the replicates of a grid point, so a
+# result depended on the order they ran in. Per-task seeding makes a run reproducible whatever the
+# worker count, which is the property a number quoted in a report needs.
+
+_WORKER = {}
+
+
+def _init_worker(bench, bar_name, bar_scores, bar_c, n_perm, alpha):
+    _WORKER.update(
+        bench=bench,
+        bar_name=bar_name,
+        bar_scores=bar_scores,
+        bar_c=bar_c,
+        n_perm=n_perm,
+        alpha=alpha,
+    )
+
+
+def build_component(bench, task):
+    """Make one task's component from its own seed. Deterministic in (shape, effect, replicate)."""
+    rng = np.random.default_rng(task["seed"])
+    shape = task["shape"]
+    if shape == "noise":
+        return rng.standard_normal((len(bench), task["dims"]))
+    if shape == "homogeneous":
+        return plant_homogeneous(bench.y, task["effect"], rng)
+    if shape == "heterogeneous":
+        if not task.get("strong_fold"):
+            raise SimulationError("heterogeneous needs strong_fold")
+        return plant_heterogeneous(
+            bench.y,
+            bench.fold,
+            task["effect"],
+            rng,
+            task["strong_fold"],
+            task.get("attenuation", 1 / 3),
+        )
+    if shape == "binary":
+        return plant_binary(bench.y, task["effect"], task.get("fpr", 0.05), rng)
+    raise SimulationError(f"unknown shape {shape!r}")
+
+
+def _run_one(bench, bar_name, bar_scores, bar_c, n_perm, alpha, task):
+    component = build_component(bench, task)
+    delta, p, rejected = one_replicate(
+        bench,
+        bar_name,
+        bar_scores,
+        component,
+        c=bar_c,
+        n_perm=n_perm,
+        seed=task["seed"],
+        alpha=alpha,
+    )
+    return {**task, "delta": delta, "p": p, "rejected": bool(rejected)}
+
+
+def _run_one_in_worker(task):
+    return _run_one(
+        _WORKER["bench"],
+        _WORKER["bar_name"],
+        _WORKER["bar_scores"],
+        _WORKER["bar_c"],
+        _WORKER["n_perm"],
+        _WORKER["alpha"],
+        task,
+    )
+
+
+def run_tasks(bench, bar_name, bar_scores, tasks, bar_c=1.0, n_perm=400, alpha=0.05, workers=1):
+    """Run every task, in one process when workers == 1 and in a pool otherwise.
+
+    The two paths must agree exactly; a test pins that.
+    """
+    if workers == 1:
+        return [_run_one(bench, bar_name, bar_scores, bar_c, n_perm, alpha, t) for t in tasks]
+
+    from concurrent.futures import ProcessPoolExecutor
+
+    chunk = max(1, len(tasks) // (workers * 8))
+    with ProcessPoolExecutor(
+        max_workers=workers,
+        initializer=_init_worker,
+        initargs=(bench, bar_name, bar_scores, bar_c, n_perm, alpha),
+    ) as pool:
+        return list(pool.map(_run_one_in_worker, tasks, chunksize=chunk))
+
+
+def _summarise(rows, keys):
+    deltas = [r["delta"] for r in rows if np.isfinite(r["delta"])]
+    out = {k: rows[0][k] for k in keys}
+    out.update(
+        replicates=len(rows),
+        power=sum(r["rejected"] for r in rows) / len(rows),
+        mean_delta=float(np.mean(deltas)) if deltas else float("nan"),
+    )
+    return out
+
+
+def noise_tasks(dims_list, replicates, seed):
+    return [
+        {
+            "shape": "noise",
+            "dims": int(d),
+            "effect": 0.0,
+            "replicate": r,
+            "seed": seed + 1000 * d + r,
+        }
+        for d in dims_list
+        for r in range(replicates)
+    ]
+
+
+def signal_tasks(shape, grid, replicates, seed, **extra):
+    tasks = []
+    for i, point in enumerate(grid):
+        for r in range(replicates):
+            tasks.append(
+                {
+                    "shape": shape,
+                    "effect": float(point),
+                    "replicate": r,
+                    "seed": seed + 100_000 * (i + 1) + r,
+                    **extra,
+                }
+            )
+    return tasks
+
+
 def type_i_rate(
-    bench, bar_name, bar_scores, dims, replicates=200, c=1.0, n_perm=400, seed=0, alpha=0.05
+    bench,
+    bar_name,
+    bar_scores,
+    dims,
+    replicates=200,
+    c=1.0,
+    n_perm=400,
+    seed=0,
+    alpha=0.05,
+    workers=1,
 ):
     """Rejection rate under a pure-noise component of a given dimensionality.
 
     Under the null this should equal `alpha`. The review measured 9.5% at a nominal 5% for the
     original design, so this number is the check that the decision rule means what it says.
     """
-    rng = np.random.default_rng(seed)
-    deltas, rejects = [], 0
-    for r in range(replicates):
-        component = rng.standard_normal((len(bench), dims))
-        delta, _p, rejected = one_replicate(
-            bench, bar_name, bar_scores, component, c=c, n_perm=n_perm, seed=seed + r, alpha=alpha
-        )
-        if np.isfinite(delta):
-            deltas.append(delta)
-        rejects += int(rejected)
+    tasks = noise_tasks([dims], replicates, seed)
+    rows = run_tasks(
+        bench, bar_name, bar_scores, tasks, bar_c=c, n_perm=n_perm, alpha=alpha, workers=workers
+    )
+    deltas = [r["delta"] for r in rows if np.isfinite(r["delta"])]
     return {
         "dims": int(dims),
         "replicates": int(replicates),
         "alpha": float(alpha),
-        "rejection_rate": rejects / replicates,
+        "rejection_rate": sum(r["rejected"] for r in rows) / len(rows),
         "mean_delta_under_null": float(np.mean(deltas)) if deltas else float("nan"),
         "fraction_delta_positive": float(np.mean(np.array(deltas) > 0)) if deltas else float("nan"),
     }
@@ -128,51 +268,27 @@ def power_curve(
     strong_fold=None,
     attenuation=1 / 3,
     fpr=0.05,
+    workers=1,
 ):
     """Rejection rate against effect size, for one signal shape.
 
     `grid` is a list of effect sizes: Cohen's d for the Gaussian shapes, sensitivity for `binary`.
     """
-    rows = []
-    for point in grid:
-        rng = np.random.default_rng(seed + hash(str(point)) % 10_000)
-        rejects, deltas = 0, []
-        for r in range(replicates):
-            if shape == "homogeneous":
-                component = plant_homogeneous(bench.y, point, rng)
-            elif shape == "heterogeneous":
-                if strong_fold is None:
-                    raise SimulationError("heterogeneous needs strong_fold")
-                component = plant_heterogeneous(
-                    bench.y, bench.fold, point, rng, strong_fold, attenuation
-                )
-            elif shape == "binary":
-                component = plant_binary(bench.y, point, fpr, rng)
-            else:
-                raise SimulationError(f"unknown shape {shape!r}")
-            delta, _p, rejected = one_replicate(
-                bench,
-                bar_name,
-                bar_scores,
-                component,
-                c=c,
-                n_perm=n_perm,
-                seed=seed + r,
-                alpha=alpha,
-            )
-            rejects += int(rejected)
-            if np.isfinite(delta):
-                deltas.append(delta)
-        rows.append(
-            {
-                "shape": shape,
-                "effect": float(point),
-                "replicates": int(replicates),
-                "power": rejects / replicates,
-                "mean_delta": float(np.mean(deltas)) if deltas else float("nan"),
-            }
-        )
-    return rows
+    if shape not in ("homogeneous", "heterogeneous", "binary"):
+        raise SimulationError(f"unknown shape {shape!r}")
+    if shape == "heterogeneous" and strong_fold is None:
+        raise SimulationError("heterogeneous needs strong_fold")
+    extra = {"attenuation": attenuation, "fpr": fpr}
+    if strong_fold is not None:
+        extra["strong_fold"] = strong_fold
+    tasks = signal_tasks(shape, grid, replicates, seed, **extra)
+    rows = run_tasks(
+        bench, bar_name, bar_scores, tasks, bar_c=c, n_perm=n_perm, alpha=alpha, workers=workers
+    )
+    by_point = {}
+    for row in rows:
+        by_point.setdefault(row["effect"], []).append(row)
+    return [_summarise(by_point[e], ("shape", "effect")) for e in sorted(by_point)]
 
 
 def minimum_detectable_effect(rows, target_power=0.8):

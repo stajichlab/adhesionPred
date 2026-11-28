@@ -70,6 +70,12 @@ def main(argv=None):
     parser.add_argument("--binary-fpr", type=float, default=0.05)
     parser.add_argument("--seed", type=int, default=0)
     parser.add_argument(
+        "--workers",
+        type=int,
+        default=1,
+        help="processes for the simulation; every task is independent, so this scales nearly linearly",
+    )
+    parser.add_argument(
         "--no-verify", action="store_true", help="skip the SHA256SUMS check (tests only)"
     )
     args = parser.parse_args(argv)
@@ -125,6 +131,7 @@ def main(argv=None):
             "attenuation": args.attenuation,
             "binary_fpr": args.binary_fpr,
             "seed": args.seed,
+            "workers": args.workers,
             "python": platform.python_version(),
             "packages": _package_versions(),
         },
@@ -142,6 +149,7 @@ def main(argv=None):
             n_perm=args.permutations,
             seed=args.seed,
             alpha=args.alpha,
+            workers=args.workers,
         )
         for dims in NOISE_DIMS
     ]
@@ -163,6 +171,7 @@ def main(argv=None):
         n_perm=args.permutations,
         seed=args.seed,
         alpha=args.alpha,
+        workers=args.workers,
     )
     curves += power_curve(
         bench,
@@ -175,6 +184,7 @@ def main(argv=None):
         n_perm=args.permutations,
         seed=args.seed,
         alpha=args.alpha,
+        workers=args.workers,
         strong_fold=strong,
         attenuation=args.attenuation,
     )
@@ -189,6 +199,7 @@ def main(argv=None):
         n_perm=args.permutations,
         seed=args.seed,
         alpha=args.alpha,
+        workers=args.workers,
         fpr=args.binary_fpr,
     )
 
