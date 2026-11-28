@@ -1,0 +1,8 @@
+job: ablation_power (power calibration for the 2b harness)
+commit: 5bbd85a3cb0f26ed7a0f9b7a5038044026ec5374 (pinned: 5bbd85a3cb0f26ed7a0f9b7a5038044026ec5374)
+node: gpu12; cores: 16
+python: Python 3.12.15
+packages: numpy 2.5.2 scipy 1.18.1 sklearn 1.9.1
+benchmark: /bigdata/stajichlab/jstajich/projects/adhesionPred/_workdir/ablation_power/code/data/benchmark/adhesion_v1 sha256(SHA256SUMS) ae9a69955e0d03bb7ac097e36f245db5ea3a73e80d479fe662c9c0d3101f3893
+replicates: 1000; permutations: 1000; seed 0; alpha 0.05
+training pools: all, scored

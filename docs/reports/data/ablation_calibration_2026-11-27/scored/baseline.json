@@ -1,0 +1,121 @@
+{
+  "bar": "length",
+  "bar_C_per_fold": {
+    "Eurotiomycetes": 0.01,
+    "Pezizomycotina": 0.01,
+    "Saccharomycetes": 0.01
+  },
+  "baseline_family": {
+    "composition": {
+      "C_per_fold": {
+        "Eurotiomycetes": 0.1,
+        "Pezizomycotina": 1.0,
+        "Saccharomycetes": 1.0
+      },
+      "stratified_concordance": 0.6908629441624365
+    },
+    "composition_length": {
+      "C_per_fold": {
+        "Eurotiomycetes": 0.1,
+        "Pezizomycotina": 1.0,
+        "Saccharomycetes": 1.0
+      },
+      "stratified_concordance": 0.6796954314720812
+    },
+    "length": {
+      "C_per_fold": {
+        "Eurotiomycetes": 0.01,
+        "Pezizomycotina": 0.01,
+        "Saccharomycetes": 0.01
+      },
+      "stratified_concordance": 0.8888324873096447
+    }
+  },
+  "benchmark_sha256sums_digest": "ae9a69955e0d03bb7ac097e36f245db5ea3a73e80d479fe662c9c0d3101f3893",
+  "benchmark_version": "adhesion_v1",
+  "effective_sample_size": {
+    "negatives": {
+      "kish_ess": 29.761904761904763,
+      "n_clusters": 51,
+      "n_proteins": 75
+    },
+    "positives": {
+      "kish_ess": 16.44736842105263,
+      "n_clusters": 33,
+      "n_proteins": 50
+    }
+  },
+  "per_fold": {
+    "Eurotiomycetes": {
+      "ap": 0.4144078144078144,
+      "ap_normalised": 0.14822954822954817,
+      "auc": 0.32727272727272727,
+      "n": 16,
+      "pairs": 55,
+      "prevalence": 0.3125
+    },
+    "Pezizomycotina": {
+      "ap": 0.8605294000804835,
+      "ap_normalised": 0.6015125716585242,
+      "auc": 0.7582417582417582,
+      "n": 20,
+      "pairs": 91,
+      "prevalence": 0.65
+    },
+    "Saccharomycetes": {
+      "ap": 0.8483075119929592,
+      "ap_normalised": 0.7631468169714626,
+      "auc": 0.9122807017543859,
+      "n": 89,
+      "pairs": 1824,
+      "prevalence": 0.3595505617977528
+    }
+  },
+  "pooled_counts": {
+    "clusters": 84,
+    "negatives": 75,
+    "positives": 50
+  },
+  "settings": {
+    "alpha": 0.05,
+    "attenuation": 0.3333333333333333,
+    "binary_fpr": 0.05,
+    "packages": {
+      "numpy": "2.5.2",
+      "scikit-learn": "1.9.1",
+      "scipy": "1.18.1"
+    },
+    "permutations": 1000,
+    "python": "3.12.15",
+    "replicates": 1000,
+    "seed": 0,
+    "workers": 16
+  },
+  "splits": [
+    {
+      "dropped_for_leakage": 4,
+      "fold": "Saccharomycetes",
+      "test_negative": 57,
+      "test_positive": 32,
+      "train_negative": 14,
+      "train_positive": 18
+    },
+    {
+      "dropped_for_leakage": 2,
+      "fold": "Pezizomycotina",
+      "test_negative": 7,
+      "test_positive": 13,
+      "train_negative": 66,
+      "train_positive": 37
+    },
+    {
+      "dropped_for_leakage": 4,
+      "fold": "Eurotiomycetes",
+      "test_negative": 11,
+      "test_positive": 5,
+      "train_negative": 60,
+      "train_positive": 45
+    }
+  ],
+  "train_pool": "scored"
+}
