@@ -23,7 +23,7 @@ jobs:
       - run: ruff format --check .
 
   test-sorting-hat:
-    name: Unit tests (tests/cellsurface_sorting_hat and tests/class_table, no torch)
+    name: Unit tests (no torch)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
@@ -33,22 +33,62 @@ jobs:
           cache: pip
       # These suites import only the standard library, numpy and pyyaml (checked: no torch, esm or sklearn),
       # so the package is not installed; src/ is put on the path instead.
+      #
+      # crossclade_domain_search (30 tests) and curation (61 tests) run in 0.14 s between them and need
+      # nothing but the standard library, so they belong here rather than in the torch matrix below.
+      # They were being run by hand after each merge, which is coverage that depends on somebody
+      # remembering; this is the same check, permanently.
       - run: pip install pytest pyyaml numpy
       - name: Run tests
         env:
           PYTHONPATH: src
-        run: pytest tests/cellsurface_sorting_hat tests/class_table
+        run: >
+          pytest tests/cellsurface_sorting_hat tests/class_table
+          tests/crossclade_domain_search tests/curation
 
-  analysis-tests:
-    name: Analysis tests (${{ matrix.suite }}, informational)
+  # Nine of the ten analysis suites do not need torch. Measured on a real run of main, the matrix
+  # that installed torch ten times cost 881 runner-seconds while the tests themselves took about
+  # 37 s in total; the rest was ten copies of the same install. Only step1_compare imports torch,
+  # esm or sklearn, so it keeps its own job below and the other nine share one light job.
+  #
+  # Checked before splitting: the tests these suites skip are skipped for missing BINARIES (hmmer,
+  # mafft) and absent data files, never for a missing Python package, so dropping torch does not
+  # turn a running test into a skipped one.
+  analysis-tests-light:
+    name: Analysis tests (no torch, informational)
     runs-on: ubuntu-latest
     continue-on-error: true
-    strategy:
-      fail-fast: false
-      matrix:
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+          cache: pip
+      # scipy and biopython are for secretome_discovery (Bio.Phylo in test_driver and test_stats).
+      - run: pip install pytest pyyaml numpy scipy biopython
+      - name: Run each suite in its own process
+        env:
+          PYTHONPATH: src
         # One pytest process per folder: each conftest.py puts its own analysis/ directory on
         # sys.path, and module names such as figures_ext exist in more than one of them.
-        suite: [step1_compare, hydrophobin_truth, fungi_scan, calibration_truth, cys_candidates, lectin_class_report, lectin_validation, secretome_discovery, wall_fusion_report, wall_fusion_truth]
+        # Every suite runs even if an earlier one fails, and the step fails if any of them did.
+        run: |
+          failed=""
+          for suite in hydrophobin_truth fungi_scan calibration_truth cys_candidates \
+                       lectin_class_report lectin_validation secretome_discovery \
+                       wall_fusion_report wall_fusion_truth; do
+            echo "::group::$suite"
+            pytest "tests/$suite" || failed="$failed $suite"
+            echo "::endgroup::"
+          done
+          if [ -n "$failed" ]; then echo "FAILED suites:$failed"; exit 1; fi
+
+  analysis-tests-torch:
+    name: Analysis tests (step1_compare, torch, informational)
+    runs-on: ubuntu-latest
+    continue-on-error: true
     steps:
       - uses: actions/checkout@v7
         with:
@@ -60,9 +100,8 @@ jobs:
       - run: pip install torch torchvision --index-url https://download.pytorch.org/whl/cpu
       - run: pip install -e ".[dev]"
       - name: Cache ESM-2 8M weights (tests/step1_compare/test_esm_embed.py)
-        if: matrix.suite == 'step1_compare'
         uses: actions/cache@v6
         with:
           path: ~/.cache/torch/hub/checkpoints
           key: esm2-t6-8M-UR50D-v1
-      - run: pytest tests/${{ matrix.suite }}
+      - run: pytest tests/step1_compare
